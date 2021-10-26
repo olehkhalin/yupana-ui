@@ -91,7 +91,7 @@ export const Button: React.FC<ButtonProps> = ({
       <NavLink
         to={href}
         className={classNames}
-        activeClassName={s.activeClassName}
+        activeClassName={cx(s.activeClassName, activeClassName)}
       >
         {inner}
       </NavLink>

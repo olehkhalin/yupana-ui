@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { Header } from 'components/common/Header';
+
 import s from './BaseLayout.module.sass';
 
 type BaseLayoutProps = {
@@ -8,11 +10,11 @@ type BaseLayoutProps = {
 };
 
 export const BaseLayout: React.FC<BaseLayoutProps> = ({
-  className = '',
+  className,
   children,
 }) => (
   <main className={cx(s.root, className)}>
-    {/* Header */}
+    <Header />
     {children}
     {/* Footer */}
   </main>

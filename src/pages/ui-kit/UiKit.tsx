@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
-import Container from 'components/common/Container';
+import { Container } from 'components/common/Container';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';

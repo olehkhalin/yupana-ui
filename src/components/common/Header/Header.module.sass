@@ -1,0 +1,73 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  position: relative
+  z-index: 9
+  width: 100%
+  background-color: $main
+
+.headerWrapper
+  background-color: $main
+
+.container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: 1rem
+
+.logotype
+  display: flex
+  align-items: center
+  justify-content: center
+
+.logo
+  width: 5.9375rem
+  height: auto
+
+.content
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  width: 100%
+
+.navItem
+  margin-right: 2.5rem
+
+.mobile
+  display: flex
+.desktop
+  display: none
+
+@include media("<=tablet")
+  .burger
+    height: auto
+    margin-left: 1rem
+  .dropdown
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    display: flex
+    justify-content: center
+    padding: 1.5rem 0 2rem
+    background-color: $deep-blue
+    transform: translateY(-100%)
+    transition: transform $animationTime
+    z-index: -1
+    &.active
+      transform: translateY(4rem)
+    .navlist
+      display: flex
+      flex-direction: column
+      align-items: center
+    .navItem
+      margin-right: 0
+      &:not(:last-child)
+        margin-bottom: 1rem
+
+@include media(">tablet")
+  .mobile
+    display: none
+  .desktop
+    display: flex
