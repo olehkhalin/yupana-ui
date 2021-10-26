@@ -1,0 +1,58 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  width: 100%
+  padding: 1.5rem 0 2rem
+  position: relative
+  z-index: 3
+  background-color: $black
+
+.container
+  display: flex
+  flex-direction: column
+
+.copyright
+  margin-top: 1rem
+  font-size: 0.75rem
+
+.links
+  display: flex
+  flex-direction: column
+  margin-top: 2rem
+
+.column
+  display: flex
+  &:first-child
+    margin-bottom: 1rem
+
+.link
+  font-size: 0.75rem
+  text-decoration: underline
+  white-space: nowrap
+  transition: color $animationTime
+  &:hover
+    color: $blue
+  &:not(:last-child)
+    margin-right: 1rem
+
+@include media(">Mphone")
+  .root
+    padding: 2rem 0 3rem
+  .container
+    flex-direction: row
+    justify-content: space-between
+  .copyright
+    margin-top: 2.375rem
+  .links
+    flex-direction: row
+    margin-top: 0
+  .link
+    font-size: 1rem
+    &:not(:last-child)
+      margin-bottom: .5rem
+      margin-right: 0
+  .column
+    flex-direction: column
+    &:first-child
+      margin-right: 3rem

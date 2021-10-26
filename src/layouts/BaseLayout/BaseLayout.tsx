@@ -2,6 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 
 import { Header } from 'components/common/Header';
+import { Footer } from 'components/common/Footer';
+import { Container } from 'components/common/Container';
 
 import s from './BaseLayout.module.sass';
 
@@ -15,7 +17,9 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({
 }) => (
   <main className={cx(s.root, className)}>
     <Header />
-    {children}
-    {/* Footer */}
+    <Container className={s.container}>
+      {children}
+    </Container>
+    <Footer />
   </main>
 );
