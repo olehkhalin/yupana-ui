@@ -1,12 +1,16 @@
 import React from 'react';
+import cx from 'classnames';
 
 import { Button } from 'components/ui/Button';
+import { Input } from 'components/ui/Input';
 import Container from 'components/common/Container';
 
 import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => (
   <Container className={s.root}>
+
+    {/* BUTTONS - Supply */}
     <div className={s.block}>
       <div className={s.buttonsBlock}>
         <div className={s.buttonAction}>
@@ -361,6 +365,8 @@ export const UiKit: React.FC = () => (
         </div>
       </div>
     </div>
+
+    {/* BUTTONS - Borrow */}
     <div className={s.block}>
       <div className={s.buttonsBlock}>
         <div className={s.buttonAction}>
@@ -755,6 +761,24 @@ export const UiKit: React.FC = () => (
           </Button>
         </div>
       </div>
+    </div>
+
+    {/* Inputs */}
+    <div className={cx(s.block, s.inputs)}>
+      <Input
+        placeholder="Input..."
+        className={s.input}
+      />
+      <Input
+        placeholder="Input..."
+        disabled
+        className={s.input}
+      />
+      <Input
+        placeholder="Input..."
+        error="Some error"
+        className={s.input}
+      />
     </div>
   </Container>
 );
