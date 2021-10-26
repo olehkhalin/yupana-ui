@@ -5,6 +5,20 @@ import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import Container from 'components/common/Container';
 
+import { ReactComponent as Arrow } from 'svg/Arrow.svg';
+import { ReactComponent as Close } from 'svg/Close.svg';
+import { ReactComponent as BigClose } from 'svg/BigClose.svg';
+import { ReactComponent as Discord } from 'svg/Discord.svg';
+import { ReactComponent as Github } from 'svg/Github.svg';
+import { ReactComponent as Doc } from 'svg/Doc.svg';
+import { ReactComponent as Logo } from 'svg/Logo.svg';
+import { ReactComponent as Reddit } from 'svg/Reddit.svg';
+import { ReactComponent as Telegram } from 'svg/Telegram.svg';
+import { ReactComponent as Twitter } from 'svg/Twitter.svg';
+import { ReactComponent as Youtube } from 'svg/Youtube.svg';
+import { ReactComponent as Warning } from 'svg/Warning.svg';
+import { ReactComponent as Chevron } from 'svg/Chevron.svg';
+
 import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => (
@@ -779,6 +793,26 @@ export const UiKit: React.FC = () => (
         error="Some error"
         className={s.input}
       />
+    </div>
+
+    <div className={cx(s.block, s.icons)}>
+      <Logo className={s.icon} />
+      <div className={s.separator}>
+        <Discord className={s.icon} />
+        <Github className={s.icon} />
+        <Doc className={s.icon} />
+        <Reddit className={s.icon} />
+        <Telegram className={s.icon} />
+        <Twitter className={s.icon} />
+        <Youtube className={s.icon} />
+      </div>
+      <div className={s.separator}>
+        <Arrow className={s.icon} />
+        <Close className={s.icon} />
+        <BigClose className={s.icon} />
+        <Warning className={s.icon} />
+        <Chevron className={s.icon} />
+      </div>
     </div>
   </Container>
 );
