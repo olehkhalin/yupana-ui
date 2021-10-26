@@ -1,2 +1,31 @@
-.root
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.block
+  width: 100%
+  padding: 5rem 0
+
+.buttonsBlock
+  &:not(:last-child)
+    margin-bottom: 3rem
+
+.buttonAction
+  font-size: 1.5rem
+  margin-bottom: 24px
+
+.buttons
+  display: flex
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+.button
+  &:not(:last-child)
+    margin-right: 1rem
+
+.inputs
+  display: flex
   flex-direction: column
+
+.input
+  &:not(:last-child)
+    margin-bottom: 3rem
