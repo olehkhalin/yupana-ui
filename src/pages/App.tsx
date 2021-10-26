@@ -35,6 +35,7 @@ const App: React.FC = () => {
           );
         })
       }
+      <Redirect to={AppRoutes.LENDING} />
     </Switch>
   );
 };
