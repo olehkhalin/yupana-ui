@@ -1,0 +1,47 @@
+@import 'styles/variables.sass'
+
+.root
+  display: flex
+  flex-direction: column
+  width: 100%
+
+.content
+  display: flex
+  justify-content: space-between
+  margin-bottom: 1rem
+  font-weight: 700
+
+.title
+  display: flex
+  align-items: center
+
+.attention
+  margin-left: .75rem
+  cursor: pointer
+
+@mixin limit-line
+  position: absolute
+  height: 0.625rem
+  width: 0.625rem
+  left: 0.063rem
+  background-color: $light-yellow
+  box-shadow: $light-yellow-shadow
+
+.line
+  position: relative
+  display: flex
+  align-items: center
+  width: 100%
+  height: .75rem
+  margin-bottom: .5rem
+  margin-right: 1rem
+  background-color: rgba($light-yellow, .3)
+  border-radius: 1rem
+  &::after
+    content: ''
+    border-radius: 50%
+    @include limit-line
+
+.layout
+  @include limit-line
+  border-radius: 1rem
