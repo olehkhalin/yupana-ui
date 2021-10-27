@@ -1,0 +1,37 @@
+@import "styles/variables.sass"
+
+.root
+  position: relative
+  display: inline-block
+  width: 48px
+  height: 24px
+  border-radius: 16px
+  transition: background-color $animationTime, border-color $animationTime, box-shadow $animationTime
+  cursor: pointer
+  &.off
+    border: 1px solid $white
+    box-shadow: $white-shadow
+  &.on
+    border: 1px solid $light-yellow
+    box-shadow: $light-yellow-shadow
+
+.root
+  &::before
+    position: absolute
+    bottom: 2px
+    height: 18px
+    width: 18px
+    border-radius: 50%
+    transition: transform $animationTime, background-color $animationTime
+  &.off
+    &::before
+      content: ''
+      transform: translateX(calc(0% + 2px))
+      background-color: $white
+      box-shadow: $white-shadow
+  &.on
+    &::before
+      content: ''
+      transform: translateX(calc(44px - 100%))
+      background-color: $light-yellow
+      box-shadow: $light-yellow-shadow

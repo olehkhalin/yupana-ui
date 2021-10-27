@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
+import { Switcher } from 'components/common/Switcher';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -795,6 +796,7 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
+    {/* Icons  */}
     <div className={cx(s.block, s.icons)}>
       <Logo className={s.icon} />
       <div className={s.separator}>
@@ -813,6 +815,11 @@ export const UiKit: React.FC = () => (
         <Warning className={s.icon} />
         <Chevron className={s.icon} />
       </div>
+    </div>
+
+    {/* Switcher  */}
+    <div className={s.block}>
+      <Switcher />
     </div>
   </Container>
 );
