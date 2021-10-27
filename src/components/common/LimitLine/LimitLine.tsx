@@ -11,7 +11,6 @@ type MokeType = {
   percent: number
   value: string
   title: string
-  limit: number
 };
 
 type LimitLineProps = {
@@ -23,7 +22,6 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   data: {
     percent,
     value,
-    limit,
     title,
   },
   className,
@@ -32,9 +30,9 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      setCurrentLimit(limit);
+      setCurrentLimit(percent);
     }, 1000);
-  }, [limit]);
+  }, [percent]);
 
   const timing = useMemo(() => ANIMATION_TIME + (currentLimit / 100), [currentLimit]);
 
