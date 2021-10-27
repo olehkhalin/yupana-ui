@@ -6,6 +6,7 @@ import { Button } from 'components/ui/Button';
 import { Burger } from 'components/common/Burger';
 import { Container } from 'components/common/Container';
 import { NavList } from 'components/common/NavList';
+import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
 import { AppRoutes } from 'routes/main-routes';
 
@@ -48,6 +49,8 @@ export const Header: React.FC<HeaderProps> = ({
             >
               Connect wallet
             </Button>
+
+            <CurrencySwitcher />
           </div>
 
           <Burger
