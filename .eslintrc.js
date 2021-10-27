@@ -4,7 +4,6 @@ module.exports = {
   extends: [
     'airbnb-typescript', 
     'plugin:react/recommended',
-    'eslint:recommended',
   ],
   rules: {
     'react/require-default-props': 0,
