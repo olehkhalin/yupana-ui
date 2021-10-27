@@ -3,7 +3,6 @@
 .root
   display: flex
   align-items: center
-  margin-left: 1.5rem
 
 .button
   padding: .5rem
@@ -12,11 +11,12 @@
   font-size: 0.875rem
   text-transform: uppercase
   transition: color $animationTime
-  &.xtz, &.usd
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
-  &:hover
+  &:hover:not(.active)
     color: rgba($light-yellow, .8)
+
+.active
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
 
 .separator
   width: 0.128rem

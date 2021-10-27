@@ -50,7 +50,7 @@ export const Header: React.FC<HeaderProps> = ({
               Connect wallet
             </Button>
 
-            <CurrencySwitcher />
+            <CurrencySwitcher className={s.currencySwitcher} />
           </div>
 
           <Burger

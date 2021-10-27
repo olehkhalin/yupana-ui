@@ -44,7 +44,7 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
         sizeT="small"
         theme="clear"
         onClick={() => handleSwitchCurrency(CurrencyEnum.XTZ)}
-        className={cx(s.button, { [s.xtz]: active === CurrencyEnum.XTZ })}
+        className={cx(s.button, { [s.active]: active === CurrencyEnum.XTZ })}
       >
         {CurrencyEnum.XTZ}
       </Button>
@@ -53,7 +53,7 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
         sizeT="small"
         theme="clear"
         onClick={() => handleSwitchCurrency(CurrencyEnum.USD)}
-        className={cx(s.button, { [s.usd]: active === CurrencyEnum.USD })}
+        className={cx(s.button, { [s.active]: active === CurrencyEnum.USD })}
       >
         {CurrencyEnum.USD}
       </Button>
