@@ -6,6 +6,7 @@ import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
+import { Heading } from 'components/common/Heading';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -820,5 +821,31 @@ export const UiKit: React.FC = () => (
     {/* Limit Line */}
     <LimitLine data={mokeBorrowLimitData} className={s.limit} />
     <LimitLine data={mokeLiquidationLimitData} className={s.limit} />
+    <div className={s.block}>
+      <Heading
+        title="Your supply assets"
+      />
+      <Heading
+        title="Your borrow assets"
+        theme="secondary"
+      />
+      <Heading
+        title="Supply assets"
+        link={{
+          label: 'Docs: suppling assets',
+          link: 'https://www.gogle.com',
+          external: true,
+        }}
+        theme="secondary"
+      />
+      <Heading
+        title="Borrow assets"
+        link={{
+          label: 'Docs: borrowing assets',
+          link: 'https://www.gogle.com',
+          external: true,
+        }}
+      />
+    </div>
   </Container>
 );
