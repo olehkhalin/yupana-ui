@@ -1,4 +1,3 @@
-/* eslint-disable max-len */
 import React, { useState, useEffect, useMemo } from 'react';
 import CountUp from 'react-countup';
 import cx from 'classnames';
