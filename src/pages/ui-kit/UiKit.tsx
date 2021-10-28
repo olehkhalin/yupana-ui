@@ -819,8 +819,8 @@ export const UiKit: React.FC = () => (
     </div>
 
     {/* Limit Line */}
-    <LimitLine data={mokeBorrowLimitData} className={s.limit} />
-    <LimitLine data={mokeLiquidationLimitData} className={s.limit} />
+    <LimitLine {...mokeBorrowLimitData} className={s.limit} />
+    <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
     <div className={s.block}>
       <Heading
         title="Your supply assets"
