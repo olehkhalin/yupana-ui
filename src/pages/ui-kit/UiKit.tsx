@@ -7,6 +7,8 @@ import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
+import { SupplyLine } from 'components/common/SupplyLine';
+import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -821,6 +823,11 @@ export const UiKit: React.FC = () => (
     {/* Limit Line */}
     <LimitLine {...mokeBorrowLimitData} className={s.limit} />
     <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
+
+    {/* Supply Line */}
+    <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
+    <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
+
     <div className={s.block}>
       <Heading
         title="Your supply assets"

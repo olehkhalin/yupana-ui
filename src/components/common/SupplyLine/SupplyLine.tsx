@@ -3,22 +3,21 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
-import { ProgressBar } from 'components/ui/ProgressBar';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
+import { ProgressBar, themeClass } from 'components/ui/ProgressBar';
 
-import s from './LimitLine.module.sass';
+import s from './SupplyLine.module.sass';
 
-type LimitLineProps = {
+type SupplyLineProps = {
+  symbol: string
   percent: number
-  value: string
-  title: string
+  theme?: keyof typeof themeClass
   className?: string
 };
 
-export const LimitLine: React.FC<LimitLineProps> = ({
+export const SupplyLine: React.FC<SupplyLineProps> = ({
+  symbol,
   percent,
-  value,
-  title,
+  theme = 'primary',
   className,
 }) => {
   const [amount, setAmount] = useState<number>(0);
@@ -34,6 +33,10 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   return (
     <div className={cx(s.root, className)}>
       <div className={s.content}>
+        <div className={s.symbol}>
+          {symbol}
+        </div>
+
         <div className={s.percent}>
           <CountUp
             start={0}
@@ -43,18 +46,10 @@ export const LimitLine: React.FC<LimitLineProps> = ({
           />
           %
         </div>
-
-        <div className={s.title}>
-          {title}
-          <Attention className={s.attention} />
-        </div>
-
-        <div className={s.value}>
-          {`$ ${value}`}
-        </div>
       </div>
 
       <ProgressBar
+        theme={theme}
         amount={amount}
         timing={timing}
       />
