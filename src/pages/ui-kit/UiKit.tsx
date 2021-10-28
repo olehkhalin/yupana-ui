@@ -4,7 +4,8 @@ import cx from 'classnames';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
-import { Switcher } from 'components/common/Switcher';
+import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
+import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -819,7 +820,8 @@ export const UiKit: React.FC = () => (
 
     {/* Switcher  */}
     <div className={s.block}>
-      <Switcher />
+      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
+      <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
     </div>
   </Container>
 );
