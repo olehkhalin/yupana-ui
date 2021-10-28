@@ -5,8 +5,9 @@
   width: 100%
   padding: 1.5rem 0 2rem
   position: relative
-  z-index: 3
   background-color: $black
+  border-top: 1px solid $blue
+  z-index: 3
 
 .container
   display: flex
@@ -31,6 +32,7 @@
   text-decoration: underline
   white-space: nowrap
   transition: color $animationTime
+  text-align: right
   &:hover
     color: $blue
   &:not(:last-child)
@@ -48,7 +50,6 @@
     flex-direction: row
     margin-top: 0
   .link
-    font-size: 1rem
     &:not(:last-child)
       margin-bottom: .5rem
       margin-right: 0
