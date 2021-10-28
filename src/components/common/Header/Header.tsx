@@ -46,8 +46,17 @@ export const Header: React.FC<HeaderProps> = ({
             <Button
               sizeT="medium"
               theme="primary"
+              className={cx(s.connectWallet, s.desktop)}
             >
               Connect wallet
+            </Button>
+
+            <Button
+              sizeT="small"
+              theme="primary"
+              className={cx(s.connectWallet, s.mobile)}
+            >
+              Connect
             </Button>
 
             <CurrencySwitcher className={s.currencySwitcher} />

@@ -32,10 +32,14 @@
   width: 100%
 
 .navItem
-  margin-right: 2.5rem
+  margin-right: 2rem
 
 .currencySwitcher
   margin-left: 1.5rem
+
+.connectWallet
+  justify-content: center
+  font-size: 0.75rem
 
 .mobile
   display: flex
@@ -74,3 +78,9 @@
     display: none
   .desktop
     display: flex
+
+@include media(">Ltablet")
+  .navItem
+    margin-right: 2.5rem
+  .connectWallet
+    font-size: .875rem
