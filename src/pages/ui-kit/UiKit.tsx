@@ -9,6 +9,7 @@ import { SupplyAssets } from 'components/tables/SupplyAssets';
 import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
 import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
+import { TableDropdown } from 'components/common/TableDropdown';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -865,5 +866,9 @@ export const UiKit: React.FC = () => (
         data={BORROW_ASSETS_DATA}
       />
     </div>
+
+    {/* Table Dropdown */}
+    <TableDropdown className={s.marginBottom} />
+    <TableDropdown theme="secondary" />
   </Container>
 );
