@@ -5,6 +5,10 @@ import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
 import { Heading } from 'components/common/Heading';
+import { SupplyAssets } from 'components/tables/SupplyAssets';
+import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
+import { BorrowAssets } from 'components/tables/BorrowAssets';
+import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -796,6 +800,7 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
+    {/* Icons */}
     <div className={cx(s.block, s.icons)}>
       <Logo className={s.icon} />
       <div className={s.separator}>
@@ -815,6 +820,8 @@ export const UiKit: React.FC = () => (
         <Chevron className={s.icon} />
       </div>
     </div>
+
+    {/* Heading */}
     <div className={s.block}>
       <Heading
         title="Your supply assets"
@@ -839,6 +846,23 @@ export const UiKit: React.FC = () => (
           link: 'https://www.gogle.com',
           external: true,
         }}
+      />
+    </div>
+
+    {/* Table */}
+    <div className={s.block}>
+      <div className={s.buttonAction}>
+        Supply
+      </div>
+      <SupplyAssets
+        data={SUPPLY_ASSETS_DATA}
+      />
+
+      <div className={s.buttonAction}>
+        Borrow
+      </div>
+      <BorrowAssets
+        data={BORROW_ASSETS_DATA}
       />
     </div>
   </Container>
