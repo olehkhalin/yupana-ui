@@ -10,7 +10,7 @@ import s from './Table.module.sass';
 
 type TableProps = {
   columns: any
-  data: any
+  data: any[]
   renderRowSubComponent: any
   theme?: keyof typeof themeClasses
   className?: string
@@ -61,7 +61,13 @@ export const Table: React.FC<TableProps> = ({
           ))}
         </thead>
         <tbody {...getTableBodyProps()} className={s.tbody}>
-          {rows.map((row) => {
+          {!data.length ? (
+            <tr className={s.noAssets}>
+              <td>
+                {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
+              </td>
+            </tr>
+          ) : rows.map((row) => {
             prepareRow(row);
             return (
               <React.Fragment key={getUniqueKey()}>

@@ -2,8 +2,9 @@
 @import "styles/breakpoints.scss"
 
 .root
-  width: 100%
   padding: 2rem 1.5rem
+  &::-webkit-scrollbar
+    display: none
 
 .primary
   color: $light-blue
@@ -67,3 +68,7 @@
 
 .tr
   width: 100%
+
+.noAssets
+  display: block
+  margin-top: 1.5rem

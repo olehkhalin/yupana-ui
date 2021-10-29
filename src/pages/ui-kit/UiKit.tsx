@@ -10,6 +10,10 @@ import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
 import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
 import { TableDropdown } from 'components/common/TableDropdown';
+import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
+import { YOUR_SUPPLY_ASSETS_DATA } from 'components/tables/YourSupplyAssets/content';
+import { YourBorrowAssets } from 'components/tables/YourBorrowAssets';
+import { YOUR_BORROW_ASSETS_DATA } from 'components/tables/YourBorrowAssets/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -857,6 +861,7 @@ export const UiKit: React.FC = () => (
       </div>
       <SupplyAssets
         data={SUPPLY_ASSETS_DATA}
+        className={s.marginBottom}
       />
 
       <div className={s.buttonAction}>
@@ -864,6 +869,31 @@ export const UiKit: React.FC = () => (
       </div>
       <BorrowAssets
         data={BORROW_ASSETS_DATA}
+        className={s.marginBottom}
+      />
+
+      <div className={s.buttonAction}>
+        Your Supply
+      </div>
+      <YourSupplyAssets
+        data={YOUR_SUPPLY_ASSETS_DATA}
+        className={s.marginBottom}
+      />
+      <YourSupplyAssets
+        data={[]}
+        className={s.marginBottom}
+      />
+
+      <div className={s.buttonAction}>
+        Your Borrow
+      </div>
+      <YourBorrowAssets
+        data={YOUR_BORROW_ASSETS_DATA}
+        className={s.marginBottom}
+      />
+      <YourBorrowAssets
+        data={[]}
+        className={s.marginBottom}
       />
     </div>
 

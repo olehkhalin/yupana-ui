@@ -7,11 +7,13 @@ import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 import s from './BorrowAssets.module.sass';
 
 type BorrowAssetsProps = {
-  data: any
+  data: any[]
+  className?: string
 };
 
 export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
+  className,
 }) => {
   const columns = useMemo(
     () => [
@@ -67,6 +69,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
+      className={className}
     />
   );
 };

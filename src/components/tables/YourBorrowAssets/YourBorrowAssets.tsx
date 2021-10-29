@@ -4,14 +4,14 @@ import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
-import s from './SupplyAssets.module.sass';
+import s from './YourBorrowAssets.module.sass';
 
-type SupplyAssetsProps = {
+type YourBorrowAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
   className,
 }) => {
@@ -22,16 +22,16 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: 'asset',
       },
       {
-        Header: 'Supply APY',
-        accessor: 'supplyApy',
+        Header: 'Borrow APY',
+        accessor: 'borrowApy',
       },
       {
-        Header: 'Collateral Factor',
-        accessor: 'collateralFactor',
+        Header: 'Balace',
+        accessor: 'balance',
       },
       {
-        Header: 'Wallet',
-        accessor: 'wallet',
+        Header: 'Borrow limit',
+        accessor: 'borrowLimit',
       },
       {
         Header: () => null,
@@ -65,6 +65,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
 
   return (
     <Table
+      theme="secondary"
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}

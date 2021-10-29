@@ -4,14 +4,14 @@ import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
-import s from './SupplyAssets.module.sass';
+import s from './YourSupplyAssets.module.sass';
 
-type SupplyAssetsProps = {
+type YourSupplyAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   className,
 }) => {
@@ -26,12 +26,13 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: 'supplyApy',
       },
       {
-        Header: 'Collateral Factor',
-        accessor: 'collateralFactor',
+        Header: 'Balance',
+        accessor: 'balance',
       },
       {
-        Header: 'Wallet',
-        accessor: 'wallet',
+        Header: 'Collateral',
+        id: 'collateral',
+        accessor: () => 'Collateral switcher',
       },
       {
         Header: () => null,
