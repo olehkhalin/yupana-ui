@@ -830,7 +830,6 @@ export const UiKit: React.FC = () => (
     <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
     <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
 
-
     {/* Headings */}
     <div className={s.block}>
       <Heading

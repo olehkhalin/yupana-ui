@@ -30,7 +30,7 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   return (
     <div className={compoundClassNames}>
       <div
-        style={{ width: `calc(${amount}% - 2px)`, transition: `width ${timing}s` }}
+        style={{ width: `calc(${amount}% - .125rem)`, transition: `width ${timing}s` }}
         className={s.layout}
       />
     </div>
