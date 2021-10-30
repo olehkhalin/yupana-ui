@@ -5,6 +5,8 @@ import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
 import { Heading } from 'components/common/Heading';
+import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
+import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -815,6 +817,8 @@ export const UiKit: React.FC = () => (
         <Chevron className={s.icon} />
       </div>
     </div>
+
+    {/* Headings */}
     <div className={s.block}>
       <Heading
         title="Your supply assets"
@@ -840,6 +844,12 @@ export const UiKit: React.FC = () => (
           external: true,
         }}
       />
+    </div>
+
+    {/* Switcher  */}
+    <div className={s.block}>
+      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
+      <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
     </div>
   </Container>
 );
