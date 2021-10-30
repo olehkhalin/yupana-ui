@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
+import { Heading } from 'components/common/Heading';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 
@@ -797,7 +798,6 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
-    {/* Icons  */}
     <div className={cx(s.block, s.icons)}>
       <Logo className={s.icon} />
       <div className={s.separator}>
@@ -816,6 +816,34 @@ export const UiKit: React.FC = () => (
         <Warning className={s.icon} />
         <Chevron className={s.icon} />
       </div>
+    </div>
+
+    {/* Headings */}
+    <div className={s.block}>
+      <Heading
+        title="Your supply assets"
+      />
+      <Heading
+        title="Your borrow assets"
+        theme="secondary"
+      />
+      <Heading
+        title="Supply assets"
+        link={{
+          label: 'Docs: suppling assets',
+          link: 'https://www.gogle.com',
+          external: true,
+        }}
+        theme="secondary"
+      />
+      <Heading
+        title="Borrow assets"
+        link={{
+          label: 'Docs: borrowing assets',
+          link: 'https://www.gogle.com',
+          external: true,
+        }}
+      />
     </div>
 
     {/* Switcher  */}

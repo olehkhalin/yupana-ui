@@ -10,11 +10,6 @@
   border: .063rem solid $white
   box-shadow: $white-shadow
   cursor: pointer
-  &.active
-    border: .063rem solid $light-yellow
-    box-shadow: $light-yellow-shadow
-
-.root
   &::before
     content: ''
     position: absolute
@@ -26,9 +21,12 @@
     transform: translateX(calc(0% + .125rem))
     background-color: $white
     box-shadow: $white-shadow
-  &.active
-    &::before
-      content: ''
-      transform: translateX(calc(2.75rem - 100%))
-      background-color: $light-yellow
-      box-shadow: $light-yellow-shadow
+
+.active
+  border: .063rem solid $light-yellow
+  box-shadow: $light-yellow-shadow
+  &::before
+    content: ''
+    transform: translateX(calc(2.75rem - 100%))
+    background-color: $light-yellow
+    box-shadow: $light-yellow-shadow
