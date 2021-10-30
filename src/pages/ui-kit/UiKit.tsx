@@ -4,9 +4,13 @@ import cx from 'classnames';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Container } from 'components/common/Container';
+import { LimitLine } from 'components/common/LimitLine';
+import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
+import { SupplyLine } from 'components/common/SupplyLine';
+import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -19,7 +23,7 @@ import { ReactComponent as Reddit } from 'svg/Reddit.svg';
 import { ReactComponent as Telegram } from 'svg/Telegram.svg';
 import { ReactComponent as Twitter } from 'svg/Twitter.svg';
 import { ReactComponent as Youtube } from 'svg/Youtube.svg';
-import { ReactComponent as Warning } from 'svg/Warning.svg';
+import { ReactComponent as Attention } from 'svg/Attention.svg';
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 
 import s from './UiKit.module.sass';
@@ -813,10 +817,18 @@ export const UiKit: React.FC = () => (
         <Arrow className={s.icon} />
         <Close className={s.icon} />
         <BigClose className={s.icon} />
-        <Warning className={s.icon} />
+        <Attention className={s.icon} />
         <Chevron className={s.icon} />
       </div>
     </div>
+
+    {/* Limit Line */}
+    <LimitLine {...mokeBorrowLimitData} className={s.limit} />
+    <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
+
+    {/* Supply Line */}
+    <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
+    <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
 
     {/* Headings */}
     <div className={s.block}>
