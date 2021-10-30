@@ -7,6 +7,8 @@ import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
+import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
+import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 
@@ -828,6 +830,8 @@ export const UiKit: React.FC = () => (
     <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
     <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
 
+
+    {/* Headings */}
     <div className={s.block}>
       <Heading
         title="Your supply assets"
@@ -853,6 +857,12 @@ export const UiKit: React.FC = () => (
           external: true,
         }}
       />
+    </div>
+
+    {/* Switcher  */}
+    <div className={s.block}>
+      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
+      <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
     </div>
   </Container>
 );
