@@ -22,6 +22,8 @@ import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { Markets } from 'components/tables/Markets';
 import { ALL_MARKETS_DATA } from 'components/tables/Markets/content';
+import { LiquidationPositions } from 'components/tables/LiquidationPositions';
+import { LIQUIDATION_POSITIONS_DATA } from 'components/tables/LiquidationPositions/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -917,6 +919,11 @@ export const UiKit: React.FC = () => (
         All markets
       </div>
       <Markets data={ALL_MARKETS_DATA} />
+
+      <div className={s.buttonAction}>
+        Liquidation positions
+      </div>
+      <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
     </div>
 
     {/* Table Dropdown */}
