@@ -24,6 +24,16 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
     localStorage.setItem('currency', currency);
   };
 
+  const handleSwitchCurrencyMobile = (arg: boolean) => {
+    if (arg) {
+      setActive(CurrencyEnum.XTZ);
+      localStorage.setItem('currency', CurrencyEnum.XTZ);
+    } else {
+      setActive(CurrencyEnum.USD);
+      localStorage.setItem('currency', CurrencyEnum.USD);
+    }
+  };
+
   useEffect(() => {
     const currency: CurrencyEnum | null = localStorage.getItem('currency') as CurrencyEnum | null;
     if (currency) {
@@ -35,28 +45,47 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
 
   const compoundClassNames = cx(
     s.root,
+    s.desktop,
     className,
   );
 
   return (
-    <div className={compoundClassNames}>
+    <>
+      <div className={compoundClassNames}>
+        <Button
+          sizeT="small"
+          theme="clear"
+          onClick={() => handleSwitchCurrency(CurrencyEnum.XTZ)}
+          className={cx(s.button, { [s.active]: active === CurrencyEnum.XTZ })}
+        >
+          {CurrencyEnum.XTZ}
+        </Button>
+        <span className={s.separator} />
+        <Button
+          sizeT="small"
+          theme="clear"
+          onClick={() => handleSwitchCurrency(CurrencyEnum.USD)}
+          className={cx(s.button, { [s.active]: active === CurrencyEnum.USD })}
+        >
+          {CurrencyEnum.USD}
+        </Button>
+      </div>
+
       <Button
         sizeT="small"
         theme="clear"
-        onClick={() => handleSwitchCurrency(CurrencyEnum.XTZ)}
-        className={cx(s.button, { [s.active]: active === CurrencyEnum.XTZ })}
+        onClick={() => handleSwitchCurrencyMobile(active === CurrencyEnum.USD)}
+        className={cx(s.root, s.mobile)}
       >
-        {CurrencyEnum.XTZ}
+        <div className={cx(s.currency, { [s.active]: active === CurrencyEnum.USD })}>
+          <div className={cx(s.xtz, { [s.active]: active === CurrencyEnum.XTZ })}>
+            {CurrencyEnum.XTZ}
+          </div>
+          <div className={cx(s.usd, { [s.active]: active === CurrencyEnum.USD })}>
+            {CurrencyEnum.USD}
+          </div>
+        </div>
       </Button>
-      <span className={s.separator} />
-      <Button
-        sizeT="small"
-        theme="clear"
-        onClick={() => handleSwitchCurrency(CurrencyEnum.USD)}
-        className={cx(s.button, { [s.active]: active === CurrencyEnum.USD })}
-      >
-        {CurrencyEnum.USD}
-      </Button>
-    </div>
+    </>
   );
 };

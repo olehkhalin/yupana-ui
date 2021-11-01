@@ -14,7 +14,7 @@
   display: flex
   align-items: center
   justify-content: space-between
-  padding: 1rem
+  padding: .7rem 1rem
 
 .logotype
   display: flex
@@ -22,7 +22,6 @@
   justify-content: center
 
 .logo
-  width: 5.9375rem
   height: auto
 
 .content
@@ -49,7 +48,7 @@
 @include media("<=tablet")
   .burger
     height: auto
-    margin-left: 1rem
+    margin-left: .75rem
   .dropdown
     position: absolute
     left: 0
@@ -78,6 +77,10 @@
     display: none
   .desktop
     display: flex
+  .logo
+    width: 5.9375rem
+  .container
+    padding: 1rem
 
 @include media(">Ltablet")
   .navItem

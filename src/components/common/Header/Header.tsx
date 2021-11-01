@@ -8,6 +8,7 @@ import { Container } from 'components/common/Container';
 import { NavList } from 'components/common/NavList';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
+import { ReactComponent as LogoMobile } from 'svg/LogoMobile.svg';
 import { AppRoutes } from 'routes/main-routes';
 
 import s from './Header.module.sass';
@@ -34,7 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
             to={AppRoutes.LENDING}
             className={s.logotype}
           >
-            <Logo className={s.logo} />
+            <Logo className={cx(s.logo, s.desktop)} />
+            <LogoMobile className={cx(s.logo, s.mobile)} />
           </Link>
 
           <div className={s.content}>
