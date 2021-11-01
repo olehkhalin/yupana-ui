@@ -11,8 +11,9 @@ import s from './Table.module.sass';
 type TableProps = {
   columns: any
   data: any[]
-  renderRowSubComponent: any
+  renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
+  type?: keyof typeof typeClasses
   className?: string
 };
 
@@ -21,11 +22,17 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
+const typeClasses = {
+  default: s.default,
+  markets: s.markets,
+};
+
 export const Table: React.FC<TableProps> = ({
   columns: userColumns,
   data,
   renderRowSubComponent,
   theme = 'primary',
+  type = 'default',
   className,
 }) => {
   const {
@@ -45,6 +52,7 @@ export const Table: React.FC<TableProps> = ({
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
+    typeClasses[type],
     className,
   );
 

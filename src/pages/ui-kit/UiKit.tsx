@@ -20,6 +20,8 @@ import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
+import { Markets } from 'components/tables/Markets';
+import { ALL_MARKETS_DATA } from 'components/tables/Markets/content';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -910,6 +912,11 @@ export const UiKit: React.FC = () => (
         data={[]}
         className={s.marginBottom}
       />
+
+      <div className={s.buttonAction}>
+        All markets
+      </div>
+      <Markets data={ALL_MARKETS_DATA} />
     </div>
 
     {/* Table Dropdown */}
