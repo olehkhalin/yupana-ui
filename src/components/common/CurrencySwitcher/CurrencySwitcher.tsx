@@ -75,7 +75,7 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
         sizeT="small"
         theme="clear"
         onClick={() => handleSwitchCurrencyMobile(active === CurrencyEnum.USD)}
-        className={cx(s.root, s.mobile)}
+        className={cx(s.root, s.mobile, className)}
       >
         <div className={cx(s.currency, { [s.active]: active === CurrencyEnum.USD })}>
           <div className={cx(s.xtz, { [s.active]: active === CurrencyEnum.XTZ })}>
