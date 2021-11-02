@@ -7,10 +7,6 @@ import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
-import { SupplyAssets } from 'components/tables/SupplyAssets';
-import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
-import { BorrowAssets } from 'components/tables/BorrowAssets';
-import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/tables/YourSupplyAssets/content';
@@ -21,6 +17,10 @@ import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/cont
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { SupplyAssets } from 'components/tables/SupplyAssets';
+import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
+import { BorrowAssets } from 'components/tables/BorrowAssets';
+import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
 import { Markets } from 'components/tables/Markets';
 import { ALL_MARKETS_DATA } from 'components/tables/Markets/content';
 import { LiquidationPositions } from 'components/tables/LiquidationPositions';
@@ -892,6 +892,22 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
+    {/* Switchers  */}
+    <div className={cx(s.block, s.flexColumn)}>
+      <div className={s.title}>
+        Collateral switcher
+      </div>
+      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
+      <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
+    </div>
+
+    <div className={s.block}>
+      <div className={s.title}>
+        Currency Switcher
+      </div>
+      <CurrencySwitcher />
+    </div>
+
     {/* Table */}
     <div className={s.block}>
       <div className={s.buttonAction}>
@@ -899,7 +915,7 @@ export const UiKit: React.FC = () => (
       </div>
       <SupplyAssets
         data={SUPPLY_ASSETS_DATA}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
 
       <div className={s.buttonAction}>
@@ -907,7 +923,7 @@ export const UiKit: React.FC = () => (
       </div>
       <BorrowAssets
         data={BORROW_ASSETS_DATA}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
 
       <div className={s.buttonAction}>
@@ -915,11 +931,11 @@ export const UiKit: React.FC = () => (
       </div>
       <YourSupplyAssets
         data={YOUR_SUPPLY_ASSETS_DATA}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
       <YourSupplyAssets
         data={[]}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
 
       <div className={s.buttonAction}>
@@ -927,11 +943,11 @@ export const UiKit: React.FC = () => (
       </div>
       <YourBorrowAssets
         data={YOUR_BORROW_ASSETS_DATA}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
       <YourBorrowAssets
         data={[]}
-        className={s.marginBottom}
+        className={cx(s.marginBottomLarge, s.halfTable)}
       />
 
       <div className={s.buttonAction}>
@@ -948,20 +964,5 @@ export const UiKit: React.FC = () => (
     {/* Table Dropdown */}
     <TableDropdown className={s.marginBottom} />
     <TableDropdown theme="secondary" />
-    {/* Switcher  */}
-    <div className={cx(s.block, s.flexColumn)}>
-      <div className={s.title}>
-        Collateral switcher
-      </div>
-      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
-      <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
-    </div>
-
-    <div className={s.block}>
-      <div className={s.title}>
-        Currency Switcher
-      </div>
-      <CurrencySwitcher />
-    </div>
   </Container>
 );

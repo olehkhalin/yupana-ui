@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
+import { Row } from 'react-table';
 
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
+import { TableDropdown } from 'components/common/TableDropdown';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
 import s from './YourBorrowAssets.module.sass';
@@ -36,10 +38,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       {
         Header: () => null,
         id: 'expander',
-        Cell: () => (
+        Cell: ({ row }: { row: Row }) => (
           <Button
             theme="clear"
             className={s.icon}
+            {...row.getToggleRowExpandedProps()}
           >
             <DropdownArrow />
           </Button>
@@ -51,14 +54,8 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
 
   // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
-    ({ row }) => (
-      <pre
-        style={{
-          fontSize: '10px',
-        }}
-      >
-        <code>{JSON.stringify({ values: row.values }, null, 2)}</code>
-      </pre>
+    () => (
+      <TableDropdown theme="secondary" />
     ),
     [],
   );

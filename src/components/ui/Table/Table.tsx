@@ -1,6 +1,7 @@
 import React from 'react';
 import {
   useTable,
+  useExpanded,
 } from 'react-table';
 import cx from 'classnames';
 
@@ -47,6 +48,7 @@ export const Table: React.FC<TableProps> = ({
       columns: userColumns,
       data,
     },
+    useExpanded,
   );
 
   const compoundClassNames = cx(

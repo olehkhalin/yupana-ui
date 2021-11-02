@@ -21,6 +21,9 @@
 .marginBottom
   margin-bottom: 1rem
 
+.marginBottomLarge
+  margin-bottom: 5rem
+
 // Buttons 
 .buttonsBlock
   &:not(:last-child)
@@ -69,3 +72,7 @@
 .limit
   &:not(:last-child)
     margin-bottom: 1.5rem
+
+@include media('>=tablet')
+  .halfTable
+    max-width: calc(50% - 40px)
