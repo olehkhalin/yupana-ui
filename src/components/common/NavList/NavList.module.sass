@@ -1,7 +1,8 @@
 @import "styles/variables.sass"
+@import "styles/breakpoints.scss"
 
 .nav
-  font-size: 0.875rem
+  font-size: .75rem
   font-weight: 700
   transition: color $animationTime
   text-transform: uppercase
@@ -9,3 +10,7 @@
     color: $light-yellow
   &.active, &:active
     color: $blue-neutral
+
+@include media('>=Ltablet')
+  .nav
+    font-size: .875rem

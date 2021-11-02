@@ -11,6 +11,7 @@ import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
+import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -19,6 +20,7 @@ import { ReactComponent as Discord } from 'svg/Discord.svg';
 import { ReactComponent as Github } from 'svg/Github.svg';
 import { ReactComponent as Doc } from 'svg/Doc.svg';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
+import { ReactComponent as LogoMobile } from 'svg/LogoMobile.svg';
 import { ReactComponent as Reddit } from 'svg/Reddit.svg';
 import { ReactComponent as Telegram } from 'svg/Telegram.svg';
 import { ReactComponent as Twitter } from 'svg/Twitter.svg';
@@ -33,6 +35,9 @@ export const UiKit: React.FC = () => (
 
     {/* BUTTONS - Supply */}
     <div className={s.block}>
+      <div className={s.title}>
+        Buttons
+      </div>
       <div className={s.buttonsBlock}>
         <div className={s.buttonAction}>
           Supply
@@ -786,6 +791,9 @@ export const UiKit: React.FC = () => (
 
     {/* Inputs */}
     <div className={cx(s.block, s.inputs)}>
+      <div className={s.title}>
+        Inputs
+      </div>
       <Input
         placeholder="Input..."
         className={s.input}
@@ -803,7 +811,11 @@ export const UiKit: React.FC = () => (
     </div>
 
     <div className={cx(s.block, s.icons)}>
+      <div className={s.title}>
+        Icons
+      </div>
       <Logo className={s.icon} />
+      <LogoMobile className={s.icon} />
       <div className={s.separator}>
         <Discord className={s.icon} />
         <Github className={s.icon} />
@@ -823,15 +835,23 @@ export const UiKit: React.FC = () => (
     </div>
 
     {/* Limit Line */}
-    <LimitLine {...mokeBorrowLimitData} className={s.limit} />
-    <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
+    <div className={s.block}>
+      <div className={s.title}>
+        Limit Lines
+      </div>
+      <LimitLine {...mokeBorrowLimitData} className={s.limit} />
+      <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
 
-    {/* Supply Line */}
-    <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
-    <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
+      {/* Supply Line */}
+      <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
+      <SupplyLine {...mokeSupplySecondaryData} className={s.limit} />
+    </div>
 
     {/* Headings */}
     <div className={s.block}>
+      <div className={s.title}>
+        Headings
+      </div>
       <Heading
         title="Your supply assets"
       />
@@ -859,9 +879,19 @@ export const UiKit: React.FC = () => (
     </div>
 
     {/* Switcher  */}
-    <div className={s.block}>
-      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
+    <div className={cx(s.block, s.flexColumn)}>
+      <div className={s.title}>
+        Collateral switcher
+      </div>
+      <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
       <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
+    </div>
+
+    <div className={s.block}>
+      <div className={s.title}>
+        Currency Switcher
+      </div>
+      <CurrencySwitcher />
     </div>
   </Container>
 );

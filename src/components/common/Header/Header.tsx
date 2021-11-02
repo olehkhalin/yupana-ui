@@ -8,6 +8,7 @@ import { Container } from 'components/common/Container';
 import { NavList } from 'components/common/NavList';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
+import { ReactComponent as LogoMobile } from 'svg/LogoMobile.svg';
 import { AppRoutes } from 'routes/main-routes';
 
 import s from './Header.module.sass';
@@ -34,7 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
             to={AppRoutes.LENDING}
             className={s.logotype}
           >
-            <Logo className={s.logo} />
+            <Logo className={cx(s.logo, s.logoDesktop)} />
+            <LogoMobile className={cx(s.logo, s.logoMobile)} />
           </Link>
 
           <div className={s.content}>
@@ -46,8 +48,13 @@ export const Header: React.FC<HeaderProps> = ({
             <Button
               sizeT="medium"
               theme="primary"
+              className={s.connectWallet}
             >
-              Connect wallet
+              Connect
+              {' '}
+              <span className={s.connectDesktop}>
+                wallet
+              </span>
             </Button>
 
             <CurrencySwitcher className={s.currencySwitcher} />

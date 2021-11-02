@@ -6,9 +6,14 @@
   justify-content: space-between
 
 .link
-  &:hover
+  &:hover, &:focus
     .icon
       transform: scale(1.1)
+      path
+        fill: $light-yellow
+  &:active
+    .icon
+      transform: scale(1)
       path
         fill: $blue
   &:not(:last-child)
