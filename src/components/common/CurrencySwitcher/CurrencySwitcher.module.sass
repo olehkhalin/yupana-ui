@@ -3,46 +3,47 @@
 
 .desktop
   display: none
+
 .mobile
   display: flex
 
-@include media('<=tablet')
-  .currency
-    position: relative
-    display: flex
-    flex-direction: column
-    justify-content: space-between
-    height: 2rem
-    width: 2.5rem
-    padding: .063rem
-    font-size: .75rem
-    background-color: rgba($light-yellow, .2)
-    color: rgba($light-yellow, .5)
-    border-radius: .125rem
-    &::before
-      content: ''
-      position: absolute
-      left: .063rem
-      right: .063rem
-      height: .875rem
-      background-color: $light-yellow
-      border-radius: .125rem
-      transform: translateY(0%)
-      transition: transform $animationTime
-    &.active
-      &::before
-        transform: translateY(115%)
-  .xtz, .usd
-    display: flex
-    align-items: center
-    justify-content: center
+.currency
+  position: relative
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  height: 2rem
+  width: 2.5rem
+  padding: .063rem
+  font-size: .75rem
+  background-color: rgba($light-yellow, .2)
+  color: rgba($light-yellow, .5)
+  border-radius: .125rem
+  &::before
+    content: ''
+    position: absolute
+    left: .063rem
+    right: .063rem
     height: .875rem
-    transition: color $animationTime
-    z-index: 1
-    &.active
-      color: $graphite
+    background-color: $light-yellow
+    border-radius: .125rem
+    transform: translateY(0%)
+    transition: transform $animationTime
+  &.active
+    &::before
+      transform: translateY(115%)
 
-@include media('>tablet')
+.item
+  display: flex
+  align-items: center
+  justify-content: center
+  height: .875rem
+  transition: color $animationTime
+  z-index: 1
+  &.active
+    color: $graphite
+
+@include media('>Mphone')
   .desktop
     display: flex
   .mobile

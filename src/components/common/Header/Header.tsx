@@ -35,8 +35,8 @@ export const Header: React.FC<HeaderProps> = ({
             to={AppRoutes.LENDING}
             className={s.logotype}
           >
-            <Logo className={cx(s.logo, s.desktop)} />
-            <LogoMobile className={cx(s.logo, s.mobile)} />
+            <Logo className={cx(s.logo, s.logoDesktop)} />
+            <LogoMobile className={cx(s.logo, s.logoMobile)} />
           </Link>
 
           <div className={s.content}>
@@ -48,17 +48,13 @@ export const Header: React.FC<HeaderProps> = ({
             <Button
               sizeT="medium"
               theme="primary"
-              className={cx(s.connectWallet, s.desktop)}
-            >
-              Connect wallet
-            </Button>
-
-            <Button
-              sizeT="small"
-              theme="primary"
-              className={cx(s.connectWallet, s.mobile)}
+              className={s.connectWallet}
             >
               Connect
+              {' '}
+              <span className={s.connectDesktop}>
+                wallet
+              </span>
             </Button>
 
             <CurrencySwitcher className={s.currencySwitcher} />

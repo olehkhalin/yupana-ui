@@ -78,10 +78,10 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
         className={cx(s.root, s.mobile, className)}
       >
         <div className={cx(s.currency, { [s.active]: active === CurrencyEnum.USD })}>
-          <div className={cx(s.xtz, { [s.active]: active === CurrencyEnum.XTZ })}>
+          <div className={cx(s.item, { [s.active]: active === CurrencyEnum.XTZ })}>
             {CurrencyEnum.XTZ}
           </div>
-          <div className={cx(s.usd, { [s.active]: active === CurrencyEnum.USD })}>
+          <div className={cx(s.item, { [s.active]: active === CurrencyEnum.USD })}>
             {CurrencyEnum.USD}
           </div>
         </div>

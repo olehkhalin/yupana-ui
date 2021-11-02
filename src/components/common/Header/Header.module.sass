@@ -29,6 +29,7 @@
   justify-content: flex-end
   align-items: center
   width: 100%
+  margin-left: 1.25rem
 
 .navItem
   margin-right: 2rem
@@ -42,8 +43,21 @@
 
 .mobile
   display: flex
-.desktop
+
+.desktop, .connectDesktop, .logoDesktop
   display: none
+
+@include media(">Sphone")
+  .connectDesktop
+    display: inline
+
+@include media(">phone")
+  .logoDesktop
+    display: flex
+  .logoMobile
+    display: none
+
+@include media(">Mphone")
 
 @include media("<=tablet")
   .burger
