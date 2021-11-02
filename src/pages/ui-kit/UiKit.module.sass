@@ -4,7 +4,19 @@
 // Common 
 .block
   width: 100%
-  padding: 5rem 0
+  padding: 3rem 0
+
+.flexColumn
+  display: flex
+  flex-direction: column
+
+.marginBottom
+  margin-bottom: 1rem
+
+.title
+  margin-bottom: 1.5rem
+  font-size: 1.75rem
+  font-weight: 700
 
 .marginBottom
   margin-bottom: 1rem
@@ -20,10 +32,10 @@
 
 .buttons
   display: flex
-  &:not(:last-child)
-    margin-bottom: 1rem
+  flex-wrap: wrap
 
 .button
+  margin-bottom: 1rem
   &:not(:last-child)
     margin-right: 1rem
 
@@ -45,6 +57,7 @@
 .separator
   display: flex
   align-items: center
+  flex-wrap: wrap
   margin-top: 1rem
 
 .icon
