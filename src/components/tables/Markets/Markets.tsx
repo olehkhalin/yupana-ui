@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { getPrettyPrice } from 'utils/getPrettyPrice';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
+import { TokenName } from 'components/common/TokenName';
 
 import s from './Markets.module.sass';
 
@@ -26,9 +27,9 @@ export const Markets: React.FC<MarketsProps> = ({
         ),
         id: 'market',
         accessor: (row: any) => (
-          <span className={s.white}>
-            {row.market}
-          </span>
+          <TokenName
+            token={{ ...row.market }}
+          />
         ),
       },
       {

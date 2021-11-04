@@ -4,6 +4,7 @@ import { Row } from 'react-table';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TableDropdown } from 'components/common/TableDropdown';
+import { TokenName } from 'components/common/TokenName';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
 import s from './BorrowAssets.module.sass';
@@ -21,7 +22,12 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        accessor: 'asset',
+        id: 'asset',
+        accessor: (row: any) => (
+          <TokenName
+            token={{ ...row.asset }}
+          />
+        ),
       },
       {
         Header: 'Borrow APY',
