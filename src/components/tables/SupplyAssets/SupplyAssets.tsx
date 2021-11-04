@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -65,7 +66,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      className={className}
+      rowClassName={s.row}
+      className={cx(className, s.root)}
     />
   );
 };

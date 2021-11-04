@@ -9,22 +9,24 @@ import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
-import { YOUR_SUPPLY_ASSETS_DATA } from 'components/tables/YourSupplyAssets/content';
 import { YourBorrowAssets } from 'components/tables/YourBorrowAssets';
-import { YOUR_BORROW_ASSETS_DATA } from 'components/tables/YourBorrowAssets/content';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { SupplyAssets } from 'components/tables/SupplyAssets';
-import { SUPPLY_ASSETS_DATA } from 'components/tables/SupplyAssets/content';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
-import { BORROW_ASSETS_DATA } from 'components/tables/BorrowAssets/content';
 import { Markets } from 'components/tables/Markets';
-import { ALL_MARKETS_DATA } from 'components/tables/Markets/content';
 import { LiquidationPositions } from 'components/tables/LiquidationPositions';
-import { LIQUIDATION_POSITIONS_DATA } from 'components/tables/LiquidationPositions/content';
+import {
+  ALL_MARKETS_DATA,
+  BORROW_ASSETS_DATA,
+  LIQUIDATION_POSITIONS_DATA,
+  SUPPLY_ASSETS_DATA,
+  YOUR_BORROW_ASSETS_DATA,
+  YOUR_SUPPLY_ASSETS_DATA,
+} from 'components/tables/temp-data';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -953,16 +955,16 @@ export const UiKit: React.FC = () => (
       <div className={s.buttonAction}>
         All markets
       </div>
-      <Markets data={ALL_MARKETS_DATA} />
+      <Markets data={ALL_MARKETS_DATA} className={s.marginBottomLarge} />
 
       <div className={s.buttonAction}>
         Liquidation positions
       </div>
-      <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
+      <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
     </div>
 
     {/* Table Dropdown */}
     <TableDropdown className={s.marginBottom} />
-    <TableDropdown theme="secondary" />
+    <TableDropdown theme="secondary" className={s.marginBottomLarge} />
   </Container>
 );

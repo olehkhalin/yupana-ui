@@ -70,6 +70,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
+      rowClassName={s.row}
       className={className}
     />
   );

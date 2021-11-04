@@ -66,6 +66,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
+      rowClassName={s.row}
       className={className}
     />
   );

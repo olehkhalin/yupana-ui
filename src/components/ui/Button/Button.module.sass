@@ -37,9 +37,6 @@
   &:disabled
     border-color: $white-50
 
-// $blue-neutral => $light-yellow
-// $blue-shadow => $light-yellow-shadow
-
 .primary
   color: $graphite
   border: 1px solid transparent
@@ -159,33 +156,32 @@
 
 .accent
   background-color: transparent
-  &:not(:disabled)
+  &.supply
+    color: $blue-neutral
+    .arrow
+      path
+        fill: $blue-neutral
+  &.borrow
+    color: $light-yellow
+    .arrow
+      path
+        fill: $light-yellow
+  &:hover, &:focus
     &.supply
-      color: $blue-neutral
+      text-shadow: $blue-shadow
       .arrow
-        path
-          fill: $blue-neutral
+        filter: drop-shadow($blue-shadow)
     &.borrow
-      color: $light-yellow
+      text-shadow: $light-yellow-shadow
       .arrow
-        path
-          fill: $light-yellow
-    &:hover, &:focus
-      &.supply
-        text-shadow: $blue-shadow
-        .arrow
-          filter: drop-shadow($blue-shadow)
-      &.borrow
-        text-shadow: $light-yellow-shadow
-        .arrow
-          filter: drop-shadow($light-yellow-shadow)
-    &:active
-      color: $white
-      text-shadow: $white-shadow
-      .arrow
-        filter: drop-shadow($white-shadow)
-        path
-          fill: $white
+        filter: drop-shadow($light-yellow-shadow)
+  &:active
+    color: $white
+    text-shadow: $white-shadow
+    .arrow
+      filter: drop-shadow($white-shadow)
+      path
+        fill: $white
 
 .clear
   display: flex

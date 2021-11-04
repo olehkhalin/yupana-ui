@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import cx from 'classnames';
 
 import { getPrettyPrice } from 'utils/getPrettyPrice';
 import { shortize } from 'utils/getShortize';
@@ -20,6 +21,25 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
     () => [
       {
         Header: () => (
+          <span className={s.white}>
+            Borrower address
+          </span>
+        ),
+        id: 'borrowerAddress',
+        accessor: (row: any) => (
+          <Button
+            href="/"
+            theme="accent"
+            action="borrow"
+            sizeT="small"
+            className={cx(s.address, s.white)}
+          >
+            {shortize(row.borrowerAddress)}
+          </Button>
+        ),
+      },
+      {
+        Header: () => (
           <span className={s.yellow}>
             Total borrowed
           </span>
@@ -28,6 +48,19 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         accessor: (row: any) => (
           <span className={s.yellow}>
             {getPrettyPrice(row.totalBorrowed)}
+          </span>
+        ),
+      },
+      {
+        Header: () => (
+          <span className={s.yellow}>
+            Health factor
+          </span>
+        ),
+        id: 'healthFactor',
+        accessor: (row: any) => (
+          <span className={s.yellow}>
+            {row.healthFactor}
           </span>
         ),
       },
@@ -53,38 +86,6 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         accessor: 'collateralAsset',
       },
       {
-        Header: () => (
-          <span className={s.yellow}>
-            Health factor
-          </span>
-        ),
-        id: 'healthFactor',
-        accessor: (row: any) => (
-          <span className={s.yellow}>
-            {row.healthFactor}
-          </span>
-        ),
-      },
-      {
-        Header: () => (
-          <span className={s.yellow}>
-            Borrower address
-          </span>
-        ),
-        id: 'borrowerAddress',
-        accessor: (row: any) => (
-          <Button
-            href="/"
-            theme="accent"
-            action="borrow"
-            sizeT="small"
-            className={s.yellow}
-          >
-            {shortize(row.borrowerAddress)}
-          </Button>
-        ),
-      },
-      {
         Header: () => null,
         id: 'liquidate',
         accessor: () => (
@@ -103,10 +104,12 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
 
   return (
     <Table
+      theme="tertiary"
       columns={columns}
       data={data}
-      type="markets"
-      className={className}
+      tableClassName={s.table}
+      rowClassName={s.row}
+      className={cx(s.root, className)}
     />
   );
 };

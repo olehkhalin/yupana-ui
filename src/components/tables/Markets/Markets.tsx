@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import cx from 'classnames';
 
 import { getPrettyPrice } from 'utils/getPrettyPrice';
 import { Table } from 'components/ui/Table';
@@ -114,10 +115,12 @@ export const Markets: React.FC<MarketsProps> = ({
 
   return (
     <Table
+      theme="tertiary"
       columns={columns}
       data={data}
-      type="markets"
-      className={className}
+      tableClassName={s.table}
+      rowClassName={s.row}
+      className={cx(s.root, className)}
     />
   );
 };

@@ -6,6 +6,9 @@
   &::-webkit-scrollbar
     display: none
 
+.primary, .secondary
+  width: 34.875rem
+
 .primary
   color: $light-blue
   background: linear-gradient(180deg, rgba(0, 205, 238, 0.04) 0%, rgba(0, 0, 0, 0) 100%)
@@ -35,23 +38,25 @@
     box-shadow: $light-yellow-shadow
     transform: skewX(-45deg)
 
+.tertiary
+  color: $light-blue
+  padding: 0
+
 .table
   width: 100%
   text-align: left
   border-collapse: collapse
 
+.thead
+  border-bottom: .063rem solid $white
+
 .primary
   .thead
-    border-bottom: .063rem solid $light-blue
+    border-color: $light-blue
 
 .secondary
   .thead
-    border-bottom: .063rem solid $light-yellow
-
-.markets
-  font-weight: 700
-  .thead
-    border-bottom: .063rem solid $white
+    border-color: $light-yellow
 
 .th
   padding-bottom: 1rem
@@ -72,8 +77,9 @@
     width: 7.5rem
 
 .tr
-  width: 100%
-
-.noAssets
-  display: block
-  margin-top: 1.5rem
+  display: grid
+  &.noAssets
+    display: grid
+    grid-template-columns: 1fr
+    margin-top: 1.5rem
+    text-align: center
