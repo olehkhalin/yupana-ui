@@ -19,14 +19,12 @@ import { SupplyAssets } from 'components/tables/SupplyAssets';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
 import { Markets } from 'components/tables/Markets';
 import { LiquidationPositions } from 'components/tables/LiquidationPositions';
-import {
-  ALL_MARKETS_DATA,
-  BORROW_ASSETS_DATA,
-  LIQUIDATION_POSITIONS_DATA,
-  SUPPLY_ASSETS_DATA,
-  YOUR_BORROW_ASSETS_DATA,
-  YOUR_SUPPLY_ASSETS_DATA,
-} from 'components/tables/temp-data';
+import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
+import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
+import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
+import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
+import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
+import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
