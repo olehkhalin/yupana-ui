@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
@@ -69,7 +70,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
+      rowClassName={cx(s.row, { [s.empty]: !data.length })}
       className={className}
     />
   );
