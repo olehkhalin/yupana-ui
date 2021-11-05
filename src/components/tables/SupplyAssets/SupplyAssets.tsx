@@ -70,7 +70,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       data={data}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.row}
-      className={cx(className, s.root)}
+      className={cx(s.root, className)}
     />
   );
 };

@@ -7,7 +7,7 @@ import { getTokenName } from 'utils/getTokenName';
 import { getSlice } from 'utils/getSlice';
 import { TokenLogo } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
-import { SliceTooltip } from 'components/common/SliceTooltip';
+import { Tooltip } from 'components/ui/Tooltip';
 
 import s from './TokenName.module.sass';
 
@@ -33,8 +33,8 @@ export const TokenName: React.FC<AssetNameProps> = ({
         sizeT="small"
         className={cx(s.root, className)}
       >
-        <SliceTooltip
-          text={tokenName}
+        <Tooltip
+          content={tokenName}
         >
           <div className={s.wrapper}>
             <TokenLogo
@@ -43,7 +43,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
             />
             {metadata.name}
           </div>
-        </SliceTooltip>
+        </Tooltip>
       </Button>
     );
   }
