@@ -14,5 +14,10 @@
 
 .arrow
   transform: rotate(180deg)
+  transition: transform $animationTime
   path
     transition: fill $animationTime
+
+.active
+  .arrow
+    transform: rotate(0deg)

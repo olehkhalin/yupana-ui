@@ -46,6 +46,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
           />

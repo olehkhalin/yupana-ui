@@ -7,6 +7,7 @@ import { ReactComponent as Arrow } from 'svg/DropdownArrow.svg';
 import s from './DropdownArrow.module.sass';
 
 type DropdownArrowProps = {
+  active?: boolean
   theme?: keyof typeof themeClasses
   className?: string
 };
@@ -17,6 +18,7 @@ const themeClasses = {
 };
 
 export const DropdownArrow: React.FC<DropdownArrowProps> = ({
+  active,
   theme = 'supply',
   className,
   ...props
@@ -24,6 +26,7 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
+    { [s.active]: active },
     className,
   );
 

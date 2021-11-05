@@ -47,6 +47,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
             theme="borrow"
+            active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
           />
