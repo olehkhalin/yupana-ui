@@ -1,9 +1,11 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TableDropdown } from 'components/common/TableDropdown';
+import { TokenName } from 'components/common/TokenName';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
 import s from './SupplyAssets.module.sass';
@@ -21,7 +23,12 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        accessor: 'asset',
+        id: 'asset',
+        accessor: (row: any) => (
+          <TokenName
+            token={{ ...row.asset }}
+          />
+        ),
       },
       {
         Header: 'Supply APY',
@@ -65,7 +72,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      className={className}
+      rowClassName={s.row}
+      className={cx(className, s.root)}
     />
   );
 };

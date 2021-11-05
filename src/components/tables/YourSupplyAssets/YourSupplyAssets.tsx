@@ -6,6 +6,7 @@ import { Button } from 'components/ui/Button';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { TableDropdown } from 'components/common/TableDropdown';
+import { TokenName } from 'components/common/TokenName';
 import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
 
 import s from './YourSupplyAssets.module.sass';
@@ -23,7 +24,12 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        accessor: 'asset',
+        id: 'asset',
+        accessor: (row: any) => (
+          <TokenName
+            token={{ ...row.asset }}
+          />
+        ),
       },
       {
         Header: 'Supply APY',
@@ -70,6 +76,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
+      rowClassName={s.row}
       className={className}
     />
   );

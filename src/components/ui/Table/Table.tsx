@@ -14,18 +14,15 @@ type TableProps = {
   data: any[]
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
-  type?: keyof typeof typeClasses
+  tableClassName?: string
+  rowClassName?: string
   className?: string
 };
 
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
-};
-
-const typeClasses = {
-  default: s.default,
-  markets: s.markets,
+  tertiary: s.tertiary,
 };
 
 export const Table: React.FC<TableProps> = ({
@@ -33,7 +30,8 @@ export const Table: React.FC<TableProps> = ({
   data,
   renderRowSubComponent,
   theme = 'primary',
-  type = 'default',
+  tableClassName,
+  rowClassName,
   className,
 }) => {
   const {
@@ -54,16 +52,15 @@ export const Table: React.FC<TableProps> = ({
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
-    typeClasses[type],
     className,
   );
 
   return (
     <div className={compoundClassNames}>
-      <table {...getTableProps()} className={s.table}>
+      <table {...getTableProps()} className={cx(s.table, tableClassName)}>
         <thead className={s.thead}>
           {headerGroups.map((headerGroup) => (
-            <tr key={getUniqueKey()} className={s.trTitle}>
+            <tr key={getUniqueKey()} className={cx(s.tr, rowClassName)}>
               {headerGroup.headers.map((column) => (
                 <th key={getUniqueKey()} className={s.th}>{column.render('Header')}</th>
               ))}
@@ -72,7 +69,7 @@ export const Table: React.FC<TableProps> = ({
         </thead>
         <tbody {...getTableBodyProps()} className={s.tbody}>
           {!data.length ? (
-            <tr className={s.noAssets}>
+            <tr className={cx(s.tr, s.noAssets, rowClassName)}>
               <td>
                 {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
               </td>
@@ -81,7 +78,7 @@ export const Table: React.FC<TableProps> = ({
             prepareRow(row);
             return (
               <React.Fragment key={getUniqueKey()}>
-                <tr {...row.getRowProps()} className={s.trBody}>
+                <tr {...row.getRowProps()} className={cx(s.tr, s.trBody, rowClassName)}>
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()} key={getUniqueKey()} className={s.td}>{cell.render('Cell')}</td>
                   ))}

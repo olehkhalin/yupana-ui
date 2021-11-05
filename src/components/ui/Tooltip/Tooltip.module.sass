@@ -1,0 +1,44 @@
+@import 'styles/variables.sass'
+
+.root
+  border-radius: .25rem
+  color: $white
+  font-size: .75rem
+  line-height: 1.171
+  white-space: nowrap
+  &::after
+    content: ''
+    position: absolute
+    border-left: .25rem solid transparent
+    border-right: .25rem solid transparent
+  &[data-placement^='bottom']
+    &::after
+      top: -.563rem
+  &[data-placement^='top']
+    &::after
+      bottom: -.563rem
+
+.primary
+  position: relative
+  right: -.35rem
+  top: -.05rem
+  padding: .5rem
+  background-color: $saturated-blue
+  &::after
+    right: .438rem
+  &[data-placement^='top']
+    &::after
+      border-top: .563rem solid $saturated-blue
+  &[data-placement^='bottom']
+    &::after
+      border-bottom: .563rem solid $saturated-blue
+  &[data-placement$='start']
+    &::after
+      left: .438rem
+      right: auto
+
+.wrapper
+  display: flex
+  align-items: center
+  position: relative
+  cursor: pointer

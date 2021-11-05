@@ -1,14 +1,33 @@
 @import 'styles/variables.sass'
 
-.link
-  font-size: 0.875rem
-  text-transform: uppercase
+.root
+  width: 100%
+  overflow: hidden
+  overflow-x: auto
 
 .white
   color: $white
+
+.table
+  width: 78rem
+
+.row
+  grid-template-columns: 1fr repeat(2, .75fr) repeat(2, .75fr) .5fr
+
+.link
+  font-size: 0.875rem
+  text-transform: uppercase
 
 .blue
   color: $light-blue
 
 .yellow
   color: $light-yellow
+
+.thead
+  border-bottom: .063rem solid $white
+
+.address
+  padding-left: 0
+  &.white
+    color: $white
