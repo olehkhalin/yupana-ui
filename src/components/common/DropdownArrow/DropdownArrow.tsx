@@ -13,18 +13,17 @@ type DropdownArrowProps = {
 };
 
 const themeClasses = {
-  supply: s.supply,
-  borrow: s.borrow,
+  primary: s.primary,
+  secondary: s.secondary,
 };
 
 export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   active,
-  theme = 'supply',
+  theme = 'primary',
   className,
   ...props
 }) => {
   const compoundClassNames = cx(
-    s.root,
     themeClasses[theme],
     { [s.active]: active },
     className,
