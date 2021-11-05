@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
-import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
@@ -74,7 +73,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={cx(s.row, { [s.empty]: !data.length })}
+      rowClassName={s.row}
       className={className}
     />
   );
