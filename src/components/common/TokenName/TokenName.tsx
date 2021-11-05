@@ -36,15 +36,13 @@ export const TokenName: React.FC<AssetNameProps> = ({
         <SliceTooltip
           text={tokenName}
         >
-          <>
+          <div className={s.wrapper}>
             <TokenLogo
               logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
               className={s.logo}
             />
-            <span className={s.name}>
-              {metadata.name}
-            </span>
-          </>
+            {metadata.name}
+          </div>
         </SliceTooltip>
       </Button>
     );
@@ -54,15 +52,13 @@ export const TokenName: React.FC<AssetNameProps> = ({
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.root, className)}
+      className={cx(s.wrapper, className)}
     >
       <TokenLogo
         logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
         className={s.logo}
       />
-      <span className={s.name}>
-        {metadata.name}
-      </span>
+      {metadata.name}
     </Button>
   );
 };
