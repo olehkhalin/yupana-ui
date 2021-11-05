@@ -3,7 +3,7 @@ import { KUSD_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/c
 export const SUPPLY_ASSETS_DATA = [
   {
     asset: {
-      id: '1',
+      address: 'tez',
       name: 'Tezos',
       symbol: 'XTZ',
     },
@@ -14,7 +14,7 @@ export const SUPPLY_ASSETS_DATA = [
   {
     asset: {
       id: '2',
-      symbol: 'Symbol',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       thumbnailUri: KUSD_THUMBNAIL_URI,
     },
     supplyApy: '9.70%',
@@ -23,7 +23,7 @@ export const SUPPLY_ASSETS_DATA = [
   },
   {
     asset: {
-      id: '3',
+      address: 'tez',
       thumbnailUri: XTZ_THUMBNAIL_URI,
     },
     supplyApy: '9.70%',
@@ -33,8 +33,8 @@ export const SUPPLY_ASSETS_DATA = [
   {
     asset: {
       id: '4',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       name: 'Kolibri Long Name',
-      symbol: 'KUSD',
       thumbnailUri: KUSD_THUMBNAIL_URI,
     },
     supplyApy: '9.70%',

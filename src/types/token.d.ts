@@ -7,10 +7,13 @@ type TokenType = {
   thumbnailUri: string | null
   symbol?: string
   name?: string
-  id: string
 };
 
-export interface TokenTypeInteface extends TokenType {}
+type TokenMetadataType = TokenType & TokenId;
+
+export interface TokenMetadataInterface extends TokenMetadataType {}
+
+export interface TokenInteface extends TokenType {}
 
 type TokenLogoType = Pick<TokenType, 'name' | 'thumbnailUri'>;
 export interface TokenLogoInterface extends TokenLogoType {}

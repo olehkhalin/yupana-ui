@@ -2,7 +2,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { TokenTypeInteface } from 'types/token';
+import { TokenMetadataInterface } from 'types/token';
+import { getTokenName } from 'utils/getTokenName';
 import { getSlice } from 'utils/getSlice';
 import { TokenLogo } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
@@ -11,7 +12,7 @@ import { SliceTooltip } from 'components/common/SliceTooltip';
 import s from './TokenName.module.sass';
 
 type AssetNameProps = {
-  token: TokenTypeInteface
+  token: TokenMetadataInterface
   className?: string
 };
 
@@ -19,9 +20,10 @@ export const TokenName: React.FC<AssetNameProps> = ({
   token,
   className,
 }) => {
+  const tokenName = getTokenName(token);
   const metadata = {
-    name: (token.name ?? token.symbol) || 'Token',
-    isSlice: token.name ? token.name.length > 11 : token.symbol ? token.symbol.length > 11 : false,
+    name: getSlice(tokenName, 5),
+    isSlice: tokenName ? tokenName.length > 8 : token.symbol ? token.symbol.length > 8 : false,
   };
 
   if (metadata.isSlice) {
@@ -32,15 +34,15 @@ export const TokenName: React.FC<AssetNameProps> = ({
         className={cx(s.root, className)}
       >
         <SliceTooltip
-          text={metadata.name}
+          text={tokenName}
         >
           <>
             <TokenLogo
-              logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
+              logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
               className={s.logo}
             />
             <span className={s.name}>
-              {getSlice(metadata.name, 5)}
+              {metadata.name}
             </span>
           </>
         </SliceTooltip>
