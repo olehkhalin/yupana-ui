@@ -2,10 +2,9 @@ import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 
 import { Table } from 'components/ui/Table';
-import { Button } from 'components/ui/Button';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
-import { ReactComponent as DropdownArrow } from 'svg/DropdownArrow.svg';
+import { DropdownArrow } from 'components/common/DropdownArrow';
 
 import s from './YourBorrowAssets.module.sass';
 
@@ -45,13 +44,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
-          <Button
-            theme="clear"
+          <DropdownArrow
+            theme="borrow"
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
-          >
-            <DropdownArrow />
-          </Button>
+          />
         ),
       },
     ],

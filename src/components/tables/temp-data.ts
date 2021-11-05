@@ -7,7 +7,7 @@ export const BORROW_ASSETS_DATA = [
       id: '1',
       name: 'Tezos',
       symbol: 'XTZ',
-      thumbnailUri: XTZ_THUMBNAIL_URI,
+      thumbnailUri: KUSD_THUMBNAIL_URI,
     },
     borrowApy: '9.70%',
     utilisationRate: '75%',
