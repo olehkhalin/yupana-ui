@@ -2,7 +2,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { TokenLogoInterface, TokenTypeInteface } from 'types/token';
+import { TokenTypeInteface } from 'types/token';
 import { getSlice } from 'utils/getSlice';
 import { TokenLogo } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
@@ -15,29 +15,6 @@ type AssetNameProps = {
   className?: string
 };
 
-type WrapperProps = {
-  logo: TokenLogoInterface
-  className?: string
-};
-
-const Wrapper: React.FC<WrapperProps> = ({
-  logo,
-  className,
-  children,
-}) => (
-  <Button
-    theme="clear"
-    sizeT="small"
-    className={cx(s.root, className)}
-  >
-    <TokenLogo
-      logo={{ ...logo }}
-      className={s.logo}
-    />
-    {children}
-  </Button>
-);
-
 export const TokenName: React.FC<AssetNameProps> = ({
   token,
   className,
@@ -49,23 +26,41 @@ export const TokenName: React.FC<AssetNameProps> = ({
 
   if (metadata.isSlice) {
     return (
-      <SliceTooltip text={metadata.name}>
-        <Wrapper
-          logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
-          className={className}
+      <Button
+        theme="clear"
+        sizeT="small"
+        className={cx(s.root, className)}
+      >
+        <SliceTooltip
+          text={metadata.name}
         >
-          {getSlice(metadata.name, 5)}
-        </Wrapper>
-      </SliceTooltip>
+          <>
+            <TokenLogo
+              logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
+              className={s.logo}
+            />
+            <span className={s.name}>
+              {getSlice(metadata.name, 5)}
+            </span>
+          </>
+        </SliceTooltip>
+      </Button>
     );
   }
 
   return (
-    <Wrapper
-      logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
-      className={className}
+    <Button
+      theme="clear"
+      sizeT="small"
+      className={cx(s.root, className)}
     >
-      {metadata.name}
-    </Wrapper>
+      <TokenLogo
+        logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
+        className={s.logo}
+      />
+      <span className={s.name}>
+        {metadata.name}
+      </span>
+    </Button>
   );
 };
