@@ -13,7 +13,9 @@ import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/cont
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
-import { TableCard } from 'components/common/TableCard';
+import {
+  BorrowAssetsCard, MarketsCard, SupplyAssetsCard, YourBorrowAssetsCard, YourSupplyAssetsCard,
+} from 'components/tables/mobile';
 import {
   SupplyAssets,
   BorrowAssets,
@@ -21,7 +23,7 @@ import {
   YourBorrowAssets,
   Markets,
   LiquidationPositions,
-} from 'components/tables';
+} from 'components/tables/desktop';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
@@ -972,16 +974,17 @@ export const UiKit: React.FC = () => (
       <div className={s.title}>
         Table Card
       </div>
+
       <div className={s.buttonAction}>
-        Supply
+        Supply Assets
       </div>
       <div className={s.marginBottomLarge}>
-        {SUPPLY_ASSETS_DATA.slice(2).map(({
+        {SUPPLY_ASSETS_DATA.map(({
           asset: {
             id, address, name, symbol, thumbnailUri,
           }, ...rest
         }) => (
-          <TableCard
+          <SupplyAssetsCard
             key={getUniqueKey()}
             id={id}
             address={address}
@@ -994,17 +997,79 @@ export const UiKit: React.FC = () => (
       </div>
 
       <div className={s.buttonAction}>
-        Borrow
+        Borrow Assets
       </div>
       <div className={s.marginBottomLarge}>
-        {SUPPLY_ASSETS_DATA.slice(0, 2).map(({
+        {BORROW_ASSETS_DATA.map(({
           asset: {
             id, address, name, symbol, thumbnailUri,
           }, ...rest
         }) => (
-          <TableCard
+          <BorrowAssetsCard
             key={getUniqueKey()}
-            theme="secondary"
+            id={id}
+            address={address}
+            name={name}
+            symbol={symbol}
+            thumbnailUri={thumbnailUri}
+            {...rest}
+          />
+        ))}
+      </div>
+
+      <div className={s.buttonAction}>
+        Your Supply Assets
+      </div>
+      <div className={s.marginBottomLarge}>
+        {YOUR_SUPPLY_ASSETS_DATA.map(({
+          asset: {
+            id, address, name, symbol, thumbnailUri,
+          }, ...rest
+        }) => (
+          <YourSupplyAssetsCard
+            key={getUniqueKey()}
+            id={id}
+            address={address}
+            name={name}
+            symbol={symbol}
+            thumbnailUri={thumbnailUri}
+            {...rest}
+          />
+        ))}
+      </div>
+
+      <div className={s.buttonAction}>
+        Your Borrow Assets
+      </div>
+      <div className={s.marginBottomLarge}>
+        {YOUR_BORROW_ASSETS_DATA.map(({
+          asset: {
+            id, address, name, symbol, thumbnailUri,
+          }, ...rest
+        }) => (
+          <YourBorrowAssetsCard
+            key={getUniqueKey()}
+            id={id}
+            address={address}
+            name={name}
+            symbol={symbol}
+            thumbnailUri={thumbnailUri}
+            {...rest}
+          />
+        ))}
+      </div>
+
+      <div className={s.buttonAction}>
+        Markets
+      </div>
+      <div className={s.marginBottomLarge}>
+        {ALL_MARKETS_DATA.map(({
+          market: {
+            id, address, name, symbol, thumbnailUri,
+          }, ...rest
+        }) => (
+          <MarketsCard
+            key={getUniqueKey()}
             id={id}
             address={address}
             name={name}
