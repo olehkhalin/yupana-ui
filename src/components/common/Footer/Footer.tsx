@@ -17,8 +17,38 @@ export const Footer: React.FC<FooterProps> = ({
 }) => (
   <footer className={cx(s.root, className)}>
     <Container className={s.container}>
-      <div>
+      <div className={s.row}>
         <SocialLinks />
+        <div className={s.links}>
+          <div className={s.column}>
+            {FOOTER_LIST.slice(0, 3).map(
+              ({ id, text, to }) => (
+                <Link
+                  key={id}
+                  to={to}
+                  className={s.link}
+                >
+                  {text}
+                </Link>
+              ),
+            )}
+          </div>
+          <div className={s.column}>
+            {FOOTER_LIST.slice(3, 6).map(
+              ({ id, text, to }) => (
+                <Link
+                  key={id}
+                  to={to}
+                  className={s.link}
+                >
+                  {text}
+                </Link>
+              ),
+            )}
+          </div>
+        </div>
+      </div>
+      <div className={s.row}>
         <div className={s.copyright}>
           Copyright ©
           {' '}
@@ -26,33 +56,19 @@ export const Footer: React.FC<FooterProps> = ({
           {' '}
           Yupana.finance
         </div>
-      </div>
-      <div className={s.links}>
-        <div className={s.column}>
-          {FOOTER_LIST.slice(0, 3).map(
-            ({ id, text, to }) => (
-              <Link
-                key={id}
-                to={to}
-                className={s.link}
-              >
-                {text}
-              </Link>
-            ),
-          )}
-        </div>
-        <div className={s.column}>
-          {FOOTER_LIST.slice(3, 6).map(
-            ({ id, text, to }) => (
-              <Link
-                key={id}
-                to={to}
-                className={s.link}
-              >
-                {text}
-              </Link>
-            ),
-          )}
+        <div className={s.company}>
+          <div className={s.withLove}>Made with 💙</div>
+          <div>
+            <span className={s.marginRight}>by</span>
+            {/* eslint-disable-next-line react/jsx-no-target-blank */}
+            <a
+              href="https://www.madfish.solutions/"
+              target="_blank"
+              className={s.owner}
+            >
+              mad.fish
+            </a>
+          </div>
         </div>
       </div>
     </Container>
