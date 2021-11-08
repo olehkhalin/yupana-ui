@@ -2,20 +2,18 @@ import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 
 import { Table } from 'components/ui/Table';
-import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TEZ_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './YourSupplyAssets.module.sass';
+import s from './Tables.module.sass';
 
-type YourSupplyAssetsProps = {
+type BorrowAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
+export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
   className,
 }) => {
@@ -23,33 +21,32 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
       {
-        Header: 'Supply APY',
-        accessor: 'supplyApy',
+        Header: 'Borrow APY',
+        accessor: 'borrowApy',
       },
       {
-        Header: 'Balance',
-        accessor: 'balance',
+        Header: 'Utilisation rate',
+        accessor: 'utilisationRate',
       },
       {
-        Header: 'Collateral',
-        id: 'collateral',
-        Cell: () => (
-          <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
-        ),
+        Header: 'Liquidity',
+        accessor: 'liquidity',
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            theme="secondary"
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
@@ -63,17 +60,18 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
     () => (
-      <TableDropdown />
+      <TableDropdown theme="secondary" />
     ),
     [],
   );
 
   return (
     <Table
+      theme="secondary"
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
+      rowClassName={s.borrowRow}
       className={className}
     />
   );

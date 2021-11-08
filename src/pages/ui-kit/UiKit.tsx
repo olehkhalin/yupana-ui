@@ -8,18 +8,20 @@ import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
-import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
-import { YourBorrowAssets } from 'components/tables/YourBorrowAssets';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
-import { SupplyAssets } from 'components/tables/SupplyAssets';
-import { BorrowAssets } from 'components/tables/BorrowAssets';
-import { Markets } from 'components/tables/Markets';
-import { LiquidationPositions } from 'components/tables/LiquidationPositions';
+import {
+  SupplyAssets,
+  BorrowAssets,
+  YourSupplyAssets,
+  YourBorrowAssets,
+  Markets,
+  LiquidationPositions,
+} from 'components/tables';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';

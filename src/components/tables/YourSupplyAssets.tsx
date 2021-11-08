@@ -1,20 +1,21 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
-import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
+import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
+import { TEZ_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './SupplyAssets.module.sass';
+import s from './Tables.module.sass';
 
-type SupplyAssetsProps = {
+type YourSupplyAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   className,
 }) => {
@@ -22,10 +23,11 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
@@ -34,12 +36,15 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: 'supplyApy',
       },
       {
-        Header: 'Collateral Factor',
-        accessor: 'collateralFactor',
+        Header: 'Balance',
+        accessor: 'balance',
       },
       {
-        Header: 'Wallet',
-        accessor: 'wallet',
+        Header: 'Collateral',
+        id: 'collateral',
+        Cell: () => (
+          <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
+        ),
       },
       {
         Header: () => null,
@@ -69,8 +74,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
-      className={cx(s.root, className)}
+      rowClassName={s.ownAssetsRow}
+      className={className}
     />
   );
 };

@@ -1,19 +1,20 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './YourBorrowAssets.module.sass';
+import s from './Tables.module.sass';
 
-type YourBorrowAssetsProps = {
+type SupplyAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
+export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   data,
   className,
 }) => {
@@ -21,31 +22,31 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
       {
-        Header: 'Borrow APY',
-        accessor: 'borrowApy',
+        Header: 'Supply APY',
+        accessor: 'supplyApy',
       },
       {
-        Header: 'Balace',
-        accessor: 'balance',
+        Header: 'Collateral Factor',
+        accessor: 'collateralFactor',
       },
       {
-        Header: 'Borrow limit',
-        accessor: 'borrowLimit',
+        Header: 'Wallet',
+        accessor: 'wallet',
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
-            theme="borrow"
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
@@ -59,19 +60,18 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
     () => (
-      <TableDropdown theme="secondary" />
+      <TableDropdown />
     ),
     [],
   );
 
   return (
     <Table
-      theme="secondary"
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
-      className={className}
+      rowClassName={s.supplyRow}
+      className={cx(s.root, className)}
     />
   );
 };

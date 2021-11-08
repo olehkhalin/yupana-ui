@@ -6,14 +6,14 @@ import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './BorrowAssets.module.sass';
+import s from './Tables.module.sass';
 
-type BorrowAssetsProps = {
+type YourBorrowAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
+export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
   className,
 }) => {
@@ -21,10 +21,11 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
@@ -33,19 +34,19 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         accessor: 'borrowApy',
       },
       {
-        Header: 'Utilisation rate',
-        accessor: 'utilisationRate',
+        Header: 'Balace',
+        accessor: 'balance',
       },
       {
-        Header: 'Liquidity',
-        accessor: 'liquidity',
+        Header: 'Borrow limit',
+        accessor: 'borrowLimit',
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
-            theme="borrow"
+            theme="secondary"
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
@@ -70,7 +71,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
+      rowClassName={s.ownAssetsRow}
       className={className}
     />
   );
