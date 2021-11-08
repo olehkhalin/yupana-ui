@@ -1,0 +1,29 @@
+@import 'styles/variables.sass'
+
+.root
+  display: flex
+  cursor: pointer
+  justify-content: center
+  align-items: center
+
+.primary
+  &:hover
+    .arrow
+      path
+        fill: $blue-neutral
+
+.secondary
+  &:hover
+    .arrow
+      path
+        fill: $light-yellow
+
+.arrow
+  transform: rotate(180deg)
+  transition: transform $animationTime
+  path
+    transition: fill $animationTime
+
+.active
+  .arrow
+    transform: rotate(0deg)
