@@ -1,9 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
-import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
@@ -15,6 +15,7 @@ import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/cont
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { TableCard } from 'components/common/TableCard';
 import { SupplyAssets } from 'components/tables/SupplyAssets';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
 import { Markets } from 'components/tables/Markets';
@@ -44,8 +45,7 @@ import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => (
-  <Container className={s.root}>
-
+  <>
     {/* BUTTONS - Supply */}
     <div className={s.block}>
       <div className={s.title}>
@@ -964,5 +964,54 @@ export const UiKit: React.FC = () => (
     {/* Table Dropdown */}
     <TableDropdown className={s.marginBottom} />
     <TableDropdown theme="secondary" className={s.marginBottomLarge} />
-  </Container>
+
+    {/* Table Card */}
+    <div className={s.block}>
+      <div className={s.title}>
+        Table Card
+      </div>
+      <div className={s.buttonAction}>
+        Supply
+      </div>
+      <div className={s.marginBottomLarge}>
+        {SUPPLY_ASSETS_DATA.slice(2).map(({
+          asset: {
+            id, address, name, symbol, thumbnailUri,
+          }, ...rest
+        }) => (
+          <TableCard
+            key={getUniqueKey()}
+            id={id}
+            address={address}
+            name={name}
+            symbol={symbol}
+            thumbnailUri={thumbnailUri}
+            {...rest}
+          />
+        ))}
+      </div>
+
+      <div className={s.buttonAction}>
+        Borrow
+      </div>
+      <div className={s.marginBottomLarge}>
+        {SUPPLY_ASSETS_DATA.slice(0, 2).map(({
+          asset: {
+            id, address, name, symbol, thumbnailUri,
+          }, ...rest
+        }) => (
+          <TableCard
+            key={getUniqueKey()}
+            theme="secondary"
+            id={id}
+            address={address}
+            name={name}
+            symbol={symbol}
+            thumbnailUri={thumbnailUri}
+            {...rest}
+          />
+        ))}
+      </div>
+    </div>
+  </>
 );

@@ -13,11 +13,13 @@ import s from './TokenName.module.sass';
 
 type AssetNameProps = {
   token: TokenMetadataInterface
+  logoClassName?: string
   className?: string
 };
 
 export const TokenName: React.FC<AssetNameProps> = ({
   token,
+  logoClassName,
   className,
 }) => {
   const tokenName = getTokenName(token);
@@ -39,7 +41,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
           <div className={s.wrapper}>
             <TokenLogo
               logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
-              className={s.logo}
+              className={cx(s.logo, logoClassName)}
             />
             {metadata.name}
           </div>
@@ -52,11 +54,11 @@ export const TokenName: React.FC<AssetNameProps> = ({
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.wrapper, className)}
+      className={cx(s.root, s.wrapper, className)}
     >
       <TokenLogo
         logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
-        className={s.logo}
+        className={cx(s.logo, logoClassName)}
       />
       {metadata.name}
     </Button>

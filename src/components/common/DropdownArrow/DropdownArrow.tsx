@@ -9,6 +9,7 @@ import s from './DropdownArrow.module.sass';
 type DropdownArrowProps = {
   active?: boolean
   theme?: keyof typeof themeClasses
+  onClick?: () => void
   className?: string
 };
 
@@ -20,6 +21,7 @@ const themeClasses = {
 export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   active,
   theme = 'primary',
+  onClick,
   className,
   ...props
 }) => {
@@ -32,6 +34,7 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   return (
     <Button
       theme="clear"
+      onClick={onClick}
       className={compoundClassNames}
       {...props}
     >

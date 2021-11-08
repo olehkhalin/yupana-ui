@@ -7,9 +7,9 @@ export const SUPPLY_ASSETS_DATA = [
       name: 'Tezos',
       symbol: 'XTZ',
     },
-    supplyApy: '9.70%',
-    collateralFactor: '75%',
-    wallet: '13.248,70',
+    supplyApy: 9.70,
+    collateralFactor: 75,
+    wallet: 13.248,
   },
   {
     asset: {
@@ -17,18 +17,18 @@ export const SUPPLY_ASSETS_DATA = [
       address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
       thumbnailUri: KUSD_THUMBNAIL_URI,
     },
-    supplyApy: '9.70%',
-    collateralFactor: '75%',
-    wallet: '13.248,70',
+    supplyApy: 9.70,
+    collateralFactor: 75,
+    wallet: 13.248,
   },
   {
     asset: {
       address: 'tez',
       thumbnailUri: XTZ_THUMBNAIL_URI,
     },
-    supplyApy: '9.70%',
-    collateralFactor: '75%',
-    wallet: '13.248,70',
+    supplyApy: 9.70,
+    collateralFactor: 75,
+    wallet: 13.248,
   },
   {
     asset: {
@@ -37,8 +37,8 @@ export const SUPPLY_ASSETS_DATA = [
       name: 'Kolibri Long Name',
       thumbnailUri: KUSD_THUMBNAIL_URI,
     },
-    supplyApy: '9.70%',
-    collateralFactor: '75%',
-    wallet: '13.248,70',
+    supplyApy: 9.70,
+    collateralFactor: 75,
+    wallet: 13.248,
   },
 ];
