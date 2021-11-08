@@ -6,7 +6,7 @@ import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 
-import s from './LiquidationPositions.module.sass';
+import s from './Tables.module.sass';
 
 type LiquidationPositionsProps = {
   data: any[]
@@ -107,9 +107,9 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.table}
-      rowClassName={s.row}
-      className={cx(s.root, className)}
+      tableClassName={s.bigTable}
+      rowClassName={s.liquidationRow}
+      className={cx(s.bigTableWrapper, className)}
     />
   );
 };

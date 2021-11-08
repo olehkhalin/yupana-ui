@@ -5,8 +5,6 @@ import {
 } from 'react-table';
 import cx from 'classnames';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-
 import s from './Table.module.sass';
 
 type TableProps = {
@@ -60,9 +58,9 @@ export const Table: React.FC<TableProps> = ({
       <table {...getTableProps()} className={cx(s.table, tableClassName)}>
         <thead className={s.thead}>
           {headerGroups.map((headerGroup) => (
-            <tr key={getUniqueKey()} className={cx(s.tr, rowClassName)}>
+            <tr key={headerGroup.getHeaderGroupProps().key} className={cx(s.tr, rowClassName)}>
               {headerGroup.headers.map((column) => (
-                <th key={getUniqueKey()} className={s.th}>{column.render('Header')}</th>
+                <th key={column.getHeaderProps().key} className={s.th}>{column.render('Header')}</th>
               ))}
             </tr>
           ))}
@@ -77,14 +75,14 @@ export const Table: React.FC<TableProps> = ({
           ) : rows.map((row) => {
             prepareRow(row);
             return (
-              <React.Fragment key={getUniqueKey()}>
+              <React.Fragment key={row.getRowProps().key}>
                 <tr {...row.getRowProps()} className={cx(s.tr, s.trBody, rowClassName)}>
                   {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()} key={getUniqueKey()} className={s.td}>{cell.render('Cell')}</td>
+                    <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
                   ))}
                 </tr>
                 {row.isExpanded ? (
-                  <tr {...row.getRowProps()} className={s.subTr}>
+                  <tr {...row.getRowProps()} key={`${row.getRowProps().key}-inner`} className={s.subTr}>
                     <td colSpan={visibleColumns.length}>
                       {renderRowSubComponent({ row })}
                     </td>

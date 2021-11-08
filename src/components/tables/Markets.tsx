@@ -6,7 +6,7 @@ import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
 
-import s from './Markets.module.sass';
+import s from './Tables.module.sass';
 
 type MarketsProps = {
   data: any[]
@@ -119,9 +119,9 @@ export const Markets: React.FC<MarketsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.table}
-      rowClassName={s.row}
-      className={cx(s.root, className)}
+      tableClassName={s.bigTable}
+      rowClassName={s.marketsRow}
+      className={cx(s.bigTableWrapper, className)}
     />
   );
 };

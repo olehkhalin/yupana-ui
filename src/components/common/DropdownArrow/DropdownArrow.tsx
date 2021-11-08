@@ -26,6 +26,7 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   ...props
 }) => {
   const compoundClassNames = cx(
+    s.root,
     themeClasses[theme],
     { [s.active]: active },
     className,
