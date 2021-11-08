@@ -21,6 +21,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
   token,
   logoClassName,
   className,
+  ...props
 }) => {
   const tokenName = getTokenName(token);
   const metadata = {
@@ -28,39 +29,36 @@ export const TokenName: React.FC<AssetNameProps> = ({
     isSlice: tokenName ? tokenName.length > 8 : token.symbol ? token.symbol.length > 8 : false,
   };
 
-  if (metadata.isSlice) {
-    return (
-      <Button
-        theme="clear"
-        sizeT="small"
-        className={cx(s.root, className)}
-      >
-        <Tooltip
-          content={tokenName}
-        >
-          <div className={s.wrapper}>
-            <TokenLogo
-              logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
-              className={cx(s.logo, logoClassName)}
-            />
-            {metadata.name}
-          </div>
-        </Tooltip>
-      </Button>
-    );
-  }
+  const content = (
+    <>
+      <TokenLogo
+        logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
+        className={cx(s.logo, logoClassName)}
+      />
+      {metadata.name}
+    </>
+  );
 
   return (
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.root, s.wrapper, className)}
+      className={cx(s.wrapper, className)}
+      {...props}
     >
-      <TokenLogo
-        logo={{ name: metadata.name, thumbnailUri: token.thumbnailUri }}
-        className={cx(s.logo, logoClassName)}
-      />
-      {metadata.name}
+      {
+        metadata.isSlice
+          ? (
+            <Tooltip
+              content={tokenName}
+            >
+              <div className={s.wrapper}>
+                {content}
+              </div>
+            </Tooltip>
+          )
+          : content
+      }
     </Button>
   );
 };
