@@ -7,11 +7,26 @@ import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
+import { TableDropdown } from 'components/common/TableDropdown';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import {
+  SupplyAssets,
+  BorrowAssets,
+  YourSupplyAssets,
+  YourBorrowAssets,
+  Markets,
+  LiquidationPositions,
+} from 'components/tables';
+import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
+import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
+import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
+import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
+import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
+import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -810,6 +825,7 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
+    {/* Icons */}
     <div className={cx(s.block, s.icons)}>
       <div className={s.title}>
         Icons
@@ -878,7 +894,7 @@ export const UiKit: React.FC = () => (
       />
     </div>
 
-    {/* Switcher  */}
+    {/* Switchers  */}
     <div className={cx(s.block, s.flexColumn)}>
       <div className={s.title}>
         Collateral switcher
@@ -893,5 +909,62 @@ export const UiKit: React.FC = () => (
       </div>
       <CurrencySwitcher />
     </div>
+
+    {/* Table */}
+    <div className={s.block}>
+      <div className={s.buttonAction}>
+        Supply
+      </div>
+      <SupplyAssets
+        data={SUPPLY_ASSETS_DATA}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+
+      <div className={s.buttonAction}>
+        Borrow
+      </div>
+      <BorrowAssets
+        data={BORROW_ASSETS_DATA}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+
+      <div className={s.buttonAction}>
+        Your Supply
+      </div>
+      <YourSupplyAssets
+        data={YOUR_SUPPLY_ASSETS_DATA}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+      <YourSupplyAssets
+        data={[]}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+
+      <div className={s.buttonAction}>
+        Your Borrow
+      </div>
+      <YourBorrowAssets
+        data={YOUR_BORROW_ASSETS_DATA}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+      <YourBorrowAssets
+        data={[]}
+        className={cx(s.marginBottomLarge, s.halfTable)}
+      />
+
+      <div className={s.buttonAction}>
+        All markets
+      </div>
+      <Markets data={ALL_MARKETS_DATA} className={s.marginBottomLarge} />
+
+      <div className={s.buttonAction}>
+        Liquidation positions
+      </div>
+      <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+    </div>
+
+    {/* Table Dropdown */}
+    <TableDropdown className={s.marginBottom} />
+    <TableDropdown theme="secondary" className={s.marginBottomLarge} />
   </Container>
 );
