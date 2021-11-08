@@ -10,6 +10,7 @@
   padding: .5rem
   border: .063rem solid $blue-neutral
   border-radius: .5rem
+  transition: border-color $animationTime
   &.active
     border: .063rem solid $light-yellow
 
@@ -47,6 +48,7 @@
 @include media('>Lphone')
   .root
     max-width: 28rem
-    grid-gap: .5rem
   .button
     width: 100%
+    &:not(:last-child)
+      margin-right: .5rem
