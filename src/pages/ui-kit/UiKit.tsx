@@ -25,6 +25,8 @@ import {
   Markets,
   LiquidationPositions,
 } from 'components/tables/desktop';
+import { Liquidate } from 'components/tables/desktop/Liquidate';
+import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
@@ -967,6 +969,11 @@ export const UiKit: React.FC = () => {
           Liquidation positions
         </div>
         <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Liquidate
+        </div>
+        <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
       </div>
 
       {/* Table Dropdown */}
