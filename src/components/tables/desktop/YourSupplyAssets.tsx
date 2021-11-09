@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 
+import { TokenMetadataInterface } from 'types/token';
+import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN } from 'components/common/CollateralSwitcher/content';
@@ -33,11 +35,13 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       },
       {
         Header: 'Supply APY',
-        accessor: 'supplyApy',
+        id: 'supplyApy',
+        accessor: ({ supplyApy }: { supplyApy: number }) => `${supplyApy.toFixed(2)}%`,
       },
       {
         Header: 'Balance',
-        accessor: 'balance',
+        id: 'balance',
+        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
       },
       {
         Header: 'Collateral',

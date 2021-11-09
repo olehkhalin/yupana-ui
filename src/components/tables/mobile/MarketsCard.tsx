@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getPrettyPrice } from 'utils/getPrettyPrice';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
@@ -63,7 +64,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Total Supply
         </div>
         <div className={s.value}>
-          {`$ ${totalSupply.toFixed(2)}`}
+          {`$ ${getPrettyPrice(totalSupply)}`}
         </div>
       </div>
 
@@ -90,7 +91,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Total borrow
         </div>
         <div className={s.value}>
-          {`$ ${totalBorrow.toFixed(2)}`}
+          {`$ ${getPrettyPrice(totalBorrow)}`}
         </div>
       </div>
 
