@@ -2,6 +2,15 @@
 @import "styles/breakpoints.scss"
 
 // Common 
+.wrapper
+  display: flex
+  justify-content: space-between
+  grid-gap: 2rem
+
+.center
+  width: 100%
+  margin: 0 auto
+
 .block
   width: 100%
   padding: 3rem 0
@@ -15,8 +24,12 @@
   font-size: 1.75rem
   font-weight: 700
 
+.subTitle
+  font-size: 1.5rem
+  margin-bottom: 24px
+
 .marginBottom
-  margin-bottom: 1rem
+  margin-bottom: 2rem
 
 .marginBottomLarge
   margin-bottom: 5rem
@@ -25,10 +38,6 @@
 .buttonsBlock
   &:not(:last-child)
     margin-bottom: 3rem
-
-.buttonAction
-  font-size: 1.5rem
-  margin-bottom: 24px
 
 .buttons
   display: flex
@@ -70,6 +79,10 @@
   &:not(:last-child)
     margin-bottom: 1.5rem
 
-@include media('>=tablet')
-  // .halfTable
-  //   max-width: calc(50% - 40px)
+@include media('<=Sdesktop')
+  .switchTable
+    display: none
+    margin: 0 auto
+    width: 50rem
+  .show
+    display: block
