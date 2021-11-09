@@ -20,6 +20,7 @@ import {
   mokeSupplySecondaryData,
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { BorrowAssets } from 'components/tables/BorrowAssets';
 import {
   BorrowAssetsCard,
   MarketsCard,
@@ -30,7 +31,6 @@ import {
 import { MarketCard } from 'components/common/MarketCard';
 import {
   SupplyAssets,
-  BorrowAssets,
   YourSupplyAssets,
   YourBorrowAssets,
   Markets,
