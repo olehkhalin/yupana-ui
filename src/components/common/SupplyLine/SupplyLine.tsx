@@ -2,20 +2,23 @@ import React, { useState, useEffect, useMemo } from 'react';
 import CountUp from 'react-countup';
 import cx from 'classnames';
 
+import { TokenMetadataInterface } from 'types/token';
+import { getTokenName } from 'utils/getTokenName';
+import { getSlice } from 'utils/getSlice';
 import { ANIMATION_TIME } from 'constants/default';
 import { ProgressBar, themeClass } from 'components/ui/ProgressBar';
 
 import s from './SupplyLine.module.sass';
 
 type SupplyLineProps = {
-  symbol: string
+  token: TokenMetadataInterface
   percent: number
   theme?: keyof typeof themeClass
   className?: string
 };
 
 export const SupplyLine: React.FC<SupplyLineProps> = ({
-  symbol,
+  token,
   percent,
   theme = 'primary',
   className,
@@ -34,7 +37,7 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.symbol}>
-          {symbol}
+          {getSlice(getTokenName(token), 5)}
         </div>
 
         <div className={s.percent}>

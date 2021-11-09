@@ -28,7 +28,8 @@ export const CollateralSwitcher: React.FC<SwitcherProps> = ({
     }
   }, [token]);
 
-  const handleChange = () => {
+  const handleChange = (e: React.MouseEvent<HTMLDivElement, MouseEvent> | undefined) => {
+    e?.stopPropagation();
     const collateral: string[] | null = JSON.parse(localStorage.getItem('collateral') as string) as string[] | null;
     if (collateral && collateral.length) {
       const currentToken = collateral.find((item) => item === getTokenSlug(token));

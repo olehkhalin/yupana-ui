@@ -14,7 +14,7 @@
   display: flex
   align-items: center
   justify-content: space-between
-  padding: 1rem
+  padding: .7rem 1rem
 
 .logotype
   display: flex
@@ -22,7 +22,6 @@
   justify-content: center
 
 .logo
-  width: 5.9375rem
   height: auto
 
 .content
@@ -30,22 +29,40 @@
   justify-content: flex-end
   align-items: center
   width: 100%
+  margin-left: 1.25rem
 
 .navItem
-  margin-right: 2.5rem
+  margin-right: 2rem
 
 .currencySwitcher
-  margin-left: 1.5rem
+  margin-left: .75rem
+
+.connectWallet
+  justify-content: center
+  font-size: 0.75rem
 
 .mobile
   display: flex
-.desktop
+
+.desktop, .connectDesktop, .logoDesktop
   display: none
+
+@include media(">Sphone")
+  .connectDesktop
+    display: inline
+
+@include media(">phone")
+  .logoDesktop
+    display: flex
+  .logoMobile
+    display: none
+
+@include media(">Mphone")
 
 @include media("<=tablet")
   .burger
     height: auto
-    margin-left: 1rem
+    margin-left: .75rem
   .dropdown
     position: absolute
     left: 0
@@ -74,3 +91,15 @@
     display: none
   .desktop
     display: flex
+  .logo
+    width: 5.9375rem
+  .container
+    padding: 1rem
+  .currencySwitcher
+    margin-left: 1.5rem
+
+@include media(">Ltablet")
+  .navItem
+    margin-right: 2.5rem
+  .connectWallet
+    font-size: .875rem

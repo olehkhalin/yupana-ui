@@ -1,16 +1,22 @@
 @import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
 
 .root
   display: flex
   flex-direction: column
   width: 100%
+  text-shadow: $white-shadow
 
 .content
   display: flex
   justify-content: space-between
-  margin-bottom: 1rem
+  margin-bottom: .5rem
   font-weight: 700
 
 .symbol
   display: flex
   align-items: center
+
+@include media('>Mphone')
+  .content
+    margin-bottom: 1rem

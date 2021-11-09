@@ -2,25 +2,52 @@
 @import "styles/breakpoints.scss"
 
 // Common 
+.wrapper
+  display: flex
+  justify-content: space-between
+  grid-gap: 2rem
+
+.center
+  width: 100%
+  margin: 0 auto
+
 .block
   width: 100%
-  padding: 5rem 0
+  padding: 3rem 0
+
+.flexColumn
+  display: flex
+  flex-direction: column
+
+.title
+  margin-bottom: 1.5rem
+  font-size: 1.75rem
+  font-weight: 700
+
+.subTitle
+  font-size: 1.5rem
+  margin-bottom: 24px
+
+.marginBottom
+  margin-bottom: 2rem
+
+.marginBottomLarge
+  margin-bottom: 5rem
+
+.half
+  width: 50%
 
 // Buttons 
 .buttonsBlock
   &:not(:last-child)
     margin-bottom: 3rem
 
-.buttonAction
-  font-size: 1.5rem
-  margin-bottom: 24px
-
 .buttons
   display: flex
-  &:not(:last-child)
-    margin-bottom: 1rem
+  flex-wrap: wrap
 
 .button
+  margin-bottom: 1rem
   &:not(:last-child)
     margin-right: 1rem
 
@@ -42,6 +69,7 @@
 .separator
   display: flex
   align-items: center
+  flex-wrap: wrap
   margin-top: 1rem
 
 .icon
@@ -53,3 +81,19 @@
 .limit
   &:not(:last-child)
     margin-bottom: 1.5rem
+
+// Modals' buttons
+.modalsButtons
+  display: flex
+  flex-direction: column
+.modalsButton
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+@include media('<=Sdesktop')
+  .switchTable
+    display: none
+    margin: 0 auto
+    width: 50rem
+  .show
+    display: block

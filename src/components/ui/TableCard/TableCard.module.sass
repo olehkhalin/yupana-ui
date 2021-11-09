@@ -1,0 +1,41 @@
+@import 'styles/variables'
+
+.root
+  position: relative
+  width: 100%
+  max-width: 18rem
+  font-size: .75rem
+  font-weight: 700
+  cursor: pointer
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+.wrapper
+  margin-bottom: 1rem
+
+.primary
+  color: $blue-neutral
+  border-bottom: .063rem solid $blue-neutral
+
+.secondary
+  color: $light-yellow
+  border-bottom: .063rem solid $light-yellow
+
+.arrow
+  position: absolute
+  top: .5rem
+  right: .5rem
+
+.link
+  position: absolute
+  top: -.188rem
+  right: 0
+  font-size: .875rem
+  max-width: 6rem
+
+.ReactCollapse
+  transition: height 250ms ease-in-out
+
+.dropdown
+  padding-bottom: 1rem
+  cursor: initial
