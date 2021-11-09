@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getPrettyPrice } from 'utils/getPrettyPrice';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
@@ -39,7 +39,7 @@ export const Markets: React.FC<MarketsProps> = ({
           </span>
         ),
         id: 'totalSupply',
-        accessor: (row: any) => `$ ${getPrettyPrice(row.totalSupply)}`,
+        accessor: (row: any) => getPrettyAmount({ value: row.totalSupply, currency: '$' }),
       },
       {
         Header: () => (
@@ -67,7 +67,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {`$ ${getPrettyPrice(row.totalBorrow)}`}
+            {getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
           </span>
         ),
       },

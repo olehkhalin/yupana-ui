@@ -3,7 +3,7 @@ import cx from 'classnames';
 
 import { MarketCardInterface } from 'types/market-card';
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { getPrettyPrice } from 'utils/getPrettyPrice';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { SupplyLine } from 'components/common/SupplyLine';
 
 import s from './MarketCard.module.sass';
@@ -19,12 +19,9 @@ const themeClasses = {
 };
 
 export const MarketCard: React.FC<MarketCardProps> = ({
-  totalSupply,
-  totalBorrow,
-  supplyVolume24h,
-  borrowVolume24h,
-  numberOfSuppliers,
-  numberOfBorrowers,
+  totalAmount,
+  volume24h,
+  numberOfMembers,
   assets,
   theme = 'primary',
   className,
@@ -37,7 +34,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {isPrimaryTheme ? 'Total supply:' : 'Total borrow:'}
       </div>
       <div className={s.amount}>
-        {`$${isPrimaryTheme ? getPrettyPrice(totalSupply) : getPrettyPrice(totalBorrow)}`}
+        {getPrettyAmount({ value: totalAmount, currency: '$' })}
       </div>
 
       <div className={s.row}>
@@ -45,7 +42,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {`24H ${isPrimaryTheme ? 'Supply' : 'Borrow'} Volume`}
         </div>
         <div className={s.value}>
-          {`$${isPrimaryTheme ? getPrettyPrice(supplyVolume24h) : getPrettyPrice(borrowVolume24h)}`}
+          {getPrettyAmount({ value: volume24h, currency: '$' })}
         </div>
       </div>
 
@@ -55,7 +52,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {` ${isPrimaryTheme ? 'Suppliers' : 'Borrowers'}`}
         </div>
         <div className={s.value}>
-          {`${isPrimaryTheme ? getPrettyPrice(numberOfSuppliers) : getPrettyPrice(numberOfBorrowers)}`}
+          {getPrettyAmount({ value: numberOfMembers, dec: 0 })}
         </div>
       </div>
 
@@ -63,10 +60,10 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {`24H ${isPrimaryTheme ? 'Supply' : 'Borrow'} Volume`}
       </div>
       <div className={s.wrapper}>
-        {assets.map(({ supplyVolume24h: tokenSupply, borrowVolume24h: tokenBorrow, ...rest }) => (
+        {assets.map(({ volume24h: assetVolume24h, ...rest }) => (
           <SupplyLine
             key={getUniqueKey()}
-            percent={isPrimaryTheme ? tokenSupply : tokenBorrow}
+            percent={assetVolume24h}
             token={rest}
             theme={isPrimaryTheme ? 'primary' : 'secondary'}
             className={s.progressBar}

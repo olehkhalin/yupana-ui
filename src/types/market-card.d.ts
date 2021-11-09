@@ -1,14 +1,10 @@
 import { TokenMetadataInterface } from './token';
 
 export interface MarketCardInterface {
-  totalSupply: number
-  totalBorrow: number
-  supplyVolume24h: number
-  borrowVolume24h: number
-  numberOfSuppliers: number
-  numberOfBorrowers: number
+  totalAmount: number
+  volume24h: number
+  numberOfMembers: number
   assets: (TokenMetadataInterface & {
-    supplyVolume24h: number
-    borrowVolume24h: number
+    volume24h: number
   })[]
 }

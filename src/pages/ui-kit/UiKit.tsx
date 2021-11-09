@@ -5,17 +5,27 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { LimitLine } from 'components/common/LimitLine';
-import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
+import {
+  mokeBorrowLimitData,
+  mokeLiquidationLimitData,
+} from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
-import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
+import {
+  mokeSupplyPrimaryData,
+  mokeSupplySecondaryData,
+} from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import {
-  BorrowAssetsCard, MarketsCard, SupplyAssetsCard, YourBorrowAssetsCard, YourSupplyAssetsCard,
+  BorrowAssetsCard,
+  MarketsCard,
+  SupplyAssetsCard,
+  YourBorrowAssetsCard,
+  YourSupplyAssetsCard,
 } from 'components/tables/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
@@ -34,7 +44,10 @@ import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
-import { MARKET_CARDS } from 'components/temp-data/market-card';
+import {
+  MARKET_CARDS_SUPPLY,
+  MARKET_CARDS_BORROW,
+} from 'components/temp-data/market-card';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -1145,11 +1158,11 @@ export const UiKit: React.FC = () => {
           Market Cards
         </div>
         <MarketCard
-          {...MARKET_CARDS}
+          {...MARKET_CARDS_SUPPLY}
           className={s.marginBottom}
         />
         <MarketCard
-          {...MARKET_CARDS}
+          {...MARKET_CARDS_BORROW}
           theme="secondary"
         />
       </div>

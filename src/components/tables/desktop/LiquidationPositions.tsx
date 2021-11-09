@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getPrettyPrice } from 'utils/getPrettyPrice';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -48,7 +48,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPrice(row.totalBorrowed)}
+            {getPrettyAmount({ value: row.totalBorrowed })}
           </span>
         ),
       },
