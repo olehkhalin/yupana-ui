@@ -1,21 +1,20 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import cx from 'classnames';
 
 import { Table } from 'components/ui/Table';
-import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TEZ_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './YourSupplyAssets.module.sass';
+import s from './Tables.module.sass';
 
-type YourSupplyAssetsProps = {
+type SupplyAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
+export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   data,
   className,
 }) => {
@@ -23,10 +22,11 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
@@ -35,15 +35,12 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         accessor: 'supplyApy',
       },
       {
-        Header: 'Balance',
-        accessor: 'balance',
+        Header: 'Collateral Factor',
+        accessor: 'collateralFactor',
       },
       {
-        Header: 'Collateral',
-        id: 'collateral',
-        Cell: () => (
-          <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} />
-        ),
+        Header: 'Wallet',
+        accessor: 'wallet',
       },
       {
         Header: () => null,
@@ -73,8 +70,8 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
-      className={className}
+      rowClassName={s.supplyRow}
+      className={cx(s.root, className)}
     />
   );
 };

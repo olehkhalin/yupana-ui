@@ -6,14 +6,14 @@ import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
-import s from './YourBorrowAssets.module.sass';
+import s from './Tables.module.sass';
 
-type YourBorrowAssetsProps = {
+type BorrowAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
+export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
   className,
 }) => {
@@ -21,10 +21,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     () => [
       {
         Header: 'Asset',
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
@@ -33,12 +34,12 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         accessor: 'borrowApy',
       },
       {
-        Header: 'Balace',
-        accessor: 'balance',
+        Header: 'Utilisation rate',
+        accessor: 'utilisationRate',
       },
       {
-        Header: 'Borrow limit',
-        accessor: 'borrowLimit',
+        Header: 'Liquidity',
+        accessor: 'liquidity',
       },
       {
         Header: () => null,
@@ -70,7 +71,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
-      rowClassName={s.row}
+      rowClassName={s.borrowRow}
       className={className}
     />
   );
