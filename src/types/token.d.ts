@@ -4,7 +4,7 @@ export interface TokenId {
 }
 
 type TokenType = {
-  thumbnailUri: string | null
+  thumbnailUri?: string | null
   symbol?: string
   name?: string
 };

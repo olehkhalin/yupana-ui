@@ -2,6 +2,8 @@ import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 import cx from 'classnames';
 
+import { TokenMetadataInterface } from 'types/token';
+import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -32,15 +34,18 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       },
       {
         Header: 'Supply APY',
-        accessor: 'supplyApy',
+        id: 'supplyApy',
+        accessor: ({ supplyApy }: { supplyApy: number }) => `${supplyApy.toFixed(2)}%`,
       },
       {
         Header: 'Collateral Factor',
-        accessor: 'collateralFactor',
+        id: 'collateralFactor',
+        accessor: ({ collateralFactor }: { collateralFactor: number }) => `${collateralFactor.toFixed(2)}%`,
       },
       {
         Header: 'Wallet',
-        accessor: 'wallet',
+        id: 'wallet',
+        accessor: ({ collateralFactor, asset }: { collateralFactor: number, asset: TokenMetadataInterface }) => `${collateralFactor} ${getSliceTokenName(asset)}`,
       },
       {
         Header: () => null,
@@ -57,7 +62,6 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     [],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
     () => (
       <TableDropdown />
