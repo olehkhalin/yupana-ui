@@ -1,6 +1,6 @@
 export interface TokenId {
   address: string
-  id?: number
+  id?: string
 }
 
 type TokenType = {

@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
-import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
@@ -14,6 +13,7 @@ import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { MarketCard } from 'components/common/MarketCard';
 import {
   SupplyAssets,
   BorrowAssets,
@@ -44,14 +44,14 @@ import { ReactComponent as Youtube } from 'svg/Youtube.svg';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 
+import { MARKET_SUPPLY } from 'components/temp-data/market-card';
 import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => {
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
 
   return (
-    <Container className={s.root}>
-
+    <>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>
@@ -1006,6 +1006,21 @@ export const UiKit: React.FC = () => {
           />
         </div>
       </div>
-    </Container>
+
+      {/* Market Cards  */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Market Cards
+        </div>
+        <MarketCard
+          {...MARKET_SUPPLY}
+          className={s.marginBottom}
+        />
+        <MarketCard
+          {...MARKET_SUPPLY}
+          theme="secondary"
+        />
+      </div>
+    </>
   );
 };

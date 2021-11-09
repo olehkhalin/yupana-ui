@@ -1,0 +1,83 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  font-weight: 700
+
+.primary
+  color: $light-blue
+  text-shadow: $blue-shadow
+
+.secondary
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
+
+.title
+  margin-bottom: .5rem
+  text-align: center
+
+.amount
+  margin-bottom: 2rem
+  font-size: 1.5rem
+  text-align: center
+
+.row
+  display: flex
+  justify-content: space-between
+  color: $white
+  text-shadow: $white-shadow
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+.caption
+  margin: 2rem 0 .5rem
+  font-size: 1rem
+  text-align: center
+
+.progressBar
+  color: $white
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+@include media('>Mphone')
+  .root
+    padding: 2rem 1.5rem
+  .primary
+    background: linear-gradient(180deg, rgba(0, 205, 238, 0.04) 0%, rgba(0, 0, 0, 0) 100%)
+  .secondary
+    position: relative
+    background: linear-gradient(263.59deg, #000610 0%, #110D00 100%)
+    &::after
+      content: ''
+      position: absolute
+      left: -0.25rem
+      top: 0.125rem
+      height: 100%
+      width: 0.25rem
+      background: $light-yellow
+      box-shadow: $light-yellow-shadow
+      transform: skewY(-45deg)
+    &::before
+      content: ''
+      position: absolute
+      left: -0.125rem
+      top: 100%
+      width: 100%
+      height: 0.25rem
+      background: $light-yellow
+      box-shadow: $light-yellow-shadow
+      transform: skewX(-45deg)
+  .title, .amount
+    text-align: initial
+  .title
+    margin-bottom: 1rem
+    font-size: 1.25rem
+  .amount
+    font-size: 2rem
+  .row
+    &:not(:last-child)
+      margin-bottom: 1.5rem
+  .caption
+    margin: 3rem 0 2rem
+    font-size: 1.5rem
+    text-align: initial
