@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getPrettyPrice } from 'utils/getPrettyPrice';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
@@ -76,7 +76,7 @@ export const BorrowAssetsCard: React.FC<BorrowAssetsCardProps> = ({
           Liquidity
         </div>
         <div className={s.value}>
-          {`${getPrettyPrice(liquidity)} ${getSliceTokenName(tokenMetadata)}`}
+          {getPrettyAmount({ value: liquidity, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
     </TableCard>

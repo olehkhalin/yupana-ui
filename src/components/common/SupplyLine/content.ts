@@ -1,9 +1,21 @@
+import { QUIPU_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/content';
+
 export const mokeSupplyPrimaryData = {
-  percent: 94.12,
-  symbol: 'XTZ',
+  token: {
+    address: 'Tez',
+    name: 'Tezos',
+    symbol: 'XTZ',
+    thumbnailUri: XTZ_THUMBNAIL_URI,
+  },
+  percent: 21.90,
 };
 
 export const mokeSupplySecondaryData = {
-  percent: 46.31,
-  symbol: 'wBUSD',
+  token: {
+    address: 'Tez',
+    name: 'Tezos',
+    symbol: 'XTZ',
+    thumbnailUri: QUIPU_THUMBNAIL_URI,
+  },
+  percent: 54.83,
 };
