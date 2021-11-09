@@ -1,6 +1,6 @@
 import { SMAK_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/content';
 
-export const MARKET_SUPPLY = {
+export const MARKET_CARDS = {
   totalSupply: 18123,
   totalBorrow: 28673,
   supplyVolume24h: 54713,

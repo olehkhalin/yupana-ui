@@ -28,6 +28,7 @@ import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
+import { MARKET_CARDS } from 'components/temp-data/market-card';
 
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
@@ -44,7 +45,6 @@ import { ReactComponent as Youtube } from 'svg/Youtube.svg';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 
-import { MARKET_SUPPLY } from 'components/temp-data/market-card';
 import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => {
@@ -1013,11 +1013,11 @@ export const UiKit: React.FC = () => {
           Market Cards
         </div>
         <MarketCard
-          {...MARKET_SUPPLY}
+          {...MARKET_CARDS}
           className={s.marginBottom}
         />
         <MarketCard
-          {...MARKET_SUPPLY}
+          {...MARKET_CARDS}
           theme="secondary"
         />
       </div>
