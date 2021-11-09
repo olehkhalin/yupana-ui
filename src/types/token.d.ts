@@ -1,10 +1,10 @@
 export interface TokenId {
   address: string
-  id?: number
+  id?: string
 }
 
 type TokenType = {
-  thumbnailUri: string | null
+  thumbnailUri?: string | null
   symbol?: string
   name?: string
 };

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
+import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
-import { Container } from 'components/common/Container';
 import { LimitLine } from 'components/common/LimitLine';
 import { mokeBorrowLimitData, mokeLiquidationLimitData } from 'components/common/LimitLine/content';
 import { Heading } from 'components/common/Heading';
@@ -15,13 +15,18 @@ import { SupplyLine } from 'components/common/SupplyLine';
 import { mokeSupplyPrimaryData, mokeSupplySecondaryData } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import {
+  BorrowAssetsCard, MarketsCard, SupplyAssetsCard, YourBorrowAssetsCard, YourSupplyAssetsCard,
+} from 'components/tables/mobile';
+import {
   SupplyAssets,
   BorrowAssets,
   YourSupplyAssets,
   YourBorrowAssets,
   Markets,
   LiquidationPositions,
-} from 'components/tables';
+} from 'components/tables/desktop';
+import { Liquidate } from 'components/tables/desktop/Liquidate';
+import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
@@ -50,15 +55,14 @@ export const UiKit: React.FC = () => {
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
 
   return (
-    <Container className={s.root}>
-
+    <>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>
           Buttons
         </div>
         <div className={s.buttonsBlock}>
-          <div className={s.buttonAction}>
+          <div className={s.subTitle}>
             Supply
           </div>
           <div className={s.buttons}>
@@ -414,7 +418,7 @@ export const UiKit: React.FC = () => {
       {/* BUTTONS - Borrow */}
       <div className={s.block}>
         <div className={s.buttonsBlock}>
-          <div className={s.buttonAction}>
+          <div className={s.subTitle}>
             Borrow
           </div>
           <div className={s.buttons}>
@@ -916,7 +920,7 @@ export const UiKit: React.FC = () => {
 
       {/* Table */}
       <div className={s.block}>
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           Supply
         </div>
         <SupplyAssets
@@ -924,7 +928,7 @@ export const UiKit: React.FC = () => {
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
 
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           Borrow
         </div>
         <BorrowAssets
@@ -932,7 +936,7 @@ export const UiKit: React.FC = () => {
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
 
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           Your Supply
         </div>
         <YourSupplyAssets
@@ -944,7 +948,7 @@ export const UiKit: React.FC = () => {
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
 
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           Your Borrow
         </div>
         <YourBorrowAssets
@@ -956,15 +960,20 @@ export const UiKit: React.FC = () => {
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
 
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           All markets
         </div>
         <Markets data={ALL_MARKETS_DATA} className={s.marginBottomLarge} />
 
-        <div className={s.buttonAction}>
+        <div className={s.subTitle}>
           Liquidation positions
         </div>
         <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Liquidate
+        </div>
+        <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
       </div>
 
       {/* Table Dropdown */}
@@ -1006,6 +1015,127 @@ export const UiKit: React.FC = () => {
           />
         </div>
       </div>
-    </Container>
+
+      {/* Table Dropdown */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Table Dropdown
+        </div>
+        <TableDropdown className={s.marginBottom} />
+        <TableDropdown theme="secondary" />
+      </div>
+
+      {/* Table Card */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Table Card
+        </div>
+
+        <div className={s.subTitle}>
+          Supply Assets
+        </div>
+        <div className={s.marginBottomLarge}>
+          {SUPPLY_ASSETS_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <SupplyAssetsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Borrow Assets
+        </div>
+        <div className={s.marginBottomLarge}>
+          {BORROW_ASSETS_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <BorrowAssetsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Your Supply Assets
+        </div>
+        <div className={s.marginBottomLarge}>
+          {YOUR_SUPPLY_ASSETS_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <YourSupplyAssetsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Your Borrow Assets
+        </div>
+        <div className={s.marginBottomLarge}>
+          {YOUR_BORROW_ASSETS_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <YourBorrowAssetsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Markets
+        </div>
+        <div className={s.marginBottomLarge}>
+          {ALL_MARKETS_DATA.map(({
+            market: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <MarketsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+      </div>
+    </>
   );
 };

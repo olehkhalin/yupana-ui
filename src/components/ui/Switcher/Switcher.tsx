@@ -5,7 +5,7 @@ import s from './Switcher.module.sass';
 
 type SwitcherProps = {
   active: boolean
-  handleChange: () => void
+  handleChange: (e?: React.MouseEvent<HTMLDivElement, MouseEvent>) => void
   className?: string
 };
 

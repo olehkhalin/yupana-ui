@@ -1,6 +1,8 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 
+import { TokenMetadataInterface } from 'types/token';
+import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -31,15 +33,18 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       },
       {
         Header: 'Borrow APY',
-        accessor: 'borrowApy',
+        id: 'borrowApy',
+        accessor: ({ borrowApy }: { borrowApy: number }) => `${borrowApy.toFixed(2)}%`,
       },
       {
         Header: 'Balace',
-        accessor: 'balance',
+        id: 'balance',
+        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
       },
       {
         Header: 'Borrow limit',
-        accessor: 'borrowLimit',
+        id: 'borrowLimit',
+        accessor: ({ borrowLimit }: { borrowLimit: number }) => `${borrowLimit.toFixed(2)}%`,
       },
       {
         Header: () => null,
