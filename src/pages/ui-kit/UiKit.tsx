@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
+import { Modal } from 'components/ui/Modal';
 import { LimitLine } from 'components/common/LimitLine';
 import {
   mokeBorrowLimitData,
@@ -68,6 +69,9 @@ import s from './UiKit.module.sass';
 
 export const UiKit: React.FC = () => {
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
+
+  // Modals
+  const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
 
   return (
     <>
@@ -931,6 +935,26 @@ export const UiKit: React.FC = () => {
           Currency Switcher
         </div>
         <CurrencySwitcher />
+      </div>
+
+      <div className={s.block}>
+        <div className={s.title}>
+          Modals
+        </div>
+        <div className={s.modalsButtons}>
+          <Button
+            className={s.modalsButton}
+            onClick={() => setModalBaseIsOpen(true)}
+          >
+            Base
+          </Button>
+          <Modal
+            isOpen={modalBaseIsOpen}
+            onRequestClose={() => setModalBaseIsOpen(false)}
+          >
+            <h2>Base modal</h2>
+          </Modal>
+        </div>
       </div>
 
       {/* Table */}

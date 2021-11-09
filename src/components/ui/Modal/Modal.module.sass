@@ -1,0 +1,57 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.overlay
+  position: fixed
+  top: 0
+  right: 0
+  left: 0
+  bottom: 0
+  z-index: 100
+  background: linear-gradient(180deg, rgba(#00091A, .8) 0%, rgba($black, .8) 100%)
+  cursor: pointer
+  display: flex
+  align-items: flex-start
+  justify-content: center
+  max-height: 100vh
+  overflow-y: auto
+
+.portal
+  position: relative
+  transition: none
+  opacity: 1
+  z-index: 100
+
+.wrapper
+  display: flex
+  justify-content: center
+  align-items: center
+  min-height: 100%
+  padding: 1rem 0
+  box-sizing: border-box
+
+.root
+  outline: none
+  height: 100%
+
+.inner
+  position: relative
+  padding: 2rem 3.5rem
+  cursor: default
+  background-color: rgba($dark-blue, .9)
+  border-radius: .5rem
+  color: $white
+  display: flex
+  flex-direction: column
+  align-items: center
+  box-sizing: content-box
+  min-width: 16.25rem
+
+.closeButton
+  position: absolute
+  top: 2.375rem
+  right: 1.125rem
+
+.closeIcon
+  width: 1.125rem
+  height: auto
