@@ -31,10 +31,13 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   return (
     <div className={cx(s.root, className)}>
       {
-        data.map((el) => (
+        data.map(({
+          asset: tokenMetadata, ...rest
+        }) => (
           <SupplyAssetsCard
             key={getUniqueKey()}
-            {...el}
+            {...tokenMetadata}
+            {...rest}
             className={s.item}
           />
         ))

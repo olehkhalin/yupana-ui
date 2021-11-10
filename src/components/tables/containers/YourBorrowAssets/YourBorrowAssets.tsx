@@ -31,10 +31,13 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   return (
     <div className={cx(s.root, className)}>
       {
-        data.map((el) => (
+        data.map(({
+          asset: tokenMetadata, ...rest
+        }) => (
           <YourBorrowAssetsCard
             key={getUniqueKey()}
-            {...el}
+            {...tokenMetadata}
+            {...rest}
             className={s.item}
           />
         ))

@@ -31,10 +31,13 @@ export const Markets: React.FC<MarketsProps> = ({
   return (
     <div className={cx(s.root, className)}>
       {
-        data.map((el) => (
+        data.map(({
+          market: tokenMetadata, ...rest
+        }) => (
           <MarketsCard
             key={getUniqueKey()}
-            {...el}
+            {...tokenMetadata}
+            {...rest}
             className={s.item}
           />
         ))
