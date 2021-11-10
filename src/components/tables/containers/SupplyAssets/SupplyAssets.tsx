@@ -3,11 +3,10 @@ import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { SupplyAssetsCard } from 'components/tables/components/mobile';
+import { SupplyAssets as SupplyAssetsDesktop } from 'components/tables/components//desktop';
 
 import s from './SupplyAssets.module.sass';
-
-import { SupplyAssetsCard } from '../mobile';
-import { SupplyAssets as SupplyAssetsDesktop } from '../desktop';
 
 type SupplyAssetsProps = {
   data: any[]

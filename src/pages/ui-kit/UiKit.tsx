@@ -20,23 +20,23 @@ import {
   mokeSupplySecondaryData,
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
-import { BorrowAssets } from 'components/tables/BorrowAssets';
-import { SupplyAssets } from 'components/tables/SupplyAssets';
-import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
-import { YourBorrowAssets } from 'components/tables/YourBorrowAssets';
-import { Markets } from 'components/tables/Markets';
+import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
+import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
+import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
+import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
+import { Markets } from 'components/tables/containers/Markets';
 import {
   BorrowAssetsCard,
   MarketsCard,
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
-} from 'components/tables/mobile';
+} from 'components/tables/components/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
   LiquidationPositions,
-} from 'components/tables/desktop';
-import { Liquidate } from 'components/tables/desktop/Liquidate';
+} from 'components/tables/components/desktop';
+import { Liquidate } from 'components/tables/components/desktop/Liquidate';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';

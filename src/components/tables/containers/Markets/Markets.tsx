@@ -3,18 +3,17 @@ import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { MarketsCard } from 'components/tables/components/mobile';
+import { Markets as MarketsDesktop } from 'components/tables/components/desktop';
 
-import s from './YourBorrowAssets.module.sass';
+import s from './Markets.module.sass';
 
-import { YourBorrowAssetsCard } from '../mobile';
-import { YourBorrowAssets as YourBorrowAssetsDesktop } from '../desktop';
-
-type YourBorrowAssetsProps = {
+type MarketsProps = {
   data: any[]
   className?: string
 };
 
-export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
+export const Markets: React.FC<MarketsProps> = ({
   data,
   className,
 }) => {
@@ -22,7 +21,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
 
   if (isLphoneOrWider) {
     return (
-      <YourBorrowAssetsDesktop
+      <MarketsDesktop
         data={data}
         className={className}
       />
@@ -33,7 +32,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     <div className={cx(s.root, className)}>
       {
         data.map((el) => (
-          <YourBorrowAssetsCard
+          <MarketsCard
             key={getUniqueKey()}
             {...el}
             className={s.item}
