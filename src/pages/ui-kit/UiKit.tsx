@@ -21,6 +21,10 @@ import {
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { BorrowAssets } from 'components/tables/BorrowAssets';
+import { SupplyAssets } from 'components/tables/SupplyAssets';
+import { YourSupplyAssets } from 'components/tables/YourSupplyAssets';
+import { YourBorrowAssets } from 'components/tables/YourBorrowAssets';
+import { Markets } from 'components/tables/Markets';
 import {
   BorrowAssetsCard,
   MarketsCard,
@@ -30,10 +34,6 @@ import {
 } from 'components/tables/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
-  SupplyAssets,
-  YourSupplyAssets,
-  YourBorrowAssets,
-  Markets,
   LiquidationPositions,
 } from 'components/tables/desktop';
 import { Liquidate } from 'components/tables/desktop/Liquidate';

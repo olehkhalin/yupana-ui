@@ -4,17 +4,17 @@ import cx from 'classnames';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useLphoneOrWider } from 'utils/getMediaQuery';
 
-import s from './BorrowAssets.module.sass';
+import s from './YourSupplyAssets.module.sass';
 
-import { BorrowAssetsCard } from '../mobile';
-import { BorrowAssets as BorrowAssetsDesktop } from '../desktop';
+import { YourSupplyAssetsCard } from '../mobile';
+import { YourSupplyAssets as YourSupplyAssetsDesktop } from '../desktop';
 
-type BorrowAssetsProps = {
+type YourSupplyAssetsProps = {
   data: any[]
   className?: string
 };
 
-export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
+export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   className,
 }) => {
@@ -22,7 +22,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
 
   if (isLphoneOrWider) {
     return (
-      <BorrowAssetsDesktop
+      <YourSupplyAssetsDesktop
         data={data}
         className={className}
       />
@@ -33,7 +33,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     <div className={cx(s.root, className)}>
       {
         data.map((el) => (
-          <BorrowAssetsCard
+          <YourSupplyAssetsCard
             key={getUniqueKey()}
             {...el}
             className={s.item}
