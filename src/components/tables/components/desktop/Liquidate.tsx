@@ -22,6 +22,25 @@ export const Liquidate: React.FC<LiquidateProps> = ({
     () => [
       {
         Header: () => (
+          <span className={s.white}>
+            Borrower address
+          </span>
+        ),
+        id: 'borrowerAddress',
+        accessor: (row: any) => (
+          <Button
+            href="/"
+            theme="accent"
+            action="borrow"
+            sizeT="small"
+            className={cx(s.address, s.white)}
+          >
+            {shortize(row.borrowerAddress)}
+          </Button>
+        ),
+      },
+      {
+        Header: () => (
           <span className={s.yellow}>
             Total Borrow
           </span>
@@ -30,6 +49,25 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         accessor: (row: any) => (
           <span className={s.yellow}>
             {getPrettyAmount({ value: row.totalBorrow })}
+          </span>
+        ),
+      },
+      {
+        Header: () => (
+          <div className={cx(s.wrapper, s.yellow)}>
+            Health factor
+            <Button
+              theme="clear"
+              className={s.attention}
+            >
+              <Attention className={s.attentionIcon} />
+            </Button>
+          </div>
+        ),
+        id: 'healthFactor',
+        accessor: (row: any) => (
+          <span className={s.yellow}>
+            {row.healthFactor}
           </span>
         ),
       },
@@ -53,44 +91,6 @@ export const Liquidate: React.FC<LiquidateProps> = ({
           </span>
         ),
         accessor: 'collateralAsset',
-      },
-      {
-        Header: () => (
-          <div className={cx(s.wrapper, s.yellow)}>
-            Health factor
-            <Button
-              theme="clear"
-              className={s.attention}
-            >
-              <Attention className={s.attentionIcon} />
-            </Button>
-          </div>
-        ),
-        id: 'healthFactor',
-        accessor: (row: any) => (
-          <span className={s.yellow}>
-            {row.healthFactor}
-          </span>
-        ),
-      },
-      {
-        Header: () => (
-          <span className={s.white}>
-            Borrower address
-          </span>
-        ),
-        id: 'borrowerAddress',
-        accessor: (row: any) => (
-          <Button
-            href="/"
-            theme="accent"
-            action="borrow"
-            sizeT="small"
-            className={cx(s.address, s.white)}
-          >
-            {shortize(row.borrowerAddress)}
-          </Button>
-        ),
       },
     ],
     [],

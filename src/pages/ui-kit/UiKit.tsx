@@ -25,6 +25,7 @@ import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
+import { Liquidate } from 'components/tables/containers/Liquidate';
 import {
   BorrowAssetsCard,
   MarketsCard,
@@ -36,7 +37,6 @@ import { MarketCard } from 'components/common/MarketCard';
 import {
   LiquidationPositions,
 } from 'components/tables/components/desktop';
-import { Liquidate } from 'components/tables/components/desktop/Liquidate';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';

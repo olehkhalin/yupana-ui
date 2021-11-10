@@ -11,6 +11,7 @@ import s from './TableCard.module.sass';
 type TableCardProps = {
   theme?: keyof typeof themeClasses
   market?: boolean
+  collapsed?: boolean
   className?: string
 };
 
@@ -22,6 +23,7 @@ const themeClasses = {
 export const TableCard: React.FC<TableCardProps> = ({
   theme = 'primary',
   market = false,
+  collapsed = true,
   className,
   children,
 }) => {
@@ -45,20 +47,19 @@ export const TableCard: React.FC<TableCardProps> = ({
         >
           Details
         </Button>
-      )
-        : (
-          <DropdownArrow
-            theme={theme}
-            active={active}
-            className={s.arrow}
-          />
-        )}
+      ) : collapsed && (
+        <DropdownArrow
+          theme={theme}
+          active={active}
+          className={s.arrow}
+        />
+      )}
 
       <div className={s.wrapper}>
         {children}
       </div>
 
-      {!market && (
+      {!market && collapsed && (
       <UnmountClosed
         isOpened={active}
         initialStyle={{ height: '0px', overflow: 'hidden' }}
