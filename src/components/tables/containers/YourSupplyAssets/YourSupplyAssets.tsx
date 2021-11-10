@@ -1,12 +1,9 @@
 import React from 'react';
-import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useLphoneOrWider } from 'utils/getMediaQuery';
 import { YourSupplyAssetsCard } from 'components/tables/components/mobile';
 import { YourSupplyAssets as YourSupplyAssetsDesktop } from 'components/tables/components/desktop';
-
-import s from './YourSupplyAssets.module.sass';
 
 type YourSupplyAssetsProps = {
   data: any[]
@@ -29,7 +26,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   }
 
   return (
-    <div className={cx(s.root, className)}>
+    <div className={className}>
       {
         data.map(({
           asset: tokenMetadata, ...rest
@@ -38,7 +35,6 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
             key={getUniqueKey()}
             {...tokenMetadata}
             {...rest}
-            className={s.item}
           />
         ))
       }

@@ -1,12 +1,9 @@
 import React from 'react';
-import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useLphoneOrWider } from 'utils/getMediaQuery';
 import { BorrowAssetsCard } from 'components/tables/components/mobile';
 import { BorrowAssets as BorrowAssetsDesktop } from 'components/tables/components/desktop';
-
-import s from './BorrowAssets.module.sass';
 
 type BorrowAssetsProps = {
   data: any[]
@@ -29,7 +26,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   }
 
   return (
-    <div className={cx(s.root, className)}>
+    <div className={className}>
       {
         data.map(({
           asset: tokenMetadata, ...rest
@@ -38,7 +35,6 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
             key={getUniqueKey()}
             {...tokenMetadata}
             {...rest}
-            className={s.item}
           />
         ))
       }
