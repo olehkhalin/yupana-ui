@@ -39,7 +39,11 @@ export const Markets: React.FC<MarketsProps> = ({
           </span>
         ),
         id: 'totalSupply',
-        accessor: (row: any) => getPrettyAmount({ value: row.totalSupply, currency: '$' }),
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+          </span>
+        ),
       },
       {
         Header: () => (
@@ -48,7 +52,11 @@ export const Markets: React.FC<MarketsProps> = ({
           </span>
         ),
         id: 'supplyApy',
-        accessor: (row: any) => `${row.supplyApy}%`,
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {`${row.supplyApy}%`}
+          </span>
+        ),
       },
       {
         Header: () => (
@@ -56,7 +64,12 @@ export const Markets: React.FC<MarketsProps> = ({
             # of supplier
           </span>
         ),
-        accessor: 'numberOfSupplier',
+        id: 'numberOfSupplier',
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {row.numberOfSupplier}
+          </span>
+        ),
       },
       {
         Header: () => (

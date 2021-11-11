@@ -12,7 +12,13 @@
   border-collapse: collapse
 
 .thead
-  border-bottom: .063rem solid $white
+  position: relative
+  &::after
+    content: ''
+    position: absolute
+    height: .063rem
+    width: 100%
+    background-color: $white
 
 .th
   padding-bottom: 1rem
@@ -48,6 +54,10 @@
   background: linear-gradient(180deg, rgba(0, 205, 238, 0.04) 0%, rgba(0, 0, 0, 0) 100%)
   .thead
     border-color: $light-blue
+    text-shadow: $blue-shadow
+    &::after
+      background-color: $blue-neutral
+      box-shadow: $blue-shadow
 
 .secondary
   position: relative
@@ -75,10 +85,18 @@
     transform: skewX(-45deg)
   .thead
     border-color: $light-yellow
+    text-shadow: $light-yellow-shadow
+    &::after
+      background-color: $light-yellow
+      box-shadow: $light-yellow-shadow
 
 .tertiary
-  color: $light-blue
   padding: 0
+  color: $light-blue
+  font-weight: 700
+  .thead
+    &::after
+      box-shadow: $white-shadow
 
 .octonary, .quinary
   .thead
@@ -106,7 +124,9 @@
 .octonary
   color: $light-yellow
   .thead
-    border-bottom: 1px solid $light-yellow
+    &::after
+      background-color: $light-yellow
+      box-shadow: $light-yellow-shadow
   .trBody
     &:hover
       background-color: rgba($light-yellow, .16)
@@ -114,7 +134,9 @@
 .quinary
   color: $blue-neutral
   .thead
-    border-bottom: 1px solid $blue-neutral
+    &::after
+      background-color: $blue-neutral
+      box-shadow: $blue-shadow
   .trBody
     &:hover
       background-color: rgba($blue-neutral, .16)

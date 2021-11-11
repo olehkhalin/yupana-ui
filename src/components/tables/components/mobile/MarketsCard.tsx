@@ -87,7 +87,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       </div>
 
       <div className={s.row}>
-        <div className={cx(s.title, s.yellow)}>
+        <div className={cx(s.title, s.yellow, s.yellowShadow)}>
           Total borrow
         </div>
         <div className={s.value}>
@@ -96,7 +96,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       </div>
 
       <div className={s.row}>
-        <div className={cx(s.title, s.yellow)}>
+        <div className={cx(s.title, s.yellow, s.yellowShadow)}>
           Borrow APY
         </div>
         <div className={s.value}>
@@ -105,7 +105,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       </div>
 
       <div className={s.row}>
-        <div className={cx(s.title, s.yellow)}>
+        <div className={cx(s.title, s.yellow, s.yellowShadow)}>
           # of borrowers
         </div>
         <div className={s.value}>
