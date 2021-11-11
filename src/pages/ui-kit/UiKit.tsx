@@ -1019,7 +1019,7 @@ export const UiKit: React.FC = () => {
         <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
 
         <div className={s.subTitle}>
-          Repay Borrow - Supp
+          Repay Borrow
         </div>
         <RepayBorrow data={REPAY_BORROW_DATA} className={s.marginBottomLarge} />
 

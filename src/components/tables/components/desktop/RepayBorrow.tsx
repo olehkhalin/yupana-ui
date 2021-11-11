@@ -1,5 +1,7 @@
 import React, { useMemo } from 'react';
 
+import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
 import { TokenName } from 'components/common/TokenName';
 
@@ -33,12 +35,42 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
       {
         Header: 'Amount of debt',
         id: 'amountOfDebt',
-        accessor: ({ amountOfDebt }: { amountOfDebt: number }) => `${amountOfDebt.toFixed(2)}%`,
+        accessor: ({ amountOfDebt, amountOfDebtUsd, borrowedAsset }: any) => (
+          <div>
+            <div className={s.amount}>
+              {getPrettyAmount({
+                value: amountOfDebt,
+                currency: getSliceTokenName(borrowedAsset),
+              })}
+            </div>
+            <div className={s.amountUsd}>
+              {getPrettyAmount({
+                value: amountOfDebtUsd,
+                currency: '$',
+              })}
+            </div>
+          </div>
+        ),
       },
       {
         Header: 'MAX Liquidate',
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate }: { maxLiquidate: number }) => `${maxLiquidate}`,
+        accessor: ({ maxLiquidate, maxLiquidateUsd, borrowedAsset }: any) => (
+          <div>
+            <div className={s.amount}>
+              {getPrettyAmount({
+                value: maxLiquidate,
+                currency: getSliceTokenName(borrowedAsset),
+              })}
+            </div>
+            <div className={s.amountUsd}>
+              {getPrettyAmount({
+                value: maxLiquidateUsd,
+                currency: '$',
+              })}
+            </div>
+          </div>
+        ),
       },
     ],
     [],
