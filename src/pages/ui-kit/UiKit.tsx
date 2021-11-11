@@ -26,6 +26,8 @@ import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets'
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
 import { Liquidate } from 'components/tables/containers/Liquidate';
+import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
+import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
 import {
   BorrowAssetsCard,
   MarketsCard,
@@ -36,6 +38,8 @@ import {
 import { MarketCard } from 'components/common/MarketCard';
 import {
   LiquidationPositions,
+  ReceiveCollateral,
+  RepayBorrow,
 } from 'components/tables/components/desktop';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
@@ -49,6 +53,7 @@ import {
   MARKET_CARDS_BORROW,
 } from 'components/temp-data/market-card';
 
+import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
 import { ReactComponent as BigClose } from 'svg/BigClose.svg';
@@ -62,7 +67,6 @@ import { ReactComponent as Telegram } from 'svg/Telegram.svg';
 import { ReactComponent as Twitter } from 'svg/Twitter.svg';
 import { ReactComponent as Youtube } from 'svg/Youtube.svg';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
-import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 
 import s from './UiKit.module.sass';
 
@@ -989,6 +993,16 @@ export const UiKit: React.FC = () => {
           Liquidate
         </div>
         <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Repay Borrow - Supp
+        </div>
+        <RepayBorrow data={REPAY_BORROW_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Receive Collateral
+        </div>
+        <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} className={s.marginBottomLarge} />
       </div>
 
       {/* Table Dropdown */}

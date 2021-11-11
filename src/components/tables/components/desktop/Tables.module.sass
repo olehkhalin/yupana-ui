@@ -1,4 +1,5 @@
 @import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
 
 .wrapper
   display: flex
@@ -19,14 +20,17 @@
   margin-left: auto
   margin-top: -.25rem
 
+.repayRow
+  grid-template-columns: repeat(4, 1fr)
+
+.repayThead
+  border-bottom: 1px solid $light-yellow
+
 .borrowRow
   grid-template-columns: 1.25fr repeat(1, 1fr) 1.5fr 1fr .5fr
 
 .supplyRow
   grid-template-columns: 1.5fr 1.25fr 1.5fr 1fr .5fr
-
-.ownAssetsRow
-  grid-template-columns: 1.25fr repeat(2, 1fr) .75fr .5fr
 
 .bigTableWrapper
   width: 100%
@@ -63,3 +67,9 @@
   padding-left: 0
   &.white
     color: $white
+
+.amount
+  margin-bottom: .25rem
+
+.amountUsd
+  font-size: .75rem

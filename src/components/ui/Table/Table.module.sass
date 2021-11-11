@@ -79,3 +79,42 @@
 .tertiary
   color: $light-blue
   padding: 0
+
+.octonary, .quinary
+  .thead
+    .tr
+      padding: 0 1rem
+  .trBody
+    padding: 1rem
+    border-radius: .5rem
+    transition: background-color $animationTime
+    cursor: pointer
+    &:first-child
+      margin-top: 1.5rem
+    &:not(:last-child)
+      margin-bottom: 0.5rem
+    &:first-of-type
+      .td
+        padding-top: 0
+    .tr
+      padding: 0 1rem
+  .td
+    display: flex
+    align-items: center
+    padding: 0
+
+.octonary
+  color: $light-yellow
+  .thead
+    border-bottom: 1px solid $light-yellow
+  .trBody
+    &:hover
+      background-color: rgba($light-yellow, .16)
+
+.quinary
+  color: $blue-neutral
+  .thead
+    border-bottom: 1px solid $blue-neutral
+  .trBody
+    &:hover
+      background-color: rgba($blue-neutral, .16)

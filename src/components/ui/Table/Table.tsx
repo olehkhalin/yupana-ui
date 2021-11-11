@@ -14,6 +14,7 @@ type TableProps = {
   theme?: keyof typeof themeClasses
   tableClassName?: string
   rowClassName?: string
+  theadClassName?: string
   className?: string
 };
 
@@ -21,6 +22,8 @@ const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
   tertiary: s.tertiary,
+  octonary: s.octonary,
+  quinary: s.quinary,
 };
 
 export const Table: React.FC<TableProps> = ({
@@ -30,6 +33,7 @@ export const Table: React.FC<TableProps> = ({
   theme = 'primary',
   tableClassName,
   rowClassName,
+  theadClassName,
   className,
 }) => {
   const {
@@ -56,9 +60,12 @@ export const Table: React.FC<TableProps> = ({
   return (
     <div className={compoundClassNames}>
       <table {...getTableProps()} className={cx(s.table, tableClassName)}>
-        <thead className={s.thead}>
+        <thead className={cx(s.thead, theadClassName)}>
           {headerGroups.map((headerGroup) => (
-            <tr key={headerGroup.getHeaderGroupProps().key} className={cx(s.tr, rowClassName)}>
+            <tr
+              key={headerGroup.getHeaderGroupProps().key}
+              className={cx(s.tr, rowClassName)}
+            >
               {headerGroup.headers.map((column) => (
                 <th key={column.getHeaderProps().key} className={s.th}>{column.render('Header')}</th>
               ))}
