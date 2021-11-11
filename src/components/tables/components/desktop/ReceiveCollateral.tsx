@@ -19,7 +19,11 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   const columns = useMemo(
     () => [
       {
-        Header: 'Receive asset',
+        Header: () => (
+          <span className={s.blue}>
+            Receive asset
+          </span>
+        ),
         id: 'receiveAsset',
         accessor: (row: any) => (
           <TokenName
@@ -28,12 +32,20 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
       },
       {
-        Header: 'Price of receive asset',
+        Header: () => (
+          <span className={s.blue}>
+            Price of receive asset
+          </span>
+        ),
         id: 'priceOfReceiveAsset',
         accessor: ({ priceOfReceiveAsset }: any) => `${getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}`,
       },
       {
-        Header: 'Amount of supplied',
+        Header: () => (
+          <span className={s.blue}>
+            Amount of supplied
+          </span>
+        ),
         id: 'amountOfSupplied',
         accessor: ({ amountOfSupplied, amountOfSuppliedUsd, receiveAsset }: any) => (
           <div>
@@ -53,7 +65,11 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
       },
       {
-        Header: 'MAX Bonus',
+        Header: () => (
+          <span className={s.blue}>
+            MAX Bonus
+          </span>
+        ),
         id: 'maxBonus',
         accessor: ({ maxBonus, maxBonusUsd, receiveAsset }: any) => (
           <div>

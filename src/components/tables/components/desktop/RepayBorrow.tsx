@@ -19,7 +19,11 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   const columns = useMemo(
     () => [
       {
-        Header: 'Borrowed asset',
+        Header: () => (
+          <span className={s.yellow}>
+            Borrowed asset
+          </span>
+        ),
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <TokenName
@@ -28,12 +32,20 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         ),
       },
       {
-        Header: 'Price of borrowed asset',
+        Header: () => (
+          <span className={s.yellow}>
+            Price of borrowed asset
+          </span>
+        ),
         id: 'priceOfBorrowedAsset',
         accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => `${priceOfBorrowedAsset.toFixed(2)}%`,
       },
       {
-        Header: 'Amount of debt',
+        Header: () => (
+          <span className={s.yellow}>
+            Amount of debt
+          </span>
+        ),
         id: 'amountOfDebt',
         accessor: ({ amountOfDebt, amountOfDebtUsd, borrowedAsset }: any) => (
           <div>
@@ -53,7 +65,11 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         ),
       },
       {
-        Header: 'MAX Liquidate',
+        Header: () => (
+          <span className={s.yellow}>
+            AMAX Liquidate
+          </span>
+        ),
         id: 'maxLiquidate',
         accessor: ({ maxLiquidate, maxLiquidateUsd, borrowedAsset }: any) => (
           <div>
