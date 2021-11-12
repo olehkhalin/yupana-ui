@@ -1,4 +1,5 @@
 @import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
 
 .wrapper
   display: flex
@@ -63,3 +64,8 @@
   padding-left: 0
   &.white
     color: $white
+
+@include media('<=Mphone')
+  .bigTable
+    min-width: 63.75rem
+    width: 100%
