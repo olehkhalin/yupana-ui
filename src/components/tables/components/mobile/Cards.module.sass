@@ -3,7 +3,7 @@
 .row
   display: flex
   align-items: center
-  height: 1.5rem
+  min-height: 1.5rem
   &:not(:last-child)
     margin-bottom: .5rem
 
@@ -42,3 +42,22 @@
 
 .wrapper
   display: flex
+
+.amount
+  font-size: 1rem
+  font-weight: 400
+  text-shadow: initial
+
+.amountUsd
+  font-size: .75rem
+
+.active
+  background: linear-gradient(0deg,rgba(255, 199, 0, .3),rgba(255,184,0,0) 91.23%)
+  .amount
+    font-weight: 700
+    text-shadow: $light-yellow-shadow
+
+.wrapper
+  display: flex
+  flex-direction: column
+  padding: 0 .5rem

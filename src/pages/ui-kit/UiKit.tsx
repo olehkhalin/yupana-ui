@@ -32,6 +32,7 @@ import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-col
 import {
   BorrowAssetsCard,
   MarketsCard,
+  RepayBorrowCard,
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
@@ -1178,6 +1179,27 @@ export const UiKit: React.FC = () => {
             }, ...rest
           }) => (
             <MarketsCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Repay Borrow
+        </div>
+        <div className={s.marginBottomLarge}>
+          {REPAY_BORROW_DATA.map(({
+            borrowedAsset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <RepayBorrowCard
               key={getUniqueKey()}
               id={id}
               address={address}

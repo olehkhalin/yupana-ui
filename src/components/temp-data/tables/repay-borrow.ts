@@ -28,5 +28,20 @@ export const REPAY_BORROW_DATA = [
     amountOfDebtUsd: 1500,
     maxLiquidate: 153.37,
     maxLiquidateUsd: 750,
+    active: true, // TODO: Delete later
+  },
+  {
+    borrowedAsset: {
+      id: '1',
+      name: 'QuipuSwap Governance Token',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      symbol: 'QUIPU',
+      thumbnailUri: QUIPU_THUMBNAIL_URI,
+    },
+    priceOfBorrowedAsset: 4.89,
+    amountOfDebt: 300.74,
+    amountOfDebtUsd: 1500,
+    maxLiquidate: 153.37,
+    maxLiquidateUsd: 750,
   },
 ];

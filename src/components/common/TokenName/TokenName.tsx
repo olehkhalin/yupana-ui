@@ -14,11 +14,13 @@ import s from './TokenName.module.sass';
 type AssetNameProps = {
   token: TokenMetadataInterface
   logoClassName?: string
+  active?: boolean
   className?: string
 };
 
 export const TokenName: React.FC<AssetNameProps> = ({
   token,
+  active = false,
   logoClassName,
   className,
   ...props
@@ -43,7 +45,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.wrapper, className)}
+      className={cx(s.wrapper, { [s.active]: active }, className)}
       {...props}
     >
       {
