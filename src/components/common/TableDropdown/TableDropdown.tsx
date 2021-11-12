@@ -19,6 +19,10 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
   theme = 'primary',
   className,
 }) => {
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+  };
+
   const isSecondaryTheme = theme === 'secondary';
   return (
     <div className={cx(s.root, themeClasses[theme], className)}>
@@ -43,6 +47,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
           sizeT="small"
           action={isSecondaryTheme ? 'borrow' : 'supply'}
           className={s.button}
+          onClick={handleClick}
         >
           {isSecondaryTheme ? 'Borrow' : 'Supply'}
         </Button>
@@ -50,6 +55,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
           sizeT="small"
           action={isSecondaryTheme ? 'borrow' : 'supply'}
           className={s.button}
+          onClick={handleClick}
         >
           Withdraw
         </Button>
