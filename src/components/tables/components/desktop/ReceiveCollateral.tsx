@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { Radio } from 'components/ui/Radio';
 import { Table } from 'components/ui/Table';
 import { TokenName } from 'components/common/TokenName';
 
@@ -24,11 +25,16 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             Receive asset
           </span>
         ),
-        id: 'receiveAsset',
+        id: 'asset',
         accessor: (row: any) => (
-          <TokenName
-            token={{ ...row.receiveAsset }}
-          />
+          <>
+            <Radio
+              className={s.radio}
+            />
+            <TokenName
+              token={{ ...row.asset }}
+            />
+          </>
         ),
       },
       {
@@ -47,12 +53,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, receiveAsset }: any) => (
+        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: amountOfSupplied,
-                currency: getSliceTokenName(receiveAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
@@ -71,12 +77,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, maxBonusUsd, receiveAsset }: any) => (
+        accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxBonus,
-                currency: getSliceTokenName(receiveAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>

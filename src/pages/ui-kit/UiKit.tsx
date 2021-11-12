@@ -1174,7 +1174,7 @@ export const UiKit: React.FC = () => {
         </div>
         <div className={s.marginBottomLarge}>
           {ALL_MARKETS_DATA.map(({
-            market: {
+            asset: {
               id, address, name, symbol, thumbnailUri,
             }, ...rest
           }) => (

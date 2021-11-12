@@ -83,7 +83,10 @@ export const Table: React.FC<TableProps> = ({
             prepareRow(row);
             return (
               <React.Fragment key={row.getRowProps().key}>
-                <tr {...row.getRowProps()} className={cx(s.tr, s.trBody, rowClassName)}>
+                <tr
+                  {...row.getRowProps()}
+                  className={cx(s.tr, s.trBody, rowClassName)}
+                >
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
                   ))}

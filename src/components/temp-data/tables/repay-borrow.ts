@@ -2,7 +2,7 @@ import { QUIPU_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/
 
 export const REPAY_BORROW_DATA = [
   {
-    borrowedAsset: {
+    asset: {
       id: '1',
       name: 'Tezos',
       address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
@@ -16,10 +16,10 @@ export const REPAY_BORROW_DATA = [
     maxLiquidateUsd: 750,
   },
   {
-    borrowedAsset: {
+    asset: {
       id: '1',
       name: 'QuipuSwap Governance Token',
-      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjEkW',
       symbol: 'QUIPU',
       thumbnailUri: QUIPU_THUMBNAIL_URI,
     },

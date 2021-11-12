@@ -3,6 +3,7 @@ import React, { useMemo } from 'react';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
+import { Radio } from 'components/ui/Radio';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Tables.module.sass';
@@ -24,11 +25,17 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Borrowed asset
           </span>
         ),
-        id: 'borrowedAsset',
+        id: 'asset',
         accessor: (row: any) => (
-          <TokenName
-            token={{ ...row.borrowedAsset }}
-          />
+          <>
+            <Radio
+              theme="secondary"
+              className={s.radio}
+            />
+            <TokenName
+              token={{ ...row.asset }}
+            />
+          </>
         ),
       },
       {
@@ -47,12 +54,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'amountOfDebt',
-        accessor: ({ amountOfDebt, amountOfDebtUsd, borrowedAsset }: any) => (
+        accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: amountOfDebt,
-                currency: getSliceTokenName(borrowedAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
@@ -71,12 +78,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, maxLiquidateUsd, borrowedAsset }: any) => (
+        accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxLiquidate,
-                currency: getSliceTokenName(borrowedAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>

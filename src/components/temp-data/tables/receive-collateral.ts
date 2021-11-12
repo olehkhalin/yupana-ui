@@ -2,7 +2,7 @@ import { QUIPU_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/
 
 export const RECEIVE_COLLATERAL_DATA = [
   {
-    receiveAsset: {
+    asset: {
       id: '1',
       name: 'Tezos',
       address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
@@ -16,10 +16,10 @@ export const RECEIVE_COLLATERAL_DATA = [
     maxBonusUsd: 750,
   },
   {
-    receiveAsset: {
+    asset: {
       id: '1',
       name: 'QuipuSwap Governance Token',
-      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasAaQ',
       symbol: 'QUIPU',
       thumbnailUri: QUIPU_THUMBNAIL_URI,
     },
