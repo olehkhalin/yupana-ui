@@ -90,7 +90,7 @@ export const Table: React.FC<TableProps> = ({
                 </tr>
                 {row.isExpanded ? (
                   <tr {...row.getRowProps()} key={`${row.getRowProps().key}-inner`} className={s.subTr}>
-                    <td colSpan={visibleColumns.length}>
+                    <td colSpan={visibleColumns.length} className={s.dropdownTd}>
                       {renderRowSubComponent({ row })}
                     </td>
                   </tr>
