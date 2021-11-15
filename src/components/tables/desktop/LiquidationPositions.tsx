@@ -114,7 +114,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.bigTable}
+      tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidationRow}
       className={cx(s.bigTableWrapper, className)}
     />

@@ -101,7 +101,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.bigTable}
+      tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidateRow}
       className={cx(s.bigTableWrapper, className)}
     />
