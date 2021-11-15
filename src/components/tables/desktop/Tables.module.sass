@@ -38,6 +38,10 @@
   min-width: 78rem
   width: 100%
 
+.bigTableLiquidate
+  min-width: 63.75rem
+  width: 100%
+
 .marketsRow
   grid-template-columns: repeat(7, 1fr) .5fr
 
@@ -65,7 +69,7 @@
   &.white
     color: $white
 
-@include media('<=Mphone')
-  .bigTable
-    min-width: 63.75rem
+@include media('>Mphone')
+  .bigTableLiquidate
+    min-width: 78rem
     width: 100%
