@@ -1,4 +1,5 @@
 @import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
 
 .root
   display: flex
@@ -9,13 +10,13 @@
   position: relative
   display: flex
   justify-content: space-between
-  margin-bottom: 1rem
+  margin-bottom: .656rem
   font-weight: 700
 
 .title
   display: flex
   align-items: center
-  width: 50%
+  width: 100%
   justify-content: center
 
 .percent, .value
@@ -28,3 +29,9 @@
   margin-left: .75rem
   cursor: pointer
   margin-top: -1px
+
+@include media('>Lphone')
+  .title
+    width: 50%
+  .content
+    margin-bottom: 1rem
