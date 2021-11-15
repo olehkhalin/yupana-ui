@@ -109,9 +109,9 @@
     .tr
       padding: 0 1rem
   .trBody
+    position: relative
     padding: 1rem
-    border-radius: .5rem
-    transition: background-color $animationTime
+    transition: background $animationTime
     cursor: pointer
     &:first-child
       margin-top: 1.5rem
@@ -120,6 +120,13 @@
     &:first-of-type
       .td
         padding-top: 0
+    &::after
+      content: ''
+      position: absolute
+      bottom: 0
+      height: .063rem
+      width: 100%
+      background-color: transparent
     .tr
       padding: 0 1rem
   .td
@@ -135,7 +142,10 @@
       box-shadow: $light-yellow-shadow
   .trBody
     &:hover
-      background-color: rgba($light-yellow, .16)
+      background: linear-gradient(0deg, rgba(255, 199, 0, 0.3) 0%, rgba(0, 0, 0, 0) 100%)
+      &::after
+        background-color: $light-yellow
+        box-shadow: $light-yellow-shadow-button
 
 .quinary
   color: $blue-neutral
@@ -145,4 +155,7 @@
       box-shadow: $blue-shadow
   .trBody
     &:hover
-      background-color: rgba($blue-neutral, .16)
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
+      &::after
+        background-color: $blue-neutral
+        box-shadow: $blue-shadow-button
