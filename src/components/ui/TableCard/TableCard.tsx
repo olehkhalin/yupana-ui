@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UnmountClosed } from 'react-collapse';
 import cx from 'classnames';
 
@@ -12,6 +12,8 @@ type TableCardProps = {
   theme?: keyof typeof themeClasses
   market?: boolean
   collapsed?: boolean
+  active?: boolean
+  onClick?: <T>(arg?: T) => void
   className?: string
 };
 
@@ -24,42 +26,37 @@ export const TableCard: React.FC<TableCardProps> = ({
   theme = 'primary',
   market = false,
   collapsed = true,
+  active = false,
+  onClick,
   className,
   children,
-}) => {
-  const [active, setActive] = useState<boolean>(false);
+}) => (
+  <div
+    onClick={onClick}
+    className={cx(s.root, themeClasses[theme], className)}
+  >
+    {market ? (
+      <Button
+        href="/"
+        sizeT="small"
+        theme="light"
+        className={s.link}
+      >
+        Details
+      </Button>
+    ) : collapsed && (
+    <DropdownArrow
+      theme={theme}
+      active={active}
+      className={s.arrow}
+    />
+    )}
 
-  const handleSwitchCollapse = () => {
-    setActive(!active);
-  };
+    <div className={s.wrapper}>
+      {children}
+    </div>
 
-  return (
-    <div
-      onClick={handleSwitchCollapse}
-      className={cx(s.root, themeClasses[theme], className)}
-    >
-      {market ? (
-        <Button
-          href="/"
-          sizeT="small"
-          theme="light"
-          className={s.link}
-        >
-          Details
-        </Button>
-      ) : collapsed && (
-        <DropdownArrow
-          theme={theme}
-          active={active}
-          className={s.arrow}
-        />
-      )}
-
-      <div className={s.wrapper}>
-        {children}
-      </div>
-
-      {!market && collapsed && (
+    {!market && collapsed && (
       <UnmountClosed
         isOpened={active}
         initialStyle={{ height: '0px', overflow: 'hidden' }}
@@ -71,7 +68,6 @@ export const TableCard: React.FC<TableCardProps> = ({
           className={s.dropdown}
         />
       </UnmountClosed>
-      )}
-    </div>
-  );
-};
+    )}
+  </div>
+);

@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withDropdown } from 'hocs/withDropdown';
+import { WithDropdownInterface } from 'types/with-dropdown';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
@@ -19,7 +21,7 @@ type YourBorrowAssetsCardProps = {
   className?: string
 };
 
-export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
+const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
@@ -28,6 +30,8 @@ export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
   borrowLimit,
   borrowApy,
   balance,
+  active,
+  onClick,
   className,
 }) => {
   const tokenMetadata = {
@@ -40,6 +44,8 @@ export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
 
   return (
     <TableCard
+      active={active}
+      onClick={onClick}
       theme="secondary"
       className={className}
     >
@@ -82,3 +88,5 @@ export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
     </TableCard>
   );
 };
+
+export const YourBorrowAssetsCard = withDropdown(OrdinaryYourBorrowAssetsCard);

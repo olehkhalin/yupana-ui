@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withDropdown } from 'hocs/withDropdown';
+import { WithDropdownInterface } from 'types/with-dropdown';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
@@ -19,7 +21,7 @@ type YourSupplyAssetsCardProps = {
   className?: string
 };
 
-export const YourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps> = ({
+const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
@@ -27,6 +29,8 @@ export const YourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps> = ({
   thumbnailUri,
   supplyApy,
   balance,
+  active,
+  onClick,
   className,
 }) => {
   const tokenMetadata = {
@@ -39,6 +43,8 @@ export const YourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps> = ({
 
   return (
     <TableCard
+      active={active}
+      onClick={onClick}
       className={className}
     >
       <div className={s.row}>
@@ -78,3 +84,5 @@ export const YourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps> = ({
     </TableCard>
   );
 };
+
+export const YourSupplyAssetsCard = withDropdown(OrdinaryYourSupplyAssetsCard);
