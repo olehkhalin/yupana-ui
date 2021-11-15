@@ -5,6 +5,9 @@ import {
 } from 'react-table';
 import cx from 'classnames';
 
+import { TokenMetadataInterface } from 'types/token';
+import { getTokenSlug } from 'utils/getTokenSlug';
+
 import s from './Table.module.sass';
 
 type TableProps = {
@@ -12,6 +15,8 @@ type TableProps = {
   data: any[]
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
+  selectedItem?: TokenMetadataInterface
+  setSelectedItem?: (arg: TokenMetadataInterface) => void
   tableClassName?: string
   rowClassName?: string
   theadClassName?: string
@@ -31,6 +36,8 @@ export const Table: React.FC<TableProps> = ({
   data,
   renderRowSubComponent,
   theme = 'primary',
+  selectedItem,
+  setSelectedItem,
   tableClassName,
   rowClassName,
   theadClassName,
@@ -50,6 +57,12 @@ export const Table: React.FC<TableProps> = ({
     },
     useExpanded,
   );
+
+  const handleSelectItem = (asset: TokenMetadataInterface) => {
+    if (setSelectedItem) {
+      setSelectedItem(asset);
+    }
+  };
 
   const compoundClassNames = cx(
     s.root,
@@ -81,9 +94,23 @@ export const Table: React.FC<TableProps> = ({
             </tr>
           ) : rows.map((row) => {
             prepareRow(row);
+
+            let isSelected: boolean = false;
+            if (selectedItem) {
+              isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
+            }
             return (
               <React.Fragment key={row.getRowProps().key}>
-                <tr {...row.getRowProps()} className={cx(s.tr, s.trBody, rowClassName)}>
+                <tr
+                  {...row.getRowProps()}
+                  onClick={() => handleSelectItem(row.values.asset)}
+                  className={cx(
+                    s.tr,
+                    s.trBody,
+                    { [s.selected]: isSelected },
+                    rowClassName,
+                  )}
+                >
                   {row.cells.map((cell) => (
                     <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
                   ))}

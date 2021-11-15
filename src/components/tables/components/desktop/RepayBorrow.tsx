@@ -1,5 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Row } from 'react-table';
 
+import { TokenMetadataInterface } from 'types/token';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
@@ -16,18 +18,16 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   data,
   className,
 }) => {
+  const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
+
   const columns = useMemo(
     () => [
       {
-        Header: () => (
-          <span className={s.yellow}>
-            Borrowed asset
-          </span>
-        ),
-        id: 'asset',
-        accessor: (row: any) => (
+        Header: 'Asset',
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <TokenName
-            token={{ ...row.asset }}
+            token={{ ...row.values.asset }}
           />
         ),
       },
@@ -97,6 +97,8 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
       theme="octonary"
       columns={columns}
       data={data}
+      setSelectedItem={setSelectedItem}
+      selectedItem={selectedItem}
       rowClassName={s.repayRow}
       theadClassName={s.repayThead}
       className={className}
