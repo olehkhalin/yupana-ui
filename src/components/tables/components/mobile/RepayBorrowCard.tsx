@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
@@ -20,6 +21,7 @@ type RepayBorrowCardProps = {
   maxLiquidate: number
   maxLiquidateUsd: number
   active?: boolean
+  setItem: (arg: string) => void
   className?: string
 };
 
@@ -35,8 +37,13 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   maxLiquidate,
   maxLiquidateUsd,
   active = false,
+  setItem,
   className,
 }) => {
+  const handleSetItem = () => {
+    setItem(getTokenSlug({ id, address }));
+  };
+
   const tokenMetadata = {
     id,
     address,
@@ -48,8 +55,9 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   return (
     <TableCard
       theme="secondary"
+      onClick={handleSetItem}
       collapsed={false}
-      className={cx({ [s.active]: active }, className)}
+      className={cx(s.cursorPointer, { [s.active]: active }, className)}
     >
       <div className={s.wrapper}>
         <div className={s.row}>

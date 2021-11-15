@@ -28,7 +28,6 @@ export const REPAY_BORROW_DATA = [
     amountOfDebtUsd: 1500,
     maxLiquidate: 153.37,
     maxLiquidateUsd: 750,
-    active: true, // TODO: Delete later
   },
   {
     asset: {

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
@@ -77,6 +78,9 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
+
+  // RepayBorrow cards
+  const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
 
   return (
     <>
@@ -1206,6 +1210,8 @@ export const UiKit: React.FC = () => {
               name={name}
               symbol={symbol}
               thumbnailUri={thumbnailUri}
+              active={selectedRepayBorrowItem === getTokenSlug({ id, address })}
+              setItem={setSelectedRepayBorrowItem}
               {...rest}
             />
           ))}
