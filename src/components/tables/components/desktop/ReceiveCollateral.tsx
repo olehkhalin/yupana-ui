@@ -24,10 +24,10 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             Receive asset
           </span>
         ),
-        id: 'receiveAsset',
+        id: 'asset',
         accessor: (row: any) => (
           <TokenName
-            token={{ ...row.receiveAsset }}
+            token={{ ...row.asset }}
           />
         ),
       },
@@ -47,12 +47,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, receiveAsset }: any) => (
+        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: amountOfSupplied,
-                currency: getSliceTokenName(receiveAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
@@ -71,12 +71,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, maxBonusUsd, receiveAsset }: any) => (
+        accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxBonus,
-                currency: getSliceTokenName(receiveAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>

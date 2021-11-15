@@ -52,16 +52,25 @@
 .amountUsd
   font-size: .75rem
 
-.active
-  background: linear-gradient(0deg,rgba(255, 199, 0, .3),rgba(255,184,0,0) 91.23%)
-  .amount
-    font-weight: 700
-    text-shadow: $light-yellow-shadow
-
 .wrapper
   display: flex
   flex-direction: column
   padding: 0 .5rem
 
-.cursorPointer
+.active
+  .amount
+    font-weight: 700
+
+.repayRoot
   cursor: pointer
+  &.active
+    background: linear-gradient(0deg, rgba(255, 199, 0, .3), rgba(255, 184, 0, 0) 91.23%)
+    .amount
+      text-shadow: $light-yellow-shadow
+
+.receiveRoot
+  cursor: pointer
+  &.active
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
+    .amount
+      text-shadow: $light-yellow-shadow
