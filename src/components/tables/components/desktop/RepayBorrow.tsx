@@ -24,10 +24,10 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Borrowed asset
           </span>
         ),
-        id: 'borrowedAsset',
+        id: 'asset',
         accessor: (row: any) => (
           <TokenName
-            token={{ ...row.borrowedAsset }}
+            token={{ ...row.asset }}
           />
         ),
       },
@@ -47,12 +47,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'amountOfDebt',
-        accessor: ({ amountOfDebt, amountOfDebtUsd, borrowedAsset }: any) => (
+        accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: amountOfDebt,
-                currency: getSliceTokenName(borrowedAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
@@ -71,12 +71,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, maxLiquidateUsd, borrowedAsset }: any) => (
+        accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxLiquidate,
-                currency: getSliceTokenName(borrowedAsset),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>

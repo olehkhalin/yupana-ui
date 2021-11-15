@@ -1195,7 +1195,7 @@ export const UiKit: React.FC = () => {
         </div>
         <div className={s.marginBottomLarge}>
           {REPAY_BORROW_DATA.map(({
-            borrowedAsset: {
+            asset: {
               id, address, name, symbol, thumbnailUri,
             }, ...rest
           }) => (
