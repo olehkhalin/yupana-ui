@@ -46,16 +46,16 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
         <Button
           sizeT="small"
           action={isSecondaryTheme ? 'borrow' : 'supply'}
-          className={s.button}
           onClick={handleClick}
+          className={s.button}
         >
           {isSecondaryTheme ? 'Borrow' : 'Supply'}
         </Button>
         <Button
           sizeT="small"
           action={isSecondaryTheme ? 'borrow' : 'supply'}
-          className={s.button}
           onClick={handleClick}
+          className={s.button}
         >
           Withdraw
         </Button>
