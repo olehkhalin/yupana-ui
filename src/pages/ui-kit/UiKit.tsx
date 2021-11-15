@@ -25,8 +25,10 @@ import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
+import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
+import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { Liquidate } from 'components/tables/containers/Liquidate';
 import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
 import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
@@ -41,8 +43,6 @@ import {
 import { MarketCard } from 'components/common/MarketCard';
 import {
   LiquidationPositions,
-  ReceiveCollateral,
-  RepayBorrow,
 } from 'components/tables/components/desktop';
 import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
