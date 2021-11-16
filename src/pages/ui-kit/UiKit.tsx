@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { Disclaimer } from 'components/common/Popups/Disclaimer';
+import { Liquidation } from 'components/common/Popups/Liquidation';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -74,6 +75,7 @@ export const UiKit: React.FC = () => {
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
   const [disclaimerIsOpen, setDisclaimerIsOpen] = useState(false);
+  const [liquidationBonus, setLiquidationBonus] = useState(false);
 
   return (
     <>
@@ -972,6 +974,21 @@ export const UiKit: React.FC = () => {
             onRequestClose={() => setDisclaimerIsOpen(false)}
             title="Disclaimer"
             description="Use at your own risk"
+          />
+          <div>
+            Large Popup
+          </div>
+          <Button
+            onClick={() => setLiquidationBonus(true)}
+            className={s.modalsButton}
+          >
+            Liquidation
+          </Button>
+          <Liquidation
+            isOpen={liquidationBonus}
+            onRequestClose={() => setLiquidationBonus(false)}
+            title="Liquidation bonus"
+            description="During liquidation, another user can repay part of the outstanding amount instead of the borrower and buy his collateral at a discount, receiving a bonus equal to the difference between the liquidation threshold for a specific debt position and the actual debt value at the time of liquidation"
           />
         </div>
       </div>

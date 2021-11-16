@@ -1,0 +1,26 @@
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  align-items: center
+  flex-direction: column
+  text-align: center
+
+.title
+  margin-bottom: .5rem
+
+.description
+  margin-bottom: 1rem
+
+.inner
+  margin: 0 .5rem
+  min-width: initial
+
+@include media('>XSphone')
+  .title
+    margin-bottom: 1.5rem
+  .description
+    margin-bottom: 2rem
+  .inner
+    margin: 0 5rem
+    min-width: initial
