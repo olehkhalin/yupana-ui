@@ -3,7 +3,7 @@ import React from 'react';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 
-import s from 'components/common/Popups/Disclaimer.module.sass';
+import s from 'components/common/Popups/Disclaimer/Disclaimer.module.sass';
 
 type DisclaimerProps = {
   title: string

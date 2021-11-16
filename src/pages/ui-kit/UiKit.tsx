@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { Disclaimer } from 'components/common/Popups';
+import { Disclaimer } from 'components/common/Popups/Disclaimer';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
