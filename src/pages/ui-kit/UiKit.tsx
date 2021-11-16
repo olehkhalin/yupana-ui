@@ -5,6 +5,7 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { Disclaimer } from 'components/common/Popups/Disclaimer';
 import { Liquidation } from 'components/common/Popups/Liquidation';
 import { BaseRate } from 'components/common/Popups/BaseRate';
+import { ConnectToWallet } from 'components/common/Popups/ConnectToWallet';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -78,6 +79,7 @@ export const UiKit: React.FC = () => {
   const [disclaimerIsOpen, setDisclaimerIsOpen] = useState(false);
   const [liquidationBonusIsOpen, setLiquidationBonusIsOpen] = useState(false);
   const [baseRateIsOpen, setBaseRateIsOpen] = useState(false);
+  const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
 
   return (
     <>
@@ -1006,6 +1008,21 @@ export const UiKit: React.FC = () => {
             onRequestClose={() => setLiquidationBonusIsOpen(false)}
             title="Liquidation bonus"
             description="During liquidation, another user can repay part of the outstanding amount instead of the borrower and buy his collateral at a discount, receiving a bonus equal to the difference between the liquidation threshold for a specific debt position and the actual debt value at the time of liquidation"
+          />
+          <div>
+            Connect To Wallet
+          </div>
+          <Button
+            onClick={() => setConnectToWalletIsOpen(true)}
+            className={s.modalsButton}
+          >
+            ConnectToWallet
+          </Button>
+          <ConnectToWallet
+            isOpen={connectToWalletIsOpen}
+            onRequestClose={() => setConnectToWalletIsOpen(false)}
+            title="Connect to a wallet"
+            description="Please select a wallet to connect to this dapp:"
           />
         </div>
       </div>
