@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
+import { Disclaimer } from 'components/common/Popups';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -72,6 +73,7 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
+  const [disclaimerIsOpen, setDisclaimerIsOpen] = useState(false);
 
   return (
     <>
@@ -941,7 +943,7 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Modals
         </div>
-        <div className={s.modalsButtons}>
+        <div className={cx(s.modalsButtons, s.marginBottom)}>
           <Button
             className={s.modalsButton}
             onClick={() => setModalBaseIsOpen(true)}
@@ -954,6 +956,23 @@ export const UiKit: React.FC = () => {
           >
             <h2>Base modal</h2>
           </Modal>
+        </div>
+        <div className={s.modalsButtons}>
+          <div>
+            Small Popup
+          </div>
+          <Button
+            onClick={() => setDisclaimerIsOpen(true)}
+            className={s.modalsButton}
+          >
+            Disclaimer
+          </Button>
+          <Disclaimer
+            isOpen={disclaimerIsOpen}
+            onRequestClose={() => setDisclaimerIsOpen(false)}
+            title="Disclaimer"
+            description="Use at your own risk"
+          />
         </div>
       </div>
 
