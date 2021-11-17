@@ -16,7 +16,7 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({
   children,
 }) => (
   <main className={cx(s.root, className)}>
-    <Header />
+    <Header className={s.header} />
     <Container className={s.container}>
       {children}
     </Container>
