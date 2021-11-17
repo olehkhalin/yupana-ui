@@ -57,6 +57,8 @@ import {
   MARKET_CARDS_SUPPLY,
   MARKET_CARDS_BORROW,
 } from 'components/temp-data/market-card';
+import { USER_STAT } from 'components/temp-data/user-stat';
+import { LIMIT_LINE } from 'components/temp-data/limit-line';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -1264,7 +1266,21 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           User Stat
         </div>
-        <UserStat />
+        <div>
+          <UserStat {...USER_STAT} className={s.userStat} />
+          <LimitLine
+            percent={LIMIT_LINE.userBorrowLimitPercent}
+            value={LIMIT_LINE.userBorrowLimit}
+            title="Your Borrow Limit"
+            className={s.limit}
+          />
+          <LimitLine
+            percent={LIMIT_LINE.userLiquidationLimitPercent}
+            value={LIMIT_LINE.userLiquidationLimit}
+            title="Your Liquidation Limit"
+            className={s.limit}
+          />
+        </div>
       </div>
     </>
   );
