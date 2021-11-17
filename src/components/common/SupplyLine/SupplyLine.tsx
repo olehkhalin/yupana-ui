@@ -26,9 +26,10 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
   const [amount, setAmount] = useState<number>(0);
 
   useEffect(() => {
-    setTimeout(() => {
+    const timeout = setTimeout(() => {
       setAmount(percent);
     }, 1000);
+    return () => clearTimeout(timeout);
   }, [percent]);
 
   const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);

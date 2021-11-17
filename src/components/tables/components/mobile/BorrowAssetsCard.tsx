@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withDropdown } from 'hocs/withDropdown';
+import { WithDropdownInterface } from 'types/with-dropdown';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
@@ -7,27 +9,29 @@ import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
 
-type YourBorrowAssetsCardProps = {
+type BorrowAssetsCardProps = {
   id?: string
   address: string
   name?: string
   symbol?: string
-  borrowLimit: number
+  liquidity: number
   borrowApy: number
-  balance: number
+  utilisationRate: number
   thumbnailUri?: string
   className?: string
 };
 
-export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
+const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
   symbol,
   thumbnailUri,
-  borrowLimit,
+  liquidity,
   borrowApy,
-  balance,
+  utilisationRate,
+  active,
+  onClick,
   className,
 }) => {
   const tokenMetadata = {
@@ -40,6 +44,8 @@ export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
 
   return (
     <TableCard
+      active={active}
+      onClick={onClick}
       theme="secondary"
       className={className}
     >
@@ -64,21 +70,23 @@ export const YourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps> = ({
 
       <div className={s.row}>
         <div className={s.title}>
-          Balance
+          Utilisation rate
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
+          {`${utilisationRate.toFixed(2)}%`}
         </div>
       </div>
 
       <div className={s.row}>
         <div className={s.title}>
-          Borrow limit
+          Liquidity
         </div>
         <div className={s.value}>
-          {`${borrowLimit.toFixed(2)}%`}
+          {getPrettyAmount({ value: liquidity, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
     </TableCard>
   );
 };
+
+export const BorrowAssetsCard = withDropdown(OrdinaryBorrowAssetsCard);
