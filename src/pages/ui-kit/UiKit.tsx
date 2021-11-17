@@ -1264,15 +1264,7 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           User Stat
         </div>
-        <UserStat
-          userSupplyBalance={231631}
-          userBorrowBalance={41981}
-          userBorrowLimit={192141}
-          userBorrowLimitPercent={21.45}
-          userLiquidationLimit={219124}
-          userLiquidationLimitPercent={48.12}
-          userNetApy={38.12}
-        />
+        <UserStat />
       </div>
     </>
   );
