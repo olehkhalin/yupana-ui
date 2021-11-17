@@ -67,7 +67,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
       {
         Header: () => (
           <span className={s.yellow}>
-            AMAX Liquidate
+            MAX Liquidate
           </span>
         ),
         id: 'maxLiquidate',

@@ -43,6 +43,8 @@ export const Table: React.FC<TableProps> = ({
   theadClassName,
   className,
 }) => {
+  // TODO: change all data type & row types. REF: https://stackoverflow.com/questions/65182522/react-table-types-of-property-accessor-are-incompatible
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -72,61 +74,63 @@ export const Table: React.FC<TableProps> = ({
 
   return (
     <div className={compoundClassNames}>
-      <table {...getTableProps()} className={cx(s.table, tableClassName)}>
-        <thead className={cx(s.thead, theadClassName)}>
-          {headerGroups.map((headerGroup) => (
-            <tr
-              key={headerGroup.getHeaderGroupProps().key}
-              className={cx(s.tr, rowClassName)}
-            >
-              {headerGroup.headers.map((column) => (
-                <th key={column.getHeaderProps().key} className={s.th}>{column.render('Header')}</th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody {...getTableBodyProps()} className={s.tbody}>
-          {!data.length ? (
-            <tr className={cx(s.tr, s.noAssets, rowClassName)}>
-              <td>
-                {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
-              </td>
-            </tr>
-          ) : rows.map((row) => {
-            prepareRow(row);
+      <div className={s.wrapper}>
+        <table {...getTableProps()} className={cx(s.table, tableClassName)}>
+          <thead className={cx(s.thead, theadClassName)}>
+            {headerGroups.map((headerGroup) => (
+              <tr
+                key={headerGroup.getHeaderGroupProps().key}
+                className={cx(s.tr, rowClassName)}
+              >
+                {headerGroup.headers.map((column) => (
+                  <th key={column.getHeaderProps().key} className={s.th}>{column.render('Header')}</th>
+                ))}
+              </tr>
+            ))}
+          </thead>
+          <tbody {...getTableBodyProps()} className={s.tbody}>
+            {!data.length ? (
+              <tr className={cx(s.tr, s.noAssets, rowClassName)}>
+                <td>
+                  {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
+                </td>
+              </tr>
+            ) : rows.map((row) => {
+              prepareRow(row);
 
-            let isSelected: boolean = false;
-            if (selectedItem) {
-              isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
-            }
-            return (
-              <React.Fragment key={row.getRowProps().key}>
-                <tr
-                  {...row.getRowProps()}
-                  onClick={() => handleSelectItem(row.values.asset)}
-                  className={cx(
-                    s.tr,
-                    s.trBody,
-                    { [s.selected]: isSelected },
-                    rowClassName,
-                  )}
-                >
-                  {row.cells.map((cell) => (
-                    <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
-                  ))}
-                </tr>
-                {row.isExpanded ? (
-                  <tr {...row.getRowProps()} key={`${row.getRowProps().key}-inner`} className={s.subTr}>
-                    <td colSpan={visibleColumns.length} className={s.dropdownTd}>
-                      {renderRowSubComponent({ row })}
-                    </td>
+              let isSelected: boolean = false;
+              if (selectedItem) {
+                isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
+              }
+              return (
+                <React.Fragment key={row.getRowProps().key}>
+                  <tr
+                    {...row.getRowProps()}
+                    onClick={() => handleSelectItem(row.values.asset)}
+                    className={cx(
+                      s.tr,
+                      s.trBody,
+                      { [s.selected]: isSelected },
+                      rowClassName,
+                    )}
+                  >
+                    {row.cells.map((cell) => (
+                      <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
+                    ))}
                   </tr>
-                ) : null}
-              </React.Fragment>
-            );
-          })}
-        </tbody>
-      </table>
+                  {row.isExpanded ? (
+                    <tr {...row.getRowProps()} key={`${row.getRowProps().key}-inner`} className={s.subTr}>
+                      <td colSpan={visibleColumns.length} className={s.dropdownTd}>
+                        {renderRowSubComponent({ row })}
+                      </td>
+                    </tr>
+                  ) : null}
+                </React.Fragment>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

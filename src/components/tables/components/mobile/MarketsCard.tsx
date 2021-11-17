@@ -46,7 +46,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
 
   return (
     <TableCard
-      market
+      withDetailsButton
       className={className}
     >
       <div className={s.row}>
