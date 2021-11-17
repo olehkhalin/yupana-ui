@@ -1,0 +1,65 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.stat
+  display: flex
+  flex-direction: column
+  align-items: center
+  flex-wrap: wrap
+  margin-bottom: 2rem
+
+.item
+  display: flex
+  flex-direction: column
+  align-items: center
+  text-shadow: $white-shadow
+  font-weight: 700
+  text-align: center
+  &:not(:last-child)
+    margin-bottom: 1rem
+  &:first-child
+    color: $light-blue
+    text-shadow: $blue-shadow
+    .value
+      text-shadow: $blue-shadow-button
+  &:nth-child(2)
+    order: -1
+    .value
+      text-shadow: $white-shadow-button
+  &:last-child
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+    .value
+      text-shadow: $light-yellow-shadow-button
+
+.title
+  margin-bottom: .5rem
+
+.value
+  font-size: 1.5rem
+
+.limit
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+@include media('>Mphone')
+  .stat
+    flex-direction: row
+    margin-bottom: 4rem
+  .item
+    width: 33.33%
+    &:not(:last-child)
+      margin-bottom: 0
+    &:nth-child(2)
+      order: initial
+  .title
+    margin-bottom: 1rem
+  .limit
+    &:not(:last-child)
+      margin-bottom: 2rem
+
+@include media('>tablet')
+  .title
+    font-size: 1.25rem
+  .value
+    font-size: 2rem

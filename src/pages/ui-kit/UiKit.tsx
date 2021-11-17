@@ -22,6 +22,7 @@ import {
   mokeSupplySecondaryData,
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { UserStat } from 'components/common/UserStat';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
@@ -1255,6 +1256,22 @@ export const UiKit: React.FC = () => {
         <MarketCard
           {...MARKET_CARDS_BORROW}
           theme="secondary"
+        />
+      </div>
+
+      {/* User Stat */}
+      <div className={s.block}>
+        <div className={s.title}>
+          User Stat
+        </div>
+        <UserStat
+          userSupplyBalance={231631}
+          userBorrowBalance={41981}
+          userBorrowLimit={192141}
+          userBorrowLimitPercent={21.45}
+          userLiquidationLimit={219124}
+          userLiquidationLimitPercent={48.12}
+          userNetApy={38.12}
         />
       </div>
     </>
