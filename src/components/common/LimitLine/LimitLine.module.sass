@@ -9,7 +9,7 @@
 .content
   position: relative
   display: flex
-  justify-content: space-between
+  flex-wrap: wrap
   margin-bottom: .656rem
   font-weight: 700
 
@@ -18,9 +18,11 @@
   align-items: center
   width: 100%
   justify-content: center
+  order: -1
+  margin-bottom: .75rem
 
 .percent, .value
-  width: 25%
+  width: 50%
 
 .value
   text-align: right
@@ -30,8 +32,42 @@
   cursor: pointer
   margin-top: -1px
 
-@include media('>Lphone')
+@include media('>=Lphone')
   .title
     width: 50%
+    order: 0
+    margin-bottom: 0
   .content
     margin-bottom: 1rem
+    display: flex
+    flex-wrap: nowrap
+  .percent, .value
+    width: 25%
+  .root
+    display: flex
+    flex-direction: column
+    width: 100%
+
+  //.content
+  //  position: relative
+  //  display: flex
+  //  justify-content: space-between
+  //  margin-bottom: .656rem
+  //  font-weight: 700
+  //
+  //.title
+  //  display: flex
+  //  align-items: center
+  //  width: 100%
+  //  justify-content: center
+  //
+  //.percent, .value
+  //  width: 25%
+  //
+  //.value
+  //  text-align: right
+  //
+  //.attention
+  //  margin-left: .75rem
+  //  cursor: pointer
+  //  margin-top: -1px
