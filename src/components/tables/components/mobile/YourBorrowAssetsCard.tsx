@@ -1,5 +1,7 @@
 import React from 'react';
 
+import { withDropdown } from 'hocs/withDropdown';
+import { WithDropdownInterface } from 'types/with-dropdown';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
@@ -7,27 +9,29 @@ import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
 
-type SupplyAssetsCardProps = {
+type YourBorrowAssetsCardProps = {
   id?: string
   address: string
   name?: string
   symbol?: string
-  collateralFactor: number
-  supplyApy: number
-  wallet: number
+  borrowLimit: number
+  borrowApy: number
+  balance: number
   thumbnailUri?: string
   className?: string
 };
 
-export const SupplyAssetsCard: React.FC<SupplyAssetsCardProps> = ({
+const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
   symbol,
   thumbnailUri,
-  collateralFactor,
-  supplyApy,
-  wallet,
+  borrowLimit,
+  borrowApy,
+  balance,
+  active,
+  onClick,
   className,
 }) => {
   const tokenMetadata = {
@@ -40,6 +44,9 @@ export const SupplyAssetsCard: React.FC<SupplyAssetsCardProps> = ({
 
   return (
     <TableCard
+      active={active}
+      onClick={onClick}
+      theme="secondary"
       className={className}
     >
       <div className={s.row}>
@@ -57,27 +64,29 @@ export const SupplyAssetsCard: React.FC<SupplyAssetsCardProps> = ({
           Borrow APY
         </div>
         <div className={s.value}>
-          {`${supplyApy.toFixed(2)}%`}
+          {`${borrowApy.toFixed(2)}%`}
         </div>
       </div>
 
       <div className={s.row}>
         <div className={s.title}>
-          Collateral Factor
+          Balance
         </div>
         <div className={s.value}>
-          {`${collateralFactor.toFixed(2)}%`}
+          {getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
 
       <div className={s.row}>
         <div className={s.title}>
-          Wallet
+          Borrow limit
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: wallet, currency: getSliceTokenName(tokenMetadata) })}
+          {`${borrowLimit.toFixed(2)}%`}
         </div>
       </div>
     </TableCard>
   );
 };
+
+export const YourBorrowAssetsCard = withDropdown(OrdinaryYourBorrowAssetsCard);
