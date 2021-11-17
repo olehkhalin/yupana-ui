@@ -1,0 +1,47 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  align-items: center
+  flex-direction: column
+  text-align: center
+
+.title, .description
+  margin-bottom: .5rem
+
+.address
+  margin-bottom: 1.436rem
+  font-weight: bold
+
+.inner
+  margin: 0 .5rem
+  min-width: initial
+
+.options
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.option
+  display: flex
+  align-items: center
+  gap: 1.25rem
+  text-transform: uppercase
+  font-weight: bold
+  color: $blue-neutral
+  line-height: 1.063rem
+  &:not(:last-child)
+    margin-bottom: 1.436rem
+
+@include media('>XSphone')
+  .title
+    margin-bottom: 1.5rem
+  .address
+    margin-bottom: 3rem
+  .options
+    flex-direction: row
+  .option
+    &:not(:last-child)
+      margin-right: 2rem
+      margin-bottom: 0

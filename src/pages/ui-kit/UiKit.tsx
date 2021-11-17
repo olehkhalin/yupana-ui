@@ -6,6 +6,7 @@ import { Disclaimer } from 'components/common/Popups/Disclaimer';
 import { Liquidation } from 'components/common/Popups/Liquidation';
 import { BaseRate } from 'components/common/Popups/BaseRate';
 import { ConnectToWallet } from 'components/common/Popups/ConnectToWallet';
+import { Account } from 'components/common/Popups/Account/Account';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -80,6 +81,7 @@ export const UiKit: React.FC = () => {
   const [liquidationBonusIsOpen, setLiquidationBonusIsOpen] = useState(false);
   const [baseRateIsOpen, setBaseRateIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
+  const [accountIsOpen, setAccountIsOpen] = useState(false);
 
   return (
     <>
@@ -1023,6 +1025,22 @@ export const UiKit: React.FC = () => {
             onRequestClose={() => setConnectToWalletIsOpen(false)}
             title="Connect to a wallet"
             description="Please select a wallet to connect to this dapp:"
+          />
+          <div>
+            Account
+          </div>
+          <Button
+            onClick={() => setAccountIsOpen(true)}
+            className={s.modalsButton}
+          >
+            Account
+          </Button>
+          <Account
+            isOpen={accountIsOpen}
+            onRequestClose={() => setAccountIsOpen(false)}
+            title="Account"
+            description="Connected wallet address:"
+            address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
           />
         </div>
       </div>
