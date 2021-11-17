@@ -22,6 +22,24 @@ export const Liquidate: React.FC<LiquidateProps> = ({
     () => [
       {
         Header: () => (
+          <span className={s.white}>
+            Borrower address
+          </span>
+        ),
+        id: 'borrowerAddress',
+        accessor: (row: any) => (
+          <Button
+            href="/"
+            theme="accent"
+            sizeT="small"
+            className={cx(s.address, s.white, s.noShadow)}
+          >
+            {shortize(row.borrowerAddress)}
+          </Button>
+        ),
+      },
+      {
+        Header: () => (
           <span className={s.yellow}>
             Total Borrow
           </span>
@@ -32,27 +50,6 @@ export const Liquidate: React.FC<LiquidateProps> = ({
             {getPrettyAmount({ value: row.totalBorrow })}
           </span>
         ),
-      },
-      {
-        Header: () => (
-          <span className={s.yellow}>
-            Borrowed asset
-          </span>
-        ),
-        id: 'borrowedAsset',
-        accessor: (row: any) => (
-          <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
-          </span>
-        ),
-      },
-      {
-        Header: () => (
-          <span className={s.blue}>
-            Collateral asset
-          </span>
-        ),
-        accessor: 'collateralAsset',
       },
       {
         Header: () => (
@@ -75,21 +72,28 @@ export const Liquidate: React.FC<LiquidateProps> = ({
       },
       {
         Header: () => (
-          <span className={s.white}>
-            Borrower address
+          <span className={s.yellow}>
+            Borrowed asset
           </span>
         ),
-        id: 'borrowerAddress',
+        id: 'borrowedAsset',
         accessor: (row: any) => (
-          <Button
-            href="/"
-            theme="accent"
-            action="borrow"
-            sizeT="small"
-            className={cx(s.address, s.white)}
-          >
-            {shortize(row.borrowerAddress)}
-          </Button>
+          <span className={s.yellow}>
+            {row.borrowedAsset.join(', ')}
+          </span>
+        ),
+      },
+      {
+        Header: () => (
+          <span className={s.blue}>
+            Collateral asset
+          </span>
+        ),
+        id: 'collateralAsset',
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {row.collateralAsset.join(', ')}
+          </span>
         ),
       },
     ],

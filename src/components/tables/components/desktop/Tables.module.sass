@@ -20,6 +20,12 @@
   margin-left: auto
   margin-top: -.25rem
 
+.repayRow
+  grid-template-columns: repeat(4, 1fr)
+
+.repayThead
+  border-bottom: 1px solid $light-yellow
+
 .borrowRow
   grid-template-columns: 1.25fr repeat(1, 1fr) 1.5fr 1fr .5fr
 
@@ -57,17 +63,29 @@
 
 .white
   color: $white
+  text-shadow: $white-shadow
+
+.noShadow
+  text-shadow: initial
 
 .blue
   color: $light-blue
+  text-shadow: $blue-shadow
 
 .yellow
   color: $light-yellow
+  text-shadow: $light-yellow-shadow
 
 .address
   padding-left: 0
   &.white
     color: $white
+
+.amount
+  margin-bottom: .25rem
+
+.amountUsd
+  font-size: .75rem
 
 @include media('>Mphone')
   .bigTableLiquidate

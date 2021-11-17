@@ -31,9 +31,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
           <Button
             href="/"
             theme="accent"
-            action="borrow"
             sizeT="small"
-            className={cx(s.address, s.white)}
+            className={cx(s.address, s.white, s.noShadow)}
           >
             {shortize(row.borrowerAddress)}
           </Button>
@@ -90,7 +89,12 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
             Collateral asset
           </span>
         ),
-        accessor: 'collateralAsset',
+        id: 'collateralAsset',
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {row.collateralAsset.join(', ')}
+          </span>
+        ),
       },
       {
         Header: () => null,

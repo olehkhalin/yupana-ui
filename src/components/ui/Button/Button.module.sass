@@ -166,22 +166,29 @@
     .arrow
       path
         fill: $light-yellow
-  &:hover, &:focus
+  &:hover
+    text-shadow: $white-shadow
     &.supply
-      text-shadow: $blue-shadow
       .arrow
         filter: drop-shadow($blue-shadow)
     &.borrow
+      .arrow
+        filter: drop-shadow($light-yellow-shadow)
+  &:focus, &:active
+    &.supply
+      color: $blue
+      text-shadow: $blue-shadow
+      .arrow
+        filter: drop-shadow($blue-shadow)
+        path
+          fill: $blue
+    &.borrow
+      color: $light-yellow
       text-shadow: $light-yellow-shadow
       .arrow
         filter: drop-shadow($light-yellow-shadow)
-  &:active
-    color: $white
-    text-shadow: $white-shadow
-    .arrow
-      filter: drop-shadow($white-shadow)
-      path
-        fill: $white
+        path
+          fill: $light-yellow
 
 .clear
   display: flex
