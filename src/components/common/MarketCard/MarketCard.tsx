@@ -39,7 +39,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
 
       <div className={s.row}>
         <div className={s.text}>
-          {`24H ${isPrimaryTheme ? 'Supply' : 'Borrow'} Volume`}
+          Top 3 markets
         </div>
         <div className={s.value}>
           {getPrettyAmount({ value: volume24h, currency: '$' })}
@@ -57,7 +57,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
       </div>
 
       <div className={s.caption}>
-        {`24H ${isPrimaryTheme ? 'Supply' : 'Borrow'} Volume`}
+        Top 3 markets
       </div>
       <div className={s.wrapper}>
         {assets.map(({ volume24h: assetVolume24h, ...rest }) => (

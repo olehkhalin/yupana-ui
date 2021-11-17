@@ -9,12 +9,12 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './Tables.module.sass';
 
-type LiquidationPositionsProps = {
+type LiquidateProps = {
   data: any[]
   className?: string
 };
 
-export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
+export const Liquidate: React.FC<LiquidateProps> = ({
   data,
   className,
 }) => {
@@ -31,9 +31,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
           <Button
             href="/"
             theme="accent"
-            action="borrow"
             sizeT="small"
-            className={cx(s.address, s.white)}
+            className={cx(s.address, s.white, s.noShadow)}
           >
             {shortize(row.borrowerAddress)}
           </Button>
@@ -42,13 +41,13 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => (
           <span className={s.yellow}>
-            Total borrowed
+            Total Borrow
           </span>
         ),
-        id: 'totalBorrowed',
+        id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrowed })}
+            {getPrettyAmount({ value: row.totalBorrow })}
           </span>
         ),
       },
@@ -90,19 +89,11 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
             Collateral asset
           </span>
         ),
-        accessor: 'collateralAsset',
-      },
-      {
-        Header: () => null,
-        id: 'liquidate',
-        accessor: () => (
-          <Button
-            theme="light"
-            href="/"
-            className={s.link}
-          >
-            Liquidate
-          </Button>
+        id: 'collateralAsset',
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {row.collateralAsset.join(', ')}
+          </span>
         ),
       },
     ],
@@ -114,8 +105,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.bigTable}
-      rowClassName={s.liquidationRow}
+      tableClassName={s.bigTableLiquidate}
+      rowClassName={s.liquidateRow}
       className={cx(s.bigTableWrapper, className)}
     />
   );
