@@ -1,11 +1,10 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
-.stat
+.root
   display: flex
   flex-direction: column
   align-items: center
-  margin-bottom: 2rem
 
 .item
   display: flex
@@ -37,14 +36,9 @@
 .value
   font-size: 1.5rem
 
-.limit
-  &:not(:last-child)
-    margin-bottom: 1.5rem
-
 @include media('>Mphone')
-  .stat
+  .root
     flex-direction: row
-    margin-bottom: 4rem
   .item
     width: 33.33%
     &:not(:last-child)
@@ -53,9 +47,6 @@
       order: initial
   .title
     margin-bottom: 1rem
-  .limit
-    &:not(:last-child)
-      margin-bottom: 2rem
 
 @include media('>tablet')
   .title
