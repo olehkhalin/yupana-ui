@@ -1,33 +1,36 @@
 import React from 'react';
 
+import { withDropdown } from 'hocs/withDropdown';
+import { WithDropdownInterface } from 'types/with-dropdown';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 
 import s from './Cards.module.sass';
 
-type BorrowAssetsCardProps = {
+type YourSupplyAssetsCardProps = {
   id?: string
   address: string
   name?: string
   symbol?: string
-  liquidity: number
-  borrowApy: number
-  utilisationRate: number
   thumbnailUri?: string
+  supplyApy: number
+  balance: number
   className?: string
 };
 
-export const BorrowAssetsCard: React.FC<BorrowAssetsCardProps> = ({
+const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
   symbol,
   thumbnailUri,
-  liquidity,
-  borrowApy,
-  utilisationRate,
+  supplyApy,
+  balance,
+  active,
+  onClick,
   className,
 }) => {
   const tokenMetadata = {
@@ -40,7 +43,8 @@ export const BorrowAssetsCard: React.FC<BorrowAssetsCardProps> = ({
 
   return (
     <TableCard
-      theme="secondary"
+      active={active}
+      onClick={onClick}
       className={className}
     >
       <div className={s.row}>
@@ -55,30 +59,30 @@ export const BorrowAssetsCard: React.FC<BorrowAssetsCardProps> = ({
 
       <div className={s.row}>
         <div className={s.title}>
-          Borrow APY
+          Supply APY
         </div>
         <div className={s.value}>
-          {`${borrowApy.toFixed(2)}%`}
+          {`${supplyApy.toFixed(2)}%`}
         </div>
       </div>
 
       <div className={s.row}>
         <div className={s.title}>
-          Utilisation rate
+          Balance
         </div>
         <div className={s.value}>
-          {`${utilisationRate.toFixed(2)}%`}
+          {getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
 
       <div className={s.row}>
         <div className={s.title}>
-          Liquidity
+          Collateral
         </div>
-        <div className={s.value}>
-          {getPrettyAmount({ value: liquidity, currency: getSliceTokenName(tokenMetadata) })}
-        </div>
+        <CollateralSwitcher token={{ address }} />
       </div>
     </TableCard>
   );
 };
+
+export const YourSupplyAssetsCard = withDropdown(OrdinaryYourSupplyAssetsCard);

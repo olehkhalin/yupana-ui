@@ -9,12 +9,12 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './Tables.module.sass';
 
-type LiquidateProps = {
+type LiquidationPositionsProps = {
   data: any[]
   className?: string
 };
 
-export const Liquidate: React.FC<LiquidateProps> = ({
+export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   data,
   className,
 }) => {
@@ -22,37 +22,34 @@ export const Liquidate: React.FC<LiquidateProps> = ({
     () => [
       {
         Header: () => (
-          <span className={s.yellow}>
-            Total Borrow
+          <span className={s.white}>
+            Borrower address
           </span>
         ),
-        id: 'totalBorrow',
+        id: 'borrowerAddress',
         accessor: (row: any) => (
-          <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow })}
-          </span>
+          <Button
+            href="/"
+            theme="accent"
+            sizeT="small"
+            className={cx(s.address, s.white, s.noShadow)}
+          >
+            {shortize(row.borrowerAddress)}
+          </Button>
         ),
       },
       {
         Header: () => (
           <span className={s.yellow}>
-            Borrowed asset
+            Total borrowed
           </span>
         ),
-        id: 'borrowedAsset',
+        id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
+            {getPrettyAmount({ value: row.totalBorrowed })}
           </span>
         ),
-      },
-      {
-        Header: () => (
-          <span className={s.blue}>
-            Collateral asset
-          </span>
-        ),
-        accessor: 'collateralAsset',
       },
       {
         Header: () => (
@@ -75,20 +72,40 @@ export const Liquidate: React.FC<LiquidateProps> = ({
       },
       {
         Header: () => (
-          <span className={s.white}>
-            Borrower address
+          <span className={s.yellow}>
+            Borrowed asset
           </span>
         ),
-        id: 'borrowerAddress',
+        id: 'borrowedAsset',
         accessor: (row: any) => (
+          <span className={s.yellow}>
+            {row.borrowedAsset.join(', ')}
+          </span>
+        ),
+      },
+      {
+        Header: () => (
+          <span className={s.blue}>
+            Collateral asset
+          </span>
+        ),
+        id: 'collateralAsset',
+        accessor: (row: any) => (
+          <span className={s.blue}>
+            {row.collateralAsset.join(', ')}
+          </span>
+        ),
+      },
+      {
+        Header: () => null,
+        id: 'liquidate',
+        accessor: () => (
           <Button
+            theme="light"
             href="/"
-            theme="accent"
-            action="borrow"
-            sizeT="small"
-            className={cx(s.address, s.white)}
+            className={s.link}
           >
-            {shortize(row.borrowerAddress)}
+            Liquidate
           </Button>
         ),
       },
@@ -101,8 +118,8 @@ export const Liquidate: React.FC<LiquidateProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
-      tableClassName={s.bigTable}
-      rowClassName={s.liquidateRow}
+      tableClassName={s.bigTableLiquidate}
+      rowClassName={s.liquidationRow}
       className={cx(s.bigTableWrapper, className)}
     />
   );
