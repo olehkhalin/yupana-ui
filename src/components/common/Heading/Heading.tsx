@@ -5,20 +5,22 @@ import { Button } from 'components/ui/Button';
 
 import s from './Heading.module.sass';
 
-type HeadingProps = {
+export interface HeadingProps {
   title: string
   link?: {
     label: string
     link: string
     external?: boolean
   }
+  head?: boolean
   theme?: keyof typeof themeClass
   className?: string
-};
+}
 
 const themeClass = {
   primary: s.primary,
   secondary: s.secondary,
+  tertiary: s.tertiary,
 };
 
 export const Heading: React.FC<HeadingProps> = ({

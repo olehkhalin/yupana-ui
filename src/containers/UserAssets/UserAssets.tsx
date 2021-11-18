@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { useCustomOrWider } from 'utils/getMediaQuery';
-import { Heading } from 'components/common/Heading';
+import { Section } from 'components/common/Section';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
@@ -23,26 +23,26 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
 
   return (
     <div className={cx(s.root, className)}>
-      <div className={cx(s.col, { [s.show]: isActiveSupply && !isMdesktopOrWider })}>
-        <Heading
-          title="Your supply assets"
-        />
+      <Section
+        title="Your supply assets"
+        className={cx(s.col, { [s.show]: isActiveSupply && !isMdesktopOrWider })}
+      >
         <YourSupplyAssets
           data={YOUR_SUPPLY_ASSETS_DATA}
           className={s.table}
         />
-      </div>
+      </Section>
 
-      <div className={cx(s.col, { [s.show]: !isActiveSupply && !isMdesktopOrWider })}>
-        <Heading
-          title="Your borrow assets"
-          theme="secondary"
-        />
+      <Section
+        title="Your borrow assets"
+        theme="secondary"
+        className={cx(s.col, { [s.show]: !isActiveSupply && !isMdesktopOrWider })}
+      >
         <YourBorrowAssets
           data={YOUR_BORROW_ASSETS_DATA}
           className={s.table}
         />
-      </div>
+      </Section>
     </div>
   );
 };

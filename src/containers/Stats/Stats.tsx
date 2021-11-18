@@ -14,7 +14,7 @@ type StatsProps = {
 export const Stats: React.FC<StatsProps> = ({
   className,
 }) => (
-  <div className={className}>
+  <section className={className}>
     <UserStat
       {...USER_STAT}
       className={s.stat}
@@ -31,5 +31,5 @@ export const Stats: React.FC<StatsProps> = ({
       title="Your Liquidation Limit"
       className={s.limit}
     />
-  </div>
+  </section>
 );

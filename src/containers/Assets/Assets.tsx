@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { useCustomOrWider } from 'utils/getMediaQuery';
-import { Heading } from 'components/common/Heading';
+import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
@@ -23,34 +23,34 @@ export const Assets: React.FC<AssetsProps> = ({
 
   return (
     <div className={cx(s.root, className)}>
-      <div className={cx(s.col, { [s.show]: isActiveSupply && !isMdesktopOrWider })}>
-        <Heading
-          title="Supply assets"
-          link={{
-            label: 'docks: suppling assets',
-            link: '/',
-          }}
-        />
+      <Section
+        title="Supply assets"
+        link={{
+          label: 'docks: suppling assets',
+          link: '/',
+        }}
+        className={cx(s.col, { [s.show]: isActiveSupply && !isMdesktopOrWider })}
+      >
         <SupplyAssets
           data={SUPPLY_ASSETS_DATA}
           className={s.table}
         />
-      </div>
+      </Section>
 
-      <div className={cx(s.col, { [s.show]: !isActiveSupply && !isMdesktopOrWider })}>
-        <Heading
-          title="Borrow assets"
-          link={{
-            label: 'docs: borrowing assets',
-            link: '/',
-          }}
-          theme="secondary"
-        />
+      <Section
+        title="Borrow assets"
+        link={{
+          label: 'docs: borrowing assets',
+          link: '/',
+        }}
+        theme="secondary"
+        className={cx(s.col, { [s.show]: !isActiveSupply && !isMdesktopOrWider })}
+      >
         <BorrowAssets
           data={BORROW_ASSETS_DATA}
           className={s.table}
         />
-      </div>
+      </Section>
     </div>
   );
 };
