@@ -1,0 +1,63 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.title, .description
+  margin-bottom: .5rem
+
+.address
+  margin-bottom: 1.5rem
+  font-weight: bold
+
+.inner
+  margin: 0 .5rem
+  text-align: center
+  min-width: initial
+
+.optionName
+  margin-right: 1.25rem
+
+.option
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+.options
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: center
+
+.button
+  display: flex
+  align-items: center
+  text-transform: uppercase
+  font-weight: bold
+  color: $blue-neutral
+  line-height: 1.063rem
+  &:not(:last-child)
+    margin-bottom: 1.436rem
+
+.logout
+  position: absolute
+  top: .875rem
+  left: 1rem
+  color: $light-yellow
+  font-size: .875rem
+
+@include media('>Mphone')
+  .title
+    margin-bottom: 1.5rem
+  .address
+    margin-bottom: 3rem
+  .optionName
+    margin-right: 1.063rem
+  .options
+    flex-direction: row
+  .inner
+    min-width: initial
+  .logout
+    top: 2.5rem
+    left: 3.5rem
+  .option
+    &:not(:last-child)
+      margin-right: 2rem
+      margin-bottom: 0
