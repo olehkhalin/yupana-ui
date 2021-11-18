@@ -1,0 +1,30 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.page
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0) 25%, $blue 100%)
+
+.container
+  min-height: calc(100vh - 14.4rem)
+
+.message
+  display: flex
+  flex-direction: column
+  align-items: center
+  transform: translateY(40%)
+
+.number
+  font-size: 5.5rem
+
+.text
+  font-size: 1rem
+
+.number, .text
+  font-weight: bold
+  color: $light-blue
+
+@include media('>Mphone')
+  .number
+    font-size: 8rem
+  .text
+    font-size: 1.5rem

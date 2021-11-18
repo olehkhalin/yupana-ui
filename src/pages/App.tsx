@@ -6,6 +6,7 @@ import {
 import BaseLayout from 'layouts/BaseLayout';
 import { components } from 'routes/components';
 import { AppRoutes } from 'routes/main-routes';
+import { NotFoundPage } from './NotFoundPage';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -35,7 +36,7 @@ const App: React.FC = () => {
           );
         })
       }
-      <Redirect to={AppRoutes.LENDING} />
+      <Route component={NotFoundPage} />
     </Switch>
   );
 };
