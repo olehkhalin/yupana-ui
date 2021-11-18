@@ -39,6 +39,8 @@ import {
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
+  YourSupplyAssetsEmptyCard,
+  YourBorrowAssetsEmptyCard,
 } from 'components/tables/components/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
@@ -1152,6 +1154,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Supply Assets Empty
+          </div>
+          <YourSupplyAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
@@ -1173,6 +1179,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Borrow Assets Empty
+          </div>
+          <YourBorrowAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
