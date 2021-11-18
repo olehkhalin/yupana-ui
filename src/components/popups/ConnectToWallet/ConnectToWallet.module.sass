@@ -1,0 +1,45 @@
+@import 'styles/breakpoints.scss'
+@import 'styles/variables.sass'
+
+.title
+  font-size: 1.25rem
+  margin-bottom: .5rem
+
+.description
+  font-size: .875rem
+  margin-bottom: 1rem
+
+.inner
+  margin: 0 .5rem
+  min-width: initial
+  text-align: center
+
+.wallets
+  display: flex
+  flex-direction: column
+  align-items: center
+
+.walletName
+  margin-left: .5rem
+  color: $blue-neutral
+
+.button
+  display: flex
+  align-items: center
+
+@include media('>Mphone')
+  .title
+    font-size: 1.5rem
+    margin-bottom: 1.5rem
+  .description
+    font-size: 1rem
+    margin-bottom: 2rem
+  .inner
+    margin: 0 5rem
+    min-width: initial
+  .wallets
+    justify-content: space-evenly
+    flex-direction: row
+  .wallet
+    &:not(:last-child)
+      margin-right: 2rem
