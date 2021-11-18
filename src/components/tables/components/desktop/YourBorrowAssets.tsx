@@ -37,7 +37,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         accessor: ({ borrowApy }: { borrowApy: number }) => `${borrowApy.toFixed(2)}%`,
       },
       {
-        Header: 'Balace',
+        Header: 'Balance',
         id: 'balance',
         accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
       },

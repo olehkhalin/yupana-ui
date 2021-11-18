@@ -1,0 +1,19 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  justify-content: space-between
+
+.col
+  display: none
+  flex-direction: column
+  width: 100%
+
+.show
+  display: flex
+
+@include media('>=Mdesktop')
+  .col
+    display: flex
+    width: initial

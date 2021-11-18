@@ -1,5 +1,11 @@
+@import 'styles/breakpoints.scss'
+
 .root
   width: 100%
   max-width: 82rem
-  margin: 0 auto
+  margin: 0 auto 2rem
   padding: 0 1rem
+
+@include media('>Mphone')
+  .root
+    margin-bottom: 4rem

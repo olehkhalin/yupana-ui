@@ -71,7 +71,7 @@
     text-align: center
 
 .primary, .secondary
-  width: 37.5rem
+  width: 100%
 
 .primary
   color: $light-blue
@@ -185,3 +185,7 @@
       background: $blue-light-gradient
       &::after
         @include blue-strong
+
+@include media('>=Mdesktop')
+  .primary, .secondary
+    width: 37.5rem
