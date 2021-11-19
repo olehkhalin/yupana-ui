@@ -3,11 +3,9 @@
 
 .title
   font-size: 1.25rem
-  margin-bottom: .5rem
 
 .description
   font-size: .875rem
-  margin-bottom: 1rem
 
 .inner
   margin: 0 .5rem
@@ -16,30 +14,36 @@
 
 .wallets
   display: flex
-  flex-direction: column
   align-items: center
+  flex-direction: column
 
 .walletName
-  margin-left: .5rem
+  margin-left: .5rem // 1rem?
   color: $blue-neutral
+  &:hover
+    text-shadow: $white-shadow
+  &:focus, &:active
+    color: $blue
+    text-shadow: $blue-shadow
 
 .button
   display: flex
   align-items: center
+  &:not(:last-child)
+    margin-bottom: 0
 
 @include media('>Mphone')
   .title
     font-size: 1.5rem
-    margin-bottom: 1.5rem
   .description
     font-size: 1rem
-    margin-bottom: 2rem
   .inner
     margin: 0 5rem
-    min-width: initial
   .wallets
-    justify-content: space-evenly
+    justify-content: center
+    align-items: start
     flex-direction: row
-  .wallet
+  .button
     &:not(:last-child)
       margin-right: 2rem
+      margin-bottom: -.5rem

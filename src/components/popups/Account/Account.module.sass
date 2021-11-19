@@ -1,6 +1,12 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
+.root
+  margin-bottom: .5rem
+
+.title
+  line-height: 1.5rem
+
 .title, .description
   margin-bottom: .5rem
 
@@ -14,50 +20,50 @@
   min-width: initial
 
 .optionName
-  margin-right: 1.25rem
-
-.option
-  &:not(:last-child)
-    margin-bottom: 1.5rem
+  margin-right: 1rem
+  &:hover
+    text-shadow: $white-shadow
+  &:focus, &:active
+    color: $blue
+    text-shadow: $blue-shadow
 
 .options
   display: flex
-  justify-content: center
   flex-direction: column
-  align-items: center
 
 .button
   display: flex
-  align-items: center
+  justify-content: center
   text-transform: uppercase
   font-weight: bold
   color: $blue-neutral
   line-height: 1.063rem
   &:not(:last-child)
-    margin-bottom: 1.436rem
+    margin-bottom: .5rem
 
 .logout
   position: absolute
-  top: .875rem
+  top: .75rem
   left: 1rem
   color: $light-yellow
   font-size: .875rem
+  &:hover
+    text-shadow: $white-shadow
+  &:focus, &:active
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
 
-@include media('>Mphone')
+@include media('>=Mphone')
   .title
     margin-bottom: 1.5rem
   .address
     margin-bottom: 3rem
-  .optionName
-    margin-right: 1.063rem
   .options
     flex-direction: row
-  .inner
-    min-width: initial
   .logout
     top: 2.5rem
     left: 3.5rem
-  .option
+  .button
     &:not(:last-child)
-      margin-right: 2rem
+      margin-right: 2.5rem
       margin-bottom: 0

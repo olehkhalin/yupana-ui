@@ -4,6 +4,7 @@ import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as TempleWallet } from 'svg/TempleWallet.svg';
 import { ReactComponent as Beacon } from 'svg/Beacon.svg';
+import { ModalHeader } from '../components/ModalHeader';
 
 import s from './ConnectToWallet.module.sass';
 
@@ -25,33 +26,29 @@ export const ConnectToWallet: React.FC<ConnectToWalletProps> = ({
     onRequestClose={onRequestClose}
     innerClassName={s.inner}
   >
-    <div className={s.root}>
-      <h2 className={s.title}>
-        {title}
-      </h2>
-      <div className={s.description}>
-        {description}
-      </div>
-      <div className={s.wallets}>
-        <div className={s.wallet}>
-          <Button
-            theme="clear"
-            className={s.button}
-          >
-            <TempleWallet />
-            <p className={s.walletName}>Temple wallet</p>
-          </Button>
-        </div>
-        <div className={s.wallet}>
-          <Button
-            theme="clear"
-            className={s.button}
-          >
-            <Beacon />
-            <p className={s.walletName}>Beacon</p>
-          </Button>
-        </div>
-      </div>
+    <ModalHeader
+      title={title}
+      description={description}
+    />
+    <div className={s.wallets}>
+      <Button
+        theme="clear"
+        className={s.button}
+      >
+        <TempleWallet />
+        <p className={s.walletName}>
+          Temple wallet
+        </p>
+      </Button>
+      <Button
+        theme="clear"
+        className={s.button}
+      >
+        <Beacon />
+        <p className={s.walletName}>
+          Beacon
+        </p>
+      </Button>
     </div>
   </Modal>
 );

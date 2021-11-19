@@ -1,5 +1,4 @@
 import React from 'react';
-
 import cx from 'classnames';
 
 import s from './ModalHeader.module.sass';
@@ -19,6 +18,8 @@ export const ModalHeader: React.FC<ModalHeaderProps> = ({
     <h2 className={s.title}>
       {title}
     </h2>
-    {description}
+    <div className={s.description}>
+      {description}
+    </div>
   </div>
 );

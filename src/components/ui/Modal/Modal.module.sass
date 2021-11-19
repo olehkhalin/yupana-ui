@@ -36,7 +36,7 @@
 
 .inner
   position: relative
-  padding: .813rem 3rem
+  padding: .75rem 3rem
   cursor: default
   background-color: rgba($dark-blue, .9)
   border-radius: .5rem
@@ -49,20 +49,22 @@
 
 .closeButton
   position: absolute
-  top: 1.25rem
-  right: 1.125rem
+  top: .875rem
+  right: 1.375rem
+  &:hover
+    path
+      fill: $blue-neutral
 
 .closeIcon
   width: .75rem
   height: auto
 
-@include media('>Mphone')
+@include media('>=Mphone')
   .closeIcon
     width: 1.125rem
     height: auto
   .closeButton
-    position: absolute
-    top: 2.375rem
-    right: 1.125rem
+    top: 2rem
+    right: 1rem
   .inner
     padding: 2rem 3.5rem
