@@ -6,7 +6,7 @@ import {
 import BaseLayout from 'layouts/BaseLayout';
 import { components } from 'routes/components';
 import { AppRoutes } from 'routes/main-routes';
-import { NotFoundPage } from './NotFoundPage';
+import NotFound from 'pages/not-found';
 
 const App: React.FC = () => {
   const location = useLocation();
@@ -36,7 +36,7 @@ const App: React.FC = () => {
           );
         })
       }
-      <Route component={NotFoundPage} />
+      <Route component={NotFound} />
     </Switch>
   );
 };
