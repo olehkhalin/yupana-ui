@@ -3,11 +3,9 @@ import cx from 'classnames';
 
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { Disclaimer } from 'components/common/Popups/Disclaimer';
-import { Liquidation } from 'components/common/Popups/Liquidation';
-import { BaseRate } from 'components/common/Popups/BaseRate';
-import { ConnectToWallet } from 'components/common/Popups/ConnectToWallet';
-import { Account } from 'components/common/Popups/Account/Account';
+import { InformationModal } from 'components/popups/InformationModal';
+import { ConnectToWallet } from 'components/popups/ConnectToWallet';
+import { Account } from 'components/popups/Account/Account';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -84,9 +82,7 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
-  const [disclaimerIsOpen, setDisclaimerIsOpen] = useState(false);
-  const [liquidationBonusIsOpen, setLiquidationBonusIsOpen] = useState(false);
-  const [baseRateIsOpen, setBaseRateIsOpen] = useState(false);
+  const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
 
@@ -977,82 +973,58 @@ export const UiKit: React.FC = () => {
           </Modal>
         </div>
         <div className={s.modalsButtons}>
-          <div>
-            Small Popup
+          <div className={s.block}>
+            <div className={s.title}>
+              Information Modal
+            </div>
+            <Button
+              onClick={() => setInformationModalIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Info
+            </Button>
+            <InformationModal
+              isOpen={informationModalIsOpen}
+              onRequestClose={() => setInformationModalIsOpen(false)}
+              title="Base rate per year"
+              description="The base interest rate which is the y-intercept when the utilization rate is 0."
+            />
           </div>
-          <Button
-            onClick={() => setDisclaimerIsOpen(true)}
-            className={s.modalsButton}
-          >
-            Disclaimer
-          </Button>
-          <Disclaimer
-            isOpen={disclaimerIsOpen}
-            onRequestClose={() => setDisclaimerIsOpen(false)}
-            title="Disclaimer"
-            description="Use at your own risk"
-          />
-          <div>
-            Medium Popup
+          <div className={s.block}>
+            <div className={s.title}>
+              Connect To Wallet
+            </div>
+            <Button
+              onClick={() => setConnectToWalletIsOpen(true)}
+              className={s.modalsButton}
+            >
+              ConnectToWallet
+            </Button>
+            <ConnectToWallet
+              isOpen={connectToWalletIsOpen}
+              onRequestClose={() => setConnectToWalletIsOpen(false)}
+              title="Connect to a wallet"
+              description="Please select a wallet to connect to this dapp:"
+            />
           </div>
-          <Button
-            onClick={() => setBaseRateIsOpen(true)}
-            className={s.modalsButton}
-          >
-            BaseRate
-          </Button>
-          <BaseRate
-            isOpen={baseRateIsOpen}
-            onRequestClose={() => setBaseRateIsOpen(false)}
-            title="Base rate per year"
-            description="The base interest rate which is the y-intercept when the utilization rate is 0."
-          />
-          <div>
-            Large Popup
+          <div className={s.block}>
+            <div className={s.title}>
+              Account
+            </div>
+            <Button
+              onClick={() => setAccountIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Account
+            </Button>
+            <Account
+              isOpen={accountIsOpen}
+              onRequestClose={() => setAccountIsOpen(false)}
+              title="Account"
+              description="Connected wallet address:"
+              address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
+            />
           </div>
-          <Button
-            onClick={() => setLiquidationBonusIsOpen(true)}
-            className={s.modalsButton}
-          >
-            Liquidation
-          </Button>
-          <Liquidation
-            isOpen={liquidationBonusIsOpen}
-            onRequestClose={() => setLiquidationBonusIsOpen(false)}
-            title="Liquidation bonus"
-            description="During liquidation, another user can repay part of the outstanding amount instead of the borrower and buy his collateral at a discount, receiving a bonus equal to the difference between the liquidation threshold for a specific debt position and the actual debt value at the time of liquidation"
-          />
-          <div>
-            Connect To Wallet
-          </div>
-          <Button
-            onClick={() => setConnectToWalletIsOpen(true)}
-            className={s.modalsButton}
-          >
-            ConnectToWallet
-          </Button>
-          <ConnectToWallet
-            isOpen={connectToWalletIsOpen}
-            onRequestClose={() => setConnectToWalletIsOpen(false)}
-            title="Connect to a wallet"
-            description="Please select a wallet to connect to this dapp:"
-          />
-          <div>
-            Account
-          </div>
-          <Button
-            onClick={() => setAccountIsOpen(true)}
-            className={s.modalsButton}
-          >
-            Account
-          </Button>
-          <Account
-            isOpen={accountIsOpen}
-            onRequestClose={() => setAccountIsOpen(false)}
-            title="Account"
-            description="Connected wallet address:"
-            address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
-          />
         </div>
       </div>
 
