@@ -125,6 +125,9 @@
     &::after
       box-shadow: $white-shadow
       opacity: .5
+  .tr
+    &:not(:last-child)
+      margin-bottom: 1.5rem
 
 .octonary, .quinary
   padding: 0
@@ -137,7 +140,7 @@
     transition: background $animationTime
     cursor: pointer
     &:first-child
-      margin-top: 1.5rem
+      margin-top: 1rem
     &:not(:last-child)
       margin-bottom: 0.5rem
     &:first-of-type

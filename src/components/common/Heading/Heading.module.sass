@@ -27,13 +27,15 @@
 
 .head
   margin-bottom: 2rem
+  &.withLink
+    margin-bottom: 0
 
 @include media('>Mphone')
   .root
     font-size: 2rem
-    margin-bottom: 1.75rem
+    margin-bottom: 2rem
   .link
-    margin-bottom: 1.5rem
+    margin-bottom: 2rem
 
 @include media('>=Lphone')
   .root
