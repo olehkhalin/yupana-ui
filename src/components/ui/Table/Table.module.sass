@@ -70,6 +70,13 @@
     margin-top: 1.5rem
     text-align: center
 
+.isShowPagination
+  .tbody
+    .tr
+      &:last-child
+        padding-bottom: 1rem
+        border-bottom: .063rem solid rgba($white, .5)
+
 .primary, .secondary
   width: 37.5rem
 
@@ -189,3 +196,6 @@
       background: $blue-light-gradient
       &::after
         @include blue-strong
+
+.pagination
+  margin-top: 1rem
