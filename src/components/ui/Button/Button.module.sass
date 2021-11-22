@@ -135,22 +135,22 @@
   &:not(:disabled)
     color: $white
     &:hover, &:focus
-      text-shadow: $white-shadow
+      text-shadow: $white-shadow-button
       .arrow
         filter: drop-shadow($white-shadow)
     &:active
       &.supply
         color: $blue-neutral
-        text-shadow: $blue-shadow
+        text-shadow: $blue-shadow-button
         .arrow
           filter: drop-shadow($blue-shadow)
           path
             fill: $blue-neutral
       &.borrow
         color: $light-yellow
-        text-shadow: $light-yellow-shadow
+        text-shadow: $light-yellow-shadow-button
         .arrow
-          filter: drop-shadow($light-yellow-shadow)
+          filter: drop-shadow($light-yellow-shadow-button)
           path
             fill: $light-yellow
 
@@ -167,28 +167,22 @@
       path
         fill: $light-yellow
   &:hover
-    text-shadow: $white-shadow
     &.supply
+      text-shadow: $blue-shadow-button
       .arrow
         filter: drop-shadow($blue-shadow)
     &.borrow
+      text-shadow: $light-yellow-shadow-button
       .arrow
         filter: drop-shadow($light-yellow-shadow)
   &:focus, &:active
-    &.supply
-      color: $blue
-      text-shadow: $blue-shadow
+    &.supply, &.borrow
+      color: $white
+      text-shadow: $white-shadow-button
       .arrow
-        filter: drop-shadow($blue-shadow)
+        filter: drop-shadow($white-shadow-button)
         path
-          fill: $blue
-    &.borrow
-      color: $light-yellow
-      text-shadow: $light-yellow-shadow
-      .arrow
-        filter: drop-shadow($light-yellow-shadow)
-        path
-          fill: $light-yellow
+          fill: $white
 
 .clear
   display: flex
