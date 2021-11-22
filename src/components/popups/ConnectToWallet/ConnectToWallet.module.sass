@@ -1,15 +1,9 @@
 @import 'styles/breakpoints.scss'
 @import 'styles/variables.sass'
 
-.title
-  font-size: 1.25rem
-
-.description
-  font-size: .875rem
-
 .inner
-  margin: 0 .5rem
   min-width: initial
+  margin: 0 .5rem
   text-align: center
 
 .wallets
@@ -18,7 +12,7 @@
   flex-direction: column
 
 .walletName
-  margin-left: .5rem // 1rem?
+  margin-left: .5rem
   color: $blue-neutral
   &:hover
     text-shadow: $white-shadow
@@ -33,10 +27,6 @@
     margin-bottom: 0
 
 @include media('>Mphone')
-  .title
-    font-size: 1.5rem
-  .description
-    font-size: 1rem
   .inner
     margin: 0 5rem
   .wallets
