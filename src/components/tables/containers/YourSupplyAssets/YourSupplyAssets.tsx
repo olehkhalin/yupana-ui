@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { YourSupplyAssetsCard } from 'components/tables/components/mobile';
 import { YourSupplyAssets as YourSupplyAssetsDesktop } from 'components/tables/components/desktop';
 
@@ -14,9 +14,9 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   className,
 }) => {
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <YourSupplyAssetsDesktop
         data={data}
