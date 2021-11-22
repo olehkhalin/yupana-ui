@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 
+import { PaginationInterface } from 'types/pagination';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
-import { PaginationInterface } from 'components/common/Pagination';
-import { ReactComponent as Arrow } from 'svg/Arrow.svg';
+import { ReactComponent as Arrow } from 'svg/PaginationArrow.svg';
 
-import s from '../Pagination.module.sass';
+import s from './MobilePagination.module.sass';
 
-export const MobilePagination: React.FC<PaginationInterface> = ({
+type MobilePaginationProps = {
+  className?: string
+} & PaginationInterface;
+
+export const MobilePagination: React.FC<MobilePaginationProps> = ({
   canPreviousPage,
   canNextPage,
   pageIndex,
@@ -101,7 +105,10 @@ export const MobilePagination: React.FC<PaginationInterface> = ({
         sizeT="small"
         theme="clear"
         onClick={previousPage}
-        className={cx(s.arrowButton, { [s.active]: !canPreviousPage })}
+        className={cx(
+          s.arrowButton,
+          { [s.disabled]: !canPreviousPage },
+        )}
         disabled={!canPreviousPage}
       >
         <Arrow className={s.arrow} />
@@ -115,10 +122,10 @@ export const MobilePagination: React.FC<PaginationInterface> = ({
             onChange={handleChange}
             max={lastPage}
             min={1}
-            className={compoundInputClassNames}
             onFocus={() => setInputFocus(true)}
             onBlur={handleBlur}
             style={{ width: inputWidthSize }}
+            inputClassName={compoundInputClassNames}
           />
           <input type="submit" className={s.submit} />
         </form>
@@ -143,10 +150,13 @@ export const MobilePagination: React.FC<PaginationInterface> = ({
         sizeT="small"
         theme="clear"
         onClick={nextPage}
-        className={cx(s.arrowButton, { [s.active]: !canNextPage })}
+        className={cx(
+          s.arrowButton,
+          { [s.disabled]: !canNextPage },
+        )}
         disabled={!canNextPage}
       >
-        <Arrow className={s.arrow} />
+        <Arrow className={cx(s.arrow, s.rightSide)} />
       </Button>
     </div>
   );

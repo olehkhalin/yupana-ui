@@ -14,7 +14,7 @@ export const usePhoneOrWider = () => useMediaQuery(
 
 export const useMphoneOrWider = () => useMediaQuery(
   {
-    minWidth: 560,
+    minWidth: 561,
   },
 );
 

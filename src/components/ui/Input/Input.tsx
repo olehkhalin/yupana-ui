@@ -5,33 +5,36 @@ import s from './Input.module.sass';
 
 type InputProps = {
   error?: string
+  inputClassName?: string
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(({
   error,
   disabled,
+  inputClassName,
   className,
   ...props
 }, ref) => {
-  const [hovered, setHovered] = useState(false);
+  // TODO: Research 'hovered' logic
+  // const [hovered, setHovered] = useState(false);
   const [active, setActive] = useState(false);
 
   return (
     <div className={cx(
       s.root,
       { [s.error]: !!error },
-      { [s.hovered]: hovered },
+      // { [s.hovered]: hovered },
       { [s.active]: active },
       { [s.disabled]: disabled },
       className,
     )}
     >
       <input
-        className={s.input}
+        className={cx(s.input, inputClassName)}
         ref={ref}
-        onMouseOver={() => !disabled && setHovered(true)}
-        onMouseLeave={() => !disabled && setHovered(false)}
+        // onMouseOver={() => !disabled && setHovered(true)}
+        // onMouseLeave={() => !disabled && setHovered(false)}
         onFocus={() => !disabled && setActive(true)}
         onBlur={() => !disabled && setActive(false)}
         disabled={disabled}

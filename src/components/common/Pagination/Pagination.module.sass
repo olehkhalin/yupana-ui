@@ -9,6 +9,7 @@
 
 .pages
   display: flex
+  align-items: center
   margin: 0 .5rem
 
 .numbering
@@ -16,16 +17,17 @@
   color: $white
   font-size: .875rem
   &:hover
-    color: $blue
+    text-shadow: $white-shadow
   &:active, &:focus
-    color: $white
+    color: $blue-neutral
+    text-shadow: $blue-shadow-button
   &.active
     color: $light-yellow
+    text-shadow: $light-yellow-shadow
 
 .separator
   display: flex
   align-items: center
-  margin: 0 .5rem
   letter-spacing: 0.15em
 
 .arrowButton
@@ -35,39 +37,22 @@
   &:hover
     .arrow
       > path
-        fill: $blue
+        fill: $white
   &:active, &:focus
     .arrow
       > path
-        fill: $white
+        fill: $blue-neutral
   &.disabled
     cursor: not-allowed
     .arrow
       > path
-        fill: $dark-blue
+        fill: rgba($white, .2)
 
 .rightSide
   transform: rotate(180deg)
 
-// mobile pagination
-// .input
-//   min-width: 1.875rem
-//   padding: 0 .5rem
-//   background-color: $dark-blue
-//   color: $light-yellow
-//   border: .063rem solid transparent
-//   text-align: center
-//   &::-webkit-inner-spin-button
-//     -webkit-appearance: none
-//     -moz-appearance: textfield
-//   &.focus
-//     color: $light-yellow
-//   &.error
-//     color: $light-yellow
-
-// .submit
-//   display: none
-
 @include media('>Mphone')
   .numbering
     font-size: 1rem
+  .separator
+    margin: 0 .5rem

@@ -52,7 +52,7 @@ export const Table: React.FC<TableProps> = ({
   isScrollToTop = false,
   // pagination
   pageSize,
-  pageCount = 200,
+  pageCount = 100,
   setOffset,
   activeItem,
   pagination = false,
@@ -90,7 +90,6 @@ export const Table: React.FC<TableProps> = ({
       pageCount: preparePageCount,
       disableSortRemove: true,
       autoResetPage: false,
-      disableSortBy: true,
       manualPagination: true,
     },
     useExpanded,
@@ -201,16 +200,16 @@ export const Table: React.FC<TableProps> = ({
       </div>
       <div className={s.pagination}>
         {isShowPagination && pagination && (
-        <Pagination
-          pageIndex={pageIndex}
-          canPreviousPage={canPreviousPage}
-          canNextPage={canNextPage}
-          pageCount={(pageOptions && pageOptions.length) ?? 13566}
-          nextPage={nextPage}
-          previousPage={previousPage}
-          gotoPage={gotoPage}
-          setOffset={setOffset}
-        />
+          <Pagination
+            pageIndex={pageIndex}
+            canPreviousPage={canPreviousPage}
+            canNextPage={canNextPage}
+            pageCount={(pageOptions && pageOptions.length) ?? 13566}
+            nextPage={nextPage}
+            previousPage={previousPage}
+            gotoPage={gotoPage}
+            setOffset={setOffset}
+          />
         )}
       </div>
     </>
