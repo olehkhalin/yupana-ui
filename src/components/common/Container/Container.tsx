@@ -11,7 +11,7 @@ export const Container: React.FC<ContainerProps> = ({
   className,
   children,
 }) => (
-  <div className={cx(s.root, className)}>
+  <section className={cx(s.root, className)}>
     {children}
-  </div>
+  </section>
 );
