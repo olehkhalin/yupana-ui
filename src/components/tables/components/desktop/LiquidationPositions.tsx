@@ -118,6 +118,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
+      pagination
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidationRow}
       className={cx(s.bigTableWrapper, className)}

@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
-import { YourSupplyAssetsCard } from 'components/tables/components/mobile';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { YourSupplyAssetsCard, YourSupplyAssetsEmptyCard } from 'components/tables/components/mobile';
 import { YourSupplyAssets as YourSupplyAssetsDesktop } from 'components/tables/components/desktop';
 
 type YourSupplyAssetsProps = {
@@ -14,9 +14,9 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   className,
 }) => {
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <YourSupplyAssetsDesktop
         data={data}
@@ -28,7 +28,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   return (
     <div className={className}>
       {
-        data.map(({
+        data && data.length ? data.map(({
           asset: tokenMetadata, ...rest
         }) => (
           <YourSupplyAssetsCard
@@ -36,7 +36,9 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
             {...tokenMetadata}
             {...rest}
           />
-        ))
+        )) : (
+          <YourSupplyAssetsEmptyCard />
+        )
       }
     </div>
   );

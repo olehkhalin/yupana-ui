@@ -76,3 +76,19 @@
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
     .amount
       text-shadow: $blue-shadow
+
+// Empty cards
+.root
+  display: flex
+  align-items: center
+.column
+  display: flex
+  flex-direction: column
+  width: 6.875rem
+  margin-right: 1rem
+.item
+  &:not(:last-child)
+    margin-bottom: 1rem
+.text
+  font-size: .875rem
+  font-weight: 400

@@ -6,28 +6,29 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
-import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 
-import s from './Cards.module.sass';
+import s from '../Cards.module.sass';
 
-type YourSupplyAssetsCardProps = {
+type YourBorrowAssetsCardProps = {
   id?: string
   address: string
   name?: string
   symbol?: string
-  thumbnailUri?: string
-  supplyApy: number
+  borrowLimit: number
+  borrowApy: number
   balance: number
+  thumbnailUri?: string
   className?: string
 };
 
-const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDropdownInterface> = ({
+const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
   address,
   name,
   symbol,
   thumbnailUri,
-  supplyApy,
+  borrowLimit,
+  borrowApy,
   balance,
   active,
   onClick,
@@ -45,6 +46,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
     <TableCard
       active={active}
       onClick={onClick}
+      theme="secondary"
       className={className}
     >
       <div className={s.row}>
@@ -59,10 +61,10 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
 
       <div className={s.row}>
         <div className={s.title}>
-          Supply APY
+          Borrow APY
         </div>
         <div className={s.value}>
-          {`${supplyApy.toFixed(2)}%`}
+          {`${borrowApy.toFixed(2)}%`}
         </div>
       </div>
 
@@ -77,12 +79,14 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
 
       <div className={s.row}>
         <div className={s.title}>
-          Collateral
+          Borrow limit
         </div>
-        <CollateralSwitcher token={{ address }} />
+        <div className={s.value}>
+          {`${borrowLimit.toFixed(2)}%`}
+        </div>
       </div>
     </TableCard>
   );
 };
 
-export const YourSupplyAssetsCard = withDropdown(OrdinaryYourSupplyAssetsCard);
+export const YourBorrowAssetsCard = withDropdown(OrdinaryYourBorrowAssetsCard);
