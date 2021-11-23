@@ -1,42 +1,42 @@
 import { useMediaQuery } from 'react-responsive';
 
-export const useSphoneOrWider = () => useMediaQuery(
+export const useWiderThanSphone = () => useMediaQuery(
   {
-    minWidth: 375,
+    minWidth: 376,
   },
 );
 
-export const usePhoneOrWider = () => useMediaQuery(
+export const useWiderThanPhone = () => useMediaQuery(
   {
-    minWidth: 425,
+    minWidth: 426,
   },
 );
 
-export const useMphoneOrWider = () => useMediaQuery(
+export const useWiderThanMphone = () => useMediaQuery(
   {
     minWidth: 561,
   },
 );
 
-export const useLphoneOrWider = () => useMediaQuery(
+export const useWiderThanLphone = () => useMediaQuery(
   {
-    minWidth: 620,
+    minWidth: 621,
   },
 );
 
-export const useTabletOrWider = () => useMediaQuery(
+export const useWiderThanTablet = () => useMediaQuery(
   {
-    minWidth: 768,
+    minWidth: 769,
   },
 );
 
-export const useLtabletOrWider = () => useMediaQuery(
+export const useWiderThanLtablet = () => useMediaQuery(
   {
-    minWidth: 1024,
+    minWidth: 1025,
   },
 );
 
-export const useCustomOrWider = ({ minWidth }: { minWidth: number }) => useMediaQuery(
+export const useWiderThanCustomWidth = ({ minWidth }: { minWidth: number }) => useMediaQuery(
   {
     minWidth,
   },

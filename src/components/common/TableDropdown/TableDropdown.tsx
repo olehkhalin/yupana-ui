@@ -57,7 +57,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
           onClick={handleClick}
           className={s.button}
         >
-          Withdraw
+          {isSecondaryTheme ? 'Repay' : 'Withdraw'}
         </Button>
       </div>
     </div>
