@@ -14,7 +14,7 @@ export type HTMLButtonType = (
 type ButtonProps = {
   theme?: keyof typeof themeClass
   sizeT?: keyof typeof sizeClass
-  action?: 'supply' | 'borrow'
+  actionT?: 'supply' | 'borrow'
   withArrow?: boolean
   external?: boolean
   className?: string
@@ -45,7 +45,7 @@ export const Button: React.FC<ButtonProps> = ({
   theme = 'primary',
   sizeT = 'large',
   type = 'button',
-  action = 'supply',
+  actionT = 'supply',
   withArrow = false,
   href,
   external = false,
@@ -59,7 +59,7 @@ export const Button: React.FC<ButtonProps> = ({
     themeClass[theme],
     sizeClass[sizeT],
     { [s.withArrow]: (withArrow && (theme === 'light' || theme === 'accent')) },
-    actionClass[action],
+    actionClass[actionT],
     className,
   );
 

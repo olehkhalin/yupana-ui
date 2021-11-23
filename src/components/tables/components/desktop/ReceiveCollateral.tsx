@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 
 import { TokenMetadataInterface } from 'types/token';
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Radio } from 'components/ui/Radio';
@@ -30,16 +31,25 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         accessor: 'asset',
-        Cell: ({ row }: { row: Row }) => (
-          <>
-            <Radio
-              className={s.radio}
-            />
-            <TokenName
-              token={{ ...row.values.asset }}
-            />
-          </>
-        ),
+        Cell: ({ row }: { row: Row }) => {
+          const isRadioButtonActive = selectedItem
+            ? getTokenSlug(row.values.asset) === getTokenSlug({
+              address: selectedItem.address,
+              id: selectedItem.id,
+            })
+            : false;
+          return (
+            <>
+              <Radio
+                active={isRadioButtonActive}
+                className={s.radio}
+              />
+              <TokenName
+                token={{ ...row.values.asset }}
+              />
+            </>
+          );
+        },
       },
       {
         Header: () => (
@@ -99,7 +109,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
       },
     ],
-    [],
+    [selectedItem],
   );
 
   return (

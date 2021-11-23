@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 
 import { TokenMetadataInterface } from 'types/token';
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
@@ -26,17 +27,26 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
       {
         Header: 'Asset',
         accessor: 'asset',
-        Cell: ({ row }: { row: Row }) => (
-          <>
-            <Radio
-              theme="secondary"
-              className={s.radio}
-            />
-            <TokenName
-              token={{ ...row.values.asset }}
-            />
-          </>
-        ),
+        Cell: ({ row }: { row: Row }) => {
+          const isRadioButtonActive = selectedItem
+            ? getTokenSlug(row.values.asset) === getTokenSlug({
+              address: selectedItem.address,
+              id: selectedItem.id,
+            })
+            : false;
+          return (
+            <>
+              <Radio
+                active={isRadioButtonActive}
+                theme="secondary"
+                className={s.radio}
+              />
+              <TokenName
+                token={{ ...row.values.asset }}
+              />
+            </>
+          );
+        },
       },
       {
         Header: () => (
@@ -96,7 +106,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         ),
       },
     ],
-    [],
+    [selectedItem],
   );
 
   return (
