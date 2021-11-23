@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PaginationInterface } from 'types/pagination';
-import { useMphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { DesktopPagination } from 'components/common/Pagination/DesktopPagination';
 import { MobilePagination } from 'components/common/Pagination/MobilePagination';
 
@@ -13,7 +13,7 @@ export const Pagination: React.FC<PaginationProps> = ({
   className,
   ...props
 }) => {
-  const isMobileOrWider = useMphoneOrWider();
+  const isMobileOrWider = useWiderThanMphone();
 
   if (!isMobileOrWider) {
     return (

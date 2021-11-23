@@ -5,7 +5,6 @@
   display: flex
   align-items: center
   justify-content: center
-  font-size: .875rem
 
 .pages
   display: flex
@@ -15,7 +14,8 @@
 .numbering
   margin: 0
   color: $white
-  font-size: .875rem
+  font-size: 1rem
+  font-weight: 400
   transition: color $animationTime, text-shadow $animationTime
   &:hover
     text-shadow: $white-shadow
@@ -35,10 +35,6 @@
   .arrow
     > path
       transition: fill $animationTime
-  &:hover
-    .arrow
-      > path
-        fill: $white
   &:active, &:focus
     .arrow
       > path
@@ -53,7 +49,10 @@
   transform: rotate(180deg)
 
 @include media('>Mphone')
-  .numbering
-    font-size: 1rem
   .separator
     margin: 0 .5rem
+  .arrowButton
+    &:hover
+      .arrow
+        > path
+          fill: $white
