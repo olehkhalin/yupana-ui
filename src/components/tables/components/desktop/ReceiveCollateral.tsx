@@ -4,6 +4,7 @@ import { Row } from 'react-table';
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { Radio } from 'components/ui/Radio';
 import { Table } from 'components/ui/Table';
 import { TokenName } from 'components/common/TokenName';
 
@@ -30,9 +31,14 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          <TokenName
-            token={{ ...row.values.asset }}
-          />
+          <>
+            <Radio
+              className={s.radio}
+            />
+            <TokenName
+              token={{ ...row.values.asset }}
+            />
+          </>
         ),
       },
       {

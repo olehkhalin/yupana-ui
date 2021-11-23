@@ -1,0 +1,39 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.radio
+  position: relative
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 1rem
+  height: 1rem
+  border: .063rem solid $white
+  border-radius: 50%
+
+.active
+  &::after
+    content: ''
+    position: absolute
+    width: .5rem
+    height: .5rem
+    background-color: $white
+    border-radius: 50%
+
+.primary
+  border-color: rgba($blue-neutral, .5)
+  &.active
+    border-color: $blue-neutral
+    box-shadow: $blue-shadow-button
+  &::after
+    background-color: $blue-neutral
+    box-shadow: $blue-shadow-button
+
+.secondary
+  border-color: rgba($light-yellow, .5)
+  &.active
+    border-color: $light-yellow
+    box-shadow: $light-yellow-shadow-button
+  &::after
+    background-color: $light-yellow
+    box-shadow: $light-yellow-shadow-button
