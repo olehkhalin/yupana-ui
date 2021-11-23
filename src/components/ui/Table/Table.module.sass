@@ -78,7 +78,7 @@
         border-bottom: .063rem solid rgba($white, .5)
 
 .primary, .secondary
-  width: 37.5rem
+  width: 100%
 
 .primary
   color: $light-blue
@@ -123,8 +123,9 @@
   font-weight: 700
   margin-left: -1rem
   margin-right: -1rem
-  width: auto !important
+  width: auto
   .wrapper
+    min-width: 100%
     width: max-content
     padding-left: 1rem
     padding-right: 1rem
@@ -199,3 +200,7 @@
 
 .pagination
   margin-top: 1rem
+
+@include media('>=Mdesktop')
+  .primary, .secondary
+    width: 37.5rem
