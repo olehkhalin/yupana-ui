@@ -27,8 +27,6 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-
-        accessor: (row: any) => (
           <>
             <Radio
               theme="secondary"
