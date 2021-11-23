@@ -1,5 +1,7 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
+import { Row } from 'react-table';
 
+import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Radio } from 'components/ui/Radio';
@@ -17,6 +19,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   data,
   className,
 }) => {
+  const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
+
   const columns = useMemo(
     () => [
       {
@@ -25,14 +29,14 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             Receive asset
           </span>
         ),
-        id: 'asset',
-        accessor: (row: any) => (
+        accessor: 'asset',
+        Cell: ({ row }: { row: Row }) => (
           <>
             <Radio
               className={s.radio}
             />
             <TokenName
-              token={{ ...row.asset }}
+              token={{ ...row.values.asset }}
             />
           </>
         ),
@@ -103,6 +107,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
       theme="quinary"
       columns={columns}
       data={data}
+      setSelectedItem={setSelectedItem}
+      selectedItem={selectedItem}
       rowClassName={s.repayRow}
       theadClassName={s.repayThead}
       className={className}

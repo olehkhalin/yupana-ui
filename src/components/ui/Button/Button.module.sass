@@ -6,7 +6,7 @@
   min-width: max-content
   padding: .5rem .75rem
   text-align: center
-  font-size: 0.875rem
+  font-size: .875rem
   line-height: 1
   font-weight: 700
   text-transform: uppercase
@@ -48,7 +48,7 @@
       background-color: $light-yellow
       box-shadow: $light-yellow-shadow-button
     &:hover, &:focus
-      color: $white
+      color: rgba($graphite, .6)
       box-shadow: $white-shadow-button
       border-color: $white
     &:active
@@ -135,22 +135,22 @@
   &:not(:disabled)
     color: $white
     &:hover, &:focus
-      text-shadow: $white-shadow
+      text-shadow: $white-shadow-button
       .arrow
         filter: drop-shadow($white-shadow)
     &:active
       &.supply
         color: $blue-neutral
-        text-shadow: $blue-shadow
+        text-shadow: $blue-shadow-button
         .arrow
           filter: drop-shadow($blue-shadow)
           path
             fill: $blue-neutral
       &.borrow
         color: $light-yellow
-        text-shadow: $light-yellow-shadow
+        text-shadow: $light-yellow-shadow-button
         .arrow
-          filter: drop-shadow($light-yellow-shadow)
+          filter: drop-shadow($light-yellow-shadow-button)
           path
             fill: $light-yellow
 
@@ -167,28 +167,22 @@
       path
         fill: $light-yellow
   &:hover
-    text-shadow: $white-shadow
     &.supply
+      text-shadow: $blue-shadow-button
       .arrow
         filter: drop-shadow($blue-shadow)
     &.borrow
+      text-shadow: $light-yellow-shadow-button
       .arrow
         filter: drop-shadow($light-yellow-shadow)
   &:focus, &:active
-    &.supply
-      color: $blue
-      text-shadow: $blue-shadow
+    &.supply, &.borrow
+      color: $white
+      text-shadow: $white-shadow-button
       .arrow
-        filter: drop-shadow($blue-shadow)
+        filter: drop-shadow($white-shadow-button)
         path
-          fill: $blue
-    &.borrow
-      color: $light-yellow
-      text-shadow: $light-yellow-shadow
-      .arrow
-        filter: drop-shadow($light-yellow-shadow)
-        path
-          fill: $light-yellow
+          fill: $white
 
 .clear
   display: flex

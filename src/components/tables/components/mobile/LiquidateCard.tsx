@@ -50,7 +50,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
     </div>
 
     <div className={s.row}>
-      <div className={cx(s.title, s.wrapper)}>
+      <div className={cx(s.title, s.healthFactor)}>
         Health Factor
         <Button
           theme="clear"

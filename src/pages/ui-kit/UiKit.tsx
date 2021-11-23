@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
@@ -25,14 +26,17 @@ import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
+import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
+import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { Liquidate } from 'components/tables/containers/Liquidate';
 import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
 import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
 import {
   BorrowAssetsCard,
   MarketsCard,
+  RepayBorrowCard,
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
@@ -40,9 +44,8 @@ import {
 import { MarketCard } from 'components/common/MarketCard';
 import {
   LiquidationPositions,
-  ReceiveCollateral,
-  RepayBorrow,
 } from 'components/tables/components/desktop';
+import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
@@ -77,6 +80,10 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
+
+  // RepayBorrow cards
+  const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
+  const [selectedReceiveCollateralItem, setSelectedReceiveCollateralItem] = useState<string>('');
 
   return (
     <>
@@ -1185,6 +1192,52 @@ export const UiKit: React.FC = () => {
               name={name}
               symbol={symbol}
               thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Repay Borrow
+        </div>
+        <div className={s.marginBottomLarge}>
+          {REPAY_BORROW_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <RepayBorrowCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              active={selectedRepayBorrowItem === getTokenSlug({ id, address })}
+              setItem={setSelectedRepayBorrowItem}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Receive Collateral
+        </div>
+        <div className={s.marginBottomLarge}>
+          {RECEIVE_COLLATERAL_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <ReceiveCollateralCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              active={selectedReceiveCollateralItem === getTokenSlug({ id, address })}
+              setItem={setSelectedReceiveCollateralItem}
               {...rest}
             />
           ))}

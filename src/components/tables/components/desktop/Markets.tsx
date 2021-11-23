@@ -29,6 +29,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
+            href="/"
           />
         ),
       },

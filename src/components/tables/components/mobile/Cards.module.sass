@@ -3,7 +3,7 @@
 .row
   display: flex
   align-items: center
-  height: 1.5rem
+  min-height: 1.5rem
   &:not(:last-child)
     margin-bottom: .5rem
 
@@ -36,9 +36,43 @@
 
 .blue
   color: $blue-neutral
+  .title
+    text-shadow: $blue-shadow
 
 .white
   color: $white
 
+.healthFactor
+  display: flex
+
+.amount
+  margin-bottom: .25rem
+  font-size: 1rem
+  font-weight: 400
+  text-shadow: initial
+
+.amountUsd
+  font-size: .75rem
+
 .wrapper
   display: flex
+  flex-direction: column
+  padding: 0 .5rem
+
+.active
+  .amount
+    font-weight: 700
+
+.repayRoot
+  cursor: pointer
+  &.active
+    background: linear-gradient(0deg, rgba(255, 199, 0, .3), rgba(255, 184, 0, 0) 91.23%)
+    .amount
+      text-shadow: $light-yellow-shadow
+
+.receiveRoot
+  cursor: pointer
+  &.active
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
+    .amount
+      text-shadow: $blue-shadow
