@@ -90,6 +90,27 @@
   &:not(:last-child)
     margin-bottom: 1rem
 
+// Radio
+.radioWrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+  width: 1rem
+  padding: 1rem 1.5rem
+  border: 1px dashed $white
+  border-radius: .5rem
+
+// User Stat
+.userStat
+  margin-bottom: 2rem
+
+@include media('>Mphone')
+  .userStat
+    margin-bottom: 4rem
+  .limit
+    &:not(:last-child)
+      margin-bottom: 2rem
+
 @include media('<=Sdesktop')
   .switchTable
     display: none
