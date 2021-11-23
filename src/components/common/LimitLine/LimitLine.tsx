@@ -3,6 +3,8 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { Button } from 'components/ui/Button';
 import { ProgressBar } from 'components/ui/ProgressBar';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 
@@ -10,7 +12,7 @@ import s from './LimitLine.module.sass';
 
 type LimitLineProps = {
   percent: number
-  value: string
+  value: number
   title: string
   className?: string
 };
@@ -46,17 +48,23 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 
         <div className={s.title}>
           {title}
-          <Attention className={s.attention} />
+          <Button
+            theme="clear"
+            className={s.attention}
+          >
+            <Attention className={s.icon} />
+          </Button>
         </div>
 
         <div className={s.value}>
-          {`$ ${value}`}
+          {getPrettyAmount({ value, currency: '$' })}
         </div>
       </div>
 
       <ProgressBar
         amount={amount}
         timing={timing}
+        theme="secondary"
       />
     </div>
   );

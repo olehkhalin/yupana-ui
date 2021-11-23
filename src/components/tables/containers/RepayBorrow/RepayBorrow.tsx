@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { RepayBorrow as RepayBorrowDesktop } from 'components/tables/components/desktop';
 import { RepayBorrowCard } from 'components/tables/components/mobile';
@@ -16,9 +16,9 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <RepayBorrowDesktop
         data={data}

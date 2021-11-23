@@ -25,10 +25,10 @@ export const Markets: React.FC<MarketsProps> = ({
             Market
           </span>
         ),
-        id: 'market',
+        id: 'asset',
         accessor: (row: any) => (
           <TokenName
-            token={{ ...row.market }}
+            token={{ ...row.asset }}
             href="/"
           />
         ),
