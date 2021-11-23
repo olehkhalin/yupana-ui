@@ -5,6 +5,7 @@ import { TokenMetadataInterface } from 'types/token';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { Table } from 'components/ui/Table';
+import { Radio } from 'components/ui/Radio';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Tables.module.sass';
@@ -26,9 +27,17 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          <TokenName
-            token={{ ...row.values.asset }}
-          />
+
+        accessor: (row: any) => (
+          <>
+            <Radio
+              theme="secondary"
+              className={s.radio}
+            />
+            <TokenName
+              token={{ ...row.values.asset }}
+            />
+          </>
         ),
       },
       {

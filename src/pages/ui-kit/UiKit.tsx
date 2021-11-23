@@ -6,6 +6,7 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
+import { Radio } from 'components/ui/Radio';
 import { LimitLine } from 'components/common/LimitLine';
 import {
   mokeBorrowLimitData,
@@ -1180,7 +1181,7 @@ export const UiKit: React.FC = () => {
         </div>
         <div className={s.marginBottomLarge}>
           {ALL_MARKETS_DATA.map(({
-            market: {
+            asset: {
               id, address, name, symbol, thumbnailUri,
             }, ...rest
           }) => (
@@ -1256,6 +1257,29 @@ export const UiKit: React.FC = () => {
           {...MARKET_CARDS_BORROW}
           theme="secondary"
         />
+      </div>
+
+      {/* Radio */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Radio
+        </div>
+        <div className={cx(s.radioWrapper, s.marginBottom)}>
+          <Radio
+            active
+            className={s.marginBottom}
+          />
+          <Radio />
+        </div>
+
+        <div className={s.radioWrapper}>
+          <Radio
+            active
+            theme="secondary"
+            className={s.marginBottom}
+          />
+          <Radio theme="secondary" />
+        </div>
       </div>
     </>
   );
