@@ -12,12 +12,6 @@
   border-radius: 50%
 
 .active
-  &.primary
-    border-color: $blue-neutral
-    box-shadow: $blue-shadow-button
-  &.secondary
-    border-color: $light-yellow
-    box-shadow: $light-yellow-shadow-button
   &::after
     content: ''
     position: absolute
@@ -28,12 +22,18 @@
 
 .primary
   border-color: rgba($blue-neutral, .5)
+  &.active
+    border-color: $blue-neutral
+    box-shadow: $blue-shadow-button
   &::after
     background-color: $blue-neutral
     box-shadow: $blue-shadow-button
 
 .secondary
   border-color: rgba($light-yellow, .5)
+  &.active
+    border-color: $light-yellow
+    box-shadow: $light-yellow-shadow-button
   &::after
     background-color: $light-yellow
     box-shadow: $light-yellow-shadow-button
