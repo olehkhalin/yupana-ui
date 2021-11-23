@@ -29,7 +29,7 @@ export const Markets: React.FC<MarketsProps> = ({
     <div className={className}>
       {
         data.map(({
-          market: tokenMetadata, ...rest
+          asset: tokenMetadata, ...rest
         }) => (
           <MarketsCard
             key={getUniqueKey()}
