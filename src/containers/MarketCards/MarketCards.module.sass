@@ -1,0 +1,25 @@
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+  width: 100%
+
+.card
+  flex: 1
+  &:not(:last-child)
+    margin-bottom: 2rem
+
+@include media('>tablet')
+  .root
+    flex-direction: row
+  .card
+    &:first-child
+      margin-right: 2rem
+    &:not(:last-child)
+      margin-bottom: 0
+
+@include media('>Sdesktop')
+  .card
+    &:first-child
+      margin-right: 5rem
