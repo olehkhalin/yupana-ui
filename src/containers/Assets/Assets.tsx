@@ -1,7 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { useWiderThanCustomWidth } from 'utils/getMediaQuery';
+import { useWiderThanMdesktop } from 'utils/getMediaQuery';
 import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
@@ -19,7 +19,7 @@ export const Assets: React.FC<AssetsProps> = ({
   isActiveSupply = true,
   className,
 }) => {
-  const isMdesktopOrWider = useWiderThanCustomWidth({ minWidth: 1260 });
+  const isWiderThanMdesktop = useWiderThanMdesktop();
 
   return (
     <div className={cx(s.root, className)}>
@@ -29,7 +29,7 @@ export const Assets: React.FC<AssetsProps> = ({
           label: 'docks: suppling assets',
           link: '/',
         }}
-        className={cx(s.col, { [s.show]: isActiveSupply && !isMdesktopOrWider })}
+        className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
         <SupplyAssets
           data={SUPPLY_ASSETS_DATA}
@@ -44,7 +44,7 @@ export const Assets: React.FC<AssetsProps> = ({
           link: '/',
         }}
         theme="secondary"
-        className={cx(s.col, { [s.show]: !isActiveSupply && !isMdesktopOrWider })}
+        className={cx(s.col, { [s.show]: !isActiveSupply && !isWiderThanMdesktop })}
       >
         <BorrowAssets
           data={BORROW_ASSETS_DATA}
