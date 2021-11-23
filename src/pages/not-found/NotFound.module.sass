@@ -9,23 +9,19 @@
   min-height: calc(100vh - 14.4rem)
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba($blue, .7))
 
-.number
-  margin-bottom: .5rem
-  font-size: 5.5rem
-  line-height: 6.5rem
-
-.text
-  font-size: 1rem
-  line-height: 1.188rem
-
 .number, .text
   font-weight: bold
   color: $light-blue
 
+.number
+  font-size: 5.5rem
+
+.text
+  margin-bottom: 2rem
+  font-size: 1rem
+
 @include media('>Mphone')
   .number
     font-size: 8rem
-    line-height: 9.5rem
   .text
     font-size: 1.5rem
-    line-height: 1.75rem
