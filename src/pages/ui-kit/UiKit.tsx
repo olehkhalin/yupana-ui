@@ -1024,7 +1024,7 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Liquidation positions
         </div>
-        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
 
         <div className={s.subTitle}>
           Liquidate

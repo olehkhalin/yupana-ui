@@ -70,6 +70,13 @@
     margin-top: 1.5rem
     text-align: center
 
+.isShowPagination
+  .tbody
+    .tr
+      &:last-child
+        padding-bottom: 1rem
+        border-bottom: .063rem solid rgba($white, .5)
+
 .primary, .secondary
   width: 100%
 
@@ -126,6 +133,9 @@
     &::after
       box-shadow: $white-shadow
       opacity: .5
+  .tr
+    &:not(:last-child)
+      margin-bottom: 1.5rem
 
 .octonary, .quinary
   padding: 0
@@ -138,7 +148,7 @@
     transition: background $animationTime
     cursor: pointer
     &:first-child
-      margin-top: 1.5rem
+      margin-top: 1rem
     &:not(:last-child)
       margin-bottom: 0.5rem
     &:first-of-type
@@ -187,6 +197,9 @@
       background: $blue-light-gradient
       &::after
         @include blue-strong
+
+.pagination
+  margin-top: 1rem
 
 @include media('>=Mdesktop')
   .primary, .secondary
