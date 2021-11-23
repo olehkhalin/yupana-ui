@@ -2,7 +2,7 @@ import { XTZ_THUMBNAIL_URI } from 'components/ui/TokenLogo/content';
 
 export const ALL_MARKETS_DATA = [
   {
-    market: {
+    asset: {
       id: '1',
       address: 'tez',
       name: 'Tezos',
@@ -18,7 +18,7 @@ export const ALL_MARKETS_DATA = [
     details: true,
   },
   {
-    market: {
+    asset: {
       id: '1',
       address: 'tez',
       name: 'Tezos',
@@ -34,7 +34,7 @@ export const ALL_MARKETS_DATA = [
     details: true,
   },
   {
-    market: {
+    asset: {
       id: '1',
       address: 'tez',
       name: 'Tezos',

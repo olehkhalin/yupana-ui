@@ -2,7 +2,7 @@ import React from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useWiderThanLphone } from 'utils/getMediaQuery';
-import { YourBorrowAssetsCard } from 'components/tables/components/mobile';
+import { YourBorrowAssetsCard, YourBorrowAssetsEmptyCard } from 'components/tables/components/mobile';
 import { YourBorrowAssets as YourBorrowAssetsDesktop } from 'components/tables/components/desktop';
 
 type YourBorrowAssetsProps = {
@@ -28,7 +28,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   return (
     <div className={className}>
       {
-        data.map(({
+        data && data.length ? data.map(({
           asset: tokenMetadata, ...rest
         }) => (
           <YourBorrowAssetsCard
@@ -36,7 +36,9 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
             {...tokenMetadata}
             {...rest}
           />
-        ))
+        )) : (
+          <YourBorrowAssetsEmptyCard />
+        )
       }
     </div>
   );

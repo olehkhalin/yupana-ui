@@ -1,18 +1,17 @@
 @import "styles/variables.sass"
 @import "styles/breakpoints.scss"
 
-.header
+.root
   width: 100%
   font-weight: 700
-  font-size: 48px
-  margin-bottom: 28px
+  font-size: 1.5rem
+  margin-bottom: 1rem
 
 .withLink
-  margin-bottom: 8px
+  margin-bottom: 0
 
 .link
-  margin-bottom: 32px
-  margin-left: -.75rem
+  margin-bottom: .5rem
 
 .primary
   color: $light-blue
@@ -21,3 +20,25 @@
 .secondary
   color: $light-yellow
   text-shadow: $light-yellow-shadow
+
+.tertiary
+  color: $white
+  text-shadow: $white-shadow-button
+
+.head
+  margin-bottom: 2rem
+  &.withLink
+    margin-bottom: 0
+
+@include media('>Mphone')
+  .root
+    font-size: 2rem
+    margin-bottom: 2rem
+  .link
+    margin-bottom: 2rem
+
+@include media('>=Lphone')
+  .root
+    font-size: 3rem
+  .withLink
+    margin-bottom: .75rem

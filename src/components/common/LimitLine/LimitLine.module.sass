@@ -19,7 +19,7 @@
   width: 100%
   justify-content: center
   order: -1
-  margin-bottom: .75rem
+  margin-bottom: .5rem
 
 .percent, .value
   width: 50%
@@ -28,9 +28,15 @@
   text-align: right
 
 .attention
-  margin-left: .75rem
-  cursor: pointer
-  margin-top: -1px
+  margin-left: .25rem
+  &:hover
+    .icon
+      path
+        fill: $light-yellow
+
+.icon
+  path
+    transition: fill $animationTime
 
 @include media('>=Lphone')
   .title
@@ -47,27 +53,3 @@
     display: flex
     flex-direction: column
     width: 100%
-
-  //.content
-  //  position: relative
-  //  display: flex
-  //  justify-content: space-between
-  //  margin-bottom: .656rem
-  //  font-weight: 700
-  //
-  //.title
-  //  display: flex
-  //  align-items: center
-  //  width: 100%
-  //  justify-content: center
-  //
-  //.percent, .value
-  //  width: 25%
-  //
-  //.value
-  //  text-align: right
-  //
-  //.attention
-  //  margin-left: .75rem
-  //  cursor: pointer
-  //  margin-top: -1px
