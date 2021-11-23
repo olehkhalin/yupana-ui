@@ -2,9 +2,9 @@ import React from 'react';
 
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
+import { ModalHeader } from 'components/popups/components/ModalHeader';
 import { ReactComponent as TempleWallet } from 'svg/TempleWallet.svg';
 import { ReactComponent as Beacon } from 'svg/Beacon.svg';
-import { ModalHeader } from '../components/ModalHeader';
 
 import s from './ConnectToWallet.module.sass';
 
