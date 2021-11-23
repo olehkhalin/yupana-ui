@@ -5,7 +5,7 @@
   margin-bottom: .5rem
 
 .address
-  margin-bottom: 1.5rem
+  margin-bottom: 1.438rem
   font-weight: bold
 
 .inner
@@ -15,11 +15,6 @@
 
 .optionName
   margin-right: 1rem
-  &:hover
-    text-shadow: $white-shadow
-  &:focus, &:active
-    color: $blue
-    text-shadow: $blue-shadow
 
 .options
   display: flex
@@ -27,15 +22,16 @@
 
 .logout
   position: absolute
-  top: .75rem
+  top: 1rem
   left: 1rem
   font-size: .875rem
   color: $light-yellow
+  transition: $animationTime
   &:hover
-    text-shadow: $white-shadow
-  &:focus, &:active
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
+    text-shadow: $light-yellow-shadow-button
+  &:active
+    color: $white
+    text-shadow: $white-shadow-button
 
 .button
   display: flex
@@ -44,17 +40,30 @@
   font-weight: bold
   color: $blue-neutral
   line-height: 1.063rem
+  transition: $animationTime
+  &:hover
+    color: $light-yellow
+    path
+      fill: $light-yellow
+  &:active
+    color: $white
+    path
+      fill: $white
   &:not(:last-child)
     margin-bottom: .5rem
 
-@include media('>=Mphone')
+.button
+  path
+    transition: fill $animationTime
+
+@include media('>Mphone')
   .address
-    margin-bottom: 3rem
+    margin-bottom: 2.938rem
   .options
     flex-direction: row
   .logout
-    top: 2.5rem
-    left: 3.5rem
+    top: 2.25rem
+    left: 1rem
   .button
     &:not(:last-child)
       margin-right: 2.5rem

@@ -29,6 +29,7 @@ export const ConnectToWallet: React.FC<ConnectToWalletProps> = ({
     <ModalHeader
       title={title}
       description={description}
+      className={s.head}
     />
     <div className={s.wallets}>
       <Button

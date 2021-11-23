@@ -11,22 +11,27 @@
   align-items: center
   flex-direction: column
 
+.head
+  margin-bottom: 1.031rem
+
 .walletName
   margin-left: .5rem
-  color: $blue-neutral
-  &:hover
-    text-shadow: $white-shadow
-  &:focus, &:active
-    color: $blue
-    text-shadow: $blue-shadow
 
 .button
   display: flex
   align-items: center
+  color: $blue-neutral
+  transition: $animationTime
+  &:hover
+    color: $light-yellow
+  &:active
+    color: $white
   &:not(:last-child)
     margin-bottom: 0
 
 @include media('>Mphone')
+  .head
+    margin-bottom: 2.031rem
   .inner
     margin: 0 5rem
   .wallets

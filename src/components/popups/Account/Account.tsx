@@ -29,6 +29,7 @@ export const Account: React.FC<AccountProps> = ({
     isOpen={isOpen}
     onRequestClose={onRequestClose}
     innerClassName={s.inner}
+    className={s.root}
   >
     <Button
       theme="clear"
