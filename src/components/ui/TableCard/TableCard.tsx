@@ -33,7 +33,7 @@ export const TableCard: React.FC<TableCardProps> = ({
 }) => (
   <div
     onClick={onClick}
-    className={cx(s.root, themeClasses[theme], className)}
+    className={cx(s.root, themeClasses[theme], { [s.market]: withDetailsButton }, className)}
   >
     {withDetailsButton && (
       <Button

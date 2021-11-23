@@ -1,6 +1,8 @@
 import React from 'react';
 
 import Lending from 'pages/lenging';
+import Markets from 'pages/markets';
+import LiquidationPositions from 'pages/liquidation-positions';
 import UiKit from 'pages/ui-kit';
 
 import { AppRoutes } from './main-routes';
@@ -14,13 +16,23 @@ export type RoutesType = {
 
 export const components: RoutesType[] = [
   {
+    id: 0,
+    path: AppRoutes.UIKIT,
+    Component: UiKit,
+  },
+  {
     id: 1,
     path: AppRoutes.LENDING,
     Component: Lending,
   },
   {
     id: 2,
-    path: AppRoutes.UIKIT,
-    Component: UiKit,
+    path: AppRoutes.MARKETS,
+    Component: Markets,
+  },
+  {
+    id: 2,
+    path: AppRoutes.LIQUIDATE,
+    Component: LiquidationPositions,
   },
 ];

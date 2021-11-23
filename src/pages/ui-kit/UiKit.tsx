@@ -6,6 +6,7 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
+import { Radio } from 'components/ui/Radio';
 import { LimitLine } from 'components/common/LimitLine';
 import {
   mokeBorrowLimitData,
@@ -22,6 +23,7 @@ import {
   mokeSupplySecondaryData,
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { UserStat } from 'components/common/UserStat';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
@@ -39,6 +41,8 @@ import {
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
+  YourSupplyAssetsEmptyCard,
+  YourBorrowAssetsEmptyCard,
 } from 'components/tables/components/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
@@ -56,6 +60,8 @@ import {
   MARKET_CARDS_SUPPLY,
   MARKET_CARDS_BORROW,
 } from 'components/temp-data/market-card';
+import { USER_STAT } from 'components/temp-data/user-stat';
+import { LIMIT_LINE } from 'components/temp-data/limit-line';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -1018,7 +1024,7 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Liquidation positions
         </div>
-        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
 
         <div className={s.subTitle}>
           Liquidate
@@ -1152,6 +1158,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Supply Assets Empty
+          </div>
+          <YourSupplyAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
@@ -1173,6 +1183,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Borrow Assets Empty
+          </div>
+          <YourBorrowAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
@@ -1180,7 +1194,7 @@ export const UiKit: React.FC = () => {
         </div>
         <div className={s.marginBottomLarge}>
           {ALL_MARKETS_DATA.map(({
-            market: {
+            asset: {
               id, address, name, symbol, thumbnailUri,
             }, ...rest
           }) => (
@@ -1256,6 +1270,51 @@ export const UiKit: React.FC = () => {
           {...MARKET_CARDS_BORROW}
           theme="secondary"
         />
+      </div>
+
+      {/* Radio */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Radio
+        </div>
+        <div className={cx(s.radioWrapper, s.marginBottom)}>
+          <Radio
+            active
+            className={s.marginBottom}
+          />
+          <Radio />
+        </div>
+
+        <div className={s.radioWrapper}>
+          <Radio
+            active
+            theme="secondary"
+            className={s.marginBottom}
+          />
+          <Radio theme="secondary" />
+        </div>
+      </div>
+
+      {/* User Stat */}
+      <div className={s.block}>
+        <div className={s.title}>
+          User Stat
+        </div>
+        <div>
+          <UserStat {...USER_STAT} className={s.userStat} />
+          <LimitLine
+            percent={LIMIT_LINE.userBorrowLimitPercent}
+            value={LIMIT_LINE.userBorrowLimit}
+            title="Your Borrow Limit"
+            className={s.limit}
+          />
+          <LimitLine
+            percent={LIMIT_LINE.userLiquidationLimitPercent}
+            value={LIMIT_LINE.userLiquidationLimit}
+            title="Your Liquidation Limit"
+            className={s.limit}
+          />
+        </div>
       </div>
     </>
   );

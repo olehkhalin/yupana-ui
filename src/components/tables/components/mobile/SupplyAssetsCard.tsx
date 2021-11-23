@@ -60,7 +60,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
 
       <div className={s.row}>
         <div className={s.title}>
-          Borrow APY
+          Supply APY
         </div>
         <div className={s.value}>
           {`${supplyApy.toFixed(2)}%`}
