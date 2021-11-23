@@ -1,17 +1,17 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
-.root
-  margin-bottom: .5rem
-
-.address
-  margin-bottom: 1.438rem
-  font-weight: bold
-
 .inner
   min-width: initial
   margin: 0 .5rem
   text-align: center
+
+.head
+  margin-bottom: 0.5rem
+
+.address
+  margin-bottom: 1.438rem
+  font-weight: bold
 
 .optionName
   margin-right: 1rem
@@ -22,7 +22,7 @@
 
 .logout
   position: absolute
-  top: 1rem
+  top: .75rem
   left: 1rem
   font-size: .875rem
   color: $light-yellow
@@ -49,8 +49,10 @@
     color: $white
     path
       fill: $white
-  &:not(:last-child)
+  &:first-child
     margin-bottom: .5rem
+  &:last-child
+    margin-bottom: -.25rem
 
 .button
   path
@@ -58,7 +60,7 @@
 
 @include media('>Mphone')
   .address
-    margin-bottom: 2.938rem
+    margin-bottom: 2.5rem
   .options
     flex-direction: row
   .logout
