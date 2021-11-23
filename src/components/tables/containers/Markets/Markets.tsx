@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { MarketsCard } from 'components/tables/components/mobile';
 import { Markets as MarketsDesktop } from 'components/tables/components/desktop';
 
@@ -14,9 +14,9 @@ export const Markets: React.FC<MarketsProps> = ({
   data,
   className,
 }) => {
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <MarketsDesktop
         data={data}

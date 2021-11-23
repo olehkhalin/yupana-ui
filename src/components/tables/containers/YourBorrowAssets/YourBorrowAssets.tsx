@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { YourBorrowAssetsCard, YourBorrowAssetsEmptyCard } from 'components/tables/components/mobile';
 import { YourBorrowAssets as YourBorrowAssetsDesktop } from 'components/tables/components/desktop';
 
@@ -14,9 +14,9 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
   className,
 }) => {
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <YourBorrowAssetsDesktop
         data={data}

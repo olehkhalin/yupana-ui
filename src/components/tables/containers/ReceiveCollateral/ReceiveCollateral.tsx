@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
-import { useLphoneOrWider } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { ReceiveCollateral as ReceiveCollateralDesktop } from 'components/tables/components/desktop';
 import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
@@ -16,9 +16,9 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
-  const isLphoneOrWider = useLphoneOrWider();
+  const isWiderThanLphone = useWiderThanLphone();
 
-  if (isLphoneOrWider) {
+  if (isWiderThanLphone) {
     return (
       <ReceiveCollateralDesktop
         data={data}
