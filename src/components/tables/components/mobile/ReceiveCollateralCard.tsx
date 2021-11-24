@@ -5,6 +5,7 @@ import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
+import { Radio } from 'components/ui/Radio';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
@@ -59,6 +60,10 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
       className={cx(s.receiveRoot, { [s.active]: active }, className)}
     >
       <div className={s.wrapper}>
+        <Radio
+          active={active}
+          className={s.radio}
+        />
         <div className={s.row}>
           <div className={s.title}>
             Receive asset

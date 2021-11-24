@@ -64,6 +64,7 @@
     font-weight: 700
 
 .repayRoot
+  position: relative
   cursor: pointer
   &.active
     background: linear-gradient(0deg, rgba(255, 199, 0, .3), rgba(255, 184, 0, 0) 91.23%)
@@ -76,6 +77,11 @@
     background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
     .amount
       text-shadow: $blue-shadow
+
+.radio
+  position: absolute
+  top: .25rem
+  right: .75rem
 
 // Empty cards
 .root
