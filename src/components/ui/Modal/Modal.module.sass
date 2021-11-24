@@ -33,25 +33,51 @@
 .root
   outline: none
   height: 100%
+  width: 100%
+  min-width: initial
+  margin: 0 .5rem
+  text-align: center
 
 .inner
   position: relative
-  padding: 2rem 3.5rem
+  padding: .75rem 3rem
   cursor: default
   background-color: rgba($dark-blue, .9)
-  border-radius: .5rem
+  border-radius: .25rem
   color: $white
   display: flex
   flex-direction: column
   align-items: center
   box-sizing: content-box
   min-width: 16.25rem
+  max-width: 21rem
+  width: 100%
 
 .closeButton
   position: absolute
-  top: 2.375rem
-  right: 1.125rem
+  top: .875rem
+  right: 1.375rem
+  &:hover
+    path
+      fill: $blue-neutral
+
+.closeButton
+  path
+    transition: fill $animationTime
 
 .closeIcon
-  width: 1.125rem
+  width: .75rem
   height: auto
+
+@include media('>Mphone')
+  .closeIcon
+    width: 1.125rem
+    height: auto
+  .closeButton
+    top: 2rem
+    right: 1rem
+  .inner
+    width: initial
+    max-width: none
+    padding: 2rem 3.5rem
+    border-radius: .5rem
