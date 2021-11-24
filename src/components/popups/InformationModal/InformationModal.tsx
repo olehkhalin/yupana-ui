@@ -1,18 +1,13 @@
 import React from 'react';
 
+import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 import { ModalHeader } from 'components/popups/components';
 
-import s from './InformationModal.module.sass';
-
 type InformationModalProps = {
-  title: string
-  description: string
   buttonText?: string
-  isOpen: boolean
-  onRequestClose: () => void
-};
+} & ModalActions;
 
 export const InformationModal: React.FC<InformationModalProps> = ({
   title,
@@ -24,7 +19,6 @@ export const InformationModal: React.FC<InformationModalProps> = ({
   <Modal
     isOpen={isOpen}
     onRequestClose={onRequestClose}
-    innerClassName={s.inner}
   >
     <ModalHeader
       title={title}

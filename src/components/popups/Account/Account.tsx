@@ -2,6 +2,7 @@ import React from 'react';
 
 import { shortize } from 'utils/getShortize';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 import { ModalHeader } from 'components/popups/components/ModalHeader';
@@ -11,12 +12,8 @@ import { ReactComponent as IconLink } from 'svg/IconLink.svg';
 import s from './Account.module.sass';
 
 type AccountProps = {
-  title: string
-  description: string
   address: string
-  isOpen: boolean
-  onRequestClose: () => void
-};
+} & ModalActions;
 
 export const Account: React.FC<AccountProps> = ({
   title,
@@ -31,7 +28,6 @@ export const Account: React.FC<AccountProps> = ({
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
-      innerClassName={s.inner}
     >
       <Button
         theme="clear"
@@ -42,7 +38,7 @@ export const Account: React.FC<AccountProps> = ({
       <ModalHeader
         title={title}
         description={description}
-        className={s.head}
+        className={s.root}
       />
       <div className={s.address}>
         {isWiderThanMphone ? address : shortize(address)}
@@ -52,19 +48,15 @@ export const Account: React.FC<AccountProps> = ({
           theme="clear"
           className={s.button}
         >
-          <p className={s.optionName}>
-            View on explorer
-          </p>
-          <IconLink />
+          View on explorer
+          <IconLink className={s.icon} />
         </Button>
         <Button
           theme="clear"
           className={s.button}
         >
-          <p className={s.optionName}>
-            Copy Address
-          </p>
-          <IconCopy />
+          Copy Address
+          <IconCopy className={s.icon} />
         </Button>
       </div>
     </Modal>
