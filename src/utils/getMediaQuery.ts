@@ -36,6 +36,12 @@ export const useWiderThanLtablet = () => useMediaQuery(
   },
 );
 
+export const useWiderThanMdesktop = () => useMediaQuery(
+  {
+    minWidth: 1261,
+  },
+);
+
 export const useWiderThanCustomWidth = ({ minWidth }: { minWidth: number }) => useMediaQuery(
   {
     minWidth,

@@ -53,9 +53,7 @@ export const TableCard: React.FC<TableCardProps> = ({
       />
     )}
 
-    <div className={s.wrapper}>
-      {children}
-    </div>
+    {children}
 
     {!withDetailsButton && collapsed && (
       <UnmountClosed

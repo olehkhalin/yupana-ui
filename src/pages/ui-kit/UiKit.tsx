@@ -6,7 +6,6 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { InformationModal } from 'components/popups/InformationModal';
 import { ConnectToWallet } from 'components/popups/ConnectToWallet';
 import { Account } from 'components/popups/Account';
-import { CreditProcess } from 'components/popups/CreditProcess';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -92,7 +91,6 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
-  const [creditProcessIsOpen, setCreditProcessIsOpen] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -467,20 +465,20 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="medium"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="small"
               className={s.button}
             >
@@ -489,14 +487,14 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               disabled
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="medium"
               disabled
               className={s.button}
@@ -504,62 +502,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
-              sizeT="small"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-        </div>
-        <div className={s.buttonsBlock}>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="secondary"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="medium"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="small"
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="secondary"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="medium"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
+              actionT="borrow"
               sizeT="small"
               disabled
               className={s.button}
@@ -571,14 +514,69 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
+              theme="secondary"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="medium"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="small"
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="medium"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="small"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+        </div>
+        <div className={s.buttonsBlock}>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
               theme="tertiary"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="medium"
               className={s.button}
@@ -586,7 +584,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="small"
               className={s.button}
@@ -596,7 +594,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               disabled
               className={s.button}
@@ -604,7 +602,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="medium"
               disabled
@@ -613,7 +611,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="small"
               disabled
@@ -626,14 +624,14 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               className={s.button}
@@ -641,7 +639,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               className={s.button}
@@ -651,7 +649,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               disabled
               className={s.button}
@@ -659,7 +657,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               disabled
@@ -668,63 +666,8 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
-              sizeT="small"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-        </div>
-        <div className={s.buttonsBlock}>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="accent"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="medium"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="small"
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="accent"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="medium"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
               sizeT="small"
               disabled
               className={s.button}
@@ -736,7 +679,62 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
+              theme="accent"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="medium"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="small"
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="medium"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="small"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+        </div>
+        <div className={s.buttonsBlock}>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
               theme="light"
               withArrow
               className={s.button}
@@ -744,7 +742,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               withArrow
@@ -753,7 +751,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               withArrow
@@ -764,7 +762,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               withArrow
               disabled
@@ -773,7 +771,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               withArrow
@@ -783,7 +781,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               withArrow
@@ -797,7 +795,7 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               withArrow
               className={s.button}
@@ -805,7 +803,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="medium"
               withArrow
@@ -813,7 +811,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="small"
               withArrow
@@ -824,7 +822,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               withArrow
               disabled
@@ -833,7 +831,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="medium"
               withArrow
@@ -843,7 +841,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="small"
               withArrow
@@ -1031,26 +1029,6 @@ export const UiKit: React.FC = () => {
               title="Account"
               description="Connected wallet address:"
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
-            />
-          </div>
-          <div className={s.block}>
-            <div className={s.title}>
-              CreditProcess
-            </div>
-            <Button
-              onClick={() => setCreditProcessIsOpen(true)}
-              className={s.modalsButton}
-            >
-              CreditProcess
-            </Button>
-            <CreditProcess
-              title="Supply"
-              symbol="XTZ"
-              name="Tezos"
-              balance="13.248,70"
-              buttonText="Withdraw"
-              isOpen={creditProcessIsOpen}
-              onRequestClose={() => setCreditProcessIsOpen(false)}
             />
           </div>
         </div>

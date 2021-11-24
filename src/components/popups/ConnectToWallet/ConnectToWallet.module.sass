@@ -1,21 +1,16 @@
 @import 'styles/breakpoints.scss'
 @import 'styles/variables.sass'
 
-.inner
-  min-width: initial
-  margin: 0 .5rem
-  text-align: center
+.root
+  margin-bottom: 1rem
 
 .wallets
   display: flex
   align-items: center
   flex-direction: column
 
-.head
-  margin-bottom: 1rem
-
-.walletName
-  margin-left: .5rem
+.icon
+  margin-right: .5rem
 
 .button
   display: flex
@@ -30,10 +25,8 @@
     margin-bottom: 0
 
 @include media('>Mphone')
-  .head
+  .root
     margin-bottom: 2rem
-  .inner
-    margin: 0 5rem
   .wallets
     justify-content: center
     align-items: start
