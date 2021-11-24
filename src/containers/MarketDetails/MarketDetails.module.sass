@@ -1,0 +1,132 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+
+.graphWrapper
+  position: relative
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-right: 2rem
+  padding: 1.5rem 2rem
+  background: linear-gradient(90deg, rgba(0, 205, 238, 0.08) 0%, rgba(0, 0, 0, 0) 100%)
+  &::after
+    content: ''
+    position: absolute
+    left: 0
+    top: 0
+    bottom: 0
+    width: .063rem
+    background-color: $light-blue
+    box-shadow: $blue-shadow-button
+
+.pieGraph
+  width: 10rem
+  height: 10rem
+  margin-bottom: 1rem
+  background: linear-gradient(45deg, rgba(255, 199, 0, 1) 40%, rgba(0, 224, 255,1 ) 99%)
+  border-radius: 50%
+
+.stat
+  color: $light-blue
+  text-align: center
+  &:not(:last-child)
+    margin-bottom: 1rem
+  &:first-child
+    .statTitle
+      text-shadow: $blue-shadow-button
+    .statValue
+      text-shadow: $blue-shadow
+  &:last-child
+    color: $light-yellow
+    .statTitle
+      text-shadow: $light-yellow-shadow-button
+    .statValue
+      text-shadow: $light-yellow-shadow
+
+.statTitle
+  font-size: .75rem
+  margin-bottom: .5rem
+
+.statValue
+  font-weight: 700
+  &:not(:last-child)
+    margin-bottom: .5rem
+
+.detailsWrapper
+  flex: 1
+  margin-bottom: 2rem
+  order: -1
+
+.detailsTitle
+  margin-bottom: 1rem
+
+.list
+  display: flex
+  flex-direction: column
+
+.item
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+@include media('>Mphone')
+  .graphWrapper
+    justify-content: space-between
+    margin-bottom: 2rem
+  .pieGraph
+    margin-right: 0rem
+  .statTitle
+    font-size: 1rem
+  .detailsTitle
+    margin-bottom: 2rem
+  .item
+    &:not(:last-child)
+      margin-bottom: 1.5rem
+
+@include media('>Lphone')
+  .graphWrapper
+    flex-direction: row
+  .pieGraph
+    width: 16rem
+    height: 16rem
+    margin-bottom: 0
+  .stat
+    font-size: 1.5rem
+    text-align: left
+    &:not(:last-child)
+      margin-bottom: 4rem
+  .statTitle
+    font-size: 1.5rem
+    margin-bottom: 1.5rem
+  .statValue
+    &:not(:last-child)
+      margin-bottom: 1rem
+  .detailsWrapper
+    margin-bottom: 0
+    order: 1
+  .detailsTitle
+    margin-bottom: 3rem
+
+@include media('>tablet')
+  .graphWrapper
+    justify-content: center
+  .pieGraph
+    margin-right: 5rem
+
+@include media('>Ltablet')
+  .root
+    flex-direction: row
+    justify-content: space-between
+  .graphWrapper
+    justify-content: flex-start
+    margin-bottom: 0
+    padding: 3rem 4rem
+
+@include media('>Sdesktop')
+  .graphWrapper
+    flex: 1.5
+  .pieGraph
+    margin-right: 7.5rem

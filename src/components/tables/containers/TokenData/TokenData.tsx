@@ -3,14 +3,14 @@ import React from 'react';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { MarketsCard } from 'components/tables/components/mobile';
-import { Markets as MarketsDesktop } from 'components/tables/components/desktop';
+import { MarketsDetails } from 'components/tables/components/desktop';
 
-type MarketsProps = {
+type TokenDataProps = {
   data: any[]
   className?: string
 };
 
-export const Markets: React.FC<MarketsProps> = ({
+export const TokenData: React.FC<TokenDataProps> = ({
   data,
   className,
 }) => {
@@ -18,7 +18,7 @@ export const Markets: React.FC<MarketsProps> = ({
 
   if (isWiderThanLphone) {
     return (
-      <MarketsDesktop
+      <MarketsDetails
         data={data}
         className={className}
       />
@@ -33,7 +33,7 @@ export const Markets: React.FC<MarketsProps> = ({
         }) => (
           <MarketsCard
             key={getUniqueKey()}
-            details={false}
+            details
             {...tokenMetadata}
             {...rest}
           />
