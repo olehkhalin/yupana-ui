@@ -1,0 +1,26 @@
+@import "styles/breakpoints.scss"
+
+.root
+  margin-bottom: 1rem
+
+.title
+  margin-bottom: .5rem
+  font-size: 1.25rem
+  line-height: 1.481rem
+
+.description
+  width: 100%
+  max-width: 54rem
+  font-size: .875rem
+  line-height: 1.063rem
+
+@include media('>Mphone')
+  .root
+    margin-bottom: 2.5rem
+  .title
+    margin-bottom: 1.5rem
+    font-size: 1.5rem
+    line-height: 1.75rem
+  .description
+    font-size: 1rem
+    line-height: 1.188rem

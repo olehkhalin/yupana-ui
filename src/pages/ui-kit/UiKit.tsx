@@ -3,6 +3,9 @@ import cx from 'classnames';
 
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
+import { InformationModal } from 'components/popups/InformationModal';
+import { ConnectToWallet } from 'components/popups/ConnectToWallet';
+import { Account } from 'components/popups/Account';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -85,6 +88,9 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
+  const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
+  const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
+  const [accountIsOpen, setAccountIsOpen] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -958,7 +964,7 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Modals
         </div>
-        <div className={s.modalsButtons}>
+        <div className={cx(s.modalsButtons, s.marginBottom)}>
           <Button
             className={s.modalsButton}
             onClick={() => setModalBaseIsOpen(true)}
@@ -971,6 +977,60 @@ export const UiKit: React.FC = () => {
           >
             <h2>Base modal</h2>
           </Modal>
+        </div>
+        <div className={s.modalsButtons}>
+          <div className={s.block}>
+            <div className={s.title}>
+              Information Modal
+            </div>
+            <Button
+              onClick={() => setInformationModalIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Info
+            </Button>
+            <InformationModal
+              isOpen={informationModalIsOpen}
+              onRequestClose={() => setInformationModalIsOpen(false)}
+              title="Base rate per year"
+              description="The base interest rate which is the y-intercept when the utilization rate is 0."
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Connect To Wallet
+            </div>
+            <Button
+              onClick={() => setConnectToWalletIsOpen(true)}
+              className={s.modalsButton}
+            >
+              ConnectToWallet
+            </Button>
+            <ConnectToWallet
+              isOpen={connectToWalletIsOpen}
+              onRequestClose={() => setConnectToWalletIsOpen(false)}
+              title="Connect to a wallet"
+              description="Please select a wallet to connect to this dapp:"
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Account
+            </div>
+            <Button
+              onClick={() => setAccountIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Account
+            </Button>
+            <Account
+              isOpen={accountIsOpen}
+              onRequestClose={() => setAccountIsOpen(false)}
+              title="Account"
+              description="Connected wallet address:"
+              address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
+            />
+          </div>
         </div>
       </div>
 
