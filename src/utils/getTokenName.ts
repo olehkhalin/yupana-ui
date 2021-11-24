@@ -5,11 +5,11 @@ import { shortize } from './getShortize';
 
 export const getTokenName = ({
   name, symbol, id, address,
-}: TokenMetadataInterface, fullName?: boolean): string => (
+}: TokenMetadataInterface, fullName?: boolean, firstName?: boolean): string => (
   name && symbol && fullName
     ? `${symbol}${name ? ` / ${name}` : ''}`
-    : symbol || (
-      name || (`${
+    : (firstName ? name : symbol) || (
+      (firstName ? symbol : name) || (`${
         address !== 'tez'
           ? shortize(address)
           : address

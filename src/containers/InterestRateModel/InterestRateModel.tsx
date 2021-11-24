@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getTokenName } from 'utils/getTokenName';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
@@ -17,7 +18,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
   className,
 }) => {
   const {
-    name,
+    asset,
     curentUtilizationRate,
     baseRatePerYear,
     multiplierPerYear,
@@ -40,7 +41,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           className={s.detailsTitle}
         />
         <div className={s.tokenName}>
-          {name}
+          {getTokenName(asset, false, true)}
           <div className={s.modelTitle}>
             Jump rate model
           </div>

@@ -1,5 +1,10 @@
 export const INTEREST_RATE_MODEL_DATA = {
-  name: 'Tezos',
+  asset: {
+    id: '1',
+    name: 'Tezos',
+    address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+    symbol: 'XTZ',
+  },
   curentUtilizationRate: 77,
   baseRatePerYear: 0,
   multiplierPerYear: 16.23,

@@ -122,7 +122,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
           />
           <Item
             text="Exchange Rate"
-            value={`${getPrettyAmount({ value: exchangeRate, currency: symbol })}`}
+            value={`${getPrettyAmount({ value: exchangeRate, currency: `y${symbol}` })}`}
             className={s.item}
           />
         </div>
