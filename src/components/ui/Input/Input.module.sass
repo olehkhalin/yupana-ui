@@ -7,19 +7,19 @@
   display: flex
   flex-direction: column
   position: relative
-  &::before
-    content: ''
-    position: absolute
-    top: .25rem
-    right: .25rem
-    width: 100%
-    height: 100%
-    max-height: 2.75rem
-    border-radius: .25rem
-    box-shadow: -16px 16px 24px $white
-    opacity: .04
-    background-color: $white
-    transition: background-color $animationTime, box-shadow $animationTime, opacity $animationTime
+  // &::before
+  //   content: ''
+  //   position: absolute
+  //   top: .25rem
+  //   right: .25rem
+  //   width: 100%
+  //   height: 100%
+  //   max-height: 2.75rem
+  //   border-radius: .25rem
+  //   box-shadow: -16px 16px 24px $white
+  //   opacity: .04
+  //   background-color: $white
+  //   transition: background-color $animationTime, box-shadow $animationTime, opacity $animationTime
 
 .input
   color: $white
@@ -43,17 +43,17 @@
     color: $white
     transition: color $animationTime
 
-.hovered
-  &::before
-    box-shadow: -16px 16px 24px $light-blue
-    background-color: $light-blue
-  .input
-    color: $light-blue
-    box-shadow: 0 0 2px $light-blue
-    border-color: $light-blue
-    text-shadow: 0 0 2px $light-blue
-    &::placeholder
-      color: $light-blue
+// .hovered
+//   &::before
+//     box-shadow: -16px 16px 24px $light-blue
+//     background-color: $light-blue
+//   .input
+//     color: $light-blue
+//     box-shadow: 0 0 2px $light-blue
+//     border-color: $light-blue
+//     text-shadow: 0 0 2px $light-blue
+//     &::placeholder
+//       color: $light-blue
 
 .active
   &::before

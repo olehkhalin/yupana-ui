@@ -57,8 +57,6 @@
   .logoMobile
     display: none
 
-@include media(">Mphone")
-
 @include media("<=tablet")
   .burger
     height: auto
@@ -78,7 +76,7 @@
     transition: transform $animationTime
     z-index: -1
     &.active
-      transform: translateY(4rem)
+      transform: translateY(3.5rem)
     .navlist
       display: flex
       flex-direction: column
@@ -87,6 +85,11 @@
       margin-right: 0
       &:not(:last-child)
         margin-bottom: 1rem
+
+@include media('<=phone')
+  .dropdown
+    &.active
+      transform: translateY(4rem)
 
 @include media(">tablet")
   .mobile
