@@ -1,40 +1,22 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Table } from 'components/ui/Table';
-import { Button } from 'components/ui/Button';
-import { TokenName } from 'components/common/TokenName';
-import { AppRoutes } from 'routes/main-routes';
 
 import s from './Tables.module.sass';
 
-type MarketsProps = {
+type MarketsDetailsProps = {
   data: any[]
   className?: string
 };
 
-export const Markets: React.FC<MarketsProps> = ({
+export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
   data,
   className,
 }) => {
   const columns = useMemo(
     () => [
-      {
-        Header: () => (
-          <span className={s.white}>
-            Market
-          </span>
-        ),
-        id: 'asset',
-        accessor: (row: any) => (
-          <TokenName
-            token={{ ...row.asset }}
-            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
-          />
-        ),
-      },
       {
         Header: () => (
           <span className={s.blue}>
@@ -113,19 +95,6 @@ export const Markets: React.FC<MarketsProps> = ({
           </span>
         ),
       },
-      {
-        Header: () => null,
-        id: 'details',
-        accessor: (row: any) => (
-          <Button
-            theme="light"
-            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
-            className={s.link}
-          >
-            Details
-          </Button>
-        ),
-      },
     ],
     [],
   );
@@ -136,7 +105,7 @@ export const Markets: React.FC<MarketsProps> = ({
       columns={columns}
       data={data}
       tableClassName={s.bigTable}
-      rowClassName={s.marketsRow}
+      rowClassName={s.marketsDetailsRow}
       className={cx(s.bigTableWrapper, className)}
     />
   );

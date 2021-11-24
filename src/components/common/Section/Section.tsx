@@ -6,16 +6,23 @@ import { Heading, HeadingProps } from 'components/common/Heading';
 import s from './Section.module.sass';
 
 type SectionProps = {
+  title?: string
   className?: string
-} & HeadingProps;
+} & Omit<HeadingProps, 'title'>;
 
 export const Section: React.FC<SectionProps> = ({
+  title,
   className,
   children,
   ...props
 }) => (
   <section className={cx(s.root, className)}>
-    <Heading {...props} />
+    {title && (
+      <Heading
+        title={title}
+        {...props}
+      />
+    )}
     {children}
   </section>
 );

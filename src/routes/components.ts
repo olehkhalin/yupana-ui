@@ -3,6 +3,7 @@ import React from 'react';
 import Lending from 'pages/lenging';
 import Markets from 'pages/markets';
 import LiquidationPositions from 'pages/liquidation-positions';
+import MarketsDetails from 'pages/markets-details';
 import UiKit from 'pages/ui-kit';
 
 import { AppRoutes } from './main-routes';
@@ -31,8 +32,13 @@ export const components: RoutesType[] = [
     Component: Markets,
   },
   {
-    id: 2,
+    id: 3,
     path: AppRoutes.LIQUIDATE,
     Component: LiquidationPositions,
+  },
+  {
+    id: 4,
+    path: AppRoutes.MARKETS_DETAILS,
+    Component: MarketsDetails,
   },
 ];

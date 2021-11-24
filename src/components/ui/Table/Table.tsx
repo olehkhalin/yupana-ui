@@ -198,8 +198,8 @@ export const Table: React.FC<TableProps> = ({
           </table>
         </div>
       </div>
-      <div className={s.pagination}>
-        {isShowPagination && pagination && (
+      {isShowPagination && pagination && (
+        <div className={s.pagination}>
           <Pagination
             pageIndex={pageIndex}
             canPreviousPage={canPreviousPage}
@@ -210,8 +210,8 @@ export const Table: React.FC<TableProps> = ({
             gotoPage={gotoPage}
             setOffset={setOffset}
           />
-        )}
-      </div>
+        </div>
+      )}
     </>
   );
 };
