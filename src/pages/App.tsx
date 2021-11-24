@@ -13,7 +13,7 @@ const App: React.FC = () => {
 
   useEffect(() => {
     animateScrollTo(window.pageYOffset - window.pageYOffset,
-      { speed: 500, maxDuration: 1000, minDuration: 100 });
+      { speed: 750, maxDuration: 1000, minDuration: 100 });
   }, [pathname]);
 
   return (
