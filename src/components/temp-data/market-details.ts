@@ -1,5 +1,11 @@
 export const MARKET_DETAILS_DATA = {
-  symbol: 'XTZ',
+  asset: {
+    id: '1',
+    address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+    name: 'SmartLink',
+    symbol: 'SMAK',
+    priceInUsd: 6,
+  },
   availableLiquidity: 2832757835.76,
   totalBorrowed: 1372882284786.30,
   utilisationRate: 65,

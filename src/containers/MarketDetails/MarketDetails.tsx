@@ -2,11 +2,11 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getTokenName } from 'utils/getTokenName';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
 import { MARKET_DETAILS_DATA } from 'components/temp-data/market-details';
-import { XTZ_CURRENT_PRICE } from 'constants/default';
 
 import s from './MarketDetails.module.sass';
 
@@ -18,7 +18,10 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
   className,
 }) => {
   const {
-    symbol,
+    asset: {
+      priceInUsd,
+      ...tokenMetadata
+    },
     availableLiquidity,
     totalBorrowed,
     utilisationRate,
@@ -46,8 +49,8 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
 
             <div className={s.statValue}>
               {getPrettyAmount({
-                value: availableLiquidity / XTZ_CURRENT_PRICE,
-                currency: symbol,
+                value: availableLiquidity / priceInUsd,
+                currency: getTokenName(tokenMetadata),
               })}
             </div>
             <div className={s.statValue}>
@@ -65,8 +68,8 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
 
             <div className={s.statValue}>
               {getPrettyAmount({
-                value: totalBorrowed / XTZ_CURRENT_PRICE,
-                currency: symbol,
+                value: totalBorrowed / priceInUsd,
+                currency: getTokenName(tokenMetadata),
               })}
             </div>
             <div className={s.statValue}>
@@ -116,13 +119,13 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             className={s.item}
           />
           <Item
-            text={`y${symbol} Minted`}
+            text={`y${tokenMetadata.symbol} Minted`}
             value={getPrettyAmount({ value: minted })}
             className={s.item}
           />
           <Item
             text="Exchange Rate"
-            value={`${getPrettyAmount({ value: exchangeRate, currency: `y${symbol}` })}`}
+            value={`${getPrettyAmount({ value: exchangeRate, currency: `y${tokenMetadata.symbol}` })}`}
             className={s.item}
           />
         </div>
