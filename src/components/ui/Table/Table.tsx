@@ -199,18 +199,17 @@ export const Table: React.FC<TableProps> = ({
         </div>
       </div>
       {isShowPagination && pagination && (
-        <div className={s.pagination}>
-          <Pagination
-            pageIndex={pageIndex}
-            canPreviousPage={canPreviousPage}
-            canNextPage={canNextPage}
-            pageCount={(pageOptions && pageOptions.length) ?? 13566}
-            nextPage={nextPage}
-            previousPage={previousPage}
-            gotoPage={gotoPage}
-            setOffset={setOffset}
-          />
-        </div>
+        <Pagination
+          pageIndex={pageIndex}
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          pageCount={(pageOptions && pageOptions.length) ?? 13566}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          gotoPage={gotoPage}
+          setOffset={setOffset}
+          className={s.pagination}
+        />
       )}
     </>
   );
