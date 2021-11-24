@@ -6,7 +6,6 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { InformationModal } from 'components/popups/InformationModal';
 import { ConnectToWallet } from 'components/popups/ConnectToWallet';
 import { Account } from 'components/popups/Account';
-import { CreditProcess } from 'components/popups/CreditProcess';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -92,7 +91,6 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
-  const [creditProcessIsOpen, setCreditProcessIsOpen] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -1031,26 +1029,6 @@ export const UiKit: React.FC = () => {
               title="Account"
               description="Connected wallet address:"
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
-            />
-          </div>
-          <div className={s.block}>
-            <div className={s.title}>
-              CreditProcess
-            </div>
-            <Button
-              onClick={() => setCreditProcessIsOpen(true)}
-              className={s.modalsButton}
-            >
-              CreditProcess
-            </Button>
-            <CreditProcess
-              title="Supply"
-              symbol="XTZ"
-              name="Tezos"
-              balance="13.248,70"
-              buttonText="Withdraw"
-              isOpen={creditProcessIsOpen}
-              onRequestClose={() => setCreditProcessIsOpen(false)}
             />
           </div>
         </div>
