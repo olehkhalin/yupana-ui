@@ -3,11 +3,11 @@ import React from 'react';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 
-type LiquidationPositionsProps = {
+type AllLiquidationPositionsProps = {
   className?: string
 };
 
-export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
+export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = ({
   className,
 }) => (
   <LiquidatationTable

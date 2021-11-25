@@ -57,6 +57,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
             Health factor
             <Button
               theme="clear"
+              sizeT="small"
               className={s.attention}
             >
               <Attention className={s.attentionIcon} />

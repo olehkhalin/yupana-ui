@@ -26,7 +26,7 @@ export const Markets: React.FC<MarketsProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {
         data.map(({
           asset: tokenMetadata, ...rest
@@ -39,6 +39,6 @@ export const Markets: React.FC<MarketsProps> = ({
           />
         ))
       }
-    </div>
+    </>
   );
 };
