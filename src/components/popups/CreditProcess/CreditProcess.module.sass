@@ -1,0 +1,132 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: center
+  width: 100%
+
+.inner
+  padding: 1rem
+
+.title
+  margin-bottom: .5rem
+  font-size: 1.25rem
+  line-height: 1.5rem
+
+.input
+  width: 100%
+  margin-bottom: 1.75rem
+
+.slider
+  width: 90%
+  height: .625rem
+  margin-bottom: 1.375rem
+  background: #00E0FF
+  color: #00E0FF
+  border-radius: 1rem
+
+.slider::-webkit-slider-thumb
+  background-color: #e21515
+  border: 1px solid cyan
+  border-radius: 0
+  cursor: pointer
+  width: 10px
+  height: 10px
+  -webkit-appearance: none
+  margin-bottom: 10px
+
+.percents
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: center
+  margin-bottom: 1rem
+
+.percent::before
+  content: ''
+  position: relative
+  display: inline-block
+  left: 50%
+  bottom: 1.375rem
+  width: .375rem
+  height: .375rem
+  border-radius: 50%
+  background-color: $white
+
+.icon
+  margin-bottom: .5rem
+
+.tokenInfo
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: 1rem
+
+.walletBalance
+  display: flex
+  margin-bottom: .5rem
+  min-width: initial
+
+.wBalance, .balance
+  font-size: 1rem
+  line-height: 1.188rem
+
+.wBalance
+  font-weight: normal
+
+.balance
+  margin-left: 1rem
+  font-weight: bold
+
+.borrowTitle
+  margin-bottom: .5rem
+  font-weight: bold
+  font-size: 1rem
+  line-height: 1.188rem
+
+.borrowLimit, .borrowLimitUsed
+  display: flex
+  width: 100%
+  justify-content: space-between
+
+.borrowLimit
+  margin-bottom: .5rem
+
+.borrowLimitUsed
+  margin-bottom: 1rem
+
+.borrowDescription, .borrowResult
+  font-size: .75rem
+  line-height: .875rem
+
+.borrowDescription
+  font-weight: normal
+
+.borrowResult
+  font-weight: bold
+  margin-left: .5rem
+
+@include media('>Mphone')
+  .inner
+    padding: 2rem 3.5rem
+  .title
+    margin-bottom: 2rem
+    font-size: 1.5rem
+    line-height: 1.75rem
+  .icon
+    margin-bottom: 1rem
+  .tokenInfo
+    margin-bottom: 2rem
+  .percents
+    margin-bottom: 2rem
+  .borrowTitle
+    margin-bottom: 1.5rem
+    font-size: 1.5rem
+    line-height: 1.75rem
+  .borrwoLimit
+    font-size: 1rem
+  .borrowLimitUsed
+    margin-bottom: 2.5rem
