@@ -1,7 +1,8 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
 
 import { Modal } from 'components/ui/Modal';
-import { Input } from 'components/ui/Input';
+import { CreditInput } from 'components/ui/CreditInput';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as TokenImage } from 'svg/CreditToken.svg';
 
@@ -52,12 +53,14 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
           {' '}
         </div>
       </div>
-      <Input className={s.input} />
+      <div className={s.input}>
+        <CreditInput />
+      </div>
       <input
         type="range"
         step="1"
-        min="0"
-        max="100"
+        // min="0"
+        // max="100"
         defaultValue="0"
         className={s.slider}
       />

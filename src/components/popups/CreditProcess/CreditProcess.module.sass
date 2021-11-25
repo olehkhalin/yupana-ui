@@ -7,36 +7,66 @@
   flex-direction: column
   align-items: center
   width: 100%
+  box-sizing: border-box
 
 .inner
   padding: 1rem
+  box-sizing: border-box
 
 .title
   margin-bottom: .5rem
   font-size: 1.25rem
   line-height: 1.5rem
 
-.input
-  width: 100%
-  margin-bottom: 1.75rem
-
 .slider
-  width: 90%
+  width: 95%
+  overflow: hidden
   height: .625rem
+  -webkit-appearance: none
+  background-color: $white
   margin-bottom: 1.375rem
-  background: #00E0FF
-  color: #00E0FF
   border-radius: 1rem
 
-.slider::-webkit-slider-thumb
-  background-color: #e21515
-  border: 1px solid cyan
-  border-radius: 0
-  cursor: pointer
-  width: 10px
-  height: 10px
+
+.slider::-webkit-slider-runnable-track
+  width: 100%
+  height: .625rem
   -webkit-appearance: none
-  margin-bottom: 10px
+  color: $light-blue
+  border-radius: 1rem
+  box-shadow: 0px 0px 4px #00CDEE
+
+
+.slider::-webkit-slider-thumb
+  width: .625rem
+  -webkit-appearance: none
+  height: .625rem
+  border-radius: 1rem
+  background: $white
+  box-shadow: -195px 0 0 195px #43e5f7
+  border: .125rem solid $blue
+
+// .slider
+//   width: 90%
+//   -webkit-appearance: none
+//   height: .625rem
+//   margin-bottom: 1.375rem
+//   border-radius: 1rem
+//   overflow: hidden
+//   background-color: #9a905d
+
+// .slider::-webkit-slider-runnable-track
+//   -webkit-appearance: none
+//   color: #13bba4
+
+// .slider::-webkit-slider-thumb
+//   width: .625rem
+//   height: .625rem
+//   background: $white
+//   border: .125rem solid $blue
+//   box-shadow: 0px 0px 4px $blue
+//   border-radius: 50%
+//   -webkit-appearance: none
 
 .percents
   display: flex
@@ -112,12 +142,16 @@
 @include media('>Mphone')
   .inner
     padding: 2rem 3.5rem
+    width: 100%
+    max-width: 32rem
   .title
     margin-bottom: 2rem
     font-size: 1.5rem
     line-height: 1.75rem
   .icon
     margin-bottom: 1rem
+  .label
+    font-size: .75rem
   .tokenInfo
     margin-bottom: 2rem
   .percents
@@ -126,6 +160,11 @@
     margin-bottom: 1.5rem
     font-size: 1.5rem
     line-height: 1.75rem
+  .borrowResult
+    font-size: 1rem
+    line-height: 1.188rem
+  .borrowDescription
+    font-size: 1rem
   .borrwoLimit
     font-size: 1rem
   .borrowLimitUsed
