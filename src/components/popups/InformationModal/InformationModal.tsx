@@ -15,6 +15,7 @@ export const InformationModal: React.FC<InformationModalProps> = ({
   buttonText = 'Ok, I got it',
   isOpen,
   onRequestClose,
+  onClick,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -26,6 +27,7 @@ export const InformationModal: React.FC<InformationModalProps> = ({
     />
     <Button
       sizeT="small"
+      onClick={onClick}
     >
       {buttonText}
     </Button>
