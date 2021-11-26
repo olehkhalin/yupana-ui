@@ -55,6 +55,7 @@ import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
+import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 import {
   MARKET_CARDS_SUPPLY,
@@ -1044,11 +1045,7 @@ export const UiKit: React.FC = () => {
               CreditProcess
             </Button>
             <CreditProcess
-              title="Supply"
-              symbol="XTZ"
-              name="Tezos"
-              balance="13.248,70"
-              buttonText="Withdraw"
+              {...CREDIT_PROCESS_DATA}
               isOpen={creditProcessIsOpen}
               onRequestClose={() => setCreditProcessIsOpen(false)}
             />
