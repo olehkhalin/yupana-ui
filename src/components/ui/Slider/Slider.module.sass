@@ -2,7 +2,9 @@
 @import 'styles/breakpoints.scss'
 
 .root
+  position: relative
   width: 100%
+  margin-top: 1.5rem
 
 .slider
   position: relative
@@ -28,11 +30,23 @@
   width: .625rem
   height: .625rem
   border-radius: 1rem
-  background: $white
-  box-shadow: -195px 0 0 195px #43e5f7
-  border: .125rem solid $blue
-  cursor: pointer
+  // background: $white
+  // box-shadow: -195px 0 0 195px #43e5f7
+  // border: .125rem solid $blue
+  // cursor: pointer
   -webkit-appearance: none
+
+// .slider::-webkit-slider-thumb
+//   &::before
+//     -webkit-appearance: none
+//     position: absolute
+//     content: ""
+//     left: 50%
+//     bottom: 100%
+//     width: 1000px
+//     height: 1000px
+//     background-color: red
+
 
 .percents
   display: flex
@@ -66,6 +80,15 @@
     color: $light-yellow
     &::before
       background-color: $light-yellow
+
+.number
+  position: absolute
+  top: -1rem
+  font-weight: bold
+  font-size: 0.75rem
+  line-height: 0.875rem
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
 
 @include media('>Mphone')
   .slider

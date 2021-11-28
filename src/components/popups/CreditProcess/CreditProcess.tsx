@@ -1,6 +1,7 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useRef } from 'react';
+import cx from 'classnames';
 
+import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
@@ -14,15 +15,22 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 import s from './CreditProcess.module.sass';
 
 type CreditProcessProps = {
+  actionT?: 'Supply' | 'Withdraw' | 'Borrow' | 'Repay'
   asset: TokenMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
-  isOpen: boolean,
-  onRequestClose: () => void,
+} & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
+
+const actionClass = {
+  Supply: s.supply,
+  Withdraw: s.supply,
+  Borrow: s.borrow,
+  Repay: s.borrow,
 };
 
 export const CreditProcess: React.FC<CreditProcessProps> = ({
+  actionT = 'Borrow',
   asset,
   walletBalance,
   yourBorrowLimit,
@@ -32,6 +40,11 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const [sliderValue, setSliderValue] = useState(0);
+  const valueRef: any = useRef();
+
+  const handleChange = (e: any) => {
+    valueRef.current.style.left = `${+e.target.value / 1.1}%`;
+  };
 
   const handleSliderChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -55,7 +68,7 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
     >
       <div className={s.root}>
         <h2 className={s.title}>
-          Borrow
+          {actionT}
         </h2>
 
         <div className={s.tokenInfo}>
@@ -78,13 +91,16 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
         </div>
 
         <CreditInput
-          className={s.input}
+          className={cx(s.input, actionClass[actionT])}
         />
 
         <Slider
           value={sliderValue}
           onChange={handleSliderChange}
           handlePercent={handlePercent}
+          sliderClassName={actionClass[actionT]}
+          valueRef={valueRef}
+          onInput={handleChange}
           className={s.slider}
         />
 
@@ -120,8 +136,9 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 
         <Button
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
+          actionT={actionT === 'Supply' || actionT === 'Withdraw' ? 'supply' : 'borrow'}
         >
-          Borrow
+          {actionT}
         </Button>
       </div>
     </Modal>

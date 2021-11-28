@@ -1,86 +1,81 @@
 @import 'styles/variables.sass'
-  
-.root
-  width: 100%
-  max-width: 29rem
-  display: flex
-  flex-direction: column
-  position: relative
+@import 'styles/breakpoints.scss'
 
-.label
-  position: absolute
-  left: 1.5rem
-  bottom: 1rem
+.root
+  box-sizing: border-box
+  width: 100%
+  padding: .5rem 1rem
+  border: .063rem solid $white
+  border-radius: .25rem
+
+.inner
+  display: flex
+  justify-content: space-between
+
+.inputBlock
+  width: 100%
 
 .input
-  position: relative
-  color: $white
   width: 100%
-  height: 4.625rem
+  border: 0
   outline: none
-  cursor: pointer
-  padding: 1rem
-  border-radius: .25rem
-  text-align: center
+  background: transparent
+  font-weight: bold
   font-size: 1rem
-  font-weight: 700
-  line-height: 1
-  transition: background-color $animationTime, color $animationTime, border-color $animationTime
-  background-color: transparent
-  border: 1px solid $white
-  box-shadow: 0 0 2px $white
-  text-shadow: 0 0 2px $white
-  position: relative
-  z-index: 1
+  line-height: 1.188rem
+  margin-bottom: .25rem
+  transition: $animationTime
   &::placeholder
+    font-weight: bold
+    font-size: 1rem
+    line-height: 1.188rem
+  &:focus::-webkit-input-placeholder
+    visibility: hidden
+  &::-webkit-outer-spin-button,
+  &::-webkit-inner-spin-button
+    display: none
+    -webkit-appearance: none
+    margin: 0
+  // &,
+  // &:hover,
+  // &:focus
+  //   appearance: none
+  //   -moz-appearance: textfield
+
+.exchange
+  font-weight: normal
+  font-size: .75rem
+  line-height: 0.875rem
+  transition: $animationTime
+
+.mainInfo
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  width: 100%
+  &:active input, &:active .exchange
     color: $white
-    transition: color $animationTime
 
-.active
-  &::before
-    box-shadow: -16px 16px 24px $light-yellow
-    background-color: $light-yellow
-  .input
-    color: $light-yellow
-    box-shadow: 0 0 2px $light-yellow
-    border-color: $light-yellow
-    text-shadow: 0 0 2px $light-yellow
-    text-align: left
-    &::placeholder
-      color: $light-yellow
-
-.error
-  &::before
-    box-shadow: -16px 16px 24px $red
-    background-color: $red
-  .input
-    color: $red
-    box-shadow: 0 0 2px $red
-    border-color: $red
-    text-shadow: 0 0 2px $red
-    &::placeholder
-      color: $red
-  .errorContainer
-    max-height: 1.5rem
-
-.disabled
-  &::before
-    opacity: 0
-  .input
-    border-color: $white-50
-    color: $white-50
-    background-color: transparent
+.button
+  display: flex
+  align-items: center
+  justify-content: center
+  outline: none
+  border: 0
+  background: transparent
+  font-weight: bold
+  font-size: 1rem
+  line-height: 1.188rem
+  text-transform: uppercase
+  color: $white
+  text-shadow: $white-shadow
+  transition: $animationTime
+  &:active
     text-shadow: none
-    box-shadow: none
-    &::placeholder
-      color: $white-50
 
-.errorContainer
-  max-height: 0
-  overflow: hidden
-  transition: max-height $animationTime
-.errorText
-  padding-top: .5rem
-  text-align: left
-  font-size: 0.875rem
-  color: $red
+@include media('>Mphone')
+  .root
+    padding: 1rem 1.5rem
+    height: 4.5rem
+  .input
+    margin-bottom: .5rem

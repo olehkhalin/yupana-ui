@@ -1,53 +1,48 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from 'react';
 import cx from 'classnames';
+
+import { Button } from 'components/ui/Button';
 
 import s from './CreditInput.module.sass';
 
 type CreditInputProps = {
-  error?: string
-  inputClassName?: string
   className?: string
-} & React.HTMLProps<HTMLInputElement>;
+};
 
-export const CreditInput = React.forwardRef<HTMLInputElement, CreditInputProps>(({
-  error,
-  disabled,
-  inputClassName,
+export const CreditInput: React.FC<CreditInputProps> = ({
   className,
-  ...props
-}, ref) => {
-  const [active, setActive] = useState(false);
+}) => {
+  const [changeableElement, setChangeableElement] = useState(0);
+
+  const handleChange = (num: any) => {
+    setChangeableElement(num * 1.3435342);
+  };
 
   return (
-    <div className={cx(
-      s.root,
-      { [s.error]: !!error },
-      { [s.active]: active },
-      { [s.disabled]: disabled },
-      className,
-    )}
-    >
-      <label
-        htmlFor="#input"
-        className={s.label}
-      >
-        $ 0.00
-      </label>
-      <input
-        id="input"
-        className={cx(s.input, inputClassName)}
-        ref={ref}
-        onFocus={() => !disabled && setActive(true)}
-        onBlur={() => !disabled && setActive(false)}
-        disabled={disabled}
-        {...props}
-      />
-      <div className={s.errorContainer}>
-        {error && (
-          <div className={cx(s.errorText)}>{error}</div>
-        )}
+    <div className={cx(s.root, className)}>
+      <div className={s.inner}>
+        <div className={s.mainInfo}>
+          <div className={s.inputBlock}>
+            <input
+              type="number"
+              placeholder="0.00"
+              onChange={(e) => handleChange(+e.target.value)}
+              className={cx(s.input, className)}
+            />
+          </div>
+          <div className={cx(s.exchange, className)}>
+            $
+            {' '}
+            {changeableElement || '0.00'}
+          </div>
+        </div>
+        <Button
+          theme="clear"
+          className={s.button}
+        >
+          max
+        </Button>
       </div>
     </div>
   );
-});
+};
