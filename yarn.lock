@@ -2099,6 +2099,13 @@
   resolved "https://registry.yarnpkg.com/@types/libsodium-wrappers/-/libsodium-wrappers-0.7.7.tgz#cdb25e85458612ec80f0157c3815fac187d0b6d2"
   integrity sha512-Li91pVKcLvQJK3ZolwCPo85oxf2gKBCApgnesRxYg4OVYchLXcJB2eivX8S87vfQVv6ZRnyCO1lLDosZGJfpRg==
 
+"@types/mem@^4.2.0":
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/@types/mem/-/mem-4.2.0.tgz#791bce9127ea16dfafdaf5220d975bfa3a248c7f"
+  integrity sha512-sxSx/lq5zhFwP5huX2rtnn82wAf1iTF6qebdLtcAXMpGXPHCnfms8o0N9BSZ3CmBfeH4rMwLkUNhY5gblNIzeg==
+  dependencies:
+    mem "*"
+
 "@types/memoizee@^0.4.6":
   version "0.4.6"
   resolved "https://registry.yarnpkg.com/@types/memoizee/-/memoizee-0.4.6.tgz#a4ba7a3ea61fa45be916f148763bec2ca38c34cf"
@@ -7835,7 +7842,7 @@ media-typer@0.3.0:
   resolved "https://registry.yarnpkg.com/media-typer/-/media-typer-0.3.0.tgz#8710d7af0aa626f8fffa1ce00168545263255748"
   integrity sha1-hxDXrwqmJvj/+hzgAWhUUmMlV0g=
 
-mem@^9.0.1:
+mem@*, mem@^9.0.1:
   version "9.0.1"
   resolved "https://registry.yarnpkg.com/mem/-/mem-9.0.1.tgz#11e2b0697f4216b5c1f9ed00186b8a506425a894"
   integrity sha512-f4uEX3Ley9FZqcFIRSBr2q43x1bJQeDvsxgkSN/BPnA7jY9Aue4sBU2dsjmpDwiaY/QY1maNCeosbUHQWzzdQw==
