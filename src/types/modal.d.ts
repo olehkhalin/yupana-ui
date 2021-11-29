@@ -1,6 +1,9 @@
 export interface ModalActions {
-  title: string
-  description: string
   isOpen: boolean
   onRequestClose: () => void
+}
+
+export interface ModalInterface extends ModalActions {
+  title: string
+  description: string
 }

@@ -4,17 +4,20 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
 
+import { DAppProvider } from 'utils/dapp';
 import App from 'pages/App';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Router>,
+  <DAppProvider>
+    <Router>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Router>
+  </DAppProvider>,
   document.getElementById('root'),
 );
 

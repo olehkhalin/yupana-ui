@@ -9,7 +9,10 @@ export const APP_NAME = 'Yupana Finance';
 
 export const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
+export const REFERRER_STORAGE_KEY = 'referrer';
 export const LAST_USED_ACCOUNT_KEY = 'lastUsedAccount';
 export const LAST_USED_CONNECTION_KEY = 'lastUsedConnection';
+
 export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
+export const TZKT_BASE_URL = process.env.NEXT_PUBLIC_TZKT_BASE_URL;

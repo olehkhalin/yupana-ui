@@ -27,7 +27,7 @@ import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
 import { ReadOnlySigner } from 'utils/ReadOnlySigner';
-import { FastRpcClient } from 'utils/taquito-fast-rpc';
+// import { FastRpcClient } from 'utils/taquito-fast-rpc';
 
 import {
   APP_NAME,
@@ -39,7 +39,7 @@ import {
   NETWORK_RPC,
 } from 'constants/default';
 
-const defaultRpcClient = new FastRpcClient(NETWORK_RPC);
+const defaultRpcClient = NETWORK_RPC;
 
 const metadataProvider = new MetadataProvider(
   // @ts-ignore
