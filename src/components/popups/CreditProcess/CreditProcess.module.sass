@@ -17,12 +17,6 @@
   font-size: 1.25rem
   line-height: 1.5rem
 
-// .input
-//   margin-bottom: 1.5rem
-
-.slider
-  margin-bottom: 1rem
-
 .icon
   margin-bottom: .5rem
 
@@ -83,11 +77,8 @@
     color: $light-blue
     text-shadow: $blue-shadow
   &::-webkit-slider-thumb
-    background: $white
     border: .125rem solid $blue
-    box-shadow: $blue-shadow
-    cursor: pointer
-    -webkit-appearance: none
+    box-shadow: -200px 0 0 195px $blue
 
 .borrow
   color: $light-yellow
@@ -96,12 +87,8 @@
     color: $light-yellow
     text-shadow: $light-yellow-shadow
   &::-webkit-slider-thumb
-    background: $white
     border: .125rem solid $light-yellow
-    box-shadow: $light-yellow-shadow
-    cursor: pointer
-    -webkit-appearance: none
-
+    box-shadow: -200px 0 0 195px $light-yellow
 
 @include media('>Mphone')
   .inner

@@ -1,4 +1,6 @@
-import React, { useState, useCallback, useRef } from 'react';
+import React, {
+  useState, useEffect, useCallback, useRef,
+} from 'react';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
@@ -15,22 +17,15 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 import s from './CreditProcess.module.sass';
 
 type CreditProcessProps = {
-  actionT?: 'Supply' | 'Withdraw' | 'Borrow' | 'Repay'
+  theme?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
   asset: TokenMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
-const actionClass = {
-  Supply: s.supply,
-  Withdraw: s.supply,
-  Borrow: s.borrow,
-  Repay: s.borrow,
-};
-
 export const CreditProcess: React.FC<CreditProcessProps> = ({
-  actionT = 'Borrow',
+  theme = 'primary',
   asset,
   walletBalance,
   yourBorrowLimit,
@@ -40,10 +35,15 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const [sliderValue, setSliderValue] = useState(0);
+  const [state, setState] = useState({
+    text: '',
+    walletText: '',
+  });
   const valueRef: any = useRef();
+  const yellowTheme = theme === 'tertiary' || theme === 'quaternary';
 
-  const handleChange = (e: any) => {
-    valueRef.current.style.left = `${+e.target.value / 1.1}%`;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    valueRef.current.style.left = `${+event.target.value / 1.1}%`;
   };
 
   const handleSliderChange = useCallback(
@@ -54,11 +54,47 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
   );
 
   const handlePercent = useCallback(
-    (amount: number) => {
+    (event: React.ChangeEvent<HTMLInputElement>, amount: number) => {
+      valueRef.current.style.left = `${+event.target.value + amount - (amount / 100) * 5}%`;
       setSliderValue(amount);
     },
     [],
   );
+
+  useEffect(() => {
+    switch (theme) {
+      case 'primary':
+        setState({
+          text: 'Supply',
+          walletText: 'Wallet balance:',
+        });
+        break;
+      case 'secondary':
+        setState({
+          text: 'Withdraw',
+          walletText: 'Wallet balance:',
+        });
+        break;
+      case 'tertiary':
+        setState({
+          text: 'Borrow',
+          walletText: 'Borrow balance:',
+        });
+        break;
+      case 'quaternary':
+        setState({
+          text: 'Repay',
+          walletText: 'Borrow balance:',
+        });
+        break;
+      default:
+        setState({
+          text: 'Supply',
+          walletText: 'wallet balance:',
+        });
+        break;
+    }
+  }, [theme]);
 
   return (
     <Modal
@@ -68,7 +104,7 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
     >
       <div className={s.root}>
         <h2 className={s.title}>
-          {actionT}
+          {state.text}
         </h2>
 
         <div className={s.tokenInfo}>
@@ -82,7 +118,7 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 
         <div className={s.walletBalance}>
           <div className={s.wBalance}>
-            Borrow Balance:
+            {state.walletText}
           </div>
 
           <div className={s.balance}>
@@ -91,17 +127,17 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
         </div>
 
         <CreditInput
-          className={cx(s.input, actionClass[actionT])}
+          className={cx(s.input, s.supply, { [s.borrow]: yellowTheme })}
         />
 
         <Slider
           value={sliderValue}
           onChange={handleSliderChange}
           handlePercent={handlePercent}
-          sliderClassName={actionClass[actionT]}
+          sliderClassName={cx(s.supply, { [s.borrow]: yellowTheme })}
           valueRef={valueRef}
           onInput={handleChange}
-          className={s.slider}
+          // className={s.supply}
         />
 
         <h2 className={s.borrowTitle}>
@@ -136,9 +172,9 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 
         <Button
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
-          actionT={actionT === 'Supply' || actionT === 'Withdraw' ? 'supply' : 'borrow'}
+          actionT={yellowTheme ? 'borrow' : 'supply'}
         >
-          {actionT}
+          {state.text}
         </Button>
       </div>
     </Modal>

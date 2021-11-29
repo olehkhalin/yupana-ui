@@ -5,16 +5,15 @@
   position: relative
   width: 100%
   margin-top: 1.5rem
+  margin-bottom: 1.5rem  
 
 .slider
-  position: relative
-  width: 93.5%
+  width: 95%
   height: .75rem
   margin-bottom: 1.5rem
   padding: 0 .063rem
   background-color: rgba($light-blue, .2)
   border-radius: 1rem
-  overflow: hidden
   -webkit-appearance: none
 
 .slider::-webkit-slider-runnable-track
@@ -22,6 +21,7 @@
   height: .75rem
   color: $light-blue
   border-radius: 1rem
+  overflow: hidden
   -webkit-appearance: none
 
 .slider::-webkit-slider-thumb
@@ -30,23 +30,21 @@
   width: .625rem
   height: .625rem
   border-radius: 1rem
-  // background: $white
-  // box-shadow: -195px 0 0 195px #43e5f7
-  // border: .125rem solid $blue
-  // cursor: pointer
+  background: $white
+  box-shadow: -195px 0 0 195px #43e5f7
+  border: .125rem solid $blue
+  cursor: pointer
   -webkit-appearance: none
 
-// .slider::-webkit-slider-thumb
-//   &::before
-//     -webkit-appearance: none
-//     position: absolute
-//     content: ""
-//     left: 50%
-//     bottom: 100%
-//     width: 1000px
-//     height: 1000px
-//     background-color: red
-
+.number
+  position: absolute
+  top: -1rem
+  left: 3px
+  font-weight: bold
+  font-size: 0.75rem
+  line-height: 0.875rem
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
 
 .percents
   display: flex
@@ -81,15 +79,16 @@
     &::before
       background-color: $light-yellow
 
-.number
-  position: absolute
-  top: -1rem
-  font-weight: bold
-  font-size: 0.75rem
-  line-height: 0.875rem
-  color: $light-yellow
-  text-shadow: $light-yellow-shadow
-
-@include media('>Mphone')
-  .slider
-    width: 95%
+.secondary
+  .percent
+    &::before
+      color: $light-yellow
+      transition: background-color $animationTime
+    &:hover
+      color: $light-yellow
+      &::before
+        background-color: $light-yellow
+    &:focus
+      color: $blue-neutral
+      &::before
+        background-color: $blue-neutral
