@@ -1,0 +1,20 @@
+query HomeQuery {
+    token {
+        name
+        symbol
+        thumbnail
+        id
+        asset {
+            contractAddress
+            rates {
+                supply_apy
+                borrow_apy
+                utilization_rate
+            }
+            collateralFactor
+            tokenId
+            totalLiquid
+            isFa2
+        }
+    }
+}

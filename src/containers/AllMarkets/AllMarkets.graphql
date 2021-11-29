@@ -1,0 +1,29 @@
+query AllMarketsQuery {
+    token {
+        name
+        symbol
+        thumbnail
+        id
+        asset {
+            contractAddress
+            isFa2
+            tokenId
+            totalSupply
+            totalBorrowed
+            rates {
+                supply_apy
+                borrow_apy
+            }
+#            assetBorrowTx_aggregate {
+#                aggregate {
+#                    count(columns: userId, distinct: true)
+#                }
+#            }
+#            assetSupplyTx_aggregate {
+#                aggregate {
+#                    count(distinct: true, columns: userId)
+#                }
+#            }
+        }
+    }
+}

@@ -1,0 +1,51 @@
+query MarketsSupplyInfo {
+#    supplyTxAggregate {
+#        aggregate {
+#            sum {
+#                amount
+#            }
+#            count(columns: userId, distinct: true)
+#        }
+#    }
+    dailyStats {
+        supplyVolume
+    }
+    token(order_by: {asset: {totalSupply: desc}}, limit: 3) {
+        name
+        symbol
+        thumbnail
+        id
+        asset {
+            contractAddress
+            tokenId
+            isFa2
+            totalSupply
+        }
+    }
+}
+
+query MarketsBorrowedInfo {
+    #    borrowTxAggregate {
+    #        aggregate {
+    #            sum {
+    #                amount
+    #            }
+    #            count(distinct: true, columns: userId)
+    #        }
+    #    }
+    dailyStats {
+        borrowVolume
+    }
+    token(order_by: {asset: {totalBorrowed: desc}}, limit: 3) {
+        name
+        symbol
+        thumbnail
+        id
+        asset {
+            contractAddress
+            tokenId
+            isFa2
+            totalSupply
+        }
+    }
+}

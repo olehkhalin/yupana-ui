@@ -45,7 +45,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: ({ collateralFactor, asset }: { collateralFactor: number, asset: TokenMetadataInterface }) => `${collateralFactor} ${getSliceTokenName(asset)}`,
+        accessor: ({ wallet, asset }: { wallet: number, asset: TokenMetadataInterface }) => `${wallet} ${getSliceTokenName(asset)}`,
       },
       {
         Header: () => null,
