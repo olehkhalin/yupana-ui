@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { LegacyRef } from 'react';
 import cx from 'classnames';
 
 import { getUniqueKey } from 'utils/getUniqueKey';
@@ -11,8 +11,7 @@ type SliderProps = {
   theme?: keyof typeof themeClass
   percents?: number[]
   handlePercent?: (event: React.ChangeEvent<HTMLInputElement>, arg: number) => void
-  valueRef: any
-  sliderClassName?: string
+  valueRef: LegacyRef<HTMLDivElement>
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
@@ -25,24 +24,25 @@ export const Slider: React.FC<SliderProps> = ({
   theme = 'primary',
   percents = SLIDER_PERCENTS,
   handlePercent,
-  sliderClassName,
   valueRef,
   className,
   value,
   ...props
 }) => (
-  <div className={cx(s.root, themeClass[theme])}>
-    <div className={cx(s.number, sliderClassName)} ref={valueRef}>
-      {value}
+  <div className={cx(s.root, themeClass[theme], className)}>
+    <div className={s.number} ref={valueRef}>
+      {Number(value).toFixed(2)}
       %
     </div>
+
     <input
       type="range"
-      step="1"
-      className={cx(s.slider, sliderClassName)}
+      step="0.01"
       value={value}
+      className={cx(s.slider)}
       {...props}
     />
+
     <div className={s.percents}>
       {
         percents.map((amount) => (

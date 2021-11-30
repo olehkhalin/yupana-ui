@@ -2,59 +2,81 @@
 @import 'styles/breakpoints.scss'
 
 .root
+  display: flex
+  justify-content: space-between
   width: 100%
   padding: .5rem 1rem
   border: .063rem solid $white
   border-radius: .25rem
+  cursor: text
 
-.inner
+.secondary
+  .wrapper, .input
+    color: $light-yellow
+  .input
+    &::placeholder
+      color: $light-yellow
+
+.wrapper
   display: flex
+  flex-direction: column
+  align-items: flex-start
+  justify-content: space-between
+  width: 100%
+  color: $light-blue
 
 .wrapper
   width: 100%
 
 .input
   width: 100%
-  margin-bottom: .25rem
   font-weight: bold
   font-size: 1rem
+  color: $light-blue
   background: transparent
   border: 0
   outline: none
-  line-height: 1.188rem
+  line-height: 1.185rem
   transition: $animationTime
-  -moz-appearance: textfield
+  &:active, &:focus
+    color: $white
   &::placeholder
+    color: $light-blue
     font-weight: bold
     font-size: 1rem
-    line-height: 1.188rem
   &:focus::-webkit-input-placeholder
     visibility: hidden
+  &::-moz-outer-spin-button,
+  &::-moz-inner-spin-button
+    display: none
   &::-webkit-outer-spin-button,
   &::-webkit-inner-spin-button
     display: none
-    margin: 0
-    -webkit-appearance: none
   &:focus::-moz-placeholder
     visibility: hidden
     -moz-appearance: none
 
 .exchange
-  font-weight: normal
   font-size: .75rem
-  line-height: 0.875rem
-  transition: $animationTime
-
-.inputBlock
-  width: 100%
-
-.mainInfo
-  display: flex
-  flex-direction: column
-  align-items: flex-start
-  width: 100%
-  &:active input, &:active .exchange
+  text-shadow: none
+  transition: color $animationTime
+  &.active
     color: $white
+
+.button
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 1rem
+  color: $white
+  text-shadow: none
+  transition: color $animationTime
+  &:hover
+    color: $light-blue
+    text-shadow: $blue-shadow
+  &:active
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
 
 .errorContainer
   display: flex
@@ -102,5 +124,3 @@
   .root
     padding: 1rem 1.5rem
     height: 4.5rem
-  .input
-    margin-bottom: .5rem
