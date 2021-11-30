@@ -25,22 +25,22 @@
   flex-direction: column
   align-items: center
   margin-bottom: 1rem
+  font-size: .875rem
+  font-weight: 700
 
 .walletBalance
   display: flex
   margin-bottom: .5rem
   min-width: initial
-
-.wBalance, .balance
-  font-size: 1rem
+  font-size: .75rem
   line-height: 1.188rem
-
-.wBalance
-  font-weight: normal
 
 .balance
   margin-left: 1rem
   font-weight: bold
+
+.slider
+  margin-bottom: 1rem
 
 .borrowTitle
   margin-bottom: .5rem
@@ -50,8 +50,8 @@
 
 .borrowLimit, .borrowLimitUsed
   display: flex
-  width: 100%
   justify-content: space-between
+  width: 100%
 
 .borrowLimit
   margin-bottom: .5rem
@@ -63,38 +63,25 @@
   font-size: .75rem
   line-height: .875rem
 
-.borrowDescription
-  font-weight: normal
-
 .borrowResult
   font-weight: bold
   margin-left: .5rem
 
-.supply
-  color: $light-blue
-  text-shadow: $blue-shadow
-  &::placeholder
-    color: $light-blue
-    text-shadow: $blue-shadow
-  &::-webkit-slider-thumb
-    border: .125rem solid $blue
-    box-shadow: -200px 0 0 195px $blue
-
 .borrow
-  color: $light-yellow
-  text-shadow: $light-yellow-shadow
-  &::placeholder
+  .input
     color: $light-yellow
     text-shadow: $light-yellow-shadow
-  &::-webkit-slider-thumb
-    border: .125rem solid $light-yellow
-    box-shadow: -200px 0 0 195px $light-yellow
+    &::placeholder
+      color: $light-yellow
+      text-shadow: $light-yellow-shadow
+    &::-webkit-slider-thumb
+      border: .125rem solid $light-yellow
+      box-shadow: -200px 0 0 195px $light-yellow
 
 @include media('>Mphone')
   .inner
     padding: 2rem 3.5rem
-    width: 100%
-    max-width: 32rem
+    width: 32rem
   .title
     margin-bottom: 2rem
     font-size: 1.5rem
@@ -103,6 +90,10 @@
     margin-bottom: 1rem
   .label
     font-size: .75rem
+  .tokenInfo
+    font-size: 1rem
+  .walletBalance
+    font-size: 1rem
   .tokenInfo, .slider, .percents
     margin-bottom: 2rem
   .borrowTitle

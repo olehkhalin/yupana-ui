@@ -5,13 +5,11 @@
   position: relative
   width: 100%
   margin-top: 1.5rem
-  margin-bottom: 1.5rem  
 
 .slider
   width: 95%
   height: .75rem
   margin-bottom: 1.5rem
-  padding: 0 .063rem
   background-color: rgba($light-blue, .2)
   border-radius: 1rem
   -webkit-appearance: none
@@ -26,12 +24,11 @@
 
 .slider::-webkit-slider-thumb
   position: relative
-  top: .063rem
-  width: .625rem
-  height: .625rem
+  width: .75rem
+  height: .75rem
   border-radius: 1rem
   background: $white
-  box-shadow: -195px 0 0 195px #43e5f7
+  box-shadow: -195px 0 0 190px #43e5f7
   border: .125rem solid $blue
   cursor: pointer
   -webkit-appearance: none
@@ -43,8 +40,8 @@
   font-weight: bold
   font-size: 0.75rem
   line-height: 0.875rem
-  color: $light-yellow
-  text-shadow: $light-yellow-shadow
+  color: $light-blue
+  text-shadow: $blue-shadow
 
 .percents
   display: flex
@@ -92,3 +89,13 @@
       color: $blue-neutral
       &::before
         background-color: $blue-neutral
+  .slider
+    background-color: rgba($light-yellow, .2)
+    &::-webkit-slider-runnable-track
+      color: $light-yellow
+    &::-webkit-slider-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+  .number
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow

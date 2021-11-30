@@ -16,16 +16,33 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 
 import s from './CreditProcess.module.sass';
 
+export enum ThemeEnum {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  TERTIARY = 'tertiary',
+  QUATERNARY = 'quaternary',
+}
+
 type CreditProcessProps = {
-  theme?: 'primary' | 'secondary' | 'tertiary' | 'quaternary'
+  theme?: ThemeEnum
   asset: TokenMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
+type DataType = {
+  text: string
+  walletText: string
+};
+
+const defaultData = {
+  text: '',
+  walletText: '',
+};
+
 export const CreditProcess: React.FC<CreditProcessProps> = ({
-  theme = 'primary',
+  theme = ThemeEnum.PRIMARY,
   asset,
   walletBalance,
   yourBorrowLimit,
@@ -33,17 +50,17 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
   isOpen,
   onRequestClose,
 }) => {
+  const [{ text, walletText }, setData] = useState<DataType>(defaultData);
+  const [sliderValue, setSliderValue] = useState<number>(0);
+  const valueRef = useRef<HTMLDivElement | null>(null);
   const isWiderThanMphone = useWiderThanMphone();
-  const [sliderValue, setSliderValue] = useState(0);
-  const [state, setState] = useState({
-    text: '',
-    walletText: '',
-  });
-  const valueRef: any = useRef();
-  const yellowTheme = theme === 'tertiary' || theme === 'quaternary';
+
+  const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    valueRef.current.style.left = `${+event.target.value / 1.1}%`;
+    if (valueRef && valueRef.current) {
+      valueRef.current.style.left = `${+event.target.value / 1.1}%`;
+    }
   };
 
   const handleSliderChange = useCallback(
@@ -55,7 +72,9 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 
   const handlePercent = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>, amount: number) => {
-      valueRef.current.style.left = `${+event.target.value + amount - (amount / 100) * 5}%`;
+      if (valueRef && valueRef.current) {
+        valueRef.current.style.left = `${(+event.target.value + amount) / 1.1}%`;
+      }
       setSliderValue(amount);
     },
     [],
@@ -63,120 +82,128 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
 
   useEffect(() => {
     switch (theme) {
-      case 'primary':
-        setState({
+      case ThemeEnum.PRIMARY:
+        setData({
           text: 'Supply',
           walletText: 'Wallet balance:',
         });
         break;
-      case 'secondary':
-        setState({
+      case ThemeEnum.SECONDARY:
+        setData({
           text: 'Withdraw',
-          walletText: 'Wallet balance:',
+          walletText: 'Supply balance:',
         });
         break;
-      case 'tertiary':
-        setState({
+      case ThemeEnum.TERTIARY:
+        setData({
           text: 'Borrow',
           walletText: 'Borrow balance:',
         });
         break;
-      case 'quaternary':
-        setState({
+      case ThemeEnum.QUATERNARY:
+        setData({
           text: 'Repay',
           walletText: 'Borrow balance:',
         });
         break;
       default:
-        setState({
-          text: 'Supply',
-          walletText: 'wallet balance:',
-        });
+        setData(defaultData);
         break;
     }
   }, [theme]);
+
+  const getTheme = useCallback(
+    () => {
+      if (theme === ThemeEnum.PRIMARY || theme === ThemeEnum.SECONDARY) {
+        return ThemeEnum.PRIMARY;
+      }
+      if (theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY) {
+        return ThemeEnum.SECONDARY;
+      }
+      return undefined;
+    },
+    [theme],
+  );
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.inner}
+      className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
-      <div className={s.root}>
-        <h2 className={s.title}>
-          {state.text}
-        </h2>
+      <h2 className={s.title}>
+        {text}
+      </h2>
 
-        <div className={s.tokenInfo}>
-          <TokenLogo
-            sizeT="large"
-            logo={{ name: getTokenName(asset), thumbnailUri: asset.thumbnailUri }}
-            className={s.icon}
-          />
-          {getTokenName(asset, true)}
-        </div>
-
-        <div className={s.walletBalance}>
-          <div className={s.wBalance}>
-            {state.walletText}
-          </div>
-
-          <div className={s.balance}>
-            {getPrettyAmount({ value: walletBalance, currency: getTokenName(asset) })}
-          </div>
-        </div>
-
-        <CreditInput
-          className={cx(s.input, s.supply, { [s.borrow]: yellowTheme })}
+      <div className={s.tokenInfo}>
+        <TokenLogo
+          sizeT={isWiderThanMphone ? 'large' : 'medium'}
+          logo={{ name: getTokenName(asset), thumbnailUri: asset.thumbnailUri }}
+          className={s.icon}
         />
+        {getTokenName(asset, true)}
+      </div>
 
-        <Slider
-          value={sliderValue}
-          onChange={handleSliderChange}
-          handlePercent={handlePercent}
-          sliderClassName={cx(s.supply, { [s.borrow]: yellowTheme })}
-          valueRef={valueRef}
-          onInput={handleChange}
-          // className={s.supply}
-        />
+      <div className={s.walletBalance}>
+        {walletText}
 
-        <h2 className={s.borrowTitle}>
-          Borrow limit
-        </h2>
+        <div className={s.balance}>
+          {getPrettyAmount({ value: walletBalance, currency: getTokenName(asset) })}
+        </div>
+      </div>
 
-        <div className={s.borrowLimit}>
-          <div className={s.borrowDescription}>
-            Your Borrow Limit:
-          </div>
-          <div className={s.borrowResult}>
-            {`
+      <CreditInput
+        theme={getTheme()}
+        className={s.input}
+      />
+
+      <Slider
+        theme={getTheme()}
+        value={sliderValue}
+        onChange={handleSliderChange}
+        handlePercent={handlePercent}
+        valueRef={valueRef}
+        onInput={handleChange}
+        className={s.slider}
+      />
+
+      <h2 className={s.borrowTitle}>
+        Borrow limit
+      </h2>
+
+      <div className={s.borrowLimit}>
+        <div className={s.borrowDescription}>
+          Your Borrow Limit:
+        </div>
+        <div className={s.borrowResult}>
+          {`
               ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })} 
               -> 
               ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
             `}
-          </div>
         </div>
+      </div>
 
-        <div className={s.borrowLimitUsed}>
-          <div className={s.borrowDescription}>
-            Borrow Limit Used:
-          </div>
-          <div className={s.borrowResult}>
-            {`
+      <div className={s.borrowLimitUsed}>
+        <div className={s.borrowDescription}>
+          Borrow Limit Used:
+        </div>
+        <div className={s.borrowResult}>
+          {`
               ${borrowLimitUsed} %
               -> 
               ${borrowLimitUsed} %
             `}
-          </div>
         </div>
-
-        <Button
-          sizeT={isWiderThanMphone ? 'large' : 'medium'}
-          actionT={yellowTheme ? 'borrow' : 'supply'}
-        >
-          {state.text}
-        </Button>
       </div>
+
+      <Button
+        sizeT={isWiderThanMphone ? 'large' : 'medium'}
+        actionT={isBorrowTheme ? 'borrow' : 'supply'}
+      >
+        {text}
+      </Button>
     </Modal>
   );
 };
