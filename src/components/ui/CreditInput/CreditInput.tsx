@@ -72,11 +72,13 @@ export const CreditInput: React.FC<CreditInputProps> = ({
         </Button>
       </div>
 
-      {error && (
-      <div className={s.errorContainer}>
-        <div className={cx(s.errorText)}>{error}</div>
+      <div className={cx(s.errorContainer, { [s.error]: error })}>
+        {error && (
+        <div className={cx(s.errorText)}>
+          {error}
+        </div>
+        )}
       </div>
-      )}
     </>
   );
 };
