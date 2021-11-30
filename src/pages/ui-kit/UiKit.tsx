@@ -10,6 +10,7 @@ import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
 import { Radio } from 'components/ui/Radio';
+import { Preloader } from 'components/ui/Preloader';
 import { LimitLine } from 'components/common/LimitLine';
 import {
   mokeBorrowLimitData,
@@ -98,6 +99,7 @@ export const UiKit: React.FC = () => {
 
   return (
     <>
+      <Preloader />
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>

@@ -1,0 +1,60 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  width: 100%
+  position: relative
+  border: 1px solid rgba($white, .6)
+  border-radius: 12px
+  box-sizing: content-box
+  overflow: hidden
+  &.small
+    max-width: 244px
+  &.medium
+    max-width: 300px
+  &.large
+    max-width: 392px
+
+.externalBorder
+  position: relative
+  height: 100%
+  width: 100%
+  border: 3px solid rgba($white, .3)
+  border-radius: 12px
+  overflow: hidden
+
+.internalBorder
+  height: 100%
+  min-height: 16px
+  width: 100%
+  border-radius: 12px
+  &.primary
+    background: pink
+    .light
+      background: purple
+  &.secondary
+    background-color: blue
+    .light
+      background: blue
+
+.light
+  width: 100%
+  height: 100%
+  min-height: 16px
+  position: relative
+  animation: lite 2.5s ease-in-out infinite
+
+@keyframes lite
+  0%
+    left: -100%
+  50%
+    left: 100%
+  100%
+    left: -100%
+
+@include media("<=678px")
+  .root
+    &.small
+      width: 128px
+    &.medium
+      max-width: 150px
