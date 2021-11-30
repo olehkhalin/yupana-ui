@@ -131,16 +131,19 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
           <Item
             text="Reserves"
             value={getPrettyAmount({ value: reserves, currency: '$' })}
+            icon={false}
             className={s.item}
           />
           <Item
             text="Reserve Factor"
             value={`${reserveFactor}%`}
+            icon={false}
             className={s.item}
           />
           <Item
             text={`y${tokenMetadata.symbol} Minted`}
             value={getPrettyAmount({ value: minted })}
+            icon={false}
             className={s.item}
           />
           <Item
