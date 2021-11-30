@@ -10,6 +10,9 @@
 .inner
   display: flex
 
+.wrapper
+  width: 100%
+
 .input
   width: 100%
   margin-bottom: .25rem
@@ -20,6 +23,7 @@
   outline: none
   line-height: 1.188rem
   transition: $animationTime
+  -moz-appearance: textfield
   &::placeholder
     font-weight: bold
     font-size: 1rem
@@ -31,11 +35,9 @@
     display: none
     margin: 0
     -webkit-appearance: none
-  // &,
-  // &:hover,
-  // &:focus
-  //   appearance: none
-  //   -moz-appearance: textfield
+  &:focus::-moz-placeholder
+    visibility: hidden
+    -moz-appearance: none
 
 .exchange
   font-weight: normal
@@ -60,16 +62,24 @@
   align-items: center
   width: 100%
   height: 1.5rem
+  margin-top: .5rem
   border-radius: .25rem
   background-color: rgba(252, 76, 0, 0.48)
   box-shadow: 0px 0px 4px #FC4C00
   opacity: 0.6
+  max-height: 0
+  overflow: hidden
+  transition: max-height $animationTime
 
 .errorText
   font-weight: bold
   font-size: .75rem
   color: #FC4C00
   line-height: .875rem
+
+.error
+  .errorContainer
+    max-height: 1.5rem
 
 .button
   display: flex

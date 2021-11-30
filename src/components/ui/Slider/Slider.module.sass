@@ -14,6 +14,7 @@
   padding: 0 .063rem
   background-color: rgba($light-blue, .2)
   border-radius: 1rem
+  overflow: hidden
   -webkit-appearance: none
 
 .slider::-webkit-slider-runnable-track
@@ -21,7 +22,7 @@
   height: .75rem
   color: $light-blue
   border-radius: 1rem
-  overflow: hidden
+  // overflow: hidden
   -webkit-appearance: none
 
 .slider::-webkit-slider-thumb
@@ -35,6 +36,23 @@
   border: .125rem solid $blue
   cursor: pointer
   -webkit-appearance: none
+
+.slider::-moz-range-track
+  width: 100%
+  height: .75rem
+  color: $light-blue
+  border-radius: 1rem
+
+.slider::-moz-range-thumb
+  position: relative
+  top: .063rem
+  width: .6255rem
+  height: .625rem
+  border-radius: 1rem
+  background: $white
+  box-shadow: -195px 0 0 195px #43e5f7
+  border: .125rem solid $blue
+  cursor: pointer
 
 .number
   position: absolute

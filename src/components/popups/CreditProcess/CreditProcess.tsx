@@ -25,7 +25,7 @@ type CreditProcessProps = {
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 export const CreditProcess: React.FC<CreditProcessProps> = ({
-  theme = 'primary',
+  theme = 'quaternary',
   asset,
   walletBalance,
   yourBorrowLimit,
