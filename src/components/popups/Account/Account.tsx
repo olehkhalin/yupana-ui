@@ -62,6 +62,7 @@ export const Account: React.FC<AccountProps> = ({
         <Button
           theme="clear"
           href={tzktLink}
+          external
           className={s.button}
         >
           View on explorer

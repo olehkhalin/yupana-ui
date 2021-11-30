@@ -6,9 +6,10 @@ import {
   useAccountPkh,
 } from 'utils/dapp';
 
+import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { shortize } from 'utils/getShortize';
 import { Account } from 'components/popups/Account';
 import { ConnectToWallet } from 'components/popups/ConnectToWallet';
-import { shortize } from 'utils/getShortize';
 import { Button } from 'components/ui/Button';
 
 import s from './ConnectWalletButton.module.sass';
@@ -20,6 +21,7 @@ type ConnectWalletButtonProps = {
 export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
   className,
 }) => {
+  const isWiderThanMphone = useWiderThanMphone();
   const ready = useReady();
   const accountPkh = useAccountPkh();
 
@@ -44,7 +46,7 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
           onClick={handleAccountModal}
           className={cx(s.button, className)}
         >
-          {shortize(accountPkh)}
+          {shortize(accountPkh, isWiderThanMphone ? 7 : 4)}
         </Button>
       ) : (
         <Button
