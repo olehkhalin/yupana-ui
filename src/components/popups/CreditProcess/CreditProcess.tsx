@@ -42,7 +42,7 @@ const defaultData = {
 };
 
 export const CreditProcess: React.FC<CreditProcessProps> = ({
-  theme = ThemeEnum.TERTIARY,
+  theme = ThemeEnum.PRIMARY,
   asset,
   walletBalance,
   yourBorrowLimit,
