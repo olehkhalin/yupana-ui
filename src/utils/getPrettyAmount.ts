@@ -1,9 +1,11 @@
+import BigNumber from 'bignumber.js';
+
 export const getPrettyAmount = ({
   value,
   currency,
   dec,
 }: {
-  value: number,
+  value: number | BigNumber,
   currency?: string,
   dec?: number,
 }) => {
@@ -16,11 +18,11 @@ export const getPrettyAmount = ({
         maximumFractionDigits: dec ?? 0,
         notation: 'compact',
       },
-    ).format(value);
+    ).format(+value);
   } else {
     finalValue = new Intl.NumberFormat(
       'en',
-    ).format(value);
+    ).format(+value);
   }
 
   if (currency) {

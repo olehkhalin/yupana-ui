@@ -2,24 +2,21 @@ import React from 'react';
 
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
+import { TokenMetadataInterface } from 'types/token';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
 
 type BorrowAssetsCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
   liquidity: number
   borrowApy: number
   utilisationRate: number
-  thumbnailUri?: string
   className?: string
-};
+} & TokenMetadataInterface;
 
 const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
@@ -27,6 +24,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
   name,
   symbol,
   thumbnailUri,
+  decimals,
   liquidity,
   borrowApy,
   utilisationRate,
@@ -40,6 +38,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
     name,
     symbol,
     thumbnailUri,
+    decimals,
   };
 
   return (
@@ -64,7 +63,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Borrow APY
         </div>
         <div className={s.value}>
-          {`${borrowApy.toFixed(2)}%`}
+          {getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -73,7 +72,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Utilisation rate
         </div>
         <div className={s.value}>
-          {`${utilisationRate.toFixed(2)}%`}
+          {getPrettyPercent(utilisationRate)}
         </div>
       </div>
 
@@ -82,7 +81,11 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Liquidity
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: liquidity, currency: getSliceTokenName(tokenMetadata) })}
+          {getPrettyAmount({
+            value: liquidity,
+            currency: getSliceTokenName(tokenMetadata),
+            dec: tokenMetadata.decimals,
+          })}
         </div>
       </div>
     </TableCard>

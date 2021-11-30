@@ -4,6 +4,8 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -35,17 +37,18 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: { supplyApy: number }) => `${supplyApy.toFixed(2)}%`,
+        accessor: ({ supplyApy }: { supplyApy: number }) => getPrettyPercent(supplyApy),
       },
       {
         Header: 'Collateral Factor',
         id: 'collateralFactor',
-        accessor: ({ collateralFactor }: { collateralFactor: number }) => `${collateralFactor.toFixed(2)}%`,
+        accessor: ({ collateralFactor }
+        : { collateralFactor: number }) => getPrettyPercent(collateralFactor),
       },
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: ({ wallet, asset }: { wallet: number, asset: TokenMetadataInterface }) => `${wallet} ${getSliceTokenName(asset)}`,
+        accessor: ({ wallet, asset }: { wallet: number, asset: TokenMetadataInterface }) => `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
       },
       {
         Header: () => null,
