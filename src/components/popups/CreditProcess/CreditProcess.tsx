@@ -75,7 +75,7 @@ export const CreditProcess: React.FC<CreditProcessProps> = ({
       if (valueRef && valueRef.current) {
         valueRef.current.style.left = `${(+event.target.value + amount) / 1.1}%`;
       }
-      setSliderValue(amount);
+      setSliderValue((+event.target.value + amount));
     },
     [],
   );

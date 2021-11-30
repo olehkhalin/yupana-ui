@@ -44,7 +44,6 @@ export const CreditInput: React.FC<CreditInputProps> = ({
       >
         <div className={s.wrapper}>
           <input
-            type="number"
             placeholder="0.00"
             onFocus={() => setIsInputFocus(true)}
             onBlur={() => setIsInputFocus(false)}

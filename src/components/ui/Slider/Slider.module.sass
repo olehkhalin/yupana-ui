@@ -15,41 +15,40 @@
   overflow: hidden
   -webkit-appearance: none
 
-.slider::-webkit-slider-runnable-track
-  width: 100%
-  height: .75rem
-  color: $light-blue
-  border-radius: 1rem
-  // overflow: hidden
-  -webkit-appearance: none
+.slider
+  &::-webkit-slider-runnable-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
+    -webkit-appearance: none
+  &::-moz-range-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
 
-.slider::-webkit-slider-thumb
-  position: relative
-  width: .75rem
-  height: .75rem
-  border-radius: 1rem
-  background: $white
-  box-shadow: -195px 0 0 190px #43e5f7
-  border: .125rem solid $blue
-  cursor: pointer
-  -webkit-appearance: none
-
-.slider::-moz-range-track
-  width: 100%
-  height: .75rem
-  color: $light-blue
-  border-radius: 1rem
-
-.slider::-moz-range-thumb
-  position: relative
-  top: .063rem
-  width: .6255rem
-  height: .625rem
-  border-radius: 1rem
-  background: $white
-  box-shadow: -195px 0 0 195px #43e5f7
-  border: .125rem solid $blue
-  cursor: pointer
+.slider
+  &::-webkit-slider-thumb
+    position: relative
+    width: .75rem
+    height: .75rem
+    border-radius: 1rem
+    background: $white
+    box-shadow: -195px 0 0 190px $light-blue
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
+  &::-moz-range-thumb
+    position: relative
+    width: .5rem
+    height: .5rem
+    border-radius: 1rem
+    background: $white
+    box-shadow: -195px 0 0 190px $light-blue
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
 
 .number
   position: absolute
@@ -112,6 +111,9 @@
     &::-webkit-slider-runnable-track
       color: $light-yellow
     &::-webkit-slider-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+    &::-moz-range-thumb
       border-color: $light-yellow
       box-shadow: -195px 0 0 190px $light-yellow
   .number
