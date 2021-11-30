@@ -99,7 +99,24 @@ export const UiKit: React.FC = () => {
 
   return (
     <>
-      <Preloader />
+      <div className={s.block}>
+        <Preloader
+          theme="primary"
+          size="small"
+        />
+      </div>
+      <div className={s.block}>
+        <Preloader
+          theme="secondary"
+          size="medium"
+        />
+      </div>
+      <div className={s.block}>
+        <Preloader
+          theme="tertiary"
+          size="large"
+        />
+      </div>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>

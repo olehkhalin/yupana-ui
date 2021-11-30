@@ -18,6 +18,7 @@ const sizeClass = {
 const themeClass = {
   primary: s.primary,
   secondary: s.secondary,
+  tertiary: s.tertiary,
 };
 
 export const Preloader: React.FC<PreloaderProps> = ({
@@ -33,10 +34,8 @@ export const Preloader: React.FC<PreloaderProps> = ({
 
   return (
     <div className={compoundClassName}>
-      <div className={cx(s.externalBorder)}>
-        <div className={cx(s.internalBorder, themeClass[theme])}>
-          <div className={cx(s.light)} />
-        </div>
+      <div className={cx(s.internalBorder, themeClass[theme])}>
+        <div className={cx(s.light)} />
       </div>
     </div>
   );
