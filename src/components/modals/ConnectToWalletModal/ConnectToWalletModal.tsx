@@ -3,7 +3,7 @@ import React from 'react';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/modals/components/ModalHeader';
+import { ModalHeader } from 'components/common/ModalHeader';
 import { ReactComponent as TempleWallet } from 'svg/TempleWallet.svg';
 import { ReactComponent as Beacon } from 'svg/Beacon.svg';
 

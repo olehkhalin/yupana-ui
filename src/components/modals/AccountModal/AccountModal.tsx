@@ -5,7 +5,7 @@ import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/modals/components/ModalHeader';
+import { ModalHeader } from 'components/common/ModalHeader';
 import { ReactComponent as IconCopy } from 'svg/IconCopy.svg';
 import { ReactComponent as IconLink } from 'svg/IconLink.svg';
 
