@@ -3,13 +3,13 @@ import React from 'react';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components/ModalHeader';
+import { ModalHeader } from 'components/modals/components/ModalHeader';
 import { ReactComponent as TempleWallet } from 'svg/TempleWallet.svg';
 import { ReactComponent as Beacon } from 'svg/Beacon.svg';
 
-import s from './ConnectToWallet.module.sass';
+import s from './ConnectToWalletModal.module.sass';
 
-export const ConnectToWallet: React.FC<ModalActions> = ({
+export const ConnectToWalletModal: React.FC<ModalActions> = ({
   title,
   description,
   isOpen,

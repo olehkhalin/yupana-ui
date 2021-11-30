@@ -14,7 +14,7 @@ import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 import { TokenLogo } from 'components/ui/TokenLogo';
 
-import s from './CreditProcess.module.sass';
+import s from './CreditProcessModal.module.sass';
 
 export enum ThemeEnum {
   PRIMARY = 'primary',
@@ -23,7 +23,7 @@ export enum ThemeEnum {
   QUATERNARY = 'quaternary',
 }
 
-type CreditProcessProps = {
+type CreditProcessModalProps = {
   theme?: ThemeEnum
   asset: TokenMetadataInterface
   walletBalance: number
@@ -41,7 +41,7 @@ const defaultData = {
   walletText: '',
 };
 
-export const CreditProcess: React.FC<CreditProcessProps> = ({
+export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   theme = ThemeEnum.PRIMARY,
   asset,
   walletBalance,

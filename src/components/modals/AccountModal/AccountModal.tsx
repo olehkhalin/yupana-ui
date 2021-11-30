@@ -5,17 +5,17 @@ import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components/ModalHeader';
+import { ModalHeader } from 'components/modals/components/ModalHeader';
 import { ReactComponent as IconCopy } from 'svg/IconCopy.svg';
 import { ReactComponent as IconLink } from 'svg/IconLink.svg';
 
-import s from './Account.module.sass';
+import s from './AccountModal.module.sass';
 
-type AccountProps = {
+type AccountModalProps = {
   address: string
 } & ModalActions;
 
-export const Account: React.FC<AccountProps> = ({
+export const AccountModal: React.FC<AccountModalProps> = ({
   title,
   description,
   address,

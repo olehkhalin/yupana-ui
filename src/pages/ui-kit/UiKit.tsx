@@ -63,10 +63,10 @@ import {
 } from 'components/temp-data/market-card';
 import { USER_STAT } from 'components/temp-data/user-stat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
-import { InformationModal } from 'components/popups/InformationModal';
-import { ConnectToWallet } from 'components/popups/ConnectToWallet';
-import { Account } from 'components/popups/Account';
-import { CreditProcess, ThemeEnum } from 'components/popups/CreditProcess';
+import { InformationModal } from 'components/modals/InformationModal';
+import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
+import { AccountModal } from 'components/modals/AccountModal';
+import { CreditProcessModal, ThemeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -1012,7 +1012,7 @@ export const UiKit: React.FC = () => {
             >
               ConnectToWallet
             </Button>
-            <ConnectToWallet
+            <ConnectToWalletModal
               isOpen={connectToWalletIsOpen}
               onRequestClose={() => setConnectToWalletIsOpen(false)}
               title="Connect to a wallet"
@@ -1029,7 +1029,7 @@ export const UiKit: React.FC = () => {
             >
               Account
             </Button>
-            <Account
+            <AccountModal
               isOpen={accountIsOpen}
               onRequestClose={() => setAccountIsOpen(false)}
               title="Account"
@@ -1050,7 +1050,7 @@ export const UiKit: React.FC = () => {
             >
               CreditProcess
             </Button>
-            <CreditProcess
+            <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
               isOpen={creditProcessPrimaryIsOpen}
               onRequestClose={() => setCreditProcessPrimaryIsOpen(false)}
@@ -1065,7 +1065,7 @@ export const UiKit: React.FC = () => {
             >
               CreditProcess
             </Button>
-            <CreditProcess
+            <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
               theme={ThemeEnum.SECONDARY}
               isOpen={creditProcessSecondaryIsOpen}
@@ -1081,7 +1081,7 @@ export const UiKit: React.FC = () => {
             >
               CreditProcess
             </Button>
-            <CreditProcess
+            <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
               theme={ThemeEnum.TERTIARY}
               isOpen={creditProcessTertiaryIsOpen}
@@ -1097,7 +1097,7 @@ export const UiKit: React.FC = () => {
             >
               CreditProcess
             </Button>
-            <CreditProcess
+            <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
               theme={ThemeEnum.QUATERNARY}
               isOpen={creditProcessQuaternaryIsOpen}

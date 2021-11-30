@@ -3,7 +3,7 @@ import React from 'react';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components';
+import { ModalHeader } from 'components/modals/components';
 
 type InformationModalProps = {
   buttonText?: string
