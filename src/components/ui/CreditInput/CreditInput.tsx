@@ -23,11 +23,17 @@ export const CreditInput: React.FC<CreditInputProps> = ({
   className,
 }) => {
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
-  const [changeableElement, setChangeableElement] = useState(0.00);
+  const [value, setValue] = useState<number>(0.00);
+  const [changeableElement, setChangeableElement] = useState<number>(0.00);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setChangeableElement(+event.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const regex = /^\d+$/;
+
+    if (regex.test(e.target.value)) {
+      setValue(+e.target.value);
+      setChangeableElement(+e.target.value);
+    }
   };
 
   const handleContainer = () => {
@@ -47,6 +53,7 @@ export const CreditInput: React.FC<CreditInputProps> = ({
             placeholder="0.00"
             onFocus={() => setIsInputFocus(true)}
             onBlur={() => setIsInputFocus(false)}
+            value={value}
             onChange={handleChange}
             ref={inputRef}
             className={s.input}
