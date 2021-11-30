@@ -1048,7 +1048,7 @@ export const UiKit: React.FC = () => {
               onClick={() => setCreditProcessPrimaryIsOpen(true)}
               className={s.modalsButton}
             >
-              CreditProcess
+              Supply
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
@@ -1063,7 +1063,7 @@ export const UiKit: React.FC = () => {
               onClick={() => setCreditProcessSecondaryIsOpen(true)}
               className={s.modalsButton}
             >
-              CreditProcess
+              Withdraw
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
@@ -1079,7 +1079,7 @@ export const UiKit: React.FC = () => {
               onClick={() => setCreditProcessTertiaryIsOpen(true)}
               className={s.modalsButton}
             >
-              CreditProcess
+              Borrow
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
@@ -1095,7 +1095,7 @@ export const UiKit: React.FC = () => {
               onClick={() => setCreditProcessQuaternaryIsOpen(true)}
               className={s.modalsButton}
             >
-              CreditProcess
+              Repay
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
