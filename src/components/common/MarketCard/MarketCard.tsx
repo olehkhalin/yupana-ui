@@ -39,7 +39,8 @@ export const MarketCard: React.FC<MarketCardProps> = ({
 
       <div className={s.row}>
         <div className={s.text}>
-          Top 3 markets
+          {/* Top 3 markets */}
+          {isPrimaryTheme ? '24H Supply Volume' : '24H Borrow Volume'}
         </div>
         <div className={s.value}>
           {getPrettyAmount({ value: volume24h, currency: '$' })}

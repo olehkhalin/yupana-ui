@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.5.5",
     "@formatjs/intl-numberformat": "^7.2.5",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
@@ -19,6 +20,7 @@
     "animated-scroll-to": "^2.2.0",
     "bignumber.js": "^9.0.1",
     "classnames": "^2.3.1",
+    "graphql": "^16.0.1",
     "react": "^17.0.2",
     "react-collapse": "^5.1.0",
     "react-countup": "^6.0.0",
@@ -39,7 +41,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint ./src --ext .ts,.tsx"
+    "lint": "eslint ./src --ext .ts,.tsx",
+    "ts-schema": "graphql-codegen --config codegen.yml"
   },
   "eslintConfig": {
     "extends": [
@@ -60,6 +63,11 @@
     ]
   },
   "devDependencies": {
+    "@graphql-codegen/cli": "2.3.0",
+    "@graphql-codegen/introspection": "2.1.0",
+    "@graphql-codegen/typescript": "2.4.1",
+    "@graphql-codegen/typescript-operations": "2.2.1",
+    "@graphql-codegen/typescript-react-apollo": "3.2.2",
     "@types/react-table": "^7.7.7",
     "@types/uuid": "^8.3.1",
     "@typescript-eslint/eslint-plugin": "^5.1.0",

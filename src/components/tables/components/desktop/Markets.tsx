@@ -1,10 +1,13 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
+import { AppRoutes } from 'routes/main-routes';
 
 import s from './Tables.module.sass';
 
@@ -29,7 +32,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            href="/"
+            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
           />
         ),
       },
@@ -55,7 +58,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {`${row.supplyApy}%`}
+            {getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -94,7 +97,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {`${row.borrowApy}%`}
+            {getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
@@ -114,10 +117,10 @@ export const Markets: React.FC<MarketsProps> = ({
       {
         Header: () => null,
         id: 'details',
-        accessor: () => (
+        accessor: (row: any) => (
           <Button
             theme="light"
-            href="/"
+            href={`${AppRoutes.MARKETS}/${row.yToken}`}
             className={s.link}
           >
             Details

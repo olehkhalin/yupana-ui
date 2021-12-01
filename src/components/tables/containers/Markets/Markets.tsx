@@ -33,6 +33,7 @@ export const Markets: React.FC<MarketsProps> = ({
         }) => (
           <MarketsCard
             key={getUniqueKey()}
+            details={false}
             {...tokenMetadata}
             {...rest}
           />
