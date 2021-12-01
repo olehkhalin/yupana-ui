@@ -7961,6 +7961,11 @@ export type LendingAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type LendingAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }> };
 
+export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
+
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -8089,6 +8094,68 @@ export function useLendingAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type LendingAssetsQueryHookResult = ReturnType<typeof useLendingAssetsQuery>;
 export type LendingAssetsLazyQueryHookResult = ReturnType<typeof useLendingAssetsLazyQuery>;
 export type LendingAssetsQueryResult = Apollo.QueryResult<LendingAssetsQuery, LendingAssetsQueryVariables>;
+export const LiquidationPositionsDocument = gql`
+    query LiquidationPositions {
+  user {
+    address
+    outstandingBorrow
+    borrowedAssets: userFunds(where: {borrow: {_gt: "0"}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+    collateralAssets: userFunds(where: {entered: {_eq: true}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+    liquidationRatio
+  }
+}
+    `;
+
+/**
+ * __useLiquidationPositionsQuery__
+ *
+ * To run a query within a React component, call `useLiquidationPositionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLiquidationPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLiquidationPositionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLiquidationPositionsQuery(baseOptions?: Apollo.QueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+      }
+export function useLiquidationPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+        }
+export type LiquidationPositionsQueryHookResult = ReturnType<typeof useLiquidationPositionsQuery>;
+export type LiquidationPositionsLazyQueryHookResult = ReturnType<typeof useLiquidationPositionsLazyQuery>;
+export type LiquidationPositionsQueryResult = Apollo.QueryResult<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>;
 export const MarketOverviewDocument = gql`
     query MarketOverview {
   assetAggregate {
