@@ -26,6 +26,7 @@ export const InformationModal: React.FC<InformationModalProps> = ({
     />
     <Button
       sizeT="small"
+      onClick={onRequestClose}
     >
       {buttonText}
     </Button>
