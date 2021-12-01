@@ -18,7 +18,6 @@ type MarketsDetailsWrapperProps = {
 const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
   data,
 }) => {
-  console.log('data', data);
   const preparedData = useMemo(() => {
     // Token details
     const el = data.asset[0];
