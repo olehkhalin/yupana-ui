@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import cx from 'classnames';
 
 import { shortize } from 'utils/getShortize';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
@@ -8,6 +10,7 @@ import { Button } from 'components/ui/Button';
 import { ModalHeader } from 'components/common/ModalHeader';
 import { ReactComponent as IconCopy } from 'svg/IconCopy.svg';
 import { ReactComponent as IconLink } from 'svg/IconLink.svg';
+import { ReactComponent as Success } from 'svg/Success.svg';
 
 import s from './AccountModal.module.sass';
 
@@ -23,6 +26,15 @@ export const AccountModal: React.FC<AccountModalProps> = ({
   onRequestClose,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
+  const [success, setSuccess] = useState<boolean>(false);
+
+  const handleSetSuccessOfCopy = () => {
+    if (!success) {
+      setSuccess(true);
+
+      setTimeout(() => setSuccess(false), 2000);
+    }
+  };
 
   return (
     <Modal
@@ -51,13 +63,21 @@ export const AccountModal: React.FC<AccountModalProps> = ({
           View on explorer
           <IconLink className={s.icon} />
         </Button>
-        <Button
-          theme="clear"
-          className={s.button}
+        <CopyToClipboard
+          text={address}
+          onCopy={handleSetSuccessOfCopy}
         >
-          Copy Address
-          <IconCopy className={s.icon} />
-        </Button>
+          <Button
+            theme="clear"
+            className={s.button}
+          >
+            Copy address
+            <div className={cx(s.iconsWrapper, { [s.success]: success })}>
+              <Success className={s.arrow} />
+              <IconCopy className={s.clipboard} />
+            </div>
+          </Button>
+        </CopyToClipboard>
       </div>
     </Modal>
   );
