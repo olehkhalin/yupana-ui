@@ -1,17 +1,121 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
+import BigNumber from 'bignumber.js';
 
+import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
+import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
+import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';
 
 import s from './MarketsDetails.module.sass';
 
-export const MarketsDetails: React.FC = () => (
-  <>
-    <TokenDetails
-      className={s.tokenDetails}
-    />
-    <MarketDetails />
-    <InterestRateModel />
-  </>
-);
+type MarketsDetailsWrapperProps = {
+  data: MarketsDetailsQuery
+};
+
+const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
+  data,
+}) => {
+  console.log('data', data);
+  const preparedData = useMemo(() => {
+    // Token details
+    const el = data.asset[0];
+    const asset = getPreparedTokenObject(el as unknown as Asset);
+    const totalSupply = new BigNumber(el.totalSupply).div(1e18);
+    const supplyApy = getPreparedPercentValue(el as unknown as Asset, 'supply_apy');
+    const numberOfSupplier = el.suppliersCount.aggregate?.count ?? 0;
+    const totalBorrow = new BigNumber(el.totalBorrowed).div(1e18);
+    const borrowApy = getPreparedPercentValue(el as unknown as Asset, 'borrow_apy');
+    const numberOfBorrowers = el.borrowersCount.aggregate?.count ?? 0;
+
+    // Market details
+    const availableLiquidity = new BigNumber(el.totalLiquid).div(1e18);
+    const utilisationRate = getPreparedPercentValue(el as unknown as Asset, 'utilization_rate');
+    const collateralFactor = new BigNumber(el.collateralFactor).div(1e18);
+    const liquidationThreshold = new BigNumber(data.globalFactors[0].liquidationThreshold)
+      .div(1e18);
+    const liquidationBonus = new BigNumber(data.globalFactors[0].liquidationIncentive).div(1e18);
+    const reserves = new BigNumber(el.reserves).div(1e18);
+    const reserveFactor = new BigNumber(el.reserveFactor).div(1e18);
+    const exchangeRate = getPreparedPercentValue(el as unknown as Asset, 'exchange_rate');
+
+    // Interest rate model
+    const baseRatePerYear = new BigNumber(el.interestModel.rate).div(1e18);
+    const multiplierPerYear = new BigNumber(el.interestModel.multiplier).div(1e18);
+    const jumpMultiplierPerYear = new BigNumber(el.interestModel.jumpMultiplier).div(1e18);
+    const kink = new BigNumber(el.interestModel.kink).div(1e18);
+
+    return {
+      asset,
+      tokenDetails: [
+        {
+          totalSupply,
+          supplyApy,
+          numberOfSupplier,
+          totalBorrow,
+          borrowApy,
+          numberOfBorrowers,
+        },
+      ],
+      marketDetails: {
+        priceInUsd: 1,
+        availableLiquidity,
+        totalBorrow,
+        utilisationRate,
+        collateralFactor,
+        liquidationThreshold,
+        liquidationBonus,
+        reserves,
+        reserveFactor,
+        minted: totalSupply,
+        exchangeRate,
+      },
+      interestRateModel: {
+        currentUtilizationRate: utilisationRate,
+        baseRatePerYear,
+        multiplierPerYear,
+        jumpMultiplierPerYear,
+        kink,
+      },
+    };
+  }, [data]);
+
+  return (
+    <>
+      <TokenDetails
+        asset={preparedData.asset}
+        data={preparedData.tokenDetails}
+        className={s.tokenDetails}
+      />
+      <MarketDetails
+        asset={preparedData.asset}
+        data={preparedData.marketDetails}
+      />
+      <InterestRateModel
+        asset={preparedData.asset}
+        data={preparedData.interestRateModel}
+      />
+    </>
+  );
+};
+
+export const MarketsDetails: React.FC = () => {
+  const { tokenSlug }: { tokenSlug: string } = useParams();
+  const yToken = +tokenSlug;
+
+  const { data, error } = useMarketsDetailsQuery({
+    variables: {
+      yToken,
+    },
+  });
+
+  if (error || !data || data.asset.length < 1) { // TODO: Add loading to if statement
+    return <>404</>;
+  }
+
+  return (
+    <MarketsDetailsWrapper data={data} />
+  );
+};

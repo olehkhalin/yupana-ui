@@ -11,6 +11,11 @@ export const getPrettyAmount = ({
 }) => {
   let finalValue;
 
+  const bigNumberValue = new BigNumber(value);
+  if (bigNumberValue.gt(0) && bigNumberValue.lt(new BigNumber(1).div(1 ** (dec ?? 0)))) {
+    return '~0';
+  }
+
   if (value.toString().length > 6) {
     finalValue = new Intl.NumberFormat(
       'en',
