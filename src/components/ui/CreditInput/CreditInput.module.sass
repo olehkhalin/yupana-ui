@@ -1,0 +1,114 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  justify-content: space-between
+  width: 100%
+  padding: .5rem 1rem
+  border: .063rem solid $white
+  border-radius: .25rem
+  cursor: text
+
+.secondary
+  .wrapper, .input
+    color: $light-yellow
+  .input
+    &::placeholder
+      color: $light-yellow
+
+.wrapper
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  justify-content: space-between
+  width: 100%
+  color: $light-blue
+
+.wrapper
+  width: 100%
+
+.input
+  height: 16px
+  width: 100%
+  font-weight: bold
+  font-size: 1rem
+  color: $light-blue
+  background: transparent
+  border: 0
+  outline: none
+  line-height: 1.185rem
+  transition: $animationTime
+  &:active, &:focus
+    color: $white
+  &::placeholder
+    color: $light-blue
+    font-weight: bold
+    font-size: 1rem
+  &:focus::-webkit-input-placeholder
+    visibility: hidden
+    -moz-appearance: none
+
+.exchange
+  font-size: .75rem
+  text-shadow: none
+  transition: color $animationTime
+  &.active
+    color: $white
+
+.button
+  display: flex
+  align-items: center
+  justify-content: center
+  font-size: 1rem
+  color: $white
+  text-shadow: none
+  transition: color $animationTime
+  &:hover
+    color: $light-blue
+    text-shadow: $blue-shadow
+  &:active
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+
+.button
+  display: flex
+  align-items: center
+  justify-content: center
+  outline: none
+  border: 0
+  background: transparent
+  font-weight: bold
+  font-size: 1rem
+  line-height: 1.188rem
+  text-transform: uppercase
+  color: $white
+  text-shadow: $white-shadow
+  transition: $animationTime
+  &:active
+    text-shadow: none
+
+.errorContainer
+  display: flex
+  align-items: center
+  justify-content: center
+  height: 0
+  width: 100%
+  overflow: hidden
+  transition: height $animationTime
+  background-color: rgba($red, .48)
+  box-shadow: $red-shadow
+  border-radius: .25rem
+  &.error
+    height: 1.5rem
+    margin-top: 8px
+    font-weight: 700
+
+.errorText
+  color: $light-red
+  font-size: .875rem
+
+@include media('>Mphone')
+  .root
+    padding: 1rem 1.5rem
+    height: 4.5rem
