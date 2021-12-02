@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
-import { TokenMetadataInterface } from 'types/token';
+import { TokenMetadataInterface, TokenMetadataWithBalanceInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
@@ -31,6 +31,7 @@ type CreditProcessModalProps = {
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
+  priceInUsd: number
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 type DataType = {
@@ -39,7 +40,7 @@ type DataType = {
 };
 
 export interface InputInterface {
-  metadata?: TokenMetadataInterface
+  metadata?: TokenMetadataWithBalanceInterface
   amount?: BigNumber
 }
 
@@ -58,6 +59,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   walletBalance,
   yourBorrowLimit,
   borrowLimitUsed,
+  priceInUsd,
   isOpen,
   onRequestClose,
 }) => {
@@ -72,7 +74,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     watch,
   } = useForm<FormTypes>({
     defaultValues: {
-      input: {},
+      input: {
+        amount: new BigNumber(0),
+        metadata: asset,
+      },
     },
   });
 
@@ -199,6 +204,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         <NumberInput
           theme={getTheme()}
           input={input}
+          priceInUsd={priceInUsd}
           onAmountChange={onAmountChange}
           className={s.input}
         />

@@ -8,8 +8,10 @@ export const CREDIT_PROCESS_DATA = {
     symbol: 'XTZ',
     decimals: 6,
     thumbnailUri: XTZ_THUMBNAIL_URI,
+    balance: 7612.99,
   },
   walletBalance: 13248.70,
   yourBorrowLimit: 34425.30,
   borrowLimitUsed: 9.43,
+  priceInUsd: 12,
 };

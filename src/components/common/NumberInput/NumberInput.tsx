@@ -1,8 +1,9 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, {
+  useCallback, useRef, useState, useMemo, useEffect,
+} from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Button } from 'components/ui/Button';
 import { InputInterface } from 'components/modals/CreditProcessModal';
 
@@ -14,6 +15,7 @@ type NumberInputProps = {
   max?: number | BigNumber;
   error?: string
   theme?: keyof typeof themeClasses
+  priceInUsd: number
   onAmountChange?: (newValue?: BigNumber) => void;
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
@@ -29,12 +31,15 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   max = Number.MAX_SAFE_INTEGER,
   error,
   theme = 'primary',
+  priceInUsd,
   onAmountChange,
   className,
   ...props
 }) => {
-  const { metadata } = input;
-  const [inputValue, setInputValue] = useState<string>('');
+  const { amount, metadata } = useMemo(() => input, [input]);
+
+  const [inputValue, setInputValue] = useState<string>(amount ? amount.toString() : '');
+  const [currencyInUsd, setCurrencyInUsd] = useState<BigNumber>(new BigNumber(0));
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
 
@@ -54,14 +59,30 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       }
 
       if ((numVal.lt(min) || numVal.gt(max))) {
-        console.log(numVal);
-      } else {
-        setInputValue(val);
-        onAmountChange?.(val !== '' ? numVal : undefined);
+        return;
       }
+
+      setInputValue(val);
+      onAmountChange?.(val !== '' ? numVal : undefined);
     },
     [max, metadata?.decimals, min, onAmountChange],
   );
+
+  const handleMax = useCallback((e: React.MouseEvent) => {
+    e.stopPropagation();
+
+    const tokenBalance: BigNumber = new BigNumber(metadata?.balance);
+    if (tokenBalance === undefined) {
+      return;
+    }
+    onAmountChange?.(tokenBalance);
+    setInputValue(tokenBalance.toString());
+  }, [metadata?.balance, onAmountChange]);
+
+  useEffect(() => {
+    const countPriceInUsd = new BigNumber(+inputValue * priceInUsd);
+    setCurrencyInUsd(countPriceInUsd);
+  }, [inputValue, priceInUsd]);
 
   const handleContainer = () => {
     if (inputRef && inputRef.current) {
@@ -90,12 +111,15 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           />
 
           <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
-            {getPrettyAmount({ value: 700, currency: '$' })}
+            $
+            {' '}
+            {currencyInUsd.decimalPlaces(6).toFixed()}
           </div>
         </div>
 
         <Button
           theme="clear"
+          onClick={handleMax}
           className={s.button}
         >
           max
