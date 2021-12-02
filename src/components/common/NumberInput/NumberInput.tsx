@@ -54,11 +54,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         numVal = new BigNumber(val);
       }
 
-      if (numVal.isNaN()) {
-        return;
-      }
-
-      if ((numVal.lt(min) || numVal.gt(max))) {
+      if (numVal.isNaN() || (numVal.lt(min) || numVal.gt(max))) {
         return;
       }
 
@@ -68,6 +64,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     [max, metadata?.decimals, min, onAmountChange],
   );
 
+  // Get user balance by token
   const handleMax = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
 
@@ -79,11 +76,13 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     setInputValue(tokenBalance.toString());
   }, [metadata?.balance, onAmountChange]);
 
+  // Counting price in usd
   useEffect(() => {
     const countPriceInUsd = new BigNumber(+inputValue * priceInUsd);
     setCurrencyInUsd(countPriceInUsd);
   }, [inputValue, priceInUsd]);
 
+  // Add click to all container area
   const handleContainer = () => {
     if (inputRef && inputRef.current) {
       inputRef.current.focus();
