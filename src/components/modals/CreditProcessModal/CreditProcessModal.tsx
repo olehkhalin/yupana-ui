@@ -6,7 +6,7 @@ import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
-import { TokenFullMetadataInterface } from 'types/token';
+import { TokenMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
@@ -27,7 +27,7 @@ export enum ThemeEnum {
 
 type CreditProcessModalProps = {
   theme?: ThemeEnum
-  asset: TokenFullMetadataInterface
+  asset: TokenMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
@@ -39,7 +39,7 @@ type DataType = {
 };
 
 export interface InputInterface {
-  metadata?: TokenFullMetadataInterface
+  metadata?: TokenMetadataInterface
   amount?: BigNumber
 }
 

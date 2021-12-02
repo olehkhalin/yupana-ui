@@ -3,19 +3,18 @@ export interface TokenId {
   id?: string
 }
 
-type TokenType = {
-  thumbnailUri?: string | null
-  symbol?: string
+type TokenData = {
   name?: string
+  symbol?: string
+  thumbnailUri?: string | null
+  decimals?: number
 };
 
-type TokenMetadataType = TokenType & TokenId;
-type TokenFullMetadataType = TokenMetadataType & { decimals?: number };
+type TokenMetadata = TokenData & TokenId;
+type TokenMetadataWithBalance = TokenData & { balance?: BigNumber };
 
-export interface TokenMetadataInterface extends TokenMetadataType {}
-export interface TokenFullMetadataInterface extends TokenFullMetadataType {}
+export interface TokenMetadataInterface extends TokenMetadata {}
+export interface TokenMetadataWithBalanceInterface extends TokenMetadataWithBalance {}
 
-export interface TokenInteface extends TokenType {}
-
-type TokenLogoType = Pick<TokenType, 'name' | 'thumbnailUri'>;
+type TokenLogoType = Pick<TokenData, 'name' | 'thumbnailUri'>;
 export interface TokenLogoInterface extends TokenLogoType {}
