@@ -3,6 +3,8 @@ import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { AppRoutes } from 'routes/main-routes';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
@@ -66,7 +68,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.healthFactor}
+            {getPrettyPercent(row.healthFactor)}
           </span>
         ),
       },
@@ -99,10 +101,10 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => null,
         id: 'liquidate',
-        accessor: () => (
+        accessor: (row: any) => (
           <Button
             theme="light"
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             className={s.link}
           >
             Liquidate

@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
 
 import s from './Tables.module.sass';
@@ -39,7 +40,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {`${row.supplyApy}%`}
+            {getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -78,7 +79,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {`${row.borrowApy}%`}
+            {getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
