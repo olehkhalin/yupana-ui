@@ -13,6 +13,7 @@ type TableCardProps = {
   withDetailsButton?: boolean
   collapsed?: boolean
   active?: boolean
+  href?: string
   onClick?: <T>(arg?: T) => void
   className?: string
 };
@@ -27,6 +28,7 @@ export const TableCard: React.FC<TableCardProps> = ({
   withDetailsButton = false,
   collapsed = true,
   active = false,
+  href,
   onClick,
   className,
   children,
@@ -37,7 +39,7 @@ export const TableCard: React.FC<TableCardProps> = ({
   >
     {withDetailsButton && (
       <Button
-        href="/"
+        href={href}
         sizeT="small"
         theme="light"
         className={s.link}

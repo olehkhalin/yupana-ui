@@ -1,14 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Redirect, Route, Switch, useLocation,
 } from 'react-router-dom';
+import animateScrollTo from 'animated-scroll-to';
 
 import BaseLayout from 'layouts/BaseLayout';
 import { components } from 'routes/components';
 import { AppRoutes } from 'routes/main-routes';
 
 const App: React.FC = () => {
-  const location = useLocation();
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    animateScrollTo(window.pageYOffset - window.pageYOffset,
+      { speed: 750, maxDuration: 1000, minDuration: 100 });
+  }, [pathname]);
 
   return (
     <Switch>
@@ -16,7 +22,7 @@ const App: React.FC = () => {
         components.map(({
           id, path, Component, ...rest
         }) => {
-          if (location.pathname === '/') {
+          if (pathname === '/') {
             return <Redirect key={id} to={AppRoutes.LENDING} />;
           }
 
