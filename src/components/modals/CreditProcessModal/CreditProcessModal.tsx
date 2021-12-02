@@ -1,15 +1,17 @@
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
+import { useForm } from 'react-hook-form';
+// import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
-import { TokenMetadataInterface } from 'types/token';
+import { TokenFullMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { Modal } from 'components/ui/Modal';
-import { CreditInput } from 'components/ui/CreditInput';
+import { CreditInput } from 'components/common/CreditInput';
 import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 import { TokenLogo } from 'components/ui/TokenLogo';
@@ -25,7 +27,7 @@ export enum ThemeEnum {
 
 type CreditProcessModalProps = {
   theme?: ThemeEnum
-  asset: TokenMetadataInterface
+  asset: TokenFullMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
@@ -34,6 +36,15 @@ type CreditProcessModalProps = {
 type DataType = {
   text: string
   walletText: string
+};
+
+export interface InputInterface {
+  metadata?: TokenFullMetadataInterface
+  amount: string
+}
+
+type FormTypes = {
+  input: InputInterface
 };
 
 const defaultData = {
@@ -54,6 +65,47 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   const [sliderValue, setSliderValue] = useState<number>(0);
   const valueRef = useRef<HTMLDivElement | null>(null);
   const isWiderThanMphone = useWiderThanMphone();
+
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+  } = useForm<FormTypes>({
+    defaultValues: {
+      input: {
+        amount: '0',
+        metadata: asset,
+      },
+    },
+  });
+
+  const input = watch('input') ?? {};
+
+  const handleInputChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      let normalizedStringValue = e.target.value.replace(/ /g, '').replace(/,/g, '.');
+      const decimals = input.metadata?.decimals ?? 6;
+
+      const indexOfDot = normalizedStringValue.indexOf('.');
+      const decimalsCount = indexOfDot === -1 ? 0 : normalizedStringValue.length - indexOfDot;
+      if (decimalsCount > decimals) {
+        normalizedStringValue = normalizedStringValue.substring(0, indexOfDot + decimals);
+      }
+
+      setValue('input', {
+        amount: normalizedStringValue,
+        metadata: asset,
+      });
+    },
+    [asset, input.metadata?.decimals, setValue],
+  );
+
+  const onSubmit = useCallback(
+    ({ input: inputData }: FormTypes) => {
+      console.log(JSON.stringify(inputData, null, 2));
+    },
+    [],
+  );
 
   const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
 
@@ -132,78 +184,86 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       innerClassName={s.inner}
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
-      <h2 className={s.title}>
-        {text}
-      </h2>
+      <form
+        onSubmit={handleSubmit(onSubmit as any)}
+        className={s.form}
+      >
+        <h2 className={s.title}>
+          {text}
+        </h2>
 
-      <div className={s.tokenInfo}>
-        <TokenLogo
-          sizeT={isWiderThanMphone ? 'large' : 'medium'}
-          logo={{ name: getTokenName(asset), thumbnailUri: asset.thumbnailUri }}
-          className={s.icon}
+        <div className={s.tokenInfo}>
+          <TokenLogo
+            sizeT={isWiderThanMphone ? 'large' : 'medium'}
+            logo={{ name: getTokenName(asset), thumbnailUri: asset.thumbnailUri }}
+            className={s.icon}
+          />
+          {getTokenName(asset, true)}
+        </div>
+
+        <div className={s.walletBalance}>
+          {walletText}
+
+          <div className={s.balance}>
+            {getPrettyAmount({ value: walletBalance, currency: getTokenName(asset) })}
+          </div>
+        </div>
+
+        <CreditInput
+          theme={getTheme()}
+          input={input}
+          onChange={handleInputChange}
+          className={s.input}
         />
-        {getTokenName(asset, true)}
-      </div>
 
-      <div className={s.walletBalance}>
-        {walletText}
+        <Slider
+          theme={getTheme()}
+          value={sliderValue}
+          onChange={handleSliderChange}
+          handlePercent={handlePercent}
+          valueRef={valueRef}
+          onInput={handleChange}
+          className={s.slider}
+        />
 
-        <div className={s.balance}>
-          {getPrettyAmount({ value: walletBalance, currency: getTokenName(asset) })}
-        </div>
-      </div>
+        <h2 className={s.borrowTitle}>
+          Borrow limit
+        </h2>
 
-      <CreditInput
-        theme={getTheme()}
-        className={s.input}
-      />
-
-      <Slider
-        theme={getTheme()}
-        value={sliderValue}
-        onChange={handleSliderChange}
-        handlePercent={handlePercent}
-        valueRef={valueRef}
-        onInput={handleChange}
-        className={s.slider}
-      />
-
-      <h2 className={s.borrowTitle}>
-        Borrow limit
-      </h2>
-
-      <div className={s.borrowLimit}>
-        <div className={s.borrowDescription}>
-          Your Borrow Limit:
-        </div>
-        <div className={s.borrowResult}>
-          {`
+        <div className={s.borrowLimit}>
+          <div className={s.borrowDescription}>
+            Your Borrow Limit:
+          </div>
+          <div className={s.borrowResult}>
+            {`
               ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })} 
               -> 
               ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
             `}
+          </div>
         </div>
-      </div>
 
-      <div className={s.borrowLimitUsed}>
-        <div className={s.borrowDescription}>
-          Borrow Limit Used:
-        </div>
-        <div className={s.borrowResult}>
-          {`
+        <div className={s.borrowLimitUsed}>
+          <div className={s.borrowDescription}>
+            Borrow Limit Used:
+          </div>
+          <div className={s.borrowResult}>
+            {`
               ${borrowLimitUsed} %
               -> 
               ${borrowLimitUsed} %
             `}
+          </div>
         </div>
-      </div>
 
-      <Button
-        sizeT={isWiderThanMphone ? 'large' : 'medium'}
-        actionT={isBorrowTheme ? 'borrow' : 'supply'}
-      >
-        {text}
-      </Button>
+        <Button
+          sizeT={isWiderThanMphone ? 'large' : 'medium'}
+          actionT={isBorrowTheme ? 'borrow' : 'supply'}
+          type="submit"
+        >
+          {text}
+        </Button>
+      </form>
     </Modal>
   );
 };

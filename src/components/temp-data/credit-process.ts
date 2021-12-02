@@ -6,6 +6,7 @@ export const CREDIT_PROCESS_DATA = {
     address: 'tez',
     name: 'Tezos',
     symbol: 'XTZ',
+    decimals: 6,
     thumbnailUri: XTZ_THUMBNAIL_URI,
   },
   walletBalance: 13248.70,

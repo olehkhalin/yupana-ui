@@ -10,8 +10,10 @@ type TokenType = {
 };
 
 type TokenMetadataType = TokenType & TokenId;
+type TokenFullMetadataType = TokenMetadataType & { decimals?: number };
 
 export interface TokenMetadataInterface extends TokenMetadataType {}
+export interface TokenFullMetadataInterface extends TokenFullMetadataType {}
 
 export interface TokenInteface extends TokenType {}
 
