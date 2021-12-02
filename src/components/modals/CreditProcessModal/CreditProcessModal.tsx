@@ -2,7 +2,7 @@ import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
 import { useForm } from 'react-hook-form';
-// import BigNumber from 'bignumber.js';
+import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
@@ -11,7 +11,7 @@ import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { Modal } from 'components/ui/Modal';
-import { CreditInput } from 'components/common/CreditInput';
+import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 import { TokenLogo } from 'components/ui/TokenLogo';
@@ -40,7 +40,7 @@ type DataType = {
 
 export interface InputInterface {
   metadata?: TokenFullMetadataInterface
-  amount: string
+  amount?: BigNumber
 }
 
 type FormTypes = {
@@ -72,32 +72,19 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     watch,
   } = useForm<FormTypes>({
     defaultValues: {
-      input: {
-        amount: '0',
-        metadata: asset,
-      },
+      input: {},
     },
   });
 
   const input = watch('input') ?? {};
 
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      let normalizedStringValue = e.target.value.replace(/ /g, '').replace(/,/g, '.');
-      const decimals = input.metadata?.decimals ?? 6;
-
-      const indexOfDot = normalizedStringValue.indexOf('.');
-      const decimalsCount = indexOfDot === -1 ? 0 : normalizedStringValue.length - indexOfDot;
-      if (decimalsCount > decimals) {
-        normalizedStringValue = normalizedStringValue.substring(0, indexOfDot + decimals);
-      }
-
+  const onAmountChange = useCallback(
+    (newAmount?: BigNumber) => {
       setValue('input', {
-        amount: normalizedStringValue,
+        amount: newAmount,
         metadata: asset,
       });
-    },
-    [asset, input.metadata?.decimals, setValue],
+    }, [asset, setValue],
   );
 
   const onSubmit = useCallback(
@@ -209,10 +196,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           </div>
         </div>
 
-        <CreditInput
+        <NumberInput
           theme={getTheme()}
           input={input}
-          onChange={handleInputChange}
+          onAmountChange={onAmountChange}
           className={s.input}
         />
 
