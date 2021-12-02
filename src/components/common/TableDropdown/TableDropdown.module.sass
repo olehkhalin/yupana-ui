@@ -4,6 +4,8 @@
 .root
   display: flex
   flex-direction: column
+  width: 100%
+  padding-top: 1rem
 
 .primary
   color: $light-blue
@@ -30,14 +32,15 @@
 
 .buttons
   display: flex
-  justify-content: space-between
 
 .button
   display: flex
   justify-content: center
-  width: 7.5rem
+  width: 8rem
+  &:not(:last-child)
+    margin-right: 2rem
 
-@include media('>Mphone')
+@include media('>Lphone')
   .root
     flex-direction: row
     justify-content: space-between

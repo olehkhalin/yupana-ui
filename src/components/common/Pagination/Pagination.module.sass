@@ -1,0 +1,58 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  align-items: center
+  justify-content: center
+
+.pages
+  display: flex
+  align-items: center
+  margin: 0 .5rem
+
+.numbering
+  margin: 0
+  color: $white
+  font-size: 1rem
+  font-weight: 400
+  transition: color $animationTime, text-shadow $animationTime
+  &:hover
+    text-shadow: $white-shadow
+  &:active, &:focus
+    color: $blue-neutral
+    text-shadow: $blue-shadow-button
+  &.active
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+
+.separator
+  display: flex
+  align-items: center
+  letter-spacing: 0.15em
+
+.arrowButton
+  .arrow
+    > path
+      transition: fill $animationTime
+  &:active, &:focus
+    .arrow
+      > path
+        fill: $blue-neutral
+  &.disabled
+    cursor: not-allowed
+    .arrow
+      > path
+        fill: rgba($white, .2)
+
+.rightSide
+  transform: rotate(180deg)
+
+@include media('>Mphone')
+  .separator
+    margin: 0 .5rem
+  .arrowButton
+    &:hover
+      .arrow
+        > path
+          fill: $white

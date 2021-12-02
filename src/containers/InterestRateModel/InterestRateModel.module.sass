@@ -1,0 +1,65 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+
+.detailsWrapper
+  margin-bottom: 2rem
+
+.tokenName
+  margin-bottom: 1.5rem
+  font-size: 1.5rem
+  font-weight: 700
+
+.modelTitle
+  margin-top: .5rem
+  font-size: 1rem
+
+.list
+  display: flex
+  flex-direction: column
+
+.item
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+.graphWrapper
+  position: relative
+  height: 25rem
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba($light-blue, .16) 100%)
+  border-bottom: .063rem solid rgba($white, .5)
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    height: .063rem
+    background-color: $light-blue
+    box-shadow: $blue-shadow-button
+
+@include media('>Mphone')
+  .graphWrapper
+    justify-content: space-between
+  .tokenName
+    margin-bottom: 2rem
+
+@include media('>Lphone')
+  .graphWrapper
+    flex-direction: row
+
+@include media('>Mtablet')
+  .root
+    flex-direction: row
+    justify-content: space-between
+  .detailsTitle
+    max-width: 17rem
+  .graphWrapper
+    height: initial
+    justify-content: center
+    flex: 2.5
+  .detailsWrapper
+    width: 24rem
+    margin-right: 4rem

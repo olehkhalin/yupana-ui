@@ -1,0 +1,99 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.wrapper
+  display: flex
+  align-items: center
+
+.radio
+  margin-right: 1rem
+
+.attention
+  margin-left: 0.25rem
+  &:hover
+    .attentionIcon
+      path
+        fill: $light-yellow
+
+.attentionIcon
+  path
+    transition: fill $animationTime
+
+.icon
+  margin-left: auto
+  margin-top: -.25rem
+
+.repayRow
+  grid-template-columns: repeat(4, 1fr)
+
+.repayThead
+  border-bottom: 1px solid $light-yellow
+
+.borrowRow
+  grid-template-columns: 1.25fr repeat(1, 1fr) 1.5fr 1fr .5fr
+
+.supplyRow
+  grid-template-columns: 1.5fr 1.25fr 1.5fr 1fr .5fr
+
+.ownAssetsRow
+  grid-template-columns: 1.25fr repeat(2, 1fr) .75fr .5fr
+
+.bigTableWrapper
+  overflow: hidden
+  overflow-x: auto
+
+.bigTable
+  min-width: 78rem
+  width: 100%
+
+.bigTableLiquidate
+  min-width: 63.75rem
+  width: 100%
+
+.marketsRow
+  grid-template-columns: repeat(7, 1fr) .5fr
+
+.marketsDetailsRow
+  grid-template-columns: repeat(6, 1fr)
+
+.liquidationRow
+  grid-template-columns: 1fr repeat(2, .75fr) repeat(2, .75fr) .5fr
+
+.liquidateRow
+  grid-template-columns: repeat(5, 1fr)
+
+.link
+  font-size: 0.875rem
+  text-transform: uppercase
+
+.white
+  color: $white
+
+.noShadow
+  text-shadow: initial
+
+.blue
+  color: $light-blue
+  text-shadow: $blue-shadow
+
+.yellow
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
+
+.address
+  padding-left: 0
+  &.white
+    color: $white
+    &:hover
+      text-shadow: $white-shadow-button
+
+.amount
+  margin-bottom: .25rem
+
+.amountUsd
+  font-size: .75rem
+
+@include media('>Mphone')
+  .bigTableLiquidate
+    min-width: 78rem
+    width: 100%

@@ -39,7 +39,7 @@
 
 .connectWallet
   justify-content: center
-  font-size: 0.75rem
+  font-size: .75rem
 
 .mobile
   display: flex
@@ -57,8 +57,6 @@
   .logoMobile
     display: none
 
-@include media(">Mphone")
-
 @include media("<=tablet")
   .burger
     height: auto
@@ -70,13 +68,15 @@
     width: 100%
     display: flex
     justify-content: center
-    padding: 1.5rem 0 2rem
-    background-color: $deep-blue
+    padding: 1.5rem 0
+    background-color: rgba($dark-blue, .9)
+    border-bottom-left-radius: .5rem
+    border-bottom-right-radius: .5rem
     transform: translateY(-100%)
     transition: transform $animationTime
     z-index: -1
     &.active
-      transform: translateY(4rem)
+      transform: translateY(3.5rem)
     .navlist
       display: flex
       flex-direction: column
@@ -85,6 +85,11 @@
       margin-right: 0
       &:not(:last-child)
         margin-bottom: 1rem
+
+@include media('<=phone')
+  .dropdown
+    &.active
+      transform: translateY(4rem)
 
 @include media(">tablet")
   .mobile

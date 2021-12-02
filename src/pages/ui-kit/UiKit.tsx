@@ -1,10 +1,15 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
+import { InformationModal } from 'components/popups/InformationModal';
+import { ConnectToWallet } from 'components/popups/ConnectToWallet';
+import { Account } from 'components/popups/Account';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
+import { Radio } from 'components/ui/Radio';
 import { LimitLine } from 'components/common/LimitLine';
 import {
   mokeBorrowLimitData,
@@ -21,23 +26,32 @@ import {
   mokeSupplySecondaryData,
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { UserStat } from 'components/common/UserStat';
+import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
+import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
+import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
+import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
+import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
+import { Markets } from 'components/tables/containers/Markets';
+import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
+import { Liquidate } from 'components/tables/containers/Liquidate';
+import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
+import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
 import {
   BorrowAssetsCard,
   MarketsCard,
+  RepayBorrowCard,
   SupplyAssetsCard,
   YourBorrowAssetsCard,
   YourSupplyAssetsCard,
-} from 'components/tables/mobile';
+  YourSupplyAssetsEmptyCard,
+  YourBorrowAssetsEmptyCard,
+} from 'components/tables/components/mobile';
 import { MarketCard } from 'components/common/MarketCard';
 import {
-  SupplyAssets,
-  BorrowAssets,
-  YourSupplyAssets,
-  YourBorrowAssets,
-  Markets,
   LiquidationPositions,
-} from 'components/tables/desktop';
-import { Liquidate } from 'components/tables/desktop/Liquidate';
+} from 'components/tables/components/desktop';
+import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
@@ -49,7 +63,10 @@ import {
   MARKET_CARDS_SUPPLY,
   MARKET_CARDS_BORROW,
 } from 'components/temp-data/market-card';
+import { USER_STAT } from 'components/temp-data/user-stat';
+import { LIMIT_LINE } from 'components/temp-data/limit-line';
 
+import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
 import { ReactComponent as Close } from 'svg/Close.svg';
 import { ReactComponent as BigClose } from 'svg/BigClose.svg';
@@ -63,7 +80,6 @@ import { ReactComponent as Telegram } from 'svg/Telegram.svg';
 import { ReactComponent as Twitter } from 'svg/Twitter.svg';
 import { ReactComponent as Youtube } from 'svg/Youtube.svg';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
-import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 
 import s from './UiKit.module.sass';
 
@@ -72,6 +88,13 @@ export const UiKit: React.FC = () => {
 
   // Modals
   const [modalBaseIsOpen, setModalBaseIsOpen] = useState(false);
+  const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
+  const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
+  const [accountIsOpen, setAccountIsOpen] = useState(false);
+
+  // RepayBorrow cards
+  const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
+  const [selectedReceiveCollateralItem, setSelectedReceiveCollateralItem] = useState<string>('');
 
   return (
     <>
@@ -442,20 +465,20 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="medium"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="small"
               className={s.button}
             >
@@ -464,14 +487,14 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               disabled
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               sizeT="medium"
               disabled
               className={s.button}
@@ -479,62 +502,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
-              sizeT="small"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-        </div>
-        <div className={s.buttonsBlock}>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="secondary"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="medium"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="small"
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="secondary"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
-              sizeT="medium"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="secondary"
+              actionT="borrow"
               sizeT="small"
               disabled
               className={s.button}
@@ -546,14 +514,69 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
+              theme="secondary"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="medium"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="small"
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="medium"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="secondary"
+              sizeT="small"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+        </div>
+        <div className={s.buttonsBlock}>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
               theme="tertiary"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="medium"
               className={s.button}
@@ -561,7 +584,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="small"
               className={s.button}
@@ -571,7 +594,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               disabled
               className={s.button}
@@ -579,7 +602,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="medium"
               disabled
@@ -588,7 +611,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="tertiary"
               sizeT="small"
               disabled
@@ -601,14 +624,14 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               className={s.button}
             >
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               className={s.button}
@@ -616,7 +639,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               className={s.button}
@@ -626,7 +649,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               disabled
               className={s.button}
@@ -634,7 +657,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               disabled
@@ -643,63 +666,8 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
-              sizeT="small"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-        </div>
-        <div className={s.buttonsBlock}>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="accent"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="medium"
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="small"
-              className={s.button}
-            >
-              Button text
-            </Button>
-          </div>
-          <div className={s.buttons}>
-            <Button
-              action="borrow"
-              theme="accent"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
-              sizeT="medium"
-              disabled
-              className={s.button}
-            >
-              Button text
-            </Button>
-            <Button
-              action="borrow"
-              theme="accent"
               sizeT="small"
               disabled
               className={s.button}
@@ -711,7 +679,62 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
+              theme="accent"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="medium"
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="small"
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="medium"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+            <Button
+              actionT="borrow"
+              theme="accent"
+              sizeT="small"
+              disabled
+              className={s.button}
+            >
+              Button text
+            </Button>
+          </div>
+        </div>
+        <div className={s.buttonsBlock}>
+          <div className={s.buttons}>
+            <Button
+              actionT="borrow"
               theme="light"
               withArrow
               className={s.button}
@@ -719,7 +742,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               withArrow
@@ -728,7 +751,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               withArrow
@@ -739,7 +762,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               withArrow
               disabled
@@ -748,7 +771,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="medium"
               withArrow
@@ -758,7 +781,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="light"
               sizeT="small"
               withArrow
@@ -772,7 +795,7 @@ export const UiKit: React.FC = () => {
         <div className={s.buttonsBlock}>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               withArrow
               className={s.button}
@@ -780,7 +803,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="medium"
               withArrow
@@ -788,7 +811,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="small"
               withArrow
@@ -799,7 +822,7 @@ export const UiKit: React.FC = () => {
           </div>
           <div className={s.buttons}>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               withArrow
               disabled
@@ -808,7 +831,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="medium"
               withArrow
@@ -818,7 +841,7 @@ export const UiKit: React.FC = () => {
               Button text
             </Button>
             <Button
-              action="borrow"
+              actionT="borrow"
               theme="accent"
               sizeT="small"
               withArrow
@@ -941,7 +964,7 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Modals
         </div>
-        <div className={s.modalsButtons}>
+        <div className={cx(s.modalsButtons, s.marginBottom)}>
           <Button
             className={s.modalsButton}
             onClick={() => setModalBaseIsOpen(true)}
@@ -954,6 +977,60 @@ export const UiKit: React.FC = () => {
           >
             <h2>Base modal</h2>
           </Modal>
+        </div>
+        <div className={s.modalsButtons}>
+          <div className={s.block}>
+            <div className={s.title}>
+              Information Modal
+            </div>
+            <Button
+              onClick={() => setInformationModalIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Info
+            </Button>
+            <InformationModal
+              isOpen={informationModalIsOpen}
+              onRequestClose={() => setInformationModalIsOpen(false)}
+              title="Base rate per year"
+              description="The base interest rate which is the y-intercept when the utilization rate is 0."
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Connect To Wallet
+            </div>
+            <Button
+              onClick={() => setConnectToWalletIsOpen(true)}
+              className={s.modalsButton}
+            >
+              ConnectToWallet
+            </Button>
+            <ConnectToWallet
+              isOpen={connectToWalletIsOpen}
+              onRequestClose={() => setConnectToWalletIsOpen(false)}
+              title="Connect to a wallet"
+              description="Please select a wallet to connect to this dapp:"
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Account
+            </div>
+            <Button
+              onClick={() => setAccountIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Account
+            </Button>
+            <Account
+              isOpen={accountIsOpen}
+              onRequestClose={() => setAccountIsOpen(false)}
+              title="Account"
+              description="Connected wallet address:"
+              address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
+            />
+          </div>
         </div>
       </div>
 
@@ -1007,12 +1084,22 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Liquidation positions
         </div>
-        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} className={s.marginBottomLarge} />
+        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
 
         <div className={s.subTitle}>
           Liquidate
         </div>
         <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Repay Borrow
+        </div>
+        <RepayBorrow data={REPAY_BORROW_DATA} className={s.marginBottomLarge} />
+
+        <div className={s.subTitle}>
+          Receive Collateral
+        </div>
+        <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} className={s.marginBottomLarge} />
       </div>
 
       {/* Table Dropdown */}
@@ -1131,6 +1218,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Supply Assets Empty
+          </div>
+          <YourSupplyAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
@@ -1152,6 +1243,10 @@ export const UiKit: React.FC = () => {
               {...rest}
             />
           ))}
+          <div className={s.subTitle}>
+            Your Borrow Assets Empty
+          </div>
+          <YourBorrowAssetsEmptyCard />
         </div>
 
         <div className={s.subTitle}>
@@ -1159,7 +1254,7 @@ export const UiKit: React.FC = () => {
         </div>
         <div className={s.marginBottomLarge}>
           {ALL_MARKETS_DATA.map(({
-            market: {
+            asset: {
               id, address, name, symbol, thumbnailUri,
             }, ...rest
           }) => (
@@ -1170,6 +1265,52 @@ export const UiKit: React.FC = () => {
               name={name}
               symbol={symbol}
               thumbnailUri={thumbnailUri}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Repay Borrow
+        </div>
+        <div className={s.marginBottomLarge}>
+          {REPAY_BORROW_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <RepayBorrowCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              active={selectedRepayBorrowItem === getTokenSlug({ id, address })}
+              setItem={setSelectedRepayBorrowItem}
+              {...rest}
+            />
+          ))}
+        </div>
+
+        <div className={s.subTitle}>
+          Receive Collateral
+        </div>
+        <div className={s.marginBottomLarge}>
+          {RECEIVE_COLLATERAL_DATA.map(({
+            asset: {
+              id, address, name, symbol, thumbnailUri,
+            }, ...rest
+          }) => (
+            <ReceiveCollateralCard
+              key={getUniqueKey()}
+              id={id}
+              address={address}
+              name={name}
+              symbol={symbol}
+              thumbnailUri={thumbnailUri}
+              active={selectedReceiveCollateralItem === getTokenSlug({ id, address })}
+              setItem={setSelectedReceiveCollateralItem}
               {...rest}
             />
           ))}
@@ -1189,6 +1330,51 @@ export const UiKit: React.FC = () => {
           {...MARKET_CARDS_BORROW}
           theme="secondary"
         />
+      </div>
+
+      {/* Radio */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Radio
+        </div>
+        <div className={cx(s.radioWrapper, s.marginBottom)}>
+          <Radio
+            active
+            className={s.marginBottom}
+          />
+          <Radio />
+        </div>
+
+        <div className={s.radioWrapper}>
+          <Radio
+            active
+            theme="secondary"
+            className={s.marginBottom}
+          />
+          <Radio theme="secondary" />
+        </div>
+      </div>
+
+      {/* User Stat */}
+      <div className={s.block}>
+        <div className={s.title}>
+          User Stat
+        </div>
+        <div>
+          <UserStat {...USER_STAT} className={s.userStat} />
+          <LimitLine
+            percent={LIMIT_LINE.userBorrowLimitPercent}
+            value={LIMIT_LINE.userBorrowLimit}
+            title="Your Borrow Limit"
+            className={s.limit}
+          />
+          <LimitLine
+            percent={LIMIT_LINE.userLiquidationLimitPercent}
+            value={LIMIT_LINE.userLiquidationLimit}
+            title="Your Liquidation Limit"
+            className={s.limit}
+          />
+        </div>
       </div>
     </>
   );

@@ -17,11 +17,11 @@ export const getPrettyAmount = ({
         notation: 'compact',
       },
     ).format(value);
+  } else {
+    finalValue = new Intl.NumberFormat(
+      'en',
+    ).format(value);
   }
-
-  finalValue = new Intl.NumberFormat(
-    'en',
-  ).format(value);
 
   if (currency) {
     if (currency === '$') {

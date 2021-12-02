@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { UnmountClosed } from 'react-collapse';
 import cx from 'classnames';
 
@@ -10,7 +10,11 @@ import s from './TableCard.module.sass';
 
 type TableCardProps = {
   theme?: keyof typeof themeClasses
-  market?: boolean
+  withDetailsButton?: boolean
+  collapsed?: boolean
+  active?: boolean
+  href?: string
+  onClick?: <T>(arg?: T) => void
   className?: string
 };
 
@@ -21,44 +25,39 @@ const themeClasses = {
 
 export const TableCard: React.FC<TableCardProps> = ({
   theme = 'primary',
-  market = false,
+  withDetailsButton = false,
+  collapsed = true,
+  active = false,
+  href,
+  onClick,
   className,
   children,
-}) => {
-  const [active, setActive] = useState<boolean>(false);
+}) => (
+  <div
+    onClick={onClick}
+    className={cx(s.root, themeClasses[theme], { [s.market]: withDetailsButton }, className)}
+  >
+    {withDetailsButton && (
+      <Button
+        href={href}
+        sizeT="small"
+        theme="light"
+        className={s.link}
+      >
+        Details
+      </Button>
+    )}
+    {!withDetailsButton && collapsed && (
+      <DropdownArrow
+        theme={theme}
+        active={active}
+        className={s.arrow}
+      />
+    )}
 
-  const handleSwitchCollapse = () => {
-    setActive(!active);
-  };
+    {children}
 
-  return (
-    <div
-      onClick={handleSwitchCollapse}
-      className={cx(s.root, themeClasses[theme], className)}
-    >
-      {market ? (
-        <Button
-          href="/"
-          sizeT="small"
-          theme="light"
-          className={s.link}
-        >
-          Details
-        </Button>
-      )
-        : (
-          <DropdownArrow
-            theme={theme}
-            active={active}
-            className={s.arrow}
-          />
-        )}
-
-      <div className={s.wrapper}>
-        {children}
-      </div>
-
-      {!market && (
+    {!withDetailsButton && collapsed && (
       <UnmountClosed
         isOpened={active}
         initialStyle={{ height: '0px', overflow: 'hidden' }}
@@ -70,7 +69,6 @@ export const TableCard: React.FC<TableCardProps> = ({
           className={s.dropdown}
         />
       </UnmountClosed>
-      )}
-    </div>
-  );
-};
+    )}
+  </div>
+);

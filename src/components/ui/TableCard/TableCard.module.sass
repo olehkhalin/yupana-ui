@@ -4,22 +4,38 @@
   position: relative
   width: 100%
   max-width: 18rem
+  padding-bottom: 1rem
   font-size: .75rem
   font-weight: 700
-  cursor: pointer
   &:not(:last-child)
     margin-bottom: 1rem
-
-.wrapper
-  margin-bottom: 1rem
+  &::after
+    content: ''
+    position: absolute
+    top: 100%
+    width: 100%
+    height: .063rem
+    background-color: $white
 
 .primary
   color: $blue-neutral
-  border-bottom: .063rem solid $blue-neutral
+  text-shadow: $blue-shadow
+  &::after
+    background-color: $blue-neutral
+    box-shadow: $blue-shadow-button
 
 .secondary
   color: $light-yellow
-  border-bottom: .063rem solid $light-yellow
+  text-shadow: $light-yellow-shadow
+  &::after
+    background-color: $light-yellow
+    box-shadow: $light-yellow-shadow-button
+
+.market
+  &::after
+    background-color: $white
+    box-shadow: $white-shadow-button
+    opacity: .5
 
 .arrow
   position: absolute
@@ -28,10 +44,10 @@
 
 .link
   position: absolute
-  top: -.188rem
+  top: .33rem
   right: 0
   font-size: .875rem
-  max-width: 6rem
+  text-shadow: none
 
 .ReactCollapse
   transition: height 250ms ease-in-out

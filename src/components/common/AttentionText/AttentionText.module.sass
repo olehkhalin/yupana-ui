@@ -1,0 +1,39 @@
+@import 'styles/variables.sass'
+
+.root
+  display: flex
+  align-items: center
+
+.primary
+  color: $light-blue
+  text-shadow: $blue-shadow
+  .attention
+    &:hover
+      .attentionIcon
+        > path
+          fill: $light-blue
+    &:focus, &:active
+      .attentionIcon
+        > path
+          fill: $light-yellow
+
+.secondary
+  color: $light-yellow
+  text-shadow: $light-yellow-shadow
+  .attention
+    &:hover
+      .attentionIcon
+        > path
+          fill: $light-yellow
+    &:focus, &:active
+      .attentionIcon
+        > path
+          fill: $light-blue
+
+.attentionIcon
+  > path
+    transition: fill $animationTime
+
+.attention
+  margin-left: .25rem
+  cursor: pointer

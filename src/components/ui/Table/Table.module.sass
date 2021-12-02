@@ -1,18 +1,44 @@
 @import "styles/variables.sass"
 @import "styles/breakpoints.scss"
 
+@mixin yellow-background
+  background-color: $light-yellow
+@mixin blue-background
+  background-color: $blue-neutral
+
+@mixin yellow-light
+  box-shadow: $light-yellow-shadow
+  @include yellow-background
+@mixin blue-light
+  box-shadow: $blue-shadow-button
+  @include blue-background
+
+@mixin yellow-strong
+  box-shadow: $light-yellow-shadow
+  @include yellow-background
+@mixin blue-strong
+  box-shadow: $blue-shadow-button
+  @include blue-background
+
 .root
   padding: 2rem 1.5rem
   &::-webkit-scrollbar
     display: none
 
 .table
+  position: relative
   width: 100%
   text-align: left
   border-collapse: collapse
 
 .thead
-  border-bottom: .063rem solid $white
+  position: relative
+  &::after
+    content: ''
+    position: absolute
+    height: .063rem
+    width: 100%
+    background-color: $white
 
 .th
   padding-bottom: 1rem
@@ -25,12 +51,17 @@
       padding-top: 1.5rem
 
 .tbody
+  display: flex
+  flex-direction: column
   width: 100%
 
 .td
   padding: .5rem 0
   &:first-child
     width: 7.5rem
+
+.dropdownTd
+  display: flex
 
 .tr
   display: grid
@@ -40,14 +71,24 @@
     margin-top: 1.5rem
     text-align: center
 
+.isShowPagination
+  .tbody
+    .tr
+      &:last-child
+        padding-bottom: 1rem
+        border-bottom: .063rem solid rgba($white, .5)
+
 .primary, .secondary
-  width: 37.5rem
+  width: 100%
 
 .primary
   color: $light-blue
   background: linear-gradient(180deg, rgba(0, 205, 238, 0.04) 0%, rgba(0, 0, 0, 0) 100%)
   .thead
     border-color: $light-blue
+    text-shadow: $blue-shadow
+    &::after
+      @include blue-light
 
 .secondary
   position: relative
@@ -60,9 +101,8 @@
     top: 0.125rem
     height: 100%
     width: 0.25rem
-    background: $light-yellow
-    box-shadow: $light-yellow-shadow
     transform: skewY(-45deg)
+    @include yellow-light
   &::before
     content: ''
     position: absolute
@@ -70,12 +110,98 @@
     top: 100%
     width: 100%
     height: 0.25rem
-    background: $light-yellow
-    box-shadow: $light-yellow-shadow
     transform: skewX(-45deg)
+    @include yellow-light
   .thead
     border-color: $light-yellow
+    text-shadow: $light-yellow-shadow
+    &::after
+      @include yellow-light
 
 .tertiary
-  color: $light-blue
   padding: 0
+  color: $light-blue
+  font-weight: 700
+  margin-left: -1rem
+  margin-right: -1rem
+  width: auto
+  .wrapper
+    min-width: 100%
+    width: max-content
+    padding-left: 1rem
+    padding-right: 1rem
+  .thead
+    &::after
+      box-shadow: $white-shadow
+      opacity: .5
+  .tr
+    &:not(:last-child)
+      margin-bottom: 1.5rem
+
+.octonary, .quinary
+  padding: 0
+  .thead
+    .tr
+      padding: 0 1rem
+  .trBody
+    position: relative
+    padding: 1rem
+    transition: background $animationTime
+    cursor: pointer
+    &:first-child
+      margin-top: 1rem
+    &:not(:last-child)
+      margin-bottom: 0.5rem
+    &:first-of-type
+      .td
+        padding-top: 0
+    &::after
+      content: ''
+      position: absolute
+      bottom: 0
+      height: .063rem
+      width: 100%
+      background-color: transparent
+    .tr
+      padding: 0 1rem
+  .td
+    display: flex
+    align-items: center
+    padding: 0
+
+.octonary
+  color: $light-yellow
+  .thead
+    &::after
+      @include yellow-light
+  .trBody
+    &:hover
+      background: $yellow-light-gradient
+      &::after
+        @include yellow-strong
+    &.selected
+      background: $yellow-light-gradient
+      &::after
+        @include yellow-strong
+
+.quinary
+  color: $blue-neutral
+  .thead
+    &::after
+      @include blue-light
+  .trBody
+    &:hover
+      background: $blue-light-gradient
+      &::after
+        @include blue-strong
+    &.selected
+      background: $blue-light-gradient
+      &::after
+        @include blue-strong
+
+.pagination
+  margin-top: 1rem
+
+@include media('>Mdesktop')
+  .primary, .secondary
+    width: 37.5rem

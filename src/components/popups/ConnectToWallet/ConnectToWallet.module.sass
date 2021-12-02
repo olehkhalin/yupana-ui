@@ -1,0 +1,37 @@
+@import 'styles/breakpoints.scss'
+@import 'styles/variables.sass'
+
+.root
+  margin-bottom: 1rem
+
+.wallets
+  display: flex
+  align-items: center
+  flex-direction: column
+
+.icon
+  margin-right: .5rem
+
+.button
+  display: flex
+  align-items: center
+  color: $blue-neutral
+  transition: $animationTime
+  &:hover
+    color: $light-yellow
+  &:active
+    color: $white
+  &:not(:last-child)
+    margin-bottom: 0
+
+@include media('>Mphone')
+  .root
+    margin-bottom: 2rem
+  .wallets
+    justify-content: center
+    align-items: start
+    flex-direction: row
+  .button
+    &:not(:last-child)
+      margin-right: 2rem
+      margin-bottom: -.5rem

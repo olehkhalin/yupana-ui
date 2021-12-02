@@ -1,0 +1,23 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.stat
+  margin-bottom: 2rem
+
+.limit
+  width: 100%
+  max-width: 50rem
+  margin: 0 auto
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+@include media('>Mphone')
+  .stat
+    margin-bottom: 4rem
+  .limit
+    &:not(:last-child)
+      margin-bottom: 2rem
+
+@include media('>Mdesktop')
+  .limit
+    max-width: initial
