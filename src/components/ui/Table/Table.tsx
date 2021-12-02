@@ -8,6 +8,7 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/getTokenSlug';
+import { Preloader } from 'components/ui/Preloader';
 import { Pagination } from 'components/common/Pagination';
 
 import s from './Table.module.sass';
@@ -15,6 +16,7 @@ import s from './Table.module.sass';
 type TableProps = {
   columns: any
   data: any[]
+  loading?: any
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
   selectedItem?: TokenMetadataInterface
@@ -45,6 +47,7 @@ const themeClasses = {
 export const Table: React.FC<TableProps> = ({
   columns: userColumns,
   data,
+  loading,
   renderRowSubComponent,
   theme = 'primary',
   selectedItem,
@@ -132,7 +135,7 @@ export const Table: React.FC<TableProps> = ({
 
   return (
     <>
-      <div className={compoundClassNames}>
+      <div className={cx(compoundClassNames)}>
         <div className={s.wrapper}>
           <table
             {...getTableProps()}
@@ -142,7 +145,9 @@ export const Table: React.FC<TableProps> = ({
               tableClassName,
             )}
           >
+            {!loading && <Preloader className={s.preloader} />}
             <thead className={cx(s.thead, theadClassName)}>
+              {!loading && <Preloader className={s.preloader} />}
               {headerGroups.map((headerGroup) => (
                 <tr
                   key={headerGroup.getHeaderGroupProps().key}
@@ -181,7 +186,9 @@ export const Table: React.FC<TableProps> = ({
                       )}
                     >
                       {row.cells.map((cell) => (
-                        <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
+                        <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>
+                          {loading ? '-' : cell.render('Cell')}
+                        </td>
                       ))}
                     </tr>
                     {row.isExpanded ? (
@@ -198,7 +205,7 @@ export const Table: React.FC<TableProps> = ({
           </table>
         </div>
       </div>
-      {isShowPagination && pagination && (
+      {!loading && isShowPagination && pagination && (
         <Pagination
           pageIndex={pageIndex}
           canPreviousPage={canPreviousPage}

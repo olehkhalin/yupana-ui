@@ -12,11 +12,13 @@ import s from './Tables.module.sass';
 
 type MarketsProps = {
   data: any[]
+  loading?: any
   className?: string
 };
 
 export const Markets: React.FC<MarketsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -135,6 +137,7 @@ export const Markets: React.FC<MarketsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTable}
       rowClassName={s.marketsRow}
       className={cx(s.bigTableWrapper, className)}

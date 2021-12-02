@@ -3,17 +3,17 @@
 
 .root
   width: 100%
-  height: 50px
+  height: 100%
   position: relative
   box-sizing: content-box
   overflow: hidden
   border-radius: .25rem
-  &.small
-    max-width: 244px
-  &.medium
-    max-width: 300px
-  &.large
-    max-width: 392px
+  // &.small
+  //   max-width: 244px
+  // &.medium
+  //   max-width: 300px
+  // &.large
+  //   max-width: 392px
 
 .internalBorder
   height: 100%
@@ -21,15 +21,15 @@
   width: 100%
   border-radius: .25rem
   &.primary
-    background-color: rgba($white, 0.02)
+    background-color: $white-bg-preloader
     .light
       background: $white-preloader-gradient
   &.secondary
-    background: rgba(0, 205, 238, 0.02)
+    background: $blue-bg-preloader
     .light
       background: $blue-preloader-gradient
   &.tertiary
-    background-color: rgba(255, 199, 0, 0.02)
+    background-color: $yellow-bg-preloader
     .light
       background: $yellow-preloader-gradient
 
@@ -47,9 +47,9 @@
   100%
     left: 100%
 
-@include media("<=678px")
-  .root
-    &.small
-      width: 128px
-    &.medium
-      max-width: 150px
+// @include media("<=678px")
+//   .root
+//     &.small
+//       width: 128px
+//     &.medium
+//       max-width: 150px
