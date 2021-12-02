@@ -1,9 +1,11 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { AppRoutes } from 'routes/main-routes';
 
 import s from './Cards.module.sass';
 
@@ -19,6 +21,7 @@ type MarketsCardProps = {
   totalBorrow: number
   borrowApy: number
   numberOfBorrowers: number
+  details?: boolean
   className?: string
 };
 
@@ -34,6 +37,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
   borrowApy,
   supplyApy,
   numberOfBorrowers,
+  details = false,
   className,
 }) => {
   const tokenMetadata = {
@@ -46,18 +50,23 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
 
   return (
     <TableCard
-      withDetailsButton
-      className={className}
+      withDetailsButton={!details}
+      collapsed={false}
+      href={`${AppRoutes.MARKETS}/${getTokenSlug({ address, id })}`}
+      className={cx({ [s.marketsDetails]: details }, className)}
     >
+      {!details && (
       <div className={s.row}>
         <div className={cx(s.title, s.white)}>
           Market
         </div>
         <TokenName
           token={tokenMetadata}
+          href={`${AppRoutes.MARKETS}/${getTokenSlug(tokenMetadata)}`}
           logoClassName={s.logo}
         />
       </div>
+      )}
 
       <div className={s.row}>
         <div className={s.title}>

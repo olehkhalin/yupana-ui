@@ -1,0 +1,54 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+
+.tokenWrapper
+  display: flex
+  flex-direction: column
+  margin-bottom: 2rem
+
+.token
+  display: flex
+  align-items: center
+
+.logo
+  margin-right: 2rem
+
+.name, .price
+  text-shadow: $white-shadow
+  font-size: 1.5rem
+  font-weight: 700
+
+.name
+  margin-bottom: 0.5rem
+
+.price
+  margin-left: 5rem
+  color: $white
+
+@include media('>Mphone')
+  .tokenWrapper
+    flex-direction: row
+    align-items: center
+    justify-content: space-between
+  .name
+    margin-bottom: 0
+    text-shadow: $white-shadow-button
+  .price
+    margin-left: 0
+    color: $light-blue
+    text-shadow: $blue-shadow-button
+
+@include media('>Lphone')
+  .name, .price
+    font-size: 2rem
+
+@include media('>Ltablet')
+  .name
+    font-size: 3rem
+  .price
+    margin-right: 7rem
+    font-size: 3rem

@@ -7,6 +7,8 @@ import { ReactComponent as Close } from 'svg/Close.svg';
 
 import s from './Modal.module.sass';
 
+ReactModal.setAppElement('#root');
+
 export type ModalProps = {
   innerClassName?: string;
 } & ReactModal.Props;
