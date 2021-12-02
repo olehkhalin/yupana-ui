@@ -1,12 +1,14 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
-.root
+.container
   display: flex
   flex-direction: column
   justify-content: center
   align-items: center
-  min-height: calc(100vh - 14.4rem)
+  max-width: 100%
+  min-height: calc(100vh - 16.2rem)
+  padding: 0
   background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0, rgba($blue, .7))
 
 .number, .text
@@ -14,15 +16,20 @@
   color: $light-blue
 
 .number
-  margin-bottom: 2rem
   font-size: 5.5rem
   line-height: 6.5rem
 
 .text
   font-size: 1rem
 
+.header
+  margin-bottom: 0
+
 @include media('>Mphone')
+  .container
+    min-height: calc(100vh - 14.4rem)
   .number
+    margin-bottom: 1rem
     font-size: 8rem
   .text
     font-size: 1.5rem
