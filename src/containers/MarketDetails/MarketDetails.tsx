@@ -15,6 +15,14 @@ type MarketDetailsProps = {
   className?: string
 };
 
+const {
+  utilizationRate,
+  collateralFactor: collateralFactorPopup,
+  liquidationBonus: liquidationBonusPopup,
+  liquidationThreshold: liquidationThresholdPopup,
+  exchangeRate: exchangeRatePopup,
+} = MARKET_DETAILS;
+
 export const MarketDetails: React.FC<MarketDetailsProps> = ({
   className,
 }) => {
@@ -36,17 +44,6 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
   } = useMemo(() => ({
     ...MARKET_DETAILS_DATA,
   }), []);
-
-  const {
-    utilizationRate,
-    collateralFactor: collateralFactorPopup,
-    liquidationBonus: liquidationBonusPopup,
-    liquidationThreshold: liquidationThresholdPopup,
-    exchangeRate: exchangeRatePopup,
-  } = useMemo(
-    () => MARKET_DETAILS,
-    [],
-  );
 
   return (
     <Section className={cx(s.root, className)}>
