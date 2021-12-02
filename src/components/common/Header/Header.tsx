@@ -6,12 +6,12 @@ import { Burger } from 'components/common/Burger';
 import { Container } from 'components/common/Container';
 import { NavList } from 'components/common/NavList';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { ConnectWalletButton } from 'components/common/ConnectWalletButton';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
 import { ReactComponent as LogoMobile } from 'svg/LogoMobile.svg';
 import { AppRoutes } from 'routes/main-routes';
 
 import s from './Header.module.sass';
-import { ConnectWalletButton } from '../ConnectWalletButton';
 
 type HeaderProps = {
   className?: string

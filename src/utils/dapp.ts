@@ -27,7 +27,6 @@ import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
 import { ReadOnlySigner } from 'utils/ReadOnlySigner';
-// import { FastRpcClient } from 'utils/taquito-fast-rpc';
 
 import {
   APP_NAME,
