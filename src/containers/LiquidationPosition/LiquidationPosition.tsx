@@ -12,9 +12,7 @@ import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-col
 
 import s from './LiquidationPosition.module.sass';
 
-type LiquidationPositionProps = {};
-
-export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
+export const LiquidationPosition: React.FC = () => {
   const isWiderThanMphone = useWiderThanMphone();
 
   const ASSET_FROM_STEP_1 = 'XTZ';
@@ -23,7 +21,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
   return (
     <>
       <section className={s.section}>
-        <h3 className={s.title}>
+        <h2 className={s.title}>
           {isWiderThanMphone
             ? 'Step 1 — Repay Borrow'
             : (
@@ -34,7 +32,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
                 </span>
               </>
             )}
-        </h3>
+        </h2>
         <div className={s.description}>
           Choose in which asset you will repay the debt.
           Keep in mind that the amount of debt in different assets may be different,
@@ -44,7 +42,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
       </section>
 
       <section className={s.section}>
-        <h3 className={s.title}>
+        <h2 className={s.title}>
           {isWiderThanMphone
             ? 'Step 2 — Receive Collateral'
             : (
@@ -55,7 +53,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
                 </span>
               </>
             )}
-        </h3>
+        </h2>
         <div className={s.description}>
           Choose which collateral asset you will receive after liquidation.
           Remember that the percentage of the liquidation bonus depends on your choice,
@@ -64,7 +62,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
         <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} />
       </section>
       <section className={s.section}>
-        <h3 className={s.title}>
+        <h2 className={s.title}>
           {isWiderThanMphone
             ? 'Step 3 — Liquidate debt address'
             : (
@@ -75,7 +73,7 @@ export const LiquidationPosition: React.FC<LiquidationPositionProps> = () => {
                 </span>
               </>
             )}
-        </h3>
+        </h2>
         <div className={s.description}>
           Now you can liquidate the debtor.
           Be aware that the amount to be liquidated cannot exceed the MAX Liquidate of the debt.
