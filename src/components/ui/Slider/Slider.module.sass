@@ -60,17 +60,23 @@
   align-items: center
 
 .percent
+  position: relative
   padding-top: 1.5rem
   margin-top: -1.5rem
   color: $white
   font-weight: 400
   font-size: .75rem
   transition: color $animationTime
-  &:nth-of-type(2),
-  &:nth-of-type(3),
+  &:first-child
+    right: 2px
+  &:nth-of-type(2)
+    left: 3px
+  &:nth-of-type(3)
+    left: 4px
   &:nth-of-type(4)
-    position: relative
-    left: 4.5px
+    left: 5px
+  &:last-child
+    left: 3px
   &::before
     content: ''
     position: relative

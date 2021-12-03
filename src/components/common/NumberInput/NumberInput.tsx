@@ -18,7 +18,7 @@ type NumberInputProps = {
   setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
   priceInUsd: number
-  onAmountChange?: (newValue?: BigNumber) => void;
+  handleAmountChange?: (newValue?: BigNumber) => void;
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
@@ -35,7 +35,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   setError,
   theme = 'primary',
   priceInUsd,
-  onAmountChange,
+  handleAmountChange,
   className,
   ...props
 }) => {
@@ -73,9 +73,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
       setError?.(inputError);
       setInputValue(val);
-      onAmountChange?.(val !== '' ? numVal : undefined);
+      handleAmountChange?.(val !== '' ? numVal : undefined);
     },
-    [max, metadata, min, onAmountChange, setError],
+    [max, metadata, min, handleAmountChange, setError],
   );
 
   // Get user balance by token
@@ -86,10 +86,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     if (tokenBalance === undefined) {
       return;
     }
-    onAmountChange?.(tokenBalance);
+    handleAmountChange?.(tokenBalance);
     setInputValue(tokenBalance.toString());
     setError?.('');
-  }, [metadata?.balance, onAmountChange, setError]);
+  }, [metadata?.balance, handleAmountChange, setError]);
 
   // Counting price in usd
   useEffect(() => {

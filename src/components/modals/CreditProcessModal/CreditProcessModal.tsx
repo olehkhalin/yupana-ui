@@ -94,7 +94,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   const input = watch('input') ?? {};
 
   // Input change
-  const onAmountChange = useCallback(
+  const handleAmountChange = useCallback(
     (newAmount?: BigNumber) => {
       setValue('input', {
         amount: newAmount,
@@ -112,6 +112,8 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         if (valueRef && valueRef.current) {
           valueRef.current.style.left = `${100 / 1.1}%`;
         }
+      } else if (!newAmount) {
+        setSliderValue(0);
       }
     }, [asset, setValue],
   );
@@ -241,7 +243,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           theme={theme}
           input={input}
           priceInUsd={priceInUsd}
-          onAmountChange={onAmountChange}
+          handleAmountChange={handleAmountChange}
           error={error}
           setError={setError}
           className={s.input}
