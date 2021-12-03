@@ -91,10 +91,21 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     },
   });
 
+  // Subscribe on input
   const input = watch('input') ?? {};
 
+  // Set tooltip offset
+  const setTooltipOffset = useCallback(
+    (percent) => {
+      if (valueRef && valueRef.current) {
+        valueRef.current.style.left = `${percent / 1.1}%`;
+      }
+    },
+    [],
+  );
+
   // Input change
-  const handleAmountChange = useCallback(
+  const handleInputChange = useCallback(
     (newAmount?: BigNumber) => {
       setValue('input', {
         amount: newAmount,
@@ -104,22 +115,18 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       if (newAmount && newAmount.lte(asset.balance)) {
         const numberByPercent = (+newAmount / asset.balance) * 100;
         setSliderValue(numberByPercent);
-        if (valueRef && valueRef.current) {
-          valueRef.current.style.left = `${numberByPercent / 1.1}%`;
-        }
+        setTooltipOffset(numberByPercent);
       } else if (newAmount?.gt(asset.balance)) {
         setSliderValue(100);
-        if (valueRef && valueRef.current) {
-          valueRef.current.style.left = `${100 / 1.1}%`;
-        }
+        setTooltipOffset(100);
       } else if (!newAmount) {
         setSliderValue(0);
       }
-    }, [asset, setValue],
+    }, [asset, setTooltipOffset, setValue],
   );
 
   // Counting input value relatively input percent
-  const getAmountEqualPercent = useCallback(
+  const setAmountEqualPercent = useCallback(
     (percent: number) => {
       const value = input.metadata?.balance * (percent / 100);
       setValue('input', {
@@ -130,38 +137,36 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     [asset, input.metadata?.balance, setValue],
   );
 
+  // Set data by interaction with slider
+  const interactionWithSlider = useCallback(
+    (percent: number) => {
+      setTooltipOffset(percent);
+      setSliderValue(percent);
+      setAmountEqualPercent(percent);
+      setError('');
+    },
+    [setAmountEqualPercent, setTooltipOffset],
+  );
   // Slider change
   const handleSliderChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      if (valueRef && valueRef.current) {
-        valueRef.current.style.left = `${(+event.target.value) / 1.1}%`;
-      }
-      setSliderValue(+event.target.value);
-      getAmountEqualPercent(+event.target.value);
-      setError('');
+      interactionWithSlider(+event.target.value);
     },
-    [getAmountEqualPercent],
+    [interactionWithSlider],
   );
 
   // Change slider by percent buttons
-  const handlePercent = useCallback(
+  const handleClickByPercentButton = useCallback(
     (amount: number) => {
-      if (valueRef && valueRef.current) {
-        valueRef.current.style.left = `${(amount) / 1.1}%`;
-      }
-
-      setSliderValue(amount);
-      getAmountEqualPercent(amount);
-      setError('');
+      interactionWithSlider(amount);
     },
-    [getAmountEqualPercent],
+    [interactionWithSlider],
   );
 
   // Form submit
   const onSubmit = useCallback(
     ({ input: inputData }: FormTypes) => {
       const inputError = validateInput(inputData, true);
-
       if (inputError) {
         return setError(inputError);
       }
@@ -215,6 +220,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
       <form
+        // TODO: Update 'any' type
         onSubmit={handleSubmit(onSubmit as any)}
         className={s.form}
       >
@@ -243,7 +249,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           theme={theme}
           input={input}
           priceInUsd={priceInUsd}
-          handleAmountChange={handleAmountChange}
+          handleInputChange={handleInputChange}
           error={error}
           setError={setError}
           className={s.input}
@@ -253,7 +259,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           theme={theme}
           value={sliderValue.toFixed(2)}
           onChange={handleSliderChange}
-          handlePercent={handlePercent}
+          handleClickByPercentButton={handleClickByPercentButton}
           valueRef={valueRef}
           className={s.slider}
         />
