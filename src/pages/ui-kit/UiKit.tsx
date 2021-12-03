@@ -66,7 +66,7 @@ import { LIMIT_LINE } from 'components/temp-data/limit-line';
 import { InformationModal } from 'components/modals/InformationModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { AccountModal } from 'components/modals/AccountModal';
-import { CreditProcessModal, ThemeEnum } from 'components/modals/CreditProcessModal';
+import { CreditProcessModal, TypeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -1042,7 +1042,7 @@ export const UiKit: React.FC = () => {
               Credit Process
             </div>
             <div className={s.subTitle}>
-              Primary
+              Supply
             </div>
             <Button
               onClick={() => setCreditProcessPrimaryIsOpen(true)}
@@ -1057,7 +1057,7 @@ export const UiKit: React.FC = () => {
             />
 
             <div className={s.subTitle}>
-              Secondary
+              Withdraw
             </div>
             <Button
               onClick={() => setCreditProcessSecondaryIsOpen(true)}
@@ -1067,13 +1067,14 @@ export const UiKit: React.FC = () => {
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
-              theme={ThemeEnum.SECONDARY}
+              type={TypeEnum.WITHDRAW}
+              theme="primary"
               isOpen={creditProcessSecondaryIsOpen}
               onRequestClose={() => setCreditProcessSecondaryIsOpen(false)}
             />
 
             <div className={s.subTitle}>
-              Tertiary
+              Borrow
             </div>
             <Button
               onClick={() => setCreditProcessTertiaryIsOpen(true)}
@@ -1083,13 +1084,14 @@ export const UiKit: React.FC = () => {
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
-              theme={ThemeEnum.TERTIARY}
+              type={TypeEnum.BORROW}
+              theme="secondary"
               isOpen={creditProcessTertiaryIsOpen}
               onRequestClose={() => setCreditProcessTertiaryIsOpen(false)}
             />
 
             <div className={s.subTitle}>
-              Quaternary
+              Repay
             </div>
             <Button
               onClick={() => setCreditProcessQuaternaryIsOpen(true)}
@@ -1099,7 +1101,8 @@ export const UiKit: React.FC = () => {
             </Button>
             <CreditProcessModal
               {...CREDIT_PROCESS_DATA}
-              theme={ThemeEnum.QUATERNARY}
+              type={TypeEnum.REPAY}
+              theme="secondary"
               isOpen={creditProcessQuaternaryIsOpen}
               onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
             />

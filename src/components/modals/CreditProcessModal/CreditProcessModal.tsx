@@ -6,6 +6,7 @@ import cx from 'classnames';
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { Modal } from 'components/ui/Modal';
@@ -16,15 +17,16 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 
 import s from './CreditProcessModal.module.sass';
 
-export enum ThemeEnum {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  TERTIARY = 'tertiary',
-  QUATERNARY = 'quaternary',
+export enum TypeEnum {
+  SUPPLY = 'supply',
+  WITHDRAW = 'withdraw',
+  BORROW = 'borrow',
+  REPAY = 'repay',
 }
 
 type CreditProcessModalProps = {
-  theme?: ThemeEnum
+  type?: TypeEnum
+  theme?: keyof typeof themeClasses
   asset: TokenMetadataInterface
   walletBalance: number
   yourBorrowLimit: number
@@ -41,8 +43,14 @@ const defaultData = {
   walletText: '',
 };
 
+const themeClasses = {
+  primary: s.primary,
+  secondary: s.secondary,
+};
+
 export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
-  theme = ThemeEnum.PRIMARY,
+  type = TypeEnum.SUPPLY,
+  theme = 'primary',
   asset,
   walletBalance,
   yourBorrowLimit,
@@ -55,7 +63,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   const valueRef = useRef<HTMLDivElement | null>(null);
   const isWiderThanMphone = useWiderThanMphone();
 
-  const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
+  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (valueRef && valueRef.current) {
@@ -81,26 +89,26 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   );
 
   useEffect(() => {
-    switch (theme) {
-      case ThemeEnum.PRIMARY:
+    switch (type) {
+      case TypeEnum.SUPPLY:
         setData({
           text: 'Supply',
           walletText: 'Wallet balance:',
         });
         break;
-      case ThemeEnum.SECONDARY:
+      case TypeEnum.WITHDRAW:
         setData({
           text: 'Withdraw',
           walletText: 'Supply balance:',
         });
         break;
-      case ThemeEnum.TERTIARY:
+      case TypeEnum.BORROW:
         setData({
           text: 'Borrow',
           walletText: 'Borrow balance:',
         });
         break;
-      case ThemeEnum.QUATERNARY:
+      case TypeEnum.REPAY:
         setData({
           text: 'Repay',
           walletText: 'Borrow balance:',
@@ -110,26 +118,14 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         setData(defaultData);
         break;
     }
-  }, [theme]);
-
-  const getTheme = useCallback(
-    () => {
-      if (theme === ThemeEnum.PRIMARY || theme === ThemeEnum.SECONDARY) {
-        return ThemeEnum.PRIMARY;
-      }
-      if (theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY) {
-        return ThemeEnum.SECONDARY;
-      }
-      return undefined;
-    },
-    [theme],
-  );
+  }, [type]);
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.inner}
+      theme={theme}
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
       <h2 className={s.title}>
@@ -154,12 +150,12 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       </div>
 
       <CreditInput
-        theme={getTheme()}
+        theme={theme}
         className={s.input}
       />
 
       <Slider
-        theme={getTheme()}
+        theme={theme}
         value={sliderValue}
         onChange={handleSliderChange}
         handlePercent={handlePercent}
@@ -177,11 +173,9 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           Your Borrow Limit:
         </div>
         <div className={s.borrowResult}>
-          {`
-              ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })} 
-              -> 
-              ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
-            `}
+          {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
+          {'->'}
+          {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
         </div>
       </div>
 
@@ -190,11 +184,9 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           Borrow Limit Used:
         </div>
         <div className={s.borrowResult}>
-          {`
-              ${borrowLimitUsed} %
-              -> 
-              ${borrowLimitUsed} %
-            `}
+          {getPrettyPercent(borrowLimitUsed)}
+          {'->'}
+          {getPrettyPercent(borrowLimitUsed)}
         </div>
       </div>
 
