@@ -58,6 +58,8 @@ export const AccountModal: React.FC<AccountModalProps> = ({
       <div className={s.options}>
         <Button
           theme="clear"
+          href={`${process.env.REACT_APP_TZKT_BASE_URL}/${address}`}
+          external
           className={s.button}
         >
           View on explorer
