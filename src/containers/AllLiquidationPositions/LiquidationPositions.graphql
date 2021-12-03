@@ -1,0 +1,33 @@
+query LiquidationPositions {
+    user {
+        address
+        outstandingBorrow
+        borrowedAssets: userFunds(where: {borrow: {_gt: "0"}}) {
+            asset {
+                contractAddress
+                isFa2
+                tokenId
+                tokens {
+                    name
+                    symbol
+                    thumbnail
+                    decimals
+                }
+            }
+        }
+        collateralAssets: userFunds(where: {entered: {_eq: true}}) {
+            asset {
+                contractAddress
+                isFa2
+                tokenId
+                tokens {
+                    name
+                    symbol
+                    thumbnail
+                    decimals
+                }
+            }
+        }
+        liquidationRatio
+    }
+}

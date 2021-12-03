@@ -1,0 +1,138 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  position: relative
+  width: 100%
+
+.slider
+  width: 95%
+  height: .75rem
+  border-radius: 1rem
+  overflow: hidden
+  -webkit-appearance: none
+  &::-webkit-slider-runnable-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
+    -webkit-appearance: none
+  &::-moz-range-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
+  &::-webkit-slider-thumb
+    position: relative
+    width: .75rem
+    height: .75rem
+    border-radius: 1rem
+    background: $white
+    box-shadow: -195px 0 0 190px $light-blue
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
+  &::-moz-range-thumb
+    position: relative
+    width: .5rem
+    height: .5rem
+    border-radius: 1rem
+    background: $white
+    box-shadow: -195px 0 0 190px $light-blue
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
+
+.number
+  position: absolute
+  top: -1rem
+  left: 3px
+  font-weight: bold
+  font-size: 0.75rem
+  line-height: 0.875rem
+  color: $light-blue
+  text-shadow: $blue-shadow
+
+.percents
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: center
+
+.percent
+  padding-top: 1.5rem
+  margin-top: -1.5rem
+  color: $white
+  font-weight: 400
+  font-size: .75rem
+  transition: color $animationTime
+  &:nth-of-type(2),
+  &:nth-of-type(3),
+  &:nth-of-type(4)
+    position: relative
+    left: 4.5px
+  &::before
+    content: ''
+    position: relative
+    display: inline-block
+    left: 50%
+    bottom: 1rem
+    width: .375rem
+    height: .375rem
+    border-radius: 50%
+    background-color: $white
+    transition: background-color $animationTime
+
+.primary
+  .percent
+    &::before
+      color: $blue-neutral
+      transition: background-color $animationTime
+    &:hover
+      color: $blue-neutral
+      &::before
+        background-color: $blue-neutral
+    &:focus
+      color: $light-yellow
+      &::before
+        background-color: $light-yellow
+  .slider
+    background-color: rgba($light-blue, .2)
+    &::-webkit-slider-runnable-track
+      color: $blue-neutral
+    &::-webkit-slider-thumb
+      border-color: $blue-neutral
+      box-shadow: -195px 0 0 190px $blue-neutral
+    &::-moz-range-thumb
+      border-color: $blue-neutral
+      box-shadow: -195px 0 0 190px $blue-neutral
+  .number
+    color: $blue-neutral
+    text-shadow: $blue-shadow
+
+.secondary
+  .percent
+    &::before
+      color: $light-yellow
+      transition: background-color $animationTime
+    &:hover
+      color: $light-yellow
+      &::before
+        background-color: $light-yellow
+    &:focus
+      color: $blue-neutral
+      &::before
+        background-color: $blue-neutral
+  .slider
+    background-color: rgba($light-yellow, .2)
+    &::-webkit-slider-runnable-track
+      color: $light-yellow
+    &::-webkit-slider-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+    &::-moz-range-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+  .number
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow

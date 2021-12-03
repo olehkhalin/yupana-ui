@@ -14,6 +14,7 @@ type TokenLogoProps = {
 
 const sizeClass = {
   small: s.small,
+  medium: s.medium,
   large: s.large,
 };
 

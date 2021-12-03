@@ -3,7 +3,7 @@ import React from 'react';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components';
+import { ModalHeader } from 'components/common/ModalHeader';
 
 type InformationModalProps = {
   buttonText?: string
@@ -26,6 +26,7 @@ export const InformationModal: React.FC<InformationModalProps> = ({
     />
     <Button
       sizeT="small"
+      onClick={onRequestClose}
     >
       {buttonText}
     </Button>

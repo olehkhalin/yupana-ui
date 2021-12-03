@@ -3,18 +3,22 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
+import { ApolloProvider } from '@apollo/client';
 
 import App from 'pages/App';
+import { client } from 'utils/client';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <Router>
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>
-  </Router>,
+  <ApolloProvider client={client}>
+    <Router>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
+    </Router>
+  </ApolloProvider>,
   document.getElementById('root'),
 );
 
