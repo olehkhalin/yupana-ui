@@ -4,6 +4,7 @@ import React, {
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { validateInput } from 'utils/validateInput';
 import { Button } from 'components/ui/Button';
 import { InputInterface } from 'components/modals/CreditProcessModal';
 
@@ -14,6 +15,7 @@ type NumberInputProps = {
   min?: number | BigNumber;
   max?: number | BigNumber;
   error?: string
+  setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
   priceInUsd: number
   onAmountChange?: (newValue?: BigNumber) => void;
@@ -30,6 +32,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   min = 0,
   max = Number.MAX_SAFE_INTEGER,
   error,
+  setError,
   theme = 'primary',
   priceInUsd,
   onAmountChange,
@@ -37,11 +40,16 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   ...props
 }) => {
   const { amount, metadata } = useMemo(() => input, [input]);
-
-  const [inputValue, setInputValue] = useState<string>(amount ? amount.toString() : '');
+  const [inputValue, setInputValue] = useState<string>('');
   const [currencyInUsd, setCurrencyInUsd] = useState<BigNumber>(new BigNumber(0));
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if (amount) {
+      setInputValue(amount.toFixed());
+    }
+  }, [amount, metadata?.decimals]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -58,10 +66,16 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         return;
       }
 
+      const inputError = validateInput({
+        amount: new BigNumber(e.target.value),
+        metadata,
+      });
+
+      setError?.(inputError);
       setInputValue(val);
       onAmountChange?.(val !== '' ? numVal : undefined);
     },
-    [max, metadata?.decimals, min, onAmountChange],
+    [max, metadata, min, onAmountChange, setError],
   );
 
   // Get user balance by token
@@ -74,7 +88,8 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     }
     onAmountChange?.(tokenBalance);
     setInputValue(tokenBalance.toString());
-  }, [metadata?.balance, onAmountChange]);
+    setError?.('');
+  }, [metadata?.balance, onAmountChange, setError]);
 
   // Counting price in usd
   useEffect(() => {
@@ -93,7 +108,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     <>
       <div
         onClick={handleContainer}
-        className={cx(s.root, themeClasses[theme], className)}
+        className={cx(s.root, themeClasses[theme], { [s.error]: error }, className)}
       >
         <div className={s.wrapper}>
           <input

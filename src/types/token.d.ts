@@ -11,7 +11,7 @@ type TokenData = {
 };
 
 type TokenMetadata = TokenData & TokenId;
-type TokenMetadataWithBalance = TokenData & { balance?: BigNumber };
+type TokenMetadataWithBalance = TokenMetadata & { balance?: BigNumber };
 
 export interface TokenMetadataInterface extends TokenMetadata {}
 export interface TokenMetadataWithBalanceInterface extends TokenMetadataWithBalance {}

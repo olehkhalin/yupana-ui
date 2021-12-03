@@ -6,10 +6,11 @@ import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
-import { TokenMetadataInterface, TokenMetadataWithBalanceInterface } from 'types/token';
+import { TokenMetadataWithBalanceInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { validateInput } from 'utils/validateInput';
 import { Modal } from 'components/ui/Modal';
 import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
@@ -27,7 +28,7 @@ export enum ThemeEnum {
 
 type CreditProcessModalProps = {
   theme?: ThemeEnum
-  asset: TokenMetadataInterface
+  asset: TokenMetadataWithBalanceInterface
   walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
@@ -65,6 +66,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 }) => {
   const [{ text, walletText }, setData] = useState<DataType>(defaultData);
   const [sliderValue, setSliderValue] = useState<number>(0);
+  const [error, setError] = useState<string>('');
   const valueRef = useRef<HTMLDivElement | null>(null);
   const isWiderThanMphone = useWiderThanMphone();
 
@@ -83,43 +85,78 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
   const input = watch('input') ?? {};
 
+  // Input change
   const onAmountChange = useCallback(
     (newAmount?: BigNumber) => {
       setValue('input', {
         amount: newAmount,
         metadata: asset,
       });
+
+      if (newAmount && newAmount.lte(asset.balance)) {
+        const numberByPercent = (+newAmount / asset.balance) * 100;
+        setSliderValue(numberByPercent);
+        if (valueRef && valueRef.current) {
+          valueRef.current.style.left = `${numberByPercent / 1.1}%`;
+        }
+      } else if (newAmount?.gt(asset.balance)) {
+        setSliderValue(100);
+        if (valueRef && valueRef.current) {
+          valueRef.current.style.left = `${100 / 1.1}%`;
+        }
+      }
     }, [asset, setValue],
   );
 
-  const onSubmit = useCallback(
-    ({ input: inputData }: FormTypes) => {
-      console.log(JSON.stringify(inputData, null, 2));
+  // Counting input value relatively input percent
+  const getAmountEqualPercent = useCallback(
+    (percent: number) => {
+      const value = input.metadata?.balance * (percent / 100);
+      setValue('input', {
+        amount: new BigNumber(value),
+        metadata: asset,
+      });
     },
-    [],
+    [asset, input.metadata?.balance, setValue],
   );
 
-  const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
-
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (valueRef && valueRef.current) {
-      valueRef.current.style.left = `${+event.target.value / 1.1}%`;
-    }
-  };
-
+  // Slider change
   const handleSliderChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
+      if (valueRef && valueRef.current) {
+        valueRef.current.style.left = `${(+event.target.value) / 1.1}%`;
+      }
       setSliderValue(+event.target.value);
+      getAmountEqualPercent(+event.target.value);
+      setError('');
     },
-    [],
+    [getAmountEqualPercent],
   );
 
+  // Change slider by percent buttons
   const handlePercent = useCallback(
-    (event: React.ChangeEvent<HTMLInputElement>, amount: number) => {
+    (amount: number) => {
       if (valueRef && valueRef.current) {
-        valueRef.current.style.left = `${(+event.target.value + amount) / 1.1}%`;
+        valueRef.current.style.left = `${(amount) / 1.1}%`;
       }
-      setSliderValue((+event.target.value + amount));
+
+      setSliderValue(amount);
+      getAmountEqualPercent(amount);
+    },
+    [getAmountEqualPercent],
+  );
+
+  // Form submit
+  const onSubmit = useCallback(
+    ({ input: inputData }: FormTypes) => {
+      const inputError = validateInput(inputData, true);
+
+      if (inputError) {
+        return setError(inputError);
+      }
+
+      console.log(JSON.stringify(inputData, null, 2));
+      return undefined;
     },
     [],
   );
@@ -169,6 +206,8 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     [theme],
   );
 
+  const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
+
   return (
     <Modal
       isOpen={isOpen}
@@ -206,16 +245,17 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           input={input}
           priceInUsd={priceInUsd}
           onAmountChange={onAmountChange}
+          error={error}
+          setError={setError}
           className={s.input}
         />
 
         <Slider
           theme={getTheme()}
-          value={sliderValue}
+          value={sliderValue.toFixed(2)}
           onChange={handleSliderChange}
           handlePercent={handlePercent}
           valueRef={valueRef}
-          onInput={handleChange}
           className={s.slider}
         />
 
@@ -253,6 +293,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
+          // disabled={!!error}
         >
           {text}
         </Button>

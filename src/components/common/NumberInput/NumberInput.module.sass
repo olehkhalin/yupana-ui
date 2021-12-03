@@ -9,6 +9,7 @@
   border: .063rem solid $white
   border-radius: .25rem
   cursor: text
+  transition: border-color $animationTime
 
 .secondary
   .wrapper, .input
@@ -45,6 +46,7 @@
     color: $light-blue
     font-weight: bold
     font-size: 1rem
+    transition: color $animationTime
   &:focus::-webkit-input-placeholder
     visibility: hidden
     -moz-appearance: none
@@ -56,6 +58,18 @@
   &.active
     color: $white
 
+.error
+  border-color: $light-red
+  .input, .exchange, .button
+    color: $light-red
+  .button
+    &:hover
+      color: $light-red
+      text-shadow: $red-shadow
+  .input
+    &::placeholder
+      color: $light-red
+
 .button
   display: flex
   align-items: center
@@ -63,30 +77,13 @@
   font-size: 1rem
   color: $white
   text-shadow: none
-  transition: color $animationTime
+  transition: color $animationTime, text-shadow $animationTime
   &:hover
     color: $light-blue
     text-shadow: $blue-shadow
   &:active
     color: $light-yellow
     text-shadow: $light-yellow-shadow
-
-.button
-  display: flex
-  align-items: center
-  justify-content: center
-  outline: none
-  border: 0
-  background: transparent
-  font-weight: bold
-  font-size: 1rem
-  line-height: 1.188rem
-  text-transform: uppercase
-  color: $white
-  text-shadow: $white-shadow
-  transition: $animationTime
-  &:active
-    text-shadow: none
 
 .errorContainer
   display: flex

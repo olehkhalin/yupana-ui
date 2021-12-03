@@ -10,7 +10,7 @@ import s from './Slider.module.sass';
 type SliderProps = {
   theme?: keyof typeof themeClass
   percents?: number[]
-  handlePercent?: (event: React.ChangeEvent<HTMLInputElement>, arg: number) => void
+  handlePercent?: (arg: number) => void
   valueRef: LegacyRef<HTMLDivElement>
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
@@ -49,7 +49,7 @@ export const Slider: React.FC<SliderProps> = ({
           <Button
             key={getUniqueKey()}
             theme="clear"
-            onClick={(event: any) => handlePercent?.(event, amount)}
+            onClick={() => handlePercent?.(amount)}
             className={s.percent}
           >
             {`${amount} %`}
