@@ -31,7 +31,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
             className={cx(s.address, s.white, s.noShadow)}
@@ -59,6 +59,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
             Health factor
             <Button
               theme="clear"
+              sizeT="small"
               className={s.attention}
             >
               <Attention className={s.attentionIcon} />

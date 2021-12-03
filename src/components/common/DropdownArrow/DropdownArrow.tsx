@@ -35,6 +35,7 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   return (
     <Button
       theme="clear"
+      sizeT="small"
       onClick={onClick}
       className={compoundClassNames}
       {...props}
