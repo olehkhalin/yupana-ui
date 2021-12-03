@@ -26,7 +26,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {
         data && data.length ? data.map(({
           asset: tokenMetadata, ...rest
@@ -40,6 +40,6 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
           <YourBorrowAssetsEmptyCard />
         )
       }
-    </div>
+    </>
   );
 };

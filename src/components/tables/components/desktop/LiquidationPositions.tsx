@@ -5,6 +5,7 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
+import { AppRoutes } from 'routes/main-routes';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './Tables.module.sass';
@@ -29,7 +30,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
             className={cx(s.address, s.white, s.noShadow)}
@@ -57,6 +58,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
             Health factor
             <Button
               theme="clear"
+              sizeT="small"
               className={s.attention}
             >
               <Attention className={s.attentionIcon} />
@@ -99,10 +101,10 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => null,
         id: 'liquidate',
-        accessor: () => (
+        accessor: (row: any) => (
           <Button
             theme="light"
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             className={s.link}
           >
             Liquidate
