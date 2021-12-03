@@ -2,6 +2,9 @@
 @import 'styles/breakpoints.scss'
 
 .root
+  width: 100%
+
+.container
   display: flex
   justify-content: space-between
   width: 100%
@@ -74,16 +77,27 @@
   display: flex
   align-items: center
   justify-content: center
+  outline: none
+  border: 0
+  background: transparent
+  font-weight: bold
   font-size: 1rem
+  line-height: 1.188rem
+  text-transform: uppercase
   color: $white
-  text-shadow: none
-  transition: color $animationTime, text-shadow $animationTime
-  &:hover
-    color: $light-blue
-    text-shadow: $blue-shadow
-  &:active
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
+  transition: color $animationTime
+
+.primary
+  .button
+    &:hover
+      color: $light-blue
+      text-shadow: $blue-shadow
+
+.secondary
+  .button
+    &:hover
+      color: $light-yellow
+      text-shadow: $light-yellow-shadow
 
 .errorContainer
   display: flex
@@ -106,6 +120,6 @@
   font-size: .875rem
 
 @include media('>Mphone')
-  .root
+  .container
     padding: 1rem 1.5rem
     height: 4.5rem

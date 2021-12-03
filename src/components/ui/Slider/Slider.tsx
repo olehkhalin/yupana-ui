@@ -1,21 +1,20 @@
 import React, { LegacyRef } from 'react';
 import cx from 'classnames';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
 import { Button } from 'components/ui/Button';
 import { SLIDER_PERCENTS } from 'constants/slider';
 
 import s from './Slider.module.sass';
 
 type SliderProps = {
-  theme?: keyof typeof themeClass
+  theme?: keyof typeof themeClasses
   percents?: number[]
   handlePercent?: (arg: number) => void
   valueRef: LegacyRef<HTMLDivElement>
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
-const themeClass = {
+const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
@@ -29,7 +28,7 @@ export const Slider: React.FC<SliderProps> = ({
   value,
   ...props
 }) => (
-  <div className={cx(s.root, themeClass[theme], className)}>
+  <div className={cx(s.root, themeClasses[theme], className)}>
     <div className={s.number} ref={valueRef}>
       {Number(value).toFixed(2)}
       %
@@ -39,7 +38,7 @@ export const Slider: React.FC<SliderProps> = ({
       type="range"
       step="0.01"
       value={value}
-      className={cx(s.slider)}
+      className={cx(s.slider, className)}
       {...props}
     />
 
@@ -47,7 +46,7 @@ export const Slider: React.FC<SliderProps> = ({
       {
         percents.map((amount) => (
           <Button
-            key={getUniqueKey()}
+            key={amount}
             theme="clear"
             onClick={() => handlePercent?.(amount)}
             className={s.percent}

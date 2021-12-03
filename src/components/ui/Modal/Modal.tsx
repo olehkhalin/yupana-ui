@@ -10,10 +10,17 @@ import s from './Modal.module.sass';
 ReactModal.setAppElement('#root');
 
 export type ModalProps = {
+  theme?: keyof typeof themeClasses
   innerClassName?: string;
 } & ReactModal.Props;
 
+const themeClasses = {
+  primary: s.primary,
+  secondary: s.secondary,
+};
+
 export const Modal: React.FC<ModalProps> = ({
+  theme = 'primary',
   className,
   overlayClassName,
   portalClassName,
@@ -42,7 +49,7 @@ export const Modal: React.FC<ModalProps> = ({
     >
       <div className={cx(s.inner, innerClassName)}>
         <Button
-          className={s.closeButton}
+          className={cx(s.closeButton, themeClasses[theme])}
           theme="clear"
           onClick={onRequestClose}
         >

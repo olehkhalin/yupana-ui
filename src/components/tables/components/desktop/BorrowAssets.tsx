@@ -3,6 +3,8 @@ import { Row } from 'react-table';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -34,17 +36,18 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => `${borrowApy.toFixed(2)}%`,
+        accessor: ({ borrowApy }: { borrowApy: number }) => getPrettyPercent(borrowApy),
       },
       {
         Header: 'Utilisation rate',
         id: 'utilisationRate',
-        accessor: ({ utilisationRate }: { utilisationRate: number }) => `${utilisationRate.toFixed(2)}%`,
+        accessor: ({ utilisationRate }
+        : { utilisationRate: number }) => getPrettyPercent(utilisationRate),
       },
       {
         Header: 'Liquidity',
         id: 'liquidity',
-        accessor: ({ liquidity, asset }: { liquidity: number, asset: TokenMetadataInterface }) => `${liquidity} ${getSliceTokenName(asset)}`,
+        accessor: ({ liquidity, asset }: { liquidity: number, asset: TokenMetadataInterface }) => `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
       },
       {
         Header: () => null,

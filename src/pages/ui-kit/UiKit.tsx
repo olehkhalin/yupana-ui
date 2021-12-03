@@ -66,7 +66,7 @@ import { LIMIT_LINE } from 'components/temp-data/limit-line';
 import { InformationModal } from 'components/modals/InformationModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { AccountModal } from 'components/modals/AccountModal';
-import { CreditProcessModal, ThemeEnum } from 'components/modals/CreditProcessModal';
+import { CreditProcessModal, TypeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -134,7 +134,7 @@ export const UiKit: React.FC = () => {
         </Button>
         <CreditProcessModal
           {...CREDIT_PROCESS_DATA}
-          theme={ThemeEnum.SECONDARY}
+          type={TypeEnum.WITHDRAW}
           isOpen={creditProcessSecondaryIsOpen}
           onRequestClose={() => setCreditProcessSecondaryIsOpen(false)}
         />
@@ -150,7 +150,8 @@ export const UiKit: React.FC = () => {
         </Button>
         <CreditProcessModal
           {...CREDIT_PROCESS_DATA}
-          theme={ThemeEnum.TERTIARY}
+          type={TypeEnum.BORROW}
+          theme="secondary"
           isOpen={creditProcessTertiaryIsOpen}
           onRequestClose={() => setCreditProcessTertiaryIsOpen(false)}
         />
@@ -166,7 +167,8 @@ export const UiKit: React.FC = () => {
         </Button>
         <CreditProcessModal
           {...CREDIT_PROCESS_DATA}
-          theme={ThemeEnum.QUATERNARY}
+          type={TypeEnum.REPAY}
+          theme="secondary"
           isOpen={creditProcessQuaternaryIsOpen}
           onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
         />
@@ -1102,6 +1104,76 @@ export const UiKit: React.FC = () => {
               title="Account"
               description="Connected wallet address:"
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Credit Process
+            </div>
+            <div className={s.subTitle}>
+              Supply
+            </div>
+            <Button
+              onClick={() => setCreditProcessPrimaryIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Supply
+            </Button>
+            <CreditProcessModal
+              {...CREDIT_PROCESS_DATA}
+              isOpen={creditProcessPrimaryIsOpen}
+              onRequestClose={() => setCreditProcessPrimaryIsOpen(false)}
+            />
+
+            <div className={s.subTitle}>
+              Withdraw
+            </div>
+            <Button
+              onClick={() => setCreditProcessSecondaryIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Withdraw
+            </Button>
+            <CreditProcessModal
+              {...CREDIT_PROCESS_DATA}
+              type={TypeEnum.WITHDRAW}
+              theme="primary"
+              isOpen={creditProcessSecondaryIsOpen}
+              onRequestClose={() => setCreditProcessSecondaryIsOpen(false)}
+            />
+
+            <div className={s.subTitle}>
+              Borrow
+            </div>
+            <Button
+              onClick={() => setCreditProcessTertiaryIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Borrow
+            </Button>
+            <CreditProcessModal
+              {...CREDIT_PROCESS_DATA}
+              type={TypeEnum.BORROW}
+              theme="secondary"
+              isOpen={creditProcessTertiaryIsOpen}
+              onRequestClose={() => setCreditProcessTertiaryIsOpen(false)}
+            />
+
+            <div className={s.subTitle}>
+              Repay
+            </div>
+            <Button
+              onClick={() => setCreditProcessQuaternaryIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Repay
+            </Button>
+            <CreditProcessModal
+              {...CREDIT_PROCESS_DATA}
+              type={TypeEnum.REPAY}
+              theme="secondary"
+              isOpen={creditProcessQuaternaryIsOpen}
+              onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
             />
           </div>
         </div>

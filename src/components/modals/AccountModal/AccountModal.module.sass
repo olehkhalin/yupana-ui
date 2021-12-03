@@ -8,8 +8,32 @@
   margin-bottom: 1.438rem
   font-weight: bold
 
-.icon
+.iconsWrapper, .icon
   margin-left: 1rem
+
+.iconsWrapper
+  display: flex
+  flex-direction: column
+  align-items: center
+  overflow: hidden
+
+.clipboard, .arrow
+  cursor: pointer
+  transition: transform $animationTime
+
+.arrow
+  transform: translateY(-150%)
+  > path
+    fill: $light-blue
+
+.clipboard
+  transform: translateY(-50%)
+
+.success
+  .arrow
+    transform: translateY(50%)
+  .clipboard
+    transform: translateY(150%)
 
 .options
   display: flex
@@ -31,10 +55,9 @@
 .button
   display: flex
   justify-content: center
-  text-transform: uppercase
-  font-weight: bold
+  align-items: center
   color: $blue-neutral
-  line-height: 1.063rem
+  line-height: 1.083rem
   transition: $animationTime
   &:hover
     color: $light-yellow

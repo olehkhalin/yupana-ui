@@ -35,6 +35,10 @@
 .supplyRow
   grid-template-columns: 1.5fr 1.25fr 1.5fr 1fr .5fr
 
+.supplyRow, .borrowRow
+  td:nth-last-child(2)
+    white-space: nowrap
+
 .ownAssetsRow
   grid-template-columns: 1.25fr repeat(2, 1fr) .75fr .5fr
 
@@ -92,6 +96,9 @@
 
 .amountUsd
   font-size: .75rem
+
+.noWrap
+  white-space: nowrap
 
 @include media('>Mphone')
   .bigTableLiquidate

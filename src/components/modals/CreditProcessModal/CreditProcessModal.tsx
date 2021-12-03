@@ -8,6 +8,7 @@ import cx from 'classnames';
 import { ModalActions } from 'types/modal';
 import { TokenMetadataWithBalanceInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { validateInput } from 'utils/validateInput';
@@ -19,15 +20,16 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 
 import s from './CreditProcessModal.module.sass';
 
-export enum ThemeEnum {
-  PRIMARY = 'primary',
-  SECONDARY = 'secondary',
-  TERTIARY = 'tertiary',
-  QUATERNARY = 'quaternary',
+export enum TypeEnum {
+  SUPPLY = 'supply',
+  WITHDRAW = 'withdraw',
+  BORROW = 'borrow',
+  REPAY = 'repay',
 }
 
 type CreditProcessModalProps = {
-  theme?: ThemeEnum
+  type?: TypeEnum
+  theme?: keyof typeof themeClasses
   asset: TokenMetadataWithBalanceInterface
   walletBalance: number
   yourBorrowLimit: number
@@ -54,8 +56,14 @@ const defaultData = {
   walletText: '',
 };
 
+const themeClasses = {
+  primary: s.primary,
+  secondary: s.secondary,
+};
+
 export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
-  theme = ThemeEnum.PRIMARY,
+  type = TypeEnum.SUPPLY,
+  theme = 'primary',
   asset,
   walletBalance,
   yourBorrowLimit,
@@ -142,6 +150,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
       setSliderValue(amount);
       getAmountEqualPercent(amount);
+      setError('');
     },
     [getAmountEqualPercent],
   );
@@ -162,26 +171,26 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   );
 
   useEffect(() => {
-    switch (theme) {
-      case ThemeEnum.PRIMARY:
+    switch (type) {
+      case TypeEnum.SUPPLY:
         setData({
           text: 'Supply',
           walletText: 'Wallet balance:',
         });
         break;
-      case ThemeEnum.SECONDARY:
+      case TypeEnum.WITHDRAW:
         setData({
           text: 'Withdraw',
           walletText: 'Supply balance:',
         });
         break;
-      case ThemeEnum.TERTIARY:
+      case TypeEnum.BORROW:
         setData({
           text: 'Borrow',
           walletText: 'Borrow balance:',
         });
         break;
-      case ThemeEnum.QUATERNARY:
+      case TypeEnum.REPAY:
         setData({
           text: 'Repay',
           walletText: 'Borrow balance:',
@@ -191,28 +200,16 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         setData(defaultData);
         break;
     }
-  }, [theme]);
+  }, [type]);
 
-  const getTheme = useCallback(
-    () => {
-      if (theme === ThemeEnum.PRIMARY || theme === ThemeEnum.SECONDARY) {
-        return ThemeEnum.PRIMARY;
-      }
-      if (theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY) {
-        return ThemeEnum.SECONDARY;
-      }
-      return undefined;
-    },
-    [theme],
-  );
-
-  const isBorrowTheme = theme === ThemeEnum.TERTIARY || theme === ThemeEnum.QUATERNARY;
+  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
 
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.inner}
+      theme={theme}
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
       <form
@@ -241,7 +238,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         </div>
 
         <NumberInput
-          theme={getTheme()}
+          theme={theme}
           input={input}
           priceInUsd={priceInUsd}
           onAmountChange={onAmountChange}
@@ -251,7 +248,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         />
 
         <Slider
-          theme={getTheme()}
+          theme={theme}
           value={sliderValue.toFixed(2)}
           onChange={handleSliderChange}
           handlePercent={handlePercent}
@@ -281,11 +278,9 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
             Borrow Limit Used:
           </div>
           <div className={s.borrowResult}>
-            {`
-              ${borrowLimitUsed} %
-              -> 
-              ${borrowLimitUsed} %
-            `}
+            {getPrettyPercent(borrowLimitUsed)}
+            {'->'}
+            {getPrettyPercent(borrowLimitUsed)}
           </div>
         </div>
 
@@ -293,7 +288,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
-          // disabled={!!error}
+          disabled={!!error}
         >
           {text}
         </Button>

@@ -47,7 +47,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
   useEffect(() => {
     if (amount) {
-      setInputValue(amount.toFixed());
+      setInputValue(amount.decimalPlaces(metadata?.decimals ?? 6).toFixed());
     }
   }, [amount, metadata?.decimals]);
 
@@ -105,10 +105,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   };
 
   return (
-    <>
+    <div className={cx(s.root, className)}>
       <div
         onClick={handleContainer}
-        className={cx(s.root, themeClasses[theme], { [s.error]: error }, className)}
+        className={cx(s.container, themeClasses[theme], { [s.error]: error })}
       >
         <div className={s.wrapper}>
           <input
@@ -142,11 +142,11 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
       <div className={cx(s.errorContainer, { [s.error]: error })}>
         {error && (
-        <div className={cx(s.errorText)}>
-          {error}
-        </div>
+          <div className={cx(s.errorText)}>
+            {error}
+          </div>
         )}
       </div>
-    </>
+    </div>
   );
 };
