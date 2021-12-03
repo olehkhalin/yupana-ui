@@ -127,7 +127,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
             $
             {' '}
-            {currencyInUsd.decimalPlaces(6).toFixed()}
+            {currencyInUsd.toFixed(2)}
           </div>
         </div>
 

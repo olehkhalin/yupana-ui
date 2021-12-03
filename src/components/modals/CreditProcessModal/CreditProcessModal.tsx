@@ -257,7 +257,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
         <Slider
           theme={theme}
-          value={sliderValue.toFixed(2)}
+          value={isWiderThanMphone ? sliderValue.toFixed(2) : sliderValue.toFixed()}
           onChange={handleSliderChange}
           handleClickByPercentButton={handleClickByPercentButton}
           valueRef={valueRef}

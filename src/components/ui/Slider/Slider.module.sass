@@ -68,15 +68,15 @@
   font-size: .75rem
   transition: color $animationTime
   &:first-child
-    right: 2px
+    right: 4px
   &:nth-of-type(2)
-    left: 3px
+    left: 2px
   &:nth-of-type(3)
     left: 4px
   &:nth-of-type(4)
-    left: 5px
+    left: 6px
   &:last-child
-    left: 3px
+    left: 5px
   &::before
     content: ''
     position: relative
@@ -134,3 +134,16 @@
   .number
     color: $light-yellow
     text-shadow: $light-yellow-shadow
+
+@include media('>Mphone')
+  .percent
+    &:first-child
+      right: 2px
+    &:nth-of-type(2)
+      left: 3px
+    &:nth-of-type(3)
+      left: 4px
+    &:nth-of-type(4)
+      left: 5px
+    &:last-child
+      left: 3px

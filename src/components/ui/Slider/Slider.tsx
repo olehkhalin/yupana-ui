@@ -30,7 +30,7 @@ export const Slider: React.FC<SliderProps> = ({
 }) => (
   <div className={cx(s.root, themeClasses[theme], className)}>
     <div className={s.number} ref={valueRef}>
-      {Number(value).toFixed(2)}
+      {value}
       %
     </div>
 

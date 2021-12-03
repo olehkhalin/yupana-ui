@@ -33,10 +33,9 @@
   width: 100%
 
 .input
-  height: 16px
   width: 100%
+  font-size: .875rem
   font-weight: bold
-  font-size: 1rem
   color: $light-blue
   background: transparent
   border: 0
@@ -117,9 +116,14 @@
 
 .errorText
   color: $light-red
-  font-size: .875rem
+  font-size: .75rem
 
 @include media('>Mphone')
   .container
     padding: 1rem 1.5rem
     height: 4.5rem
+  .input
+    height: 1rem
+    font-size: 1rem
+  .errorText
+    font-size: .875rem
