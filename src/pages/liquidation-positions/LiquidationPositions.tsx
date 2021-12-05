@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Section } from 'components/common/Section';
-import { LiquidationPositions as LiquidationContainer } from 'containers/LiquidationPositions';
+import { AllLiquidationPositions } from 'containers/AllLiquidationPositions';
 
 export const LiquidationPositions: React.FC = () => (
   <>
@@ -14,7 +14,7 @@ export const LiquidationPositions: React.FC = () => (
       }}
       head
     >
-      <LiquidationContainer />
+      <AllLiquidationPositions />
     </Section>
   </>
 );

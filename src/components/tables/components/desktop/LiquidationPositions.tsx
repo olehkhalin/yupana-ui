@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { AppRoutes } from 'routes/main-routes';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
@@ -30,7 +31,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
             className={cx(s.address, s.white, s.noShadow)}
@@ -97,10 +98,10 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => null,
         id: 'liquidate',
-        accessor: () => (
+        accessor: (row: any) => (
           <Button
             theme="light"
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             className={s.link}
           >
             Liquidate
