@@ -1,8 +1,12 @@
 overwrite: true
-schema: "https://yupana-indexer.stage.madfish.xyz/v1/graphql"
+schema:
+  - https://yupana-indexer.stage.madfish.xyz/v1/graphql:
+      headers:
+        X-Hasura-Admin-Secret: "change-me"
+        Content-Type: application/json
 documents: "src/**/*.graphql"
 generates:
-  src/graphql.ts:
+  src/generated/graphql.tsx:
     plugins:
       - "typescript"
       - "typescript-operations"

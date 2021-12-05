@@ -3,6 +3,7 @@ import cx from 'classnames';
 
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
@@ -59,7 +60,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {`${row.supplyApy}%`}
+            {getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -98,7 +99,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {`${row.borrowApy}%`}
+            {getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
@@ -121,7 +122,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
+            href={`${AppRoutes.MARKETS}/${row.yToken}`}
             className={s.link}
           >
             Details

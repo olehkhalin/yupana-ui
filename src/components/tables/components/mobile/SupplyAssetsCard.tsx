@@ -2,24 +2,21 @@ import React from 'react';
 
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
+import { TokenMetadataInterface } from 'types/token';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
 
 type SupplyAssetsCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
   collateralFactor: number
   supplyApy: number
   wallet: number
-  thumbnailUri?: string
   className?: string
-};
+} & TokenMetadataInterface;
 
 const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInterface> = ({
   id,
@@ -27,6 +24,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
   name,
   symbol,
   thumbnailUri,
+  decimals,
   collateralFactor,
   supplyApy,
   wallet,
@@ -40,6 +38,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
     name,
     symbol,
     thumbnailUri,
+    decimals,
   };
 
   return (
@@ -63,7 +62,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Supply APY
         </div>
         <div className={s.value}>
-          {`${supplyApy.toFixed(2)}%`}
+          {getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -72,7 +71,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Collateral Factor
         </div>
         <div className={s.value}>
-          {`${collateralFactor.toFixed(2)}%`}
+          {getPrettyPercent(collateralFactor)}
         </div>
       </div>
 
@@ -81,7 +80,11 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Wallet
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: wallet, currency: getSliceTokenName(tokenMetadata) })}
+          {getPrettyAmount({
+            value: wallet,
+            currency: getSliceTokenName(tokenMetadata),
+            dec: tokenMetadata.decimals,
+          })}
         </div>
       </div>
     </TableCard>
