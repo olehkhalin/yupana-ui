@@ -16,11 +16,11 @@ export const Lending: React.FC = () => {
     <>
       <Stats className={s.stat} />
       {!isWiderThanMdesktop && (
-      <AssetsSwitcher
-        active={isAssetSwitcherActive}
-        setActive={setIsAssetSwitcherActive}
-        className={s.switcher}
-      />
+        <AssetsSwitcher
+          active={isAssetSwitcherActive}
+          setActive={setIsAssetSwitcherActive}
+          className={s.switcher}
+        />
       )}
       <UserAssets
         isActiveSupply={isAssetSwitcherActive}

@@ -40,24 +40,23 @@ export const AttentionText: React.FC<AttentionTextProps> = ({
     <div className={cx(s.root, themeClasses[theme], className)}>
       {text}
 
-      {icon && (
-      <Button
-        theme="clear"
-        onClick={handleModal}
-        className={s.attention}
-      >
-        <Attention className={s.attentionIcon} />
-      </Button>
-      )}
-
       {icon && title && description && (
-      <InformationModal
-        title={title}
-        description={description}
-        isOpen={isOpen}
-        onRequestClose={handleModal}
-        onClick={handleModal}
-      />
+        <>
+          <Button
+            theme="clear"
+            onClick={handleModal}
+            className={s.attention}
+          >
+            <Attention className={s.attentionIcon} />
+          </Button>
+          <InformationModal
+            title={title}
+            description={description}
+            isOpen={isOpen}
+            onRequestClose={handleModal}
+            onClick={handleModal}
+          />
+        </>
       )}
     </div>
   );
