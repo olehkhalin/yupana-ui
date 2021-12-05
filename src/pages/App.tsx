@@ -7,6 +7,7 @@ import animateScrollTo from 'animated-scroll-to';
 import BaseLayout from 'layouts/BaseLayout';
 import { components } from 'routes/components';
 import { AppRoutes } from 'routes/main-routes';
+import NotFound from 'pages/not-found';
 
 const App: React.FC = () => {
   const { pathname } = useLocation();
@@ -41,7 +42,7 @@ const App: React.FC = () => {
           );
         })
       }
-      <Redirect to={AppRoutes.LENDING} />
+      <Route component={NotFound} />
     </Switch>
   );
 };
