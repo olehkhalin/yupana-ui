@@ -8,11 +8,13 @@ import { Markets } from 'components/tables/containers/Markets';
 
 type AllMarketsWrapperProps = {
   data?: MarketsAllQuery
+  loading?: boolean
   className?: string
 };
 
 const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
   data,
+  loading,
   className,
 }) => {
   const preparedData = useMemo(() => (data ? data.asset.map((el) => {
@@ -40,6 +42,7 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
   return (
     <Markets
       data={preparedData}
+      loading={loading}
       className={className}
     />
   );
@@ -52,15 +55,16 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data, error } = useMarketsAllQuery();
+  const { data, error, loading } = useMarketsAllQuery();
 
-  if (!data || error) {
+  if ((!data && !loading) || error) {
     return <></>;
   }
 
   return (
     <AllMarketsWrapper
       data={data}
+      loading={loading}
       className={className}
     />
   );
