@@ -30,6 +30,7 @@ export const AttentionText: React.FC<AttentionTextProps> = ({
     {icon && (
     <Button
       theme="clear"
+      sizeT="small"
       className={s.attention}
     >
       <Attention className={s.attentionIcon} />
