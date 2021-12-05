@@ -7,12 +7,12 @@ import s from './NotFound.module.sass';
 export const NotFound: React.FC = () => (
   <>
     <BaseLayout headerClassName={s.header} className={s.container}>
-      <div className={s.number}>
+      <h1 className={s.number}>
         404
-      </div>
-      <div className={s.text}>
+      </h1>
+      <h2 className={s.text}>
         page not found
-      </div>
+      </h2>
     </BaseLayout>
   </>
 );
