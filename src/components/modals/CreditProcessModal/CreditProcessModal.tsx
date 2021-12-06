@@ -253,7 +253,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       <>
         {borrowLimit}
         {' -> '}
-        {`$ ${yourTotalBorrowLimit.toFixed(2)}`}
+        {getPrettyAmount({ value: yourTotalBorrowLimit, currency: '$' })}
       </>
     );
   };
