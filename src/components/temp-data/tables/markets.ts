@@ -2,6 +2,7 @@ import { QUIPU_THUMBNAIL_URI, SMAK_THUMBNAIL_URI, XTZ_THUMBNAIL_URI } from 'comp
 
 export const ALL_MARKETS_DATA = [
   {
+    yToken: 0,
     asset: {
       address: 'tez',
       name: 'Tezos',
@@ -16,6 +17,7 @@ export const ALL_MARKETS_DATA = [
     numberOfBorrowers: 591,
   },
   {
+    yToken: 1,
     asset: {
       address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjJi',
       name: 'QuipuSwap Governance Token',
@@ -30,6 +32,7 @@ export const ALL_MARKETS_DATA = [
     numberOfBorrowers: 591,
   },
   {
+    yToken: 2,
     asset: {
       id: '1',
       address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',

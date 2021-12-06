@@ -1,33 +1,35 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getTokenName } from 'utils/getTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
-import { INTEREST_RATE_MODEL_DATA } from 'components/temp-data/interest-rate-model';
 import { INTEREST_RATE_MODEL } from 'constants/popups/interest-rate-model';
 
 import s from './InterestRateModel.module.sass';
 
 type InterestRateModelProps = {
+  asset: TokenMetadataInterface
+  data: any
   className?: string
 };
 
 export const InterestRateModel: React.FC<InterestRateModelProps> = ({
+  asset,
+  data,
   className,
 }) => {
   const {
-    asset,
-    curentUtilizationRate,
+    currentUtilizationRate,
     baseRatePerYear,
     multiplierPerYear,
     jumpMultiplierPerYear,
     kink,
-  } = useMemo(() => ({
-    ...INTEREST_RATE_MODEL_DATA,
-  }), []);
+  } = data;
 
   const {
     baseRatePerYear: baseRatePerYearPopup,
@@ -57,15 +59,15 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
         </div>
         <div className={s.list}>
           <Item
-            text="Curent Util. rate"
-            value={`${curentUtilizationRate}%`}
+            text="Current Util. rate"
+            value={getPrettyPercent(currentUtilizationRate)}
             theme="secondary"
             icon={false}
             className={s.item}
           />
           <Item
             text="Base rate per year"
-            value={`${baseRatePerYear}%`}
+            value={getPrettyPercent(baseRatePerYear)}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
             theme="secondary"
@@ -87,7 +89,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           />
           <Item
             text="Kink"
-            value={`${kink}%`}
+            value={getPrettyPercent(kink)}
             title={kinkPopup.title}
             description={kinkPopup.description}
             theme="secondary"

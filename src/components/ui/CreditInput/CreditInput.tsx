@@ -66,7 +66,7 @@ export const CreditInput: React.FC<CreditInputProps> = ({
 
         <Button
           theme="clear"
-          className={s.button}
+          className={cx(s.button, themeClasses[theme])}
         >
           max
         </Button>

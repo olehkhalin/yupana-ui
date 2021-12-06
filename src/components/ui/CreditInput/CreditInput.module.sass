@@ -60,21 +60,6 @@
   display: flex
   align-items: center
   justify-content: center
-  font-size: 1rem
-  color: $white
-  text-shadow: none
-  transition: color $animationTime
-  &:hover
-    color: $light-blue
-    text-shadow: $blue-shadow
-  &:active
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
-
-.button
-  display: flex
-  align-items: center
-  justify-content: center
   outline: none
   border: 0
   background: transparent
@@ -83,10 +68,23 @@
   line-height: 1.188rem
   text-transform: uppercase
   color: $white
-  text-shadow: $white-shadow
-  transition: $animationTime
+  transition: color $animationTime
+
+.primary
+  &:hover
+    color: $light-blue
+    text-shadow: $blue-shadow
   &:active
-    text-shadow: none
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+
+.secondary
+  &:hover
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+  &:active
+    color: $light-blue
+    text-shadow: $blue-shadow
 
 .errorContainer
   display: flex
