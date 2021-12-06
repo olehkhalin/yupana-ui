@@ -30,6 +30,7 @@ export const Radio: React.FC<RadioProps> = ({
   return (
     <Button
       theme="clear"
+      sizeT="small"
       className={compoundClassNames}
       {...props}
     >

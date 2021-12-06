@@ -1,11 +1,13 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { AppRoutes } from 'routes/main-routes';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
+import { AttentionText } from 'components/common/AttentionText';
+import { LIQUIDATABLE_POSITIONS } from 'constants/popups/liquidatable-positions';
 
 import s from './Tables.module.sass';
 
@@ -29,7 +31,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
             className={cx(s.address, s.white, s.noShadow)}
@@ -53,15 +55,12 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       },
       {
         Header: () => (
-          <div className={cx(s.wrapper, s.yellow)}>
-            Health factor
-            <Button
-              theme="clear"
-              className={s.attention}
-            >
-              <Attention className={s.attentionIcon} />
-            </Button>
-          </div>
+          <AttentionText
+            text="Health factor"
+            theme="secondary"
+            title={LIQUIDATABLE_POSITIONS.healthFactor.title}
+            description={LIQUIDATABLE_POSITIONS.healthFactor.description}
+          />
         ),
         id: 'healthFactor',
         accessor: (row: any) => (
@@ -99,10 +98,10 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => null,
         id: 'liquidate',
-        accessor: () => (
+        accessor: (row: any) => (
           <Button
             theme="light"
-            href="/"
+            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             className={s.link}
           >
             Liquidate

@@ -3,4 +3,5 @@ export interface ModalActions {
   description: string
   isOpen: boolean
   onRequestClose: () => void
+  onClick?: <T>(arg?: T) => void
 }

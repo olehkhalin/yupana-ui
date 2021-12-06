@@ -7,6 +7,7 @@ import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
 import { INTEREST_RATE_MODEL_DATA } from 'components/temp-data/interest-rate-model';
+import { INTEREST_RATE_MODEL } from 'constants/popups/interest-rate-model';
 
 import s from './InterestRateModel.module.sass';
 
@@ -27,6 +28,14 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
   } = useMemo(() => ({
     ...INTEREST_RATE_MODEL_DATA,
   }), []);
+
+  const {
+    baseRatePerYear: baseRatePerYearPopup,
+    kink: kinkPopup,
+  } = useMemo(
+    () => INTEREST_RATE_MODEL,
+    [],
+  );
 
   return (
     <Section className={cx(s.root, className)}>
@@ -57,6 +66,8 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           <Item
             text="Base rate per year"
             value={`${baseRatePerYear}%`}
+            title={baseRatePerYearPopup.title}
+            description={baseRatePerYearPopup.description}
             theme="secondary"
             className={s.item}
           />
@@ -77,6 +88,8 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           <Item
             text="Kink"
             value={`${kink}%`}
+            title={kinkPopup.title}
+            description={kinkPopup.description}
             theme="secondary"
             className={s.item}
           />

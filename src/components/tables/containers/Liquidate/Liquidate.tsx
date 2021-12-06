@@ -26,11 +26,11 @@ export const Liquidate: React.FC<LiquidateProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       <LiquidateCard
         key={getUniqueKey()}
         {...data[0]}
       />
-    </div>
+    </>
   );
 };
