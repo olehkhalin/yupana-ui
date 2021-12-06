@@ -83,7 +83,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   const [numberInputStringValue, setNumberInputStringValue] = useState<string>('');
   const [yourTotalBorrowLimit, setYourTotalBorrowLimit] = useState<number>(0);
   const [
-    yourBorrowLimitUsedWithNewSupply, setYourBorrowLimitUsedWithNewSupply,
+    yourBorrowLimitUsedEqualNewSupply, setYourBorrowLimitUsedEqualNewSupply,
   ] = useState<number>(0);
   const [error, setError] = useState<string>('');
   const valueRef = useRef<HTMLDivElement | null>(null);
@@ -117,7 +117,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   useEffect(() => {
     const currentBorrowLimitUsedInUsd = getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed);
     const borrowLimitUsedEqualNewSupply = (currentBorrowLimitUsedInUsd / yourTotalBorrowLimit) * 100;
-    setYourBorrowLimitUsedWithNewSupply(borrowLimitUsedEqualNewSupply);
+    setYourBorrowLimitUsedEqualNewSupply(borrowLimitUsedEqualNewSupply);
   }, [borrowLimitUsed, yourBorrowLimit, yourTotalBorrowLimit]);
 
   // Set tooltip offset
@@ -243,6 +243,21 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
   const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
 
+  const getYourBorrowLimit = () => {
+    const borrowLimit = getPrettyAmount({ value: yourBorrowLimit, currency: '$' });
+    if (isBorrowTheme) {
+      return borrowLimit;
+    }
+
+    return (
+      <>
+        {borrowLimit}
+        {' -> '}
+        {`$ ${yourTotalBorrowLimit.toFixed(2)}`}
+      </>
+    );
+  };
+
   return (
     <Modal
       isOpen={isOpen}
@@ -306,9 +321,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
             Your Borrow Limit:
           </div>
           <div className={s.borrowResult}>
-            {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
-            {' -> '}
-            {`$ ${yourTotalBorrowLimit.toFixed(2)}`}
+            {getYourBorrowLimit()}
           </div>
         </div>
 
@@ -319,7 +332,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           <div className={s.borrowResult}>
             {getPrettyPercent(borrowLimitUsed)}
             {' -> '}
-            {getPrettyPercent(yourBorrowLimitUsedWithNewSupply)}
+            {getPrettyPercent(yourBorrowLimitUsedEqualNewSupply)}
           </div>
         </div>
 
