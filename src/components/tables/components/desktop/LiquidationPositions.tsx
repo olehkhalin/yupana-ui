@@ -5,7 +5,6 @@ import { AppRoutes } from 'routes/main-routes';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
-import { AppRoutes } from 'routes/main-routes';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { AttentionText } from 'components/common/AttentionText';
