@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {
   useState, useEffect, useCallback, useRef,
 } from 'react';
@@ -17,7 +18,9 @@ import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 import { TokenLogo } from 'components/ui/TokenLogo';
+import { DECIMALS_VALUE } from 'constants/default';
 
+import { getThePercentageOfTheNumber } from 'utils/getThePercentageOfTheNumber';
 import s from './CreditProcessModal.module.sass';
 
 export enum TypeEnum {
@@ -31,10 +34,10 @@ type CreditProcessModalProps = {
   type?: TypeEnum
   theme?: keyof typeof themeClasses
   asset: TokenMetadataWithBalanceInterface
-  walletBalance: number
   yourBorrowLimit: number
   borrowLimitUsed: number
   priceInUsd: number
+  collateralFactor: number
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 type DataType = {
@@ -43,8 +46,8 @@ type DataType = {
 };
 
 export interface InputInterface {
-  metadata?: TokenMetadataWithBalanceInterface
-  amount?: BigNumber
+  metadata: TokenMetadataWithBalanceInterface
+  amount: BigNumber
 }
 
 type FormTypes = {
@@ -65,15 +68,23 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   type = TypeEnum.SUPPLY,
   theme = 'primary',
   asset,
-  walletBalance,
   yourBorrowLimit,
   borrowLimitUsed,
   priceInUsd,
+  collateralFactor,
   isOpen,
   onRequestClose,
 }) => {
   const [{ text, walletText }, setData] = useState<DataType>(defaultData);
   const [sliderValue, setSliderValue] = useState<number>(0);
+  /*  TODO: numberInputStringValue - If possible update later
+      Can't input any float number without this 'string' value
+  */
+  const [numberInputStringValue, setNumberInputStringValue] = useState<string>('');
+  const [yourTotalBorrowLimit, setYourTotalBorrowLimit] = useState<number>(0);
+  const [
+    yourBorrowLimitUsedWithNewSupply, setYourBorrowLimitUsedWithNewSupply,
+  ] = useState<number>(0);
   const [error, setError] = useState<string>('');
   const valueRef = useRef<HTMLDivElement | null>(null);
   const isWiderThanMphone = useWiderThanMphone();
@@ -92,7 +103,22 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   });
 
   // Subscribe on input
-  const input = watch('input') ?? {};
+  const { amount } = watch('input');
+
+  // Counting your total borrow limit
+  useEffect(() => {
+    if (amount) {
+      const totalBorrowLimit = getThePercentageOfTheNumber(+amount, collateralFactor) + yourBorrowLimit;
+      setYourTotalBorrowLimit(totalBorrowLimit);
+    }
+  }, [amount, collateralFactor, yourBorrowLimit]);
+
+  // Counting your borrow limit used with new Supply
+  useEffect(() => {
+    const currentBorrowLimitUsedInUsd = getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed);
+    const borrowLimitUsedEqualNewSupply = (currentBorrowLimitUsedInUsd / yourTotalBorrowLimit) * 100;
+    setYourBorrowLimitUsedWithNewSupply(borrowLimitUsedEqualNewSupply);
+  }, [borrowLimitUsed, yourBorrowLimit, yourTotalBorrowLimit]);
 
   // Set tooltip offset
   const setTooltipOffset = useCallback(
@@ -106,7 +132,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
   // Input change
   const handleInputChange = useCallback(
-    (newAmount?: BigNumber) => {
+    (newAmount: BigNumber) => {
       setValue('input', {
         amount: newAmount,
         metadata: asset,
@@ -128,17 +154,22 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   // Counting input value relatively input percent
   const setAmountEqualPercent = useCallback(
     (percent: number) => {
-      const value = input.metadata?.balance * (percent / 100);
+      const value = getThePercentageOfTheNumber(asset.balance, percent);
       setValue('input', {
-        amount: new BigNumber(value),
+        amount: new BigNumber(value).decimalPlaces(asset.decimals ?? DECIMALS_VALUE),
         metadata: asset,
       });
+      setNumberInputStringValue(
+        new BigNumber(value)
+          .decimalPlaces(asset.decimals ?? DECIMALS_VALUE)
+          .toFixed(),
+      );
     },
-    [asset, input.metadata?.balance, setValue],
+    [asset, setValue],
   );
 
   // Set data by interaction with slider
-  const interactionWithSlider = useCallback(
+  const setDataDueToInteractionWithSlider = useCallback(
     (percent: number) => {
       setTooltipOffset(percent);
       setSliderValue(percent);
@@ -147,20 +178,21 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     },
     [setAmountEqualPercent, setTooltipOffset],
   );
+
   // Slider change
   const handleSliderChange = useCallback(
     (event: React.ChangeEvent<HTMLInputElement>) => {
-      interactionWithSlider(+event.target.value);
+      setDataDueToInteractionWithSlider(+event.target.value);
     },
-    [interactionWithSlider],
+    [setDataDueToInteractionWithSlider],
   );
 
   // Change slider by percent buttons
   const handleClickByPercentButton = useCallback(
-    (amount: number) => {
-      interactionWithSlider(amount);
+    (value: number) => {
+      setDataDueToInteractionWithSlider(value);
     },
-    [interactionWithSlider],
+    [setDataDueToInteractionWithSlider],
   );
 
   // Form submit
@@ -241,13 +273,13 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           {walletText}
 
           <div className={s.balance}>
-            {getPrettyAmount({ value: walletBalance, currency: getTokenName(asset) })}
+            {getPrettyAmount({ value: asset.balance, currency: getTokenName(asset) })}
           </div>
         </div>
 
         <NumberInput
           theme={theme}
-          input={input}
+          input={{ amount: numberInputStringValue, metadata: asset }}
           priceInUsd={priceInUsd}
           handleInputChange={handleInputChange}
           error={error}
@@ -276,7 +308,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           <div className={s.borrowResult}>
             {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
             {' -> '}
-            {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
+            {`$ ${yourTotalBorrowLimit.toFixed(2)}`}
           </div>
         </div>
 
@@ -287,7 +319,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           <div className={s.borrowResult}>
             {getPrettyPercent(borrowLimitUsed)}
             {' -> '}
-            {getPrettyPercent(borrowLimitUsed)}
+            {getPrettyPercent(yourBorrowLimitUsedWithNewSupply)}
           </div>
         </div>
 

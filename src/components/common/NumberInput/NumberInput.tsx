@@ -4,21 +4,25 @@ import React, {
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { TokenMetadataWithBalanceInterface } from 'types/token';
 import { validateInput } from 'utils/validateInput';
 import { Button } from 'components/ui/Button';
-import { InputInterface } from 'components/modals/CreditProcessModal';
+import { DECIMALS_VALUE } from 'constants/default';
 
 import s from './NumberInput.module.sass';
 
 type NumberInputProps = {
-  input: InputInterface
+  input: {
+    amount: string
+    metadata: TokenMetadataWithBalanceInterface
+  }
   min?: number | BigNumber
   max?: number | BigNumber
   error?: string
   setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
   priceInUsd: number
-  handleInputChange?: (newValue?: BigNumber) => void
+  handleInputChange?: (newValue: BigNumber) => void
   isShowMaxButton?: boolean
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
@@ -42,6 +46,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   ...props
 }) => {
   const { amount, metadata } = useMemo(() => input, [input]);
+
   const [inputValue, setInputValue] = useState<string>('');
   const [currencyInUsd, setCurrencyInUsd] = useState<BigNumber>(new BigNumber(0));
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
@@ -49,13 +54,13 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
   useEffect(() => {
     if (amount) {
-      setInputValue(amount.decimalPlaces(metadata?.decimals ?? 6).toFixed());
+      setInputValue(amount);
     }
   }, [amount, metadata?.decimals]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const decimals = metadata?.decimals ?? 6;
+      const decimals = metadata?.decimals ?? DECIMALS_VALUE;
       let val = e.target.value.replace(/ /g, '').replace(/,/g, '.');
       let numVal = new BigNumber(val || 0);
       const indexOfDot = val.indexOf('.');
@@ -73,9 +78,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         metadata,
       });
 
-      setError?.(inputError);
+      handleInputChange?.(val !== '' ? numVal : new BigNumber(0));
       setInputValue(val);
-      handleInputChange?.(val !== '' ? numVal : undefined);
+      setError?.(inputError);
     },
     [max, metadata, min, handleInputChange, setError],
   );
@@ -84,10 +89,11 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   const handleMax = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
 
-    const tokenBalance: BigNumber = new BigNumber(metadata?.balance);
+    const tokenBalance = new BigNumber(metadata?.balance);
     if (tokenBalance === undefined) {
       return;
     }
+
     handleInputChange?.(tokenBalance);
     setInputValue(tokenBalance.toString());
     setError?.('');
