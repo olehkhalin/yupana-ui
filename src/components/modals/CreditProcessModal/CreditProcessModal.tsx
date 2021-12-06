@@ -252,6 +252,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           handleInputChange={handleInputChange}
           error={error}
           setError={setError}
+          isShowMaxButton={type !== TypeEnum.BORROW}
           className={s.input}
         />
 
@@ -273,11 +274,9 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
             Your Borrow Limit:
           </div>
           <div className={s.borrowResult}>
-            {`
-              ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })} 
-              -> 
-              ${getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
-            `}
+            {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
+            {' -> '}
+            {getPrettyAmount({ value: yourBorrowLimit, currency: '$' })}
           </div>
         </div>
 
@@ -287,7 +286,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           </div>
           <div className={s.borrowResult}>
             {getPrettyPercent(borrowLimitUsed)}
-            {'->'}
+            {' -> '}
             {getPrettyPercent(borrowLimitUsed)}
           </div>
         </div>

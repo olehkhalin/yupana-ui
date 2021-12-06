@@ -12,13 +12,14 @@ import s from './NumberInput.module.sass';
 
 type NumberInputProps = {
   input: InputInterface
-  min?: number | BigNumber;
-  max?: number | BigNumber;
+  min?: number | BigNumber
+  max?: number | BigNumber
   error?: string
   setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
   priceInUsd: number
-  handleInputChange?: (newValue?: BigNumber) => void;
+  handleInputChange?: (newValue?: BigNumber) => void
+  isShowMaxButton?: boolean
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
@@ -36,6 +37,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   theme = 'primary',
   priceInUsd,
   handleInputChange,
+  isShowMaxButton = true,
   className,
   ...props
 }) => {
@@ -131,13 +133,15 @@ export const NumberInput: React.FC<NumberInputProps> = ({
           </div>
         </div>
 
-        <Button
-          theme="clear"
-          onClick={handleMax}
-          className={s.button}
-        >
-          max
-        </Button>
+        {isShowMaxButton && (
+          <Button
+            theme="clear"
+            onClick={handleMax}
+            className={s.button}
+          >
+            max
+          </Button>
+        )}
       </div>
 
       <div className={cx(s.errorContainer, { [s.error]: error })}>
