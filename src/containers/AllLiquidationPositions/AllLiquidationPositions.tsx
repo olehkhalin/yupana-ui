@@ -49,11 +49,11 @@ const LiquidationPositionsWrapper: React.FC<LiquidationPositionsWrapperProps> = 
   );
 };
 
-type LiquidationPositionsProps = {
+type AllLiquidationPositionsProps = {
   className?: string
 };
 
-export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
+export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = ({
   className,
 }) => {
   const { data, error } = useLiquidationPositionsQuery();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
@@ -8,6 +8,7 @@ import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
+import { INTEREST_RATE_MODEL } from 'constants/popups/interest-rate-model';
 
 import s from './InterestRateModel.module.sass';
 
@@ -29,6 +30,14 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
     jumpMultiplierPerYear,
     kink,
   } = data;
+
+  const {
+    baseRatePerYear: baseRatePerYearPopup,
+    kink: kinkPopup,
+  } = useMemo(
+    () => INTEREST_RATE_MODEL,
+    [],
+  );
 
   return (
     <Section className={cx(s.root, className)}>
@@ -58,7 +67,9 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
-            value={getPrettyPercent(baseRatePerYear)}
+            value={`${baseRatePerYear}%`}
+            title={baseRatePerYearPopup.title}
+            description={baseRatePerYearPopup.description}
             theme="secondary"
             className={s.item}
           />
@@ -78,7 +89,9 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           />
           <Item
             text="Kink"
-            value={getPrettyPercent(kink)}
+            value={`${kink}%`}
+            title={kinkPopup.title}
+            description={kinkPopup.description}
             theme="secondary"
             className={s.item}
           />
