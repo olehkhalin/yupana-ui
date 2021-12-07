@@ -23,6 +23,7 @@ type NumberInputProps = {
   theme?: keyof typeof themeClasses
   priceInUsd: number
   handleInputChange?: (newValue: BigNumber) => void
+  balance: number
   isShowMaxButton?: boolean
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
@@ -41,6 +42,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   theme = 'primary',
   priceInUsd,
   handleInputChange,
+  balance,
   isShowMaxButton = true,
   className,
   ...props
@@ -89,15 +91,14 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   const handleMax = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
 
-    const tokenBalance = new BigNumber(metadata?.balance);
-    if (tokenBalance === undefined) {
+    if (balance === 0) {
       return;
     }
 
-    handleInputChange?.(tokenBalance);
-    setInputValue(tokenBalance.toString());
+    handleInputChange?.(new BigNumber(balance));
+    setInputValue(balance.toString());
     setError?.('');
-  }, [metadata?.balance, handleInputChange, setError]);
+  }, [balance, handleInputChange, setError]);
 
   // Counting price in usd
   useEffect(() => {

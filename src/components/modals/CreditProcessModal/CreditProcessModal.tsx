@@ -37,12 +37,16 @@ type CreditProcessModalProps = {
   yourBorrowLimit: number
   borrowLimitUsed: number
   priceInUsd: number
+  supplyBalance: number
   collateralFactor: number
+  borrowByCurrentToken?: number
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 type DataType = {
   text: string
-  walletText: string
+  balanceTitle: string
+  tokenAmount: string
+  balance: number
 };
 
 export interface InputInterface {
@@ -56,7 +60,9 @@ type FormTypes = {
 
 const defaultData = {
   text: '',
-  walletText: '',
+  balanceTitle: '',
+  tokenAmount: '',
+  balance: 0,
 };
 
 const themeClasses = {
@@ -72,10 +78,14 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   borrowLimitUsed,
   priceInUsd,
   collateralFactor,
+  supplyBalance,
+  borrowByCurrentToken = 0,
   isOpen,
   onRequestClose,
 }) => {
-  const [{ text, walletText }, setData] = useState<DataType>(defaultData);
+  const [{
+    text, balanceTitle, tokenAmount, balance,
+  }, setData] = useState<DataType>(defaultData);
   const [sliderValue, setSliderValue] = useState<number>(0);
   /*  TODO: numberInputStringValue - If possible update later
       Can't input any float number without this 'string' value
@@ -102,6 +112,8 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     },
   });
 
+  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
+
   // Subscribe on input
   const { amount } = watch('input');
 
@@ -116,9 +128,30 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   // Counting your borrow limit used with new Supply
   useEffect(() => {
     const currentBorrowLimitUsedInUsd = getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed);
-    const borrowLimitUsedEqualNewSupply = (currentBorrowLimitUsedInUsd / yourTotalBorrowLimit) * 100;
+
+    let borrowLimitUsedEqualNewSupply = 0;
+    let finalBorrowLimit = 0;
+
+    if (type === TypeEnum.SUPPLY) {
+      finalBorrowLimit = getThePercentageOfTheNumber(+amount, collateralFactor) + yourBorrowLimit;
+      borrowLimitUsedEqualNewSupply = (currentBorrowLimitUsedInUsd / yourTotalBorrowLimit) * 100;
+    } else if (type === TypeEnum.WITHDRAW) {
+      finalBorrowLimit = yourBorrowLimit - (currentBorrowLimitUsedInUsd + +getThePercentageOfTheNumber(+amount, collateralFactor));
+      borrowLimitUsedEqualNewSupply = ((currentBorrowLimitUsedInUsd + +getThePercentageOfTheNumber(+amount, collateralFactor)) / yourBorrowLimit) * 100;
+    } else if (type === TypeEnum.BORROW) {
+      borrowLimitUsedEqualNewSupply = ((+amount / yourBorrowLimit) * 100) + borrowLimitUsed;
+      if (borrowLimitUsedEqualNewSupply >= 80) {
+        setError('Beware of the Liquidation Risk');
+      } else {
+        setError('');
+      }
+    } else if (type === TypeEnum.REPAY) {
+      borrowLimitUsedEqualNewSupply = ((currentBorrowLimitUsedInUsd - +amount) / yourBorrowLimit) * 100;
+    }
+
     setYourBorrowLimitUsedEqualNewSupply(borrowLimitUsedEqualNewSupply);
-  }, [borrowLimitUsed, yourBorrowLimit, yourTotalBorrowLimit]);
+    setYourTotalBorrowLimit(finalBorrowLimit);
+  }, [amount, borrowByCurrentToken, borrowLimitUsed, collateralFactor, isBorrowTheme, type, yourBorrowLimit, yourTotalBorrowLimit]);
 
   // Set tooltip offset
   const setTooltipOffset = useCallback(
@@ -138,23 +171,24 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         metadata: asset,
       });
 
-      if (newAmount && newAmount.lte(asset.balance)) {
-        const numberByPercent = (+newAmount / asset.balance) * 100;
+      if (newAmount && newAmount.lt(balance)) {
+        const numberByPercent = (+newAmount / balance) * 100;
         setSliderValue(numberByPercent);
         setTooltipOffset(numberByPercent);
-      } else if (newAmount?.gt(asset.balance)) {
+      } else if (newAmount?.gt(balance)) {
         setSliderValue(100);
         setTooltipOffset(100);
-      } else if (!newAmount) {
+      } else if (!newAmount || +newAmount === 0) {
         setSliderValue(0);
+        setTooltipOffset(0);
       }
-    }, [asset, setTooltipOffset, setValue],
+    }, [asset, balance, setTooltipOffset, setValue],
   );
 
   // Counting input value relatively input percent
   const setAmountEqualPercent = useCallback(
     (percent: number) => {
-      const value = getThePercentageOfTheNumber(asset.balance, percent);
+      const value = getThePercentageOfTheNumber(balance, percent);
       setValue('input', {
         amount: new BigNumber(value).decimalPlaces(asset.decimals ?? DECIMALS_VALUE),
         metadata: asset,
@@ -165,7 +199,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           .toFixed(),
       );
     },
-    [asset, setValue],
+    [asset, balance, setValue],
   );
 
   // Set data by interaction with slider
@@ -214,34 +248,53 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       case TypeEnum.SUPPLY:
         setData({
           text: 'Supply',
-          walletText: 'Wallet balance:',
+          balanceTitle: 'Wallet balance:',
+          tokenAmount: getPrettyAmount({ value: asset.balance, currency: getTokenName(asset) }),
+          balance: asset.balance,
         });
         break;
-      case TypeEnum.WITHDRAW:
+      case TypeEnum.WITHDRAW: {
+        const amountToWithdraw = supplyBalance - ((+getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed) * 100) / collateralFactor);
         setData({
           text: 'Withdraw',
-          walletText: 'Supply balance:',
+          balanceTitle: 'Available to withdraw:',
+          tokenAmount: getPrettyAmount({
+            value: amountToWithdraw,
+            currency: '$',
+          }),
+          balance: amountToWithdraw,
         });
+      }
         break;
-      case TypeEnum.BORROW:
+      case TypeEnum.BORROW: {
+        const amountToWithdraw = yourBorrowLimit - +getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed);
         setData({
           text: 'Borrow',
-          walletText: 'Borrow balance:',
+          balanceTitle: 'Available to borrow:',
+          tokenAmount: getPrettyAmount({
+            value: amountToWithdraw,
+            currency: '$',
+          }),
+          balance: amountToWithdraw,
         });
+      }
         break;
       case TypeEnum.REPAY:
         setData({
           text: 'Repay',
-          walletText: 'Borrow balance:',
+          balanceTitle: 'Available to repay:',
+          tokenAmount: getPrettyAmount({
+            value: borrowByCurrentToken,
+            currency: '$',
+          }),
+          balance: borrowByCurrentToken,
         });
         break;
       default:
         setData(defaultData);
         break;
     }
-  }, [type]);
-
-  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
+  }, [asset, borrowByCurrentToken, borrowLimitUsed, collateralFactor, supplyBalance, type, yourBorrowLimit]);
 
   const getYourBorrowLimit = () => {
     const borrowLimit = getPrettyAmount({ value: yourBorrowLimit, currency: '$' });
@@ -285,10 +338,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         </div>
 
         <div className={s.walletBalance}>
-          {walletText}
+          {balanceTitle}
 
           <div className={s.balance}>
-            {getPrettyAmount({ value: asset.balance, currency: getTokenName(asset) })}
+            {tokenAmount}
           </div>
         </div>
 
@@ -299,6 +352,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           handleInputChange={handleInputChange}
           error={error}
           setError={setError}
+          balance={balance}
           isShowMaxButton={type !== TypeEnum.BORROW}
           className={s.input}
         />
@@ -318,7 +372,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
         <div className={s.borrowLimit}>
           <div className={s.borrowDescription}>
-            Your Borrow Limit:
+            {type === TypeEnum.WITHDRAW ? 'Available to borrow:' : 'Your Borrow Limit:'}
           </div>
           <div className={s.borrowResult}>
             {getYourBorrowLimit()}
@@ -340,7 +394,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
-          disabled={!!error}
+          disabled={(!!error && error !== 'Beware of the Liquidation Risk')}
         >
           {text}
         </Button>
