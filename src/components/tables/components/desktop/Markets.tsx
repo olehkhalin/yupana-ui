@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
+// import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { Table } from 'components/ui/Table';
@@ -34,7 +34,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
+            // href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
           />
         ),
       },
@@ -47,7 +47,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+            {loading ? row.totalSupply : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
           </span>
         ),
       },
@@ -60,7 +60,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyPercent(row.supplyApy)}
+            {loading ? row.supplyApy : getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -86,7 +86,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
+            {loading ? row.totalBorrow : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
           </span>
         ),
       },
@@ -99,7 +99,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.borrowApy)}
+            {loading ? row.borrowApy : getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },

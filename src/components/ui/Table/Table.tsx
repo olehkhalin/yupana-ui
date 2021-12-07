@@ -11,6 +11,7 @@ import { getTokenSlug } from 'utils/getTokenSlug';
 import { Pagination } from 'components/common/Pagination';
 
 import s from './Table.module.sass';
+import { Preloader } from '../Preloader';
 
 type TableProps = {
   columns: any
@@ -144,6 +145,7 @@ export const Table: React.FC<TableProps> = ({
               tableClassName,
             )}
           >
+            {loading && <Preloader theme="quaternary" className={s.preloader} />}
             <thead className={cx(s.thead, theadClassName)}>
               {headerGroups.map((headerGroup) => (
                 <tr
@@ -157,14 +159,7 @@ export const Table: React.FC<TableProps> = ({
               ))}
             </thead>
             <tbody {...getTableBodyProps()} className={s.tbody}>
-              {!(data && data.length) ? (
-                <tr className={cx(s.tr, s.noAssets, rowClassName)}>
-                  <td>
-                    {loading}
-                    {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
-                  </td>
-                </tr>
-              ) : rows.map((row) => {
+              {rows.map((row) => {
                 prepareRow(row);
 
                 let isSelected: boolean = false;
