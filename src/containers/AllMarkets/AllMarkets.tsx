@@ -13,7 +13,7 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data, loading, error } = useAllMarketsQueryQuery();
+  const { data, error } = useAllMarketsQueryQuery();
 
   if (error) {
     console.log('error', error);
@@ -43,7 +43,6 @@ export const AllMarkets: React.FC<AllMarketsProps> = ({
   return (
     <Markets
       data={preparedData}
-      loading={loading}
       className={className}
     />
   );

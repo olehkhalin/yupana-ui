@@ -7,13 +7,11 @@ import { Markets as MarketsDesktop } from 'components/tables/components/desktop'
 
 type MarketsProps = {
   data: any[]
-  loading?: any
   className?: string
 };
 
 export const Markets: React.FC<MarketsProps> = ({
   data,
-  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -22,7 +20,6 @@ export const Markets: React.FC<MarketsProps> = ({
     return (
       <MarketsDesktop
         data={data}
-        loading={loading}
         className={className}
       />
     );

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import CountUp from 'react-countup';
 import cx from 'classnames';
 
@@ -23,15 +23,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   title,
   className,
 }) => {
-  const [amount, setAmount] = useState<number>(0);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setAmount(percent);
-    }, 1000);
-  }, [percent]);
-
-  const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
+  const timing = useMemo(() => ANIMATION_TIME + (percent / 100), [percent]);
 
   return (
     <div className={cx(s.root, className)}>
@@ -39,7 +31,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         <div className={s.percent}>
           <CountUp
             start={0}
-            end={amount}
+            end={percent}
             decimals={2}
             duration={timing}
           />
@@ -62,7 +54,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
       </div>
 
       <ProgressBar
-        amount={amount}
+        amount={percent}
         timing={timing}
         theme="secondary"
       />

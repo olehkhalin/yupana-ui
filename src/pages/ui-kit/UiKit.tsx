@@ -117,6 +117,11 @@ export const UiKit: React.FC = () => {
           size="large"
         />
       </div>
+      <div className={s.block}>
+        <Preloader
+          theme="quaternary"
+        />
+      </div>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>

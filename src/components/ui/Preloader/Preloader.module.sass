@@ -8,12 +8,6 @@
   box-sizing: content-box
   overflow: hidden
   border-radius: .25rem
-  // &.small
-  //   max-width: 244px
-  // &.medium
-  //   max-width: 300px
-  // &.large
-  //   max-width: 392px
 
 .internalBorder
   height: 100%
@@ -21,18 +15,21 @@
   width: 100%
   border-radius: .25rem
   &.primary
+    background: $blue-bg-preloader
+    .light
+      background:$blue-preloader-gradient
+  &.secondary
+    background: $yellow-bg-preloader
+    .light
+      background: $yellow-preloader-gradient
+  &.tertiary
     background-color: $white-bg-preloader
     .light
       background: $white-preloader-gradient
-  &.secondary
-    background: $blue-bg-preloader
+  &.quaternary
+    animation: color 5s linear infinite
     .light
-      background: $blue-preloader-gradient
-  &.tertiary
-    background-color: $yellow-bg-preloader
-    .light
-      background: $yellow-preloader-gradient
-
+      background: $white-preloader-gradient
 
 .light
   position: relative
@@ -47,9 +44,12 @@
   100%
     left: 100%
 
-// @include media("<=678px")
-//   .root
-//     &.small
-//       width: 128px
-//     &.medium
-//       max-width: 150px
+@keyframes color
+  0%
+    background: $blue-bg-preloader
+  33%
+    background: $yellow-bg-preloader
+  66%
+    background: $white-bg-preloader
+  100%
+    background: $blue-bg-preloader

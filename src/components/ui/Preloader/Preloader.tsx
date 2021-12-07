@@ -19,11 +19,12 @@ const themeClass = {
   primary: s.primary,
   secondary: s.secondary,
   tertiary: s.tertiary,
+  quaternary: s.quaternary,
 };
 
 export const Preloader: React.FC<PreloaderProps> = ({
   size = 'small',
-  theme = 'primary',
+  theme = 'tertiary',
   className,
 }) => {
   const compoundClassName = cx(
