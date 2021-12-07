@@ -15,6 +15,7 @@ import s from './Table.module.sass';
 type TableProps = {
   columns: any
   data: any[]
+  loading?: boolean
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
   selectedItem?: TokenMetadataInterface
@@ -45,6 +46,7 @@ const themeClasses = {
 export const Table: React.FC<TableProps> = ({
   columns: userColumns,
   data,
+  loading,
   renderRowSubComponent,
   theme = 'primary',
   selectedItem,
@@ -158,6 +160,7 @@ export const Table: React.FC<TableProps> = ({
               {!(data && data.length) ? (
                 <tr className={cx(s.tr, s.noAssets, rowClassName)}>
                   <td>
+                    {loading}
                     {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
                   </td>
                 </tr>

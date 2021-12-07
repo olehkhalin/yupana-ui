@@ -1,42 +1,38 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
+import BigNumber from 'bignumber.js';
 
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { useWiderThanMdesktop } from 'utils/getMediaQuery';
 import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
+import {
+  Asset,
+  LendingAssetsQuery,
+  useLendingAssetsQuery,
+} from 'generated/graphql';
 import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 
-import { Token, useHomeQueryQuery } from '../../graphql';
-
 import s from './Assets.module.sass';
 
-type AssetsProps = {
-  isActiveSupply: boolean
-  className?: string
+type AssetsWrapperProps = {
+  isSupply?: boolean
+  data?: LendingAssetsQuery
 };
 
-export const Assets: React.FC<AssetsProps> = ({
-  isActiveSupply = true,
-  className,
+const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
+  isSupply = true,
+  data,
 }) => {
-  const isWiderThanMdesktop = useWiderThanMdesktop();
+  const preparedData = useMemo(() => (data ? data.asset.map((el) => {
+    const asset = getPreparedTokenObject(el as Asset);
 
-  const { data, error } = useHomeQueryQuery();
-
-  if (error) {
-    console.log('error', error);
-  }
-
-  const preparedData = useMemo(() => (data ? data.token.map((el) => {
-    const asset = getPreparedTokenObject(el as Token);
-
-    const supplyApy = getPreparedPercentValue(el as Token, 'supply_apy');
-    const collateralFactor = +el.asset.collateralFactor * 100;
-    const borrowApy = getPreparedPercentValue(el as Token, 'borrow_apy');
-    const utilisationRate = getPreparedPercentValue(el as Token, 'utilization_rate');
-    const liquidity = +el.asset.totalLiquid;
+    const supplyApy = getPreparedPercentValue(el as Asset, 'supply_apy');
+    const collateralFactor = new BigNumber(el.collateralFactor).div(1e18).multipliedBy(1e2);
+    const borrowApy = getPreparedPercentValue(el as Asset, 'borrow_apy');
+    const utilisationRate = getPreparedPercentValue(el as Asset, 'utilization_rate');
+    const liquidity = new BigNumber(el.totalLiquid).div(1e18);
     const wallet = 0; // TODO: Change to get from contract
 
     return {
@@ -50,6 +46,37 @@ export const Assets: React.FC<AssetsProps> = ({
     };
   }) : []), [data]);
 
+  if (isSupply) {
+    return (
+      <SupplyAssets
+        data={preparedData}
+        className={s.table}
+      />
+    );
+  }
+
+  return (
+    <BorrowAssets data={preparedData} className={s.table} />
+  );
+};
+
+type AssetsProps = {
+  isActiveSupply: boolean
+  className?: string
+};
+
+export const Assets: React.FC<AssetsProps> = ({
+  isActiveSupply = true,
+  className,
+}) => {
+  const isWiderThanMdesktop = useWiderThanMdesktop();
+
+  const { data, error } = useLendingAssetsQuery();
+
+  if (error) {
+    return <></>;
+  }
+
   return (
     <div className={cx(s.root, className)}>
       <Section
@@ -60,10 +87,7 @@ export const Assets: React.FC<AssetsProps> = ({
         }}
         className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
-        <SupplyAssets
-          data={preparedData}
-          className={s.table}
-        />
+        <AssetsWrapper data={data} />
       </Section>
 
       <Section
@@ -75,10 +99,7 @@ export const Assets: React.FC<AssetsProps> = ({
         theme="secondary"
         className={cx(s.col, { [s.show]: !isActiveSupply && !isWiderThanMdesktop })}
       >
-        <BorrowAssets
-          data={preparedData}
-          className={s.table}
-        />
+        <AssetsWrapper data={data} isSupply={false} />
       </Section>
     </div>
   );
