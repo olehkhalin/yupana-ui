@@ -91,14 +91,18 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   const handleMax = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
 
+    const decimals = metadata?.decimals ?? DECIMALS_VALUE;
+
     if (balance === 0) {
       return;
     }
 
-    handleInputChange?.(new BigNumber(balance));
-    setInputValue(balance.toString());
+    const prepareBalance = new BigNumber(balance).decimalPlaces(decimals);
+
+    handleInputChange?.(prepareBalance);
+    setInputValue(prepareBalance.toFixed());
     setError?.('');
-  }, [balance, handleInputChange, setError]);
+  }, [balance, handleInputChange, metadata.decimals, setError]);
 
   // Counting price in usd
   useEffect(() => {

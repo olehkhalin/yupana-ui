@@ -179,7 +179,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         metadata: asset,
       });
 
-      if (newAmount && newAmount.lt(balance)) {
+      if (newAmount && newAmount.lte(balance)) {
         const numberByPercent = (+newAmount / balance) * 100;
         setSliderValue(numberByPercent);
         setTooltipOffset(numberByPercent);
