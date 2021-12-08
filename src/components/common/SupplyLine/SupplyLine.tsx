@@ -55,9 +55,7 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
               />
               %
             </>
-          ) : (
-            <Preloader />
-          )}
+          ) : <Preloader />}
         </div>
       </div>
 

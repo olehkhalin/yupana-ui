@@ -28,7 +28,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {data.map(({ asset, ...rest }) => (
         <ReceiveCollateralCard
           key={getUniqueKey()}
@@ -40,6 +40,6 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           {...rest}
         />
       ))}
-    </div>
+    </>
   );
 };

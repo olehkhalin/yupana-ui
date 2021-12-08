@@ -8,6 +8,7 @@ import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
+import { INTEREST_RATE_MODEL } from 'constants/popups/interest-rate-model';
 
 import s from './InterestRateModel.module.sass';
 
@@ -16,6 +17,11 @@ type InterestRateModelProps = {
   data: any
   className?: string
 };
+
+const {
+  baseRatePerYear: baseRatePerYearPopup,
+  kink: kinkPopup,
+} = INTEREST_RATE_MODEL;
 
 export const InterestRateModel: React.FC<InterestRateModelProps> = ({
   asset,
@@ -59,6 +65,8 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           <Item
             text="Base rate per year"
             value={getPrettyPercent(baseRatePerYear)}
+            title={baseRatePerYearPopup.title}
+            description={baseRatePerYearPopup.description}
             theme="secondary"
             className={s.item}
           />
@@ -79,6 +87,8 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           <Item
             text="Kink"
             value={getPrettyPercent(kink)}
+            title={kinkPopup.title}
+            description={kinkPopup.description}
             theme="secondary"
             className={s.item}
           />
