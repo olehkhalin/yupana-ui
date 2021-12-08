@@ -104,6 +104,75 @@ export const UiKit: React.FC = () => {
 
   return (
     <>
+      <div className={s.block}>
+        <div className={s.title}>
+          Credit Process
+        </div>
+        <div className={s.subTitle}>
+          Primary
+        </div>
+        <Button
+          onClick={() => setCreditProcessPrimaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Supply
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          isOpen={creditProcessPrimaryIsOpen}
+          onRequestClose={() => setCreditProcessPrimaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Secondary
+        </div>
+        <Button
+          onClick={() => setCreditProcessSecondaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Withdraw
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.WITHDRAW}
+          isOpen={creditProcessSecondaryIsOpen}
+          onRequestClose={() => setCreditProcessSecondaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Tertiary
+        </div>
+        <Button
+          onClick={() => setCreditProcessTertiaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Borrow
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.BORROW}
+          theme="secondary"
+          isOpen={creditProcessTertiaryIsOpen}
+          onRequestClose={() => setCreditProcessTertiaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Quaternary
+        </div>
+        <Button
+          onClick={() => setCreditProcessQuaternaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Repay
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.REPAY}
+          theme="secondary"
+          isOpen={creditProcessQuaternaryIsOpen}
+          onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
+        />
+      </div>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>

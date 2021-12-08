@@ -9,7 +9,7 @@ import s from './Slider.module.sass';
 type SliderProps = {
   theme?: keyof typeof themeClasses
   percents?: number[]
-  handlePercent?: (event: React.ChangeEvent<HTMLInputElement>, arg: number) => void
+  handleClickByPercentButton?: (arg: number) => void
   valueRef: LegacyRef<HTMLDivElement>
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
@@ -22,7 +22,7 @@ const themeClasses = {
 export const Slider: React.FC<SliderProps> = ({
   theme = 'primary',
   percents = SLIDER_PERCENTS,
-  handlePercent,
+  handleClickByPercentButton,
   valueRef,
   className,
   value,
@@ -30,7 +30,7 @@ export const Slider: React.FC<SliderProps> = ({
 }) => (
   <div className={cx(s.root, themeClasses[theme], className)}>
     <div className={s.number} ref={valueRef}>
-      {Number(value).toFixed(2)}
+      {value}
       %
     </div>
 
@@ -48,7 +48,7 @@ export const Slider: React.FC<SliderProps> = ({
           <Button
             key={amount}
             theme="clear"
-            onClick={(event: any) => handlePercent?.(event, amount)}
+            onClick={() => handleClickByPercentButton?.(amount)}
             className={s.percent}
           >
             {`${amount} %`}

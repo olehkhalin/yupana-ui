@@ -2,6 +2,9 @@
 @import 'styles/breakpoints.scss'
 
 .root
+  width: 100%
+
+.container
   display: flex
   justify-content: space-between
   width: 100%
@@ -9,6 +12,7 @@
   border: .063rem solid $white
   border-radius: .25rem
   cursor: text
+  transition: border-color $animationTime
 
 .secondary
   .wrapper, .input
@@ -29,10 +33,9 @@
   width: 100%
 
 .input
-  height: 16px
   width: 100%
+  font-size: .875rem
   font-weight: bold
-  font-size: 1rem
   color: $light-blue
   background: transparent
   border: 0
@@ -45,6 +48,7 @@
     color: $light-blue
     font-weight: bold
     font-size: 1rem
+    transition: color $animationTime
   &:focus::-webkit-input-placeholder
     visibility: hidden
     -moz-appearance: none
@@ -55,6 +59,18 @@
   transition: color $animationTime
   &.active
     color: $white
+
+.error
+  border-color: $light-red
+  .input, .exchange, .button
+    color: $light-red
+  .button
+    &:hover
+      color: $light-red
+      text-shadow: $red-shadow
+  .input
+    &::placeholder
+      color: $light-red
 
 .button
   display: flex
@@ -71,20 +87,16 @@
   transition: color $animationTime
 
 .primary
-  &:hover
-    color: $light-blue
-    text-shadow: $blue-shadow
-  &:active
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
+  .button
+    &:hover
+      color: $light-blue
+      text-shadow: $blue-shadow
 
 .secondary
-  &:hover
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
-  &:active
-    color: $light-blue
-    text-shadow: $blue-shadow
+  .button
+    &:hover
+      color: $light-yellow
+      text-shadow: $light-yellow-shadow
 
 .errorContainer
   display: flex
@@ -104,9 +116,15 @@
 
 .errorText
   color: $light-red
-  font-size: .875rem
+  text-shadow: none
+  font-size: .75rem
 
 @include media('>Mphone')
-  .root
+  .container
     padding: 1rem 1.5rem
     height: 4.5rem
+  .input
+    height: 1rem
+    font-size: 1rem
+  .errorText
+    font-size: .875rem

@@ -60,17 +60,23 @@
   align-items: center
 
 .percent
+  position: relative
   padding-top: 1.5rem
   margin-top: -1.5rem
   color: $white
   font-weight: 400
   font-size: .75rem
   transition: color $animationTime
-  &:nth-of-type(2),
-  &:nth-of-type(3),
+  &:first-child
+    right: 4px
+  &:nth-of-type(2)
+    left: 2px
+  &:nth-of-type(3)
+    left: 4px
   &:nth-of-type(4)
-    position: relative
-    left: 4.5px
+    left: 6px
+  &:last-child
+    left: 5px
   &::before
     content: ''
     position: relative
@@ -92,10 +98,6 @@
       color: $blue-neutral
       &::before
         background-color: $blue-neutral
-    &:focus
-      color: $light-yellow
-      &::before
-        background-color: $light-yellow
   .slider
     background-color: rgba($light-blue, .2)
     &::-webkit-slider-runnable-track
@@ -119,10 +121,6 @@
       color: $light-yellow
       &::before
         background-color: $light-yellow
-    &:focus
-      color: $blue-neutral
-      &::before
-        background-color: $blue-neutral
   .slider
     background-color: rgba($light-yellow, .2)
     &::-webkit-slider-runnable-track
@@ -136,3 +134,16 @@
   .number
     color: $light-yellow
     text-shadow: $light-yellow-shadow
+
+@include media('>Mphone')
+  .percent
+    &:first-child
+      right: 2px
+    &:nth-of-type(2)
+      left: 3px
+    &:nth-of-type(3)
+      left: 4px
+    &:nth-of-type(4)
+      left: 5px
+    &:last-child
+      left: 3px

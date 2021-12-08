@@ -6,9 +6,14 @@ export const CREDIT_PROCESS_DATA = {
     address: 'tez',
     name: 'Tezos',
     symbol: 'XTZ',
+    decimals: 6,
     thumbnailUri: XTZ_THUMBNAIL_URI,
+    balance: 16.666666, // token amount
   },
-  walletBalance: 13248.70,
-  yourBorrowLimit: 34425.30,
-  borrowLimitUsed: 9.43,
+  supplyBalance: 100, // $
+  yourBorrowLimit: 60, // $
+  borrowLimitUsed: 50, // %
+  collateralFactor: 60, // %
+  borrowByCurrentToken: 17.12, // $
+  priceInUsd: 6, // $
 };
