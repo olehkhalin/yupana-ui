@@ -5,6 +5,7 @@ import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
 
 import App from 'pages/App';
+import { CurrencyProvider } from 'providers/CurrencyProvider';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
@@ -12,7 +13,9 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <Router>
     <React.StrictMode>
-      <App />
+      <CurrencyProvider>
+        <App />
+      </CurrencyProvider>
     </React.StrictMode>
   </Router>,
   document.getElementById('root'),
