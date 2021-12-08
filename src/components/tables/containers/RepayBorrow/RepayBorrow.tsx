@@ -28,7 +28,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {data.map(({ asset, ...rest }) => (
         <RepayBorrowCard
           key={getUniqueKey()}
@@ -40,6 +40,6 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           {...rest}
         />
       ))}
-    </div>
+    </>
   );
 };
