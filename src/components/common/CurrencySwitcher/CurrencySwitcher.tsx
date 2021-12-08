@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { Button } from 'components/ui/Button';
-import { useCurrency } from 'providers/CurrencyProvider';
 
 import s from './CurrencySwitcher.module.sass';
 
@@ -29,21 +29,15 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
 
   const handleSwitchCurrency = (value: CurrencyEnum) => {
     if (value) {
-      setSwitcherState(value);
       setCurrency(value);
-      localStorage.setItem('currency', value);
     }
   };
 
   const handleSwitchCurrencyMobile = (arg: boolean) => {
     if (arg) {
-      setSwitcherState(CurrencyEnum.XTZ);
       setCurrency(CurrencyEnum.XTZ);
-      localStorage.setItem('currency', CurrencyEnum.XTZ);
     } else {
-      setSwitcherState(CurrencyEnum.USD);
       setCurrency(CurrencyEnum.USD);
-      localStorage.setItem('currency', CurrencyEnum.USD);
     }
   };
 
