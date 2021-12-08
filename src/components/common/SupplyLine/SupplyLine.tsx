@@ -7,12 +7,14 @@ import { getTokenName } from 'utils/getTokenName';
 import { getSlice } from 'utils/getSlice';
 import { ANIMATION_TIME } from 'constants/default';
 import { ProgressBar, themeClass } from 'components/ui/ProgressBar';
+import { Preloader } from 'components/ui/Preloader';
 
 import s from './SupplyLine.module.sass';
 
 type SupplyLineProps = {
   token: TokenMetadataInterface
   percent: number
+  loading?: boolean
   theme?: keyof typeof themeClass
   className?: string
 };
@@ -20,6 +22,7 @@ type SupplyLineProps = {
 export const SupplyLine: React.FC<SupplyLineProps> = ({
   token,
   percent,
+  loading,
   theme = 'primary',
   className,
 }) => {
@@ -42,13 +45,19 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
         </div>
 
         <div className={s.percent}>
-          <CountUp
-            start={0}
-            end={amount}
-            decimals={2}
-            duration={timing}
-          />
-          %
+          {!loading ? (
+            <>
+              <CountUp
+                start={0}
+                end={amount}
+                decimals={2}
+                duration={timing}
+              />
+              %
+            </>
+          ) : (
+            <Preloader />
+          )}
         </div>
       </div>
 

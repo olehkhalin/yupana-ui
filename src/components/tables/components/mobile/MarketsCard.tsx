@@ -6,6 +6,7 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TokenMetadataInterface } from 'types/token';
 import { TableCard } from 'components/ui/TableCard';
+// import { Preloader } from 'components/ui/Preloader';
 import { TokenName } from 'components/common/TokenName';
 import { AppRoutes } from 'routes/main-routes';
 

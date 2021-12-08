@@ -4,11 +4,13 @@ import cx from 'classnames';
 import { MarketCardInterface } from 'types/market-card';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { Preloader } from 'components/ui/Preloader';
 import { SupplyLine } from 'components/common/SupplyLine';
 
 import s from './MarketCard.module.sass';
 
 type MarketCardProps = {
+  loading?: boolean
   theme?: keyof typeof themeClasses
   className?: string
 } & MarketCardInterface;
@@ -19,6 +21,7 @@ const themeClasses = {
 };
 
 export const MarketCard: React.FC<MarketCardProps> = ({
+  loading,
   totalAmount,
   volume24h,
   numberOfMembers,
@@ -34,7 +37,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {isPrimaryTheme ? 'Total supply:' : 'Total borrow:'}
       </div>
       <div className={s.amount}>
-        {getPrettyAmount({ value: totalAmount, currency: '$' })}
+        {!loading ? getPrettyAmount({ value: totalAmount, currency: '$' }) : <Preloader theme={theme} />}
       </div>
 
       <div className={s.row}>
@@ -43,7 +46,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {isPrimaryTheme ? '24H Supply Volume' : '24H Borrow Volume'}
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: volume24h, currency: '$' })}
+          {!loading ? getPrettyAmount({ value: volume24h, currency: '$' }) : <Preloader />}
         </div>
       </div>
 
@@ -53,7 +56,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {` ${isPrimaryTheme ? 'Suppliers' : 'Borrowers'}`}
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: numberOfMembers, dec: 0 })}
+          {!loading ? getPrettyAmount({ value: numberOfMembers, dec: 0 }) : <Preloader />}
         </div>
       </div>
 
@@ -67,6 +70,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
             percent={assetVolume24h}
             token={rest}
             theme={isPrimaryTheme ? 'primary' : 'secondary'}
+            loading={loading}
             className={s.progressBar}
           />
         ))}

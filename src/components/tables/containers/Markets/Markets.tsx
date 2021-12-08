@@ -37,6 +37,7 @@ export const Markets: React.FC<MarketsProps> = ({
           <MarketsCard
             key={getUniqueKey()}
             details={false}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />
