@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
-import { useCurrency } from 'providers/CurrencyProvider';
+import { CurrencyEnum, useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { Button } from 'components/ui/Button';
 
@@ -11,26 +11,14 @@ type CurrencySwitcherProps = {
   className?: string
 };
 
-export enum CurrencyEnum {
-  XTZ = 'xtz',
-  USD = 'usd',
-}
-
 export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
   className,
 }) => {
   const { currency, setCurrency } = useCurrency();
-  const [switcherState, setSwitcherState] = useState<CurrencyEnum>();
   const isWiderThanMphone = useWiderThanMphone();
 
-  useEffect(() => {
-    setSwitcherState(currency);
-  }, [currency]);
-
   const handleSwitchCurrency = (value: CurrencyEnum) => {
-    if (value) {
-      setCurrency(value);
-    }
+    setCurrency(value);
   };
 
   const handleSwitchCurrencyMobile = (arg: boolean) => {
@@ -48,7 +36,7 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
           sizeT="small"
           theme="clear"
           onClick={() => handleSwitchCurrency(CurrencyEnum.XTZ)}
-          className={cx(s.button, { [s.active]: switcherState === CurrencyEnum.XTZ })}
+          className={cx(s.button, { [s.active]: currency === CurrencyEnum.XTZ })}
         >
           {CurrencyEnum.XTZ}
         </Button>
@@ -57,7 +45,7 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
           sizeT="small"
           theme="clear"
           onClick={() => handleSwitchCurrency(CurrencyEnum.USD)}
-          className={cx(s.button, { [s.active]: switcherState === CurrencyEnum.USD })}
+          className={cx(s.button, { [s.active]: currency === CurrencyEnum.USD })}
         >
           {CurrencyEnum.USD}
         </Button>
@@ -69,14 +57,14 @@ export const CurrencySwitcher: React.FC<CurrencySwitcherProps> = ({
     <Button
       sizeT="small"
       theme="clear"
-      onClick={() => handleSwitchCurrencyMobile(switcherState === CurrencyEnum.USD)}
+      onClick={() => handleSwitchCurrencyMobile(currency === CurrencyEnum.USD)}
       className={cx(s.root, className)}
     >
-      <div className={cx(s.currency, { [s.active]: switcherState === CurrencyEnum.USD })}>
-        <div className={cx(s.item, { [s.active]: switcherState === CurrencyEnum.XTZ })}>
+      <div className={cx(s.currency, { [s.active]: currency === CurrencyEnum.USD })}>
+        <div className={cx(s.item, { [s.active]: currency === CurrencyEnum.XTZ })}>
           {CurrencyEnum.XTZ}
         </div>
-        <div className={cx(s.item, { [s.active]: switcherState === CurrencyEnum.USD })}>
+        <div className={cx(s.item, { [s.active]: currency === CurrencyEnum.USD })}>
           {CurrencyEnum.USD}
         </div>
       </div>
