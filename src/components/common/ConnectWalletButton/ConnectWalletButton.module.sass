@@ -1,0 +1,17 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.button
+  justify-content: center
+  font-size: .75rem
+
+.connectDesktop
+  display: none
+
+@include media(">Sphone")
+  .connectDesktop
+    display: inline
+
+@include media(">Ltablet")
+  .button
+    font-size: .875rem

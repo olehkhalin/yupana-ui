@@ -364,6 +364,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       });
 
       if (!error && (!amount.eq(0) && amount)) {
+        // eslint-disable-next-line no-console
         console.log(JSON.stringify(inputData, null, 2));
       }
     },

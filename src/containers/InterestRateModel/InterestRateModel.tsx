@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
@@ -18,6 +18,11 @@ type InterestRateModelProps = {
   className?: string
 };
 
+const {
+  baseRatePerYear: baseRatePerYearPopup,
+  kink: kinkPopup,
+} = INTEREST_RATE_MODEL;
+
 export const InterestRateModel: React.FC<InterestRateModelProps> = ({
   asset,
   data,
@@ -30,14 +35,6 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
     jumpMultiplierPerYear,
     kink,
   } = data;
-
-  const {
-    baseRatePerYear: baseRatePerYearPopup,
-    kink: kinkPopup,
-  } = useMemo(
-    () => INTEREST_RATE_MODEL,
-    [],
-  );
 
   return (
     <Section className={cx(s.root, className)}>

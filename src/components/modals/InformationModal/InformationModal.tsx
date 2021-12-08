@@ -1,13 +1,13 @@
 import React from 'react';
 
-import { ModalActions } from 'types/modal';
+import { ModalInterface } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 import { ModalHeader } from 'components/common/ModalHeader';
 
 type InformationModalProps = {
   buttonText?: string
-} & ModalActions;
+} & ModalInterface;
 
 export const InformationModal: React.FC<InformationModalProps> = ({
   title,

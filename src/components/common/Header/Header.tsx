@@ -2,11 +2,11 @@ import React, { useCallback, useState } from 'react';
 import { Link } from 'react-router-dom';
 import cx from 'classnames';
 
-import { Button } from 'components/ui/Button';
 import { Burger } from 'components/common/Burger';
 import { Container } from 'components/common/Container';
 import { NavList } from 'components/common/NavList';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
+import { ConnectWalletButton } from 'components/common/ConnectWalletButton';
 import { ReactComponent as Logo } from 'svg/Logo.svg';
 import { ReactComponent as LogoMobile } from 'svg/LogoMobile.svg';
 import { AppRoutes } from 'routes/main-routes';
@@ -45,17 +45,7 @@ export const Header: React.FC<HeaderProps> = ({
               className={cx(s.navlist, s.desktop)}
             />
 
-            <Button
-              sizeT="medium"
-              theme="primary"
-              className={s.connectWallet}
-            >
-              Connect
-              {' '}
-              <span className={s.connectDesktop}>
-                wallet
-              </span>
-            </Button>
+            <ConnectWalletButton />
 
             <CurrencySwitcher className={s.currencySwitcher} />
           </div>
