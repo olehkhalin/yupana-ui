@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { AppRoutes } from 'routes/main-routes';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
