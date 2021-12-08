@@ -26,7 +26,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {
         data.map(({
           asset: tokenMetadata, ...rest
@@ -38,6 +38,6 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
           />
         ))
       }
-    </div>
+    </>
   );
 };
