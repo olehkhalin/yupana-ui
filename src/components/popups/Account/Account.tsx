@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 
+import { TZKT_BASE_URL } from 'constants/default';
 import { shortize } from 'utils/getShortize';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
 import { useDisconnect } from 'utils/dapp';
@@ -24,7 +25,7 @@ export const Account: React.FC<AccountProps> = ({
   const disconnect = useDisconnect();
   const isWiderThanMphone = useWiderThanMphone();
 
-  const tzktLink = `${process.env.REACT_APP_TZKT_BASE_URL}/${address}`;
+  const tzktLink = `${TZKT_BASE_URL}/${address}`;
 
   const handleCopyToClipboard = useCallback(
     () => {

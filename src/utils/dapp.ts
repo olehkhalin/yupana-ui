@@ -26,8 +26,6 @@ import memoizee from 'memoizee';
 import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
-import { ReadOnlySigner } from 'utils/ReadOnlySigner';
-
 import {
   APP_NAME,
   BASE_URL,
@@ -37,8 +35,10 @@ import {
   NetworkType,
   NETWORK_RPC,
 } from 'constants/default';
+import { ReadOnlySigner } from './ReadOnlySigner';
+import { FastRpcClient } from './taquito-fast-rpc';
 
-const defaultRpcClient = NETWORK_RPC;
+const defaultRpcClient = new FastRpcClient(NETWORK_RPC);
 
 const metadataProvider = new MetadataProvider(
   // @ts-ignore
