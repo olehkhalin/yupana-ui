@@ -273,10 +273,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
         /*  1. (currentBorrowLimitUsedInUsd * 100) / collateralFactor)
               How many dollars a user should have to cover his debt
-            2. amountToWithdraw
+            2. amountUsdToWithdraw
               Subtract from the total supplyBalance
-            3. amountInToken
-              Find the amount of tokens based on the USD value
+            3. tokenBorrow
+              Max token amount to withdraw
         */
         const amountUsdToWithdraw = supplyBalance - ((currentBorrowLimitUsedInDollars * 100) / collateralFactor);
         const tokenBorrow = convertDollarsToTokenAmount(amountUsdToWithdraw, priceInUsd);
