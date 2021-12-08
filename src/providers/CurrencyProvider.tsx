@@ -1,57 +1,33 @@
-import React, {
-  createContext, useContext, useEffect, useState,
-} from 'react';
+import constate from 'constate';
+import { useState, useEffect, useCallback } from 'react';
 
-import { XTZ_CURRENT_PRICE } from 'constants/default';
-
-enum CurrencyEnum {
+export enum CurrencyEnum {
   XTZ = 'xtz',
   USD = 'usd',
 }
 
-export type CurrencyContextValue = {
-  currency: CurrencyEnum
-  tezosPriceInUsd: number
-  setCurrency: (arg: CurrencyEnum) => void
-  setTezosPriceInUsd: (arg: number) => void
-};
+export const [
+  CurrencyProvider,
+  useCurrency,
+] = constate(() => {
+  const [currencyState, setCurrencyState] = useState<CurrencyEnum>(CurrencyEnum.XTZ);
 
-export const CurrencyContext = createContext<CurrencyContextValue>({
-  currency: CurrencyEnum.XTZ,
-  tezosPriceInUsd: XTZ_CURRENT_PRICE,
-  setCurrency: () => { },
-  setTezosPriceInUsd: () => { },
-});
-
-export const useCurrency = () => useContext(CurrencyContext);
-
-export const CurrencyProvider: React.FC = ({ children }) => {
-  const [currency, setCurrency] = useState<CurrencyEnum>(CurrencyEnum.XTZ);
-  const [tezosPriceInUsd, setTezosPriceInUsd] = useState<number>(XTZ_CURRENT_PRICE);
-
-  // get XTZ current price form api and add to useEffect
-  // const { data } = useGetTezosPriceInUsd();
-
-  useEffect(() => {
-    const currencyFromLS: string | null = localStorage.getItem('currency');
-    if (currencyFromLS) {
-      setCurrency(currencyFromLS as CurrencyEnum);
-    }
+  const setCurrency = useCallback((currency: CurrencyEnum) => {
+    window.localStorage.setItem('currency', currency);
+    setCurrencyState(currency);
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('currency', currency);
-  }, [currency]);
+    const localCurrency = window.localStorage.getItem('currency') as CurrencyEnum;
+    if (localCurrency) {
+      setCurrencyState(localCurrency);
+    } else {
+      setCurrency(CurrencyEnum.XTZ);
+    }
+  }, [setCurrency]);
 
-  return (
-    <CurrencyContext.Provider value={{
-      currency,
-      setCurrency,
-      tezosPriceInUsd,
-      setTezosPriceInUsd,
-    }}
-    >
-      {children}
-    </CurrencyContext.Provider>
-  );
-};
+  return {
+    currency: currencyState,
+    setCurrency,
+  };
+});
