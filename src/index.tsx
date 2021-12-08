@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router } from 'react-router-dom';
 import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
+import { ApolloProvider } from '@apollo/client';
 
 import { DAppProvider } from 'utils/dapp';
 import { CurrencyProvider } from 'providers/CurrencyProvider';
 import App from 'pages/App';
+import { client } from 'utils/client';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
@@ -14,11 +16,13 @@ import reportWebVitals from './reportWebVitals';
 ReactDOM.render(
   <Router>
     <React.StrictMode>
-      <CurrencyProvider>
-        <DAppProvider>
-          <App />
-        </DAppProvider>
-      </CurrencyProvider>
+      <ApolloProvider client={client}>
+        <CurrencyProvider>
+          <DAppProvider>
+            <App />
+          </DAppProvider>
+        </CurrencyProvider>
+      </ApolloProvider>
     </React.StrictMode>
   </Router>,
   document.getElementById('root'),

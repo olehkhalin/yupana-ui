@@ -1,10 +1,11 @@
+import BigNumber from 'bignumber.js';
 import { TokenMetadataInterface } from './token';
 
-export interface MarketCardInterface {
-  totalAmount: number
-  volume24h: number
+export type MarketCardInterface = {
+  totalAmount: BigNumber | number
+  volume24h: BigNumber | number
   numberOfMembers: number
   assets: (TokenMetadataInterface & {
     volume24h: number
   })[]
-}
+} | null;
