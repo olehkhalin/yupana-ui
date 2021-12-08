@@ -243,6 +243,11 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         yourBorrowLimitEqualInputAmount = getThePercentageOfTheNumber(tokenAmountInDollars, collateralFactor) + yourBorrowLimit;
         borrowLimitUsedEqualInputAmount = getPercentIsOneNumberFromAnother(currentBorrowLimitUsedInDollars, yourTotalBorrowLimit);
 
+        validateInput({
+          inputAmount: new BigNumber(amount),
+          userBalance: asset.balance,
+        });
+
         setData({
           text: 'Supply',
           balanceTitle: 'Wallet balance:',
@@ -423,7 +428,6 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           setError={setError}
           balance={balance}
           isShowMaxButton={type !== TypeEnum.BORROW}
-          validateInput={validateInput}
           className={s.input}
         />
 

@@ -24,7 +24,6 @@ type NumberInputProps = {
   handleInputChange?: (newValue: BigNumber) => void
   balance: number
   isShowMaxButton?: boolean
-  validateInput: (args: any) => any
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
@@ -44,7 +43,6 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   handleInputChange,
   balance,
   isShowMaxButton = true,
-  validateInput,
   className,
   ...props
 }) => {
@@ -65,6 +63,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const decimals = metadata?.decimals ?? DECIMALS_VALUE;
       let val = e.target.value.replace(/ /g, '').replace(/,/g, '.');
+
       let numVal = new BigNumber(val || 0);
       const indexOfDot = val.indexOf('.');
       if (indexOfDot !== -1 && val.length - indexOfDot > decimals + 1) {
@@ -76,17 +75,10 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         return;
       }
 
-      const amountBigNumber = new BigNumber(e.target.value);
-
-      validateInput({
-        inputAmount: amountBigNumber,
-        userBalance: metadata.balance,
-      });
-
       handleInputChange?.(val !== '' ? numVal : new BigNumber(0));
       setInputValue(val);
     },
-    [metadata?.decimals, metadata.balance, min, max, validateInput, handleInputChange],
+    [metadata?.decimals, min, max, handleInputChange],
   );
 
   // Get user balance by token
