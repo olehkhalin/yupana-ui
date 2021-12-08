@@ -7,12 +7,21 @@ import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
 import { MARKET_DETAILS_DATA } from 'components/temp-data/market-details';
+import { MARKET_DETAILS } from 'constants/popups/market-details';
 
 import s from './MarketDetails.module.sass';
 
 type MarketDetailsProps = {
   className?: string
 };
+
+const {
+  utilizationRate,
+  collateralFactor: collateralFactorPopup,
+  liquidationBonus: liquidationBonusPopup,
+  liquidationThreshold: liquidationThresholdPopup,
+  exchangeRate: exchangeRatePopup,
+} = MARKET_DETAILS;
 
 export const MarketDetails: React.FC<MarketDetailsProps> = ({
   className,
@@ -91,41 +100,54 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
           <Item
             text="Utilisation rate"
             value={`${utilisationRate}%`}
+            title={utilizationRate.title}
+            description={utilizationRate.description}
             className={s.item}
           />
           <Item
             text="Collateral Factor"
             value={`${collateralFactor}%`}
+            title={collateralFactorPopup.title}
+            description={collateralFactorPopup.description}
             className={s.item}
           />
           <Item
             text="Liquidation threshold"
             value={`${liquidationThreshold}%`}
+            title={liquidationThresholdPopup.title}
+            description={liquidationThresholdPopup.description}
             className={s.item}
           />
           <Item
             text="Liquidation bonus"
             value={`${liquidationBonus}%`}
+            title={liquidationBonusPopup.title}
+            description={liquidationBonusPopup.description}
             className={s.item}
           />
           <Item
             text="Reserves"
             value={getPrettyAmount({ value: reserves, currency: '$' })}
+            icon={false}
             className={s.item}
           />
           <Item
             text="Reserve Factor"
             value={`${reserveFactor}%`}
+            icon={false}
             className={s.item}
           />
           <Item
             text={`y${tokenMetadata.symbol} Minted`}
             value={getPrettyAmount({ value: minted })}
+            icon={false}
             className={s.item}
           />
           <Item
             text="Exchange Rate"
             value={`${getPrettyAmount({ value: exchangeRate, currency: `y${tokenMetadata.symbol}` })}`}
+            title={exchangeRatePopup.title}
+            description={`1 ${getTokenName(tokenMetadata)} = `}
             className={s.item}
           />
         </div>

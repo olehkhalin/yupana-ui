@@ -26,7 +26,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   }
 
   return (
-    <div className={className}>
+    <>
       {
         data.map(({
           asset: tokenMetadata, ...rest
@@ -38,6 +38,6 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
           />
         ))
       }
-    </div>
+    </>
   );
 };

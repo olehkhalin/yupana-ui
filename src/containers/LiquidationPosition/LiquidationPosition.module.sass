@@ -1,0 +1,98 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.section
+  margin-bottom: 2rem
+
+.title
+  display: flex
+  flex-direction: column
+  margin-bottom: .5rem
+  font-size: 1.5rem
+
+.subtitle
+  font-size: 1.25rem
+
+.description
+  margin-bottom: 1rem
+  // Custom styles
+  line-height: 1.3rem
+  letter-spacing: .05rem
+
+.liquidateWrapper
+  display: flex
+  flex-direction: column
+
+// TODO: Update later
+.inputWrapper
+  flex: 1
+  max-width: 18rem
+  order: 2
+
+.input
+  height: 3.5rem
+  margin-bottom: 1.5rem
+
+.button
+  width: 100%
+  max-width: initial
+
+.recieveInfo
+  flex: 1
+  margin-bottom: 1rem
+
+.recieveColumn
+  &:not(:last-child)
+    margin-bottom: 1rem
+
+.recieveTitle
+  margin-bottom: .5rem
+  font-size: .875rem
+
+.recieveValue
+  font-weight: 700
+
+@include media('>Mphone')
+  .heading
+    margin-bottom: 1rem
+
+@include media('>Lphone')
+  .section
+    margin-bottom: 3rem
+  .description
+    margin-bottom: 2rem
+  .heading
+    margin-bottom: 2rem
+  .liquidateWrapper
+    justify-content: space-between
+  .recieveColumn
+    &:not(:last-child)
+      margin-bottom: 1.5rem
+  .recieveInfo
+    margin-bottom: 0
+  .recieveValue
+    font-size: 1.5rem
+    font-weight: 700
+  .inputWrapper
+    max-width: 25rem
+    margin-right: 4rem
+    margin-bottom: 1.5rem
+    order: -1
+  .input
+    height: 4.5rem
+  .button
+    max-width: 17rem
+
+@include media('>tablet')
+  .inputWrapper
+    max-width: 25rem
+
+@include media('>Mtablet')
+  .liquidateWrapper
+    flex-direction: row
+
+@include media('>Ltablet')
+  .liquidateWrapper
+    justify-content: initial
+  .inputWrapper
+    margin-right: 16.5rem

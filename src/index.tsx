@@ -5,19 +5,22 @@ import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
 
 import { DAppProvider } from 'utils/dapp';
+import { CurrencyProvider } from 'providers/CurrencyProvider';
 import App from 'pages/App';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  <DAppProvider>
-    <Router>
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
-    </Router>
-  </DAppProvider>,
+  <Router>
+    <React.StrictMode>
+      <CurrencyProvider>
+        <DAppProvider>
+          <App />
+        </DAppProvider>
+      </CurrencyProvider>
+    </React.StrictMode>
+  </Router>,
   document.getElementById('root'),
 );
 

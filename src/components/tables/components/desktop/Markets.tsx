@@ -119,6 +119,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
+            sizeT="small"
             href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
             className={s.link}
           >

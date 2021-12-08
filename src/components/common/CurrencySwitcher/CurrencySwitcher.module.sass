@@ -1,12 +1,6 @@
 @import "styles/variables.sass"
 @import "styles/breakpoints.scss"
 
-.desktop
-  display: none
-
-.mobile
-  display: flex
-
 .currency
   position: relative
   display: flex
@@ -44,11 +38,8 @@
     color: $graphite
 
 @include media('>Mphone')
-  .desktop
-    display: flex
-  .mobile
-    display: none
   .root
+    display: flex
     align-items: center
   .button
     padding: .5rem
