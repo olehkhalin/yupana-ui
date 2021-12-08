@@ -67,7 +67,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
-            value={`${baseRatePerYear}%`}
+            value={getPrettyPercent(baseRatePerYear)}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
             theme="secondary"
@@ -89,7 +89,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
           />
           <Item
             text="Kink"
-            value={`${kink}%`}
+            value={getPrettyPercent(kink)}
             title={kinkPopup.title}
             description={kinkPopup.description}
             theme="secondary"
