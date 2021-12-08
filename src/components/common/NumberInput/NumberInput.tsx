@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
 import { TokenMetadataWithBalanceInterface } from 'types/token';
-import { validateInput } from 'utils/validateInput';
 import { Button } from 'components/ui/Button';
 import { DECIMALS_VALUE } from 'constants/default';
 
@@ -25,6 +24,7 @@ type NumberInputProps = {
   handleInputChange?: (newValue: BigNumber) => void
   balance: number
   isShowMaxButton?: boolean
+  validateInput: (args: any) => any
   className?: string
 } & React.HTMLProps<HTMLInputElement>;
 
@@ -44,6 +44,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   handleInputChange,
   balance,
   isShowMaxButton = true,
+  validateInput,
   className,
   ...props
 }) => {
@@ -75,16 +76,17 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         return;
       }
 
-      const inputError = validateInput({
-        amount: new BigNumber(e.target.value),
-        metadata,
+      const amountBigNumber = new BigNumber(e.target.value);
+
+      validateInput({
+        inputAmount: amountBigNumber,
+        userBalance: metadata.balance,
       });
 
       handleInputChange?.(val !== '' ? numVal : new BigNumber(0));
       setInputValue(val);
-      setError?.(inputError);
     },
-    [max, metadata, min, handleInputChange, setError],
+    [metadata?.decimals, metadata.balance, min, max, validateInput, handleInputChange],
   );
 
   // Get user balance by token

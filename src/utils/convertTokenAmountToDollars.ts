@@ -1,4 +1,4 @@
-export const getTokenPriceInUsd = (
+export const convertTokenAmountToDollars = (
   amount: number,
   pricePerToken: number,
 ) => amount * pricePerToken;
