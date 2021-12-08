@@ -51,9 +51,11 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
               end={amount}
               decimals={2}
               duration={timing}
-            /> // %
+            />
           ) : (
-            <Preloader />
+            <Preloader
+              className={s.percentPreloader}
+            />
           )}
         </div>
       </div>

@@ -26,6 +26,8 @@
 
 .value
   text-align: right
+  .preloader
+    margin-left: auto
 
 .attention
   margin-left: .25rem
@@ -37,6 +39,14 @@
 .icon
   path
     transition: fill $animationTime
+
+.preloader
+  width: 6.125rem
+  height: 1.063rem
+
+@include media('>Mphone')
+  .preloader
+    width: 7.875rem
 
 @include media('>Lphone')
   .title

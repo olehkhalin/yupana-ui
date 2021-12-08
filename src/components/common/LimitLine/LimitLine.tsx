@@ -5,6 +5,7 @@ import cx from 'classnames';
 import { ANIMATION_TIME } from 'constants/default';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Button } from 'components/ui/Button';
+import { Preloader } from 'components/ui/Preloader';
 import { ProgressBar } from 'components/ui/ProgressBar';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 
@@ -14,6 +15,7 @@ type LimitLineProps = {
   percent: number
   value: number
   title: string
+  loading: boolean
   className?: string
 };
 
@@ -21,6 +23,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   percent,
   value,
   title,
+  loading,
   className,
 }) => {
   const timing = useMemo(() => ANIMATION_TIME + (percent / 100), [percent]);
@@ -29,13 +32,22 @@ export const LimitLine: React.FC<LimitLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.percent}>
-          <CountUp
-            start={0}
-            end={percent}
-            decimals={2}
-            duration={timing}
-          />
-          %
+          {!loading ? (
+            <>
+              <CountUp
+                start={0}
+                end={percent}
+                decimals={2}
+                duration={timing}
+              />
+              %
+            </>
+          ) : (
+            <Preloader
+              theme="tertiary"
+              className={s.preloader}
+            />
+          )}
         </div>
 
         <div className={s.title}>
@@ -49,7 +61,14 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          {getPrettyAmount({ value, currency: '$' })}
+          {!loading
+            ? getPrettyAmount({ value, currency: '$' })
+            : (
+              <Preloader
+                theme="tertiary"
+                className={s.preloader}
+              />
+            )}
         </div>
       </div>
 
