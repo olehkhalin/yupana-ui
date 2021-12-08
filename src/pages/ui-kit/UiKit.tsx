@@ -1009,8 +1009,6 @@ export const UiKit: React.FC = () => {
             <ConnectToWallet
               isOpen={connectToWalletIsOpen}
               onRequestClose={() => setConnectToWalletIsOpen(false)}
-              title="Connect to a wallet"
-              description="Please select a wallet to connect to this dapp:"
             />
           </div>
           <div className={s.block}>
@@ -1026,8 +1024,6 @@ export const UiKit: React.FC = () => {
             <Account
               isOpen={accountIsOpen}
               onRequestClose={() => setAccountIsOpen(false)}
-              title="Account"
-              description="Connected wallet address:"
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
             />
           </div>
