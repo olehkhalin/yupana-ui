@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
+import { TZKT_BASE_URL } from 'constants/default';
 import { shortize } from 'utils/getShortize';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { useDisconnect } from 'utils/dapp';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
@@ -16,13 +18,26 @@ type AccountProps = {
 } & ModalActions;
 
 export const Account: React.FC<AccountProps> = ({
-  title,
-  description,
   address,
   isOpen,
   onRequestClose,
 }) => {
+  const disconnect = useDisconnect();
   const isWiderThanMphone = useWiderThanMphone();
+
+  const tzktLink = `${TZKT_BASE_URL}/${address}`;
+
+  const handleCopyToClipboard = useCallback(
+    () => {
+      console.log(tzktLink);
+    },
+    [tzktLink],
+  );
+
+  const handleLogout = useCallback(() => {
+    disconnect();
+    onRequestClose();
+  }, [disconnect, onRequestClose]);
 
   return (
     <Modal
@@ -31,13 +46,14 @@ export const Account: React.FC<AccountProps> = ({
     >
       <Button
         theme="clear"
+        onClick={handleLogout}
         className={s.logout}
       >
         log out
       </Button>
       <ModalHeader
-        title={title}
-        description={description}
+        title="Account"
+        description="Connected wallet address:"
         className={s.root}
       />
       <div className={s.address}>
@@ -46,6 +62,8 @@ export const Account: React.FC<AccountProps> = ({
       <div className={s.options}>
         <Button
           theme="clear"
+          href={tzktLink}
+          external
           className={s.button}
         >
           View on explorer
@@ -53,6 +71,7 @@ export const Account: React.FC<AccountProps> = ({
         </Button>
         <Button
           theme="clear"
+          onClick={handleCopyToClipboard}
           className={s.button}
         >
           Copy Address

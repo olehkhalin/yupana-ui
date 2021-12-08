@@ -4,8 +4,9 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import '@formatjs/intl-numberformat/polyfill';
 import '@formatjs/intl-numberformat/locale-data/en';
 
-import App from 'pages/App';
+import { DAppProvider } from 'utils/dapp';
 import { CurrencyProvider } from 'providers/CurrencyProvider';
+import App from 'pages/App';
 import 'styles/global.sass';
 
 import reportWebVitals from './reportWebVitals';
@@ -14,7 +15,9 @@ ReactDOM.render(
   <Router>
     <React.StrictMode>
       <CurrencyProvider>
-        <App />
+        <DAppProvider>
+          <App />
+        </DAppProvider>
       </CurrencyProvider>
     </React.StrictMode>
   </Router>,
