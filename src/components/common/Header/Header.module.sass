@@ -37,19 +37,11 @@
 .currencySwitcher
   margin-left: .75rem
 
-.connectWallet
-  justify-content: center
-  font-size: .75rem
-
 .mobile
   display: flex
 
-.desktop, .connectDesktop, .logoDesktop
+.desktop, .logoDesktop
   display: none
-
-@include media(">Sphone")
-  .connectDesktop
-    display: inline
 
 @include media(">phone")
   .logoDesktop
@@ -106,5 +98,3 @@
 @include media(">Ltablet")
   .navItem
     margin-right: 2.5rem
-  .connectWallet
-    font-size: .875rem
