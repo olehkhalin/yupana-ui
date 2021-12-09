@@ -2,8 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
-
 import { Preloader } from 'components/ui/Preloader';
+
 import s from './UserStat.module.sass';
 
 type UserStatProps = {

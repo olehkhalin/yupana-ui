@@ -17,21 +17,21 @@ export const Stats: React.FC<StatsProps> = ({
   <section className={className}>
     <UserStat
       {...USER_STAT}
-      loading={false}
+      loading
       className={s.stat}
     />
     <LimitLine
       percent={LIMIT_LINE.userBorrowLimitPercent}
       value={LIMIT_LINE.userBorrowLimit}
       title="Your Borrow Limit"
-      loading={false}
+      loading
       className={s.limit}
     />
     <LimitLine
       percent={LIMIT_LINE.userLiquidationLimitPercent}
       value={LIMIT_LINE.userLiquidationLimit}
       title="Your Liquidation Limit"
-      loading={false}
+      loading
       className={s.limit}
     />
   </section>

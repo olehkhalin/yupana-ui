@@ -9,7 +9,7 @@ import { loadingArray } from 'constants/loading/all-markets';
 
 type AllMarketsWrapperProps = {
   data?: MarketsAllQuery
-  loading?: any
+  loading?: boolean
   className?: string
 };
 
@@ -38,7 +38,7 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
       borrowApy,
       numberOfBorrowers,
     };
-  }) : [loadingArray]), [data]);
+  }) : loadingArray), [data]);
 
   return (
     <Markets

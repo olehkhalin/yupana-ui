@@ -43,10 +43,12 @@ const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
 
 type MarketCardsWrapperProps = {
   data: MarketOverviewQuery
+  loading?: boolean
 };
 
 const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
   data,
+  // loading,
 }) => {
   const preparedData = useMemo(() => ({
     supply: prepareObject(data),
@@ -57,10 +59,12 @@ const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
     <>
       <MarketCard
         {...preparedData.supply}
+        loading
         className={s.card}
       />
       <MarketCard
         {...preparedData.borrow}
+        loading
         theme="secondary"
         className={s.card}
       />
@@ -75,7 +79,7 @@ type MarketCardsProps = {
 export const MarketCards: React.FC<MarketCardsProps> = ({
   className,
 }) => {
-  const { data, error } = useMarketOverviewQuery();
+  const { data, error, loading } = useMarketOverviewQuery();
 
   if (!data || error) {
     return <></>;
@@ -83,7 +87,7 @@ export const MarketCards: React.FC<MarketCardsProps> = ({
 
   return (
     <div className={cx(s.root, className)}>
-      <MarketCardsWrapper data={data} />
+      <MarketCardsWrapper data={data} loading={loading} />
     </div>
   );
 };

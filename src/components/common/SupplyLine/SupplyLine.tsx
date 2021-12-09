@@ -14,7 +14,7 @@ import s from './SupplyLine.module.sass';
 type SupplyLineProps = {
   token: TokenMetadataInterface
   percent: number
-  loading?: any
+  loading?: boolean
   theme?: keyof typeof themeClass
   className?: string
 };

@@ -7,6 +7,7 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TableCard } from 'components/ui/TableCard';
+// import { Preloader } from 'components/ui/Preloader';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
@@ -47,6 +48,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
       onClick={onClick}
       className={className}
     >
+      {/* {!loading && <Preloader className={s.preloader} />} */}
       <div className={s.row}>
         <div className={s.title}>
           Asset
