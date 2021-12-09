@@ -26,21 +26,32 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          <TokenName
-            token={{ ...row.values.asset }}
-            {...row.getToggleRowExpandedProps()}
-          />
+          row.values.asset.name !== '-'
+            ? (
+              <TokenName
+                token={{ ...row.values.asset }}
+                {...row.getToggleRowExpandedProps()}
+              />
+            ) : '-'
         ),
       },
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: { supplyApy: number }) => `${supplyApy.toFixed(2)}%`,
+        accessor: ({ supplyApy }: { supplyApy: number | any }) => (
+          supplyApy === '-'
+            ? supplyApy
+            : `${supplyApy.toFixed(2)}%`
+        ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
+        accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
+          balance === '-'
+            ? balance
+            : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
+        ),
       },
       {
         Header: 'Collateral',

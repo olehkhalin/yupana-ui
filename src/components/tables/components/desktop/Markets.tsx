@@ -32,10 +32,12 @@ export const Markets: React.FC<MarketsProps> = ({
         ),
         id: 'asset',
         accessor: (row: any) => (
-          <TokenName
-            token={{ ...row.asset }}
-            // href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
-          />
+          loading ? (
+            <TokenName
+              token={{ ...row.asset }}
+              // href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
+            />
+          ) : '-' //
         ),
       },
       {
@@ -47,7 +49,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {loading ? row.totalSupply : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+            {loading
+              ? row.totalSupply
+              : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
           </span>
         ),
       },
@@ -60,7 +64,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {loading ? row.supplyApy : getPrettyPercent(row.supplyApy)}
+            {loading
+              ? row.supplyApy
+              : getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -86,7 +92,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? row.totalBorrow : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
+            {loading
+              ? row.totalBorrow
+              : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
           </span>
         ),
       },
@@ -99,7 +107,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? row.borrowApy : getPrettyPercent(row.borrowApy)}
+            {loading
+              ? row.borrowApy
+              : getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },

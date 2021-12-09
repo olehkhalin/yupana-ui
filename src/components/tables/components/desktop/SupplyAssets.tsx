@@ -15,11 +15,13 @@ import s from './Tables.module.sass';
 
 type SupplyAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -76,6 +78,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     <Table
       columns={columns}
       data={data}
+      loading={loading}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.supplyRow}
       className={cx(s.root, className)}

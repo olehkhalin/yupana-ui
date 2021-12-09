@@ -198,7 +198,7 @@ export const Table: React.FC<TableProps> = ({
           </table>
         </div>
       </div>
-      {isShowPagination && pagination && (
+      {!loading && isShowPagination && pagination && (
         <Pagination
           pageIndex={pageIndex}
           canPreviousPage={canPreviousPage}

@@ -38,7 +38,7 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
       borrowApy,
       numberOfBorrowers,
     };
-  }) : [loadingArray]), [data]);
+  }) : loadingArray), [data]);
 
   return (
     <Markets

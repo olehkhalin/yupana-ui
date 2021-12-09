@@ -25,26 +25,41 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          <TokenName
-            token={{ ...row.values.asset }}
-            {...row.getToggleRowExpandedProps()}
-          />
+          row.values.asset.name !== '-'
+            ? (
+              <TokenName
+                token={{ ...row.values.asset }}
+                {...row.getToggleRowExpandedProps()}
+              />
+            ) : '-'
         ),
       },
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => `${borrowApy.toFixed(2)}%`,
+        accessor: ({ borrowApy }: { borrowApy: number | any }) => (
+          borrowApy === '-'
+            ? borrowApy
+            : `${borrowApy.toFixed(2)}%`
+        ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
+        accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
+          balance === '-'
+            ? balance
+            : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
+        ),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
-        accessor: ({ borrowLimit }: { borrowLimit: number }) => `${borrowLimit.toFixed(2)}%`,
+        accessor: ({ borrowLimit }: { borrowLimit: number | any }) => (
+          borrowLimit === '-'
+            ? borrowLimit
+            : `${borrowLimit.toFixed(2)}%`
+        ),
       },
       {
         Header: () => null,

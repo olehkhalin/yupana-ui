@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { Preloader } from 'components/ui/Preloader';
 
 import s from './UserStat.module.sass';
 
@@ -17,33 +18,59 @@ export const UserStat: React.FC<UserStatProps> = ({
   userBorrowBalance,
   userNetApy,
   className,
-}) => (
-  <div className={cx(s.root, className)}>
-    <div className={s.item}>
-      <div className={s.title}>
-        Your Supply Balance:
-      </div>
-      <div className={s.value}>
-        {getPrettyAmount({ value: userSupplyBalance, currency: '$' })}
-      </div>
-    </div>
+}) => {
+  const [isTrue, setIsTrue] = React.useState(false);
 
-    <div className={s.item}>
-      <div className={s.title}>
-        Net APY:
-      </div>
-      <div className={s.value}>
-        {`${userNetApy}%`}
-      </div>
-    </div>
+  React.useEffect(() => {
+    setTimeout(() => setIsTrue(true), 2000);
+  });
 
-    <div className={s.item}>
-      <div className={s.title}>
-        Your Borrow Balance:
+  return (
+    <div className={cx(s.root, className)}>
+      <div className={s.item}>
+        <div className={s.title}>
+          Your Supply Balance:
+        </div>
+        <div className={s.value}>
+          {isTrue
+            ? getPrettyAmount({ value: userSupplyBalance, currency: '$' })
+            : (
+              <Preloader
+                theme="primary"
+              />
+            )}
+        </div>
       </div>
-      <div className={s.value}>
-        {getPrettyAmount({ value: userBorrowBalance, currency: '$' })}
+
+      <div className={s.item}>
+        <div className={s.title}>
+          Net APY:
+        </div>
+        <div className={s.value}>
+          {isTrue
+            ? `${userNetApy}%`
+            : (
+              <Preloader
+                theme="tertiary"
+              />
+            )}
+        </div>
+      </div>
+
+      <div className={s.item}>
+        <div className={s.title}>
+          Your Borrow Balance:
+        </div>
+        <div className={s.value}>
+          {isTrue
+            ? getPrettyAmount({ value: userBorrowBalance, currency: '$' })
+            : (
+              <Preloader
+                theme="secondary"
+              />
+            )}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

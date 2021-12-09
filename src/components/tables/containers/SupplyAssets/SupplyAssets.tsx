@@ -7,11 +7,13 @@ import { SupplyAssets as SupplyAssetsDesktop } from 'components/tables/component
 
 type SupplyAssetsProps = {
   data: any[]
+  loading?: any
   className?: string
 };
 
 export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -20,6 +22,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     return (
       <SupplyAssetsDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );
@@ -33,6 +36,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         }) => (
           <SupplyAssetsCard
             key={getUniqueKey()}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

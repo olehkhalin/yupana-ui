@@ -13,17 +13,20 @@ import {
 import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
+import { SUPPLY_ASSETS_DATA_LOADING } from 'components/temp-data/tables/supply-assets-data';
 
 import s from './Assets.module.sass';
 
 type AssetsWrapperProps = {
   isSupply?: boolean
   data?: LendingAssetsQuery
+  loading?: boolean
 };
 
 const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
   isSupply = true,
   data,
+  loading,
 }) => {
   const preparedData = useMemo(() => (data ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as Asset);
@@ -44,19 +47,23 @@ const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
       liquidity,
       wallet,
     };
-  }) : []), [data]);
+  }) : SUPPLY_ASSETS_DATA_LOADING), [data]);
 
   if (isSupply) {
     return (
       <SupplyAssets
         data={preparedData}
+        loading={loading}
         className={s.table}
       />
     );
   }
 
   return (
-    <BorrowAssets data={preparedData} className={s.table} />
+    <BorrowAssets
+      data={preparedData}
+      className={s.table}
+    />
   );
 };
 
@@ -71,7 +78,7 @@ export const Assets: React.FC<AssetsProps> = ({
 }) => {
   const isWiderThanMdesktop = useWiderThanMdesktop();
 
-  const { data, error } = useLendingAssetsQuery();
+  const { data, error, loading } = useLendingAssetsQuery();
 
   if (error) {
     return <></>;
@@ -87,7 +94,7 @@ export const Assets: React.FC<AssetsProps> = ({
         }}
         className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
-        <AssetsWrapper data={data} />
+        <AssetsWrapper data={data} loading={loading} />
       </Section>
 
       <Section
@@ -99,7 +106,11 @@ export const Assets: React.FC<AssetsProps> = ({
         theme="secondary"
         className={cx(s.col, { [s.show]: !isActiveSupply && !isWiderThanMdesktop })}
       >
-        <AssetsWrapper data={data} isSupply={false} />
+        <AssetsWrapper
+          data={data}
+          isSupply={false}
+          loading={loading}
+        />
       </Section>
     </div>
   );

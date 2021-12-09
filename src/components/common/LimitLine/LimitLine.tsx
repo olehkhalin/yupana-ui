@@ -6,6 +6,7 @@ import { ANIMATION_TIME } from 'constants/default';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { Button } from 'components/ui/Button';
 import { ProgressBar } from 'components/ui/ProgressBar';
+import { Preloader } from 'components/ui/Preloader';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './LimitLine.module.sass';
@@ -25,17 +26,28 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 }) => {
   const timing = useMemo(() => ANIMATION_TIME + (percent / 100), [percent]);
 
+  const [isTrue, setIsTrue] = React.useState(false);
+
+  React.useEffect(() => {
+    setTimeout(() => setIsTrue(true), 3000);
+  });
+
   return (
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.percent}>
-          <CountUp
-            start={0}
-            end={percent}
-            decimals={2}
-            duration={timing}
-          />
-          %
+          {isTrue ? (
+            <>
+              <CountUp
+                start={0}
+                end={percent}
+                decimals={2}
+                duration={timing}
+              />
+              %
+            </>
+          )
+            : <Preloader />}
         </div>
 
         <div className={s.title}>
@@ -49,7 +61,9 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          {getPrettyAmount({ value, currency: '$' })}
+          {isTrue
+            ? getPrettyAmount({ value, currency: '$' })
+            : <Preloader />}
         </div>
       </div>
 
