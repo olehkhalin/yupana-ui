@@ -3,6 +3,8 @@ import cx from 'classnames';
 
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { TokenMetadataInterface } from 'types/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 import { AppRoutes } from 'routes/main-routes';
@@ -10,11 +12,7 @@ import { AppRoutes } from 'routes/main-routes';
 import s from './Cards.module.sass';
 
 type MarketsCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
+  yToken: number
   totalSupply: number
   supplyApy: number
   numberOfSupplier: number
@@ -23,9 +21,10 @@ type MarketsCardProps = {
   numberOfBorrowers: number
   details?: boolean
   className?: string
-};
+} & TokenMetadataInterface;
 
 export const MarketsCard: React.FC<MarketsCardProps> = ({
+  yToken,
   id,
   address,
   name,
@@ -46,13 +45,14 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
     name,
     symbol,
     thumbnailUri,
+    yToken,
   };
 
   return (
     <TableCard
       withDetailsButton={!details}
       collapsed={false}
-      href={`${AppRoutes.MARKETS}/${getTokenSlug({ address, id })}`}
+      href={`${AppRoutes.MARKETS}/${yToken}`}
       className={cx({ [s.marketsDetails]: details }, className)}
     >
       {!details && (
@@ -82,7 +82,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Supply APY
         </div>
         <div className={s.value}>
-          {`${supplyApy.toFixed(2)}%`}
+          {getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -109,7 +109,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Borrow APY
         </div>
         <div className={s.value}>
-          {`${borrowApy.toFixed(2)}%`}
+          {getPrettyPercent(borrowApy)}
         </div>
       </div>
 

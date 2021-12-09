@@ -1,17 +1,20 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getTokenName } from 'utils/getTokenName';
+import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
-import { MARKET_DETAILS_DATA } from 'components/temp-data/market-details';
 import { MARKET_DETAILS } from 'constants/popups/market-details';
 
 import s from './MarketDetails.module.sass';
 
 type MarketDetailsProps = {
+  asset: TokenMetadataInterface
+  data: any
   className?: string
 };
 
@@ -24,15 +27,14 @@ const {
 } = MARKET_DETAILS;
 
 export const MarketDetails: React.FC<MarketDetailsProps> = ({
+  asset,
+  data,
   className,
 }) => {
   const {
-    asset: {
-      priceInUsd,
-      ...tokenMetadata
-    },
+    priceInUsd,
     availableLiquidity,
-    totalBorrowed,
+    totalBorrow,
     utilisationRate,
     collateralFactor,
     liquidationThreshold,
@@ -41,9 +43,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
     reserveFactor,
     minted,
     exchangeRate,
-  } = useMemo(() => ({
-    ...MARKET_DETAILS_DATA,
-  }), []);
+  } = data;
 
   return (
     <Section className={cx(s.root, className)}>
@@ -59,7 +59,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             <div className={s.statValue}>
               {getPrettyAmount({
                 value: availableLiquidity / priceInUsd,
-                currency: getTokenName(tokenMetadata),
+                currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
@@ -77,13 +77,13 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
 
             <div className={s.statValue}>
               {getPrettyAmount({
-                value: totalBorrowed / priceInUsd,
-                currency: getTokenName(tokenMetadata),
+                value: totalBorrow / priceInUsd,
+                currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
               {getPrettyAmount({
-                value: totalBorrowed,
+                value: totalBorrow,
                 currency: '$',
               })}
             </div>
@@ -99,28 +99,28 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
         <div className={s.list}>
           <Item
             text="Utilisation rate"
-            value={`${utilisationRate}%`}
+            value={getPrettyPercent(utilisationRate)}
             title={utilizationRate.title}
             description={utilizationRate.description}
             className={s.item}
           />
           <Item
             text="Collateral Factor"
-            value={`${collateralFactor}%`}
+            value={getPrettyPercent(collateralFactor)}
             title={collateralFactorPopup.title}
             description={collateralFactorPopup.description}
             className={s.item}
           />
           <Item
             text="Liquidation threshold"
-            value={`${liquidationThreshold}%`}
+            value={getPrettyPercent(liquidationThreshold)}
             title={liquidationThresholdPopup.title}
             description={liquidationThresholdPopup.description}
             className={s.item}
           />
           <Item
             text="Liquidation bonus"
-            value={`${liquidationBonus}%`}
+            value={getPrettyPercent(liquidationBonus)}
             title={liquidationBonusPopup.title}
             description={liquidationBonusPopup.description}
             className={s.item}
@@ -133,21 +133,21 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
           />
           <Item
             text="Reserve Factor"
-            value={`${reserveFactor}%`}
+            value={getPrettyPercent(reserveFactor)}
             icon={false}
             className={s.item}
           />
           <Item
-            text={`y${tokenMetadata.symbol} Minted`}
+            text={`y${asset.symbol} Minted`}
             value={getPrettyAmount({ value: minted })}
             icon={false}
             className={s.item}
           />
           <Item
             text="Exchange Rate"
-            value={`${getPrettyAmount({ value: exchangeRate, currency: `y${tokenMetadata.symbol}` })}`}
+            value={`${getPrettyAmount({ value: exchangeRate, currency: `y${asset.symbol}` })}`}
             title={exchangeRatePopup.title}
-            description={`1 ${getTokenName(tokenMetadata)} = `}
+            description={`1 ${getTokenName(asset)} = `}
             className={s.item}
           />
         </div>
