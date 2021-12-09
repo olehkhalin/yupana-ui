@@ -4,15 +4,8 @@ import cx from 'classnames';
 import s from './Preloader.module.sass';
 
 type PreloaderProps = {
-  size?: keyof typeof sizeClass
   theme?: keyof typeof themeClass
   className?: string
-};
-
-const sizeClass = {
-  small: s.small,
-  medium: s.medium,
-  large: s.large,
 };
 
 const themeClass = {
@@ -23,13 +16,11 @@ const themeClass = {
 };
 
 export const Preloader: React.FC<PreloaderProps> = ({
-  size = 'small',
   theme = 'tertiary',
   className,
 }) => {
   const compoundClassName = cx(
     s.root,
-    sizeClass[size],
     className,
   );
 

@@ -8,7 +8,6 @@
 
 .content
   position: relative
-  justify-content: space-between
   display: flex
   flex-wrap: wrap
   margin-bottom: .656rem
@@ -27,6 +26,8 @@
 
 .value
   text-align: right
+  .preloader
+    margin-left: auto
 
 .attention
   margin-left: .25rem
@@ -39,6 +40,14 @@
   path
     transition: fill $animationTime
 
+.preloader
+  width: 6.125rem
+  height: 1.063rem
+
+@include media('>Mphone')
+  .preloader
+    width: 7.875rem
+
 @include media('>Lphone')
   .title
     width: 50%
@@ -49,7 +58,7 @@
     display: flex
     flex-wrap: nowrap
   .percent, .value
-    width: 7%
+    width: 25%
   .root
     display: flex
     flex-direction: column

@@ -39,18 +39,26 @@ export const MarketCard: React.FC<MarketCardProps> = ({
       <div className={s.amount}>
         {!loading
           ? getPrettyAmount({ value: totalAmount, currency: '$' })
-          : <Preloader theme={theme} />}
+          : (
+            <Preloader
+              theme={theme}
+              className={s.amountPreloader}
+            />
+          )}
       </div>
 
       <div className={s.row}>
         <div className={s.text}>
-          {/* Top 3 markets */}
           {isPrimaryTheme ? '24H Supply Volume' : '24H Borrow Volume'}
         </div>
         <div className={s.value}>
           {!loading
             ? getPrettyAmount({ value: volume24h, currency: '$' })
-            : <Preloader />}
+            : (
+              <Preloader
+                className={s.valuePreloader}
+              />
+            )}
         </div>
       </div>
 
@@ -62,7 +70,11 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         <div className={s.value}>
           {!loading
             ? getPrettyAmount({ value: numberOfMembers, dec: 0 })
-            : <Preloader theme={theme} />}
+            : (
+              <Preloader
+                className={s.valuePreloader}
+              />
+            )}
         </div>
       </div>
 
@@ -75,7 +87,6 @@ export const MarketCard: React.FC<MarketCardProps> = ({
             key={getUniqueKey()}
             percent={assetVolume24h}
             token={rest}
-            theme={isPrimaryTheme ? 'primary' : 'secondary'}
             loading={loading}
             className={s.progressBar}
           />

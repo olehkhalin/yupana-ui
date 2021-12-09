@@ -46,16 +46,17 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
 
         <div className={s.percent}>
           {!loading ? (
-            <>
-              <CountUp
-                start={0}
-                end={amount}
-                decimals={2}
-                duration={timing}
-              />
-              %
-            </>
-          ) : <Preloader />}
+            <CountUp
+              start={0}
+              end={amount}
+              decimals={2}
+              duration={timing}
+            />
+          ) : (
+            <Preloader
+              className={s.percentPreloader}
+            />
+          )}
         </div>
       </div>
 

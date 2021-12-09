@@ -102,19 +102,16 @@ export const UiKit: React.FC = () => {
       <div className={s.block}>
         <Preloader
           theme="primary"
-          size="small"
         />
       </div>
       <div className={s.block}>
         <Preloader
           theme="secondary"
-          size="medium"
         />
       </div>
       <div className={s.block}>
         <Preloader
           theme="tertiary"
-          size="large"
         />
       </div>
       <div className={s.block}>
@@ -929,8 +926,8 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Limit Lines
         </div>
-        <LimitLine {...mokeBorrowLimitData} className={s.limit} />
-        <LimitLine {...mokeLiquidationLimitData} className={s.limit} />
+        <LimitLine {...mokeBorrowLimitData} loading={false} className={s.limit} />
+        <LimitLine {...mokeLiquidationLimitData} loading={false} className={s.limit} />
 
         {/* Supply Line */}
         <SupplyLine {...mokeSupplyPrimaryData} theme="secondary" className={s.limit} />
@@ -1385,17 +1382,23 @@ export const UiKit: React.FC = () => {
           User Stat
         </div>
         <div>
-          <UserStat {...USER_STAT} className={s.userStat} />
+          <UserStat
+            {...USER_STAT}
+            loading={false}
+            className={s.userStat}
+          />
           <LimitLine
             percent={LIMIT_LINE.userBorrowLimitPercent}
             value={LIMIT_LINE.userBorrowLimit}
             title="Your Borrow Limit"
+            loading={false}
             className={s.limit}
           />
           <LimitLine
             percent={LIMIT_LINE.userLiquidationLimitPercent}
             value={LIMIT_LINE.userLiquidationLimit}
             title="Your Liquidation Limit"
+            loading={false}
             className={s.limit}
           />
         </div>
