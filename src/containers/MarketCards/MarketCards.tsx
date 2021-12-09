@@ -48,7 +48,7 @@ type MarketCardsWrapperProps = {
 
 const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
   data,
-  loading,
+  // loading,
 }) => {
   const preparedData = useMemo(() => ({
     supply: prepareObject(data),
@@ -59,12 +59,12 @@ const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
     <>
       <MarketCard
         {...preparedData.supply}
-        loading={loading}
+        loading
         className={s.card}
       />
       <MarketCard
         {...preparedData.borrow}
-        loading={loading}
+        loading
         theme="secondary"
         className={s.card}
       />
