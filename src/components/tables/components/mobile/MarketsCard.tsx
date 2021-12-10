@@ -55,7 +55,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
     <TableCard
       withDetailsButton={!details}
       collapsed={false}
-      href={`${AppRoutes.MARKETS}/${yToken}`}
+      href={`${AppRoutes.MARKETS}/${getTokenSlug({ id, address })}&${yToken}`}
       className={cx({ [s.marketsDetails]: details }, className)}
     >
       {!details && (
@@ -65,7 +65,6 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <TokenName
           token={tokenMetadata}
-          href={`${AppRoutes.MARKETS}/${getTokenSlug(tokenMetadata)}`}
           logoClassName={s.logo}
         />
       </div>
