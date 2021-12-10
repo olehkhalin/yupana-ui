@@ -136,7 +136,7 @@ export const Table: React.FC<TableProps> = ({
   return (
     <>
       <div className={cx(compoundClassNames)}>
-        {!loading && <Preloader theme="quaternary" className={s.preloader} />}
+        {loading && <Preloader theme="quaternary" className={s.preloader} />}
         <div className={s.wrapper}>
           <table
             {...getTableProps()}
@@ -197,7 +197,6 @@ export const Table: React.FC<TableProps> = ({
             </tbody>
           </table>
         </div>
-        {/* {!loading && <Preloader theme="quaternary" className={s.preloader} />} */}
       </div>
       {!loading && isShowPagination && pagination && (
         <Pagination

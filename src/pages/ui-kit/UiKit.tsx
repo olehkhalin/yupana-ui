@@ -32,7 +32,7 @@ import { UserStat } from 'components/common/UserStat';
 // import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
-import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
+// import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { Liquidate } from 'components/tables/containers/Liquidate';
@@ -1086,14 +1086,14 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Your Borrow
         </div>
-        <YourBorrowAssets
+        {/* <YourBorrowAssets
           data={YOUR_BORROW_ASSETS_DATA}
           className={cx(s.marginBottomLarge, s.halfTable)}
-        />
-        <YourBorrowAssets
+        /> */}
+        {/* <YourBorrowAssets
           data={[]}
           className={cx(s.marginBottomLarge, s.halfTable)}
-        />
+        /> */}
 
         <div className={s.subTitle}>
           All markets

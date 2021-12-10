@@ -27,6 +27,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
   token,
   active = false,
   logoClassName,
+  loading,
   className,
   ...props
 }) => {
@@ -41,9 +42,10 @@ export const TokenName: React.FC<AssetNameProps> = ({
       <TokenLogo
         theme={theme}
         logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
+        loading={loading}
         className={cx(s.logo, logoClassName)}
       />
-      {metadata.name}
+      {loading ? '—' : metadata.name}
     </>
   );
 

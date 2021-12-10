@@ -7,8 +7,7 @@ import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets'
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
-import { YOUR_SUPPLY_ASSETS_DATA_LOADING } from 'components/temp-data/tables/your-supply-loading';
-import { YOUR_BORROW_ASSETS_DATA_LOADING } from 'components/temp-data/tables/your-borrow-loading';
+import { YOUR_ASSETS_DATA_LOADING } from 'components/temp-data/tables/loading/your-assets-loading';
 
 import s from './UserAssets.module.sass';
 
@@ -22,15 +21,13 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
   className,
 }) => {
   const isWiderThanMdesktop = useWiderThanMdesktop();
-  const [supplyData, setSupplyData] = useState<any>(YOUR_SUPPLY_ASSETS_DATA_LOADING);
-  const [borrowData, setBorrowData] = useState<any>(YOUR_BORROW_ASSETS_DATA_LOADING);
+  const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     setTimeout(() => {
-      setSupplyData(YOUR_SUPPLY_ASSETS_DATA);
-      setBorrowData(YOUR_BORROW_ASSETS_DATA);
+      setLoading(false);
     }, 2000);
-  });
+  }, []);
 
   return (
     <div className={cx(s.root, className)}>
@@ -39,8 +36,8 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
         className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
         <YourSupplyAssets
-          loading={false}
-          data={supplyData}
+          loading={loading}
+          data={loading ? YOUR_ASSETS_DATA_LOADING : YOUR_SUPPLY_ASSETS_DATA}
           className={s.table}
         />
       </Section>
@@ -51,7 +48,8 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
         className={cx(s.col, { [s.show]: !isActiveSupply && !isWiderThanMdesktop })}
       >
         <YourBorrowAssets
-          data={borrowData}
+          loading={loading}
+          data={loading ? YOUR_ASSETS_DATA_LOADING : YOUR_BORROW_ASSETS_DATA}
           className={s.table}
         />
       </Section>

@@ -31,6 +31,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
           <TokenName
             theme="primary"
             token={{ ...row.values.asset }}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),
@@ -39,7 +40,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         Header: 'Supply APY',
         id: 'supplyApy',
         accessor: ({ supplyApy }: { supplyApy: number | any }) => (
-          supplyApy === '-'
+          loading
             ? supplyApy
             : `${supplyApy.toFixed(2)}%`
         ),
@@ -48,7 +49,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         Header: 'Balance',
         id: 'balance',
         accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
-          balance === '-'
+          loading
             ? balance
             : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
         ),
@@ -57,7 +58,9 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         Header: 'Collateral',
         id: 'collateral',
         Cell: ({ row }: { row: Row }) => (
-          <CollateralSwitcher token={{ address: row.values.asset.address }} />
+          loading
+            ? '—'
+            : <CollateralSwitcher token={{ address: row.values.asset.address }} />
         ),
       },
       {
@@ -73,7 +76,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   // Create a function that will render our row sub components
@@ -89,6 +92,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       columns={columns}
       data={data}
       renderRowSubComponent={renderRowSubComponent}
+      loading={loading}
       rowClassName={s.ownAssetsRow}
       className={className}
     />

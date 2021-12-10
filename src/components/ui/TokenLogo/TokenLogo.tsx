@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import { TokenLogoInterface } from 'types/token';
-import { PreloaderLogo } from 'components/ui/Preloader';
 import FallbackLogo from 'svg/FallbackLogo.svg';
 
 import s from './TokenLogo.module.sass';
 
 type TokenLogoProps = {
-  theme?: 'primary' | 'secondary'
+  theme?: keyof typeof themeClasses
   logo: TokenLogoInterface
   sizeT?: keyof typeof sizeClass
-  // loading?: boolean
+  loading?: boolean
   className?: string
 };
 
@@ -20,11 +19,16 @@ const sizeClass = {
   large: s.large,
 };
 
+const themeClasses = {
+  primary: s.primary,
+  secondary: s.secondary,
+};
+
 export const TokenLogo: React.FC<TokenLogoProps> = ({
   theme,
   logo,
   sizeT = 'small',
-  // loading,
+  loading,
   className,
 }) => {
   const compoundClassName = cx(
@@ -33,38 +37,17 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
     className,
   );
 
-  const [state, setState] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setState(true);
-    }, 2000);
-  });
-
   return (
     <>
-      {!state ? <PreloaderLogo theme={theme} className={compoundClassName} /> : (
-        <>
-          <img
-            src={logo.thumbnailUri ? logo.thumbnailUri : FallbackLogo}
-            alt={logo.name ?? 'Symbol'}
-            className={compoundClassName}
-          />
-        </>
-      )}
-      {/* {logo.thumbnailUri ? (
+      {loading && theme ? (
+        <div className={cx(compoundClassName, themeClasses[theme])} />
+      ) : (
         <img
-          src={logo.thumbnailUri}
+          src={logo.thumbnailUri ? logo.thumbnailUri : FallbackLogo}
           alt={logo.name ?? 'Symbol'}
           className={compoundClassName}
         />
-      ) : (
-        <img
-          src={FallbackLogo}
-          alt={logo.name ?? 'Logo'}
-          className={compoundClassName}
-        />
-      )} */}
+      )}
     </>
   );
 };

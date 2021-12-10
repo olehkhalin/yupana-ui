@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect, useState } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
@@ -14,7 +14,7 @@ import {
 import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
-import { SUPPLY_ASSETS_DATA_LOADING } from 'components/temp-data/tables/supply-assets-data';
+import { ASSETS_DATA_LOADING } from 'components/temp-data/tables/loading/assets-loading';
 
 import s from './Assets.module.sass';
 
@@ -35,7 +35,7 @@ const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
   data,
   loading,
 }) => {
-  const preparedData: any[] = useMemo(() => (data ? data.asset.map((el) => {
+  const preparedData: any[] = useMemo(() => (data && !loading ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as Asset);
 
     const supplyApy = +getPreparedPercentValue(el as Asset, 'supply_apy');
@@ -54,7 +54,7 @@ const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
       liquidity,
       wallet,
     };
-  }) : SUPPLY_ASSETS_DATA_LOADING), [data]);
+  }) : ASSETS_DATA_LOADING), [data, loading]);
 
   if (isSupply) {
     return (
@@ -69,6 +69,7 @@ const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
   return (
     <BorrowAssets
       data={preparedData}
+      loading={loading}
       className={s.table}
     />
   );
@@ -85,7 +86,15 @@ export const Assets: React.FC<AssetsProps> = ({
 }) => {
   const isWiderThanMdesktop = useWiderThanMdesktop();
 
-  const { data, error, loading } = useLendingAssetsQuery();
+  const { data, error } = useLendingAssetsQuery();
+
+  // TODO: Delete later
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   if (error) {
     return <></>;
@@ -101,7 +110,10 @@ export const Assets: React.FC<AssetsProps> = ({
         }}
         className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
-        <AssetsWrapper data={data} loading={loading} />
+        <AssetsWrapper
+          data={data}
+          loading={loading}
+        />
       </Section>
 
       <Section

@@ -8,11 +8,13 @@ import { AssetsType } from 'containers/Assets';
 
 type BorrowAssetsProps = {
   data: AssetsType[]
+  loading: boolean
   className?: string
 };
 
 export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -21,6 +23,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     return (
       <BorrowAssetsDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );

@@ -14,11 +14,13 @@ import s from './Tables.module.sass';
 
 type BorrowAssetsProps = {
   data: AssetsType[]
+  loading: boolean
   className?: string
 };
 
 export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -30,6 +32,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
           <TokenName
             theme="secondary"
             token={{ ...row.values.asset }}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),
@@ -37,24 +40,32 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: AssetsType) => getPrettyPercent(borrowApy),
+        accessor: ({ borrowApy }: AssetsType) => (
+          loading ? borrowApy : getPrettyPercent(borrowApy)
+        ),
       },
       {
         Header: 'Utilisation rate',
         id: 'utilisationRate',
-        accessor: ({ utilisationRate }: AssetsType) => getPrettyPercent(utilisationRate),
+        accessor: ({ utilisationRate }: AssetsType) => (
+          loading ? utilisationRate : getPrettyPercent(utilisationRate)
+        ),
       },
       {
         Header: 'Liquidity',
         id: 'liquidity',
-        accessor: ({ liquidity, asset }: AssetsType) => `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
+        accessor: ({ liquidity, asset }: AssetsType) => (
+          loading
+            ? liquidity
+            : `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`
+        ),
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
-            loading={false}
+            loading={loading}
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}
@@ -63,7 +74,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   // Create a function that will render our row sub components
@@ -79,6 +90,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       theme="secondary"
       columns={columns}
       data={data}
+      loading={loading}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.borrowRow}
       className={className}

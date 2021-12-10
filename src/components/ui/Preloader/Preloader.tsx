@@ -23,16 +23,6 @@ const sizeClass = {
   fluent: s.fluent,
 };
 
-type PreloaderLogoProps = {
-  theme?: 'primary' | 'secondary'
-  className?: string
-};
-
-const themeClassesPreloaderLogo = {
-  primary: s.primaryPL,
-  secondary: s.secondaryPL,
-};
-
 export const Preloader: React.FC<PreloaderProps> = ({
   theme = 'tertiary',
   sizeT = 'fluent',
@@ -51,10 +41,3 @@ export const Preloader: React.FC<PreloaderProps> = ({
     </div>
   );
 };
-
-export const PreloaderLogo: React.FC<PreloaderLogoProps> = ({
-  theme = 'primary',
-  className,
-}) => (
-  <div className={cx(s.preloaderLogo, themeClassesPreloaderLogo[theme], className)} />
-);

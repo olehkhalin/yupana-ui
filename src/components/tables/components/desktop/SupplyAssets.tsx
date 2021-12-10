@@ -32,6 +32,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         Cell: ({ row }: { row: Row }) => (
           <TokenName
             theme="primary"
+            loading={loading}
             token={{ ...row.values.asset }}
             {...row.getToggleRowExpandedProps()}
           />
@@ -40,17 +41,25 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: AssetsType) => getPrettyPercent(supplyApy),
+        accessor: ({ supplyApy }: AssetsType) => (
+          loading ? supplyApy : getPrettyPercent(supplyApy)
+        ),
       },
       {
         Header: 'Collateral Factor',
         id: 'collateralFactor',
-        accessor: ({ collateralFactor }: AssetsType) => getPrettyPercent(collateralFactor),
+        accessor: ({ collateralFactor }: AssetsType) => (
+          loading ? collateralFactor : getPrettyPercent(collateralFactor)
+        ),
       },
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: ({ wallet, asset }: AssetsType) => `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
+        accessor: ({ wallet, asset }: AssetsType) => (
+          loading
+            ? wallet
+            : `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`
+        ),
       },
       {
         Header: () => null,
