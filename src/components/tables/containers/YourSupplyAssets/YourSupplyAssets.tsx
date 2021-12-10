@@ -7,11 +7,13 @@ import { YourSupplyAssets as YourSupplyAssetsDesktop } from 'components/tables/c
 
 type YourSupplyAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -20,6 +22,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     return (
       <YourSupplyAssetsDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );

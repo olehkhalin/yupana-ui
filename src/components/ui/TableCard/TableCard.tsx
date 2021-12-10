@@ -49,6 +49,7 @@ export const TableCard: React.FC<TableCardProps> = ({
     )}
     {!withDetailsButton && collapsed && (
       <DropdownArrow
+        loading={false}
         theme={theme}
         active={active}
         className={s.arrow}

@@ -6,6 +6,15 @@
   justify-content: center
   align-items: center
 
+.arrowDisabled
+  transform: rotate(180deg)
+  path
+    fill: $white-50
+  &:hover
+    .arrow
+      path
+        fill: $white-50
+
 .primary
   &:hover
     .arrow

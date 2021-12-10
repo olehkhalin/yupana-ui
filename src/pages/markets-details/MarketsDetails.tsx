@@ -13,10 +13,12 @@ import s from './MarketsDetails.module.sass';
 
 type MarketsDetailsWrapperProps = {
   data: MarketsDetailsQuery
+  loading?: boolean
 };
 
 const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
   data,
+  loading,
 }) => {
   const preparedData = useMemo(() => {
     // Token details
@@ -86,10 +88,12 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
       <TokenDetails
         asset={preparedData.asset}
         data={preparedData.tokenDetails}
+        loading={loading}
         className={s.tokenDetails}
       />
       <MarketDetails
         asset={preparedData.asset}
+        loading={loading}
         data={preparedData.marketDetails}
       />
       <InterestRateModel
@@ -104,7 +108,7 @@ export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
   const yToken = +tokenSlug;
 
-  const { data, error } = useMarketsDetailsQuery({
+  const { data, error, loading } = useMarketsDetailsQuery({
     variables: {
       yToken,
     },
@@ -115,6 +119,6 @@ export const MarketsDetails: React.FC = () => {
   }
 
   return (
-    <MarketsDetailsWrapper data={data} />
+    <MarketsDetailsWrapper data={data} loading={loading} />
   );
 };

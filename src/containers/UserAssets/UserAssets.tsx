@@ -39,6 +39,7 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
         className={cx(s.col, { [s.show]: isActiveSupply && !isWiderThanMdesktop })}
       >
         <YourSupplyAssets
+          loading={false}
           data={supplyData}
           className={s.table}
         />

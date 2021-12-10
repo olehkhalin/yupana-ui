@@ -8,10 +8,10 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/getTokenSlug';
+import { Preloader } from 'components/ui/Preloader';
 import { Pagination } from 'components/common/Pagination';
 
 import s from './Table.module.sass';
-import { Preloader } from '../Preloader';
 
 type TableProps = {
   columns: any
@@ -136,6 +136,7 @@ export const Table: React.FC<TableProps> = ({
   return (
     <>
       <div className={cx(compoundClassNames)}>
+        {!loading && <Preloader theme="quaternary" className={s.preloader} />}
         <div className={s.wrapper}>
           <table
             {...getTableProps()}
@@ -145,7 +146,6 @@ export const Table: React.FC<TableProps> = ({
               tableClassName,
             )}
           >
-            {loading && <Preloader theme="quaternary" className={s.preloader} />}
             <thead className={cx(s.thead, theadClassName)}>
               {headerGroups.map((headerGroup) => (
                 <tr
@@ -197,6 +197,7 @@ export const Table: React.FC<TableProps> = ({
             </tbody>
           </table>
         </div>
+        {/* {!loading && <Preloader theme="quaternary" className={s.preloader} />} */}
       </div>
       {!loading && isShowPagination && pagination && (
         <Pagination

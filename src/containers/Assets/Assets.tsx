@@ -20,7 +20,7 @@ import s from './Assets.module.sass';
 type AssetsWrapperProps = {
   isSupply?: boolean
   data?: LendingAssetsQuery
-  loading?: boolean
+  loading: boolean
 };
 
 const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
@@ -79,6 +79,8 @@ export const Assets: React.FC<AssetsProps> = ({
   const isWiderThanMdesktop = useWiderThanMdesktop();
 
   const { data, error, loading } = useLendingAssetsQuery();
+
+  console.log('Asset', loading);
 
   if (error) {
     return <></>;

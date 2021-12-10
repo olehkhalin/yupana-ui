@@ -31,6 +31,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
           <TokenName
+            theme="primary"
             token={{ ...row.values.asset }}
             {...row.getToggleRowExpandedProps()}
           />
@@ -57,6 +58,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={loading}
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}

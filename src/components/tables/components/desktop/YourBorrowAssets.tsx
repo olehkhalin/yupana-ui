@@ -25,13 +25,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          row.values.asset.name !== '-'
-            ? (
-              <TokenName
-                token={{ ...row.values.asset }}
-                {...row.getToggleRowExpandedProps()}
-              />
-            ) : '-'
+          <TokenName
+            theme="secondary"
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
+          />
         ),
       },
       {
@@ -66,6 +64,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={false}
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}

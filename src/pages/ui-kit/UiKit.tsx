@@ -1057,6 +1057,7 @@ export const UiKit: React.FC = () => {
           Supply
         </div>
         <SupplyAssets
+          loading={false}
           data={SUPPLY_ASSETS_DATA}
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
@@ -1073,10 +1074,12 @@ export const UiKit: React.FC = () => {
           Your Supply
         </div>
         <YourSupplyAssets
+          loading={false}
           data={YOUR_SUPPLY_ASSETS_DATA}
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
         <YourSupplyAssets
+          loading={false}
           data={[]}
           className={cx(s.marginBottomLarge, s.halfTable)}
         />
@@ -1149,6 +1152,7 @@ export const UiKit: React.FC = () => {
         />
         <div className={s.wrapper}>
           <SupplyAssets
+            loading={false}
             data={SUPPLY_ASSETS_DATA}
             className={cx(s.halfTable, s.switchTable, { [s.show]: isAssetSwitcherActive })}
           />

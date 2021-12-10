@@ -1,13 +1,25 @@
 @import "styles/variables.sass"
 @import "styles/breakpoints.scss"
 
-.root
+.preloader
   width: 100%
   height: 100%
   position: relative
   box-sizing: content-box
   overflow: hidden
   border-radius: .25rem
+  &.small
+    width: 6.125rem
+    height: 1rem
+  &.medium
+    width: 7.75rem
+    height: 2.125rem
+  &.large
+    width: 23.75rem
+    height: 3.25rem
+  &.fluent
+    width: 100%
+    height: 100%
 
 .internalBorder
   height: 100%
@@ -38,9 +50,16 @@
   min-height: 16px
   animation: lite 1.4s ease-in-out infinite
 
-.small
-  width: 6.125rem
-  height: 1rem
+.preloaderLogo
+  width: 1.5rem
+  height: 1.5rem
+  border-radius: 50%
+
+.primaryPL
+  background-color: #00373E
+
+.secondaryPL
+  background-color: #403200
 
 @keyframes lite
   0%
@@ -57,3 +76,8 @@
     background: $white-bg-preloader
   100%
     background: $blue-bg-preloader
+
+@include media('>Mphone')
+  .small
+    width: 7.875rem
+    height: 1rem

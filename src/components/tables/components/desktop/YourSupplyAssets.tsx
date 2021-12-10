@@ -13,11 +13,13 @@ import s from './Tables.module.sass';
 
 type YourSupplyAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -26,13 +28,11 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
-          row.values.asset.name !== '-'
-            ? (
-              <TokenName
-                token={{ ...row.values.asset }}
-                {...row.getToggleRowExpandedProps()}
-              />
-            ) : '-'
+          <TokenName
+            theme="primary"
+            token={{ ...row.values.asset }}
+            {...row.getToggleRowExpandedProps()}
+          />
         ),
       },
       {
@@ -65,6 +65,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={loading}
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}

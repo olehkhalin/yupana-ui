@@ -32,7 +32,7 @@ export const UserStat: React.FC<UserStatProps> = ({
           : (
             <Preloader
               theme="primary"
-              className={s.valuePreloader}
+              sizeT="medium"
             />
           )}
       </div>
@@ -48,7 +48,7 @@ export const UserStat: React.FC<UserStatProps> = ({
           : (
             <Preloader
               theme="tertiary"
-              className={s.valuePreloader}
+              sizeT="medium"
             />
           )}
       </div>
@@ -64,7 +64,7 @@ export const UserStat: React.FC<UserStatProps> = ({
           : (
             <Preloader
               theme="secondary"
-              className={s.valuePreloader}
+              sizeT="medium"
             />
           )}
       </div>

@@ -7,7 +7,7 @@ import { SupplyAssets as SupplyAssetsDesktop } from 'components/tables/component
 
 type SupplyAssetsProps = {
   data: any[]
-  loading?: any
+  loading: boolean
   className?: string
 };
 

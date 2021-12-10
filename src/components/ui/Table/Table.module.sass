@@ -21,6 +21,7 @@
   @include blue-background
 
 .root
+  position: relative
   padding: 2rem 1.5rem
   &::-webkit-scrollbar
     display: none
@@ -206,6 +207,8 @@
   position: absolute
   top: 0
   bottom: 0
+  left: 0
+  right: 0
 
 @include media('>Mdesktop')
   .primary, .secondary

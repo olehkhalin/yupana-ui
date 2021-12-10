@@ -12,15 +12,18 @@ import { Tooltip } from 'components/ui/Tooltip';
 import s from './TokenName.module.sass';
 
 type AssetNameProps = {
+  theme?: 'primary' | 'secondary'
   token: TokenMetadataInterface
   href?: string
   external?: boolean
   logoClassName?: string
   active?: boolean
+  loading?: boolean
   className?: string
 };
 
 export const TokenName: React.FC<AssetNameProps> = ({
+  theme,
   token,
   active = false,
   logoClassName,
@@ -36,6 +39,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
   const content = (
     <>
       <TokenLogo
+        theme={theme}
         logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
         className={cx(s.logo, logoClassName)}
       />
