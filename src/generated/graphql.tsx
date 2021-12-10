@@ -206,8 +206,6 @@ export type AssetAssetUserBorrowArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 /** columns and relationships of "asset" */
 export type AssetAssetUserBorrow_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -217,7 +215,6 @@ export type AssetAssetUserBorrow_AggregateArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "asset" */
 export type AssetAssetUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -227,8 +224,6 @@ export type AssetAssetUserSupplyArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 /** columns and relationships of "asset" */
 export type AssetAssetUserSupply_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -238,7 +233,6 @@ export type AssetAssetUserSupply_AggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "asset" */
 export type AssetAssetWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -2356,15 +2350,9 @@ export type Global_Factors_Aggregate_Fields = {
   variance?: Maybe<Global_Factors_Variance_Fields>;
 };
 
-<<<<<<< HEAD
-/** aggregate fields of "funds" */
-export type Funds_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Funds_Select_Column>>;
-=======
 /** aggregate fields of "global_factors" */
 export type Global_Factors_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Global_Factors_Select_Column>>;
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
   distinct?: InputMaybe<Scalars['Boolean']>;
 };
 
@@ -2393,11 +2381,7 @@ export type Global_Factors_Bool_Exp = {
 /** unique or primary key constraints on table "global_factors" */
 export enum Global_Factors_Constraint {
   /** unique or primary key constraint */
-<<<<<<< HEAD
-  FundsPkey = 'funds_pkey',
-=======
   GlobalFactorsPkey = 'global_factors_pkey',
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 }
 
 /** input type for incrementing numeric columns in table "global_factors" */
@@ -2484,11 +2468,7 @@ export enum Global_Factors_Select_Column {
   /** column name */
   PriceFeedProxy = 'priceFeedProxy',
   /** column name */
-<<<<<<< HEAD
-  UserId = 'userId',
-=======
   YupanaContract = 'yupanaContract',
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 }
 
 /** input type for updating data in table "global_factors" */
@@ -2524,283 +2504,6 @@ export type Global_Factors_Stddev_Samp_Fields = {
   __typename?: 'global_factors_stddev_samp_fields';
   closeFactor?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
-<<<<<<< HEAD
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_samp() on columns of table "funds" */
-export type Funds_Stddev_Samp_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Funds_Sum_Fields = {
-  __typename?: 'funds_sum_fields';
-  assetId?: Maybe<Scalars['Int']>;
-  borrow?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  supply?: Maybe<Scalars['numeric']>;
-};
-
-/** order by sum() on columns of table "funds" */
-export type Funds_Sum_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "funds" */
-export enum Funds_Update_Column {
-  /** column name */
-  AssetId = 'assetId',
-  /** column name */
-  Borrow = 'borrow',
-  /** column name */
-  Entered = 'entered',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Supply = 'supply',
-  /** column name */
-  UserId = 'userId',
-}
-
-/** aggregate var_pop on columns */
-export type Funds_Var_Pop_Fields = {
-  __typename?: 'funds_var_pop_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_pop() on columns of table "funds" */
-export type Funds_Var_Pop_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Funds_Var_Samp_Fields = {
-  __typename?: 'funds_var_samp_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_samp() on columns of table "funds" */
-export type Funds_Var_Samp_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Funds_Variance_Fields = {
-  __typename?: 'funds_variance_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by variance() on columns of table "funds" */
-export type Funds_Variance_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** columns and relationships of "global_factors" */
-export type Global_Factors = {
-  __typename?: 'global_factors';
-  closeFactor: Scalars['numeric'];
-  id: Scalars['Int'];
-  liquidationIncentive: Scalars['numeric'];
-  liquidationThreshold: Scalars['numeric'];
-  yupanaContract: Scalars['String'];
-};
-
-/** aggregated selection of "global_factors" */
-export type Global_Factors_Aggregate = {
-  __typename?: 'global_factors_aggregate';
-  aggregate?: Maybe<Global_Factors_Aggregate_Fields>;
-  nodes: Array<Global_Factors>;
-};
-
-/** aggregate fields of "global_factors" */
-export type Global_Factors_Aggregate_Fields = {
-  __typename?: 'global_factors_aggregate_fields';
-  avg?: Maybe<Global_Factors_Avg_Fields>;
-  count: Scalars['Int'];
-  max?: Maybe<Global_Factors_Max_Fields>;
-  min?: Maybe<Global_Factors_Min_Fields>;
-  stddev?: Maybe<Global_Factors_Stddev_Fields>;
-  stddev_pop?: Maybe<Global_Factors_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Global_Factors_Stddev_Samp_Fields>;
-  sum?: Maybe<Global_Factors_Sum_Fields>;
-  var_pop?: Maybe<Global_Factors_Var_Pop_Fields>;
-  var_samp?: Maybe<Global_Factors_Var_Samp_Fields>;
-  variance?: Maybe<Global_Factors_Variance_Fields>;
-};
-
-/** aggregate fields of "global_factors" */
-export type Global_Factors_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Global_Factors_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** aggregate avg on columns */
-export type Global_Factors_Avg_Fields = {
-  __typename?: 'global_factors_avg_fields';
-  closeFactor?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  liquidationIncentive?: Maybe<Scalars['Float']>;
-  liquidationThreshold?: Maybe<Scalars['Float']>;
-};
-
-/** Boolean expression to filter rows from the table "global_factors". All fields are combined with a logical 'AND'. */
-export type Global_Factors_Bool_Exp = {
-  _and?: InputMaybe<Array<Global_Factors_Bool_Exp>>;
-  _not?: InputMaybe<Global_Factors_Bool_Exp>;
-  _or?: InputMaybe<Array<Global_Factors_Bool_Exp>>;
-  closeFactor?: InputMaybe<Numeric_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  liquidationIncentive?: InputMaybe<Numeric_Comparison_Exp>;
-  liquidationThreshold?: InputMaybe<Numeric_Comparison_Exp>;
-  yupanaContract?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "global_factors" */
-export enum Global_Factors_Constraint {
-  /** unique or primary key constraint */
-  GlobalFactorsPkey = 'global_factors_pkey',
-}
-
-/** input type for incrementing numeric columns in table "global_factors" */
-export type Global_Factors_Inc_Input = {
-  closeFactor?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['Int']>;
-  liquidationIncentive?: InputMaybe<Scalars['numeric']>;
-  liquidationThreshold?: InputMaybe<Scalars['numeric']>;
-};
-
-/** input type for inserting data into table "global_factors" */
-export type Global_Factors_Insert_Input = {
-  closeFactor?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['Int']>;
-  liquidationIncentive?: InputMaybe<Scalars['numeric']>;
-  liquidationThreshold?: InputMaybe<Scalars['numeric']>;
-  yupanaContract?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate max on columns */
-export type Global_Factors_Max_Fields = {
-  __typename?: 'global_factors_max_fields';
-  closeFactor?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  liquidationIncentive?: Maybe<Scalars['numeric']>;
-  liquidationThreshold?: Maybe<Scalars['numeric']>;
-  yupanaContract?: Maybe<Scalars['String']>;
-};
-
-/** aggregate min on columns */
-export type Global_Factors_Min_Fields = {
-  __typename?: 'global_factors_min_fields';
-  closeFactor?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  liquidationIncentive?: Maybe<Scalars['numeric']>;
-  liquidationThreshold?: Maybe<Scalars['numeric']>;
-  yupanaContract?: Maybe<Scalars['String']>;
-};
-
-/** response of any mutation on the table "global_factors" */
-export type Global_Factors_Mutation_Response = {
-  __typename?: 'global_factors_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Global_Factors>;
-};
-
-/** on conflict condition type for table "global_factors" */
-export type Global_Factors_On_Conflict = {
-  constraint: Global_Factors_Constraint;
-  update_columns?: Array<Global_Factors_Update_Column>;
-  where?: InputMaybe<Global_Factors_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "global_factors". */
-export type Global_Factors_Order_By = {
-  closeFactor?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  liquidationIncentive?: InputMaybe<Order_By>;
-  liquidationThreshold?: InputMaybe<Order_By>;
-  yupanaContract?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: global_factors */
-export type Global_Factors_Pk_Columns_Input = {
-  id: Scalars['Int'];
-};
-
-/** select columns of table "global_factors" */
-export enum Global_Factors_Select_Column {
-  /** column name */
-  CloseFactor = 'closeFactor',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  LiquidationIncentive = 'liquidationIncentive',
-  /** column name */
-  LiquidationThreshold = 'liquidationThreshold',
-  /** column name */
-  YupanaContract = 'yupanaContract',
-}
-
-/** input type for updating data in table "global_factors" */
-export type Global_Factors_Set_Input = {
-  closeFactor?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['Int']>;
-  liquidationIncentive?: InputMaybe<Scalars['numeric']>;
-  liquidationThreshold?: InputMaybe<Scalars['numeric']>;
-  yupanaContract?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate stddev on columns */
-export type Global_Factors_Stddev_Fields = {
-  __typename?: 'global_factors_stddev_fields';
-  closeFactor?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  liquidationIncentive?: Maybe<Scalars['Float']>;
-  liquidationThreshold?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Global_Factors_Stddev_Pop_Fields = {
-  __typename?: 'global_factors_stddev_pop_fields';
-  closeFactor?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  liquidationIncentive?: Maybe<Scalars['Float']>;
-  liquidationThreshold?: Maybe<Scalars['Float']>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Global_Factors_Stddev_Samp_Fields = {
-  __typename?: 'global_factors_stddev_samp_fields';
-  closeFactor?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
   liquidationIncentive?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
 };
@@ -2825,11 +2528,8 @@ export enum Global_Factors_Update_Column {
   /** column name */
   LiquidationThreshold = 'liquidationThreshold',
   /** column name */
-<<<<<<< HEAD
-=======
   PriceFeedProxy = 'priceFeedProxy',
   /** column name */
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
   YupanaContract = 'yupanaContract',
 }
 
@@ -3834,19 +3534,6 @@ export type Mutation_RootDeleteDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
 
-<<<<<<< HEAD
-/** mutation root */
-export type Mutation_RootDeleteFundsArgs = {
-  where: Funds_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootDeleteFundsByPkArgs = {
-  id: Scalars['Int'];
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootDeleteGlobalFactorsArgs = {
   where: Global_Factors_Bool_Exp;
@@ -3922,8 +3609,6 @@ export type Mutation_RootDeleteUserArgs = {
   where: User_Bool_Exp;
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootDeleteUserBorrowArgs = {
   where: User_Borrow_Bool_Exp;
@@ -3934,14 +3619,11 @@ export type Mutation_RootDeleteUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootDeleteUserByPkArgs = {
   address: Scalars['String'];
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootDeleteUserSupplyArgs = {
   where: User_Supply_Bool_Exp;
@@ -3952,7 +3634,6 @@ export type Mutation_RootDeleteUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootDeleteWithdrawTxArgs = {
   where: Withdraw_Tx_Bool_Exp;
@@ -4057,21 +3738,6 @@ export type Mutation_RootInsertDipdupSchemaOneArgs = {
   on_conflict?: InputMaybe<Dipdup_Schema_On_Conflict>;
 };
 
-<<<<<<< HEAD
-/** mutation root */
-export type Mutation_RootInsertFundsArgs = {
-  objects: Array<Funds_Insert_Input>;
-  on_conflict?: InputMaybe<Funds_On_Conflict>;
-};
-
-/** mutation root */
-export type Mutation_RootInsertFundsOneArgs = {
-  object: Funds_Insert_Input;
-  on_conflict?: InputMaybe<Funds_On_Conflict>;
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootInsertGlobalFactorsArgs = {
   objects: Array<Global_Factors_Insert_Input>;
@@ -4162,8 +3828,6 @@ export type Mutation_RootInsertUserArgs = {
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootInsertUserBorrowArgs = {
   objects: Array<User_Borrow_Insert_Input>;
@@ -4176,15 +3840,12 @@ export type Mutation_RootInsertUserBorrowOneArgs = {
   on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootInsertUserOneArgs = {
   object: User_Insert_Input;
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootInsertUserSupplyArgs = {
   objects: Array<User_Supply_Insert_Input>;
@@ -4197,7 +3858,6 @@ export type Mutation_RootInsertUserSupplyOneArgs = {
   on_conflict?: InputMaybe<User_Supply_On_Conflict>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootInsertWithdrawTxArgs = {
   objects: Array<Withdraw_Tx_Insert_Input>;
@@ -4326,23 +3986,6 @@ export type Mutation_RootUpdateDipdupSchemaByPkArgs = {
   pk_columns: Dipdup_Schema_Pk_Columns_Input;
 };
 
-<<<<<<< HEAD
-/** mutation root */
-export type Mutation_RootUpdateFundsArgs = {
-  _inc?: InputMaybe<Funds_Inc_Input>;
-  _set?: InputMaybe<Funds_Set_Input>;
-  where: Funds_Bool_Exp;
-};
-
-/** mutation root */
-export type Mutation_RootUpdateFundsByPkArgs = {
-  _inc?: InputMaybe<Funds_Inc_Input>;
-  _set?: InputMaybe<Funds_Set_Input>;
-  pk_columns: Funds_Pk_Columns_Input;
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootUpdateGlobalFactorsArgs = {
   _inc?: InputMaybe<Global_Factors_Inc_Input>;
@@ -4448,8 +4091,6 @@ export type Mutation_RootUpdateUserArgs = {
   where: User_Bool_Exp;
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootUpdateUserBorrowArgs = {
   _inc?: InputMaybe<User_Borrow_Inc_Input>;
@@ -4464,7 +4105,6 @@ export type Mutation_RootUpdateUserBorrowByPkArgs = {
   pk_columns: User_Borrow_Pk_Columns_Input;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootUpdateUserByPkArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
@@ -4472,8 +4112,6 @@ export type Mutation_RootUpdateUserByPkArgs = {
   pk_columns: User_Pk_Columns_Input;
 };
 
-<<<<<<< HEAD
-=======
 /** mutation root */
 export type Mutation_RootUpdateUserSupplyArgs = {
   _inc?: InputMaybe<User_Supply_Inc_Input>;
@@ -4488,7 +4126,6 @@ export type Mutation_RootUpdateUserSupplyByPkArgs = {
   pk_columns: User_Supply_Pk_Columns_Input;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** mutation root */
 export type Mutation_RootUpdateWithdrawTxArgs = {
   _inc?: InputMaybe<Withdraw_Tx_Inc_Input>;
@@ -4997,29 +4634,6 @@ export type Query_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
 
-<<<<<<< HEAD
-export type Query_RootFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-export type Query_RootFundsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-export type Query_RootFundsByPkArgs = {
-  id: Scalars['Int'];
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Query_RootGlobalFactorsArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5196,8 +4810,6 @@ export type Query_RootUserAggregateArgs = {
   where?: InputMaybe<User_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 export type Query_RootUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5218,13 +4830,10 @@ export type Query_RootUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Query_RootUserByPkArgs = {
   address: Scalars['String'];
 };
 
-<<<<<<< HEAD
-=======
 export type Query_RootUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5245,7 +4854,6 @@ export type Query_RootUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Query_RootWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5376,11 +4984,8 @@ export type Rates_Bool_Exp = {
 /** unique or primary key constraints on table "rates" */
 export enum Rates_Constraint {
   /** unique or primary key constraint */
-<<<<<<< HEAD
-=======
   RatesAssetIdKey = 'rates_asset_id_key',
   /** unique or primary key constraint */
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
   RatesPkey = 'rates_pkey',
 }
 
@@ -6338,29 +5943,6 @@ export type Subscription_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
 
-<<<<<<< HEAD
-export type Subscription_RootFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-export type Subscription_RootFundsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-export type Subscription_RootFundsByPkArgs = {
-  id: Scalars['Int'];
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Subscription_RootGlobalFactorsArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6537,8 +6119,6 @@ export type Subscription_RootUserAggregateArgs = {
   where?: InputMaybe<User_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 export type Subscription_RootUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6559,13 +6139,10 @@ export type Subscription_RootUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Subscription_RootUserByPkArgs = {
   address: Scalars['String'];
 };
 
-<<<<<<< HEAD
-=======
 export type Subscription_RootUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6586,7 +6163,6 @@ export type Subscription_RootUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type Subscription_RootWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7397,8 +6973,6 @@ export type UserLiquidator_AggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 /** columns and relationships of "user" */
 export type UserUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -7408,7 +6982,6 @@ export type UserUserBorrowArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "user" */
 export type UserUserBorrowTxArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -7427,18 +7000,6 @@ export type UserUserBorrowTx_AggregateArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-/** columns and relationships of "user" */
-export type UserUserFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "user" */
 export type UserUserBorrow_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -7466,8 +7027,6 @@ export type UserUserRepayTx_AggregateArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 /** columns and relationships of "user" */
 export type UserUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -7477,7 +7036,6 @@ export type UserUserSupplyArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "user" */
 export type UserUserSupplyTxArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
@@ -7496,8 +7054,6 @@ export type UserUserSupplyTx_AggregateArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-<<<<<<< HEAD
-=======
 /** columns and relationships of "user" */
 export type UserUserSupply_AggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -7507,7 +7063,6 @@ export type UserUserSupply_AggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 /** columns and relationships of "user" */
 export type UserUserWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -7687,11 +7242,7 @@ export type User_Borrow_Bool_Exp = {
 /** unique or primary key constraints on table "user_borrow" */
 export enum User_Borrow_Constraint {
   /** unique or primary key constraint */
-<<<<<<< HEAD
-  UserPkey = 'user_pkey',
-=======
   UserBorrowPkey = 'user_borrow_pkey',
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 }
 
 /** input type for incrementing numeric columns in table "user_borrow" */
@@ -8395,11 +7946,7 @@ export enum User_Supply_Update_Column {
   /** column name */
   Supply = 'supply',
   /** column name */
-<<<<<<< HEAD
-  OutstandingBorrow = 'outstandingBorrow',
-=======
   UserId = 'userId',
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 }
 
 /** aggregate var_pop on columns */
@@ -8855,54 +8402,33 @@ export type Withdraw_Tx_Variance_Order_By = {
 
 export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
 
-<<<<<<< HEAD
-export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
-
-export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
-=======
 export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 
 export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }> }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } };
 
-<<<<<<< HEAD
-=======
 export type LendingAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 export type LendingAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }> };
 
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
-<<<<<<< HEAD
-export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', totalSupply?: any | null | undefined, totalBorrowed?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
-=======
 export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', totalSupply?: any | null | undefined, totalBorrowed?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
 }>;
 
-<<<<<<< HEAD
-export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, borrowersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
-=======
 export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
 
 export const LiquidationPositionsDocument = gql`
     query LiquidationPositions {
   user {
     address
     outstandingBorrow
-<<<<<<< HEAD
-    borrowedAssets: userFunds(where: {borrow: {_gt: "0"}}) {
-=======
     liquidationRatio
     borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
       asset {
         contractAddress
         isFa2
@@ -8915,11 +8441,7 @@ export const LiquidationPositionsDocument = gql`
         }
       }
     }
-<<<<<<< HEAD
-    collateralAssets: userFunds(where: {entered: {_eq: true}}) {
-=======
     collateralAssets: userSupply(where: {entered: {_eq: true}}) {
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
       asset {
         contractAddress
         isFa2
@@ -8932,10 +8454,6 @@ export const LiquidationPositionsDocument = gql`
         }
       }
     }
-<<<<<<< HEAD
-    liquidationRatio
-=======
->>>>>>> 86ad3cc65a512445f3ce0afebe12ad93e67b1f0d
   }
 }
     `;
