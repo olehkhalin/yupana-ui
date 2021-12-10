@@ -27,8 +27,8 @@ import {
 } from 'components/common/SupplyLine/content';
 import { CurrencySwitcher } from 'components/common/CurrencySwitcher';
 import { UserStat } from 'components/common/UserStat';
-import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
-import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
+// import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
+// import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
@@ -1035,18 +1035,18 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Supply
         </div>
-        <SupplyAssets
+        {/* <SupplyAssets
           data={SUPPLY_ASSETS_DATA}
           className={cx(s.marginBottomLarge, s.halfTable)}
-        />
+        /> */}
 
         <div className={s.subTitle}>
           Borrow
         </div>
-        <BorrowAssets
+        {/* <BorrowAssets
           data={BORROW_ASSETS_DATA}
           className={cx(s.marginBottomLarge, s.halfTable)}
-        />
+        /> */}
 
         <div className={s.subTitle}>
           Your Supply
@@ -1127,14 +1127,14 @@ export const UiKit: React.FC = () => {
           className={cx(s.center, s.marginBottom)}
         />
         <div className={s.wrapper}>
-          <SupplyAssets
+          {/* <SupplyAssets
             data={SUPPLY_ASSETS_DATA}
             className={cx(s.halfTable, s.switchTable, { [s.show]: isAssetSwitcherActive })}
-          />
-          <BorrowAssets
+          /> */}
+          {/* <BorrowAssets
             data={BORROW_ASSETS_DATA}
             className={cx(s.halfTable, s.switchTable, { [s.show]: !isAssetSwitcherActive })}
-          />
+          /> */}
         </div>
       </div>
 

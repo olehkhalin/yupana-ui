@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 import cx from 'classnames';
 
-import { TokenMetadataInterface } from 'types/token';
+import { AssetsType } from 'containers/Assets';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
@@ -14,7 +14,7 @@ import { DropdownArrow } from 'components/common/DropdownArrow';
 import s from './Tables.module.sass';
 
 type SupplyAssetsProps = {
-  data: any[]
+  data: AssetsType[]
   className?: string
 };
 
@@ -37,18 +37,17 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: { supplyApy: number }) => getPrettyPercent(supplyApy),
+        accessor: ({ supplyApy }: AssetsType) => getPrettyPercent(supplyApy),
       },
       {
         Header: 'Collateral Factor',
         id: 'collateralFactor',
-        accessor: ({ collateralFactor }
-        : { collateralFactor: number }) => getPrettyPercent(collateralFactor),
+        accessor: ({ collateralFactor }: AssetsType) => getPrettyPercent(collateralFactor),
       },
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: ({ wallet, asset }: { wallet: number, asset: TokenMetadataInterface }) => `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
+        accessor: ({ wallet, asset }: AssetsType) => `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
       },
       {
         Header: () => null,
