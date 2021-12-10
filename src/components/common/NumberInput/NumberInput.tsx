@@ -20,7 +20,7 @@ type NumberInputProps = {
   error?: string
   setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
-  priceInUsd: number
+  priceInBaseCurrency: number
   handleInputChange?: (newValue: BigNumber) => void
   balance: number
   isShowMaxButton?: boolean
@@ -39,7 +39,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
   error,
   setError,
   theme = 'primary',
-  priceInUsd,
+  priceInBaseCurrency,
   handleInputChange,
   balance,
   isShowMaxButton = true,
@@ -57,7 +57,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     if (amount) {
       setInputValue(amount);
     }
-  }, [amount, metadata?.decimals]);
+  }, [amount]);
 
   const onChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -100,9 +100,9 @@ export const NumberInput: React.FC<NumberInputProps> = ({
 
   // Counting price in usd
   useEffect(() => {
-    const countPriceInUsd = new BigNumber(+inputValue * priceInUsd);
+    const countPriceInUsd = new BigNumber(+inputValue * priceInBaseCurrency);
     setCurrencyInUsd(countPriceInUsd);
-  }, [inputValue, priceInUsd]);
+  }, [inputValue, priceInBaseCurrency]);
 
   // Add click to all container area
   const handleContainer = () => {
@@ -125,7 +125,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
             value={inputValue}
             ref={inputRef}
             max={30}
-            min={min?.toString()}
+            min={min}
             className={s.input}
             onChange={onChange}
             {...props}

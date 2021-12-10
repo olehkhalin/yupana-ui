@@ -216,6 +216,8 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       percent?: number
       submit?: boolean
     }) => {
+      const LIQUIDATION_RISK_PERCENT = 80;
+
       if (inputAmount?.gt(userBalance)) {
         return setError('Insufficient Balance');
       }
@@ -224,7 +226,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         return setError('This field is required');
       }
 
-      if (percent >= 80 && inputAmount?.lte(userBalance)) {
+      if (percent >= LIQUIDATION_RISK_PERCENT && inputAmount?.lte(userBalance)) {
         return setError('Beware of the Liquidation Risk');
       }
 
@@ -425,7 +427,8 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         <NumberInput
           theme={theme}
           input={{ amount: numberInputStringValue, metadata: asset }}
-          priceInUsd={priceInUsd}
+          // TODO: Current currency Tezos ? tezos.currentPrice : priceInUsd
+          priceInBaseCurrency={priceInUsd}
           handleInputChange={handleInputChange}
           error={error}
           setError={setError}

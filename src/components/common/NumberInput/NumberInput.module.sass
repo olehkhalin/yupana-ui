@@ -14,13 +14,6 @@
   cursor: text
   transition: border-color $animationTime
 
-.secondary
-  .wrapper, .input
-    color: $light-yellow
-  .input
-    &::placeholder
-      color: $light-yellow
-
 .wrapper
   display: flex
   flex-direction: column
@@ -28,9 +21,6 @@
   justify-content: space-between
   width: 100%
   color: $light-blue
-
-.wrapper
-  width: 100%
 
 .input
   width: 100%
@@ -97,6 +87,11 @@
     &:hover
       color: $light-yellow
       text-shadow: $light-yellow-shadow
+  .wrapper, .input
+    color: $light-yellow
+  .input
+    &::placeholder
+      color: $light-yellow
 
 .errorContainer
   display: flex
