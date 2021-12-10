@@ -4,9 +4,10 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { SupplyAssetsCard } from 'components/tables/components/mobile';
 import { SupplyAssets as SupplyAssetsDesktop } from 'components/tables/components//desktop';
+import { AssetsType } from 'containers/Assets';
 
 type SupplyAssetsProps = {
-  data: any[]
+  data: AssetsType[]
   loading: boolean
   className?: string
 };
@@ -36,7 +37,6 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         }) => (
           <SupplyAssetsCard
             key={getUniqueKey()}
-            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

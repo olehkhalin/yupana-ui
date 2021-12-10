@@ -4,9 +4,10 @@ import { getUniqueKey } from 'utils/getUniqueKey';
 import { useWiderThanLphone } from 'utils/getMediaQuery';
 import { BorrowAssetsCard } from 'components/tables/components/mobile';
 import { BorrowAssets as BorrowAssetsDesktop } from 'components/tables/components/desktop';
+import { AssetsType } from 'containers/Assets';
 
 type BorrowAssetsProps = {
-  data: any[]
+  data: AssetsType[]
   className?: string
 };
 

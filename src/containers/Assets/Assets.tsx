@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
+import { TokenMetadataType } from 'types/token';
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { useWiderThanMdesktop } from 'utils/getMediaQuery';
 import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
@@ -23,19 +24,25 @@ type AssetsWrapperProps = {
   loading: boolean
 };
 
+type AssetFields = Record<'supplyApy' | 'collateralFactor' | 'borrowApy' | 'utilisationRate' | 'liquidity' | 'wallet', number>;
+
+export type AssetsType = {
+  asset: TokenMetadataType
+} & AssetFields;
+
 const AssetsWrapper: React.FC<AssetsWrapperProps> = ({
   isSupply = true,
   data,
   loading,
 }) => {
-  const preparedData = useMemo(() => (data ? data.asset.map((el) => {
+  const preparedData: any[] = useMemo(() => (data ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as Asset);
 
-    const supplyApy = getPreparedPercentValue(el as Asset, 'supply_apy');
-    const collateralFactor = new BigNumber(el.collateralFactor).div(1e18).multipliedBy(1e2);
-    const borrowApy = getPreparedPercentValue(el as Asset, 'borrow_apy');
-    const utilisationRate = getPreparedPercentValue(el as Asset, 'utilization_rate');
-    const liquidity = new BigNumber(el.totalLiquid).div(1e18);
+    const supplyApy = +getPreparedPercentValue(el as Asset, 'supply_apy');
+    const collateralFactor = Number(new BigNumber(el.collateralFactor).div(1e18).multipliedBy(1e2));
+    const borrowApy = +getPreparedPercentValue(el as Asset, 'borrow_apy');
+    const utilisationRate = +getPreparedPercentValue(el as Asset, 'utilization_rate');
+    const liquidity = Number(new BigNumber(el.totalLiquid).div(1e18));
     const wallet = 0; // TODO: Change to get from contract
 
     return {
@@ -79,8 +86,6 @@ export const Assets: React.FC<AssetsProps> = ({
   const isWiderThanMdesktop = useWiderThanMdesktop();
 
   const { data, error, loading } = useLendingAssetsQuery();
-
-  console.log('Asset', loading);
 
   if (error) {
     return <></>;
