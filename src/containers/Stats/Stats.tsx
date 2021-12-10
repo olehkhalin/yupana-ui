@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { LimitLine } from 'components/common/LimitLine';
 import { UserStat } from 'components/common/UserStat';
@@ -13,26 +13,36 @@ type StatsProps = {
 
 export const Stats: React.FC<StatsProps> = ({
   className,
-}) => (
-  <section className={className}>
-    <UserStat
-      {...USER_STAT}
-      loading
-      className={s.stat}
-    />
-    <LimitLine
-      percent={LIMIT_LINE.userBorrowLimitPercent}
-      value={LIMIT_LINE.userBorrowLimit}
-      title="Your Borrow Limit"
-      loading
-      className={s.limit}
-    />
-    <LimitLine
-      percent={LIMIT_LINE.userLiquidationLimitPercent}
-      value={LIMIT_LINE.userLiquidationLimit}
-      title="Your Liquidation Limit"
-      loading
-      className={s.limit}
-    />
-  </section>
-);
+}) => {
+  // TODO: Delete later
+  const [loading, setLoading] = useState<boolean>(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  return (
+    <section className={className}>
+      <UserStat
+        {...USER_STAT}
+        loading={loading}
+        className={s.stat}
+      />
+      <LimitLine
+        percent={LIMIT_LINE.userBorrowLimitPercent}
+        value={LIMIT_LINE.userBorrowLimit}
+        title="Your Borrow Limit"
+        loading={loading}
+        className={s.limit}
+      />
+      <LimitLine
+        percent={LIMIT_LINE.userLiquidationLimitPercent}
+        value={LIMIT_LINE.userLiquidationLimit}
+        title="Your Liquidation Limit"
+        loading={loading}
+        className={s.limit}
+      />
+    </section>
+  );
+};
