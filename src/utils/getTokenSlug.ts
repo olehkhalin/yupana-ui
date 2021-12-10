@@ -4,7 +4,7 @@ export const getTokenSlug = ({ address, id }: TokenId) => {
   if (!address) {
     return 'tez';
   }
-  if (id === undefined) {
+  if (id === undefined || id === null) {
     return address;
   }
   return `${address}_${id}`;

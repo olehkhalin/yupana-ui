@@ -20,10 +20,10 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
 
     const totalSupply = new BigNumber(el.totalSupply).div(1e18);
     const supplyApy = getPreparedPercentValue(el as unknown as Asset, 'supply_apy');
-    const numberOfSupplier = el.suppliersCount.aggregate?.count ?? 0;
+    const numberOfSupplier = el.totalSupply.aggregate?.count ?? 0;
     const totalBorrow = new BigNumber(el.totalBorrowed).div(1e18);
     const borrowApy = getPreparedPercentValue(el as unknown as Asset, 'borrow_apy');
-    const numberOfBorrowers = el.borrowersCount.aggregate?.count ?? 0;
+    const numberOfBorrowers = el.totalBorrowed.aggregate?.count ?? 0;
 
     return {
       yToken: el.ytoken,
