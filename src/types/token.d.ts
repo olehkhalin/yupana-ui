@@ -11,10 +11,7 @@ type TokenData = {
 };
 
 type TokenMetadata = TokenData & TokenId;
-type TokenMetadataWithBalance = TokenMetadata & { balance?: BigNumber };
-
 export interface TokenMetadataInterface extends TokenMetadata {}
-export interface TokenMetadataWithBalanceInterface extends TokenMetadataWithBalance {}
 
 type TokenLogoType = Pick<TokenData, 'name' | 'thumbnailUri'>;
 export interface TokenLogoInterface extends TokenLogoType {}

@@ -4,7 +4,7 @@ import React, {
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
-import { TokenMetadataWithBalanceInterface } from 'types/token';
+import { TokenMetadataInterface } from 'types/token';
 import { Button } from 'components/ui/Button';
 import { DECIMALS_VALUE } from 'constants/default';
 
@@ -13,7 +13,7 @@ import s from './NumberInput.module.sass';
 type NumberInputProps = {
   input: {
     amount: string
-    metadata: TokenMetadataWithBalanceInterface
+    metadata: TokenMetadataInterface
   }
   min?: number | BigNumber
   max?: number | BigNumber

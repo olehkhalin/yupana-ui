@@ -8,8 +8,8 @@ export const CREDIT_PROCESS_DATA = {
     symbol: 'XTZ',
     decimals: 6,
     thumbnailUri: XTZ_THUMBNAIL_URI,
-    balance: 16.666666, // token amount
   },
+  tokenBalance: 16.666666, // token amount
   supplyBalance: 100, // $
   yourBorrowLimit: 60, // $
   borrowLimitUsed: 50, // %
