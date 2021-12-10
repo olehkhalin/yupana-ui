@@ -23,4 +23,15 @@ export const YOUR_SUPPLY_ASSETS_DATA = [
     supplyApy: 9.70,
     balance: 75,
   },
+  {
+    asset: {
+      id: '1',
+      address: 'KT1K9gCRgaLRFKTErYt1wVxA3Frb9FjasjTV',
+      name: 'SmartLink',
+      symbol: 'SMAK',
+      thumbnailUri: SMAK_THUMBNAIL_URI,
+    },
+    supplyApy: 9.70,
+    balance: 75,
+  },
 ];
