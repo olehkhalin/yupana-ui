@@ -32,7 +32,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}`}
+            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}&${row.yToken}`}
           />
         ),
       },
@@ -120,7 +120,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={`${AppRoutes.MARKETS}/${row.yToken}`}
+            href={`${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}&${row.yToken}`}
             className={s.link}
           >
             Details
