@@ -102,7 +102,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
 
 export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
-  const yToken = +tokenSlug;
+  const yToken = +tokenSlug.split('&')[1];
 
   const { data, error } = useMarketsDetailsQuery({
     variables: {
