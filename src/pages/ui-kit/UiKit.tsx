@@ -49,9 +49,9 @@ import {
   YourBorrowAssetsEmptyCard,
 } from 'components/tables/components/mobile';
 import { MarketCard } from 'components/common/MarketCard';
-import {
-  LiquidationPositions,
-} from 'components/tables/components/desktop';
+// import {
+//   LiquidationPositions,
+// } from 'components/tables/components/desktop';
 import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
 import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
@@ -59,7 +59,7 @@ import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
-import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
+// import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 import {
   MARKET_CARDS_SUPPLY,
   MARKET_CARDS_BORROW,
@@ -1103,7 +1103,7 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Liquidation positions
         </div>
-        <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} />
+        {/* <LiquidationPositions data={LIQUIDATION_POSITIONS_DATA} /> */}
 
         <div className={s.subTitle}>
           Liquidate

@@ -14,11 +14,13 @@ import s from './Tables.module.sass';
 
 type LiquidationPositionsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -37,7 +39,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
             sizeT="small"
             className={cx(s.address, s.white, s.noShadow)}
           >
-            {shortize(row.borrowerAddress)}
+            {loading ? row.borrowerAddress : shortize(row.borrowerAddress)}
           </Button>
         ),
       },
@@ -50,7 +52,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrowed })}
+            {loading ? row.borrowerAddress : getPrettyAmount({ value: row.totalBorrowed })}
           </span>
         ),
       },
@@ -66,7 +68,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.healthFactor)}
+            {loading ? row.borrowerAddress : getPrettyPercent(row.healthFactor)}
           </span>
         ),
       },
@@ -79,7 +81,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
+            {loading ? row.borrowerAddress : row.borrowedAsset.join(', ')}
           </span>
         ),
       },
@@ -92,7 +94,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAsset.join(', ')}
+            {loading ? row.borrowerAddress : row.collateralAsset.join(', ')}
           </span>
         ),
       },
@@ -102,7 +104,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            href={loading ? '' : `${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            disabled={loading}
             className={s.link}
           >
             Liquidate
@@ -110,14 +113,16 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quinary"
       columns={columns}
       data={data}
+      loading={loading}
       pagination
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidationRow}

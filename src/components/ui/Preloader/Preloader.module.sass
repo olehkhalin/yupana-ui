@@ -28,7 +28,11 @@
   &.quaternary
     background-color: rgba($white, .04)
     .light
-      animation: lite-with-background 1.2s ease-in-out infinite
+      animation: lite-blue-yellow 1.2s ease-in-out infinite
+  &.quinary
+    background-color: rgba($white, .04)
+    .light
+      animation: lite-yellow-blue 1.2s ease-in-out infinite
 
 .light
   position: relative
@@ -62,13 +66,21 @@
   100%
     left: 100%
 
-@keyframes lite-with-background
+@keyframes lite-blue-yellow
   0%
     left: -50%
     background: $blue-preloader-gradient
   100%
     left: 100%
     background: $yellow-preloader-gradient
+
+@keyframes lite-yellow-blue
+  0%
+    left: -50%
+    background: $yellow-preloader-gradient
+  100%
+    left: 100%
+    background: $blue-preloader-gradient
 
 @include media('>Mphone')
   .small
