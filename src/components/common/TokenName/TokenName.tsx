@@ -31,7 +31,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
   className,
   ...props
 }) => {
-  const tokenName = getTokenName(token);
+  const tokenName = loading ? '—' : getTokenName(token);
   const metadata = {
     name: getSlice(tokenName, 5),
     isSlice: tokenName ? tokenName.length > 8 : token.symbol ? token.symbol.length > 8 : false,
@@ -45,7 +45,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
         loading={loading}
         className={cx(s.logo, logoClassName)}
       />
-      {loading ? '—' : metadata.name}
+      {metadata.name}
     </>
   );
 
@@ -54,6 +54,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
       theme="clear"
       sizeT="small"
       className={cx(s.wrapper, { [s.active]: active }, className)}
+      disabled={loading}
       {...props}
     >
       {
