@@ -25,7 +25,7 @@ export const Stats: React.FC<StatsProps> = ({
       value={LIMIT_LINE.userBorrowLimit}
       title="Your Borrow Limit"
       description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
-      theme="tertiary"
+      theme="secondary"
       className={s.limit}
     />
     <LimitLine
@@ -34,7 +34,7 @@ export const Stats: React.FC<StatsProps> = ({
       value={LIMIT_LINE.userLiquidationLimit}
       title="Your Liquidation Limit"
       description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
-      theme="tertiary"
+      theme="secondary"
       className={s.limit}
     />
   </section>

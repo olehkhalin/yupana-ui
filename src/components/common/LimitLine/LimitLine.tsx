@@ -15,7 +15,7 @@ type LimitLineProps = {
   value: number
   title?: string
   description?: string
-  theme?: 'primary' | 'secondary' | 'tertiary'
+  theme?: 'primary' | 'secondary'
   className?: string
 };
 
@@ -57,6 +57,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
             title={title}
             description={description}
             theme={theme}
+            className={s.title}
           />
         </div>
 
@@ -68,7 +69,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
       <ProgressBar
         amount={amount}
         timing={timing}
-        theme="secondary"
+        theme={theme}
       />
     </div>
   );
