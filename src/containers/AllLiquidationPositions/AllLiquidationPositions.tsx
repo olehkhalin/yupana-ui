@@ -1,6 +1,7 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
+import { useLoading } from 'hooks/useLoading';
 import { getTokenName } from 'utils/getTokenName';
 import { LiquidationPositionsQuery, useLiquidationPositionsQuery } from 'generated/graphql';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
@@ -63,12 +64,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
   const { data, error } = useLiquidationPositionsQuery();
 
   // TODO: Delete later
-  const [loading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  const { loading } = useLoading();
 
   if (!data || error) {
     return <></>;

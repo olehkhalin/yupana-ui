@@ -132,14 +132,14 @@ export const Table: React.FC<TableProps> = ({
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
+    { [s.loading]: loading },
     className,
   );
 
   return (
     <>
       <div className={cx(compoundClassNames)}>
-        {loading && <Preloader theme={preloaderTheme} className={s.preloader} />}
-        <div className={cx(s.wrapper, { [s.padding]: loading && theme === 'tertiary' })}>
+        <div className={s.wrapper}>
           <table
             {...getTableProps()}
             className={cx(
@@ -161,11 +161,17 @@ export const Table: React.FC<TableProps> = ({
               ))}
             </thead>
             <tbody {...getTableBodyProps()} className={s.tbody}>
+              {loading && (
+              <Preloader
+                theme={preloaderTheme}
+                className={s.preloader}
+              />
+              )}
               {rows.map((row) => {
                 prepareRow(row);
 
                 let isSelected: boolean = false;
-                if (selectedItem) {
+                if (selectedItem && !loading) {
                   isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
                 }
                 return (
@@ -176,7 +182,8 @@ export const Table: React.FC<TableProps> = ({
                       className={cx(
                         s.tr,
                         s.trBody,
-                        { [s.selected]: isSelected },
+                        { [s.selected]: isSelected && !loading },
+                        { [s.loading]: loading },
                         rowClassName,
                       )}
                     >

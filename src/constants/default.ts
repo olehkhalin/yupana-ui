@@ -2,6 +2,7 @@ export const ANIMATION_TIME = 0.25;
 
 // TODO: Delete later
 export const XTZ_CURRENT_PRICE = 6;
+export const LOADING_TIME = 2000;
 
 export type NetworkType = 'mainnet' | 'edo2net' | 'florencenet' | 'granadanet' | 'sandbox' | 'hangzhounet';
 

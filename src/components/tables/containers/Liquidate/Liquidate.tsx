@@ -7,11 +7,13 @@ import { LiquidateCard } from 'components/tables/components/mobile';
 
 type LiquidateProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const Liquidate: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -20,6 +22,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
     return (
       <LiquidateDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );

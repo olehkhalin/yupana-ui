@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
+import { useLoading } from 'hooks/useLoading';
 import { useWiderThanMdesktop } from 'utils/getMediaQuery';
 import { Section } from 'components/common/Section';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
@@ -21,13 +22,9 @@ export const UserAssets: React.FC<UserAssetsProps> = ({
   className,
 }) => {
   const isWiderThanMdesktop = useWiderThanMdesktop();
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // TODO: Delete later
+  const { loading } = useLoading();
 
   return (
     <div className={cx(s.root, className)}>

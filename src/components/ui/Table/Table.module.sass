@@ -52,6 +52,7 @@
       padding-top: 1.5rem
 
 .tbody
+  position: relative
   display: flex
   flex-direction: column
   width: 100%
@@ -180,6 +181,11 @@
       background: $yellow-light-gradient
       &::after
         @include yellow-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
     &.selected
       background: $yellow-light-gradient
       &::after
@@ -195,6 +201,11 @@
       background: $blue-light-gradient
       &::after
         @include blue-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
     &.selected
       background: $blue-light-gradient
       &::after

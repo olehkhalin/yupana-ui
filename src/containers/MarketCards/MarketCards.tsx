@@ -1,7 +1,8 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
+import { useLoading } from 'hooks/useLoading';
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { Asset, MarketOverviewQuery, useMarketOverviewQuery } from 'generated/graphql';
 import { MarketCard } from 'components/common/MarketCard';
@@ -81,13 +82,9 @@ export const MarketCards: React.FC<MarketCardsProps> = ({
   className,
 }) => {
   const { data, error } = useMarketOverviewQuery();
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // TODO: Delete later
+  const { loading } = useLoading();
 
   if (!data || error) {
     return (

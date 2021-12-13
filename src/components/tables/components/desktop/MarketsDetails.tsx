@@ -30,7 +30,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         accessor: (row: any) => (
           <span className={s.blue}>
             {loading
-              ? '—'
+              ? row.totalSupply
               : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
           </span>
         ),
@@ -45,7 +45,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         accessor: (row: any) => (
           <span className={s.blue}>
             {loading
-              ? '—'
+              ? row.supplyApy
               : getPrettyPercent(row.supplyApy)}
           </span>
         ),
@@ -59,9 +59,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'numberOfSupplier',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {loading
-              ? '—'
-              : row.numberOfSupplier}
+            {row.numberOfSupplier}
           </span>
         ),
       },
@@ -75,7 +73,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         accessor: (row: any) => (
           <span className={s.yellow}>
             {loading
-              ? '—'
+              ? row.totalBorrow
               : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
           </span>
         ),
@@ -90,7 +88,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         accessor: (row: any) => (
           <span className={s.yellow}>
             {loading
-              ? '—'
+              ? row.borrowApy
               : getPrettyPercent(row.borrowApy)}
           </span>
         ),
@@ -104,9 +102,7 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'numberOfBorrowers',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading
-              ? '—'
-              : row.numberOfBorrowers}
+            {row.numberOfBorrowers}
           </span>
         ),
       },

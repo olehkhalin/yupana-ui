@@ -8,11 +8,13 @@ import { ReceiveCollateralCard } from 'components/tables/components/mobile/Recei
 
 type ReceiveCollateralProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   data,
+  loading,
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
@@ -22,6 +24,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
     return (
       <ReceiveCollateralDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );

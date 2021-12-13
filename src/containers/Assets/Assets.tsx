@@ -1,7 +1,8 @@
-import React, { useMemo, useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
+import { useLoading } from 'hooks/useLoading';
 import { TokenMetadataType } from 'types/token';
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { useWiderThanMdesktop } from 'utils/getMediaQuery';
@@ -89,12 +90,7 @@ export const Assets: React.FC<AssetsProps> = ({
   const { data, error } = useLendingAssetsQuery();
 
   // TODO: Delete later
-  const [loading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  const { loading } = useLoading();
 
   if (error) {
     return <></>;

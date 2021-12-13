@@ -1,6 +1,7 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
+import { useLoading } from 'hooks/useLoading';
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
 import { Asset, MarketsAllQuery, useMarketsAllQuery } from 'generated/graphql';
@@ -57,13 +58,9 @@ export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
   const { data, error } = useMarketsAllQuery();
-  const [loading, setLoading] = useState<boolean>(true);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
+  // TODO: Delete later
+  const { loading } = useLoading();
 
   if ((!data && !loading) || error) {
     return <></>;

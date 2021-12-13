@@ -13,11 +13,13 @@ import s from './Tables.module.sass';
 
 type ReceiveCollateralProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   data,
+  loading,
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
@@ -32,7 +34,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => {
-          const isRadioButtonActive = selectedItem
+          const isRadioButtonActive = selectedItem && !loading
             ? getTokenSlug(row.values.asset) === getTokenSlug({
               address: selectedItem.address,
               id: selectedItem.id,
@@ -42,10 +44,13 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             <>
               <Radio
                 active={isRadioButtonActive}
+                disabled={loading}
                 className={s.radio}
               />
               <TokenName
                 token={{ ...row.values.asset }}
+                theme="primary"
+                loading={loading}
               />
             </>
           );
@@ -58,7 +63,11 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'priceOfReceiveAsset',
-        accessor: ({ priceOfReceiveAsset }: any) => `${getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}`,
+        accessor: ({ priceOfReceiveAsset }: any) => (
+          loading
+            ? priceOfReceiveAsset
+            : `${getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}`
+        ),
       },
       {
         Header: () => (
@@ -70,16 +79,24 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: amountOfSupplied,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? amountOfSupplied
+                  : getPrettyAmount({
+                    value: amountOfSupplied,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: amountOfSuppliedUsd,
-                currency: '$',
-              })}
+              {
+                loading
+                  ? amountOfSuppliedUsd
+                  : getPrettyAmount({
+                    value: amountOfSuppliedUsd,
+                    currency: '$',
+                  })
+              }
             </div>
           </div>
         ),
@@ -94,29 +111,39 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: maxBonus,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? maxBonus
+                  : getPrettyAmount({
+                    value: maxBonus,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: maxBonusUsd,
-                currency: '$',
-              })}
+              {
+                loading
+                  ? maxBonusUsd
+                  : getPrettyAmount({
+                    value: maxBonusUsd,
+                    currency: '$',
+                  })
+              }
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem],
+    [selectedItem, loading],
   );
 
   return (
     <Table
       theme="quinary"
+      preloaderTheme="primary"
       columns={columns}
       data={data}
+      loading={loading}
       setSelectedItem={setSelectedItem}
       selectedItem={selectedItem}
       rowClassName={s.repayRow}

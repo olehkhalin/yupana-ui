@@ -39,7 +39,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Borrow APY',
         id: 'borrowApy',
         accessor: ({ borrowApy }: { borrowApy: number | any }) => (
-          borrowApy === '—'
+          loading
             ? borrowApy
             : `${borrowApy.toFixed(2)}%`
         ),
@@ -48,7 +48,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Balance',
         id: 'balance',
         accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
-          balance === '—'
+          loading
             ? balance
             : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
         ),
@@ -57,7 +57,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Borrow limit',
         id: 'borrowLimit',
         accessor: ({ borrowLimit }: { borrowLimit: number | any }) => (
-          borrowLimit === '—'
+          loading
             ? borrowLimit
             : `${borrowLimit.toFixed(2)}%`
         ),

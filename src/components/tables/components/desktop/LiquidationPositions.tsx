@@ -34,9 +34,10 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
+            href={loading ? '' : `${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            disabled={loading}
             className={cx(s.address, s.white, s.noShadow)}
           >
             {loading ? row.borrowerAddress : shortize(row.borrowerAddress)}

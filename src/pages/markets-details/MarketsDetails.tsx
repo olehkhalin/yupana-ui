@@ -1,13 +1,15 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 
+import { useLoading } from 'hooks/useLoading';
 import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';
+import { MARKET_DETAILS_LOADINT_DATA } from 'components/tables/loading-preview/market-details-loading';
 
 import s from './MarketsDetails.module.sass';
 
@@ -87,7 +89,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
     <>
       <TokenDetails
         asset={preparedData.asset}
-        data={preparedData.tokenDetails}
+        data={loading ? MARKET_DETAILS_LOADINT_DATA : preparedData.tokenDetails}
         loading={loading}
         className={s.tokenDetails}
       />
@@ -109,8 +111,8 @@ export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
   const yToken = +tokenSlug.split('&')[1];
 
-  // TODO: Delete loading
-  const [loading, setLoading] = useState<boolean>(true);
+  // TODO: Delete later
+  const { loading } = useLoading();
 
   const { data, error } = useMarketsDetailsQuery({
     variables: {
@@ -118,17 +120,14 @@ export const MarketsDetails: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-
   if (error || !data) { // TODO: Add loading to if statement
     return <>Page not found 404!</>;
   }
 
   return (
-    <MarketsDetailsWrapper data={data} loading={loading} />
+    <MarketsDetailsWrapper
+      data={data}
+      loading={loading}
+    />
   );
 };

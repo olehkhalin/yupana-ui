@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
+import { useLoading } from 'hooks/useLoading';
 import { LimitLine } from 'components/common/LimitLine';
 import { UserStat } from 'components/common/UserStat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
@@ -15,12 +16,7 @@ export const Stats: React.FC<StatsProps> = ({
   className,
 }) => {
   // TODO: Delete later
-  const [loading, setLoading] = useState<boolean>(true);
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(true);
-    }, 2000);
-  }, []);
+  const { loading } = useLoading();
 
   return (
     <section className={className}>

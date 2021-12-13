@@ -31,11 +31,11 @@ import { UserStat } from 'components/common/UserStat';
 // import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
 // import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
-import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
+// import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 // import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { Markets } from 'components/tables/containers/Markets';
-import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
-import { Liquidate } from 'components/tables/containers/Liquidate';
+// import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
+// import { Liquidate } from 'components/tables/containers/Liquidate';
 import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
 import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
 import {
@@ -53,7 +53,7 @@ import { MarketCard } from 'components/common/MarketCard';
 //   LiquidationPositions,
 // } from 'components/tables/components/desktop';
 import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
-import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
+// import { LIQUIDATE_DATA } from 'components/temp-data/tables/liquidate';
 import { SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/supply';
 import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
@@ -1108,17 +1108,17 @@ export const UiKit: React.FC = () => {
         <div className={s.subTitle}>
           Liquidate
         </div>
-        <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} />
+        {/* <Liquidate data={LIQUIDATE_DATA} className={s.marginBottomLarge} /> */}
 
         <div className={s.subTitle}>
           Repay Borrow
         </div>
-        <RepayBorrow data={REPAY_BORROW_DATA} className={s.marginBottomLarge} />
+        {/* <RepayBorrow data={REPAY_BORROW_DATA} className={s.marginBottomLarge} /> */}
 
         <div className={s.subTitle}>
           Receive Collateral
         </div>
-        <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} className={s.marginBottomLarge} />
+        {/* <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} className={s.marginBottomLarge} /> */}
       </div>
 
       {/* Table Dropdown */}

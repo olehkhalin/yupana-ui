@@ -13,11 +13,13 @@ import s from './Tables.module.sass';
 
 type RepayBorrowProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   data,
+  loading,
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
@@ -28,7 +30,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => {
-          const isRadioButtonActive = selectedItem
+          const isRadioButtonActive = selectedItem && !loading
             ? getTokenSlug(row.values.asset) === getTokenSlug({
               address: selectedItem.address,
               id: selectedItem.id,
@@ -39,10 +41,13 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               <Radio
                 active={isRadioButtonActive}
                 theme="secondary"
+                disabled={loading}
                 className={s.radio}
               />
               <TokenName
                 token={{ ...row.values.asset }}
+                theme="secondary"
+                loading={loading}
               />
             </>
           );
@@ -55,7 +60,11 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'priceOfBorrowedAsset',
-        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => `${priceOfBorrowedAsset.toFixed(2)}%`,
+        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => (
+          loading
+            ? priceOfBorrowedAsset
+            : `${priceOfBorrowedAsset.toFixed(2)}%`
+        ),
       },
       {
         Header: () => (
@@ -67,16 +76,24 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: amountOfDebt,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? amountOfDebt
+                  : getPrettyAmount({
+                    value: amountOfDebt,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: amountOfDebtUsd,
-                currency: '$',
-              })}
+              {
+                loading
+                  ? amountOfDebtUsd
+                  : getPrettyAmount({
+                    value: amountOfDebtUsd,
+                    currency: '$',
+                  })
+              }
             </div>
           </div>
         ),
@@ -91,29 +108,39 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: maxLiquidate,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? maxLiquidate
+                  : getPrettyAmount({
+                    value: maxLiquidate,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: maxLiquidateUsd,
-                currency: '$',
-              })}
+              {
+                loading
+                  ? maxLiquidateUsd
+                  : getPrettyAmount({
+                    value: maxLiquidateUsd,
+                    currency: '$',
+                  })
+              }
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem],
+    [selectedItem, loading],
   );
 
   return (
     <Table
       theme="octonary"
+      preloaderTheme="secondary"
       columns={columns}
       data={data}
+      loading={loading}
       setSelectedItem={setSelectedItem}
       selectedItem={selectedItem}
       rowClassName={s.repayRow}
