@@ -66,6 +66,7 @@ import { LIMIT_LINE } from 'components/temp-data/limit-line';
 import { InformationModal } from 'components/modals/InformationModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { AccountModal } from 'components/modals/AccountModal';
+import { InstallWalletModal } from 'components/modals/InstallWalletModal';
 import { CreditProcessModal, TypeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
@@ -93,6 +94,7 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
+  const [installWalletIsOpen, setInstallWalletIsOpen] = useState(false);
   const [creditProcessPrimaryIsOpen, setCreditProcessPrimaryIsOpen] = useState(false);
   const [creditProcessSecondaryIsOpen, setCreditProcessSecondaryIsOpen] = useState(false);
   const [creditProcessTertiaryIsOpen, setCreditProcessTertiaryIsOpen] = useState(false);
@@ -1100,6 +1102,21 @@ export const UiKit: React.FC = () => {
               isOpen={accountIsOpen}
               onRequestClose={() => setAccountIsOpen(false)}
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"
+            />
+          </div>
+          <div className={s.block}>
+            <div className={s.title}>
+              Install a wallet
+            </div>
+            <Button
+              onClick={() => setInstallWalletIsOpen(true)}
+              className={s.modalsButton}
+            >
+              Install a wallet
+            </Button>
+            <InstallWalletModal
+              isOpen={installWalletIsOpen}
+              onRequestClose={() => setInstallWalletIsOpen(false)}
             />
           </div>
         </div>
