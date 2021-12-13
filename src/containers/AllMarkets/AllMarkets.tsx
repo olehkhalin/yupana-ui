@@ -1,11 +1,11 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import BigNumber from 'bignumber.js';
 
 import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
 import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
 import { Asset, MarketsAllQuery, useMarketsAllQuery } from 'generated/graphql';
 import { Markets } from 'components/tables/containers/Markets';
-import { loadingArray } from 'constants/loading/all-markets';
+import { ALL_MARKETS_LOADING_DATA } from 'components/tables/loading-preview/all-markets-loading';
 
 type AllMarketsWrapperProps = {
   data?: MarketsAllQuery
@@ -18,7 +18,7 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
   loading,
   className,
 }) => {
-  const preparedData = useMemo(() => (data ? data.asset.map((el) => {
+  const preparedData = useMemo(() => (data && !loading ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as unknown as Asset);
 
     const totalSupply = new BigNumber(el.totalSupply).div(1e18).toString();
@@ -38,7 +38,7 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
       borrowApy,
       numberOfBorrowers,
     };
-  }) : loadingArray), [data]);
+  }) : ALL_MARKETS_LOADING_DATA), [data, loading]);
 
   return (
     <Markets
@@ -56,7 +56,14 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data, error, loading } = useMarketsAllQuery();
+  const { data, error } = useMarketsAllQuery();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   if ((!data && !loading) || error) {
     return <></>;

@@ -14,7 +14,7 @@ import {
 import { Section } from 'components/common/Section';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
-import { ASSETS_DATA_LOADING } from 'components/temp-data/tables/loading/assets-loading';
+import { ASSETS_DATA_LOADING } from 'components/tables/loading-preview/assets-loading';
 
 import s from './Assets.module.sass';
 

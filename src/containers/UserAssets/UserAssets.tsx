@@ -7,7 +7,7 @@ import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets'
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
-import { YOUR_ASSETS_DATA_LOADING } from 'components/temp-data/tables/loading/your-assets-loading';
+import { YOUR_ASSETS_DATA_LOADING } from 'components/tables/loading-preview/your-assets-loading';
 
 import s from './UserAssets.module.sass';
 

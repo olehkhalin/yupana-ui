@@ -137,7 +137,7 @@ export const Table: React.FC<TableProps> = ({
     <>
       <div className={cx(compoundClassNames)}>
         {loading && <Preloader theme="quaternary" className={s.preloader} />}
-        <div className={s.wrapper}>
+        <div className={cx(s.wrapper, { [s.padding]: loading })}>
           <table
             {...getTableProps()}
             className={cx(

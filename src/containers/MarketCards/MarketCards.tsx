@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
@@ -49,7 +49,7 @@ type MarketCardsWrapperProps = {
 
 const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
   data,
-  // loading,
+  loading,
 }) => {
   const preparedData = useMemo(() => ({
     supply: prepareObject(data),
@@ -60,12 +60,12 @@ const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
     <>
       <MarketCard
         {...preparedData.supply}
-        loading
+        loading={loading}
         className={s.card}
       />
       <MarketCard
         {...preparedData.borrow}
-        loading
+        loading={loading}
         theme="secondary"
         className={s.card}
       />
@@ -80,10 +80,19 @@ type MarketCardsProps = {
 export const MarketCards: React.FC<MarketCardsProps> = ({
   className,
 }) => {
-  const { data, error, loading } = useMarketOverviewQuery();
+  const { data, error } = useMarketOverviewQuery();
+  const [loading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
 
   if (!data || error) {
-    return <></>;
+    return (
+      <></>
+    );
   }
 
   return (

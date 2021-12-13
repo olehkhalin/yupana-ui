@@ -27,15 +27,13 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
   className,
 }) => {
   const [amount, setAmount] = useState<number>(0);
+  const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    if (!loading) {
       setAmount(percent);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [percent]);
-
-  const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
+    }
+  }, [loading, percent]);
 
   return (
     <div className={cx(s.root, className)}>
