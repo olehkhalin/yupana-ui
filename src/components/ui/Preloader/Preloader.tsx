@@ -32,12 +32,13 @@ export const Preloader: React.FC<PreloaderProps> = ({
 }) => {
   const compoundClassName = cx(
     s.preloader,
+    sizeClass[sizeT],
     className,
   );
 
   return (
     <div className={cx(compoundClassName)}>
-      <div className={cx(s.internalBorder, themeClassPreloader[theme], sizeClass[sizeT])}>
+      <div className={cx(s.layout, themeClassPreloader[theme])}>
         <div className={cx(s.light)} />
       </div>
     </div>

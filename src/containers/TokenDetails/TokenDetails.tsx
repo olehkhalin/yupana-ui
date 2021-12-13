@@ -14,7 +14,7 @@ import s from './TokenDetails.module.sass';
 type TokenDetailsProps = {
   asset: TokenMetadataInterface
   data: any[]
-  loading?: boolean
+  loading: boolean
   className?: string
 };
 
@@ -33,11 +33,12 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
             thumbnailUri: asset.thumbnailUri,
           }}
           sizeT="large"
-          // loading={loading}
+          theme="primary"
+          loading={loading}
           className={s.logo}
         />
         <h1 className={s.name}>
-          {loading
+          {!loading
             ? `${getTokenName(asset, true)}`
             : (
               <Preloader
@@ -47,7 +48,7 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
         </h1>
       </div>
       <div className={s.price}>
-        {loading
+        {!loading
           ? `Price: ${getPrettyAmount({ value: 4.20, currency: '$' })}`
           : (
             <Preloader
@@ -60,6 +61,7 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
 
     <TokenData
       data={data}
+      loading={loading}
     />
   </Section>
 );

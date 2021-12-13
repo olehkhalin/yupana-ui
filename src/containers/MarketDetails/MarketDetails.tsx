@@ -5,6 +5,7 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getTokenName } from 'utils/getTokenName';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TokenMetadataInterface } from 'types/token';
+import { Preloader } from 'components/ui/Preloader';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
@@ -59,13 +60,17 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             </div>
 
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="primary" />
+              ) : getPrettyAmount({
                 value: availableLiquidity / priceInUsd,
                 currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="primary" />
+              ) : getPrettyAmount({
                 value: availableLiquidity,
                 currency: '$',
               })}
@@ -78,13 +83,17 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             </div>
 
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="secondary" />
+              ) : getPrettyAmount({
                 value: totalBorrow / priceInUsd,
                 currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="secondary" />
+              ) : getPrettyAmount({
                 value: totalBorrow,
                 currency: '$',
               })}

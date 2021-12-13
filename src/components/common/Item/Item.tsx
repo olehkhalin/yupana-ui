@@ -21,6 +21,6 @@ export const Item: React.FC<ItemProps> = ({
     <AttentionText
       {...props}
     />
-    {loading ? value : <Preloader sizeT="small" />}
+    {!loading ? value : <Preloader sizeT="small" />}
   </div>
 );

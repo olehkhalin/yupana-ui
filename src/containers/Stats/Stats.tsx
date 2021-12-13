@@ -18,7 +18,7 @@ export const Stats: React.FC<StatsProps> = ({
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     setTimeout(() => {
-      setLoading(false);
+      setLoading(true);
     }, 2000);
   }, []);
 

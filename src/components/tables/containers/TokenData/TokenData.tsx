@@ -7,11 +7,13 @@ import { MarketsDetails } from 'components/tables/components/desktop';
 
 type TokenDataProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const TokenData: React.FC<TokenDataProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -20,6 +22,7 @@ export const TokenData: React.FC<TokenDataProps> = ({
     return (
       <MarketsDetails
         data={data}
+        loading={loading}
         className={className}
       />
     );

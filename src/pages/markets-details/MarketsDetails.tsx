@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 
@@ -13,7 +13,7 @@ import s from './MarketsDetails.module.sass';
 
 type MarketsDetailsWrapperProps = {
   data: MarketsDetailsQuery
-  loading?: boolean
+  loading: boolean
 };
 
 const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
@@ -98,6 +98,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
       />
       <InterestRateModel
         asset={preparedData.asset}
+        loading={loading}
         data={preparedData.interestRateModel}
       />
     </>
@@ -108,14 +109,23 @@ export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
   const yToken = +tokenSlug.split('&')[1];
 
-  const { data, error, loading } = useMarketsDetailsQuery({
+  // TODO: Delete loading
+  const [loading, setLoading] = useState<boolean>(true);
+
+  const { data, error } = useMarketsDetailsQuery({
     variables: {
       yToken,
     },
   });
 
-  if (error || !data || data.asset.length < 1) { // TODO: Add loading to if statement
-    return <>404</>;
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
+  if (error || !data) { // TODO: Add loading to if statement
+    return <>Page not found 404!</>;
   }
 
   return (

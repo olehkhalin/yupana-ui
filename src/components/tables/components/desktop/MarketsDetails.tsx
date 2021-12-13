@@ -9,11 +9,13 @@ import s from './Tables.module.sass';
 
 type MarketsDetailsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -27,7 +29,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+            {loading
+              ? '—'
+              : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
           </span>
         ),
       },
@@ -40,7 +44,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyPercent(row.supplyApy)}
+            {loading
+              ? '—'
+              : getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -53,7 +59,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'numberOfSupplier',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.numberOfSupplier}
+            {loading
+              ? '—'
+              : row.numberOfSupplier}
           </span>
         ),
       },
@@ -66,7 +74,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
+            {loading
+              ? '—'
+              : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
           </span>
         ),
       },
@@ -79,7 +89,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.borrowApy)}
+            {loading
+              ? '—'
+              : getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
@@ -92,19 +104,23 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'numberOfBorrowers',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.numberOfBorrowers}
+            {loading
+              ? '—'
+              : row.numberOfBorrowers}
           </span>
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quaternary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTable}
       rowClassName={s.marketsDetailsRow}
       className={cx(s.bigTableWrapper, className)}

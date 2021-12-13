@@ -15,6 +15,7 @@ import s from './InterestRateModel.module.sass';
 type InterestRateModelProps = {
   asset: TokenMetadataInterface
   data: any
+  loading: boolean
   className?: string
 };
 
@@ -26,6 +27,7 @@ const {
 export const InterestRateModel: React.FC<InterestRateModelProps> = ({
   asset,
   data,
+  loading,
   className,
 }) => {
   const {
@@ -60,6 +62,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
             value={getPrettyPercent(currentUtilizationRate)}
             theme="secondary"
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -68,6 +71,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
             theme="secondary"
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -75,6 +79,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
             value={getPrettyAmount({ value: multiplierPerYear })}
             theme="secondary"
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -82,6 +87,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
             value={getPrettyAmount({ value: jumpMultiplierPerYear })}
             theme="secondary"
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -90,6 +96,7 @@ export const InterestRateModel: React.FC<InterestRateModelProps> = ({
             title={kinkPopup.title}
             description={kinkPopup.description}
             theme="secondary"
+            loading={loading}
             className={s.item}
           />
         </div>
