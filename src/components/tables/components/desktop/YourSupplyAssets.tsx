@@ -91,6 +91,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     <Table
       columns={columns}
       data={data}
+      isMaxContentPreloader
       renderRowSubComponent={renderRowSubComponent}
       loading={loading}
       rowClassName={s.ownAssetsRow}

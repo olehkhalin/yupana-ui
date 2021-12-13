@@ -5,7 +5,7 @@ export const useLoading = (loadingTime: number | undefined = LOADING_TIME) => {
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     setTimeout(() => {
-      setLoading(true);
+      setLoading(false);
     }, loadingTime);
   }, [loadingTime]);
 

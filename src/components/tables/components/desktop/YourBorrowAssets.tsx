@@ -91,6 +91,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     <Table
       theme="secondary"
       preloaderTheme="secondary"
+      isMaxContentPreloader
       columns={columns}
       data={data}
       loading={loading}

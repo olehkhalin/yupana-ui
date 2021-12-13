@@ -75,10 +75,10 @@
 
 .isShowPagination
   .tbody
+    border-bottom: .063rem solid rgba($white, .5)
     .tr
       &:last-child
         padding-bottom: 1rem
-        border-bottom: .063rem solid rgba($white, .5)
 
 .primary, .secondary
   width: 100%
@@ -136,6 +136,10 @@
     &::after
       box-shadow: $white-shadow
       opacity: .5
+    .tr
+      padding: 0 1rem
+  .tbody
+    padding: 0 1rem
   .tr
     &:not(:last-child)
       margin-bottom: 1.5rem

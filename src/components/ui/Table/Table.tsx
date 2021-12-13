@@ -20,6 +20,7 @@ type TableProps = {
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
   preloaderTheme?: PreloaderThemes
+  isMaxContentPreloader?: boolean
   selectedItem?: TokenMetadataInterface
   setSelectedItem?: (arg: TokenMetadataInterface) => void
   isScrollToTop?: boolean
@@ -52,6 +53,7 @@ export const Table: React.FC<TableProps> = ({
   renderRowSubComponent,
   theme = 'primary',
   preloaderTheme = 'primary',
+  isMaxContentPreloader = false,
   selectedItem,
   setSelectedItem,
   isScrollToTop = false,
@@ -139,12 +141,18 @@ export const Table: React.FC<TableProps> = ({
   return (
     <>
       <div className={cx(compoundClassNames)}>
+        {loading && isMaxContentPreloader && (
+        <Preloader
+          theme={preloaderTheme}
+          className={s.preloader}
+        />
+        )}
         <div className={s.wrapper}>
           <table
             {...getTableProps()}
             className={cx(
               s.table,
-              { [s.isShowPagination]: isShowPagination && pagination },
+              { [s.isShowPagination]: isShowPagination && pagination && !loading },
               tableClassName,
             )}
           >
@@ -161,7 +169,7 @@ export const Table: React.FC<TableProps> = ({
               ))}
             </thead>
             <tbody {...getTableBodyProps()} className={s.tbody}>
-              {loading && (
+              {loading && !isMaxContentPreloader && (
               <Preloader
                 theme={preloaderTheme}
                 className={s.preloader}
