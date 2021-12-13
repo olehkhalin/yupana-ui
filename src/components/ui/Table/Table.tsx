@@ -8,7 +8,7 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/getTokenSlug';
-import { Preloader } from 'components/ui/Preloader';
+import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Pagination } from 'components/common/Pagination';
 
 import s from './Table.module.sass';
@@ -19,6 +19,7 @@ type TableProps = {
   loading?: boolean
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
+  preloaderTheme?: PreloaderThemes
   selectedItem?: TokenMetadataInterface
   setSelectedItem?: (arg: TokenMetadataInterface) => void
   isScrollToTop?: boolean
@@ -50,6 +51,7 @@ export const Table: React.FC<TableProps> = ({
   loading,
   renderRowSubComponent,
   theme = 'primary',
+  preloaderTheme = 'primary',
   selectedItem,
   setSelectedItem,
   isScrollToTop = false,
@@ -136,8 +138,8 @@ export const Table: React.FC<TableProps> = ({
   return (
     <>
       <div className={cx(compoundClassNames)}>
-        {loading && <Preloader theme="quaternary" className={s.preloader} />}
-        <div className={cx(s.wrapper, { [s.padding]: loading })}>
+        {loading && <Preloader theme={preloaderTheme} className={s.preloader} />}
+        <div className={cx(s.wrapper, { [s.padding]: loading && theme === 'tertiary' })}>
           <table
             {...getTableProps()}
             className={cx(

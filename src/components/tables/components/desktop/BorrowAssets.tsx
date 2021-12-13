@@ -88,6 +88,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   return (
     <Table
       theme="secondary"
+      preloaderTheme="secondary"
       columns={columns}
       data={data}
       loading={loading}

@@ -3,8 +3,10 @@ import cx from 'classnames';
 
 import s from './Preloader.module.sass';
 
+export type PreloaderThemes = keyof typeof themeClassPreloader;
+
 type PreloaderProps = {
-  theme?: keyof typeof themeClassPreloader
+  theme?: PreloaderThemes
   sizeT?: keyof typeof sizeClass
   className?: string
 };

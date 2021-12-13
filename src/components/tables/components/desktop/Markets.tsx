@@ -145,6 +145,7 @@ export const Markets: React.FC<MarketsProps> = ({
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quaternary"
       columns={columns}
       data={data}
       loading={loading}
