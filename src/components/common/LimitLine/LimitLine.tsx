@@ -4,23 +4,28 @@ import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { Button } from 'components/ui/Button';
 import { ProgressBar } from 'components/ui/ProgressBar';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
+import { AttentionText } from 'components/common/AttentionText';
 
 import s from './LimitLine.module.sass';
 
 type LimitLineProps = {
+  text?: string
   percent: number
   value: number
-  title: string
+  title?: string
+  description?: string
+  theme?: 'primary' | 'secondary' | 'tertiary'
   className?: string
 };
 
 export const LimitLine: React.FC<LimitLineProps> = ({
+  text,
   percent,
   value,
   title,
+  description,
+  theme,
   className,
 }) => {
   const [amount, setAmount] = useState<number>(0);
@@ -47,13 +52,12 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.title}>
-          {title}
-          <Button
-            theme="clear"
-            className={s.attention}
-          >
-            <Attention className={s.icon} />
-          </Button>
+          <AttentionText
+            text={text}
+            title={title}
+            description={description}
+            theme={theme}
+          />
         </div>
 
         <div className={s.value}>

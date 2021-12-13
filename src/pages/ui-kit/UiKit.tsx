@@ -1434,15 +1434,21 @@ export const UiKit: React.FC = () => {
         <div>
           <UserStat {...USER_STAT} className={s.userStat} />
           <LimitLine
+            text="Your Borrow Limit"
             percent={LIMIT_LINE.userBorrowLimitPercent}
             value={LIMIT_LINE.userBorrowLimit}
             title="Your Borrow Limit"
+            description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
+            theme="tertiary"
             className={s.limit}
           />
           <LimitLine
+            text="Your Liquidation Limit"
             percent={LIMIT_LINE.userLiquidationLimitPercent}
             value={LIMIT_LINE.userLiquidationLimit}
             title="Your Liquidation Limit"
+            description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
+            theme="tertiary"
             className={s.limit}
           />
         </div>

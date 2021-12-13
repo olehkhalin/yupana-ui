@@ -8,7 +8,7 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 import s from './AttentionText.module.sass';
 
 export interface AttentionTextProps {
-  text: string
+  text?: string
   title?: string
   description?: string
   theme?: keyof typeof themeClasses
@@ -19,6 +19,7 @@ export interface AttentionTextProps {
 export const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
+  tertiary: s.tertiary,
 };
 
 export const AttentionText: React.FC<AttentionTextProps> = ({
