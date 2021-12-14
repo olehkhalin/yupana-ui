@@ -46,6 +46,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
 
   return (
     <TableCard
+      preloaderTheme="primary"
       active={active}
       onClick={onClick}
       loading={loading}

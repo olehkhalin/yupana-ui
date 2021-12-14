@@ -30,6 +30,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
 }) => (
   <TableCard
     theme="secondary"
+    preloaderTheme="tertiary"
     loading={loading}
     collapsed={false}
     className={cx(s.liquidate, className)}

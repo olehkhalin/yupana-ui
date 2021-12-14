@@ -48,6 +48,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
       active={active}
       onClick={onClick}
       theme="secondary"
+      preloaderTheme="secondary"
       loading={loading}
       className={className}
     >

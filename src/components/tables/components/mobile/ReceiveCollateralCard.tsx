@@ -57,6 +57,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
 
   return (
     <TableCard
+      preloaderTheme="primary"
       onClick={handleSetItem}
       collapsed={false}
       loading={loading}

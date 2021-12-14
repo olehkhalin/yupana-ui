@@ -55,6 +55,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       withDetailsButton={!details}
       collapsed={false}
       href={`${AppRoutes.MARKETS}/${getTokenSlug({ id, address })}&${yToken}`}
+      preloaderTheme="tertiary"
       loading={loading}
       className={cx({ [s.marketsDetails]: details }, className)}
     >

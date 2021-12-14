@@ -45,6 +45,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
 
   return (
     <TableCard
+      preloaderTheme="primary"
       active={active}
       onClick={onClick}
       loading={loading}

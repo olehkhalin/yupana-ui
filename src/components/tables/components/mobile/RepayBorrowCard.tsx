@@ -58,6 +58,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   return (
     <TableCard
       theme="secondary"
+      preloaderTheme="secondary"
       onClick={handleSetItem}
       collapsed={false}
       loading={loading}

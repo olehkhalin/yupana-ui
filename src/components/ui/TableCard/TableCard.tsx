@@ -2,6 +2,7 @@ import React from 'react';
 import { UnmountClosed } from 'react-collapse';
 import cx from 'classnames';
 
+import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Button } from 'components/ui/Button';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 import { TableDropdown } from 'components/common/TableDropdown';
@@ -10,6 +11,7 @@ import s from './TableCard.module.sass';
 
 type TableCardProps = {
   theme?: keyof typeof themeClasses
+  preloaderTheme?: PreloaderThemes
   loading?: boolean
   withDetailsButton?: boolean
   collapsed?: boolean
@@ -26,6 +28,7 @@ const themeClasses = {
 
 export const TableCard: React.FC<TableCardProps> = ({
   theme = 'primary',
+  preloaderTheme = 'primary',
   loading,
   withDetailsButton = false,
   collapsed = true,
@@ -39,6 +42,12 @@ export const TableCard: React.FC<TableCardProps> = ({
     onClick={!loading ? onClick : () => {}}
     className={cx(s.root, themeClasses[theme], { [s.market]: withDetailsButton }, className)}
   >
+    {loading && (
+    <Preloader
+      theme={preloaderTheme}
+      className={s.preloader}
+    />
+    )}
     {withDetailsButton && (
       <Button
         href={loading ? '' : href}

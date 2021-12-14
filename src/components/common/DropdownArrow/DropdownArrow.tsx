@@ -27,7 +27,6 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
   className,
   ...props
 }) => {
-  console.log(loading);
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
@@ -42,6 +41,7 @@ export const DropdownArrow: React.FC<DropdownArrowProps> = ({
       sizeT="small"
       onClick={onClick}
       className={compoundClassNames}
+      disabled={loading}
       {...props}
     >
       <Arrow className={s.arrow} />
