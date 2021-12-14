@@ -18,7 +18,7 @@ const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
     : +(data.borowersCount.aggregate?.count ?? '0');
   const volume24h = data.dailyStats
     // TODO: Research decimals: div(10e26)
-    && data.dailyStats.length ? Number(new BigNumber(data.dailyStats[0][isSupply ? 'supplyVolume' : 'borrowVolume']).div(10e26)) : 0;
+    && data.dailyStats.length ? +(new BigNumber(data.dailyStats[0][isSupply ? 'supplyVolume' : 'borrowVolume']).div(10e26)) : 0;
   // TODO: Change when api will be updated
 
   const assets = data[isSupply ? 'supplyAssets' : 'borrowAssets'].map((el) => {

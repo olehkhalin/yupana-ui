@@ -8406,7 +8406,7 @@ export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array
 
 export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
 
-export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }> }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } };
+export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
 export type LendingAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8503,21 +8503,21 @@ export const MarketsAllDocument = gql`
       supply_apy
       borrow_apy
     }
-  }
-  suppliersCount: userSupplyAggregate(
-    where: {supply: {_gt: "0"}}
-    distinct_on: userId
-  ) {
-    aggregate {
-      count
+    suppliersCount: assetUserSupply_aggregate(
+      where: {supply: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
     }
-  }
-  borrowersCount: userBorrowAggregate(
-    where: {borrow: {_gt: "0"}}
-    distinct_on: userId
-  ) {
-    aggregate {
-      count
+    borrowersCount: assetUserBorrow_aggregate(
+      where: {borrow: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
     }
   }
 }
