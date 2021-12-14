@@ -7,7 +7,6 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TableCard } from 'components/ui/TableCard';
-// import { Preloader } from 'components/ui/Preloader';
 import { TokenName } from 'components/common/TokenName';
 
 import s from './Cards.module.sass';
@@ -16,6 +15,7 @@ type SupplyAssetsCardProps = {
   collateralFactor: number
   supplyApy: number
   wallet: number
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
@@ -29,6 +29,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
   collateralFactor,
   supplyApy,
   wallet,
+  loading,
   active,
   onClick,
   className,
@@ -46,15 +47,17 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
     <TableCard
       active={active}
       onClick={onClick}
+      loading={loading}
       className={className}
     >
-      {/* {!loading && <Preloader className={s.preloader} />} */}
       <div className={s.row}>
         <div className={s.title}>
           Asset
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="primary"
           logoClassName={s.logo}
         />
       </div>
@@ -64,7 +67,9 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Supply APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(supplyApy)}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -73,7 +78,9 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Collateral Factor
         </div>
         <div className={s.value}>
-          {getPrettyPercent(collateralFactor)}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(collateralFactor)}
         </div>
       </div>
 
@@ -82,11 +89,13 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Wallet
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: wallet,
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? wallet
+            : getPrettyAmount({
+              value: wallet,
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>

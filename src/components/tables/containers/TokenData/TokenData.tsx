@@ -37,6 +37,7 @@ export const TokenData: React.FC<TokenDataProps> = ({
           <MarketsCard
             key={getUniqueKey()}
             details
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

@@ -37,6 +37,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         }) => (
           <SupplyAssetsCard
             key={getUniqueKey()}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

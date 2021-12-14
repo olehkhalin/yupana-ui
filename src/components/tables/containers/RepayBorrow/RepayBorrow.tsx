@@ -40,6 +40,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             { id: asset.id, address: asset.address },
           )}
           setItem={setSelectedItem}
+          loading={loading}
           {...rest}
         />
       ))}

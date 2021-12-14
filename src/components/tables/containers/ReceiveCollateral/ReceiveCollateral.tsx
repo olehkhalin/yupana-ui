@@ -40,6 +40,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             { id: asset.id, address: asset.address },
           )}
           setItem={setSelectedItem}
+          loading={loading}
           {...rest}
         />
       ))}

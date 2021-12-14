@@ -9,6 +9,7 @@ import { TokenLogo } from 'components/ui/TokenLogo';
 import { Preloader } from 'components/ui/Preloader';
 import { TokenData } from 'components/tables/containers/TokenData';
 
+import { useWiderThanMphone } from 'utils/getMediaQuery';
 import s from './TokenDetails.module.sass';
 
 type TokenDetailsProps = {
@@ -23,45 +24,49 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
   data,
   loading,
   className,
-}) => (
-  <Section className={cx(s.root, className)}>
-    <div className={s.tokenWrapper}>
-      <div className={s.token}>
-        <TokenLogo
-          logo={{
-            name: asset.name,
-            thumbnailUri: asset.thumbnailUri,
-          }}
-          sizeT="large"
-          theme="primary"
-          loading={loading}
-          className={s.logo}
-        />
-        <h1 className={s.name}>
+}) => {
+  const iwWiderThanMphone = useWiderThanMphone();
+
+  return (
+    <Section className={cx(s.root, className)}>
+      <div className={s.tokenWrapper}>
+        <div className={s.token}>
+          <TokenLogo
+            logo={{
+              name: asset.name,
+              thumbnailUri: asset.thumbnailUri,
+            }}
+            sizeT="large"
+            theme="tertiary"
+            loading={loading}
+            className={s.logo}
+          />
+          <h1 className={s.name}>
+            {!loading
+              ? `${getTokenName(asset, true)}`
+              : (
+                <Preloader
+                  sizeT={iwWiderThanMphone ? 'large' : 'fluent'}
+                />
+              )}
+          </h1>
+        </div>
+        <div className={s.price}>
           {!loading
-            ? `${getTokenName(asset, true)}`
+            ? `Price: ${getPrettyAmount({ value: 4.20, currency: '$' })}`
             : (
               <Preloader
-                sizeT="large"
+                theme="primary"
+                sizeT={iwWiderThanMphone ? 'large' : 'fluent'}
               />
             )}
-        </h1>
+        </div>
       </div>
-      <div className={s.price}>
-        {!loading
-          ? `Price: ${getPrettyAmount({ value: 4.20, currency: '$' })}`
-          : (
-            <Preloader
-              theme="primary"
-              sizeT="large"
-            />
-          )}
-      </div>
-    </div>
 
-    <TokenData
-      data={data}
-      loading={loading}
-    />
-  </Section>
-);
+      <TokenData
+        data={data}
+        loading={loading}
+      />
+    </Section>
+  );
+};

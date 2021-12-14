@@ -10,6 +10,7 @@ import s from './TableCard.module.sass';
 
 type TableCardProps = {
   theme?: keyof typeof themeClasses
+  loading?: boolean
   withDetailsButton?: boolean
   collapsed?: boolean
   active?: boolean
@@ -25,6 +26,7 @@ const themeClasses = {
 
 export const TableCard: React.FC<TableCardProps> = ({
   theme = 'primary',
+  loading,
   withDetailsButton = false,
   collapsed = true,
   active = false,
@@ -34,14 +36,15 @@ export const TableCard: React.FC<TableCardProps> = ({
   children,
 }) => (
   <div
-    onClick={onClick}
+    onClick={!loading ? onClick : () => {}}
     className={cx(s.root, themeClasses[theme], { [s.market]: withDetailsButton }, className)}
   >
     {withDetailsButton && (
       <Button
-        href={href}
+        href={loading ? '' : href}
         sizeT="small"
         theme="light"
+        disabled={loading}
         className={s.link}
       >
         Details
@@ -49,9 +52,10 @@ export const TableCard: React.FC<TableCardProps> = ({
     )}
     {!withDetailsButton && collapsed && (
       <DropdownArrow
-        loading={false}
         theme={theme}
         active={active}
+        loading={loading}
+        disabled={loading}
         className={s.arrow}
       />
     )}

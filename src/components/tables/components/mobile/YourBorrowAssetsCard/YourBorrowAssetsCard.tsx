@@ -7,6 +7,7 @@ import { getSliceTokenName } from 'utils/getSliceTokenName';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import s from '../Cards.module.sass';
 
 type YourBorrowAssetsCardProps = {
@@ -18,6 +19,7 @@ type YourBorrowAssetsCardProps = {
   borrowApy: number
   balance: number
   thumbnailUri?: string
+  loading: boolean
   className?: string
 };
 
@@ -30,6 +32,7 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
   borrowLimit,
   borrowApy,
   balance,
+  loading,
   active,
   onClick,
   className,
@@ -47,6 +50,7 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
       active={active}
       onClick={onClick}
       theme="secondary"
+      loading={loading}
       className={className}
     >
       <div className={s.row}>
@@ -55,6 +59,8 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="secondary"
           logoClassName={s.logo}
         />
       </div>
@@ -64,7 +70,9 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Borrow APY
         </div>
         <div className={s.value}>
-          {`${borrowApy.toFixed(2)}%`}
+          {loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -73,7 +81,9 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Balance
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
+          {loading
+            ? balance
+            : getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
 
@@ -82,7 +92,9 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Borrow limit
         </div>
         <div className={s.value}>
-          {`${borrowLimit.toFixed(2)}%`}
+          {loading
+            ? borrowLimit
+            : getPrettyPercent(borrowLimit)}
         </div>
       </div>
     </TableCard>

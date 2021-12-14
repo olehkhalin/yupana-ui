@@ -1187,6 +1187,7 @@ export const UiKit: React.FC = () => {
           }) => (
             <SupplyAssetsCard
               key={getUniqueKey()}
+              loading={false}
               id={id}
               address={address}
               name={name}
@@ -1208,6 +1209,7 @@ export const UiKit: React.FC = () => {
           }) => (
             <BorrowAssetsCard
               key={getUniqueKey()}
+              loading={false}
               id={id}
               address={address}
               name={name}
@@ -1229,6 +1231,7 @@ export const UiKit: React.FC = () => {
           }) => (
             <YourSupplyAssetsCard
               key={getUniqueKey()}
+              loading={false}
               id={id}
               address={address}
               name={name}
@@ -1254,6 +1257,7 @@ export const UiKit: React.FC = () => {
           }) => (
             <YourBorrowAssetsCard
               key={getUniqueKey()}
+              loading={false}
               id={id}
               address={address}
               name={name}
@@ -1284,6 +1288,7 @@ export const UiKit: React.FC = () => {
               name={name}
               symbol={symbol}
               thumbnailUri={thumbnailUri}
+              loading={false}
               {...rest}
             />
           ))}
@@ -1307,6 +1312,7 @@ export const UiKit: React.FC = () => {
               thumbnailUri={thumbnailUri}
               active={selectedRepayBorrowItem === getTokenSlug({ id, address })}
               setItem={setSelectedRepayBorrowItem}
+              loading={false}
               {...rest}
             />
           ))}
@@ -1330,6 +1336,7 @@ export const UiKit: React.FC = () => {
               thumbnailUri={thumbnailUri}
               active={selectedReceiveCollateralItem === getTokenSlug({ id, address })}
               setItem={setSelectedReceiveCollateralItem}
+              loading={false}
               {...rest}
             />
           ))}

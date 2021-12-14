@@ -37,6 +37,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         }) => (
           <BorrowAssetsCard
             key={getUniqueKey()}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

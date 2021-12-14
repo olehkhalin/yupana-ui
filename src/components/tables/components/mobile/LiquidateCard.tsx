@@ -15,6 +15,7 @@ type LiquidateCardProps = {
   collateralAsset: string
   healthFactor: number
   borrowerAddress: string
+  loading: boolean
   className?: string
 };
 
@@ -24,10 +25,12 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
   collateralAsset,
   healthFactor,
   borrowerAddress,
+  loading,
   className,
 }) => (
   <TableCard
     theme="secondary"
+    loading={loading}
     collapsed={false}
     className={cx(s.liquidate, className)}
   >
@@ -36,7 +39,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Asset
       </div>
       <div className={s.value}>
-        {getPrettyAmount({ value: totalBorrow, currency: '$' })}
+        {loading
+          ? totalBorrow
+          : getPrettyAmount({ value: totalBorrow, currency: '$' })}
       </div>
     </div>
 
@@ -45,7 +50,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Borrow APY
       </div>
       <div className={s.value}>
-        {borrowedAsset.join(', ')}
+        {loading
+          ? borrowedAsset
+          : borrowedAsset.join(', ')}
       </div>
     </div>
 
@@ -60,7 +67,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         </Button>
       </div>
       <div className={s.value}>
-        {getPrettyAmount({ value: healthFactor })}
+        {loading
+          ? healthFactor
+          : getPrettyAmount({ value: healthFactor })}
       </div>
     </div>
 
@@ -78,7 +87,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Borrowed address
       </div>
       <div className={s.value}>
-        {shortize(borrowerAddress)}
+        {loading
+          ? borrowerAddress
+          : shortize(borrowerAddress)}
       </div>
     </div>
   </TableCard>

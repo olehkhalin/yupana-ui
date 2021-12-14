@@ -8,6 +8,7 @@ import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 
+import { getPrettyPercent } from 'utils/getPrettyPercent';
 import s from '../Cards.module.sass';
 
 type YourSupplyAssetsCardProps = {
@@ -18,6 +19,7 @@ type YourSupplyAssetsCardProps = {
   thumbnailUri?: string
   supplyApy: number
   balance: number
+  loading: boolean
   className?: string
 };
 
@@ -29,6 +31,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
   thumbnailUri,
   supplyApy,
   balance,
+  loading,
   active,
   onClick,
   className,
@@ -45,6 +48,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
     <TableCard
       active={active}
       onClick={onClick}
+      loading={loading}
       className={className}
     >
       <div className={s.row}>
@@ -53,6 +57,8 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="primary"
           logoClassName={s.logo}
         />
       </div>
@@ -62,7 +68,9 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
           Supply APY
         </div>
         <div className={s.value}>
-          {`${supplyApy.toFixed(2)}%`}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -71,7 +79,9 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
           Balance
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
+          {loading
+            ? balance
+            : getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
         </div>
       </div>
 
@@ -79,7 +89,13 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
         <div className={s.title}>
           Collateral
         </div>
-        <CollateralSwitcher token={{ address }} />
+        {loading
+          ? (
+            <div className={s.value}>
+              —
+            </div>
+          )
+          : <CollateralSwitcher token={{ address }} />}
       </div>
     </TableCard>
   );

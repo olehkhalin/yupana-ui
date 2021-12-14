@@ -6,14 +6,12 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { getPrettyPercent } from 'utils/getPrettyPercent';
 import { TokenMetadataInterface } from 'types/token';
 import { TableCard } from 'components/ui/TableCard';
-import { Preloader } from 'components/ui/Preloader';
 import { TokenName } from 'components/common/TokenName';
 import { AppRoutes } from 'routes/main-routes';
 
 import s from './Cards.module.sass';
 
 type MarketsCardProps = {
-  loading?: number
   yToken: number
   totalSupply: number
   supplyApy: number
@@ -22,11 +20,11 @@ type MarketsCardProps = {
   borrowApy: number
   numberOfBorrowers: number
   details?: boolean
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
 export const MarketsCard: React.FC<MarketsCardProps> = ({
-  loading,
   yToken,
   id,
   address,
@@ -39,6 +37,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
   borrowApy,
   supplyApy,
   numberOfBorrowers,
+  loading,
   details = false,
   className,
 }) => {
@@ -56,6 +55,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       withDetailsButton={!details}
       collapsed={false}
       href={`${AppRoutes.MARKETS}/${getTokenSlug({ id, address })}&${yToken}`}
+      loading={loading}
       className={cx({ [s.marketsDetails]: details }, className)}
     >
       {!details && (
@@ -65,6 +65,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="tertiary"
           logoClassName={s.logo}
         />
       </div>
@@ -76,8 +78,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? getPrettyAmount({ value: totalSupply, currency: '$' })
-            : <Preloader />}
+            ? totalSupply
+            : getPrettyAmount({ value: totalSupply, currency: '$' })}
         </div>
       </div>
 
@@ -87,8 +89,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? getPrettyPercent(supplyApy)
-            : <Preloader />}
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -97,9 +99,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           # of supplier
         </div>
         <div className={s.value}>
-          {loading
-            ? numberOfSupplier
-            : <Preloader />}
+          {numberOfSupplier}
         </div>
       </div>
 
@@ -109,8 +109,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? getPrettyAmount({ value: totalBorrow, currency: '$' })
-            : <Preloader />}
+            ? totalBorrow
+            : getPrettyAmount({ value: totalBorrow, currency: '$' })}
         </div>
       </div>
 
@@ -120,8 +120,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? getPrettyPercent(borrowApy)
-            : <Preloader />}
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -130,9 +130,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           # of borrowers
         </div>
         <div className={s.value}>
-          {!loading
-            ? `${numberOfBorrowers.toFixed(2)}%`
-            : <Preloader />}
+          {loading
+            ? numberOfBorrowers
+            : getPrettyPercent(numberOfBorrowers)}
         </div>
       </div>
     </TableCard>
