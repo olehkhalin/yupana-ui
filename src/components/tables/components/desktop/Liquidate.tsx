@@ -5,8 +5,7 @@ import { getPrettyAmount } from 'utils/getPrettyAmount';
 import { shortize } from 'utils/getShortize';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
-
+import { AttentionText } from 'components/common/AttentionText';
 import s from './Tables.module.sass';
 
 type LiquidateProps = {
@@ -54,14 +53,12 @@ export const Liquidate: React.FC<LiquidateProps> = ({
       {
         Header: () => (
           <div className={cx(s.wrapper, s.yellow)}>
-            Health factor
-            <Button
-              theme="clear"
-              sizeT="small"
-              className={s.attention}
-            >
-              <Attention className={s.attentionIcon} />
-            </Button>
+            <AttentionText
+              text="Health factor"
+              title="Health factor"
+              description="The health factor represents the safety of your loan derived from the proportion of collateral versus amount borrowed. Keep it above 1 to avoid liquidation."
+              theme="secondary"
+            />
           </div>
         ),
         id: 'healthFactor',
