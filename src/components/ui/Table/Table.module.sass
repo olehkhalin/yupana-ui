@@ -47,9 +47,15 @@
   font-weight: 700
 
 .trBody
+  td
+    display: flex
+    align-items: center
   &:first-of-type
     .td
       padding-top: 1.5rem
+  &:first-of-type:last-of-type
+    .td
+      padding: 1.5rem 0
 
 .tbody
   position: relative

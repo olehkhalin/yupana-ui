@@ -5,6 +5,7 @@ export const useLoading = (loadingTime: number | undefined = LOADING_TIME) => {
   const [loading, setLoading] = useState<boolean>(true);
   useEffect(() => {
     setTimeout(() => {
+      // Turn on 'true' for infinity loading
       setLoading(false);
     }, loadingTime);
   }, [loadingTime]);

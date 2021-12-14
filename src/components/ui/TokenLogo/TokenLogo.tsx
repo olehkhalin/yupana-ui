@@ -6,8 +6,10 @@ import FallbackLogo from 'svg/FallbackLogo.svg';
 
 import s from './TokenLogo.module.sass';
 
+export type TokenLogoThemes = keyof typeof themeClasses;
+
 type TokenLogoProps = {
-  theme?: keyof typeof themeClasses
+  theme?: TokenLogoThemes
   logo: TokenLogoInterface
   sizeT?: keyof typeof sizeClass
   loading?: boolean
@@ -22,6 +24,7 @@ const sizeClass = {
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
+  tertiary: s.tertiary,
 };
 
 export const TokenLogo: React.FC<TokenLogoProps> = ({

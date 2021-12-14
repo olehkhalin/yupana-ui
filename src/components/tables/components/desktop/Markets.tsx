@@ -34,8 +34,9 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            loading={loading}
             href={loading ? '' : `${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}&${row.yToken}`}
+            theme="tertiary"
+            loading={loading}
           />
         ),
       },

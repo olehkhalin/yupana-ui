@@ -5,14 +5,14 @@ import cx from 'classnames';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/getTokenName';
 import { getSlice } from 'utils/getSlice';
-import { TokenLogo } from 'components/ui/TokenLogo';
+import { TokenLogo, TokenLogoThemes } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
 import { Tooltip } from 'components/ui/Tooltip';
 
 import s from './TokenName.module.sass';
 
 type AssetNameProps = {
-  theme?: 'primary' | 'secondary'
+  theme?: TokenLogoThemes
   token: TokenMetadataInterface
   href?: string
   external?: boolean
@@ -49,11 +49,18 @@ export const TokenName: React.FC<AssetNameProps> = ({
     </>
   );
 
+  const compoundClassNames = cx(
+    s.root,
+    { [s.active]: active },
+    { [s.loading]: loading },
+    className,
+  );
+
   return (
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.wrapper, { [s.active]: active }, className)}
+      className={compoundClassNames}
       disabled={loading}
       {...props}
     >
@@ -63,9 +70,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
             <Tooltip
               content={tokenName}
             >
-              <div className={s.wrapper}>
-                {content}
-              </div>
+              {content}
             </Tooltip>
           )
           : content
