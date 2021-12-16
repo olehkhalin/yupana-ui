@@ -5,18 +5,18 @@ import { ModalActions } from 'types/modal';
 import { TEMPLE_WALLET_NOT_INSTALLED_MESSAGE, useConnectWithBeacon, useConnectWithTemple } from 'utils/dapp';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components/ModalHeader';
+import { ModalHeader } from 'components/common/ModalHeader';
 import { ReactComponent as TempleWallet } from 'svg/TempleWallet.svg';
 import { ReactComponent as Beacon } from 'svg/Beacon.svg';
 
-import s from './ConnectToWallet.module.sass';
+import s from './ConnectToWalletModal.module.sass';
 
 enum WalletType {
   BEACON = 'beacon',
   TEMPLE = 'temple',
 }
 
-export const ConnectToWallet: React.FC<ModalActions> = ({
+export const ConnectToWalletModal: React.FC<ModalActions> = ({
   isOpen,
   onRequestClose,
 }) => {
@@ -34,10 +34,12 @@ export const ConnectToWallet: React.FC<ModalActions> = ({
       }
     } catch (e: any) {
       if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
+        // eslint-disable-next-line no-console
         console.log('Install Temple wallet!');
       } else {
         const authenticationWasRejected = (e.name === 'NotGrantedTempleWalletError') || (e instanceof AbortedBeaconError);
         if (!authenticationWasRejected) {
+          // eslint-disable-next-line no-console
           console.log(`Error while connecting with ${walletType === WalletType.BEACON ? 'Beacon' : 'Temple Wallet'}: ${e.message}`);
         }
       }

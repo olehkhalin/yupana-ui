@@ -1,4 +1,6 @@
-import React, { useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import cx from 'classnames';
 
 import { TZKT_BASE_URL } from 'constants/default';
 import { shortize } from 'utils/getShortize';
@@ -7,32 +9,33 @@ import { useDisconnect } from 'utils/dapp';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components/ModalHeader';
+import { ModalHeader } from 'components/common/ModalHeader';
 import { ReactComponent as IconCopy } from 'svg/IconCopy.svg';
 import { ReactComponent as IconLink } from 'svg/IconLink.svg';
+import { ReactComponent as Success } from 'svg/Success.svg';
 
-import s from './Account.module.sass';
+import s from './AccountModal.module.sass';
 
-type AccountProps = {
+type AccountModalProps = {
   address: string
 } & ModalActions;
 
-export const Account: React.FC<AccountProps> = ({
+export const AccountModal: React.FC<AccountModalProps> = ({
   address,
   isOpen,
   onRequestClose,
 }) => {
   const disconnect = useDisconnect();
   const isWiderThanMphone = useWiderThanMphone();
+  const [success, setSuccess] = useState<boolean>(false);
 
-  const tzktLink = `${TZKT_BASE_URL}/${address}`;
+  const handleSetSuccessOfCopy = () => {
+    if (!success) {
+      setSuccess(true);
 
-  const handleCopyToClipboard = useCallback(
-    () => {
-      console.log(tzktLink);
-    },
-    [tzktLink],
-  );
+      setTimeout(() => setSuccess(false), 2000);
+    }
+  };
 
   const handleLogout = useCallback(() => {
     disconnect();
@@ -62,21 +65,28 @@ export const Account: React.FC<AccountProps> = ({
       <div className={s.options}>
         <Button
           theme="clear"
-          href={tzktLink}
+          href={`${TZKT_BASE_URL}/${address}`}
           external
           className={s.button}
         >
           View on explorer
           <IconLink className={s.icon} />
         </Button>
-        <Button
-          theme="clear"
-          onClick={handleCopyToClipboard}
-          className={s.button}
+        <CopyToClipboard
+          text={address}
+          onCopy={handleSetSuccessOfCopy}
         >
-          Copy Address
-          <IconCopy className={s.icon} />
-        </Button>
+          <Button
+            theme="clear"
+            className={s.button}
+          >
+            Copy address
+            <div className={cx(s.iconsWrapper, { [s.success]: success })}>
+              <Success className={s.arrow} />
+              <IconCopy className={s.clipboard} />
+            </div>
+          </Button>
+        </CopyToClipboard>
       </div>
     </Modal>
   );

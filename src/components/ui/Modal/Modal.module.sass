@@ -26,6 +26,7 @@
   display: flex
   justify-content: center
   align-items: center
+  width: 100%
   min-height: 100%
   padding: 1rem 0
   box-sizing: border-box
@@ -43,7 +44,7 @@
   padding: .75rem 3rem
   cursor: default
   background-color: rgba($dark-blue, .9)
-  border-radius: .25rem
+  border-radius: .5rem
   color: $white
   display: flex
   flex-direction: column
@@ -58,9 +59,6 @@
   position: absolute
   top: .875rem
   right: 1.375rem
-  &:hover
-    path
-      fill: $blue-neutral
 
 .closeButton
   path
@@ -69,6 +67,16 @@
 .closeIcon
   width: .75rem
   height: auto
+
+.primary
+  &:hover
+    path
+      fill: $blue-neutral
+
+.secondary
+  &:hover
+    path
+      fill: $light-yellow
 
 @include media('>Mphone')
   .closeIcon

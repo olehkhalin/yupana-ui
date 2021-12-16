@@ -16,3 +16,5 @@ export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
 export const TZKT_BASE_URL = process.env.REACT_APP_TZKT_BASE_URL;
+
+export const DECIMALS_VALUE = 6;

@@ -11,6 +11,7 @@ export const MARKET_CARDS_SUPPLY = {
       symbol: 'XTZ',
       thumbnailUri: XTZ_THUMBNAIL_URI,
       volume24h: 25.21,
+      decimals: 6,
     },
     {
       address: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
@@ -18,6 +19,7 @@ export const MARKET_CARDS_SUPPLY = {
       symbol: 'SMAK',
       thumbnailUri: SMAK_THUMBNAIL_URI,
       volume24h: 76.98,
+      decimals: 6,
     },
     {
       id: '0',
@@ -26,6 +28,7 @@ export const MARKET_CARDS_SUPPLY = {
       symbol: 'QUIPU',
       thumbnailUri: SMAK_THUMBNAIL_URI,
       volume24h: 51.03,
+      decimals: 6,
     },
   ],
 };
@@ -41,6 +44,7 @@ export const MARKET_CARDS_BORROW = {
       symbol: 'XTZ',
       thumbnailUri: XTZ_THUMBNAIL_URI,
       volume24h: 18.87,
+      decimals: 6,
     },
     {
       address: 'KT1TwzD6zV3WeJ39ukuqxcfK2fJCnhvrdN1X',
@@ -48,6 +52,7 @@ export const MARKET_CARDS_BORROW = {
       symbol: 'SMAK',
       thumbnailUri: SMAK_THUMBNAIL_URI,
       volume24h: 64.01,
+      decimals: 6,
     },
     {
       id: '0',
@@ -56,6 +61,7 @@ export const MARKET_CARDS_BORROW = {
       symbol: 'QUIPU',
       thumbnailUri: SMAK_THUMBNAIL_URI,
       volume24h: 97.98,
+      decimals: 6,
     },
   ],
 };

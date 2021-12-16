@@ -3,7 +3,7 @@ import React from 'react';
 import { ModalInterface } from 'types/modal';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
-import { ModalHeader } from 'components/popups/components';
+import { ModalHeader } from 'components/common/ModalHeader';
 
 type InformationModalProps = {
   buttonText?: string
@@ -15,7 +15,6 @@ export const InformationModal: React.FC<InformationModalProps> = ({
   buttonText = 'Ok, I got it',
   isOpen,
   onRequestClose,
-  onClick,
 }) => (
   <Modal
     isOpen={isOpen}
@@ -27,7 +26,7 @@ export const InformationModal: React.FC<InformationModalProps> = ({
     />
     <Button
       sizeT="small"
-      onClick={onClick}
+      onClick={onRequestClose}
     >
       {buttonText}
     </Button>
