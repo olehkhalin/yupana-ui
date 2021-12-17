@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getUniqueKey } from 'utils/getUniqueKey';
+import { getTokenSlug } from 'utils/helpers/token';
+import { getUniqueKey } from 'utils/helpers';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -15,7 +15,6 @@ import {
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
 import {
@@ -1024,8 +1023,8 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Collateral switcher
         </div>
-        <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
-        <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
       </div>
 
       <div className={s.block}>

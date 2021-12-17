@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
-import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
+import { getPreparedTokenObject } from 'utils/helpers/token';
+import { getPreparedPercentValue } from 'utils/helpers/amount';
 import { Asset, MarketsAllQuery, useMarketsAllQuery } from 'generated/graphql';
 import { Markets } from 'components/tables/containers/Markets';
 

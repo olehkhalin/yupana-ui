@@ -3,8 +3,8 @@ import { CopyToClipboard } from 'react-copy-to-clipboard';
 import cx from 'classnames';
 
 import { TZKT_BASE_URL } from 'constants/default';
-import { shortize } from 'utils/getShortize';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { shortize } from 'utils/helpers/token';
+import { useWiderThanMphone } from 'utils/helpers';
 import { useDisconnect } from 'utils/dapp';
 import { ModalActions } from 'types/modal';
 import { Modal } from 'components/ui/Modal';

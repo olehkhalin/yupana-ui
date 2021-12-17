@@ -8,14 +8,16 @@ import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenName } from 'utils/getTokenName';
-import { convertDollarsToTokenAmount } from 'utils/convertDollarsToTokenAmount';
-import { getPercentIsOneNumberFromAnother } from 'utils/getPercentIsOneNumberFromAnother';
-import { getThePercentageOfTheNumber } from 'utils/getThePercentageOfTheNumber';
-import { convertTokenAmountToDollars } from 'utils/convertTokenAmountToDollars';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { getTokenName } from 'utils/helpers/token';
+import {
+  convertDollarsToTokenAmount,
+  getPercentIsOneNumberFromAnother,
+  getThePercentageOfTheNumber,
+  convertTokenAmountToDollars,
+  getPrettyPercent,
+  getPrettyAmount,
+} from 'utils/helpers/amount';
+import { useWiderThanMphone } from 'utils/helpers';
 import { Modal } from 'components/ui/Modal';
 import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';

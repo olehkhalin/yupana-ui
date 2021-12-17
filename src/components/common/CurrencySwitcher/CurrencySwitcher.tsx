@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { CurrencyEnum, useCurrency } from 'providers/CurrencyProvider';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { useWiderThanMphone } from 'utils/helpers';
 import { Button } from 'components/ui/Button';
 
 import s from './CurrencySwitcher.module.sass';

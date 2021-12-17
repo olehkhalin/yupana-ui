@@ -3,8 +3,8 @@ import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 
 import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
-import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
-import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
+import { getPreparedTokenObject } from 'utils/helpers/token';
+import { getPreparedPercentValue } from 'utils/helpers/amount';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';

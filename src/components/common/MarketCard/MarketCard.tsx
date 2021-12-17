@@ -2,8 +2,8 @@ import React from 'react';
 import cx from 'classnames';
 
 import { MarketCardInterface } from 'types/market-card';
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getUniqueKey } from 'utils/helpers';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { SupplyLine } from 'components/common/SupplyLine';
 
 import s from './MarketCard.module.sass';

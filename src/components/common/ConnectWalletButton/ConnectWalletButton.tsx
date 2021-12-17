@@ -6,8 +6,8 @@ import {
   useAccountPkh,
 } from 'utils/dapp';
 
-import { useWiderThanMphone } from 'utils/getMediaQuery';
-import { shortize } from 'utils/getShortize';
+import { useWiderThanMphone } from 'utils/helpers';
+import { shortize } from 'utils/helpers/token';
 import { AccountModal } from 'components/modals/AccountModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { Button } from 'components/ui/Button';

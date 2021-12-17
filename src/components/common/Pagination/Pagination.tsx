@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { PaginationInterface } from 'types/pagination';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { useWiderThanMphone } from 'utils/helpers';
 import { DesktopPagination } from 'components/common/Pagination/DesktopPagination';
 import { MobilePagination } from 'components/common/Pagination/MobilePagination';
 

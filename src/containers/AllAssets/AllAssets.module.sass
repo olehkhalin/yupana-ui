@@ -4,6 +4,9 @@
 .root
   display: flex
   justify-content: space-between
+  width: 100%
+  max-width: 50rem
+  margin: 0 auto
 
 .col
   display: none
@@ -13,7 +16,13 @@
 .show
   display: flex
 
+.switcher
+  margin: 0 auto 2rem
+
 @include media('>Mdesktop')
+  .root
+    max-width: initial
+    margin: initial
   .col
     display: flex
     width: initial
