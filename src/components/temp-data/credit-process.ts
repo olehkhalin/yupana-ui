@@ -15,5 +15,6 @@ export const CREDIT_PROCESS_DATA = {
   borrowLimitUsed: 50, // %
   collateralFactor: 60, // %
   borrowByCurrentToken: 17.12, // $
-  priceInUsd: 6, // $
+  pricePerTokenInDollars: 6, // $
+  tezosPrice: 3.3,
 };

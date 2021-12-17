@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 import React, {
-  useState, useEffect, useCallback, useRef, useMemo,
+  useState, useEffect, useCallback, useRef,
 } from 'react';
 import { useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
@@ -10,8 +10,6 @@ import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenName } from 'utils/helpers/token';
 import {
-  convertDollarsToTokenAmount,
-  getPercentIsOneNumberFromAnother,
   getThePercentageOfTheNumber,
   convertTokenAmountToDollars,
   getPrettyPercent,
@@ -34,26 +32,6 @@ export enum TypeEnum {
   REPAY = 'repay',
 }
 
-type CreditProcessModalProps = {
-  type?: TypeEnum
-  theme?: keyof typeof themeClasses
-  asset: TokenMetadataInterface
-  tokenBalance: number
-  yourBorrowLimit: number
-  borrowLimitUsed: number
-  priceInUsd: number
-  supplyBalance: number
-  collateralFactor: number
-  borrowByCurrentToken?: number
-} & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
-
-type DataType = {
-  text: string
-  balanceTitle: string
-  tokenAmount: string
-  balance: number
-};
-
 export interface InputInterface {
   metadata: TokenMetadataInterface
   amount: BigNumber
@@ -63,47 +41,65 @@ type FormTypes = {
   input: InputInterface
 };
 
-const defaultData = {
-  text: '',
-  balanceTitle: '',
-  tokenAmount: '',
-  balance: 0,
-};
-
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
 
+export type ModalActionType = Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
+
+type CreditProcessModalProps = {
+  type?: TypeEnum
+  theme?: keyof typeof themeClasses
+  // new props
+  asset: TokenMetadataInterface
+  // TODO: Change to basic currency name
+  pricePerTokenInBasicCurrency: number
+  // Stats
+  yourBorrowLimit: number
+  borrowLimitUsed: number
+  dynamicBorrowLimitUsed: number
+  dynamicBorrowLimit?: number
+  // *
+  title: string
+  balanceLabel: string
+  buttonLabel: string
+  maxAmount: number
+  tokenBalance: string
+  onSumbit: (props: any) => void
+  setIntroducedValueInBasicPrice: (arg: number) => void
+} & ModalActionType;
+
 export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   type = TypeEnum.SUPPLY,
   theme = 'primary',
-  asset,
-  tokenBalance,
-  yourBorrowLimit,
-  borrowLimitUsed,
-  priceInUsd,
-  collateralFactor,
-  supplyBalance,
-  borrowByCurrentToken = 0,
   isOpen,
   onRequestClose,
+  // new props
+  asset,
+  yourBorrowLimit,
+  borrowLimitUsed,
+  pricePerTokenInBasicCurrency,
+  dynamicBorrowLimitUsed,
+  dynamicBorrowLimit,
+  title,
+  balanceLabel,
+  buttonLabel,
+  maxAmount,
+  tokenBalance,
+  onSumbit,
+  setIntroducedValueInBasicPrice,
 }) => {
-  const [{
-    text, balanceTitle, tokenAmount, balance,
-  }, setData] = useState<DataType>(defaultData);
+  const isWiderThanMphone = useWiderThanMphone();
+
   const [sliderValue, setSliderValue] = useState<number>(0);
   /*  TODO: numberInputStringValue - If possible update later
       Can't input any float number without this 'string' value
   */
   const [numberInputStringValue, setNumberInputStringValue] = useState<string>('');
-  const [yourTotalBorrowLimit, setYourTotalBorrowLimit] = useState<number>(0);
-  const [
-    yourBorrowLimitUsedEqualNewSupply, setYourBorrowLimitUsedEqualNewSupply,
-  ] = useState<number>(0);
   const [error, setError] = useState<string>('');
+
   const valueRef = useRef<HTMLDivElement | null>(null);
-  const isWiderThanMphone = useWiderThanMphone();
 
   const {
     handleSubmit,
@@ -118,16 +114,16 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     },
   });
 
-  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
-
   // Subscribe on input
   const { amount } = watch('input');
 
   // Entered amount of tokens in USD
-  const tokenAmountInDollars = useMemo(
-    () => convertTokenAmountToDollars(+amount, priceInUsd),
-    [amount, priceInUsd],
-  );
+  useEffect(() => {
+    // Add switch currency to tezos/dollars (pricePerTokenInDollars / tezosPrice * inputAmount)
+    setIntroducedValueInBasicPrice(
+      convertTokenAmountToDollars(+amount, pricePerTokenInBasicCurrency),
+    );
+  }, [amount, pricePerTokenInBasicCurrency, setIntroducedValueInBasicPrice]);
 
   // Set tooltip offset
   const setTooltipOffset = useCallback(
@@ -147,24 +143,24 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         metadata: asset,
       });
 
-      if (newAmount && newAmount.lte(balance)) {
-        const numberByPercent = (+newAmount / balance) * 100;
+      if (newAmount && newAmount.lte(maxAmount)) {
+        const numberByPercent = (+newAmount / maxAmount) * 100;
         setSliderValue(numberByPercent);
         setTooltipOffset(numberByPercent);
-      } else if (newAmount?.gt(balance)) {
+      } else if (newAmount?.gt(maxAmount)) {
         setSliderValue(100);
         setTooltipOffset(100);
       } else if (!newAmount || +newAmount === 0) {
         setSliderValue(0);
         setTooltipOffset(0);
       }
-    }, [asset, balance, setTooltipOffset, setValue],
+    }, [asset, maxAmount, setTooltipOffset, setValue],
   );
 
   // Counting input value relatively input percent
   const setAmountEqualPercent = useCallback(
     (percent: number) => {
-      const value = getThePercentageOfTheNumber(balance, percent);
+      const value = getThePercentageOfTheNumber(maxAmount, percent);
       setValue('input', {
         amount: new BigNumber(value).decimalPlaces(asset.decimals ?? DECIMALS_VALUE),
         metadata: asset,
@@ -175,7 +171,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           .toFixed(),
       );
     },
-    [asset, balance, setValue],
+    [asset, maxAmount, setValue],
   );
 
   // Set data by interaction with slider
@@ -209,18 +205,18 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   const validateInput = useCallback(
     ({
       inputAmount,
-      userBalance,
+      maxInputValue,
       percent = 0,
       submit = false,
     }: {
       inputAmount?: BigNumber
-      userBalance: number
+      maxInputValue: number
       percent?: number
       submit?: boolean
     }) => {
       const LIQUIDATION_RISK_PERCENT = 80;
 
-      if (inputAmount?.gt(userBalance)) {
+      if (inputAmount?.gt(maxInputValue)) {
         return setError('Insufficient Balance');
       }
 
@@ -228,7 +224,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         return setError('This field is required');
       }
 
-      if (percent >= LIQUIDATION_RISK_PERCENT && inputAmount?.lte(userBalance)) {
+      if (percent >= LIQUIDATION_RISK_PERCENT && inputAmount?.lte(maxInputValue)) {
         return setError('Beware of the Liquidation Risk');
       }
 
@@ -239,158 +235,80 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
   // Credit process types
   useEffect(() => {
-    const currentBorrowLimitUsedInDollars = getThePercentageOfTheNumber(yourBorrowLimit, borrowLimitUsed);
-
-    let yourBorrowLimitEqualInputAmount = 0;
-    let borrowLimitUsedEqualInputAmount = 0;
-
     switch (type) {
+      // Supply
       case TypeEnum.SUPPLY:
-        yourBorrowLimitEqualInputAmount = getThePercentageOfTheNumber(tokenAmountInDollars, collateralFactor) + yourBorrowLimit;
-        borrowLimitUsedEqualInputAmount = getPercentIsOneNumberFromAnother(currentBorrowLimitUsedInDollars, yourTotalBorrowLimit);
-
         validateInput({
           inputAmount: new BigNumber(amount),
-          userBalance: tokenBalance,
-        });
-
-        setData({
-          text: 'Supply',
-          balanceTitle: 'Wallet balance:',
-          tokenAmount: getPrettyAmount({
-            value: tokenBalance,
-            currency: getTokenName(asset),
-            dec: asset.decimals,
-          }),
-          balance: tokenBalance,
+          maxInputValue: maxAmount,
         });
         break;
-      case TypeEnum.WITHDRAW: {
-        yourBorrowLimitEqualInputAmount = yourBorrowLimit - (currentBorrowLimitUsedInDollars + getThePercentageOfTheNumber(
-          tokenAmountInDollars,
-          collateralFactor,
-        ));
-        borrowLimitUsedEqualInputAmount = getPercentIsOneNumberFromAnother(
-          (currentBorrowLimitUsedInDollars + getThePercentageOfTheNumber(
-            tokenAmountInDollars,
-            collateralFactor,
-          )), yourBorrowLimit,
-        );
-
-        /*  1. (currentBorrowLimitUsedInUsd * 100) / collateralFactor)
-              How many dollars a user should have to cover his debt
-            2. amountUsdToWithdraw
-              Subtract from the total supplyBalance
-            3. tokenBorrow
-              Max token amount to withdraw
-        */
-        const amountUsdToWithdraw = supplyBalance - ((currentBorrowLimitUsedInDollars * 100) / collateralFactor);
-        const tokenBorrow = convertDollarsToTokenAmount(amountUsdToWithdraw, priceInUsd);
-
+      // Withdraw
+      case TypeEnum.WITHDRAW:
         validateInput({
-          userBalance: tokenBorrow,
           inputAmount: new BigNumber(amount),
+          maxInputValue: maxAmount,
         });
-
-        setData({
-          text: 'Withdraw',
-          balanceTitle: 'Available to withdraw:',
-          tokenAmount: getPrettyAmount({
-            value: tokenBorrow,
-            currency: getTokenName(asset),
-            dec: asset.decimals,
-          }),
-          balance: tokenBorrow,
-        });
-      }
         break;
-      case TypeEnum.BORROW: {
-        const amountUsdToWithdraw = yourBorrowLimit - currentBorrowLimitUsedInDollars;
-        const tokenBorrow = convertDollarsToTokenAmount(amountUsdToWithdraw, priceInUsd);
-
-        borrowLimitUsedEqualInputAmount = getPercentIsOneNumberFromAnother(tokenAmountInDollars, yourBorrowLimit) + borrowLimitUsed;
-
+      // Borrow
+      case TypeEnum.BORROW:
         validateInput({
-          percent: borrowLimitUsedEqualInputAmount,
-          userBalance: tokenBorrow,
           inputAmount: new BigNumber(amount),
+          maxInputValue: maxAmount,
+          percent: dynamicBorrowLimitUsed,
         });
-
-        setData({
-          text: 'Borrow',
-          balanceTitle: 'Available to borrow:',
-          tokenAmount: getPrettyAmount({
-            value: tokenBorrow,
-            currency: getTokenName(asset),
-            dec: asset.decimals,
-          }),
-          balance: tokenBorrow,
-        });
-      }
         break;
-      case TypeEnum.REPAY: {
-        borrowLimitUsedEqualInputAmount = getPercentIsOneNumberFromAnother(currentBorrowLimitUsedInDollars - tokenAmountInDollars, yourBorrowLimit);
-
-        const tokenBorrow = convertDollarsToTokenAmount(borrowByCurrentToken, priceInUsd);
-
+      // Repay
+      case TypeEnum.REPAY:
         validateInput({
-          percent: borrowLimitUsedEqualInputAmount,
-          userBalance: tokenBorrow,
           inputAmount: new BigNumber(amount),
+          maxInputValue: maxAmount,
+          percent: dynamicBorrowLimitUsed,
         });
-
-        setData({
-          text: 'Repay',
-          balanceTitle: 'Available to repay:',
-          tokenAmount: getPrettyAmount({
-            value: tokenBorrow,
-            currency: getTokenName(asset),
-            dec: asset.decimals,
-          }),
-          balance: tokenBorrow,
-        });
-      }
         break;
       default:
-        setData(defaultData);
+        validateInput({
+          inputAmount: new BigNumber(amount),
+          maxInputValue: maxAmount,
+        });
         break;
     }
-
-    setYourBorrowLimitUsedEqualNewSupply(borrowLimitUsedEqualInputAmount);
-    setYourTotalBorrowLimit(yourBorrowLimitEqualInputAmount);
-  }, [amount, asset, borrowByCurrentToken, borrowLimitUsed, collateralFactor, priceInUsd, supplyBalance, tokenAmountInDollars, tokenBalance, type, validateInput, yourBorrowLimit, yourTotalBorrowLimit]);
+  }, [amount, dynamicBorrowLimitUsed, maxAmount, type, validateInput]);
 
   // Form submit
   const onSubmit = useCallback(
     ({ input: inputData }: FormTypes) => {
       validateInput({
         inputAmount: new BigNumber(amount),
-        userBalance: tokenBalance,
+        maxInputValue: maxAmount,
         submit: true,
       });
 
       if (!error && (!amount.eq(0) && amount)) {
-        // eslint-disable-next-line no-console
-        console.log(JSON.stringify(inputData, null, 2));
+        // Send data to parent submit function
+        onSumbit(inputData);
       }
     },
-    [amount, tokenBalance, error, validateInput],
+    [validateInput, amount, maxAmount, error, onSumbit],
   );
 
   const getYourBorrowLimit = () => {
     const borrowLimit = getPrettyAmount({ value: yourBorrowLimit, currency: '$' });
-    if (isBorrowTheme) {
-      return borrowLimit;
+
+    if (dynamicBorrowLimit) {
+      return (
+        <>
+          {borrowLimit}
+          {' -> '}
+          {getPrettyAmount({ value: dynamicBorrowLimit ?? 0, currency: '$' })}
+        </>
+      );
     }
 
-    return (
-      <>
-        {borrowLimit}
-        {' -> '}
-        {getPrettyAmount({ value: yourTotalBorrowLimit, currency: '$' })}
-      </>
-    );
+    return borrowLimit;
   };
+
+  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
 
   return (
     <Modal
@@ -406,7 +324,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         className={s.form}
       >
         <h2 className={s.title}>
-          {text}
+          {title}
         </h2>
 
         <div className={s.tokenInfo}>
@@ -419,10 +337,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
         </div>
 
         <div className={s.walletBalance}>
-          {balanceTitle}
+          {balanceLabel}
 
           <div className={s.balance}>
-            {tokenAmount}
+            {tokenBalance}
           </div>
         </div>
 
@@ -430,11 +348,11 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           theme={theme}
           input={{ amount: numberInputStringValue, metadata: asset }}
           // TODO: Current currency Tezos ? tezos.currentPrice : priceInUsd
-          priceInBaseCurrency={priceInUsd}
+          priceInBaseCurrency={pricePerTokenInBasicCurrency}
           handleInputChange={handleInputChange}
           error={error}
           setError={setError}
-          balance={balance}
+          balance={maxAmount}
           isShowMaxButton={type !== TypeEnum.BORROW}
           className={s.input}
         />
@@ -468,7 +386,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           <div className={s.borrowResult}>
             {getPrettyPercent(borrowLimitUsed)}
             {' -> '}
-            {getPrettyPercent(yourBorrowLimitUsedEqualNewSupply)}
+            {getPrettyPercent(dynamicBorrowLimitUsed)}
           </div>
         </div>
 
@@ -478,7 +396,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           type="submit"
           disabled={(!!error && error !== 'Beware of the Liquidation Risk')}
         >
-          {text}
+          {buttonLabel}
         </Button>
       </form>
     </Modal>

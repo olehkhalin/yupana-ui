@@ -1,4 +1,6 @@
-/* eslint-disable */
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable max-len */
+/* eslint-disable import/newline-after-import */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
@@ -6,7 +8,7 @@ export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-const defaultOptions =  {}
+const defaultOptions = {};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -141,7 +143,6 @@ export type Asset = {
   ytoken: Scalars['Int'];
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetBorrowTxArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -150,7 +151,6 @@ export type AssetAssetBorrowTxArgs = {
   order_by?: InputMaybe<Array<Borrow_Tx_Order_By>>;
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetBorrowTx_AggregateArgs = {
@@ -161,7 +161,6 @@ export type AssetAssetBorrowTx_AggregateArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetRepayTxArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
@@ -170,7 +169,6 @@ export type AssetAssetRepayTxArgs = {
   order_by?: InputMaybe<Array<Repay_Tx_Order_By>>;
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetRepayTx_AggregateArgs = {
@@ -181,7 +179,6 @@ export type AssetAssetRepayTx_AggregateArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetSupplyTxArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
@@ -190,7 +187,6 @@ export type AssetAssetSupplyTxArgs = {
   order_by?: InputMaybe<Array<Supply_Tx_Order_By>>;
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetSupplyTx_AggregateArgs = {
@@ -201,7 +197,6 @@ export type AssetAssetSupplyTx_AggregateArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -210,7 +205,6 @@ export type AssetAssetUserBorrowArgs = {
   order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetUserBorrow_AggregateArgs = {
@@ -221,7 +215,6 @@ export type AssetAssetUserBorrow_AggregateArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -230,7 +223,6 @@ export type AssetAssetUserSupplyArgs = {
   order_by?: InputMaybe<Array<User_Supply_Order_By>>;
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetUserSupply_AggregateArgs = {
@@ -241,7 +233,6 @@ export type AssetAssetUserSupply_AggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetAssetWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -250,7 +241,6 @@ export type AssetAssetWithdrawTxArgs = {
   order_by?: InputMaybe<Array<Withdraw_Tx_Order_By>>;
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetAssetWithdrawTx_AggregateArgs = {
@@ -261,7 +251,6 @@ export type AssetAssetWithdrawTx_AggregateArgs = {
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetCollateralAssetArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -270,7 +259,6 @@ export type AssetCollateralAssetArgs = {
   order_by?: InputMaybe<Array<Liquidate_Tx_Order_By>>;
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetCollateralAsset_AggregateArgs = {
@@ -281,7 +269,6 @@ export type AssetCollateralAsset_AggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetLiquidatedAssetArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -290,7 +277,6 @@ export type AssetLiquidatedAssetArgs = {
   order_by?: InputMaybe<Array<Liquidate_Tx_Order_By>>;
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetLiquidatedAsset_AggregateArgs = {
@@ -301,7 +287,6 @@ export type AssetLiquidatedAsset_AggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetRatesArgs = {
   distinct_on?: InputMaybe<Array<Rates_Select_Column>>;
@@ -310,7 +295,6 @@ export type AssetRatesArgs = {
   order_by?: InputMaybe<Array<Rates_Order_By>>;
   where?: InputMaybe<Rates_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetRates_AggregateArgs = {
@@ -321,7 +305,6 @@ export type AssetRates_AggregateArgs = {
   where?: InputMaybe<Rates_Bool_Exp>;
 };
 
-
 /** columns and relationships of "asset" */
 export type AssetTokensArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
@@ -330,7 +313,6 @@ export type AssetTokensArgs = {
   order_by?: InputMaybe<Array<Token_Order_By>>;
   where?: InputMaybe<Token_Bool_Exp>;
 };
-
 
 /** columns and relationships of "asset" */
 export type AssetTokens_AggregateArgs = {
@@ -363,7 +345,6 @@ export type Asset_Aggregate_Fields = {
   var_samp?: Maybe<Asset_Var_Samp_Fields>;
   variance?: Maybe<Asset_Variance_Fields>;
 };
-
 
 /** aggregate fields of "asset" */
 export type Asset_Aggregate_FieldsCountArgs = {
@@ -463,7 +444,7 @@ export type Asset_Bool_Exp = {
 /** unique or primary key constraints on table "asset" */
 export enum Asset_Constraint {
   /** unique or primary key constraint */
-  AssetPkey = 'asset_pkey'
+  AssetPkey = 'asset_pkey',
 }
 
 /** input type for incrementing numeric columns in table "asset" */
@@ -683,7 +664,7 @@ export enum Asset_Select_Column {
   /** column name */
   UsdSupply = 'usdSupply',
   /** column name */
-  Ytoken = 'ytoken'
+  Ytoken = 'ytoken',
 }
 
 /** input type for updating data in table "asset" */
@@ -871,7 +852,7 @@ export enum Asset_Update_Column {
   /** column name */
   UsdSupply = 'usdSupply',
   /** column name */
-  Ytoken = 'ytoken'
+  Ytoken = 'ytoken',
 }
 
 /** aggregate var_pop on columns */
@@ -1011,7 +992,6 @@ export type Borrow_Tx_Aggregate_Fields = {
   variance?: Maybe<Borrow_Tx_Variance_Fields>;
 };
 
-
 /** aggregate fields of "borrow_tx" */
 export type Borrow_Tx_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -1075,7 +1055,7 @@ export type Borrow_Tx_Bool_Exp = {
 /** unique or primary key constraints on table "borrow_tx" */
 export enum Borrow_Tx_Constraint {
   /** unique or primary key constraint */
-  BorrowTxPkey = 'borrow_tx_pkey'
+  BorrowTxPkey = 'borrow_tx_pkey',
 }
 
 /** input type for incrementing numeric columns in table "borrow_tx" */
@@ -1186,7 +1166,7 @@ export enum Borrow_Tx_Select_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "borrow_tx" */
@@ -1280,7 +1260,7 @@ export enum Borrow_Tx_Update_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -1365,7 +1345,6 @@ export type Daily_Stats_Aggregate_Fields = {
   variance?: Maybe<Daily_Stats_Variance_Fields>;
 };
 
-
 /** aggregate fields of "daily_stats" */
 export type Daily_Stats_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Daily_Stats_Select_Column>>;
@@ -1393,7 +1372,7 @@ export type Daily_Stats_Bool_Exp = {
 /** unique or primary key constraints on table "daily_stats" */
 export enum Daily_Stats_Constraint {
   /** unique or primary key constraint */
-  DailyStatsPkey = 'daily_stats_pkey'
+  DailyStatsPkey = 'daily_stats_pkey',
 }
 
 /** input type for incrementing numeric columns in table "daily_stats" */
@@ -1461,7 +1440,7 @@ export enum Daily_Stats_Select_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  SupplyVolume = 'supplyVolume'
+  SupplyVolume = 'supplyVolume',
 }
 
 /** input type for updating data in table "daily_stats" */
@@ -1510,7 +1489,7 @@ export enum Daily_Stats_Update_Column {
   /** column name */
   Id = 'id',
   /** column name */
-  SupplyVolume = 'supplyVolume'
+  SupplyVolume = 'supplyVolume',
 }
 
 /** aggregate var_pop on columns */
@@ -1562,7 +1541,6 @@ export type Dipdup_Contract_Aggregate_Fields = {
   min?: Maybe<Dipdup_Contract_Min_Fields>;
 };
 
-
 /** aggregate fields of "dipdup_contract" */
 export type Dipdup_Contract_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Dipdup_Contract_Select_Column>>;
@@ -1584,7 +1562,7 @@ export type Dipdup_Contract_Bool_Exp = {
 /** unique or primary key constraints on table "dipdup_contract" */
 export enum Dipdup_Contract_Constraint {
   /** unique or primary key constraint */
-  DipdupContractPkey = 'dipdup_contract_pkey'
+  DipdupContractPkey = 'dipdup_contract_pkey',
 }
 
 /** input type for inserting data into table "dipdup_contract" */
@@ -1657,7 +1635,7 @@ export enum Dipdup_Contract_Select_Column {
   /** column name */
   Typename = 'typename',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "dipdup_contract" */
@@ -1680,7 +1658,7 @@ export enum Dipdup_Contract_Update_Column {
   /** column name */
   Typename = 'typename',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** columns and relationships of "dipdup_head" */
@@ -1717,7 +1695,6 @@ export type Dipdup_Head_Aggregate_Fields = {
   variance?: Maybe<Dipdup_Head_Variance_Fields>;
 };
 
-
 /** aggregate fields of "dipdup_head" */
 export type Dipdup_Head_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
@@ -1746,7 +1723,7 @@ export type Dipdup_Head_Bool_Exp = {
 /** unique or primary key constraints on table "dipdup_head" */
 export enum Dipdup_Head_Constraint {
   /** unique or primary key constraint */
-  DipdupHeadPkey = 'dipdup_head_pkey'
+  DipdupHeadPkey = 'dipdup_head_pkey',
 }
 
 /** input type for incrementing numeric columns in table "dipdup_head" */
@@ -1830,7 +1807,7 @@ export enum Dipdup_Head_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "dipdup_head" */
@@ -1880,7 +1857,7 @@ export enum Dipdup_Head_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** aggregate var_pop on columns */
@@ -1917,7 +1894,6 @@ export type Dipdup_Index = {
   updatedAt: Scalars['timestamptz'];
 };
 
-
 /** columns and relationships of "dipdup_index" */
 export type Dipdup_IndexTemplateValuesArgs = {
   path?: InputMaybe<Scalars['String']>;
@@ -1945,7 +1921,6 @@ export type Dipdup_Index_Aggregate_Fields = {
   var_samp?: Maybe<Dipdup_Index_Var_Samp_Fields>;
   variance?: Maybe<Dipdup_Index_Variance_Fields>;
 };
-
 
 /** aggregate fields of "dipdup_index" */
 export type Dipdup_Index_Aggregate_FieldsCountArgs = {
@@ -1983,7 +1958,7 @@ export type Dipdup_Index_Bool_Exp = {
 /** unique or primary key constraints on table "dipdup_index" */
 export enum Dipdup_Index_Constraint {
   /** unique or primary key constraint */
-  DipdupIndexPkey = 'dipdup_index_pkey'
+  DipdupIndexPkey = 'dipdup_index_pkey',
 }
 
 /** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
@@ -2109,7 +2084,7 @@ export enum Dipdup_Index_Select_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "dipdup_index" */
@@ -2170,7 +2145,7 @@ export enum Dipdup_Index_Update_Column {
   /** column name */
   Type = 'type',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** aggregate var_pop on columns */
@@ -2217,7 +2192,6 @@ export type Dipdup_Schema_Aggregate_Fields = {
   min?: Maybe<Dipdup_Schema_Min_Fields>;
 };
 
-
 /** aggregate fields of "dipdup_schema" */
 export type Dipdup_Schema_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Dipdup_Schema_Select_Column>>;
@@ -2239,7 +2213,7 @@ export type Dipdup_Schema_Bool_Exp = {
 /** unique or primary key constraints on table "dipdup_schema" */
 export enum Dipdup_Schema_Constraint {
   /** unique or primary key constraint */
-  DipdupSchemaPkey = 'dipdup_schema_pkey'
+  DipdupSchemaPkey = 'dipdup_schema_pkey',
 }
 
 /** input type for inserting data into table "dipdup_schema" */
@@ -2315,7 +2289,7 @@ export enum Dipdup_Schema_Select_Column {
   /** column name */
   Reindex = 'reindex',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** input type for updating data in table "dipdup_schema" */
@@ -2339,7 +2313,7 @@ export enum Dipdup_Schema_Update_Column {
   /** column name */
   Reindex = 'reindex',
   /** column name */
-  UpdatedAt = 'updatedAt'
+  UpdatedAt = 'updatedAt',
 }
 
 /** columns and relationships of "global_factors" */
@@ -2376,7 +2350,6 @@ export type Global_Factors_Aggregate_Fields = {
   variance?: Maybe<Global_Factors_Variance_Fields>;
 };
 
-
 /** aggregate fields of "global_factors" */
 export type Global_Factors_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Global_Factors_Select_Column>>;
@@ -2408,7 +2381,7 @@ export type Global_Factors_Bool_Exp = {
 /** unique or primary key constraints on table "global_factors" */
 export enum Global_Factors_Constraint {
   /** unique or primary key constraint */
-  GlobalFactorsPkey = 'global_factors_pkey'
+  GlobalFactorsPkey = 'global_factors_pkey',
 }
 
 /** input type for incrementing numeric columns in table "global_factors" */
@@ -2495,7 +2468,7 @@ export enum Global_Factors_Select_Column {
   /** column name */
   PriceFeedProxy = 'priceFeedProxy',
   /** column name */
-  YupanaContract = 'yupanaContract'
+  YupanaContract = 'yupanaContract',
 }
 
 /** input type for updating data in table "global_factors" */
@@ -2557,7 +2530,7 @@ export enum Global_Factors_Update_Column {
   /** column name */
   PriceFeedProxy = 'priceFeedProxy',
   /** column name */
-  YupanaContract = 'yupanaContract'
+  YupanaContract = 'yupanaContract',
 }
 
 /** aggregate var_pop on columns */
@@ -2601,7 +2574,6 @@ export type Interest_Model = {
   rate: Scalars['numeric'];
 };
 
-
 /** columns and relationships of "interest_model" */
 export type Interest_ModelModelAssetArgs = {
   distinct_on?: InputMaybe<Array<Asset_Select_Column>>;
@@ -2610,7 +2582,6 @@ export type Interest_ModelModelAssetArgs = {
   order_by?: InputMaybe<Array<Asset_Order_By>>;
   where?: InputMaybe<Asset_Bool_Exp>;
 };
-
 
 /** columns and relationships of "interest_model" */
 export type Interest_ModelModelAsset_AggregateArgs = {
@@ -2644,7 +2615,6 @@ export type Interest_Model_Aggregate_Fields = {
   variance?: Maybe<Interest_Model_Variance_Fields>;
 };
 
-
 /** aggregate fields of "interest_model" */
 export type Interest_Model_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Interest_Model_Select_Column>>;
@@ -2676,7 +2646,7 @@ export type Interest_Model_Bool_Exp = {
 /** unique or primary key constraints on table "interest_model" */
 export enum Interest_Model_Constraint {
   /** unique or primary key constraint */
-  InterestModelPkey = 'interest_model_pkey'
+  InterestModelPkey = 'interest_model_pkey',
 }
 
 /** input type for incrementing numeric columns in table "interest_model" */
@@ -2766,7 +2736,7 @@ export enum Interest_Model_Select_Column {
   /** column name */
   Multiplier = 'multiplier',
   /** column name */
-  Rate = 'rate'
+  Rate = 'rate',
 }
 
 /** input type for updating data in table "interest_model" */
@@ -2825,7 +2795,7 @@ export enum Interest_Model_Update_Column {
   /** column name */
   Multiplier = 'multiplier',
   /** column name */
-  Rate = 'rate'
+  Rate = 'rate',
 }
 
 /** aggregate var_pop on columns */
@@ -2921,7 +2891,6 @@ export type Liquidate_Tx_Aggregate_Fields = {
   variance?: Maybe<Liquidate_Tx_Variance_Fields>;
 };
 
-
 /** aggregate fields of "liquidate_tx" */
 export type Liquidate_Tx_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -2988,7 +2957,7 @@ export type Liquidate_Tx_Bool_Exp = {
 /** unique or primary key constraints on table "liquidate_tx" */
 export enum Liquidate_Tx_Constraint {
   /** unique or primary key constraint */
-  LiquidateTxPkey = 'liquidate_tx_pkey'
+  LiquidateTxPkey = 'liquidate_tx_pkey',
 }
 
 /** input type for incrementing numeric columns in table "liquidate_tx" */
@@ -3111,7 +3080,7 @@ export enum Liquidate_Tx_Select_Column {
   /** column name */
   LiquidatorId = 'liquidatorId',
   /** column name */
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 /** input type for updating data in table "liquidate_tx" */
@@ -3208,7 +3177,7 @@ export enum Liquidate_Tx_Update_Column {
   /** column name */
   LiquidatorId = 'liquidatorId',
   /** column name */
-  Timestamp = 'timestamp'
+  Timestamp = 'timestamp',
 }
 
 /** aggregate var_pop on columns */
@@ -3495,234 +3464,195 @@ export type Mutation_Root = {
   update_rates_by_pk?: Maybe<Rates>;
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteAssetArgs = {
   where: Asset_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteAssetByPkArgs = {
   ytoken: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteBorrowTxArgs = {
   where: Borrow_Tx_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteBorrowTxByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteDailyStatsArgs = {
   where: Daily_Stats_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteDailyStatsByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteDipdupContractArgs = {
   where: Dipdup_Contract_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteDipdupContractByPkArgs = {
   name: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteDipdupHeadArgs = {
   where: Dipdup_Head_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteDipdupHeadByPkArgs = {
   name: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteDipdupIndexArgs = {
   where: Dipdup_Index_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteDipdupIndexByPkArgs = {
   name: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteDipdupSchemaArgs = {
   where: Dipdup_Schema_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteGlobalFactorsArgs = {
   where: Global_Factors_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteGlobalFactorsByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteInterestModelArgs = {
   where: Interest_Model_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteInterestModelByPkArgs = {
   address: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteLiquidateTxArgs = {
   where: Liquidate_Tx_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteLiquidateTxByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteOraclePriceArgs = {
   where: Oracle_Price_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteOraclePriceByPkArgs = {
   ytoken: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteRepayTxArgs = {
   where: Repay_Tx_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteRepayTxByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteSupplyTxArgs = {
   where: Supply_Tx_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteSupplyTxByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteTokenArgs = {
   where: Token_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteTokenByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteUserArgs = {
   where: User_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteUserBorrowArgs = {
   where: User_Borrow_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteUserByPkArgs = {
   address: Scalars['String'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteUserSupplyArgs = {
   where: User_Supply_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDeleteWithdrawTxArgs = {
   where: Withdraw_Tx_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootDeleteWithdrawTxByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_RatesArgs = {
   where: Rates_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootDelete_Rates_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertAssetArgs = {
@@ -3730,13 +3660,11 @@ export type Mutation_RootInsertAssetArgs = {
   on_conflict?: InputMaybe<Asset_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertAssetOneArgs = {
   object: Asset_Insert_Input;
   on_conflict?: InputMaybe<Asset_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertBorrowTxArgs = {
@@ -3744,13 +3672,11 @@ export type Mutation_RootInsertBorrowTxArgs = {
   on_conflict?: InputMaybe<Borrow_Tx_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertBorrowTxOneArgs = {
   object: Borrow_Tx_Insert_Input;
   on_conflict?: InputMaybe<Borrow_Tx_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertDailyStatsArgs = {
@@ -3758,13 +3684,11 @@ export type Mutation_RootInsertDailyStatsArgs = {
   on_conflict?: InputMaybe<Daily_Stats_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertDailyStatsOneArgs = {
   object: Daily_Stats_Insert_Input;
   on_conflict?: InputMaybe<Daily_Stats_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertDipdupContractArgs = {
@@ -3772,13 +3696,11 @@ export type Mutation_RootInsertDipdupContractArgs = {
   on_conflict?: InputMaybe<Dipdup_Contract_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertDipdupContractOneArgs = {
   object: Dipdup_Contract_Insert_Input;
   on_conflict?: InputMaybe<Dipdup_Contract_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertDipdupHeadArgs = {
@@ -3786,13 +3708,11 @@ export type Mutation_RootInsertDipdupHeadArgs = {
   on_conflict?: InputMaybe<Dipdup_Head_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertDipdupHeadOneArgs = {
   object: Dipdup_Head_Insert_Input;
   on_conflict?: InputMaybe<Dipdup_Head_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertDipdupIndexArgs = {
@@ -3800,13 +3720,11 @@ export type Mutation_RootInsertDipdupIndexArgs = {
   on_conflict?: InputMaybe<Dipdup_Index_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertDipdupIndexOneArgs = {
   object: Dipdup_Index_Insert_Input;
   on_conflict?: InputMaybe<Dipdup_Index_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertDipdupSchemaArgs = {
@@ -3814,13 +3732,11 @@ export type Mutation_RootInsertDipdupSchemaArgs = {
   on_conflict?: InputMaybe<Dipdup_Schema_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertDipdupSchemaOneArgs = {
   object: Dipdup_Schema_Insert_Input;
   on_conflict?: InputMaybe<Dipdup_Schema_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertGlobalFactorsArgs = {
@@ -3828,13 +3744,11 @@ export type Mutation_RootInsertGlobalFactorsArgs = {
   on_conflict?: InputMaybe<Global_Factors_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertGlobalFactorsOneArgs = {
   object: Global_Factors_Insert_Input;
   on_conflict?: InputMaybe<Global_Factors_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertInterestModelArgs = {
@@ -3842,13 +3756,11 @@ export type Mutation_RootInsertInterestModelArgs = {
   on_conflict?: InputMaybe<Interest_Model_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertInterestModelOneArgs = {
   object: Interest_Model_Insert_Input;
   on_conflict?: InputMaybe<Interest_Model_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertLiquidateTxArgs = {
@@ -3856,13 +3768,11 @@ export type Mutation_RootInsertLiquidateTxArgs = {
   on_conflict?: InputMaybe<Liquidate_Tx_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertLiquidateTxOneArgs = {
   object: Liquidate_Tx_Insert_Input;
   on_conflict?: InputMaybe<Liquidate_Tx_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertOraclePriceArgs = {
@@ -3870,13 +3780,11 @@ export type Mutation_RootInsertOraclePriceArgs = {
   on_conflict?: InputMaybe<Oracle_Price_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertOraclePriceOneArgs = {
   object: Oracle_Price_Insert_Input;
   on_conflict?: InputMaybe<Oracle_Price_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertRepayTxArgs = {
@@ -3884,13 +3792,11 @@ export type Mutation_RootInsertRepayTxArgs = {
   on_conflict?: InputMaybe<Repay_Tx_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertRepayTxOneArgs = {
   object: Repay_Tx_Insert_Input;
   on_conflict?: InputMaybe<Repay_Tx_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertSupplyTxArgs = {
@@ -3898,13 +3804,11 @@ export type Mutation_RootInsertSupplyTxArgs = {
   on_conflict?: InputMaybe<Supply_Tx_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertSupplyTxOneArgs = {
   object: Supply_Tx_Insert_Input;
   on_conflict?: InputMaybe<Supply_Tx_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertTokenArgs = {
@@ -3912,13 +3816,11 @@ export type Mutation_RootInsertTokenArgs = {
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertTokenOneArgs = {
   object: Token_Insert_Input;
   on_conflict?: InputMaybe<Token_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertUserArgs = {
@@ -3926,13 +3828,11 @@ export type Mutation_RootInsertUserArgs = {
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertUserBorrowArgs = {
   objects: Array<User_Borrow_Insert_Input>;
   on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertUserBorrowOneArgs = {
@@ -3940,13 +3840,11 @@ export type Mutation_RootInsertUserBorrowOneArgs = {
   on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertUserOneArgs = {
   object: User_Insert_Input;
   on_conflict?: InputMaybe<User_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertUserSupplyArgs = {
@@ -3954,13 +3852,11 @@ export type Mutation_RootInsertUserSupplyArgs = {
   on_conflict?: InputMaybe<User_Supply_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertUserSupplyOneArgs = {
   object: User_Supply_Insert_Input;
   on_conflict?: InputMaybe<User_Supply_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsertWithdrawTxArgs = {
@@ -3968,13 +3864,11 @@ export type Mutation_RootInsertWithdrawTxArgs = {
   on_conflict?: InputMaybe<Withdraw_Tx_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsertWithdrawTxOneArgs = {
   object: Withdraw_Tx_Insert_Input;
   on_conflict?: InputMaybe<Withdraw_Tx_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootInsert_RatesArgs = {
@@ -3982,13 +3876,11 @@ export type Mutation_RootInsert_RatesArgs = {
   on_conflict?: InputMaybe<Rates_On_Conflict>;
 };
 
-
 /** mutation root */
 export type Mutation_RootInsert_Rates_OneArgs = {
   object: Rates_Insert_Input;
   on_conflict?: InputMaybe<Rates_On_Conflict>;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateAssetArgs = {
@@ -3997,14 +3889,12 @@ export type Mutation_RootUpdateAssetArgs = {
   where: Asset_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateAssetByPkArgs = {
   _inc?: InputMaybe<Asset_Inc_Input>;
   _set?: InputMaybe<Asset_Set_Input>;
   pk_columns: Asset_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateBorrowTxArgs = {
@@ -4013,14 +3903,12 @@ export type Mutation_RootUpdateBorrowTxArgs = {
   where: Borrow_Tx_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateBorrowTxByPkArgs = {
   _inc?: InputMaybe<Borrow_Tx_Inc_Input>;
   _set?: InputMaybe<Borrow_Tx_Set_Input>;
   pk_columns: Borrow_Tx_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateDailyStatsArgs = {
@@ -4029,7 +3917,6 @@ export type Mutation_RootUpdateDailyStatsArgs = {
   where: Daily_Stats_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDailyStatsByPkArgs = {
   _inc?: InputMaybe<Daily_Stats_Inc_Input>;
@@ -4037,20 +3924,17 @@ export type Mutation_RootUpdateDailyStatsByPkArgs = {
   pk_columns: Daily_Stats_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupContractArgs = {
   _set?: InputMaybe<Dipdup_Contract_Set_Input>;
   where: Dipdup_Contract_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupContractByPkArgs = {
   _set?: InputMaybe<Dipdup_Contract_Set_Input>;
   pk_columns: Dipdup_Contract_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateDipdupHeadArgs = {
@@ -4059,14 +3943,12 @@ export type Mutation_RootUpdateDipdupHeadArgs = {
   where: Dipdup_Head_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupHeadByPkArgs = {
   _inc?: InputMaybe<Dipdup_Head_Inc_Input>;
   _set?: InputMaybe<Dipdup_Head_Set_Input>;
   pk_columns: Dipdup_Head_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateDipdupIndexArgs = {
@@ -4080,7 +3962,6 @@ export type Mutation_RootUpdateDipdupIndexArgs = {
   where: Dipdup_Index_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupIndexByPkArgs = {
   _append?: InputMaybe<Dipdup_Index_Append_Input>;
@@ -4093,20 +3974,17 @@ export type Mutation_RootUpdateDipdupIndexByPkArgs = {
   pk_columns: Dipdup_Index_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupSchemaArgs = {
   _set?: InputMaybe<Dipdup_Schema_Set_Input>;
   where: Dipdup_Schema_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateDipdupSchemaByPkArgs = {
   _set?: InputMaybe<Dipdup_Schema_Set_Input>;
   pk_columns: Dipdup_Schema_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateGlobalFactorsArgs = {
@@ -4115,14 +3993,12 @@ export type Mutation_RootUpdateGlobalFactorsArgs = {
   where: Global_Factors_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateGlobalFactorsByPkArgs = {
   _inc?: InputMaybe<Global_Factors_Inc_Input>;
   _set?: InputMaybe<Global_Factors_Set_Input>;
   pk_columns: Global_Factors_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateInterestModelArgs = {
@@ -4131,14 +4007,12 @@ export type Mutation_RootUpdateInterestModelArgs = {
   where: Interest_Model_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateInterestModelByPkArgs = {
   _inc?: InputMaybe<Interest_Model_Inc_Input>;
   _set?: InputMaybe<Interest_Model_Set_Input>;
   pk_columns: Interest_Model_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateLiquidateTxArgs = {
@@ -4147,14 +4021,12 @@ export type Mutation_RootUpdateLiquidateTxArgs = {
   where: Liquidate_Tx_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateLiquidateTxByPkArgs = {
   _inc?: InputMaybe<Liquidate_Tx_Inc_Input>;
   _set?: InputMaybe<Liquidate_Tx_Set_Input>;
   pk_columns: Liquidate_Tx_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateOraclePriceArgs = {
@@ -4163,14 +4035,12 @@ export type Mutation_RootUpdateOraclePriceArgs = {
   where: Oracle_Price_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateOraclePriceByPkArgs = {
   _inc?: InputMaybe<Oracle_Price_Inc_Input>;
   _set?: InputMaybe<Oracle_Price_Set_Input>;
   pk_columns: Oracle_Price_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateRepayTxArgs = {
@@ -4179,14 +4049,12 @@ export type Mutation_RootUpdateRepayTxArgs = {
   where: Repay_Tx_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateRepayTxByPkArgs = {
   _inc?: InputMaybe<Repay_Tx_Inc_Input>;
   _set?: InputMaybe<Repay_Tx_Set_Input>;
   pk_columns: Repay_Tx_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateSupplyTxArgs = {
@@ -4195,14 +4063,12 @@ export type Mutation_RootUpdateSupplyTxArgs = {
   where: Supply_Tx_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateSupplyTxByPkArgs = {
   _inc?: InputMaybe<Supply_Tx_Inc_Input>;
   _set?: InputMaybe<Supply_Tx_Set_Input>;
   pk_columns: Supply_Tx_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateTokenArgs = {
@@ -4211,14 +4077,12 @@ export type Mutation_RootUpdateTokenArgs = {
   where: Token_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateTokenByPkArgs = {
   _inc?: InputMaybe<Token_Inc_Input>;
   _set?: InputMaybe<Token_Set_Input>;
   pk_columns: Token_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateUserArgs = {
@@ -4227,14 +4091,12 @@ export type Mutation_RootUpdateUserArgs = {
   where: User_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateUserBorrowArgs = {
   _inc?: InputMaybe<User_Borrow_Inc_Input>;
   _set?: InputMaybe<User_Borrow_Set_Input>;
   where: User_Borrow_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateUserBorrowByPkArgs = {
@@ -4243,14 +4105,12 @@ export type Mutation_RootUpdateUserBorrowByPkArgs = {
   pk_columns: User_Borrow_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateUserByPkArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
   _set?: InputMaybe<User_Set_Input>;
   pk_columns: User_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateUserSupplyArgs = {
@@ -4259,14 +4119,12 @@ export type Mutation_RootUpdateUserSupplyArgs = {
   where: User_Supply_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateUserSupplyByPkArgs = {
   _inc?: InputMaybe<User_Supply_Inc_Input>;
   _set?: InputMaybe<User_Supply_Set_Input>;
   pk_columns: User_Supply_Pk_Columns_Input;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdateWithdrawTxArgs = {
@@ -4275,7 +4133,6 @@ export type Mutation_RootUpdateWithdrawTxArgs = {
   where: Withdraw_Tx_Bool_Exp;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdateWithdrawTxByPkArgs = {
   _inc?: InputMaybe<Withdraw_Tx_Inc_Input>;
@@ -4283,14 +4140,12 @@ export type Mutation_RootUpdateWithdrawTxByPkArgs = {
   pk_columns: Withdraw_Tx_Pk_Columns_Input;
 };
 
-
 /** mutation root */
 export type Mutation_RootUpdate_RatesArgs = {
   _inc?: InputMaybe<Rates_Inc_Input>;
   _set?: InputMaybe<Rates_Set_Input>;
   where: Rates_Bool_Exp;
 };
-
 
 /** mutation root */
 export type Mutation_RootUpdate_Rates_By_PkArgs = {
@@ -4343,7 +4198,6 @@ export type Oracle_Price_Aggregate_Fields = {
   variance?: Maybe<Oracle_Price_Variance_Fields>;
 };
 
-
 /** aggregate fields of "oracle_price" */
 export type Oracle_Price_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Oracle_Price_Select_Column>>;
@@ -4370,7 +4224,7 @@ export type Oracle_Price_Bool_Exp = {
 /** unique or primary key constraints on table "oracle_price" */
 export enum Oracle_Price_Constraint {
   /** unique or primary key constraint */
-  OraclePricePkey = 'oracle_price_pkey'
+  OraclePricePkey = 'oracle_price_pkey',
 }
 
 /** input type for incrementing numeric columns in table "oracle_price" */
@@ -4437,7 +4291,7 @@ export enum Oracle_Price_Select_Column {
   /** column name */
   Price = 'price',
   /** column name */
-  Ytoken = 'ytoken'
+  Ytoken = 'ytoken',
 }
 
 /** input type for updating data in table "oracle_price" */
@@ -4482,7 +4336,7 @@ export enum Oracle_Price_Update_Column {
   /** column name */
   Price = 'price',
   /** column name */
-  Ytoken = 'ytoken'
+  Ytoken = 'ytoken',
 }
 
 /** aggregate var_pop on columns */
@@ -4519,7 +4373,7 @@ export enum Order_By {
   /** in descending order, nulls first */
   DescNullsFirst = 'desc_nulls_first',
   /** in descending order, nulls last */
-  DescNullsLast = 'desc_nulls_last'
+  DescNullsLast = 'desc_nulls_last',
 }
 
 export type Query_Root = {
@@ -4640,7 +4494,6 @@ export type Query_Root = {
   withdrawTxByPk?: Maybe<Withdraw_Tx>;
 };
 
-
 export type Query_RootAssetArgs = {
   distinct_on?: InputMaybe<Array<Asset_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4648,7 +4501,6 @@ export type Query_RootAssetArgs = {
   order_by?: InputMaybe<Array<Asset_Order_By>>;
   where?: InputMaybe<Asset_Bool_Exp>;
 };
-
 
 export type Query_RootAssetAggregateArgs = {
   distinct_on?: InputMaybe<Array<Asset_Select_Column>>;
@@ -4658,11 +4510,9 @@ export type Query_RootAssetAggregateArgs = {
   where?: InputMaybe<Asset_Bool_Exp>;
 };
 
-
 export type Query_RootAssetByPkArgs = {
   ytoken: Scalars['Int'];
 };
-
 
 export type Query_RootBorrowTxArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -4672,7 +4522,6 @@ export type Query_RootBorrowTxArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootBorrowTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4681,11 +4530,9 @@ export type Query_RootBorrowTxAggregateArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootBorrowTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootDailyStatsArgs = {
   distinct_on?: InputMaybe<Array<Daily_Stats_Select_Column>>;
@@ -4695,7 +4542,6 @@ export type Query_RootDailyStatsArgs = {
   where?: InputMaybe<Daily_Stats_Bool_Exp>;
 };
 
-
 export type Query_RootDailyStatsAggregateArgs = {
   distinct_on?: InputMaybe<Array<Daily_Stats_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4704,11 +4550,9 @@ export type Query_RootDailyStatsAggregateArgs = {
   where?: InputMaybe<Daily_Stats_Bool_Exp>;
 };
 
-
 export type Query_RootDailyStatsByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootDipdupContractArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Contract_Select_Column>>;
@@ -4718,7 +4562,6 @@ export type Query_RootDipdupContractArgs = {
   where?: InputMaybe<Dipdup_Contract_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupContractAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Contract_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4727,11 +4570,9 @@ export type Query_RootDipdupContractAggregateArgs = {
   where?: InputMaybe<Dipdup_Contract_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupContractByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Query_RootDipdupHeadArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
@@ -4741,7 +4582,6 @@ export type Query_RootDipdupHeadArgs = {
   where?: InputMaybe<Dipdup_Head_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupHeadAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4750,11 +4590,9 @@ export type Query_RootDipdupHeadAggregateArgs = {
   where?: InputMaybe<Dipdup_Head_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupHeadByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Query_RootDipdupIndexArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Index_Select_Column>>;
@@ -4764,7 +4602,6 @@ export type Query_RootDipdupIndexArgs = {
   where?: InputMaybe<Dipdup_Index_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupIndexAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Index_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4773,11 +4610,9 @@ export type Query_RootDipdupIndexAggregateArgs = {
   where?: InputMaybe<Dipdup_Index_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupIndexByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Query_RootDipdupSchemaArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Schema_Select_Column>>;
@@ -4787,7 +4622,6 @@ export type Query_RootDipdupSchemaArgs = {
   where?: InputMaybe<Dipdup_Schema_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupSchemaAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Schema_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4796,11 +4630,9 @@ export type Query_RootDipdupSchemaAggregateArgs = {
   where?: InputMaybe<Dipdup_Schema_Bool_Exp>;
 };
 
-
 export type Query_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Query_RootGlobalFactorsArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
@@ -4810,7 +4642,6 @@ export type Query_RootGlobalFactorsArgs = {
   where?: InputMaybe<Global_Factors_Bool_Exp>;
 };
 
-
 export type Query_RootGlobalFactorsAggregateArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4819,11 +4650,9 @@ export type Query_RootGlobalFactorsAggregateArgs = {
   where?: InputMaybe<Global_Factors_Bool_Exp>;
 };
 
-
 export type Query_RootGlobalFactorsByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootInterestModelArgs = {
   distinct_on?: InputMaybe<Array<Interest_Model_Select_Column>>;
@@ -4833,7 +4662,6 @@ export type Query_RootInterestModelArgs = {
   where?: InputMaybe<Interest_Model_Bool_Exp>;
 };
 
-
 export type Query_RootInterestModelAggregateArgs = {
   distinct_on?: InputMaybe<Array<Interest_Model_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4842,11 +4670,9 @@ export type Query_RootInterestModelAggregateArgs = {
   where?: InputMaybe<Interest_Model_Bool_Exp>;
 };
 
-
 export type Query_RootInterestModelByPkArgs = {
   address: Scalars['String'];
 };
-
 
 export type Query_RootLiquidateTxArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -4856,7 +4682,6 @@ export type Query_RootLiquidateTxArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootLiquidateTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4865,11 +4690,9 @@ export type Query_RootLiquidateTxAggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootLiquidateTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootOraclePriceArgs = {
   distinct_on?: InputMaybe<Array<Oracle_Price_Select_Column>>;
@@ -4879,7 +4702,6 @@ export type Query_RootOraclePriceArgs = {
   where?: InputMaybe<Oracle_Price_Bool_Exp>;
 };
 
-
 export type Query_RootOraclePriceAggregateArgs = {
   distinct_on?: InputMaybe<Array<Oracle_Price_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4888,11 +4710,9 @@ export type Query_RootOraclePriceAggregateArgs = {
   where?: InputMaybe<Oracle_Price_Bool_Exp>;
 };
 
-
 export type Query_RootOraclePriceByPkArgs = {
   ytoken: Scalars['Int'];
 };
-
 
 export type Query_RootRatesArgs = {
   distinct_on?: InputMaybe<Array<Rates_Select_Column>>;
@@ -4902,7 +4722,6 @@ export type Query_RootRatesArgs = {
   where?: InputMaybe<Rates_Bool_Exp>;
 };
 
-
 export type Query_RootRates_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Rates_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4911,11 +4730,9 @@ export type Query_RootRates_AggregateArgs = {
   where?: InputMaybe<Rates_Bool_Exp>;
 };
 
-
 export type Query_RootRates_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootRepayTxArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
@@ -4925,7 +4742,6 @@ export type Query_RootRepayTxArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootRepayTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4934,11 +4750,9 @@ export type Query_RootRepayTxAggregateArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootRepayTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootSupplyTxArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
@@ -4948,7 +4762,6 @@ export type Query_RootSupplyTxArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootSupplyTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4957,11 +4770,9 @@ export type Query_RootSupplyTxAggregateArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootSupplyTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootTokenArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
@@ -4971,7 +4782,6 @@ export type Query_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 export type Query_RootTokenAggregateArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -4980,11 +4790,9 @@ export type Query_RootTokenAggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 export type Query_RootTokenByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
@@ -4994,7 +4802,6 @@ export type Query_RootUserArgs = {
   where?: InputMaybe<User_Bool_Exp>;
 };
 
-
 export type Query_RootUserAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5002,7 +4809,6 @@ export type Query_RootUserAggregateArgs = {
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
-
 
 export type Query_RootUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -5012,7 +4818,6 @@ export type Query_RootUserBorrowArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 export type Query_RootUserBorrowAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5021,16 +4826,13 @@ export type Query_RootUserBorrowAggregateArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 export type Query_RootUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 export type Query_RootUserByPkArgs = {
   address: Scalars['String'];
 };
-
 
 export type Query_RootUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -5040,7 +4842,6 @@ export type Query_RootUserSupplyArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 export type Query_RootUserSupplyAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5049,11 +4850,9 @@ export type Query_RootUserSupplyAggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 export type Query_RootUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Query_RootWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -5063,7 +4862,6 @@ export type Query_RootWithdrawTxArgs = {
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
 
-
 export type Query_RootWithdrawTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5071,7 +4869,6 @@ export type Query_RootWithdrawTxAggregateArgs = {
   order_by?: InputMaybe<Array<Withdraw_Tx_Order_By>>;
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
-
 
 export type Query_RootWithdrawTxByPkArgs = {
   id: Scalars['Int'];
@@ -5114,7 +4911,6 @@ export type Rates_Aggregate_Fields = {
   var_samp?: Maybe<Rates_Var_Samp_Fields>;
   variance?: Maybe<Rates_Variance_Fields>;
 };
-
 
 /** aggregate fields of "rates" */
 export type Rates_Aggregate_FieldsCountArgs = {
@@ -5190,7 +4986,7 @@ export enum Rates_Constraint {
   /** unique or primary key constraint */
   RatesAssetIdKey = 'rates_asset_id_key',
   /** unique or primary key constraint */
-  RatesPkey = 'rates_pkey'
+  RatesPkey = 'rates_pkey',
 }
 
 /** input type for incrementing numeric columns in table "rates" */
@@ -5319,7 +5115,7 @@ export enum Rates_Select_Column {
   /** column name */
   SupplyRate = 'supply_rate',
   /** column name */
-  UtilizationRate = 'utilization_rate'
+  UtilizationRate = 'utilization_rate',
 }
 
 /** input type for updating data in table "rates" */
@@ -5451,7 +5247,7 @@ export enum Rates_Update_Column {
   /** column name */
   SupplyRate = 'supply_rate',
   /** column name */
-  UtilizationRate = 'utilization_rate'
+  UtilizationRate = 'utilization_rate',
 }
 
 /** aggregate var_pop on columns */
@@ -5567,7 +5363,6 @@ export type Repay_Tx_Aggregate_Fields = {
   variance?: Maybe<Repay_Tx_Variance_Fields>;
 };
 
-
 /** aggregate fields of "repay_tx" */
 export type Repay_Tx_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Repay_Tx_Select_Column>>;
@@ -5631,7 +5426,7 @@ export type Repay_Tx_Bool_Exp = {
 /** unique or primary key constraints on table "repay_tx" */
 export enum Repay_Tx_Constraint {
   /** unique or primary key constraint */
-  RepayTxPkey = 'repay_tx_pkey'
+  RepayTxPkey = 'repay_tx_pkey',
 }
 
 /** input type for incrementing numeric columns in table "repay_tx" */
@@ -5742,7 +5537,7 @@ export enum Repay_Tx_Select_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "repay_tx" */
@@ -5836,7 +5631,7 @@ export enum Repay_Tx_Update_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -6008,7 +5803,6 @@ export type Subscription_Root = {
   withdrawTxByPk?: Maybe<Withdraw_Tx>;
 };
 
-
 export type Subscription_RootAssetArgs = {
   distinct_on?: InputMaybe<Array<Asset_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6016,7 +5810,6 @@ export type Subscription_RootAssetArgs = {
   order_by?: InputMaybe<Array<Asset_Order_By>>;
   where?: InputMaybe<Asset_Bool_Exp>;
 };
-
 
 export type Subscription_RootAssetAggregateArgs = {
   distinct_on?: InputMaybe<Array<Asset_Select_Column>>;
@@ -6026,11 +5819,9 @@ export type Subscription_RootAssetAggregateArgs = {
   where?: InputMaybe<Asset_Bool_Exp>;
 };
 
-
 export type Subscription_RootAssetByPkArgs = {
   ytoken: Scalars['Int'];
 };
-
 
 export type Subscription_RootBorrowTxArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -6040,7 +5831,6 @@ export type Subscription_RootBorrowTxArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootBorrowTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6049,11 +5839,9 @@ export type Subscription_RootBorrowTxAggregateArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootBorrowTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootDailyStatsArgs = {
   distinct_on?: InputMaybe<Array<Daily_Stats_Select_Column>>;
@@ -6063,7 +5851,6 @@ export type Subscription_RootDailyStatsArgs = {
   where?: InputMaybe<Daily_Stats_Bool_Exp>;
 };
 
-
 export type Subscription_RootDailyStatsAggregateArgs = {
   distinct_on?: InputMaybe<Array<Daily_Stats_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6072,11 +5859,9 @@ export type Subscription_RootDailyStatsAggregateArgs = {
   where?: InputMaybe<Daily_Stats_Bool_Exp>;
 };
 
-
 export type Subscription_RootDailyStatsByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootDipdupContractArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Contract_Select_Column>>;
@@ -6086,7 +5871,6 @@ export type Subscription_RootDipdupContractArgs = {
   where?: InputMaybe<Dipdup_Contract_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupContractAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Contract_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6095,11 +5879,9 @@ export type Subscription_RootDipdupContractAggregateArgs = {
   where?: InputMaybe<Dipdup_Contract_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupContractByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Subscription_RootDipdupHeadArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
@@ -6109,7 +5891,6 @@ export type Subscription_RootDipdupHeadArgs = {
   where?: InputMaybe<Dipdup_Head_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupHeadAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6118,11 +5899,9 @@ export type Subscription_RootDipdupHeadAggregateArgs = {
   where?: InputMaybe<Dipdup_Head_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupHeadByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Subscription_RootDipdupIndexArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Index_Select_Column>>;
@@ -6132,7 +5911,6 @@ export type Subscription_RootDipdupIndexArgs = {
   where?: InputMaybe<Dipdup_Index_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupIndexAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Index_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6141,11 +5919,9 @@ export type Subscription_RootDipdupIndexAggregateArgs = {
   where?: InputMaybe<Dipdup_Index_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupIndexByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Subscription_RootDipdupSchemaArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Schema_Select_Column>>;
@@ -6155,7 +5931,6 @@ export type Subscription_RootDipdupSchemaArgs = {
   where?: InputMaybe<Dipdup_Schema_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupSchemaAggregateArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Schema_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6164,11 +5939,9 @@ export type Subscription_RootDipdupSchemaAggregateArgs = {
   where?: InputMaybe<Dipdup_Schema_Bool_Exp>;
 };
 
-
 export type Subscription_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
 };
-
 
 export type Subscription_RootGlobalFactorsArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
@@ -6178,7 +5951,6 @@ export type Subscription_RootGlobalFactorsArgs = {
   where?: InputMaybe<Global_Factors_Bool_Exp>;
 };
 
-
 export type Subscription_RootGlobalFactorsAggregateArgs = {
   distinct_on?: InputMaybe<Array<Global_Factors_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6187,11 +5959,9 @@ export type Subscription_RootGlobalFactorsAggregateArgs = {
   where?: InputMaybe<Global_Factors_Bool_Exp>;
 };
 
-
 export type Subscription_RootGlobalFactorsByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootInterestModelArgs = {
   distinct_on?: InputMaybe<Array<Interest_Model_Select_Column>>;
@@ -6201,7 +5971,6 @@ export type Subscription_RootInterestModelArgs = {
   where?: InputMaybe<Interest_Model_Bool_Exp>;
 };
 
-
 export type Subscription_RootInterestModelAggregateArgs = {
   distinct_on?: InputMaybe<Array<Interest_Model_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6210,11 +5979,9 @@ export type Subscription_RootInterestModelAggregateArgs = {
   where?: InputMaybe<Interest_Model_Bool_Exp>;
 };
 
-
 export type Subscription_RootInterestModelByPkArgs = {
   address: Scalars['String'];
 };
-
 
 export type Subscription_RootLiquidateTxArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -6224,7 +5991,6 @@ export type Subscription_RootLiquidateTxArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootLiquidateTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6233,11 +5999,9 @@ export type Subscription_RootLiquidateTxAggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootLiquidateTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootOraclePriceArgs = {
   distinct_on?: InputMaybe<Array<Oracle_Price_Select_Column>>;
@@ -6247,7 +6011,6 @@ export type Subscription_RootOraclePriceArgs = {
   where?: InputMaybe<Oracle_Price_Bool_Exp>;
 };
 
-
 export type Subscription_RootOraclePriceAggregateArgs = {
   distinct_on?: InputMaybe<Array<Oracle_Price_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6256,11 +6019,9 @@ export type Subscription_RootOraclePriceAggregateArgs = {
   where?: InputMaybe<Oracle_Price_Bool_Exp>;
 };
 
-
 export type Subscription_RootOraclePriceByPkArgs = {
   ytoken: Scalars['Int'];
 };
-
 
 export type Subscription_RootRatesArgs = {
   distinct_on?: InputMaybe<Array<Rates_Select_Column>>;
@@ -6270,7 +6031,6 @@ export type Subscription_RootRatesArgs = {
   where?: InputMaybe<Rates_Bool_Exp>;
 };
 
-
 export type Subscription_RootRates_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Rates_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6279,11 +6039,9 @@ export type Subscription_RootRates_AggregateArgs = {
   where?: InputMaybe<Rates_Bool_Exp>;
 };
 
-
 export type Subscription_RootRates_By_PkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootRepayTxArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
@@ -6293,7 +6051,6 @@ export type Subscription_RootRepayTxArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootRepayTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6302,11 +6059,9 @@ export type Subscription_RootRepayTxAggregateArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootRepayTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootSupplyTxArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
@@ -6316,7 +6071,6 @@ export type Subscription_RootSupplyTxArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootSupplyTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6325,11 +6079,9 @@ export type Subscription_RootSupplyTxAggregateArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootSupplyTxByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootTokenArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
@@ -6339,7 +6091,6 @@ export type Subscription_RootTokenArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 export type Subscription_RootTokenAggregateArgs = {
   distinct_on?: InputMaybe<Array<Token_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6348,11 +6099,9 @@ export type Subscription_RootTokenAggregateArgs = {
   where?: InputMaybe<Token_Bool_Exp>;
 };
 
-
 export type Subscription_RootTokenByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootUserArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
@@ -6362,7 +6111,6 @@ export type Subscription_RootUserArgs = {
   where?: InputMaybe<User_Bool_Exp>;
 };
 
-
 export type Subscription_RootUserAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6370,7 +6118,6 @@ export type Subscription_RootUserAggregateArgs = {
   order_by?: InputMaybe<Array<User_Order_By>>;
   where?: InputMaybe<User_Bool_Exp>;
 };
-
 
 export type Subscription_RootUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -6380,7 +6127,6 @@ export type Subscription_RootUserBorrowArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 export type Subscription_RootUserBorrowAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6389,16 +6135,13 @@ export type Subscription_RootUserBorrowAggregateArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 export type Subscription_RootUserBorrowByPkArgs = {
   id: Scalars['Int'];
 };
 
-
 export type Subscription_RootUserByPkArgs = {
   address: Scalars['String'];
 };
-
 
 export type Subscription_RootUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -6408,7 +6151,6 @@ export type Subscription_RootUserSupplyArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 export type Subscription_RootUserSupplyAggregateArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6417,11 +6159,9 @@ export type Subscription_RootUserSupplyAggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 export type Subscription_RootUserSupplyByPkArgs = {
   id: Scalars['Int'];
 };
-
 
 export type Subscription_RootWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -6431,7 +6171,6 @@ export type Subscription_RootWithdrawTxArgs = {
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
 
-
 export type Subscription_RootWithdrawTxAggregateArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -6439,7 +6178,6 @@ export type Subscription_RootWithdrawTxAggregateArgs = {
   order_by?: InputMaybe<Array<Withdraw_Tx_Order_By>>;
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
-
 
 export type Subscription_RootWithdrawTxByPkArgs = {
   id: Scalars['Int'];
@@ -6482,7 +6220,6 @@ export type Supply_Tx_Aggregate_Fields = {
   var_samp?: Maybe<Supply_Tx_Var_Samp_Fields>;
   variance?: Maybe<Supply_Tx_Variance_Fields>;
 };
-
 
 /** aggregate fields of "supply_tx" */
 export type Supply_Tx_Aggregate_FieldsCountArgs = {
@@ -6547,7 +6284,7 @@ export type Supply_Tx_Bool_Exp = {
 /** unique or primary key constraints on table "supply_tx" */
 export enum Supply_Tx_Constraint {
   /** unique or primary key constraint */
-  SupplyTxPkey = 'supply_tx_pkey'
+  SupplyTxPkey = 'supply_tx_pkey',
 }
 
 /** input type for incrementing numeric columns in table "supply_tx" */
@@ -6658,7 +6395,7 @@ export enum Supply_Tx_Select_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "supply_tx" */
@@ -6752,7 +6489,7 @@ export enum Supply_Tx_Update_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -6855,7 +6592,6 @@ export type Token_Aggregate_Fields = {
   variance?: Maybe<Token_Variance_Fields>;
 };
 
-
 /** aggregate fields of "token" */
 export type Token_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Token_Select_Column>>;
@@ -6916,7 +6652,7 @@ export type Token_Bool_Exp = {
 /** unique or primary key constraints on table "token" */
 export enum Token_Constraint {
   /** unique or primary key constraint */
-  TokenPkey = 'token_pkey'
+  TokenPkey = 'token_pkey',
 }
 
 /** input type for incrementing numeric columns in table "token" */
@@ -7024,7 +6760,7 @@ export enum Token_Select_Column {
   /** column name */
   Symbol = 'symbol',
   /** column name */
-  Thumbnail = 'thumbnail'
+  Thumbnail = 'thumbnail',
 }
 
 /** input type for updating data in table "token" */
@@ -7110,7 +6846,7 @@ export enum Token_Update_Column {
   /** column name */
   Symbol = 'symbol',
   /** column name */
-  Thumbnail = 'thumbnail'
+  Thumbnail = 'thumbnail',
 }
 
 /** aggregate var_pop on columns */
@@ -7204,7 +6940,6 @@ export type User = {
   userWithdrawTx_aggregate: Withdraw_Tx_Aggregate;
 };
 
-
 /** columns and relationships of "user" */
 export type UserBorrowerArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -7213,7 +6948,6 @@ export type UserBorrowerArgs = {
   order_by?: InputMaybe<Array<Liquidate_Tx_Order_By>>;
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserBorrower_AggregateArgs = {
@@ -7224,7 +6958,6 @@ export type UserBorrower_AggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserLiquidatorArgs = {
   distinct_on?: InputMaybe<Array<Liquidate_Tx_Select_Column>>;
@@ -7233,7 +6966,6 @@ export type UserLiquidatorArgs = {
   order_by?: InputMaybe<Array<Liquidate_Tx_Order_By>>;
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserLiquidator_AggregateArgs = {
@@ -7244,7 +6976,6 @@ export type UserLiquidator_AggregateArgs = {
   where?: InputMaybe<Liquidate_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserBorrowArgs = {
   distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -7253,7 +6984,6 @@ export type UserUserBorrowArgs = {
   order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserBorrowTxArgs = {
@@ -7264,7 +6994,6 @@ export type UserUserBorrowTxArgs = {
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserBorrowTx_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
@@ -7273,7 +7002,6 @@ export type UserUserBorrowTx_AggregateArgs = {
   order_by?: InputMaybe<Array<Borrow_Tx_Order_By>>;
   where?: InputMaybe<Borrow_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserBorrow_AggregateArgs = {
@@ -7284,7 +7012,6 @@ export type UserUserBorrow_AggregateArgs = {
   where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserRepayTxArgs = {
   distinct_on?: InputMaybe<Array<Repay_Tx_Select_Column>>;
@@ -7293,7 +7020,6 @@ export type UserUserRepayTxArgs = {
   order_by?: InputMaybe<Array<Repay_Tx_Order_By>>;
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserRepayTx_AggregateArgs = {
@@ -7304,7 +7030,6 @@ export type UserUserRepayTx_AggregateArgs = {
   where?: InputMaybe<Repay_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserSupplyArgs = {
   distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -7313,7 +7038,6 @@ export type UserUserSupplyArgs = {
   order_by?: InputMaybe<Array<User_Supply_Order_By>>;
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserSupplyTxArgs = {
@@ -7324,7 +7048,6 @@ export type UserUserSupplyTxArgs = {
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserSupplyTx_AggregateArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
@@ -7333,7 +7056,6 @@ export type UserUserSupplyTx_AggregateArgs = {
   order_by?: InputMaybe<Array<Supply_Tx_Order_By>>;
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserSupply_AggregateArgs = {
@@ -7344,7 +7066,6 @@ export type UserUserSupply_AggregateArgs = {
   where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
-
 /** columns and relationships of "user" */
 export type UserUserWithdrawTxArgs = {
   distinct_on?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -7353,7 +7074,6 @@ export type UserUserWithdrawTxArgs = {
   order_by?: InputMaybe<Array<Withdraw_Tx_Order_By>>;
   where?: InputMaybe<Withdraw_Tx_Bool_Exp>;
 };
-
 
 /** columns and relationships of "user" */
 export type UserUserWithdrawTx_AggregateArgs = {
@@ -7386,7 +7106,6 @@ export type User_Aggregate_Fields = {
   var_samp?: Maybe<User_Var_Samp_Fields>;
   variance?: Maybe<User_Variance_Fields>;
 };
-
 
 /** aggregate fields of "user" */
 export type User_Aggregate_FieldsCountArgs = {
@@ -7469,7 +7188,6 @@ export type User_Borrow_Aggregate_Fields = {
   variance?: Maybe<User_Borrow_Variance_Fields>;
 };
 
-
 /** aggregate fields of "user_borrow" */
 export type User_Borrow_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Borrow_Select_Column>>;
@@ -7533,7 +7251,7 @@ export type User_Borrow_Bool_Exp = {
 /** unique or primary key constraints on table "user_borrow" */
 export enum User_Borrow_Constraint {
   /** unique or primary key constraint */
-  UserBorrowPkey = 'user_borrow_pkey'
+  UserBorrowPkey = 'user_borrow_pkey',
 }
 
 /** input type for incrementing numeric columns in table "user_borrow" */
@@ -7644,7 +7362,7 @@ export enum User_Borrow_Select_Column {
   /** column name */
   InterestUpdateTime = 'interestUpdateTime',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "user_borrow" */
@@ -7738,7 +7456,7 @@ export enum User_Borrow_Update_Column {
   /** column name */
   InterestUpdateTime = 'interestUpdateTime',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -7795,7 +7513,7 @@ export type User_Borrow_Variance_Order_By = {
 /** unique or primary key constraints on table "user" */
 export enum User_Constraint {
   /** unique or primary key constraint */
-  UserPkey = 'user_pkey'
+  UserPkey = 'user_pkey',
 }
 
 /** input type for incrementing numeric columns in table "user" */
@@ -7927,7 +7645,7 @@ export enum User_Select_Column {
   /** column name */
   TotalBorrowUsd = 'totalBorrowUsd',
   /** column name */
-  TotalSupplyUsd = 'totalSupplyUsd'
+  TotalSupplyUsd = 'totalSupplyUsd',
 }
 
 /** input type for updating data in table "user" */
@@ -8032,7 +7750,6 @@ export type User_Supply_Aggregate_Fields = {
   variance?: Maybe<User_Supply_Variance_Fields>;
 };
 
-
 /** aggregate fields of "user_supply" */
 export type User_Supply_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<User_Supply_Select_Column>>;
@@ -8093,7 +7810,7 @@ export type User_Supply_Bool_Exp = {
 /** unique or primary key constraints on table "user_supply" */
 export enum User_Supply_Constraint {
   /** unique or primary key constraint */
-  UserSupplyPkey = 'user_supply_pkey'
+  UserSupplyPkey = 'user_supply_pkey',
 }
 
 /** input type for incrementing numeric columns in table "user_supply" */
@@ -8191,7 +7908,7 @@ export enum User_Supply_Select_Column {
   /** column name */
   Supply = 'supply',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "user_supply" */
@@ -8274,7 +7991,7 @@ export enum User_Supply_Update_Column {
   /** column name */
   Supply = 'supply',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -8341,7 +8058,7 @@ export enum User_Update_Column {
   /** column name */
   TotalBorrowUsd = 'totalBorrowUsd',
   /** column name */
-  TotalSupplyUsd = 'totalSupplyUsd'
+  TotalSupplyUsd = 'totalSupplyUsd',
 }
 
 /** aggregate var_pop on columns */
@@ -8421,7 +8138,6 @@ export type Withdraw_Tx_Aggregate_Fields = {
   variance?: Maybe<Withdraw_Tx_Variance_Fields>;
 };
 
-
 /** aggregate fields of "withdraw_tx" */
 export type Withdraw_Tx_Aggregate_FieldsCountArgs = {
   columns?: InputMaybe<Array<Withdraw_Tx_Select_Column>>;
@@ -8485,7 +8201,7 @@ export type Withdraw_Tx_Bool_Exp = {
 /** unique or primary key constraints on table "withdraw_tx" */
 export enum Withdraw_Tx_Constraint {
   /** unique or primary key constraint */
-  WithdrawTxPkey = 'withdraw_tx_pkey'
+  WithdrawTxPkey = 'withdraw_tx_pkey',
 }
 
 /** input type for incrementing numeric columns in table "withdraw_tx" */
@@ -8596,7 +8312,7 @@ export enum Withdraw_Tx_Select_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** input type for updating data in table "withdraw_tx" */
@@ -8690,7 +8406,7 @@ export enum Withdraw_Tx_Update_Column {
   /** column name */
   UsdAmount = 'usdAmount',
   /** column name */
-  UserId = 'userId'
+  UserId = 'userId',
 }
 
 /** aggregate var_pop on columns */
@@ -8748,21 +8464,17 @@ export type LendingAllAssetsQueryVariables = Exact<{
   account?: InputMaybe<Scalars['String']>;
 }>;
 
-
 export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }> };
 
 export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
-
 
 export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
 
 export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
 
-
 export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
-
 
 export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', totalSupply?: any | null | undefined, totalBorrowed?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
 
@@ -8770,16 +8482,13 @@ export type GetUserStatsQueryVariables = Exact<{
   account?: InputMaybe<Scalars['String']>;
 }>;
 
-
 export type GetUserStatsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', maxCollateral: any, liquidationRatio: any, liquidationCollateral: any, borrowRatio: any, netApy: any, totalSupplyUsd: any, totalBorrowUsd: any }> };
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
 }>;
 
-
 export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
-
 
 export const LendingAllAssetsDocument = gql`
     query LendingAllAssets($account: String) {
@@ -8839,13 +8548,13 @@ export const LendingAllAssetsDocument = gql`
  * });
  */
 export function useLendingAllAssetsQuery(baseOptions?: Apollo.QueryHookOptions<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
+}
 export function useLendingAllAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
+}
 export type LendingAllAssetsQueryHookResult = ReturnType<typeof useLendingAllAssetsQuery>;
 export type LendingAllAssetsLazyQueryHookResult = ReturnType<typeof useLendingAllAssetsLazyQuery>;
 export type LendingAllAssetsQueryResult = Apollo.QueryResult<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>;
@@ -8901,13 +8610,13 @@ export const LiquidationPositionsDocument = gql`
  * });
  */
 export function useLiquidationPositionsQuery(baseOptions?: Apollo.QueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+}
 export function useLiquidationPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+}
 export type LiquidationPositionsQueryHookResult = ReturnType<typeof useLiquidationPositionsQuery>;
 export type LiquidationPositionsLazyQueryHookResult = ReturnType<typeof useLiquidationPositionsLazyQuery>;
 export type LiquidationPositionsQueryResult = Apollo.QueryResult<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>;
@@ -8966,13 +8675,13 @@ export const MarketsAllDocument = gql`
  * });
  */
 export function useMarketsAllQuery(baseOptions?: Apollo.QueryHookOptions<MarketsAllQuery, MarketsAllQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MarketsAllQuery, MarketsAllQueryVariables>(MarketsAllDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MarketsAllQuery, MarketsAllQueryVariables>(MarketsAllDocument, options);
+}
 export function useMarketsAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MarketsAllQuery, MarketsAllQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MarketsAllQuery, MarketsAllQueryVariables>(MarketsAllDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MarketsAllQuery, MarketsAllQueryVariables>(MarketsAllDocument, options);
+}
 export type MarketsAllQueryHookResult = ReturnType<typeof useMarketsAllQuery>;
 export type MarketsAllLazyQueryHookResult = ReturnType<typeof useMarketsAllLazyQuery>;
 export type MarketsAllQueryResult = Apollo.QueryResult<MarketsAllQuery, MarketsAllQueryVariables>;
@@ -9049,13 +8758,13 @@ export const MarketOverviewDocument = gql`
  * });
  */
 export function useMarketOverviewQuery(baseOptions?: Apollo.QueryHookOptions<MarketOverviewQuery, MarketOverviewQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
+}
 export function useMarketOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MarketOverviewQuery, MarketOverviewQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
+}
 export type MarketOverviewQueryHookResult = ReturnType<typeof useMarketOverviewQuery>;
 export type MarketOverviewLazyQueryHookResult = ReturnType<typeof useMarketOverviewLazyQuery>;
 export type MarketOverviewQueryResult = Apollo.QueryResult<MarketOverviewQuery, MarketOverviewQueryVariables>;
@@ -9090,13 +8799,13 @@ export const GetUserStatsDocument = gql`
  * });
  */
 export function useGetUserStatsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserStatsQuery, GetUserStatsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
+}
 export function useGetUserStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserStatsQuery, GetUserStatsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
+}
 export type GetUserStatsQueryHookResult = ReturnType<typeof useGetUserStatsQuery>;
 export type GetUserStatsLazyQueryHookResult = ReturnType<typeof useGetUserStatsLazyQuery>;
 export type GetUserStatsQueryResult = Apollo.QueryResult<GetUserStatsQuery, GetUserStatsQueryVariables>;
@@ -9171,13 +8880,13 @@ export const MarketsDetailsDocument = gql`
  * });
  */
 export function useMarketsDetailsQuery(baseOptions: Apollo.QueryHookOptions<MarketsDetailsQuery, MarketsDetailsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<MarketsDetailsQuery, MarketsDetailsQueryVariables>(MarketsDetailsDocument, options);
-      }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<MarketsDetailsQuery, MarketsDetailsQueryVariables>(MarketsDetailsDocument, options);
+}
 export function useMarketsDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MarketsDetailsQuery, MarketsDetailsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<MarketsDetailsQuery, MarketsDetailsQueryVariables>(MarketsDetailsDocument, options);
-        }
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<MarketsDetailsQuery, MarketsDetailsQueryVariables>(MarketsDetailsDocument, options);
+}
 export type MarketsDetailsQueryHookResult = ReturnType<typeof useMarketsDetailsQuery>;
 export type MarketsDetailsLazyQueryHookResult = ReturnType<typeof useMarketsDetailsLazyQuery>;
 export type MarketsDetailsQueryResult = Apollo.QueryResult<MarketsDetailsQuery, MarketsDetailsQueryVariables>;

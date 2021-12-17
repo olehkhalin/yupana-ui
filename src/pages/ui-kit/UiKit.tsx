@@ -54,7 +54,6 @@ import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
-import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 import {
   MARKET_CARDS_SUPPLY,
@@ -62,10 +61,15 @@ import {
 } from 'components/temp-data/market-card';
 import { USER_STAT } from 'components/temp-data/user-stat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
+// modals
+import { SupplyModal } from 'components/modals/CreditProcessModal/SupplyModal';
+import { BorrowModal } from 'components/modals/CreditProcessModal/BorrowModal';
+import { WithdrawModal } from 'components/modals/CreditProcessModal/WithdrawModal';
+import { RepayModal } from 'components/modals/CreditProcessModal/RepayModal';
+//
 import { InformationModal } from 'components/modals/InformationModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { AccountModal } from 'components/modals/AccountModal';
-import { CreditProcessModal, TypeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -92,10 +96,11 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
-  const [creditProcessPrimaryIsOpen, setCreditProcessPrimaryIsOpen] = useState(false);
-  const [creditProcessSecondaryIsOpen, setCreditProcessSecondaryIsOpen] = useState(false);
-  const [creditProcessTertiaryIsOpen, setCreditProcessTertiaryIsOpen] = useState(false);
-  const [creditProcessQuaternaryIsOpen, setCreditProcessQuaternaryIsOpen] = useState(false);
+  // modals
+  const [isSupplyModalShow, setIsSupplyModalShow] = useState(false);
+  const [isBorrowModalShow, setIsBorrowModalShow] = useState(false);
+  const [isWithdrawModalShow, setIsWithdrawModalShow] = useState(false);
+  const [isRepayModalShow, setIsRepayModalShow] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -104,7 +109,59 @@ export const UiKit: React.FC = () => {
   return (
     <>
       <div className={s.block}>
-        <div className={s.title}>
+        {/* supply */}
+        <div className={s.title}>Refactor Supply</div>
+        <Button
+          onClick={() => setIsSupplyModalShow(!isSupplyModalShow)}
+          className={s.modalsButton}
+        >
+          Supply
+        </Button>
+        <SupplyModal
+          isOpen={isSupplyModalShow}
+          onRequestClose={() => setIsSupplyModalShow(!isSupplyModalShow)}
+        />
+
+        {/* borrow */}
+        <div className={s.title}>Refactor Borow</div>
+        <Button
+          onClick={() => setIsBorrowModalShow(!isBorrowModalShow)}
+          className={s.modalsButton}
+        >
+          Borrow
+        </Button>
+        <BorrowModal
+          isOpen={isBorrowModalShow}
+          onRequestClose={() => setIsBorrowModalShow(!isBorrowModalShow)}
+        />
+
+        {/* withdraw */}
+        <div className={s.title}>Refactor Withdraw</div>
+        <Button
+          onClick={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
+          className={s.modalsButton}
+        >
+          Withdraw
+        </Button>
+        <WithdrawModal
+          isOpen={isWithdrawModalShow}
+          onRequestClose={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
+        />
+
+        {/* repay */}
+        <div className={s.title}>Refactor Repay</div>
+        <Button
+          onClick={() => setIsRepayModalShow(!isRepayModalShow)}
+          className={s.modalsButton}
+        >
+          Repay
+        </Button>
+        <RepayModal
+          isOpen={isRepayModalShow}
+          onRequestClose={() => setIsRepayModalShow(!isRepayModalShow)}
+        />
+
+        {/* <div className={s.title}>
           Credit Process
         </div>
         <div className={s.subTitle}>
@@ -170,7 +227,7 @@ export const UiKit: React.FC = () => {
           theme="secondary"
           isOpen={creditProcessQuaternaryIsOpen}
           onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
-        />
+        /> */}
       </div>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
