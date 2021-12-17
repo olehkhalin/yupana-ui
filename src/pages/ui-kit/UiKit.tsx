@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
+import useUpdateToast from 'utils/useUpdateToast';
 import { getTokenSlug } from 'utils/getTokenSlug';
 import { getUniqueKey } from 'utils/getUniqueKey';
 import { InformationModal } from 'components/popups/InformationModal';
@@ -96,8 +97,20 @@ export const UiKit: React.FC = () => {
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
   const [selectedReceiveCollateralItem, setSelectedReceiveCollateralItem] = useState<string>('');
 
+  const updateToast = useUpdateToast();
+
   return (
     <>
+      <Button
+        type="button"
+        onClick={() => updateToast({
+          type: 'error',
+          render: 'Test Text..',
+        })}
+        sizeT="small"
+      >
+        Toast
+      </Button>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>
