@@ -1,13 +1,14 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 
-import {
-  convertDollarsToTokenAmount, getPercentIsOneNumberFromAnother, getPrettyAmount, getThePercentageOfTheNumber,
-} from 'utils/helpers/amount';
+import { CreditProcessType, useCreditProcess } from 'providers/CreditProcessProvider';
+
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
-import { CreditProcessModal, InputInterface, ModalActionType } from 'components/modals/CreditProcessModal';
-import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
-import { TypeEnum } from '../CreditProcessModal';
+import {
+  CreditProcessModal, InputInterface, TypeEnum, AssetModalProps,
+} from 'components/modals/CreditProcessModal';
+import { useUserStats } from 'providers/UserStatsProvider';
 
 const defaultModalStateValues = {
   tokenBalance: '',
@@ -19,21 +20,17 @@ type ModalState = {
   tokenBalance: string
 };
 
-type RepayModalProps = {} & ModalActionType;
-
-export const RepayModal: React.FC<RepayModalProps> = ({
+export const RepayModalWrapper: React.FC<AssetModalProps> = ({
+  yToken,
+  type,
+  asset,
+  oraclePrice,
+  maxCollateral,
+  outstandingBorrow,
   isOpen,
   onRequestClose,
 }) => {
-  // 'Repay' data from api
-  const {
-    asset,
-    yourBorrowLimit,
-    borrowLimitUsed: userBorrowLimitUsed,
-    pricePerTokenInDollars, // useCurrency
-    tezosPrice, // useCurrency
-    borrowByCurrentToken, // !unique
-  } = CREDIT_PROCESS_DATA;
+  const { findBorrowedToken } = useUserStats();
 
   // introduced token amount in dollars/tezos prices (under input values)
   const [introducedValueInBasicPrice, setIntroducedValueInBasicPrice] = useState<number>(0);
@@ -44,27 +41,20 @@ export const RepayModal: React.FC<RepayModalProps> = ({
 
   // counting values
   useEffect(() => {
-    const convertBorrowLimitUsedToDollars = getThePercentageOfTheNumber(yourBorrowLimit, userBorrowLimitUsed);
-
-    // borrow limit used formula
-    const borrowLimitUsed = getPercentIsOneNumberFromAnother(
-      convertBorrowLimitUsedToDollars - introducedValueInBasicPrice, yourBorrowLimit,
-    );
-
+    const borrowLimitUsed = (outstandingBorrow - introducedValueInBasicPrice) / maxCollateral;
+    // TODO: Research formula - amountToRepay
+    const amountToRepay = Number(findBorrowedToken(yToken)?.borrowed) ?? 0;
     setDynamicBorrowLimitUsed(borrowLimitUsed);
-
-    // convert dollars to amount of current token
-    const tokenBorrow = convertDollarsToTokenAmount(borrowByCurrentToken, pricePerTokenInDollars);
 
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: tokenBorrow,
+        value: amountToRepay,
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: tokenBorrow,
+      maxAmount: amountToRepay,
     });
-  }, [asset, borrowByCurrentToken, introducedValueInBasicPrice, pricePerTokenInDollars, userBorrowLimitUsed, yourBorrowLimit]);
+  }, [asset, findBorrowedToken, introducedValueInBasicPrice, maxCollateral, outstandingBorrow, yToken]);
 
   const onSubmit = (props: InputInterface) => {
     console.log('Repay:', JSON.stringify(props, null, 2));
@@ -76,7 +66,7 @@ export const RepayModal: React.FC<RepayModalProps> = ({
       theme="secondary"
       asset={asset}
       // TODO: Add switch currency function
-      pricePerTokenInBasicCurrency={pricePerTokenInDollars ?? tezosPrice}
+      pricePerTokenInBasicCurrency={oraclePrice}
       title="Repay"
       balanceLabel="Available to repay:"
       buttonLabel="Repay"
@@ -85,12 +75,29 @@ export const RepayModal: React.FC<RepayModalProps> = ({
       onSumbit={onSubmit}
       setIntroducedValueInBasicPrice={setIntroducedValueInBasicPrice}
       // Modal stats
-      yourBorrowLimit={yourBorrowLimit}
-      borrowLimitUsed={userBorrowLimitUsed}
+      yourBorrowLimit={maxCollateral}
+      borrowLimitUsed={outstandingBorrow / maxCollateral}
       dynamicBorrowLimitUsed={dynamicBorrowLimitUsed}
       // Actions
-      isOpen={isOpen}
+      isOpen={isOpen && type === CreditProcessType.REPAY}
       onRequestClose={onRequestClose}
+    />
+  );
+};
+
+export const RepayModal: React.FC = () => {
+  // get data from modal provider
+  const { creditProcess, isOpen, closeModal } = useCreditProcess();
+
+  if (!creditProcess) {
+    return <></>;
+  }
+
+  return (
+    <RepayModalWrapper
+      {...creditProcess}
+      onRequestClose={closeModal}
+      isOpen={isOpen}
     />
   );
 };

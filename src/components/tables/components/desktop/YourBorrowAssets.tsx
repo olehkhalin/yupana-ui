@@ -83,8 +83,8 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown theme="secondary" />
+    (row: Row) => (
+      <TableDropdown data={row} theme="secondary" />
     ),
     [],
   );

@@ -62,10 +62,10 @@ import {
 import { USER_STAT } from 'components/temp-data/user-stat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
 // modals
-import { SupplyModal } from 'components/modals/CreditProcessModal/SupplyModal';
-import { BorrowModal } from 'components/modals/CreditProcessModal/BorrowModal';
-import { WithdrawModal } from 'components/modals/CreditProcessModal/WithdrawModal';
-import { RepayModal } from 'components/modals/CreditProcessModal/RepayModal';
+// import { SupplyModal } from 'components/modals/CreditProcessModal/SupplyModal';
+// import { BorrowModal } from 'components/modals/CreditProcessModal/BorrowModal';
+// import { WithdrawModal } from 'components/modals/CreditProcessModal/WithdrawModal';
+// import { RepayModal } from 'components/modals/CreditProcessModal/RepayModal';
 //
 import { InformationModal } from 'components/modals/InformationModal';
 import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
@@ -97,10 +97,10 @@ export const UiKit: React.FC = () => {
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
   // modals
-  const [isSupplyModalShow, setIsSupplyModalShow] = useState(false);
-  const [isBorrowModalShow, setIsBorrowModalShow] = useState(false);
-  const [isWithdrawModalShow, setIsWithdrawModalShow] = useState(false);
-  const [isRepayModalShow, setIsRepayModalShow] = useState(false);
+  // const [isSupplyModalShow, setIsSupplyModalShow] = useState(false);
+  // const [isBorrowModalShow, setIsBorrowModalShow] = useState(false);
+  // const [isWithdrawModalShow, setIsWithdrawModalShow] = useState(false);
+  // const [isRepayModalShow, setIsRepayModalShow] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -111,7 +111,7 @@ export const UiKit: React.FC = () => {
       <div className={s.block}>
         {/* supply */}
         <div className={s.title}>Refactor Supply</div>
-        <Button
+        {/* <Button
           onClick={() => setIsSupplyModalShow(!isSupplyModalShow)}
           className={s.modalsButton}
         >
@@ -120,10 +120,10 @@ export const UiKit: React.FC = () => {
         <SupplyModal
           isOpen={isSupplyModalShow}
           onRequestClose={() => setIsSupplyModalShow(!isSupplyModalShow)}
-        />
+        /> */}
 
         {/* borrow */}
-        <div className={s.title}>Refactor Borow</div>
+        {/* <div className={s.title}>Refactor Borow</div>
         <Button
           onClick={() => setIsBorrowModalShow(!isBorrowModalShow)}
           className={s.modalsButton}
@@ -133,10 +133,10 @@ export const UiKit: React.FC = () => {
         <BorrowModal
           isOpen={isBorrowModalShow}
           onRequestClose={() => setIsBorrowModalShow(!isBorrowModalShow)}
-        />
+        /> */}
 
         {/* withdraw */}
-        <div className={s.title}>Refactor Withdraw</div>
+        {/* <div className={s.title}>Refactor Withdraw</div>
         <Button
           onClick={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
           className={s.modalsButton}
@@ -146,10 +146,10 @@ export const UiKit: React.FC = () => {
         <WithdrawModal
           isOpen={isWithdrawModalShow}
           onRequestClose={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
-        />
+        /> */}
 
         {/* repay */}
-        <div className={s.title}>Refactor Repay</div>
+        {/* <div className={s.title}>Refactor Repay</div>
         <Button
           onClick={() => setIsRepayModalShow(!isRepayModalShow)}
           className={s.modalsButton}
@@ -159,7 +159,7 @@ export const UiKit: React.FC = () => {
         <RepayModal
           isOpen={isRepayModalShow}
           onRequestClose={() => setIsRepayModalShow(!isRepayModalShow)}
-        />
+        /> */}
 
         {/* <div className={s.title}>
           Credit Process

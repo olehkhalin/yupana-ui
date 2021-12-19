@@ -8464,7 +8464,7 @@ export type LendingAllAssetsQueryVariables = Exact<{
   account?: InputMaybe<Scalars['String']>;
 }>;
 
-export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }> };
+export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }>, oraclePrice: Array<{ __typename?: 'oracle_price', name: string, price: any, ytoken: number }> };
 
 export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8483,6 +8483,12 @@ export type GetUserStatsQueryVariables = Exact<{
 }>;
 
 export type GetUserStatsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', maxCollateral: any, liquidationRatio: any, liquidationCollateral: any, borrowRatio: any, netApy: any, totalSupplyUsd: any, totalBorrowUsd: any }> };
+
+export type GetCurrencyPriceQueryVariables = Exact<{
+  yToken?: InputMaybe<Scalars['Int']>;
+}>;
+
+export type GetCurrencyPriceQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', name: string, price: any, ytoken: number }> };
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
@@ -8527,6 +8533,11 @@ export const LendingAllAssetsDocument = gql`
   user(where: {address: {_eq: $account}}) {
     maxCollateral
     outstandingBorrow
+  }
+  oraclePrice {
+    name
+    price
+    ytoken
   }
 }
     `;
@@ -8809,6 +8820,43 @@ export function useGetUserStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetUserStatsQueryHookResult = ReturnType<typeof useGetUserStatsQuery>;
 export type GetUserStatsLazyQueryHookResult = ReturnType<typeof useGetUserStatsLazyQuery>;
 export type GetUserStatsQueryResult = Apollo.QueryResult<GetUserStatsQuery, GetUserStatsQueryVariables>;
+export const GetCurrencyPriceDocument = gql`
+    query GetCurrencyPrice($yToken: Int) {
+  oraclePrice(where: {ytoken: {_eq: $yToken}}) {
+    name
+    price
+    ytoken
+  }
+}
+    `;
+
+/**
+ * __useGetCurrencyPriceQuery__
+ *
+ * To run a query within a React component, call `useGetCurrencyPriceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetCurrencyPriceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetCurrencyPriceQuery({
+ *   variables: {
+ *      yToken: // value for 'yToken'
+ *   },
+ * });
+ */
+export function useGetCurrencyPriceQuery(baseOptions?: Apollo.QueryHookOptions<GetCurrencyPriceQuery, GetCurrencyPriceQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<GetCurrencyPriceQuery, GetCurrencyPriceQueryVariables>(GetCurrencyPriceDocument, options);
+}
+export function useGetCurrencyPriceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetCurrencyPriceQuery, GetCurrencyPriceQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<GetCurrencyPriceQuery, GetCurrencyPriceQueryVariables>(GetCurrencyPriceDocument, options);
+}
+export type GetCurrencyPriceQueryHookResult = ReturnType<typeof useGetCurrencyPriceQuery>;
+export type GetCurrencyPriceLazyQueryHookResult = ReturnType<typeof useGetCurrencyPriceLazyQuery>;
+export type GetCurrencyPriceQueryResult = Apollo.QueryResult<GetCurrencyPriceQuery, GetCurrencyPriceQueryVariables>;
 export const MarketsDetailsDocument = gql`
     query MarketsDetails($yToken: Int!) {
   asset(where: {ytoken: {_eq: $yToken}}) {

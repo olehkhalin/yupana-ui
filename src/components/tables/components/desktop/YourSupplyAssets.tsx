@@ -5,7 +5,6 @@ import BigNumber from 'bignumber.js';
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/helpers/token';
 import {
-  convertUnits,
   getPrettyAmount,
   getPrettyPercent,
 } from 'utils/helpers/amount';
@@ -51,7 +50,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
         ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
+          value: wallet,
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
         }),
@@ -86,8 +85,8 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    (row: Row) => (
+      <TableDropdown data={row} />
     ),
     [],
   );

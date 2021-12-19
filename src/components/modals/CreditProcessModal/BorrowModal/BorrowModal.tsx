@@ -1,14 +1,12 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 
-import {
-  convertDollarsToTokenAmount, getPercentIsOneNumberFromAnother, getPrettyAmount, getThePercentageOfTheNumber,
-} from 'utils/helpers/amount';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import {
-  CreditProcessModal, InputInterface, ModalActionType, TypeEnum,
+  CreditProcessModal, InputInterface, TypeEnum, AssetModalProps,
 } from 'components/modals/CreditProcessModal';
-import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
+import { CreditProcessType, useCreditProcess } from 'providers/CreditProcessProvider';
 
 const defaultModalStateValues = {
   tokenBalance: '',
@@ -20,21 +18,15 @@ type ModalState = {
   tokenBalance: string
 };
 
-type BorrowModalProps = {} & ModalActionType;
-
-export const BorrowModal: React.FC<BorrowModalProps> = ({
+const BorrowModalWrapper: React.FC<AssetModalProps> = ({
+  type,
+  asset,
+  oraclePrice,
+  maxCollateral,
+  outstandingBorrow,
   isOpen,
   onRequestClose,
 }) => {
-  // 'Borrow' data from api
-  const {
-    asset,
-    yourBorrowLimit,
-    borrowLimitUsed: userBorrowLimitUsed,
-    pricePerTokenInDollars, // useCurrency
-    tezosPrice, // useCurrency
-  } = CREDIT_PROCESS_DATA;
-
   // introduced token amount in dollars/tezos prices (under input values)
   const [introducedValueInBasicPrice, setIntroducedValueInBasicPrice] = useState<number>(0);
 
@@ -44,29 +36,19 @@ export const BorrowModal: React.FC<BorrowModalProps> = ({
 
   // counting values
   useEffect(() => {
-    const convertBorrowLimitUsedToDollars = getThePercentageOfTheNumber(yourBorrowLimit, userBorrowLimitUsed);
-
-    // borrow limit used formula
-    const borrowLimitUsed = getPercentIsOneNumberFromAnother(
-      introducedValueInBasicPrice, yourBorrowLimit,
-    ) + userBorrowLimitUsed;
-
+    const borrowLimitUsed = (outstandingBorrow + introducedValueInBasicPrice) / maxCollateral;
+    const amountUsdToWithdraw = outstandingBorrow - borrowLimitUsed;
     setDynamicBorrowLimitUsed(borrowLimitUsed);
-
-    // amount of withdraw formula
-    const amountUsdToWithdraw = yourBorrowLimit - convertBorrowLimitUsedToDollars;
-    // convert dollars to amount of current token
-    const tokenBorrow = convertDollarsToTokenAmount(amountUsdToWithdraw, pricePerTokenInDollars);
 
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: tokenBorrow,
+        value: amountUsdToWithdraw,
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: tokenBorrow,
+      maxAmount: amountUsdToWithdraw,
     });
-  }, [asset, introducedValueInBasicPrice, pricePerTokenInDollars, userBorrowLimitUsed, yourBorrowLimit]);
+  }, [asset, introducedValueInBasicPrice, maxCollateral, outstandingBorrow]);
 
   const onSubmit = (props: InputInterface) => {
     console.log('Borrow:', JSON.stringify(props, null, 2));
@@ -78,7 +60,7 @@ export const BorrowModal: React.FC<BorrowModalProps> = ({
       theme="secondary"
       asset={asset}
       // TODO: Add switch currency function
-      pricePerTokenInBasicCurrency={pricePerTokenInDollars ?? tezosPrice}
+      pricePerTokenInBasicCurrency={oraclePrice}
       title="Borrow"
       balanceLabel="Available to borrow:"
       buttonLabel="Borrow"
@@ -87,12 +69,29 @@ export const BorrowModal: React.FC<BorrowModalProps> = ({
       onSumbit={onSubmit}
       setIntroducedValueInBasicPrice={setIntroducedValueInBasicPrice}
       // Modal stats
-      yourBorrowLimit={yourBorrowLimit}
-      borrowLimitUsed={userBorrowLimitUsed}
+      yourBorrowLimit={maxCollateral}
+      borrowLimitUsed={outstandingBorrow / maxCollateral}
       dynamicBorrowLimitUsed={dynamicBorrowLimitUsed}
       // Actions
-      isOpen={isOpen}
+      isOpen={isOpen && type === CreditProcessType.BORROW}
       onRequestClose={onRequestClose}
+    />
+  );
+};
+
+export const BorrowModal: React.FC = () => {
+  // get data from modal provider
+  const { creditProcess, isOpen, closeModal } = useCreditProcess();
+
+  if (!creditProcess) {
+    return <></>;
+  }
+
+  return (
+    <BorrowModalWrapper
+      {...creditProcess}
+      onRequestClose={closeModal}
+      isOpen={isOpen}
     />
   );
 };

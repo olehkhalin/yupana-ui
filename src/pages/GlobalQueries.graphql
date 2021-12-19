@@ -1,0 +1,7 @@
+query GetCurrencyPrice($yToken: Int) {
+  oraclePrice(where: { ytoken: { _eq: $yToken } }) {
+    name
+    price
+    ytoken
+  }
+}

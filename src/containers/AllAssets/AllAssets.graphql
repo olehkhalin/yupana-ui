@@ -31,8 +31,13 @@ query LendingAllAssets($account: String) {
     }
     borrow
   }
-  user(where: {address: {_eq: $account}}) {
+  user(where: { address: { _eq: $account } }) {
     maxCollateral
     outstandingBorrow
+  }
+  oraclePrice {
+    name
+    price
+    ytoken
   }
 }

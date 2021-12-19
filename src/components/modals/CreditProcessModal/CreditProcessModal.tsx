@@ -8,6 +8,7 @@ import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
+import { CreditProcessProps } from 'providers/CreditProcessProvider';
 import { getTokenName } from 'utils/helpers/token';
 import {
   getThePercentageOfTheNumber,
@@ -45,6 +46,8 @@ const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
+
+export type AssetModalProps = ModalActionType & CreditProcessProps;
 
 export type ModalActionType = Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 

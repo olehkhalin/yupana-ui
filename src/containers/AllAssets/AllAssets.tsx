@@ -5,6 +5,8 @@ import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
+import { AssetsPrice, useCurrency } from 'providers/CurrencyProvider';
+import { useUserStats } from 'providers/UserStatsProvider';
 import { getUserBalance, useAccountPkh, useTezos } from 'utils/dapp';
 import { getPreparedTokenObject } from 'utils/helpers/token';
 import { useWiderThanMdesktop } from 'utils/helpers';
@@ -48,7 +50,9 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         const asset = getPreparedTokenObject(el as Asset);
 
         const supplyApy = getPreparedPercentValue(el as Asset, 'supply_apy');
-        const collateralFactor = new BigNumber(el.collateralFactor).div(1e18).multipliedBy(1e2);
+        const collateralFactor = Number(new BigNumber(el.collateralFactor)
+          .div(1e18)
+          .multipliedBy(1e2)) / 100;
         const borrowApy = getPreparedPercentValue(el as Asset, 'borrow_apy');
         const utilisationRate = getPreparedPercentValue(el as Asset, 'utilization_rate');
         const liquidity = new BigNumber(el.totalLiquid).div(1e18);
@@ -68,7 +72,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           borrowApy,
           utilisationRate,
           liquidity,
-          wallet,
+          wallet: wallet.div(`1e${asset.decimals}`),
         };
       },
     ));
@@ -88,6 +92,8 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   // TODO: Research
   // useOnBlock(tezos, revalidate);
+  const { setAssetsPrice } = useCurrency();
+  const { setUserBorrowedAssets } = useUserStats();
 
   const usersSupplyAssetsPrepared = useMemo(
     () => (
@@ -101,6 +107,32 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         };
       }) : []),
     [data],
+  );
+
+  // get tokens price in dollars with correct decimals
+  const getAssetsPriceWithDecimals: AssetsPrice[] | undefined = useMemo(
+    () => {
+      if (data && assetsStats && assetsStats.length) {
+        return assetsStats.map((asset) => {
+          const currentAssetFromOracle = data.oraclePrice.find(
+            (oracle) => asset.yToken === oracle.ytoken,
+          );
+          if (currentAssetFromOracle) {
+            return {
+              ...currentAssetFromOracle,
+              price: Number(new BigNumber(currentAssetFromOracle.price).div(`1e${asset.asset.decimals}`)),
+            };
+          }
+          return {
+            name: 'Token not found',
+            price: 0,
+            ytoken: 0,
+          };
+        });
+      }
+      return [];
+    },
+    [assetsStats, data],
   );
 
   const usersBorrowedAssetsPrepared = useMemo(
@@ -153,6 +185,16 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
     ),
     [accountPkh, assetsStats, usersBorrowedAssetsPrepared],
   );
+
+  useEffect(() => {
+    const findUserBorrowedAssets = usersBorrowedAssetsPrepared
+      .filter((asset) => asset.borrowed.lt(0));
+    setUserBorrowedAssets(findUserBorrowedAssets);
+  }, [setUserBorrowedAssets, usersBorrowedAssetsPrepared]);
+
+  useEffect(() => {
+    setAssetsPrice(getAssetsPriceWithDecimals);
+  }, [getAssetsPriceWithDecimals, setAssetsPrice]);
 
   useEffect(() => {
     if (error) {
@@ -221,7 +263,7 @@ export const AllAssets: React.FC<AssetsProps> = ({
   className,
 }) => {
   const accountPkh = useAccountPkh();
-
+  const { setUserStats } = useUserStats();
   const [fetch, { data, error }] = useLendingAllAssetsLazyQuery();
 
   useEffect(() => {
@@ -231,6 +273,16 @@ export const AllAssets: React.FC<AssetsProps> = ({
       },
     });
   }, [accountPkh, fetch]);
+
+  // Set user stats to provider
+  useEffect(() => {
+    if (data && data.user) {
+      setUserStats({
+        maxCollateral: data.user[0].maxCollateral,
+        outstandingBorrow: data.user[0].outstandingBorrow !== '0' ? data.user[0].outstandingBorrow : 1,
+      });
+    }
+  }, [data, setUserStats]);
 
   if (error) {
     return <></>;

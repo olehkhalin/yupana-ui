@@ -1,14 +1,13 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
+import BigNumber from 'bignumber.js';
 
-import {
-  convertDollarsToTokenAmount, getPercentIsOneNumberFromAnother, getPrettyAmount, getThePercentageOfTheNumber,
-} from 'utils/helpers/amount';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import {
-  CreditProcessModal, InputInterface, ModalActionType, TypeEnum,
+  CreditProcessModal, InputInterface, TypeEnum, AssetModalProps,
 } from 'components/modals/CreditProcessModal';
-import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
+import { CreditProcessType, useCreditProcess } from 'providers/CreditProcessProvider';
 
 const defaultModalStateValues = {
   tokenBalance: '',
@@ -20,23 +19,16 @@ type ModalState = {
   tokenBalance: string
 };
 
-type WithdrawModalProps = {} & ModalActionType;
-
-export const WithdrawModal: React.FC<WithdrawModalProps> = ({
+const WithdrawModalWrapper: React.FC<AssetModalProps> = ({
+  type,
+  asset,
+  oraclePrice,
+  collateralFactor,
+  maxCollateral,
+  outstandingBorrow,
   isOpen,
   onRequestClose,
 }) => {
-  // 'Withdraw' data from api
-  const {
-    asset,
-    yourBorrowLimit,
-    borrowLimitUsed: userBorrowLimitUsed,
-    pricePerTokenInDollars, // useCurrency
-    tezosPrice, // useCurrency
-    collateralFactor, // supply & withdraw
-    supplyBalance, // unique field
-  } = CREDIT_PROCESS_DATA;
-
   // introduced token amount in dollars/tezos prices (under input values)
   const [introducedValueInBasicPrice, setIntroducedValueInBasicPrice] = useState<number>(0);
 
@@ -47,38 +39,21 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
 
   // counting values
   useEffect(() => {
-    const convertBorrowLimitUsedToDollars = getThePercentageOfTheNumber(yourBorrowLimit, userBorrowLimitUsed);
-
-    // borrow limit formula
-    const borrowLimit = yourBorrowLimit - (convertBorrowLimitUsedToDollars + getThePercentageOfTheNumber(
-      introducedValueInBasicPrice,
-      collateralFactor,
-    ));
-    // borrow limit used formula
-    const borrowLimitUsed = getPercentIsOneNumberFromAnother(
-      (convertBorrowLimitUsedToDollars + getThePercentageOfTheNumber(
-        introducedValueInBasicPrice,
-        collateralFactor,
-      )), yourBorrowLimit,
-    );
-
+    const borrowLimit = maxCollateral - introducedValueInBasicPrice * collateralFactor!;
+    const borrowLimitUsed = outstandingBorrow / (maxCollateral - introducedValueInBasicPrice * collateralFactor!);
+    const availableToWithdraw = Number(new BigNumber((maxCollateral - outstandingBorrow) / oraclePrice / collateralFactor!).div(`1e${asset.decimals}`));
     setDynamicBorrowLimit(borrowLimit);
     setDynamicBorrowLimitUsed(borrowLimitUsed);
 
-    // amount of withdraw formula
-    const amountUsdToWithdraw = supplyBalance - ((convertBorrowLimitUsedToDollars * 100) / collateralFactor);
-    // convert dollars to amount of current token
-    const tokenBorrow = convertDollarsToTokenAmount(amountUsdToWithdraw, pricePerTokenInDollars);
-
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: tokenBorrow,
+        value: availableToWithdraw,
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: tokenBorrow,
+      maxAmount: availableToWithdraw,
     });
-  }, [asset, collateralFactor, introducedValueInBasicPrice, pricePerTokenInDollars, supplyBalance, userBorrowLimitUsed, yourBorrowLimit]);
+  }, [asset, collateralFactor, introducedValueInBasicPrice, maxCollateral, oraclePrice, outstandingBorrow]);
 
   const onSubmit = (props: InputInterface) => {
     console.log('Withdraw:', JSON.stringify(props, null, 2));
@@ -89,7 +64,7 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
       type={TypeEnum.WITHDRAW}
       asset={asset}
       // TODO: Add switch currency function
-      pricePerTokenInBasicCurrency={pricePerTokenInDollars ?? tezosPrice}
+      pricePerTokenInBasicCurrency={oraclePrice}
       title="Withdraw"
       balanceLabel="Available to withdraw:"
       buttonLabel="Withdraw"
@@ -98,13 +73,30 @@ export const WithdrawModal: React.FC<WithdrawModalProps> = ({
       onSumbit={onSubmit}
       setIntroducedValueInBasicPrice={setIntroducedValueInBasicPrice}
       // Modal stats
-      yourBorrowLimit={yourBorrowLimit}
-      borrowLimitUsed={userBorrowLimitUsed}
+      yourBorrowLimit={maxCollateral}
+      borrowLimitUsed={outstandingBorrow / maxCollateral}
       dynamicBorrowLimitUsed={dynamicBorrowLimitUsed}
       dynamicBorrowLimit={dynamicBorrowLimit}
       // Actions
-      isOpen={isOpen}
+      isOpen={isOpen && type === CreditProcessType.WITHDRAW}
       onRequestClose={onRequestClose}
+    />
+  );
+};
+
+export const WithdrawModal: React.FC = () => {
+  // get data from modal provider
+  const { creditProcess, isOpen, closeModal } = useCreditProcess();
+
+  if (!creditProcess) {
+    return <></>;
+  }
+
+  return (
+    <WithdrawModalWrapper
+      {...creditProcess}
+      onRequestClose={closeModal}
+      isOpen={isOpen}
     />
   );
 };

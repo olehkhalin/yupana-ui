@@ -1,10 +1,11 @@
 /* eslint-disable max-len */
 import React, { useEffect, useState } from 'react';
 
-import { getPercentIsOneNumberFromAnother, getPrettyAmount, getThePercentageOfTheNumber } from 'utils/helpers/amount';
+import { CreditProcessType, useCreditProcess } from 'providers/CreditProcessProvider';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
-import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
-import { CreditProcessModal, InputInterface, ModalActionType } from 'components/modals/CreditProcessModal';
+import { CreditProcessModal, InputInterface } from 'components/modals/CreditProcessModal';
+import { AssetModalProps } from '../CreditProcessModal';
 
 const defaultModalStateValues = {
   tokenBalance: '',
@@ -16,23 +17,17 @@ type ModalState = {
   tokenBalance: string
 };
 
-type SupplyModalProps = {} & ModalActionType;
-
-export const SupplyModal: React.FC<SupplyModalProps> = ({
+const SupplyModalWrapper: React.FC<AssetModalProps> = ({
+  type,
+  asset,
+  oraclePrice,
+  collateralFactor,
+  walletBalance,
+  maxCollateral,
+  outstandingBorrow,
   isOpen,
   onRequestClose,
 }) => {
-  // 'Supply' data from api
-  const {
-    asset,
-    yourBorrowLimit,
-    borrowLimitUsed: userBorrowLimitUsed,
-    pricePerTokenInDollars, // useCurrency
-    tezosPrice, // useCurrency
-    collateralFactor, // supply & withdraw
-    tokenBalance: walletTokenBalance, // unique field
-  } = CREDIT_PROCESS_DATA;
-
   // introduced token amount in dollars/tezos prices (under input values)
   const [introducedValueInBasicPrice, setIntroducedValueInBasicPrice] = useState<number>(0);
 
@@ -43,29 +38,20 @@ export const SupplyModal: React.FC<SupplyModalProps> = ({
 
   // counting values
   useEffect(() => {
-    const convertBorrowLimitUsedToDollars = getThePercentageOfTheNumber(yourBorrowLimit, userBorrowLimitUsed);
-
-    // borrow limit formula
-    const borrowLimit = getThePercentageOfTheNumber(
-      introducedValueInBasicPrice, collateralFactor,
-    ) + yourBorrowLimit;
-    // borrow limit used formula
-    const borrowLimitUsed = getPercentIsOneNumberFromAnother(
-      convertBorrowLimitUsedToDollars, borrowLimit,
-    );
-
+    const borrowLimit = maxCollateral + introducedValueInBasicPrice * collateralFactor!;
+    const borrowLimitUsed = (outstandingBorrow / ((maxCollateral + introducedValueInBasicPrice) * collateralFactor!));
     setDynamicBorrowLimit(borrowLimit);
     setDynamicBorrowLimitUsed(borrowLimitUsed);
 
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: walletTokenBalance,
+        value: walletBalance ?? 0,
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: walletTokenBalance,
+      maxAmount: walletBalance ?? 0,
     });
-  }, [asset, collateralFactor, introducedValueInBasicPrice, userBorrowLimitUsed, walletTokenBalance, yourBorrowLimit]);
+  }, [asset, collateralFactor, introducedValueInBasicPrice, maxCollateral, outstandingBorrow, walletBalance]);
 
   const onSubmit = (props: InputInterface) => {
     console.log('Supply:', JSON.stringify(props, null, 2));
@@ -75,7 +61,7 @@ export const SupplyModal: React.FC<SupplyModalProps> = ({
     <CreditProcessModal
       asset={asset}
       // TODO: Add switch currency function
-      pricePerTokenInBasicCurrency={pricePerTokenInDollars ?? tezosPrice}
+      pricePerTokenInBasicCurrency={oraclePrice}
       title="Supply"
       balanceLabel="Wallet balance"
       buttonLabel="Supply"
@@ -84,13 +70,30 @@ export const SupplyModal: React.FC<SupplyModalProps> = ({
       onSumbit={onSubmit}
       setIntroducedValueInBasicPrice={setIntroducedValueInBasicPrice}
       // Modal stats
-      yourBorrowLimit={yourBorrowLimit}
-      borrowLimitUsed={userBorrowLimitUsed}
+      yourBorrowLimit={maxCollateral} // check decimals
+      borrowLimitUsed={outstandingBorrow / maxCollateral} // formula
       dynamicBorrowLimitUsed={dynamicBorrowLimitUsed}
       dynamicBorrowLimit={dynamicBorrowLimit}
       // Actions
-      isOpen={isOpen}
+      isOpen={isOpen && type === CreditProcessType.SUPPLY}
       onRequestClose={onRequestClose}
+    />
+  );
+};
+
+export const SupplyModal: React.FC = () => {
+  // get data from modal provider
+  const { creditProcess, isOpen, closeModal } = useCreditProcess();
+
+  if (!creditProcess) {
+    return <></>;
+  }
+
+  return (
+    <SupplyModalWrapper
+      {...creditProcess}
+      onRequestClose={closeModal}
+      isOpen={isOpen}
     />
   );
 };

@@ -79,8 +79,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    (row: Row) => (
+      <TableDropdown data={row} />
     ),
     [],
   );
