@@ -5,6 +5,7 @@ import BigNumber from 'bignumber.js';
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/helpers/token';
 import {
+  convertUnits,
   getPrettyAmount,
   getPrettyPercent,
 } from 'utils/helpers/amount';
@@ -50,7 +51,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
         ) => getPrettyAmount({
-          value: wallet,
+          value: convertUnits(wallet, asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
         }),

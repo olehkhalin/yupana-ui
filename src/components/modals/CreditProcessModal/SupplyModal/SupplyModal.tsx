@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { CreditProcessType, useCreditProcess } from 'providers/CreditProcessProvider';
-import { getPrettyAmount } from 'utils/helpers/amount';
+import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import { CreditProcessModal, InputInterface } from 'components/modals/CreditProcessModal';
 import { AssetModalProps } from '../CreditProcessModal';
@@ -45,11 +45,11 @@ const SupplyModalWrapper: React.FC<AssetModalProps> = ({
 
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: walletBalance ?? 0,
+        value: convertUnits(walletBalance ?? 0, asset.decimals),
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: walletBalance ?? 0,
+      maxAmount: +convertUnits(walletBalance ?? 0, asset.decimals),
     });
   }, [asset, collateralFactor, introducedValueInBasicPrice, maxCollateral, outstandingBorrow, walletBalance]);
 

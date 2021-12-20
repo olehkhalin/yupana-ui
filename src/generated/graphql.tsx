@@ -8460,11 +8460,15 @@ export type Withdraw_Tx_Variance_Order_By = {
   usdAmount?: InputMaybe<Order_By>;
 };
 
-export type LendingAllAssetsQueryVariables = Exact<{
+export type LendingAllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
+
+export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, oraclePrice: Array<{ __typename?: 'oracle_price', name: string, price: any, ytoken: number }> };
+
+export type LendingUserAssetsQueryVariables = Exact<{
   account?: InputMaybe<Scalars['String']>;
 }>;
 
-export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }>, oraclePrice: Array<{ __typename?: 'oracle_price', name: string, price: any, ytoken: number }> };
+export type LendingUserAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }> };
 
 export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8497,7 +8501,7 @@ export type MarketsDetailsQueryVariables = Exact<{
 export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
 
 export const LendingAllAssetsDocument = gql`
-    query LendingAllAssets($account: String) {
+    query LendingAllAssets {
   asset {
     ytoken
     contractAddress
@@ -8516,23 +8520,6 @@ export const LendingAllAssetsDocument = gql`
     }
     collateralFactor
     totalLiquid
-  }
-  userSupply(where: {userId: {_eq: $account}}) {
-    asset {
-      ytoken
-    }
-    supply
-    entered
-  }
-  userBorrow(where: {userId: {_eq: $account}}) {
-    asset {
-      ytoken
-    }
-    borrow
-  }
-  user(where: {address: {_eq: $account}}) {
-    maxCollateral
-    outstandingBorrow
   }
   oraclePrice {
     name
@@ -8554,7 +8541,6 @@ export const LendingAllAssetsDocument = gql`
  * @example
  * const { data, loading, error } = useLendingAllAssetsQuery({
  *   variables: {
- *      account: // value for 'account'
  *   },
  * });
  */
@@ -8569,6 +8555,55 @@ export function useLendingAllAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookO
 export type LendingAllAssetsQueryHookResult = ReturnType<typeof useLendingAllAssetsQuery>;
 export type LendingAllAssetsLazyQueryHookResult = ReturnType<typeof useLendingAllAssetsLazyQuery>;
 export type LendingAllAssetsQueryResult = Apollo.QueryResult<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>;
+export const LendingUserAssetsDocument = gql`
+    query LendingUserAssets($account: String) {
+  userSupply(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+    supply
+    entered
+  }
+  userBorrow(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+    borrow
+  }
+  user(where: {address: {_eq: $account}}) {
+    maxCollateral
+    outstandingBorrow
+  }
+}
+    `;
+
+/**
+ * __useLendingUserAssetsQuery__
+ *
+ * To run a query within a React component, call `useLendingUserAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLendingUserAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLendingUserAssetsQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useLendingUserAssetsQuery(baseOptions?: Apollo.QueryHookOptions<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useQuery<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>(LendingUserAssetsDocument, options);
+}
+export function useLendingUserAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>) {
+  const options = { ...defaultOptions, ...baseOptions };
+  return Apollo.useLazyQuery<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>(LendingUserAssetsDocument, options);
+}
+export type LendingUserAssetsQueryHookResult = ReturnType<typeof useLendingUserAssetsQuery>;
+export type LendingUserAssetsLazyQueryHookResult = ReturnType<typeof useLendingUserAssetsLazyQuery>;
+export type LendingUserAssetsQueryResult = Apollo.QueryResult<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>;
 export const LiquidationPositionsDocument = gql`
     query LiquidationPositions {
   user {

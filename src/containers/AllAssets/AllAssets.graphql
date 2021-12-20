@@ -1,4 +1,4 @@
-query LendingAllAssets($account: String) {
+query LendingAllAssets {
   asset {
     ytoken
     contractAddress
@@ -18,6 +18,14 @@ query LendingAllAssets($account: String) {
     collateralFactor
     totalLiquid
   }
+  oraclePrice {
+    name
+    price
+    ytoken
+  }
+}
+
+query LendingUserAssets($account: String) {
   userSupply(where: { userId: { _eq: $account } }) {
     asset {
       ytoken
@@ -34,10 +42,5 @@ query LendingAllAssets($account: String) {
   user(where: { address: { _eq: $account } }) {
     maxCollateral
     outstandingBorrow
-  }
-  oraclePrice {
-    name
-    price
-    ytoken
   }
 }
