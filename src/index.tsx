@@ -6,6 +6,8 @@ import '@formatjs/intl-numberformat/locale-data/en';
 import { ApolloProvider } from '@apollo/client';
 
 import { DAppProvider } from 'utils/dapp';
+import { UserStatsProvider } from 'providers/UserStatsProvider';
+import { CreditProcessProvider } from 'providers/CreditProcessProvider';
 import { CurrencyProvider } from 'providers/CurrencyProvider';
 import App from 'pages/App';
 import { client } from 'utils/client';
@@ -17,11 +19,15 @@ ReactDOM.render(
   <Router>
     <React.StrictMode>
       <ApolloProvider client={client}>
-        <CurrencyProvider>
-          <DAppProvider>
-            <App />
-          </DAppProvider>
-        </CurrencyProvider>
+        <CreditProcessProvider>
+          <CurrencyProvider>
+            <UserStatsProvider>
+              <DAppProvider>
+                <App />
+              </DAppProvider>
+            </UserStatsProvider>
+          </CurrencyProvider>
+        </CreditProcessProvider>
       </ApolloProvider>
     </React.StrictMode>
   </Router>,

@@ -1,21 +1,21 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 
 import s from './UserStat.module.sass';
 
 type UserStatProps = {
-  userSupplyBalance: number
-  userBorrowBalance: number
-  userNetApy: number
+  userTotalSupply: number
+  userTotalBorrow: number
+  netApy: number
   className?: string
 };
 
 export const UserStat: React.FC<UserStatProps> = ({
-  userSupplyBalance,
-  userBorrowBalance,
-  userNetApy,
+  userTotalSupply,
+  userTotalBorrow,
+  netApy,
   className,
 }) => (
   <div className={cx(s.root, className)}>
@@ -24,7 +24,7 @@ export const UserStat: React.FC<UserStatProps> = ({
         Your Supply Balance:
       </div>
       <div className={s.value}>
-        {getPrettyAmount({ value: userSupplyBalance, currency: '$' })}
+        {getPrettyAmount({ value: userTotalSupply, currency: '$' })}
       </div>
     </div>
 
@@ -33,7 +33,7 @@ export const UserStat: React.FC<UserStatProps> = ({
         Net APY:
       </div>
       <div className={s.value}>
-        {`${userNetApy}%`}
+        {getPrettyPercent(netApy)}
       </div>
     </div>
 
@@ -42,7 +42,7 @@ export const UserStat: React.FC<UserStatProps> = ({
         Your Borrow Balance:
       </div>
       <div className={s.value}>
-        {getPrettyAmount({ value: userBorrowBalance, currency: '$' })}
+        {getPrettyAmount({ value: userTotalBorrow, currency: '$' })}
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 import React, { useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { getTokenName } from 'utils/getTokenName';
+import { getTokenName } from 'utils/helpers/token';
 import { LiquidationPositionsQuery, useLiquidationPositionsQuery } from 'generated/graphql';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
 

@@ -1,11 +1,8 @@
 import React, { useState } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { InformationModal } from 'components/popups/InformationModal';
-import { ConnectToWallet } from 'components/popups/ConnectToWallet';
-import { Account } from 'components/popups/Account';
+import { getTokenSlug } from 'utils/helpers/token';
+import { getUniqueKey } from 'utils/helpers';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -18,7 +15,6 @@ import {
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
 import {
@@ -65,6 +61,15 @@ import {
 } from 'components/temp-data/market-card';
 import { USER_STAT } from 'components/temp-data/user-stat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
+// modals
+// import { SupplyModal } from 'components/modals/CreditProcessModal/SupplyModal';
+// import { BorrowModal } from 'components/modals/CreditProcessModal/BorrowModal';
+// import { WithdrawModal } from 'components/modals/CreditProcessModal/WithdrawModal';
+// import { RepayModal } from 'components/modals/CreditProcessModal/RepayModal';
+//
+import { InformationModal } from 'components/modals/InformationModal';
+import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
+import { AccountModal } from 'components/modals/AccountModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -91,6 +96,11 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
+  // modals
+  // const [isSupplyModalShow, setIsSupplyModalShow] = useState(false);
+  // const [isBorrowModalShow, setIsBorrowModalShow] = useState(false);
+  // const [isWithdrawModalShow, setIsWithdrawModalShow] = useState(false);
+  // const [isRepayModalShow, setIsRepayModalShow] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -98,6 +108,127 @@ export const UiKit: React.FC = () => {
 
   return (
     <>
+      <div className={s.block}>
+        {/* supply */}
+        <div className={s.title}>Refactor Supply</div>
+        {/* <Button
+          onClick={() => setIsSupplyModalShow(!isSupplyModalShow)}
+          className={s.modalsButton}
+        >
+          Supply
+        </Button>
+        <SupplyModal
+          isOpen={isSupplyModalShow}
+          onRequestClose={() => setIsSupplyModalShow(!isSupplyModalShow)}
+        /> */}
+
+        {/* borrow */}
+        {/* <div className={s.title}>Refactor Borow</div>
+        <Button
+          onClick={() => setIsBorrowModalShow(!isBorrowModalShow)}
+          className={s.modalsButton}
+        >
+          Borrow
+        </Button>
+        <BorrowModal
+          isOpen={isBorrowModalShow}
+          onRequestClose={() => setIsBorrowModalShow(!isBorrowModalShow)}
+        /> */}
+
+        {/* withdraw */}
+        {/* <div className={s.title}>Refactor Withdraw</div>
+        <Button
+          onClick={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
+          className={s.modalsButton}
+        >
+          Withdraw
+        </Button>
+        <WithdrawModal
+          isOpen={isWithdrawModalShow}
+          onRequestClose={() => setIsWithdrawModalShow(!isWithdrawModalShow)}
+        /> */}
+
+        {/* repay */}
+        {/* <div className={s.title}>Refactor Repay</div>
+        <Button
+          onClick={() => setIsRepayModalShow(!isRepayModalShow)}
+          className={s.modalsButton}
+        >
+          Repay
+        </Button>
+        <RepayModal
+          isOpen={isRepayModalShow}
+          onRequestClose={() => setIsRepayModalShow(!isRepayModalShow)}
+        /> */}
+
+        {/* <div className={s.title}>
+          Credit Process
+        </div>
+        <div className={s.subTitle}>
+          Primary
+        </div>
+        <Button
+          onClick={() => setCreditProcessPrimaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Supply
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          isOpen={creditProcessPrimaryIsOpen}
+          onRequestClose={() => setCreditProcessPrimaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Secondary
+        </div>
+        <Button
+          onClick={() => setCreditProcessSecondaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Withdraw
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.WITHDRAW}
+          isOpen={creditProcessSecondaryIsOpen}
+          onRequestClose={() => setCreditProcessSecondaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Tertiary
+        </div>
+        <Button
+          onClick={() => setCreditProcessTertiaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Borrow
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.BORROW}
+          theme="secondary"
+          isOpen={creditProcessTertiaryIsOpen}
+          onRequestClose={() => setCreditProcessTertiaryIsOpen(false)}
+        />
+
+        <div className={s.subTitle}>
+          Quaternary
+        </div>
+        <Button
+          onClick={() => setCreditProcessQuaternaryIsOpen(true)}
+          className={s.modalsButton}
+        >
+          Repay
+        </Button>
+        <CreditProcessModal
+          {...CREDIT_PROCESS_DATA}
+          type={TypeEnum.REPAY}
+          theme="secondary"
+          isOpen={creditProcessQuaternaryIsOpen}
+          onRequestClose={() => setCreditProcessQuaternaryIsOpen(false)}
+        /> */}
+      </div>
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>
@@ -949,8 +1080,8 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Collateral switcher
         </div>
-        <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
-        <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
       </div>
 
       <div className={s.block}>
@@ -1006,7 +1137,7 @@ export const UiKit: React.FC = () => {
             >
               ConnectToWallet
             </Button>
-            <ConnectToWallet
+            <ConnectToWalletModal
               isOpen={connectToWalletIsOpen}
               onRequestClose={() => setConnectToWalletIsOpen(false)}
             />
@@ -1021,7 +1152,7 @@ export const UiKit: React.FC = () => {
             >
               Account
             </Button>
-            <Account
+            <AccountModal
               isOpen={accountIsOpen}
               onRequestClose={() => setAccountIsOpen(false)}
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"

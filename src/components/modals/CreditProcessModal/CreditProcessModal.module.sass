@@ -1,0 +1,114 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.form
+  display: flex
+  justify-content: center
+  flex-direction: column
+  align-items: center
+  width: 100%
+
+.input
+  margin-bottom: 1.5rem
+
+.slider
+  margin-bottom: 1.75rem
+
+.inner
+  padding: 1rem
+  box-sizing: border-box
+
+.title
+  margin-bottom: .5rem
+  font-size: 1.25rem
+  line-height: 1.5rem
+
+.icon
+  margin-bottom: .5rem
+
+.tokenInfo
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: 1rem
+  font-size: .875rem
+  font-weight: 700
+
+.walletBalance
+  display: flex
+  margin-bottom: .5rem
+  min-width: initial
+  font-size: .75rem
+  line-height: 1.188rem
+
+.balance
+  margin-left: 1rem
+  font-weight: bold
+
+.borrowTitle
+  margin-bottom: .5rem
+  font-weight: bold
+  font-size: 1rem
+  line-height: 1.188rem
+
+.borrowLimit, .borrowLimitUsed
+  display: flex
+  justify-content: space-between
+  width: 100%
+
+.borrowLimit
+  margin-bottom: .5rem
+
+.borrowLimitUsed
+  margin-bottom: 1rem
+
+.borrowDescription, .borrowResult
+  font-size: .75rem
+  line-height: .875rem
+
+.borrowResult
+  font-weight: bold
+  margin-left: .5rem
+
+.borrow
+  .input
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+    &::placeholder
+      color: $light-yellow
+      text-shadow: $light-yellow-shadow
+    &::-webkit-slider-thumb
+      border: .125rem solid $light-yellow
+      box-shadow: -200px 0 0 195px $light-yellow
+
+@include media('>Mphone')
+  .inner
+    padding: 2rem 3.5rem
+    width: 32rem
+  .title
+    margin-bottom: 2rem
+    font-size: 1.5rem
+    line-height: 1.75rem
+  .icon
+    margin-bottom: 1rem
+  .label
+    font-size: .75rem
+  .tokenInfo
+    font-size: 1rem
+  .walletBalance
+    font-size: 1rem
+  .tokenInfo, .percents
+    margin-bottom: 2rem
+  .slider
+    margin-bottom: 1.5rem
+  .borrowTitle
+    margin-bottom: 1.5rem
+    font-size: 1.5rem
+    line-height: 1.75rem
+  .borrowResult
+    font-size: 1rem
+    line-height: 1.188rem
+  .borrowDescription, .borrowLimit
+    font-size: 1rem
+  .borrowLimitUsed
+    margin-bottom: 2.5rem

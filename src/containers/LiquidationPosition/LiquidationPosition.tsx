@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { useWiderThanMphone } from 'utils/getMediaQuery';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { useWiderThanMphone } from 'utils/helpers';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
 import { Button } from 'components/ui/Button';
 import { Heading } from 'components/common/Heading';

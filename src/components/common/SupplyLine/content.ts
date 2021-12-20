@@ -6,6 +6,7 @@ export const mokeSupplyPrimaryData = {
     name: 'Tezos',
     symbol: 'XTZ',
     thumbnailUri: XTZ_THUMBNAIL_URI,
+    decimals: 6,
   },
   percent: 21.90,
 };
@@ -16,6 +17,7 @@ export const mokeSupplySecondaryData = {
     name: 'Tezos',
     symbol: 'XTZ',
     thumbnailUri: QUIPU_THUMBNAIL_URI,
+    decimals: 6,
   },
   percent: 54.83,
 };

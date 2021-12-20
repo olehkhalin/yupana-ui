@@ -1,0 +1,11 @@
+query getUserStats($account: String) {
+  user(where: { address: { _eq: $account } }) {
+    maxCollateral
+    liquidationRatio
+    liquidationCollateral
+    borrowRatio
+    netApy
+    totalSupplyUsd
+    totalBorrowUsd
+  }
+}

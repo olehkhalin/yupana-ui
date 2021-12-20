@@ -6,11 +6,18 @@ export enum CurrencyEnum {
   USD = 'usd',
 }
 
+export type AssetsPrice = {
+  ytoken: number
+  name: string
+  price: number
+};
+
 export const [
   CurrencyProvider,
   useCurrency,
 ] = constate(() => {
   const [currencyState, setCurrencyState] = useState<CurrencyEnum>(CurrencyEnum.XTZ);
+  const [assetsPrice, setAssetsPrice] = useState<AssetsPrice[]>([]);
 
   const setCurrency = useCallback((currency: CurrencyEnum) => {
     window.localStorage.setItem('currency', currency);
@@ -26,8 +33,14 @@ export const [
     }
   }, [setCurrency]);
 
+  const getPriceByCurrentToken = (yToken: number): number => assetsPrice
+    .find((el) => el.ytoken === yToken)?.price ?? 1;
+
   return {
     currency: currencyState,
     setCurrency,
+    setAssetsPrice,
+    assetsPrice,
+    getPriceByCurrentToken,
   };
 });

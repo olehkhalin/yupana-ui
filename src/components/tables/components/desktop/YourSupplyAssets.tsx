@@ -1,8 +1,13 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 import { TableDropdown } from 'components/common/TableDropdown';
@@ -35,18 +40,33 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: { supplyApy: number }) => `${supplyApy.toFixed(2)}%`,
+        accessor: ({ supplyApy }: { supplyApy: number }) => (
+          getPrettyPercent(supplyApy)
+        ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
+        accessor: (
+          { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
+        ) => getPrettyAmount({
+          value: wallet,
+          currency: getSliceTokenName(asset),
+          dec: asset.decimals,
+        }),
       },
       {
         Header: 'Collateral',
-        id: 'collateral',
+        id: 'isCollateral',
+        accessor: (row: { isCollateral: boolean, yToken: number }) => ({
+          isCollateral: row.isCollateral,
+          yToken: row.yToken,
+        }),
         Cell: ({ row }: { row: Row }) => (
-          <CollateralSwitcher token={{ address: row.values.asset.address }} />
+          <CollateralSwitcher
+            isCollateral={row.values.isCollateral.isCollateral}
+            yToken={row.values.isCollateral.yToken}
+          />
         ),
       },
       {
@@ -64,10 +84,9 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     [],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    (row: Row) => (
+      <TableDropdown data={row} />
     ),
     [],
   );
