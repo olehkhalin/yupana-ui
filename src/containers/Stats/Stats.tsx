@@ -12,10 +12,10 @@ type StatsProps = {
   className?: string
 };
 
-export const Stats: React.FC<StatsProps> = ({
+const StatsInner: React.FC<StatsProps & { accountPkh: string }> = ({
   className,
+  accountPkh,
 }) => {
-  const accountPkh = useAccountPkh();
   const [fetch, { data }] = useGetUserStatsLazyQuery();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Stats: React.FC<StatsProps> = ({
       if (data && data.user.length) {
         const user = data.user[0];
         return ({
-          netApy: user.netApy,
+          netApy: Number(new BigNumber(user.netApy).div(1e18)),
           borrowRatio: user.borrowRatio,
           maxCollateral: Number(new BigNumber(user.maxCollateral).div(1e18)),
           liquidationRatio: user.liquidationRatio,
@@ -51,7 +51,7 @@ export const Stats: React.FC<StatsProps> = ({
       }
 
       return {
-        netApy: '0',
+        netApy: 0,
         borrowRatio: '0',
         maxCollateral: 0,
         liquidationRatio: '0',
@@ -72,17 +72,29 @@ export const Stats: React.FC<StatsProps> = ({
         className={s.stat}
       />
       <LimitLine
-        percent={borrowRatio}
+        percent={borrowRatio > 100 ? 100 : borrowRatio}
         value={maxCollateral}
         title="Your Borrow Limit"
         className={s.limit}
       />
       <LimitLine
-        percent={liquidationRatio}
+        percent={liquidationRatio > 100 ? 100 : liquidationRatio}
         value={liquidationCollateral}
         title="Your Liquidation Limit"
         className={s.limit}
       />
     </section>
   );
+};
+
+export const Stats: React.FC<StatsProps> = ({
+  className,
+}) => {
+  const accountPkh = useAccountPkh();
+
+  if (!accountPkh) {
+    return <></>;
+  }
+
+  return <StatsInner className={className} accountPkh={accountPkh} />;
 };

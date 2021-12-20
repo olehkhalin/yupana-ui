@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { getPrettyAmount } from 'utils/helpers/amount';
+import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import {
   CreditProcessModal, InputInterface, TypeEnum, AssetModalProps,
@@ -47,11 +47,11 @@ const WithdrawModalWrapper: React.FC<AssetModalProps> = ({
 
     setModalState({
       tokenBalance: getPrettyAmount({
-        value: availableToWithdraw,
+        value: convertUnits(availableToWithdraw, asset.decimals),
         currency: getTokenName(asset),
         dec: asset.decimals,
       }),
-      maxAmount: availableToWithdraw,
+      maxAmount: +convertUnits(availableToWithdraw, asset.decimals),
     });
   }, [asset, collateralFactor, introducedValueInBasicPrice, maxCollateral, oraclePrice, outstandingBorrow]);
 
