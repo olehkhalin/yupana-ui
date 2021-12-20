@@ -1,10 +1,10 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
-import BigNumber from 'bignumber.js';
 
+import { STANDARD_PRECISION } from 'constants/default';
 import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
 import { getPreparedTokenObject } from 'utils/helpers/token';
-import { getPreparedPercentValue } from 'utils/helpers/amount';
+import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';
@@ -22,29 +22,34 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
     // Token details
     const el = data.asset[0];
     const asset = getPreparedTokenObject(el as unknown as Asset);
-    const totalSupply = new BigNumber(el.totalSupply).div(1e18);
+    const totalSupply = convertUnits(el.totalSupply, STANDARD_PRECISION);
     const supplyApy = getPreparedPercentValue(el as unknown as Asset, 'supply_apy');
     const numberOfSupplier = el.suppliersCount.aggregate?.count ?? 0;
-    const totalBorrow = new BigNumber(el.totalBorrowed).div(1e18);
+    const totalBorrow = convertUnits(el.totalBorrowed, STANDARD_PRECISION);
     const borrowApy = getPreparedPercentValue(el as unknown as Asset, 'borrow_apy');
     const numberOfBorrowers = el.borrowersCount.aggregate?.count ?? 0;
 
     // Market details
-    const availableLiquidity = new BigNumber(el.totalLiquid).div(1e18);
+    const availableLiquidity = convertUnits(el.totalLiquid, STANDARD_PRECISION);
     const utilisationRate = getPreparedPercentValue(el as unknown as Asset, 'utilization_rate');
-    const collateralFactor = new BigNumber(el.collateralFactor).div(1e18);
-    const liquidationThreshold = new BigNumber(data.globalFactors[0].liquidationThreshold)
-      .div(1e18);
-    const liquidationBonus = new BigNumber(data.globalFactors[0].liquidationIncentive).div(1e18);
-    const reserves = new BigNumber(el.reserves).div(1e18);
-    const reserveFactor = new BigNumber(el.reserveFactor).div(1e18);
+    const collateralFactor = convertUnits(el.collateralFactor, STANDARD_PRECISION);
+    const liquidationThreshold = convertUnits(
+      data.globalFactors[0].liquidationThreshold,
+      STANDARD_PRECISION,
+    );
+    const liquidationBonus = convertUnits(
+      data.globalFactors[0].liquidationIncentive,
+      STANDARD_PRECISION,
+    );
+    const reserves = convertUnits(el.reserves, STANDARD_PRECISION);
+    const reserveFactor = convertUnits(el.reserveFactor, STANDARD_PRECISION);
     const exchangeRate = getPreparedPercentValue(el as unknown as Asset, 'exchange_rate');
 
     // Interest rate model
-    const baseRatePerYear = new BigNumber(el.interestModel.rate).div(1e18);
-    const multiplierPerYear = new BigNumber(el.interestModel.multiplier).div(1e18);
-    const jumpMultiplierPerYear = new BigNumber(el.interestModel.jumpMultiplier).div(1e18);
-    const kink = new BigNumber(el.interestModel.kink).div(1e18);
+    const baseRatePerYear = convertUnits(el.interestModel.rate, STANDARD_PRECISION);
+    const multiplierPerYear = convertUnits(el.interestModel.multiplier, STANDARD_PRECISION);
+    const jumpMultiplierPerYear = convertUnits(el.interestModel.jumpMultiplier, STANDARD_PRECISION);
+    const kink = convertUnits(el.interestModel.kink, STANDARD_PRECISION);
 
     return {
       asset,

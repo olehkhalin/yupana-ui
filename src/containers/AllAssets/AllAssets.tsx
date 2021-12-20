@@ -2,17 +2,23 @@ import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
 import cx from 'classnames';
-import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
-import { getUserBalance, useAccountPkh, useTezos } from 'utils/dapp';
+import { STANDARD_PRECISION } from 'constants/default';
+import {
+  getUserBalance,
+  useAccountPkh,
+  useTezos,
+} from 'utils/dapp';
 import { getPreparedTokenObject } from 'utils/helpers/token';
 import { useWiderThanMdesktop } from 'utils/helpers';
-import { getPreparedPercentValue } from 'utils/helpers/amount';
+import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
 import {
   Asset,
   LendingAllAssetsQuery,
-  useLendingAllAssetsLazyQuery,
+  LendingUserAssetsQuery,
+  useLendingAllAssetsQuery,
+  useLendingUserAssetsLazyQuery,
 } from 'generated/graphql';
 import { Section } from 'components/common/Section';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
@@ -28,12 +34,14 @@ type AssetsProps = {
 };
 
 type AllAssetsInnerProps = {
-  data?: LendingAllAssetsQuery
+  allAssetsData?: LendingAllAssetsQuery
+  userAssetsData?: LendingUserAssetsQuery
 } & AssetsProps;
 
 const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   className,
-  data,
+  allAssetsData,
+  userAssetsData,
 }) => {
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -41,24 +49,28 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
 
   const getAssetsStats = useCallback(async () => {
-    if (!data) return [];
+    if (!allAssetsData) return [];
 
-    return Promise.all(data.asset.map(
+    return Promise.all(allAssetsData.asset.map(
       async (el) => {
         const asset = getPreparedTokenObject(el as Asset);
 
         const supplyApy = getPreparedPercentValue(el as Asset, 'supply_apy');
-        const collateralFactor = new BigNumber(el.collateralFactor).div(1e18).multipliedBy(1e2);
+        const collateralFactor = Number(
+          convertUnits(el.collateralFactor, STANDARD_PRECISION)
+            .multipliedBy(1e2)
+            .div(1e2),
+        );
         const borrowApy = getPreparedPercentValue(el as Asset, 'borrow_apy');
         const utilisationRate = getPreparedPercentValue(el as Asset, 'utilization_rate');
-        const liquidity = new BigNumber(el.totalLiquid).div(1e18);
+        const liquidity = convertUnits(el.totalLiquid, STANDARD_PRECISION);
 
         const wallet = await getUserBalance(
           tezos,
           asset.address,
-          asset.id ?? undefined,
+          asset.id,
           accountPkh!,
-        );
+        ) ?? 0;
 
         return {
           yToken: el.ytoken,
@@ -72,7 +84,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         };
       },
     ));
-  }, [accountPkh, data, tezos]);
+  }, [accountPkh, allAssetsData, tezos]);
 
   const {
     data: assetsStats,
@@ -80,7 +92,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   } = useSWR(
     ['lending-assets-stats',
       accountPkh,
-      data,
+      allAssetsData,
     ],
     getAssetsStats,
     { refreshInterval: 30000 },
@@ -91,8 +103,8 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   const usersSupplyAssetsPrepared = useMemo(
     () => (
-      data ? data.userSupply.map((el) => {
-        const supplied = new BigNumber(el.supply).div(1e18);
+      userAssetsData ? userAssetsData.userSupply.map((el) => {
+        const supplied = convertUnits(el.supply, STANDARD_PRECISION);
 
         return {
           yToken: el.asset.ytoken,
@@ -100,20 +112,20 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           supplied,
         };
       }) : []),
-    [data],
+    [userAssetsData],
   );
 
   const usersBorrowedAssetsPrepared = useMemo(
     () => (
-      data ? data.userBorrow.map((el) => {
-        const borrowed = new BigNumber(el.borrow).div(1e18);
+      userAssetsData ? userAssetsData.userBorrow.map((el) => {
+        const borrowed = convertUnits(el.borrow, STANDARD_PRECISION);
 
         return {
           yToken: el.asset.ytoken,
           borrowed,
         };
       }) : []),
-    [data],
+    [userAssetsData],
   );
 
   const preparedAllAssets = useMemo(
@@ -222,23 +234,30 @@ export const AllAssets: React.FC<AssetsProps> = ({
 }) => {
   const accountPkh = useAccountPkh();
 
-  const [fetch, { data, error }] = useLendingAllAssetsLazyQuery();
+  const { data: allAssetsData, error: allAssetsError } = useLendingAllAssetsQuery();
+  const [fetch, {
+    data: userAssetsData,
+    error: userAssetsError,
+  }] = useLendingUserAssetsLazyQuery();
 
   useEffect(() => {
-    fetch({
-      variables: {
-        account: accountPkh,
-      },
-    });
+    if (accountPkh) {
+      fetch({
+        variables: {
+          account: accountPkh,
+        },
+      });
+    }
   }, [accountPkh, fetch]);
 
-  if (error) {
+  if (userAssetsError || allAssetsError) {
     return <></>;
   }
 
   return (
     <AllAssetsInner
-      data={data}
+      allAssetsData={allAssetsData}
+      userAssetsData={userAssetsData}
       className={className}
     />
   );

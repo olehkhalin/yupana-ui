@@ -27,7 +27,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      setAmount(percent);
+      setAmount(percent > 100 ? 100 : percent);
     }, 1000);
   }, [percent]);
 
