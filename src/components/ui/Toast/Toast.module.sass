@@ -1,34 +1,50 @@
 @import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
 
-.toastBody
-  margin: 0
-  padding: 0
-  word-break: break-all
-
-.info, .error
-  // display: flex
-  width: max-content
-  max-width: 288px
-  // height: 100%
-  // box-sizing: border-box
-  padding: 12px 40px
-  font-size: 14px
-  background-color: $dark-blue
-  border-radius: 4px
+.notification
+  padding: .75rem 2.5rem
+  font-size: .875rem
+  background-color: rgba($dark-blue, .9)
+  border-radius: .25rem
   text-align: center
 
 .info
-  border: 2px solid $white
   color: $white
+  border: .063rem solid $white
 
 .error
-  border: 2px solid #FC4C00
-  color: #FC4C00
+  color: $red // #FC4C00
+  border: .063rem solid $red // #FC4C00
 
-.icon
-  position: absolute
-  width: 12px
-  height: 12px
-  right: 14px
-  top: 50%
-  transform: translateY(-50%)
+.icon, .iconWrapper
+  display: none
+  margin-left: 1.375rem
+
+.toastBody
+  width: 18rem
+  padding: 0
+  word-break: break-all
+  left: 50%
+  transform: translateX(-50%)
+  top: 4rem
+
+@include media('>Mphone')
+  .notification
+    padding: 1rem 1.5rem
+  .info, .error
+    width: 100%
+  .icon
+    display: block
+    position: absolute
+    width: .75rem
+    height: .75rem
+    right: .875rem
+    top: 50%
+    transform: translateY(-50%)
+  .iconWrapper
+    display: block
+  .toastBody
+    width: max-content
+    left: inherit
+    top: inherit
+    transform: translateX(0)

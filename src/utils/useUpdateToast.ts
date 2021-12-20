@@ -1,11 +1,12 @@
-import { useCallback, useRef } from 'react';
+import { useCallback, useContext, useRef } from 'react';
 import { UpdateOptions, toast } from 'react-toastify';
 
-import { useToastTheme } from 'providers/ThemeContext';
+import { ThemeContext } from 'providers/ThemeContext';
 
 export default function useUpdateToast() {
   const toastIdRef = useRef<string | number>();
-  const { setTheme } = useToastTheme();
+  const { setTheme } = useContext(ThemeContext);
+
   return useCallback(({
     type,
     render,
@@ -13,9 +14,9 @@ export default function useUpdateToast() {
     autoClose = 5000,
     ...restOptions
   }: UpdateOptions) => {
+    setTheme(type);
     const creationFn = type && type !== 'default' ? toast[type] : toast;
     if (toastIdRef.current && toast.isActive(toastIdRef.current)) {
-      setTheme(type);
       toast.update(toastIdRef.current, {
         render,
         type,

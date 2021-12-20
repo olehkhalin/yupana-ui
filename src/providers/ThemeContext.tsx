@@ -1,20 +1,21 @@
-import React, { useState, useContext, createContext } from 'react';
+import React, {
+  useState, createContext, Dispatch,
+} from 'react';
 
-// type ThemeContextValue = {
-//   type: string
-//   setTheme: () => any
-// };
+export type ThemeContextValue = {
+  type: string
+  setTheme: Dispatch<any>
+};
 
 export const ThemeContext = createContext<any>({
   type: '',
-  setTheme: () => {},
+  setTheme: () => { },
 });
 
-export const useToastTheme = () => useContext(ThemeContext);
-
 export const ThemeProvider = ({ children }: any) => {
-  const [theme, setTheme] = useState<any>({
+  const [theme, setTheme] = useState<ThemeContextValue>({
     type: '',
+    setTheme: () => { },
   });
 
   return (
