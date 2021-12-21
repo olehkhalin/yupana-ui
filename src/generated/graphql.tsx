@@ -8785,6 +8785,18 @@ export type MarketsDetailsQueryVariables = Exact<{
 
 export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
 
+export type OraclePricesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type OraclePricesQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', ytoken: number, price: any }> };
+
+export type UserBorrowedYTokensQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserBorrowedYTokensQuery = { __typename?: 'query_root', userBorrow: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', ytoken: number } }> };
+
 
 export const LendingAllAssetsDocument = gql`
     query LendingAllAssets {
@@ -9222,3 +9234,75 @@ export function useMarketsDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type MarketsDetailsQueryHookResult = ReturnType<typeof useMarketsDetailsQuery>;
 export type MarketsDetailsLazyQueryHookResult = ReturnType<typeof useMarketsDetailsLazyQuery>;
 export type MarketsDetailsQueryResult = Apollo.QueryResult<MarketsDetailsQuery, MarketsDetailsQueryVariables>;
+export const OraclePricesDocument = gql`
+    query OraclePrices {
+  oraclePrice {
+    ytoken
+    price
+  }
+}
+    `;
+
+/**
+ * __useOraclePricesQuery__
+ *
+ * To run a query within a React component, call `useOraclePricesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOraclePricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOraclePricesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOraclePricesQuery(baseOptions?: Apollo.QueryHookOptions<OraclePricesQuery, OraclePricesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OraclePricesQuery, OraclePricesQueryVariables>(OraclePricesDocument, options);
+      }
+export function useOraclePricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OraclePricesQuery, OraclePricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OraclePricesQuery, OraclePricesQueryVariables>(OraclePricesDocument, options);
+        }
+export type OraclePricesQueryHookResult = ReturnType<typeof useOraclePricesQuery>;
+export type OraclePricesLazyQueryHookResult = ReturnType<typeof useOraclePricesLazyQuery>;
+export type OraclePricesQueryResult = Apollo.QueryResult<OraclePricesQuery, OraclePricesQueryVariables>;
+export const UserBorrowedYTokensDocument = gql`
+    query UserBorrowedYTokens($account: String) {
+  userBorrow(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserBorrowedYTokensQuery__
+ *
+ * To run a query within a React component, call `useUserBorrowedYTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserBorrowedYTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserBorrowedYTokensQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useUserBorrowedYTokensQuery(baseOptions?: Apollo.QueryHookOptions<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>(UserBorrowedYTokensDocument, options);
+      }
+export function useUserBorrowedYTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>(UserBorrowedYTokensDocument, options);
+        }
+export type UserBorrowedYTokensQueryHookResult = ReturnType<typeof useUserBorrowedYTokensQuery>;
+export type UserBorrowedYTokensLazyQueryHookResult = ReturnType<typeof useUserBorrowedYTokensLazyQuery>;
+export type UserBorrowedYTokensQueryResult = Apollo.QueryResult<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>;

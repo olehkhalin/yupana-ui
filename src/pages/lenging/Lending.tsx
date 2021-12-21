@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Stats } from 'containers/Stats';
 import { AllAssets } from 'containers/AllAssets';
 
-// import BigNumber from 'bignumber.js';
 import s from './Lending.module.sass';
 import { Button } from '../../components/ui/Button';
 import { CreditProcessModal } from '../../components/modals/CreditProcessModal';
