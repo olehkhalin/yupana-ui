@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useRef, useState, useMemo,
+  useCallback, useState, useMemo,
 } from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
@@ -20,12 +20,12 @@ type NumberInputProps = Omit<React.HTMLProps<HTMLInputElement>, 'type' | 'onChan
   min?: number | BigNumber
   max?: number | BigNumber
   error?: string
-  setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
   value?: BigNumber
   maxValue?: BigNumber
   onChange?: (newValue: BigNumber) => void
   withSlider?: boolean
+  setFocus: () => void
   className?: string
 };
 
@@ -34,23 +34,22 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const NumberInput: React.FC<NumberInputProps> = ({
+export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(({
   decimals,
   min = 0,
   max = Number.MAX_SAFE_INTEGER,
   error,
-  setError,
   theme = 'primary',
   value,
   maxValue,
   onChange,
   withSlider = true,
+  setFocus,
   className,
   ...props
-}) => {
+}, ref) => {
   const exchangeRate = new BigNumber(1);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
   const [localValue, setLocalValue] = useState(valueStr);
@@ -92,15 +91,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       maxValue ?? new BigNumber(0),
       exchangeRate,
     ));
-    setError?.('');
-  }, [exchangeRate, maxValue, onChange, setError]);
-
-  // Add click to all container area
-  const handleContainer = () => {
-    if (inputRef && inputRef.current) {
-      inputRef.current.focus();
-    }
-  };
+  }, [exchangeRate, maxValue, onChange]);
 
   const handleSliderChange = (val: BigNumber) => {
     onChange?.(val);
@@ -115,7 +106,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.inputWrapper}>
         <div
-          onClick={handleContainer}
+          onClick={setFocus}
           className={cx(s.container, themeClasses[theme], { [s.error]: error })}
         >
           <div className={s.wrapper}>
@@ -124,7 +115,7 @@ export const NumberInput: React.FC<NumberInputProps> = ({
               onFocus={() => setIsInputFocus(true)}
               onBlur={() => setIsInputFocus(false)}
               value={localValue}
-              ref={inputRef}
+              ref={ref}
               max={max?.toString()}
               min={min?.toString()}
               className={s.input}
@@ -168,4 +159,4 @@ export const NumberInput: React.FC<NumberInputProps> = ({
       )}
     </div>
   );
-};
+});
