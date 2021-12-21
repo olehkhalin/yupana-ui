@@ -18,3 +18,5 @@ export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 export const TZKT_BASE_URL = process.env.REACT_APP_TZKT_BASE_URL;
 
 export const DECIMALS_VALUE = 6;
+
+export const INSTALL_TEMPLE_WALLET = 'https://templewallet.com/';
