@@ -3,6 +3,7 @@ import React, {
 } from 'react';
 import cx from 'classnames';
 import useSWR from 'swr';
+import BigNumber from 'bignumber.js';
 
 import { STANDARD_PRECISION } from 'constants/default';
 import {
@@ -20,6 +21,10 @@ import {
   useLendingAllAssetsQuery,
   useLendingUserAssetsLazyQuery,
 } from 'generated/graphql';
+import {
+  UserGeneralInfoProvider,
+  useUserGeneralInfo,
+} from 'providers/UserGeneralInfoProvider';
 import { Section } from 'components/common/Section';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
@@ -47,6 +52,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   const accountPkh = useAccountPkh();
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
+  const { setUserGeneralInfo } = useUserGeneralInfo();
 
   const getAssetsStats = useCallback(async () => {
     if (!allAssetsData) return [];
@@ -103,7 +109,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   const usersSupplyAssetsPrepared = useMemo(
     () => (
-      userAssetsData ? userAssetsData.userSupply.map((el) => {
+      (accountPkh && userAssetsData) ? userAssetsData.userSupply.map((el) => {
         const supplied = convertUnits(el.supply, STANDARD_PRECISION);
 
         return {
@@ -112,12 +118,12 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           supplied,
         };
       }) : []),
-    [userAssetsData],
+    [accountPkh, userAssetsData],
   );
 
   const usersBorrowedAssetsPrepared = useMemo(
     () => (
-      userAssetsData ? userAssetsData.userBorrow.map((el) => {
+      (accountPkh && userAssetsData) ? userAssetsData.userBorrow.map((el) => {
         const borrowed = convertUnits(el.borrow, STANDARD_PRECISION);
 
         return {
@@ -125,7 +131,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           borrowed,
         };
       }) : []),
-    [userAssetsData],
+    [accountPkh, userAssetsData],
   );
 
   const preparedAllAssets = useMemo(
@@ -140,7 +146,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   const preparedUserSupplyAssets = useMemo(
     () => (
-      accountPkh && usersSupplyAssetsPrepared && assetsStats
+      usersSupplyAssetsPrepared && assetsStats
         ? usersSupplyAssetsPrepared.map((item) => (
           {
             ...item,
@@ -149,12 +155,12 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         ))
         : []
     ),
-    [accountPkh, assetsStats, usersSupplyAssetsPrepared],
+    [assetsStats, usersSupplyAssetsPrepared],
   );
 
   const preparedUserBorrowAssets = useMemo(
     () => (
-      accountPkh && usersBorrowedAssetsPrepared && assetsStats
+      usersBorrowedAssetsPrepared && assetsStats
         ? usersBorrowedAssetsPrepared.map((item) => (
           {
             ...item,
@@ -163,7 +169,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         ))
         : []
     ),
-    [accountPkh, assetsStats, usersBorrowedAssetsPrepared],
+    [assetsStats, usersBorrowedAssetsPrepared],
   );
 
   useEffect(() => {
@@ -171,6 +177,17 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
       console.error(error.message);
     }
   }, [error]);
+
+  useEffect(() => {
+    setUserGeneralInfo(
+      accountPkh && userAssetsData
+        ? {
+          maxCollateral: new BigNumber(userAssetsData.user[0].maxCollateral),
+          outstandingBorrow: new BigNumber(userAssetsData.user[0].outstandingBorrow),
+        }
+        : null,
+    );
+  }, [accountPkh, setUserGeneralInfo, userAssetsData]);
 
   return (
     <>
@@ -255,10 +272,12 @@ export const AllAssets: React.FC<AssetsProps> = ({
   }
 
   return (
-    <AllAssetsInner
-      allAssetsData={allAssetsData}
-      userAssetsData={userAssetsData}
-      className={className}
-    />
+    <UserGeneralInfoProvider>
+      <AllAssetsInner
+        allAssetsData={allAssetsData}
+        userAssetsData={userAssetsData}
+        className={className}
+      />
+    </UserGeneralInfoProvider>
   );
 };
