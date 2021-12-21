@@ -2,8 +2,9 @@ import React, { useContext } from 'react';
 import cx from 'classnames';
 import { ToastContainer, TypeOptions, CloseButtonProps } from 'react-toastify';
 
+// import { getUniqueKey } from 'utils/getUniqueKey';
 import { useWiderThanMphone } from 'utils/getMediaQuery';
-import { ThemeContext } from 'providers/ThemeContext';
+import { ThemeContext, ToastThemes } from 'providers/ThemeContext';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -16,9 +17,9 @@ const typeDependentClassNames: Partial<Record<TypeOptions, string>> | any = {
   error: s.error,
 };
 
-const getToastClassName: Exclude<any, string> = (context: string) => cx(
+const getToastClassName: Exclude<any, string> = (theme: ToastThemes) => cx(
   s.notification,
-  typeDependentClassNames[context],
+  typeDependentClassNames[theme],
 );
 
 const CustomCloseButton = ({ closeToast }: CloseButtonProps) => (
@@ -36,10 +37,9 @@ export const Toast: React.FC = () => {
 
   return (
     <ToastContainer
+      limit={10}
       autoClose={5000}
       position={isWiderThanMphone ? 'bottom-right' : 'top-center'}
-      className={s.toastBody}
-      toastClassName={getToastClassName(theme)}
       closeButton={CustomCloseButton}
       hideProgressBar
       pauseOnHover
@@ -47,6 +47,8 @@ export const Toast: React.FC = () => {
       draggablePercent={50}
       icon={false}
       closeOnClick={false}
+      toastClassName={getToastClassName(theme)}
+      className={s.toastBody}
     />
   );
 };

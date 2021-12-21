@@ -1,6 +1,14 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
+.toastBody
+  width: 18rem
+  padding: 0
+  word-break: break-all
+  left: 50%
+  transform: translateX(-50%)
+  top: 4rem
+
 .notification
   padding: .75rem 2.5rem
   font-size: .875rem
@@ -13,20 +21,12 @@
   border: .063rem solid $white
 
 .error
-  color: $red // #FC4C00
-  border: .063rem solid $red // #FC4C00
+  color: $red
+  border: .063rem solid $red
 
 .icon, .iconWrapper
   display: none
   margin-left: 1.375rem
-
-.toastBody
-  width: 18rem
-  padding: 0
-  word-break: break-all
-  left: 50%
-  transform: translateX(-50%)
-  top: 4rem
 
 @include media('>Mphone')
   .notification

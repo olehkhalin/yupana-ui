@@ -101,6 +101,38 @@ export const UiKit: React.FC = () => {
 
   return (
     <>
+      {/* Toasts */}
+      <div className={s.block}>
+        <div className={s.title}>
+          Info
+        </div>
+        <Button
+          type="button"
+          onClick={() => updateToast({
+            type: 'info',
+            render: 'Test',
+          })}
+          sizeT="small"
+        >
+          info
+        </Button>
+      </div>
+      <div className={s.block}>
+        <div className={s.title}>
+          Error
+        </div>
+        <Button
+          type="button"
+          onClick={() => updateToast({
+            type: 'error',
+            render: 'An unexpected error has occurred. Please retry your request',
+          })}
+          sizeT="small"
+        >
+          error
+        </Button>
+      </div>
+
       {/* BUTTONS - Supply */}
       <div className={s.block}>
         <div className={s.title}>
@@ -1031,38 +1063,6 @@ export const UiKit: React.FC = () => {
             />
           </div>
         </div>
-      </div>
-
-      {/* Toasts */}
-      <div className={s.block}>
-        <div className={s.title}>
-          Info
-        </div>
-        <Button
-          type="button"
-          onClick={() => updateToast({
-            type: 'info',
-            render: 'Test',
-          })}
-          sizeT="small"
-        >
-          info
-        </Button>
-      </div>
-      <div className={s.block}>
-        <div className={s.title}>
-          Error
-        </div>
-        <Button
-          type="button"
-          onClick={() => updateToast({
-            type: 'error',
-            render: 'An unexpected error has occurred. Please retry your request',
-          })}
-          sizeT="small"
-        >
-          error
-        </Button>
       </div>
 
       {/* Table */}

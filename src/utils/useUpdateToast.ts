@@ -2,6 +2,7 @@ import { useCallback, useContext, useRef } from 'react';
 import { UpdateOptions, toast } from 'react-toastify';
 
 import { ThemeContext } from 'providers/ThemeContext';
+// import { getUniqueKey } from './getUniqueKey';
 
 export default function useUpdateToast() {
   const toastIdRef = useRef<string | number>();
@@ -10,20 +11,11 @@ export default function useUpdateToast() {
   return useCallback(({
     type,
     render,
-    progress,
-    autoClose = 5000,
-    ...restOptions
   }: UpdateOptions) => {
     setTheme(type);
     const creationFn = type && type !== 'default' ? toast[type] : toast;
     if (toastIdRef.current && toast.isActive(toastIdRef.current)) {
-      toast.update(toastIdRef.current, {
-        render,
-        type,
-        progress,
-        autoClose,
-        ...restOptions,
-      });
+      toast.info(render);
     } else {
       toastIdRef.current = creationFn(render);
     }

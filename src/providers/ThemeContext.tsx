@@ -1,20 +1,25 @@
 import React, {
-  useState, createContext, Dispatch,
+  useState, createContext,
 } from 'react';
 
+export enum ToastThemes {
+  INFO = 'info',
+  ERROR = 'error',
+}
+
 export type ThemeContextValue = {
-  type: string
-  setTheme: Dispatch<any>
+  type: ToastThemes
+  setTheme: (arg: ToastThemes) => void
 };
 
 export const ThemeContext = createContext<any>({
-  type: '',
+  type: ToastThemes.INFO,
   setTheme: () => { },
 });
 
 export const ThemeProvider = ({ children }: any) => {
   const [theme, setTheme] = useState<ThemeContextValue>({
-    type: '',
+    type: ToastThemes.INFO,
     setTheme: () => { },
   });
 
