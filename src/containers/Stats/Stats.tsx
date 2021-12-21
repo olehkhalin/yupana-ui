@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { LIMIT_LINES } from 'constants/popups/limit-lines';
 import { LimitLine } from 'components/common/LimitLine';
 import { UserStat } from 'components/common/UserStat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
@@ -23,8 +24,9 @@ export const Stats: React.FC<StatsProps> = ({
       text="Your Borrow Limit"
       percent={LIMIT_LINE.userBorrowLimitPercent}
       value={LIMIT_LINE.userBorrowLimit}
-      title="Your Borrow Limit"
-      description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
+      title={LIMIT_LINES.borrowLimit.title}
+      description={LIMIT_LINES.borrowLimit.description}
+      buttonText={LIMIT_LINES.borrowLimit.buttonText}
       theme="secondary"
       className={s.limit}
     />
@@ -32,8 +34,9 @@ export const Stats: React.FC<StatsProps> = ({
       text="Your Liquidation Limit"
       percent={LIMIT_LINE.userLiquidationLimitPercent}
       value={LIMIT_LINE.userLiquidationLimit}
-      title="Your Liquidation Limit"
-      description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
+      title={LIMIT_LINES.liquidationLimit.title}
+      description={LIMIT_LINES.liquidationLimit.desciption}
+      buttonText={LIMIT_LINES.liquidationLimit.buttonText}
       theme="secondary"
       className={s.limit}
     />

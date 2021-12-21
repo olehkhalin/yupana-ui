@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
-import { useWiderThanMdesktop } from 'utils/getMediaQuery';
+import { Assets } from 'containers/Assets';
 import { Stats } from 'containers/Stats';
 import { UserAssets } from 'containers/UserAssets';
-import { Assets } from 'containers/Assets';
+import { useWiderThanMdesktop } from 'utils/getMediaQuery';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 
 import s from './Lending.module.sass';

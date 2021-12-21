@@ -4,8 +4,8 @@ import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
 import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { AttentionText, ModalContent } from 'components/common/AttentionText';
 import { ProgressBar } from 'components/ui/ProgressBar';
-import { AttentionText } from 'components/common/AttentionText';
 
 import s from './LimitLine.module.sass';
 
@@ -13,11 +13,9 @@ type LimitLineProps = {
   text?: string
   percent: number
   value: number
-  title?: string
-  description?: string
   theme?: 'primary' | 'secondary'
   className?: string
-};
+} & ModalContent;
 
 export const LimitLine: React.FC<LimitLineProps> = ({
   text,
@@ -25,6 +23,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   value,
   title,
   description,
+  buttonText,
   theme,
   className,
 }) => {
@@ -56,6 +55,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
             text={text}
             title={title}
             description={description}
+            buttonText={buttonText}
             theme={theme}
             className={s.title}
           />
