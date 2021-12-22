@@ -1,8 +1,9 @@
 @import 'styles/variables.sass'
 @import 'styles/breakpoints.scss'
 
-.root
+.inputWrapper
   width: 100%
+  margin-bottom: 1.5rem
 
 .container
   display: flex
@@ -32,8 +33,6 @@
   outline: none
   line-height: 1.185rem
   transition: $animationTime
-  &:active, &:focus
-    color: $white
   &::placeholder
     color: $light-blue
     font-weight: bold
@@ -43,6 +42,11 @@
     visibility: hidden
     -moz-appearance: none
 
+.primay, .secondary
+  .input
+    &:active, &:focus
+      color: $white
+
 .exchange
   font-size: .75rem
   text-shadow: none
@@ -50,17 +54,18 @@
   &.active
     color: $white
 
-.error
-  border-color: $light-red
-  .input, .exchange, .button
-    color: $light-red
-  .button
-    &:hover
+.primary, .secondary
+  &.error
+    border-color: $light-red
+    .input, .exchange, .button
       color: $light-red
-      text-shadow: $red-shadow
-  .input
-    &::placeholder
-      color: $light-red
+    .button
+      &:hover
+        color: $light-red
+        text-shadow: $red-shadow
+    .input
+      &::placeholder
+        color: $light-red
 
 .button
   display: flex

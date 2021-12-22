@@ -1,67 +1,63 @@
 import React, {
-  useCallback, useRef, useState, useMemo, useEffect,
+  useCallback, useState, useMemo,
 } from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
-import { TokenMetadataInterface } from 'types/token';
 import { Button } from 'components/ui/Button';
-import { DECIMALS_VALUE } from 'constants/default';
+import { Slider } from 'components/ui/Slider';
 
 import s from './NumberInput.module.sass';
 
-type NumberInputProps = {
-  input: {
-    amount: string
-    metadata: TokenMetadataInterface
-  }
+const convertValueToCurrency = (val: BigNumber, exchangeRate: BigNumber) => (
+  val
+    ? val.multipliedBy(exchangeRate)
+    : new BigNumber(0)
+);
+
+type NumberInputProps = Omit<React.HTMLProps<HTMLInputElement>, 'type' | 'onChange' | 'value' | 'min' | 'max'> & {
+  decimals: number
   min?: number | BigNumber
   max?: number | BigNumber
   error?: string
-  setError?: (arg: string) => void
   theme?: keyof typeof themeClasses
-  priceInBaseCurrency: number
-  handleInputChange?: (newValue: BigNumber) => void
-  balance: number
-  isShowMaxButton?: boolean
+  value?: BigNumber
+  maxValue?: BigNumber
+  onChange?: (newValue: BigNumber) => void
+  withSlider?: boolean
+  setFocus: () => void
   className?: string
-} & React.HTMLProps<HTMLInputElement>;
+};
 
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
 
-export const NumberInput: React.FC<NumberInputProps> = ({
-  input,
+export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(({
+  decimals,
   min = 0,
   max = Number.MAX_SAFE_INTEGER,
   error,
-  setError,
   theme = 'primary',
-  priceInBaseCurrency,
-  handleInputChange,
-  balance,
-  isShowMaxButton = true,
+  value,
+  maxValue,
+  onChange,
+  withSlider = true,
+  setFocus,
   className,
   ...props
-}) => {
-  const { amount, metadata } = useMemo(() => input, [input]);
-
-  const [inputValue, setInputValue] = useState<string>('');
-  const [currencyInUsd, setCurrencyInUsd] = useState<BigNumber>(new BigNumber(0));
+}, ref) => {
+  const exchangeRate = new BigNumber(1);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
-  const inputRef = useRef<HTMLInputElement | null>(null);
 
-  useEffect(() => {
-    if (amount) {
-      setInputValue(amount);
-    }
-  }, [amount]);
+  const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
+  const [localValue, setLocalValue] = useState(valueStr);
 
-  const onChange = useCallback(
+  const [valueInBaseCurrency, setValueInBaseCurrency] = useState(new BigNumber(0));
+
+  const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
-      const decimals = metadata?.decimals ?? DECIMALS_VALUE;
       let val = e.target.value.replace(/ /g, '').replace(/,/g, '.');
 
       let numVal = new BigNumber(val || 0);
@@ -75,87 +71,92 @@ export const NumberInput: React.FC<NumberInputProps> = ({
         return;
       }
 
-      handleInputChange?.(val !== '' ? numVal : new BigNumber(0));
-      setInputValue(val);
+      onChange?.(val !== '' ? numVal : new BigNumber(0));
+      setLocalValue(val);
+      setValueInBaseCurrency(convertValueToCurrency(
+        numVal ?? new BigNumber(0),
+        exchangeRate,
+      ));
     },
-    [metadata?.decimals, min, max, handleInputChange],
+    [decimals, min, max, onChange, exchangeRate],
   );
 
   // Get user balance by token
   const handleMax = useCallback((e: React.MouseEvent) => {
     e.stopPropagation();
 
-    const decimals = metadata?.decimals ?? DECIMALS_VALUE;
+    onChange?.(maxValue ?? new BigNumber(0));
+    setLocalValue(maxValue !== undefined ? maxValue.toFixed() : '');
+    setValueInBaseCurrency(convertValueToCurrency(
+      maxValue ?? new BigNumber(0),
+      exchangeRate,
+    ));
+  }, [exchangeRate, maxValue, onChange]);
 
-    if (balance === 0) {
-      return;
-    }
-
-    const prepareBalance = new BigNumber(balance).decimalPlaces(decimals);
-
-    handleInputChange?.(prepareBalance);
-    setInputValue(prepareBalance.toFixed());
-    setError?.('');
-  }, [balance, handleInputChange, metadata.decimals, setError]);
-
-  // Counting price in usd
-  useEffect(() => {
-    const countPriceInUsd = new BigNumber(+inputValue * priceInBaseCurrency);
-    setCurrencyInUsd(countPriceInUsd);
-  }, [inputValue, priceInBaseCurrency]);
-
-  // Add click to all container area
-  const handleContainer = () => {
-    if (inputRef && inputRef.current) {
-      inputRef.current.focus();
-    }
+  const handleSliderChange = (val: BigNumber) => {
+    onChange?.(val);
+    setLocalValue(val.toFixed());
+    setValueInBaseCurrency(convertValueToCurrency(
+      val,
+      exchangeRate,
+    ));
   };
 
   return (
     <div className={cx(s.root, className)}>
-      <div
-        onClick={handleContainer}
-        className={cx(s.container, themeClasses[theme], { [s.error]: error })}
-      >
-        <div className={s.wrapper}>
-          <input
-            placeholder="0.00"
-            onFocus={() => setIsInputFocus(true)}
-            onBlur={() => setIsInputFocus(false)}
-            value={inputValue}
-            ref={inputRef}
-            max={30}
-            min={min}
-            className={s.input}
-            onChange={onChange}
-            {...props}
-          />
+      <div className={s.inputWrapper}>
+        <div
+          onClick={setFocus}
+          className={cx(s.container, themeClasses[theme], { [s.error]: error })}
+        >
+          <div className={s.wrapper}>
+            <input
+              placeholder="0.00"
+              onFocus={() => setIsInputFocus(true)}
+              onBlur={() => setIsInputFocus(false)}
+              value={localValue}
+              ref={ref}
+              max={max?.toString()}
+              min={min?.toString()}
+              className={s.input}
+              onChange={handleChange}
+              {...props}
+            />
 
-          <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
-            $
-            {' '}
-            {currencyInUsd.toFixed(2)}
+            <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
+              {`$ ${valueInBaseCurrency.toFixed(2)}`}
+            </div>
           </div>
+
+          {maxValue && (
+            <Button
+              theme="clear"
+              onClick={handleMax}
+              className={s.button}
+            >
+              max
+            </Button>
+          )}
         </div>
 
-        {isShowMaxButton && (
-          <Button
-            theme="clear"
-            onClick={handleMax}
-            className={s.button}
-          >
-            max
-          </Button>
-        )}
+        <div className={cx(s.errorContainer, { [s.error]: error })}>
+          {error && (
+            <div className={cx(s.errorText)}>
+              {error}
+            </div>
+          )}
+        </div>
       </div>
 
-      <div className={cx(s.errorContainer, { [s.error]: error })}>
-        {error && (
-          <div className={cx(s.errorText)}>
-            {error}
-          </div>
-        )}
-      </div>
+      {withSlider && maxValue && (
+        <Slider
+          theme={theme}
+          value={localValue}
+          maxValue={maxValue}
+          onChange={handleSliderChange}
+          className={s.slider}
+        />
+      )}
     </div>
   );
-};
+});

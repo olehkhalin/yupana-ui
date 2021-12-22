@@ -1,8 +1,14 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -34,17 +40,31 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => `${borrowApy.toFixed(2)}%`,
+        accessor: ({ borrowApy }: { borrowApy: number }) => (
+          getPrettyPercent(borrowApy)
+        ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }: { balance: number, asset: TokenMetadataInterface }) => `${balance.toFixed(2)} ${getSliceTokenName(asset)}`,
+        accessor: (
+          { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
+        ) => getPrettyAmount({
+          value: convertUnits(wallet, asset.decimals),
+          currency: getSliceTokenName(asset),
+          dec: asset.decimals,
+        }),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
-        accessor: ({ borrowLimit }: { borrowLimit: number }) => `${borrowLimit.toFixed(2)}%`,
+        accessor: (
+          { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
+        ) => getPrettyAmount({
+          value: convertUnits(borrowLimit, asset.decimals),
+          currency: getSliceTokenName(asset),
+          dec: asset.decimals,
+        }),
       },
       {
         Header: () => null,
@@ -62,7 +82,6 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     [],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
     () => (
       <TableDropdown theme="secondary" />

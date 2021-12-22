@@ -2,7 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { PaginationInterface } from 'types/pagination';
-import { getUniqueKey } from 'utils/getUniqueKey';
+import { getUniqueKey } from 'utils/helpers';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as PaginationArrow } from 'svg/PaginationArrow.svg';
 

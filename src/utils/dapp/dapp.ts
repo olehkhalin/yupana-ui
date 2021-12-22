@@ -9,7 +9,6 @@ import { TempleWallet } from '@temple-wallet/dapp';
 import {
   MichelCodecPacker,
   TezosToolkit,
-  WalletOperation,
   Extension,
 } from '@taquito/taquito';
 import { BeaconWallet } from '@taquito/beacon-wallet';
@@ -22,8 +21,6 @@ import {
   IpfsHttpHandler,
 } from '@taquito/tzip16';
 import constate from 'constate';
-import memoizee from 'memoizee';
-import BigNumber from 'bignumber.js';
 import useSWR from 'swr';
 
 import {
@@ -389,57 +386,4 @@ export const useOnBlock = (tezos: TezosToolkit | null, callback: (hash: string) 
     spawnSub();
     return () => sub.close();
   }, [tezos, callback]);
-};
-/**
- * Block update
- */
-
-/**
- * Storage
- */
-const getContractPure = (tezos: TezosToolkit, address: string) => tezos.contract.at(address);
-
-export const getContract = memoizee(getContractPure);
-
-const getStoragePure = async (tezos: TezosToolkit, contractAddress: string) => {
-  const contract = await getContract(tezos, contractAddress);
-  return contract?.storage<any>();
-};
-
-export const getStorageInfo = memoizee(getStoragePure, { maxAge: 30000 });
-
-export const waitForConfirmation = async (operation: WalletOperation) => {
-  try {
-    const { completed } = await operation.confirmation();
-    if (!completed) {
-      throw new Error('Transaction processing failed');
-    }
-  } catch (e) {
-    console.error(e);
-    throw e;
-  }
-};
-
-// Get QP-token
-export const getStorage = async (
-  tezos: TezosToolkit,
-  contract: string,
-  accountPkh: string,
-) => {
-  const storage = await getStorageInfo(tezos, contract);
-  const ledger = storage.account_info;
-  const val = await ledger.get(accountPkh);
-  if (!val) return null;
-
-  const amount = new BigNumber(val.amount);
-  const former = new BigNumber(val.former);
-  const { permit } = val;
-  const reward = new BigNumber(val.reward);
-
-  return {
-    amount,
-    former,
-    permit,
-    reward,
-  };
 };

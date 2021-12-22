@@ -3,7 +3,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { Button } from 'components/ui/Button';
 import { ProgressBar } from 'components/ui/ProgressBar';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
@@ -27,7 +27,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 
   useEffect(() => {
     setTimeout(() => {
-      setAmount(percent);
+      setAmount(percent > 100 ? 100 : percent);
     }, 1000);
   }, [percent]);
 

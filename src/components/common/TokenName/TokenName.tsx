@@ -3,8 +3,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenName } from 'utils/getTokenName';
-import { getSlice } from 'utils/getSlice';
+import { getTokenName, getSlice } from 'utils/helpers/token';
 import { TokenLogo } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
 import { Tooltip } from 'components/ui/Tooltip';

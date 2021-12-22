@@ -20,7 +20,7 @@ export const getPrettyAmount = ({
     finalValue = new Intl.NumberFormat(
       'en',
       {
-        maximumFractionDigits: dec ?? 0,
+        maximumFractionDigits: 2,
         notation: 'compact',
       },
     ).format(+value);
