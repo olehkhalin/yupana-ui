@@ -51,7 +51,7 @@ export const Slider: React.FC<SliderProps> = ({
         type="range"
         step="0.01"
         value={value || 0}
-        className={cx(s.slider, className)}
+        className={cx(s.slider, themeClasses[theme], className)}
         max={+(maxValue ?? 1)}
         onChange={handleInputChange}
         {...props}
