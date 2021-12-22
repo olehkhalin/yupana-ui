@@ -5,7 +5,6 @@ import Markets from 'pages/markets';
 import LiquidationPositions from 'pages/liquidation-positions';
 import MarketsDetails from 'pages/markets-details';
 import Liquidate from 'pages/liquidate';
-import UiKit from 'pages/ui-kit';
 
 import { AppRoutes } from './main-routes';
 
@@ -17,11 +16,6 @@ export type RoutesType = {
 };
 
 export const components: RoutesType[] = [
-  {
-    id: 0,
-    path: AppRoutes.UIKIT,
-    Component: UiKit,
-  },
   {
     id: 1,
     path: AppRoutes.LENDING,

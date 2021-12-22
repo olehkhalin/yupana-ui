@@ -10,7 +10,7 @@ import {
   getPrettyPercent,
 } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -84,7 +84,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
 
   const renderRowSubComponent = React.useCallback(
     () => (
-      <TableDropdown theme="secondary" />
+      <SupplyTableDropdown theme="secondary" />
     ),
     [],
   );

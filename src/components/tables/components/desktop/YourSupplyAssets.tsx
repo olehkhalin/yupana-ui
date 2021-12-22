@@ -11,7 +11,7 @@ import {
 } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -87,7 +87,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
 
   const renderRowSubComponent = React.useCallback(
     () => (
-      <TableDropdown />
+      <SupplyTableDropdown />
     ),
     [],
   );

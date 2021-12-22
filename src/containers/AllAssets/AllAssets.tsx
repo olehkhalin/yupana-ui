@@ -25,12 +25,14 @@ import {
   UserGeneralInfoProvider,
   useUserGeneralInfo,
 } from 'providers/UserGeneralInfoProvider';
+import { ProcessCreditProvider } from 'providers/ProcessCreditProvider';
 import { Section } from 'components/common/Section';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
 import { BorrowAssets } from 'components/tables/containers/BorrowAssets';
+import { CreditProcessModal } from 'components/modals/CreditProcessModal';
 
 import s from './AllAssets.module.sass';
 
@@ -62,11 +64,6 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         const asset = getPreparedTokenObject(el as Asset);
 
         const supplyApy = getPreparedPercentValue(el as Asset, 'supply_apy');
-        const collateralFactor = Number(
-          convertUnits(el.collateralFactor, STANDARD_PRECISION)
-            .multipliedBy(1e2)
-            .div(1e2),
-        );
         const borrowApy = getPreparedPercentValue(el as Asset, 'borrow_apy');
         const utilisationRate = getPreparedPercentValue(el as Asset, 'utilization_rate');
         const liquidity = convertUnits(el.totalLiquid, STANDARD_PRECISION);
@@ -82,7 +79,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           yToken: el.ytoken,
           asset,
           supplyApy,
-          collateralFactor,
+          collateralFactor: el.collateralFactor,
           borrowApy,
           utilisationRate,
           liquidity,
@@ -138,8 +135,16 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
     () => (
       assetsStats ? assetsStats.map((item) => ({
         ...item,
-        ...(usersSupplyAssetsPrepared.find(({ yToken }) => yToken === item.yToken)),
-        ...(usersBorrowedAssetsPrepared.find(({ yToken }) => yToken === item.yToken)),
+        ...(
+          usersSupplyAssetsPrepared
+            .find(({ yToken }) => yToken === item.yToken)
+          ?? { isCollateral: false, supplied: new BigNumber(0) }
+        ),
+        ...(
+          usersBorrowedAssetsPrepared
+            .find(({ yToken }) => yToken === item.yToken)
+          ?? { borrowed: new BigNumber(0) }
+        ),
       })) : []),
     [assetsStats, usersSupplyAssetsPrepared, usersBorrowedAssetsPrepared],
   );
@@ -173,21 +178,25 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   );
 
   useEffect(() => {
-    if (error) {
-      console.error(error.message);
-    }
-  }, [error]);
-
-  useEffect(() => {
     setUserGeneralInfo(
       accountPkh && userAssetsData
         ? {
-          maxCollateral: new BigNumber(userAssetsData.user[0].maxCollateral),
-          outstandingBorrow: new BigNumber(userAssetsData.user[0].outstandingBorrow),
+          maxCollateral: new BigNumber(userAssetsData.user[0]
+            ? userAssetsData.user[0].maxCollateral
+            : 0),
+          outstandingBorrow: new BigNumber(userAssetsData.user[0]
+            ? userAssetsData.user[0].outstandingBorrow
+            : 0),
         }
         : null,
     );
   }, [accountPkh, setUserGeneralInfo, userAssetsData]);
+
+  useEffect(() => {
+    if (error) {
+      console.error(error.message);
+    }
+  }, [error]);
 
   return (
     <>
@@ -273,11 +282,14 @@ export const AllAssets: React.FC<AssetsProps> = ({
 
   return (
     <UserGeneralInfoProvider>
-      <AllAssetsInner
-        allAssetsData={allAssetsData}
-        userAssetsData={userAssetsData}
-        className={className}
-      />
+      <ProcessCreditProvider>
+        <AllAssetsInner
+          allAssetsData={allAssetsData}
+          userAssetsData={userAssetsData}
+          className={className}
+        />
+        <CreditProcessModal />
+      </ProcessCreditProvider>
     </UserGeneralInfoProvider>
   );
 };

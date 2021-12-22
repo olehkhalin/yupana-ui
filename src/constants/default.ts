@@ -12,8 +12,8 @@ export const LAST_USED_CONNECTION_KEY = 'lastUsedConnection';
 export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 export const TZKT_BASE_URL = process.env.REACT_APP_TZKT_BASE_URL;
-export const CONTRACT_ADDRESS = 'KT1APbbJN4xsbRPACFyKWhFyaZQyWzXmgKqc';
-export const PROXY_CONTRACT_ADDRESS = 'KT1HSj7aYiLW1mZnY3mMBa5seQQNArqtEXRD';
+export const CONTRACT_ADDRESS = 'KT1LTqpmGJ11EebMVWAzJ7DWd9msgExvHM94';
+export const PROXY_CONTRACT_ADDRESS = 'KT1WvRRn1SZc26aLZHZvYmj6ogELyVbCYDqG';
 
 export const DECIMALS_VALUE = 6;
 
