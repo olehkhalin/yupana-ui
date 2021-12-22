@@ -7,10 +7,14 @@ import cx from 'classnames';
 
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenName } from 'utils/helpers/token';
+import {
+  getSliceTokenName,
+  getTokenName,
+} from 'utils/helpers/token';
 import {
   getPrettyPercent,
   getPrettyAmount,
+  convertUnits,
 } from 'utils/helpers/amount';
 import { useWiderThanMphone } from 'utils/helpers';
 import {
@@ -51,7 +55,7 @@ type CreditProcessModalInnerProps = {
   title: string
   balanceLabel: string
   maxAmount: BigNumber
-  // onSumbit: (props: any) => void
+  onSubmit: any
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
@@ -66,11 +70,12 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   title,
   balanceLabel,
   maxAmount,
-  // onSumbit,
+  onSubmit,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const [dynamicBorrowLimit, setDynamicBorrowLimit] = useState(new BigNumber(0));
   const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(new BigNumber(0));
+  const [operationLoading, setOperationLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -99,10 +104,10 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
 
   const validateAmount = useMemo(
     () => (assetAmountValidationFactory({
-      max: maxAmount,
+      max: convertUnits(maxAmount, asset.decimals),
       isLiquidationRiskIncluded: theme === 'secondary',
     })),
-    [maxAmount, theme],
+    [asset.decimals, maxAmount, theme],
   );
 
   const amountErrorMessage = useMemo(
@@ -111,28 +116,35 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   );
 
   // Form submit
-  const onSubmit = useCallback(
-    ({ amount: inputData }: FormTypes) => {
-      console.log('inputData', inputData);
+  const onSubmitInner = useCallback(
+    async ({ amount: inputData }: FormTypes) => {
+      const finalAmount = convertUnits(inputData, -(asset.decimals ?? 0));
+      try {
+        setOperationLoading(true);
+        await onSubmit(finalAmount);
+        console.log('submited');
+        onRequestClose();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setOperationLoading(false);
+      }
     },
-    [],
+    [asset.decimals, onRequestClose, onSubmit],
   );
 
-  const getYourBorrowLimit = () => {
+  const borrowLimitF = useMemo(() => {
     const borrowLimitVal = getPrettyAmount({ value: borrowLimit, currency: '$' });
 
     if (dynamicBorrowLimitFunc) {
-      return (
-        <>
-          {borrowLimitVal}
-          {' -> '}
-          {getPrettyAmount({ value: dynamicBorrowLimit ?? 0, currency: '$' })}
-        </>
-      );
+      return `${borrowLimitVal} -> ${getPrettyAmount({
+        value: dynamicBorrowLimit,
+        currency: '$',
+      })}`;
     }
 
     return borrowLimitVal;
-  };
+  }, [borrowLimit, dynamicBorrowLimit, dynamicBorrowLimitFunc]);
 
   const isBorrowTheme = theme === 'secondary';
 
@@ -145,8 +157,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
       <form
-        // TODO: Update 'any' type
-        onSubmit={handleSubmit(onSubmit as any)}
+        onSubmit={handleSubmit(onSubmitInner as any)}
         className={s.form}
       >
         <h2 className={s.title}>
@@ -166,7 +177,11 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
           {balanceLabel}
 
           <div className={s.balance}>
-            {maxAmount.toString()}
+            {getPrettyAmount({
+              value: convertUnits(maxAmount, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })}
           </div>
         </div>
 
@@ -178,10 +193,11 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
             ({ field }) => (
               // @ts-ignore
               <NumberInput
-                decimals={6}
+                theme={theme}
+                decimals={asset.decimals ?? 0}
                 error={amountErrorMessage}
                 className={s.input}
-                maxValue={new BigNumber(maxAmount)}
+                maxValue={convertUnits(maxAmount, asset.decimals)}
                 setFocus={() => setFocus('amount')}
                 {...field}
               />
@@ -198,7 +214,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
             {dynamicBorrowLimitFunc ? 'Available to borrow:' : 'Your Borrow Limit:'}
           </div>
           <div className={s.borrowResult}>
-            {getYourBorrowLimit()}
+            {borrowLimitF}
           </div>
         </div>
 
@@ -217,9 +233,12 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
-          disabled={(!!amountErrorMessage && amountErrorMessage !== 'Beware of the Liquidation Risk')}
+          disabled={
+            (!!amountErrorMessage && amountErrorMessage !== 'Beware of the Liquidation Risk')
+            || operationLoading
+          }
         >
-          {title}
+          {operationLoading ? 'Loading...' : title}
         </Button>
       </form>
     </Modal>
@@ -268,6 +287,7 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitFunc,
     borrowLimitUsed,
     dynamicBorrowLimitUsedFunc,
+    onSubmit,
   } = processCreditData;
 
   return (
@@ -281,6 +301,7 @@ export const CreditProcessModal = () => {
       theme={(type === TypeEnum.SUPPLY || type === TypeEnum.WITHDRAW) ? 'primary' : 'secondary'}
       isOpen
       onRequestClose={handleModalClose}
+      onSubmit={onSubmit}
       {...getModalLabels(type)}
     />
   );

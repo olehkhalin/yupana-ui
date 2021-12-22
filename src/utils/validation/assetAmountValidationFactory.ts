@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 
 type AmountValidationParameters = {
-  max: number | BigNumber
+  max: BigNumber
   isLiquidationRiskIncluded?: boolean
 };
 
@@ -12,10 +12,13 @@ export const assetAmountValidationFactory = (params: AmountValidationParameters)
     if (value === undefined) {
       return 'This field is required';
     }
+    if (value.lte(0)) {
+      return 'This field is required';
+    }
     if (value.gt(max)) {
       return 'Insufficient Balance';
     }
-    if (isLiquidationRiskIncluded && new BigNumber(max).div(value).gte(0.8)) {
+    if (isLiquidationRiskIncluded && value.div(max).gte(0.8)) {
       return 'Beware of the Liquidation Risk';
     }
     return true;

@@ -20,6 +20,7 @@ type ProcessCreditProps = {
   dynamicBorrowLimitFunc?: (input: BigNumber) => BigNumber
   borrowLimitUsed: BigNumber
   dynamicBorrowLimitUsedFunc: (input: BigNumber) => BigNumber
+  onSubmit: any
 } & Pick<ModalActions, 'isOpen'> | null;
 
 export const [

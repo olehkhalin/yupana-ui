@@ -86,8 +86,21 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <SupplyTableDropdown />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, supplied, wallet, collateralFactor,
+        },
+      },
+    }: Row) => (
+      <SupplyTableDropdown
+        yToken={yToken}
+        asset={asset}
+        supplied={supplied}
+        wallet={wallet}
+        collateralFactor={collateralFactor}
+      />
     ),
     [],
   );
