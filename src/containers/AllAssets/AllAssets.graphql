@@ -1,0 +1,46 @@
+query LendingAllAssets {
+  asset {
+    ytoken
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    rates {
+      supply_apy
+      borrow_apy
+      utilization_rate
+    }
+    collateralFactor
+    totalLiquid
+  }
+  oraclePrice {
+    name
+    price
+    ytoken
+  }
+}
+
+query LendingUserAssets($account: String) {
+  userSupply(where: { userId: { _eq: $account } }) {
+    asset {
+      ytoken
+    }
+    supply
+    entered
+  }
+  userBorrow(where: { userId: { _eq: $account } }) {
+    asset {
+      ytoken
+    }
+    borrow
+  }
+  user(where: { address: { _eq: $account } }) {
+    maxCollateral
+    outstandingBorrow
+  }
+}

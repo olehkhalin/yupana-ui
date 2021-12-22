@@ -1,9 +1,8 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getTokenSlug } from 'utils/helpers/token';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';

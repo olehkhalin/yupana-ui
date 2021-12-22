@@ -63,3 +63,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
     </div>
   );
 };
+
+export const SupplyTableDropdown = () => {
+  <TableDropdown />;
+};

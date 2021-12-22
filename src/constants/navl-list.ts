@@ -8,11 +8,6 @@ type NavBarListProps = {
 
 export const NAVBAR_LIST: NavBarListProps[] = [
   {
-    id: 0,
-    item: 'Ui-kit',
-    href: AppRoutes.UIKIT,
-  },
-  {
     id: 1,
     item: 'Lending',
     href: AppRoutes.LENDING,

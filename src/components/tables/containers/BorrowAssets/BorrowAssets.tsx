@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/helpers';
 import { BorrowAssetsCard } from 'components/tables/components/mobile';
 import { BorrowAssets as BorrowAssetsDesktop } from 'components/tables/components/desktop';
 
@@ -32,7 +31,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
           asset: tokenMetadata, ...rest
         }) => (
           <BorrowAssetsCard
-            key={getUniqueKey()}
+            key={rest.yToken}
             {...tokenMetadata}
             {...rest}
           />

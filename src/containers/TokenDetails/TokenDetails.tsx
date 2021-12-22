@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getTokenName } from 'utils/getTokenName';
+import { getPrettyAmount } from 'utils/helpers/amount';
+import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { TokenLogo } from 'components/ui/TokenLogo';

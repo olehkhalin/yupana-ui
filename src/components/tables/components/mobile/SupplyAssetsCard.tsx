@@ -1,11 +1,15 @@
 import React from 'react';
+import BigNumber from 'bignumber.js';
 
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
 import { TokenMetadataInterface } from 'types/token';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
+import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
@@ -14,7 +18,7 @@ import s from './Cards.module.sass';
 type SupplyAssetsCardProps = {
   collateralFactor: number
   supplyApy: number
-  wallet: number
+  wallet: number | BigNumber
   className?: string
 } & TokenMetadataInterface;
 
@@ -81,7 +85,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
         </div>
         <div className={s.value}>
           {getPrettyAmount({
-            value: wallet,
+            value: convertUnits(wallet, tokenMetadata.decimals),
             currency: getSliceTokenName(tokenMetadata),
             dec: tokenMetadata.decimals,
           })}

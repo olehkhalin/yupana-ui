@@ -1,0 +1,6 @@
+query OraclePrices {
+  oraclePrice {
+    ytoken
+    price
+  }
+}
