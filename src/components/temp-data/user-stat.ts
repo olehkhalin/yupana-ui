@@ -1,5 +1,5 @@
 export const USER_STAT = {
-  userSupplyBalance: 231631,
-  userBorrowBalance: 41981,
-  userNetApy: 38.12,
+  userTotalSupply: 100000,
+  userTotalBorrow: 0,
+  netApy: 4,
 };

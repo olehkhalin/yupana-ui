@@ -2,9 +2,8 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { AppRoutes } from 'routes/main-routes';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { shortize } from 'utils/getShortize';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { AttentionText } from 'components/common/AttentionText';

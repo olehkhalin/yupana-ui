@@ -1,12 +1,13 @@
+/* eslint-disable */
+/* @ts-ignore */
+
 import React, { useState } from 'react';
 import cx from 'classnames';
 
 import useUpdateToast from 'utils/useUpdateToast';
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { InformationModal } from 'components/popups/InformationModal';
-import { ConnectToWallet } from 'components/popups/ConnectToWallet';
-import { Account } from 'components/popups/Account';
+import { getTokenSlug } from 'utils/helpers/token/getTokenSlug';
+import { getUniqueKey } from 'utils/helpers/getUniqueKey';
+import { InformationModal } from 'components/modals/InformationModal';
 import { Button } from 'components/ui/Button';
 import { Input } from 'components/ui/Input';
 import { Modal } from 'components/ui/Modal';
@@ -19,7 +20,6 @@ import {
 import { Heading } from 'components/common/Heading';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TEZ_TOKEN, WBTC_TOKEN } from 'components/common/CollateralSwitcher/content';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { SupplyLine } from 'components/common/SupplyLine';
 import {
@@ -59,6 +59,7 @@ import { BORROW_ASSETS_DATA } from 'components/temp-data/tables/borrow';
 import { YOUR_SUPPLY_ASSETS_DATA } from 'components/temp-data/tables/your-supply';
 import { YOUR_BORROW_ASSETS_DATA } from 'components/temp-data/tables/your-borrow';
 import { ALL_MARKETS_DATA } from 'components/temp-data/tables/markets';
+import { CREDIT_PROCESS_DATA } from 'components/temp-data/credit-process';
 import { LIQUIDATION_POSITIONS_DATA } from 'components/temp-data/tables/liquidation-positions';
 import {
   MARKET_CARDS_SUPPLY,
@@ -66,6 +67,9 @@ import {
 } from 'components/temp-data/market-card';
 import { USER_STAT } from 'components/temp-data/user-stat';
 import { LIMIT_LINE } from 'components/temp-data/limit-line';
+import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
+import { AccountModal } from 'components/modals/AccountModal';
+// import { CreditProcessModal, TypeEnum } from 'components/modals/CreditProcessModal';
 
 import { ReactComponent as Chevron } from 'svg/Chevron.svg';
 import { ReactComponent as Arrow } from 'svg/Arrow.svg';
@@ -92,6 +96,10 @@ export const UiKit: React.FC = () => {
   const [informationModalIsOpen, setInformationModalIsOpen] = useState(false);
   const [connectToWalletIsOpen, setConnectToWalletIsOpen] = useState(false);
   const [accountIsOpen, setAccountIsOpen] = useState(false);
+  const [creditProcessPrimaryIsOpen, setCreditProcessPrimaryIsOpen] = useState(false);
+  const [creditProcessSecondaryIsOpen, setCreditProcessSecondaryIsOpen] = useState(false);
+  const [creditProcessTertiaryIsOpen, setCreditProcessTertiaryIsOpen] = useState(false);
+  const [creditProcessQuaternaryIsOpen, setCreditProcessQuaternaryIsOpen] = useState(false);
 
   // RepayBorrow cards
   const [selectedRepayBorrowItem, setSelectedRepayBorrowItem] = useState<string>('');
@@ -984,8 +992,8 @@ export const UiKit: React.FC = () => {
         <div className={s.title}>
           Collateral switcher
         </div>
-        <CollateralSwitcher token={{ address: TEZ_TOKEN.address }} className={s.marginBottom} />
-        <CollateralSwitcher token={{ address: WBTC_TOKEN.address, id: WBTC_TOKEN.id }} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
+        <CollateralSwitcher isCollateral={false} yToken={0} />
       </div>
 
       <div className={s.block}>
@@ -1041,7 +1049,7 @@ export const UiKit: React.FC = () => {
             >
               ConnectToWallet
             </Button>
-            <ConnectToWallet
+            <ConnectToWalletModal
               isOpen={connectToWalletIsOpen}
               onRequestClose={() => setConnectToWalletIsOpen(false)}
             />
@@ -1056,7 +1064,7 @@ export const UiKit: React.FC = () => {
             >
               Account
             </Button>
-            <Account
+            <AccountModal
               isOpen={accountIsOpen}
               onRequestClose={() => setAccountIsOpen(false)}
               address="tz1fkY3mVn34ms8zpQohw7xxixK8oWVb5Y7k"

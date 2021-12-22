@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { getUniqueKey, useWiderThanLphone } from 'utils/helpers';
 import { Liquidate as LiquidateDesktop } from 'components/tables/components/desktop';
 import { LiquidateCard } from 'components/tables/components/mobile';
 

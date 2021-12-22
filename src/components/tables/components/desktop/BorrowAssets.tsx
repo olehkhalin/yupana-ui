@@ -1,10 +1,14 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
@@ -36,18 +40,27 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => getPrettyPercent(borrowApy),
+        accessor: ({ borrowApy }: { borrowApy: number }) => (
+          getPrettyPercent(borrowApy)
+        ),
       },
       {
         Header: 'Utilisation rate',
         id: 'utilisationRate',
-        accessor: ({ utilisationRate }
-        : { utilisationRate: number }) => getPrettyPercent(utilisationRate),
+        accessor: ({ utilisationRate }: { utilisationRate: number }) => (
+          getPrettyPercent(utilisationRate)
+        ),
       },
       {
         Header: 'Liquidity',
         id: 'liquidity',
-        accessor: ({ liquidity, asset }: { liquidity: number, asset: TokenMetadataInterface }) => `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`,
+        accessor: (
+          { liquidity, asset }: { liquidity: number | BigNumber, asset: TokenMetadataInterface },
+        ) => getPrettyAmount({
+          value: convertUnits(liquidity, asset.decimals),
+          currency: getSliceTokenName(asset),
+          dec: asset.decimals,
+        }),
       },
       {
         Header: () => null,
@@ -65,7 +78,6 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     [],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
     () => (
       <TableDropdown theme="secondary" />

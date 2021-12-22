@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import cx from 'classnames';
 import { ToastContainer, TypeOptions, CloseButtonProps } from 'react-toastify';
 
-// import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
+import { useWiderThanMphone } from 'utils/helpers/getMediaQuery';
 import { ThemeContext, ToastThemes } from 'providers/ThemeContext';
 
 import 'react-toastify/dist/ReactToastify.css';

@@ -94,13 +94,18 @@ export type Asset = {
   /** An aggregate relationship */
   assetSupplyTx_aggregate: Supply_Tx_Aggregate;
   /** An array relationship */
-  assetUserFunds: Array<Funds>;
+  assetUserBorrow: Array<User_Borrow>;
   /** An aggregate relationship */
-  assetUserFunds_aggregate: Funds_Aggregate;
+  assetUserBorrow_aggregate: User_Borrow_Aggregate;
+  /** An array relationship */
+  assetUserSupply: Array<User_Supply>;
+  /** An aggregate relationship */
+  assetUserSupply_aggregate: User_Supply_Aggregate;
   /** An array relationship */
   assetWithdrawTx: Array<Withdraw_Tx>;
   /** An aggregate relationship */
   assetWithdrawTx_aggregate: Withdraw_Tx_Aggregate;
+  borrowIndex: Scalars['numeric'];
   /** An array relationship */
   collateralAsset: Array<Liquidate_Tx>;
   /** An aggregate relationship */
@@ -110,6 +115,7 @@ export type Asset = {
   /** An object relationship */
   interestModel: Interest_Model;
   interestModelId: Scalars['String'];
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   isFa2: Scalars['Boolean'];
   lastPrice: Scalars['numeric'];
   /** An array relationship */
@@ -130,6 +136,8 @@ export type Asset = {
   totalBorrowed: Scalars['numeric'];
   totalLiquid: Scalars['numeric'];
   totalSupply: Scalars['numeric'];
+  usdBorrow: Scalars['numeric'];
+  usdSupply: Scalars['numeric'];
   ytoken: Scalars['Int'];
 };
 
@@ -195,22 +203,42 @@ export type AssetAssetSupplyTx_AggregateArgs = {
 
 
 /** columns and relationships of "asset" */
-export type AssetAssetUserFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
+export type AssetAssetUserBorrowArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
 
 /** columns and relationships of "asset" */
-export type AssetAssetUserFunds_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
+export type AssetAssetUserBorrow_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+/** columns and relationships of "asset" */
+export type AssetAssetUserSupplyArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+/** columns and relationships of "asset" */
+export type AssetAssetUserSupply_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
 
@@ -368,6 +396,7 @@ export type Asset_Arr_Rel_Insert_Input = {
 /** aggregate avg on columns */
 export type Asset_Avg_Fields = {
   __typename?: 'asset_avg_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -376,11 +405,14 @@ export type Asset_Avg_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "asset" */
 export type Asset_Avg_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -389,6 +421,8 @@ export type Asset_Avg_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
@@ -400,13 +434,16 @@ export type Asset_Bool_Exp = {
   assetBorrowTx?: InputMaybe<Borrow_Tx_Bool_Exp>;
   assetRepayTx?: InputMaybe<Repay_Tx_Bool_Exp>;
   assetSupplyTx?: InputMaybe<Supply_Tx_Bool_Exp>;
-  assetUserFunds?: InputMaybe<Funds_Bool_Exp>;
+  assetUserBorrow?: InputMaybe<User_Borrow_Bool_Exp>;
+  assetUserSupply?: InputMaybe<User_Supply_Bool_Exp>;
   assetWithdrawTx?: InputMaybe<Withdraw_Tx_Bool_Exp>;
+  borrowIndex?: InputMaybe<Numeric_Comparison_Exp>;
   collateralAsset?: InputMaybe<Liquidate_Tx_Bool_Exp>;
   collateralFactor?: InputMaybe<Numeric_Comparison_Exp>;
   contractAddress?: InputMaybe<String_Comparison_Exp>;
   interestModel?: InputMaybe<Interest_Model_Bool_Exp>;
   interestModelId?: InputMaybe<String_Comparison_Exp>;
+  interestUpdateTime?: InputMaybe<Timestamptz_Comparison_Exp>;
   isFa2?: InputMaybe<Boolean_Comparison_Exp>;
   lastPrice?: InputMaybe<Numeric_Comparison_Exp>;
   liquidatedAsset?: InputMaybe<Liquidate_Tx_Bool_Exp>;
@@ -418,6 +455,8 @@ export type Asset_Bool_Exp = {
   totalBorrowed?: InputMaybe<Numeric_Comparison_Exp>;
   totalLiquid?: InputMaybe<Numeric_Comparison_Exp>;
   totalSupply?: InputMaybe<Numeric_Comparison_Exp>;
+  usdBorrow?: InputMaybe<Numeric_Comparison_Exp>;
+  usdSupply?: InputMaybe<Numeric_Comparison_Exp>;
   ytoken?: InputMaybe<Int_Comparison_Exp>;
 };
 
@@ -429,6 +468,7 @@ export enum Asset_Constraint {
 
 /** input type for incrementing numeric columns in table "asset" */
 export type Asset_Inc_Input = {
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
   collateralFactor?: InputMaybe<Scalars['numeric']>;
   lastPrice?: InputMaybe<Scalars['numeric']>;
   reserveFactor?: InputMaybe<Scalars['numeric']>;
@@ -437,6 +477,8 @@ export type Asset_Inc_Input = {
   totalBorrowed?: InputMaybe<Scalars['numeric']>;
   totalLiquid?: InputMaybe<Scalars['numeric']>;
   totalSupply?: InputMaybe<Scalars['numeric']>;
+  usdBorrow?: InputMaybe<Scalars['numeric']>;
+  usdSupply?: InputMaybe<Scalars['numeric']>;
   ytoken?: InputMaybe<Scalars['Int']>;
 };
 
@@ -445,13 +487,16 @@ export type Asset_Insert_Input = {
   assetBorrowTx?: InputMaybe<Borrow_Tx_Arr_Rel_Insert_Input>;
   assetRepayTx?: InputMaybe<Repay_Tx_Arr_Rel_Insert_Input>;
   assetSupplyTx?: InputMaybe<Supply_Tx_Arr_Rel_Insert_Input>;
-  assetUserFunds?: InputMaybe<Funds_Arr_Rel_Insert_Input>;
+  assetUserBorrow?: InputMaybe<User_Borrow_Arr_Rel_Insert_Input>;
+  assetUserSupply?: InputMaybe<User_Supply_Arr_Rel_Insert_Input>;
   assetWithdrawTx?: InputMaybe<Withdraw_Tx_Arr_Rel_Insert_Input>;
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
   collateralAsset?: InputMaybe<Liquidate_Tx_Arr_Rel_Insert_Input>;
   collateralFactor?: InputMaybe<Scalars['numeric']>;
   contractAddress?: InputMaybe<Scalars['String']>;
   interestModel?: InputMaybe<Interest_Model_Obj_Rel_Insert_Input>;
   interestModelId?: InputMaybe<Scalars['String']>;
+  interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
   isFa2?: InputMaybe<Scalars['Boolean']>;
   lastPrice?: InputMaybe<Scalars['numeric']>;
   liquidatedAsset?: InputMaybe<Liquidate_Tx_Arr_Rel_Insert_Input>;
@@ -463,15 +508,19 @@ export type Asset_Insert_Input = {
   totalBorrowed?: InputMaybe<Scalars['numeric']>;
   totalLiquid?: InputMaybe<Scalars['numeric']>;
   totalSupply?: InputMaybe<Scalars['numeric']>;
+  usdBorrow?: InputMaybe<Scalars['numeric']>;
+  usdSupply?: InputMaybe<Scalars['numeric']>;
   ytoken?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate max on columns */
 export type Asset_Max_Fields = {
   __typename?: 'asset_max_fields';
+  borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
   contractAddress?: Maybe<Scalars['String']>;
   interestModelId?: Maybe<Scalars['String']>;
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
   reserves?: Maybe<Scalars['numeric']>;
@@ -479,14 +528,18 @@ export type Asset_Max_Fields = {
   totalBorrowed?: Maybe<Scalars['numeric']>;
   totalLiquid?: Maybe<Scalars['numeric']>;
   totalSupply?: Maybe<Scalars['numeric']>;
+  usdBorrow?: Maybe<Scalars['numeric']>;
+  usdSupply?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
 
 /** order by max() on columns of table "asset" */
 export type Asset_Max_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
   interestModelId?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -494,15 +547,19 @@ export type Asset_Max_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate min on columns */
 export type Asset_Min_Fields = {
   __typename?: 'asset_min_fields';
+  borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
   contractAddress?: Maybe<Scalars['String']>;
   interestModelId?: Maybe<Scalars['String']>;
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
   reserves?: Maybe<Scalars['numeric']>;
@@ -510,14 +567,18 @@ export type Asset_Min_Fields = {
   totalBorrowed?: Maybe<Scalars['numeric']>;
   totalLiquid?: Maybe<Scalars['numeric']>;
   totalSupply?: Maybe<Scalars['numeric']>;
+  usdBorrow?: Maybe<Scalars['numeric']>;
+  usdSupply?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
 
 /** order by min() on columns of table "asset" */
 export type Asset_Min_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
   interestModelId?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -525,6 +586,8 @@ export type Asset_Min_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
@@ -556,13 +619,16 @@ export type Asset_Order_By = {
   assetBorrowTx_aggregate?: InputMaybe<Borrow_Tx_Aggregate_Order_By>;
   assetRepayTx_aggregate?: InputMaybe<Repay_Tx_Aggregate_Order_By>;
   assetSupplyTx_aggregate?: InputMaybe<Supply_Tx_Aggregate_Order_By>;
-  assetUserFunds_aggregate?: InputMaybe<Funds_Aggregate_Order_By>;
+  assetUserBorrow_aggregate?: InputMaybe<User_Borrow_Aggregate_Order_By>;
+  assetUserSupply_aggregate?: InputMaybe<User_Supply_Aggregate_Order_By>;
   assetWithdrawTx_aggregate?: InputMaybe<Withdraw_Tx_Aggregate_Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
   collateralAsset_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
   interestModel?: InputMaybe<Interest_Model_Order_By>;
   interestModelId?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
   isFa2?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidatedAsset_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
@@ -574,6 +640,8 @@ export type Asset_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
@@ -585,11 +653,15 @@ export type Asset_Pk_Columns_Input = {
 /** select columns of table "asset" */
 export enum Asset_Select_Column {
   /** column name */
+  BorrowIndex = 'borrowIndex',
+  /** column name */
   CollateralFactor = 'collateralFactor',
   /** column name */
   ContractAddress = 'contractAddress',
   /** column name */
   InterestModelId = 'interestModelId',
+  /** column name */
+  InterestUpdateTime = 'interestUpdateTime',
   /** column name */
   IsFa2 = 'isFa2',
   /** column name */
@@ -607,14 +679,20 @@ export enum Asset_Select_Column {
   /** column name */
   TotalSupply = 'totalSupply',
   /** column name */
+  UsdBorrow = 'usdBorrow',
+  /** column name */
+  UsdSupply = 'usdSupply',
+  /** column name */
   Ytoken = 'ytoken'
 }
 
 /** input type for updating data in table "asset" */
 export type Asset_Set_Input = {
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
   collateralFactor?: InputMaybe<Scalars['numeric']>;
   contractAddress?: InputMaybe<Scalars['String']>;
   interestModelId?: InputMaybe<Scalars['String']>;
+  interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
   isFa2?: InputMaybe<Scalars['Boolean']>;
   lastPrice?: InputMaybe<Scalars['numeric']>;
   reserveFactor?: InputMaybe<Scalars['numeric']>;
@@ -623,12 +701,15 @@ export type Asset_Set_Input = {
   totalBorrowed?: InputMaybe<Scalars['numeric']>;
   totalLiquid?: InputMaybe<Scalars['numeric']>;
   totalSupply?: InputMaybe<Scalars['numeric']>;
+  usdBorrow?: InputMaybe<Scalars['numeric']>;
+  usdSupply?: InputMaybe<Scalars['numeric']>;
   ytoken?: InputMaybe<Scalars['Int']>;
 };
 
 /** aggregate stddev on columns */
 export type Asset_Stddev_Fields = {
   __typename?: 'asset_stddev_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -637,11 +718,14 @@ export type Asset_Stddev_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "asset" */
 export type Asset_Stddev_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -650,12 +734,15 @@ export type Asset_Stddev_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
 export type Asset_Stddev_Pop_Fields = {
   __typename?: 'asset_stddev_pop_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -664,11 +751,14 @@ export type Asset_Stddev_Pop_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "asset" */
 export type Asset_Stddev_Pop_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -677,12 +767,15 @@ export type Asset_Stddev_Pop_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
 export type Asset_Stddev_Samp_Fields = {
   __typename?: 'asset_stddev_samp_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -691,11 +784,14 @@ export type Asset_Stddev_Samp_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "asset" */
 export type Asset_Stddev_Samp_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -704,12 +800,15 @@ export type Asset_Stddev_Samp_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
 export type Asset_Sum_Fields = {
   __typename?: 'asset_sum_fields';
+  borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
   lastPrice?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
@@ -718,11 +817,14 @@ export type Asset_Sum_Fields = {
   totalBorrowed?: Maybe<Scalars['numeric']>;
   totalLiquid?: Maybe<Scalars['numeric']>;
   totalSupply?: Maybe<Scalars['numeric']>;
+  usdBorrow?: Maybe<Scalars['numeric']>;
+  usdSupply?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "asset" */
 export type Asset_Sum_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -731,17 +833,23 @@ export type Asset_Sum_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "asset" */
 export enum Asset_Update_Column {
   /** column name */
+  BorrowIndex = 'borrowIndex',
+  /** column name */
   CollateralFactor = 'collateralFactor',
   /** column name */
   ContractAddress = 'contractAddress',
   /** column name */
   InterestModelId = 'interestModelId',
+  /** column name */
+  InterestUpdateTime = 'interestUpdateTime',
   /** column name */
   IsFa2 = 'isFa2',
   /** column name */
@@ -759,12 +867,17 @@ export enum Asset_Update_Column {
   /** column name */
   TotalSupply = 'totalSupply',
   /** column name */
+  UsdBorrow = 'usdBorrow',
+  /** column name */
+  UsdSupply = 'usdSupply',
+  /** column name */
   Ytoken = 'ytoken'
 }
 
 /** aggregate var_pop on columns */
 export type Asset_Var_Pop_Fields = {
   __typename?: 'asset_var_pop_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -773,11 +886,14 @@ export type Asset_Var_Pop_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "asset" */
 export type Asset_Var_Pop_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -786,12 +902,15 @@ export type Asset_Var_Pop_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
 export type Asset_Var_Samp_Fields = {
   __typename?: 'asset_var_samp_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -800,11 +919,14 @@ export type Asset_Var_Samp_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "asset" */
 export type Asset_Var_Samp_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -813,12 +935,15 @@ export type Asset_Var_Samp_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
 export type Asset_Variance_Fields = {
   __typename?: 'asset_variance_fields';
+  borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -827,11 +952,14 @@ export type Asset_Variance_Fields = {
   totalBorrowed?: Maybe<Scalars['Float']>;
   totalLiquid?: Maybe<Scalars['Float']>;
   totalSupply?: Maybe<Scalars['Float']>;
+  usdBorrow?: Maybe<Scalars['Float']>;
+  usdSupply?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "asset" */
 export type Asset_Variance_Order_By = {
+  borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -840,6 +968,8 @@ export type Asset_Variance_Order_By = {
   totalBorrowed?: InputMaybe<Order_By>;
   totalLiquid?: InputMaybe<Order_By>;
   totalSupply?: InputMaybe<Order_By>;
+  usdBorrow?: InputMaybe<Order_By>;
+  usdSupply?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
 
@@ -852,6 +982,7 @@ export type Borrow_Tx = {
   assetId: Scalars['Int'];
   id: Scalars['Int'];
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount: Scalars['numeric'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
@@ -915,6 +1046,7 @@ export type Borrow_Tx_Avg_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "borrow_tx" */
@@ -922,6 +1054,7 @@ export type Borrow_Tx_Avg_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "borrow_tx". All fields are combined with a logical 'AND'. */
@@ -934,6 +1067,7 @@ export type Borrow_Tx_Bool_Exp = {
   assetId?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+  usdAmount?: InputMaybe<Numeric_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
   userId?: InputMaybe<String_Comparison_Exp>;
 };
@@ -949,6 +1083,7 @@ export type Borrow_Tx_Inc_Input = {
   amount?: InputMaybe<Scalars['numeric']>;
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "borrow_tx" */
@@ -958,6 +1093,7 @@ export type Borrow_Tx_Insert_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -969,6 +1105,7 @@ export type Borrow_Tx_Max_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -978,6 +1115,7 @@ export type Borrow_Tx_Max_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -988,6 +1126,7 @@ export type Borrow_Tx_Min_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -997,6 +1136,7 @@ export type Borrow_Tx_Min_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -1023,6 +1163,7 @@ export type Borrow_Tx_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -1043,6 +1184,8 @@ export enum Borrow_Tx_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -1052,6 +1195,7 @@ export type Borrow_Tx_Set_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -1061,6 +1205,7 @@ export type Borrow_Tx_Stddev_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "borrow_tx" */
@@ -1068,6 +1213,7 @@ export type Borrow_Tx_Stddev_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -1076,6 +1222,7 @@ export type Borrow_Tx_Stddev_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "borrow_tx" */
@@ -1083,6 +1230,7 @@ export type Borrow_Tx_Stddev_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -1091,6 +1239,7 @@ export type Borrow_Tx_Stddev_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "borrow_tx" */
@@ -1098,6 +1247,7 @@ export type Borrow_Tx_Stddev_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -1106,6 +1256,7 @@ export type Borrow_Tx_Sum_Fields = {
   amount?: Maybe<Scalars['numeric']>;
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "borrow_tx" */
@@ -1113,6 +1264,7 @@ export type Borrow_Tx_Sum_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "borrow_tx" */
@@ -1126,6 +1278,8 @@ export enum Borrow_Tx_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -1135,6 +1289,7 @@ export type Borrow_Tx_Var_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "borrow_tx" */
@@ -1142,6 +1297,7 @@ export type Borrow_Tx_Var_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -1150,6 +1306,7 @@ export type Borrow_Tx_Var_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "borrow_tx" */
@@ -1157,6 +1314,7 @@ export type Borrow_Tx_Var_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -1165,6 +1323,7 @@ export type Borrow_Tx_Variance_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "borrow_tx" */
@@ -1172,6 +1331,7 @@ export type Borrow_Tx_Variance_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** columns and relationships of "daily_stats" */
@@ -2182,363 +2342,6 @@ export enum Dipdup_Schema_Update_Column {
   UpdatedAt = 'updatedAt'
 }
 
-/** columns and relationships of "funds" */
-export type Funds = {
-  __typename?: 'funds';
-  /** An object relationship */
-  asset: Asset;
-  assetId: Scalars['Int'];
-  borrow: Scalars['numeric'];
-  entered: Scalars['Boolean'];
-  id: Scalars['Int'];
-  supply: Scalars['numeric'];
-  /** An object relationship */
-  user: User;
-  userId: Scalars['String'];
-};
-
-/** aggregated selection of "funds" */
-export type Funds_Aggregate = {
-  __typename?: 'funds_aggregate';
-  aggregate?: Maybe<Funds_Aggregate_Fields>;
-  nodes: Array<Funds>;
-};
-
-/** aggregate fields of "funds" */
-export type Funds_Aggregate_Fields = {
-  __typename?: 'funds_aggregate_fields';
-  avg?: Maybe<Funds_Avg_Fields>;
-  count: Scalars['Int'];
-  max?: Maybe<Funds_Max_Fields>;
-  min?: Maybe<Funds_Min_Fields>;
-  stddev?: Maybe<Funds_Stddev_Fields>;
-  stddev_pop?: Maybe<Funds_Stddev_Pop_Fields>;
-  stddev_samp?: Maybe<Funds_Stddev_Samp_Fields>;
-  sum?: Maybe<Funds_Sum_Fields>;
-  var_pop?: Maybe<Funds_Var_Pop_Fields>;
-  var_samp?: Maybe<Funds_Var_Samp_Fields>;
-  variance?: Maybe<Funds_Variance_Fields>;
-};
-
-
-/** aggregate fields of "funds" */
-export type Funds_Aggregate_FieldsCountArgs = {
-  columns?: InputMaybe<Array<Funds_Select_Column>>;
-  distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** order by aggregate values of table "funds" */
-export type Funds_Aggregate_Order_By = {
-  avg?: InputMaybe<Funds_Avg_Order_By>;
-  count?: InputMaybe<Order_By>;
-  max?: InputMaybe<Funds_Max_Order_By>;
-  min?: InputMaybe<Funds_Min_Order_By>;
-  stddev?: InputMaybe<Funds_Stddev_Order_By>;
-  stddev_pop?: InputMaybe<Funds_Stddev_Pop_Order_By>;
-  stddev_samp?: InputMaybe<Funds_Stddev_Samp_Order_By>;
-  sum?: InputMaybe<Funds_Sum_Order_By>;
-  var_pop?: InputMaybe<Funds_Var_Pop_Order_By>;
-  var_samp?: InputMaybe<Funds_Var_Samp_Order_By>;
-  variance?: InputMaybe<Funds_Variance_Order_By>;
-};
-
-/** input type for inserting array relation for remote table "funds" */
-export type Funds_Arr_Rel_Insert_Input = {
-  data: Array<Funds_Insert_Input>;
-  /** on conflict condition */
-  on_conflict?: InputMaybe<Funds_On_Conflict>;
-};
-
-/** aggregate avg on columns */
-export type Funds_Avg_Fields = {
-  __typename?: 'funds_avg_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by avg() on columns of table "funds" */
-export type Funds_Avg_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** Boolean expression to filter rows from the table "funds". All fields are combined with a logical 'AND'. */
-export type Funds_Bool_Exp = {
-  _and?: InputMaybe<Array<Funds_Bool_Exp>>;
-  _not?: InputMaybe<Funds_Bool_Exp>;
-  _or?: InputMaybe<Array<Funds_Bool_Exp>>;
-  asset?: InputMaybe<Asset_Bool_Exp>;
-  assetId?: InputMaybe<Int_Comparison_Exp>;
-  borrow?: InputMaybe<Numeric_Comparison_Exp>;
-  entered?: InputMaybe<Boolean_Comparison_Exp>;
-  id?: InputMaybe<Int_Comparison_Exp>;
-  supply?: InputMaybe<Numeric_Comparison_Exp>;
-  user?: InputMaybe<User_Bool_Exp>;
-  userId?: InputMaybe<String_Comparison_Exp>;
-};
-
-/** unique or primary key constraints on table "funds" */
-export enum Funds_Constraint {
-  /** unique or primary key constraint */
-  FundsPkey = 'funds_pkey'
-}
-
-/** input type for incrementing numeric columns in table "funds" */
-export type Funds_Inc_Input = {
-  assetId?: InputMaybe<Scalars['Int']>;
-  borrow?: InputMaybe<Scalars['numeric']>;
-  id?: InputMaybe<Scalars['Int']>;
-  supply?: InputMaybe<Scalars['numeric']>;
-};
-
-/** input type for inserting data into table "funds" */
-export type Funds_Insert_Input = {
-  asset?: InputMaybe<Asset_Obj_Rel_Insert_Input>;
-  assetId?: InputMaybe<Scalars['Int']>;
-  borrow?: InputMaybe<Scalars['numeric']>;
-  entered?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['Int']>;
-  supply?: InputMaybe<Scalars['numeric']>;
-  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
-  userId?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate max on columns */
-export type Funds_Max_Fields = {
-  __typename?: 'funds_max_fields';
-  assetId?: Maybe<Scalars['Int']>;
-  borrow?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  supply?: Maybe<Scalars['numeric']>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-/** order by max() on columns of table "funds" */
-export type Funds_Max_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-  userId?: InputMaybe<Order_By>;
-};
-
-/** aggregate min on columns */
-export type Funds_Min_Fields = {
-  __typename?: 'funds_min_fields';
-  assetId?: Maybe<Scalars['Int']>;
-  borrow?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  supply?: Maybe<Scalars['numeric']>;
-  userId?: Maybe<Scalars['String']>;
-};
-
-/** order by min() on columns of table "funds" */
-export type Funds_Min_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-  userId?: InputMaybe<Order_By>;
-};
-
-/** response of any mutation on the table "funds" */
-export type Funds_Mutation_Response = {
-  __typename?: 'funds_mutation_response';
-  /** number of rows affected by the mutation */
-  affected_rows: Scalars['Int'];
-  /** data from the rows affected by the mutation */
-  returning: Array<Funds>;
-};
-
-/** on conflict condition type for table "funds" */
-export type Funds_On_Conflict = {
-  constraint: Funds_Constraint;
-  update_columns?: Array<Funds_Update_Column>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-/** Ordering options when selecting data from "funds". */
-export type Funds_Order_By = {
-  asset?: InputMaybe<Asset_Order_By>;
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  entered?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-  user?: InputMaybe<User_Order_By>;
-  userId?: InputMaybe<Order_By>;
-};
-
-/** primary key columns input for table: funds */
-export type Funds_Pk_Columns_Input = {
-  id: Scalars['Int'];
-};
-
-/** select columns of table "funds" */
-export enum Funds_Select_Column {
-  /** column name */
-  AssetId = 'assetId',
-  /** column name */
-  Borrow = 'borrow',
-  /** column name */
-  Entered = 'entered',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Supply = 'supply',
-  /** column name */
-  UserId = 'userId'
-}
-
-/** input type for updating data in table "funds" */
-export type Funds_Set_Input = {
-  assetId?: InputMaybe<Scalars['Int']>;
-  borrow?: InputMaybe<Scalars['numeric']>;
-  entered?: InputMaybe<Scalars['Boolean']>;
-  id?: InputMaybe<Scalars['Int']>;
-  supply?: InputMaybe<Scalars['numeric']>;
-  userId?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate stddev on columns */
-export type Funds_Stddev_Fields = {
-  __typename?: 'funds_stddev_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev() on columns of table "funds" */
-export type Funds_Stddev_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_pop on columns */
-export type Funds_Stddev_Pop_Fields = {
-  __typename?: 'funds_stddev_pop_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_pop() on columns of table "funds" */
-export type Funds_Stddev_Pop_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate stddev_samp on columns */
-export type Funds_Stddev_Samp_Fields = {
-  __typename?: 'funds_stddev_samp_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by stddev_samp() on columns of table "funds" */
-export type Funds_Stddev_Samp_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate sum on columns */
-export type Funds_Sum_Fields = {
-  __typename?: 'funds_sum_fields';
-  assetId?: Maybe<Scalars['Int']>;
-  borrow?: Maybe<Scalars['numeric']>;
-  id?: Maybe<Scalars['Int']>;
-  supply?: Maybe<Scalars['numeric']>;
-};
-
-/** order by sum() on columns of table "funds" */
-export type Funds_Sum_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** update columns of table "funds" */
-export enum Funds_Update_Column {
-  /** column name */
-  AssetId = 'assetId',
-  /** column name */
-  Borrow = 'borrow',
-  /** column name */
-  Entered = 'entered',
-  /** column name */
-  Id = 'id',
-  /** column name */
-  Supply = 'supply',
-  /** column name */
-  UserId = 'userId'
-}
-
-/** aggregate var_pop on columns */
-export type Funds_Var_Pop_Fields = {
-  __typename?: 'funds_var_pop_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_pop() on columns of table "funds" */
-export type Funds_Var_Pop_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate var_samp on columns */
-export type Funds_Var_Samp_Fields = {
-  __typename?: 'funds_var_samp_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by var_samp() on columns of table "funds" */
-export type Funds_Var_Samp_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
-/** aggregate variance on columns */
-export type Funds_Variance_Fields = {
-  __typename?: 'funds_variance_fields';
-  assetId?: Maybe<Scalars['Float']>;
-  borrow?: Maybe<Scalars['Float']>;
-  id?: Maybe<Scalars['Float']>;
-  supply?: Maybe<Scalars['Float']>;
-};
-
-/** order by variance() on columns of table "funds" */
-export type Funds_Variance_Order_By = {
-  assetId?: InputMaybe<Order_By>;
-  borrow?: InputMaybe<Order_By>;
-  id?: InputMaybe<Order_By>;
-  supply?: InputMaybe<Order_By>;
-};
-
 /** columns and relationships of "global_factors" */
 export type Global_Factors = {
   __typename?: 'global_factors';
@@ -2546,6 +2349,7 @@ export type Global_Factors = {
   id: Scalars['Int'];
   liquidationIncentive: Scalars['numeric'];
   liquidationThreshold: Scalars['numeric'];
+  priceFeedProxy: Scalars['String'];
   yupanaContract: Scalars['String'];
 };
 
@@ -2597,6 +2401,7 @@ export type Global_Factors_Bool_Exp = {
   id?: InputMaybe<Int_Comparison_Exp>;
   liquidationIncentive?: InputMaybe<Numeric_Comparison_Exp>;
   liquidationThreshold?: InputMaybe<Numeric_Comparison_Exp>;
+  priceFeedProxy?: InputMaybe<String_Comparison_Exp>;
   yupanaContract?: InputMaybe<String_Comparison_Exp>;
 };
 
@@ -2620,6 +2425,7 @@ export type Global_Factors_Insert_Input = {
   id?: InputMaybe<Scalars['Int']>;
   liquidationIncentive?: InputMaybe<Scalars['numeric']>;
   liquidationThreshold?: InputMaybe<Scalars['numeric']>;
+  priceFeedProxy?: InputMaybe<Scalars['String']>;
   yupanaContract?: InputMaybe<Scalars['String']>;
 };
 
@@ -2630,6 +2436,7 @@ export type Global_Factors_Max_Fields = {
   id?: Maybe<Scalars['Int']>;
   liquidationIncentive?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
+  priceFeedProxy?: Maybe<Scalars['String']>;
   yupanaContract?: Maybe<Scalars['String']>;
 };
 
@@ -2640,6 +2447,7 @@ export type Global_Factors_Min_Fields = {
   id?: Maybe<Scalars['Int']>;
   liquidationIncentive?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
+  priceFeedProxy?: Maybe<Scalars['String']>;
   yupanaContract?: Maybe<Scalars['String']>;
 };
 
@@ -2665,6 +2473,7 @@ export type Global_Factors_Order_By = {
   id?: InputMaybe<Order_By>;
   liquidationIncentive?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
+  priceFeedProxy?: InputMaybe<Order_By>;
   yupanaContract?: InputMaybe<Order_By>;
 };
 
@@ -2684,6 +2493,8 @@ export enum Global_Factors_Select_Column {
   /** column name */
   LiquidationThreshold = 'liquidationThreshold',
   /** column name */
+  PriceFeedProxy = 'priceFeedProxy',
+  /** column name */
   YupanaContract = 'yupanaContract'
 }
 
@@ -2693,6 +2504,7 @@ export type Global_Factors_Set_Input = {
   id?: InputMaybe<Scalars['Int']>;
   liquidationIncentive?: InputMaybe<Scalars['numeric']>;
   liquidationThreshold?: InputMaybe<Scalars['numeric']>;
+  priceFeedProxy?: InputMaybe<Scalars['String']>;
   yupanaContract?: InputMaybe<Scalars['String']>;
 };
 
@@ -2742,6 +2554,8 @@ export enum Global_Factors_Update_Column {
   LiquidationIncentive = 'liquidationIncentive',
   /** column name */
   LiquidationThreshold = 'liquidationThreshold',
+  /** column name */
+  PriceFeedProxy = 'priceFeedProxy',
   /** column name */
   YupanaContract = 'yupanaContract'
 }
@@ -3479,10 +3293,6 @@ export type Mutation_Root = {
   deleteDipdupSchema?: Maybe<Dipdup_Schema_Mutation_Response>;
   /** delete single row from the table: "dipdup_schema" */
   deleteDipdupSchemaByPk?: Maybe<Dipdup_Schema>;
-  /** delete data from the table: "funds" */
-  deleteFunds?: Maybe<Funds_Mutation_Response>;
-  /** delete single row from the table: "funds" */
-  deleteFundsByPk?: Maybe<Funds>;
   /** delete data from the table: "global_factors" */
   deleteGlobalFactors?: Maybe<Global_Factors_Mutation_Response>;
   /** delete single row from the table: "global_factors" */
@@ -3513,8 +3323,16 @@ export type Mutation_Root = {
   deleteTokenByPk?: Maybe<Token>;
   /** delete data from the table: "user" */
   deleteUser?: Maybe<User_Mutation_Response>;
+  /** delete data from the table: "user_borrow" */
+  deleteUserBorrow?: Maybe<User_Borrow_Mutation_Response>;
+  /** delete single row from the table: "user_borrow" */
+  deleteUserBorrowByPk?: Maybe<User_Borrow>;
   /** delete single row from the table: "user" */
   deleteUserByPk?: Maybe<User>;
+  /** delete data from the table: "user_supply" */
+  deleteUserSupply?: Maybe<User_Supply_Mutation_Response>;
+  /** delete single row from the table: "user_supply" */
+  deleteUserSupplyByPk?: Maybe<User_Supply>;
   /** delete data from the table: "withdraw_tx" */
   deleteWithdrawTx?: Maybe<Withdraw_Tx_Mutation_Response>;
   /** delete single row from the table: "withdraw_tx" */
@@ -3551,10 +3369,6 @@ export type Mutation_Root = {
   insertDipdupSchema?: Maybe<Dipdup_Schema_Mutation_Response>;
   /** insert a single row into the table: "dipdup_schema" */
   insertDipdupSchemaOne?: Maybe<Dipdup_Schema>;
-  /** insert data into the table: "funds" */
-  insertFunds?: Maybe<Funds_Mutation_Response>;
-  /** insert a single row into the table: "funds" */
-  insertFundsOne?: Maybe<Funds>;
   /** insert data into the table: "global_factors" */
   insertGlobalFactors?: Maybe<Global_Factors_Mutation_Response>;
   /** insert a single row into the table: "global_factors" */
@@ -3585,8 +3399,16 @@ export type Mutation_Root = {
   insertTokenOne?: Maybe<Token>;
   /** insert data into the table: "user" */
   insertUser?: Maybe<User_Mutation_Response>;
+  /** insert data into the table: "user_borrow" */
+  insertUserBorrow?: Maybe<User_Borrow_Mutation_Response>;
+  /** insert a single row into the table: "user_borrow" */
+  insertUserBorrowOne?: Maybe<User_Borrow>;
   /** insert a single row into the table: "user" */
   insertUserOne?: Maybe<User>;
+  /** insert data into the table: "user_supply" */
+  insertUserSupply?: Maybe<User_Supply_Mutation_Response>;
+  /** insert a single row into the table: "user_supply" */
+  insertUserSupplyOne?: Maybe<User_Supply>;
   /** insert data into the table: "withdraw_tx" */
   insertWithdrawTx?: Maybe<Withdraw_Tx_Mutation_Response>;
   /** insert a single row into the table: "withdraw_tx" */
@@ -3623,10 +3445,6 @@ export type Mutation_Root = {
   updateDipdupSchema?: Maybe<Dipdup_Schema_Mutation_Response>;
   /** update single row of the table: "dipdup_schema" */
   updateDipdupSchemaByPk?: Maybe<Dipdup_Schema>;
-  /** update data of the table: "funds" */
-  updateFunds?: Maybe<Funds_Mutation_Response>;
-  /** update single row of the table: "funds" */
-  updateFundsByPk?: Maybe<Funds>;
   /** update data of the table: "global_factors" */
   updateGlobalFactors?: Maybe<Global_Factors_Mutation_Response>;
   /** update single row of the table: "global_factors" */
@@ -3657,8 +3475,16 @@ export type Mutation_Root = {
   updateTokenByPk?: Maybe<Token>;
   /** update data of the table: "user" */
   updateUser?: Maybe<User_Mutation_Response>;
+  /** update data of the table: "user_borrow" */
+  updateUserBorrow?: Maybe<User_Borrow_Mutation_Response>;
+  /** update single row of the table: "user_borrow" */
+  updateUserBorrowByPk?: Maybe<User_Borrow>;
   /** update single row of the table: "user" */
   updateUserByPk?: Maybe<User>;
+  /** update data of the table: "user_supply" */
+  updateUserSupply?: Maybe<User_Supply_Mutation_Response>;
+  /** update single row of the table: "user_supply" */
+  updateUserSupplyByPk?: Maybe<User_Supply>;
   /** update data of the table: "withdraw_tx" */
   updateWithdrawTx?: Maybe<Withdraw_Tx_Mutation_Response>;
   /** update single row of the table: "withdraw_tx" */
@@ -3755,18 +3581,6 @@ export type Mutation_RootDeleteDipdupSchemaByPkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootDeleteFundsArgs = {
-  where: Funds_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootDeleteFundsByPkArgs = {
-  id: Scalars['Int'];
-};
-
-
-/** mutation root */
 export type Mutation_RootDeleteGlobalFactorsArgs = {
   where: Global_Factors_Bool_Exp;
 };
@@ -3857,8 +3671,32 @@ export type Mutation_RootDeleteUserArgs = {
 
 
 /** mutation root */
+export type Mutation_RootDeleteUserBorrowArgs = {
+  where: User_Borrow_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserBorrowByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
+/** mutation root */
 export type Mutation_RootDeleteUserByPkArgs = {
   address: Scalars['String'];
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserSupplyArgs = {
+  where: User_Supply_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootDeleteUserSupplyByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -3985,20 +3823,6 @@ export type Mutation_RootInsertDipdupSchemaOneArgs = {
 
 
 /** mutation root */
-export type Mutation_RootInsertFundsArgs = {
-  objects: Array<Funds_Insert_Input>;
-  on_conflict?: InputMaybe<Funds_On_Conflict>;
-};
-
-
-/** mutation root */
-export type Mutation_RootInsertFundsOneArgs = {
-  object: Funds_Insert_Input;
-  on_conflict?: InputMaybe<Funds_On_Conflict>;
-};
-
-
-/** mutation root */
 export type Mutation_RootInsertGlobalFactorsArgs = {
   objects: Array<Global_Factors_Insert_Input>;
   on_conflict?: InputMaybe<Global_Factors_On_Conflict>;
@@ -4104,9 +3928,37 @@ export type Mutation_RootInsertUserArgs = {
 
 
 /** mutation root */
+export type Mutation_RootInsertUserBorrowArgs = {
+  objects: Array<User_Borrow_Insert_Input>;
+  on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertUserBorrowOneArgs = {
+  object: User_Borrow_Insert_Input;
+  on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
+};
+
+
+/** mutation root */
 export type Mutation_RootInsertUserOneArgs = {
   object: User_Insert_Input;
   on_conflict?: InputMaybe<User_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertUserSupplyArgs = {
+  objects: Array<User_Supply_Insert_Input>;
+  on_conflict?: InputMaybe<User_Supply_On_Conflict>;
+};
+
+
+/** mutation root */
+export type Mutation_RootInsertUserSupplyOneArgs = {
+  object: User_Supply_Insert_Input;
+  on_conflict?: InputMaybe<User_Supply_On_Conflict>;
 };
 
 
@@ -4257,22 +4109,6 @@ export type Mutation_RootUpdateDipdupSchemaByPkArgs = {
 
 
 /** mutation root */
-export type Mutation_RootUpdateFundsArgs = {
-  _inc?: InputMaybe<Funds_Inc_Input>;
-  _set?: InputMaybe<Funds_Set_Input>;
-  where: Funds_Bool_Exp;
-};
-
-
-/** mutation root */
-export type Mutation_RootUpdateFundsByPkArgs = {
-  _inc?: InputMaybe<Funds_Inc_Input>;
-  _set?: InputMaybe<Funds_Set_Input>;
-  pk_columns: Funds_Pk_Columns_Input;
-};
-
-
-/** mutation root */
 export type Mutation_RootUpdateGlobalFactorsArgs = {
   _inc?: InputMaybe<Global_Factors_Inc_Input>;
   _set?: InputMaybe<Global_Factors_Set_Input>;
@@ -4393,10 +4229,42 @@ export type Mutation_RootUpdateUserArgs = {
 
 
 /** mutation root */
+export type Mutation_RootUpdateUserBorrowArgs = {
+  _inc?: InputMaybe<User_Borrow_Inc_Input>;
+  _set?: InputMaybe<User_Borrow_Set_Input>;
+  where: User_Borrow_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserBorrowByPkArgs = {
+  _inc?: InputMaybe<User_Borrow_Inc_Input>;
+  _set?: InputMaybe<User_Borrow_Set_Input>;
+  pk_columns: User_Borrow_Pk_Columns_Input;
+};
+
+
+/** mutation root */
 export type Mutation_RootUpdateUserByPkArgs = {
   _inc?: InputMaybe<User_Inc_Input>;
   _set?: InputMaybe<User_Set_Input>;
   pk_columns: User_Pk_Columns_Input;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserSupplyArgs = {
+  _inc?: InputMaybe<User_Supply_Inc_Input>;
+  _set?: InputMaybe<User_Supply_Set_Input>;
+  where: User_Supply_Bool_Exp;
+};
+
+
+/** mutation root */
+export type Mutation_RootUpdateUserSupplyByPkArgs = {
+  _inc?: InputMaybe<User_Supply_Inc_Input>;
+  _set?: InputMaybe<User_Supply_Set_Input>;
+  pk_columns: User_Supply_Pk_Columns_Input;
 };
 
 
@@ -4698,12 +4566,6 @@ export type Query_Root = {
   dipdupSchemaAggregate: Dipdup_Schema_Aggregate;
   /** fetch data from the table: "dipdup_schema" using primary key columns */
   dipdupSchemaByPk?: Maybe<Dipdup_Schema>;
-  /** fetch data from the table: "funds" */
-  funds: Array<Funds>;
-  /** fetch aggregated fields from the table: "funds" */
-  fundsAggregate: Funds_Aggregate;
-  /** fetch data from the table: "funds" using primary key columns */
-  fundsByPk?: Maybe<Funds>;
   /** fetch data from the table: "global_factors" */
   globalFactors: Array<Global_Factors>;
   /** fetch aggregated fields from the table: "global_factors" */
@@ -4756,8 +4618,20 @@ export type Query_Root = {
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
   userAggregate: User_Aggregate;
+  /** An array relationship */
+  userBorrow: Array<User_Borrow>;
+  /** fetch aggregated fields from the table: "user_borrow" */
+  userBorrowAggregate: User_Borrow_Aggregate;
+  /** fetch data from the table: "user_borrow" using primary key columns */
+  userBorrowByPk?: Maybe<User_Borrow>;
   /** fetch data from the table: "user" using primary key columns */
   userByPk?: Maybe<User>;
+  /** fetch data from the table: "user_supply" */
+  userSupply: Array<User_Supply>;
+  /** fetch aggregated fields from the table: "user_supply" */
+  userSupplyAggregate: User_Supply_Aggregate;
+  /** fetch data from the table: "user_supply" using primary key columns */
+  userSupplyByPk?: Maybe<User_Supply>;
   /** fetch data from the table: "withdraw_tx" */
   withdrawTx: Array<Withdraw_Tx>;
   /** fetch aggregated fields from the table: "withdraw_tx" */
@@ -4925,29 +4799,6 @@ export type Query_RootDipdupSchemaAggregateArgs = {
 
 export type Query_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
-};
-
-
-export type Query_RootFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-
-export type Query_RootFundsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-
-export type Query_RootFundsByPkArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -5153,8 +5004,54 @@ export type Query_RootUserAggregateArgs = {
 };
 
 
+export type Query_RootUserBorrowArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+export type Query_RootUserBorrowAggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+export type Query_RootUserBorrowByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootUserByPkArgs = {
   address: Scalars['String'];
+};
+
+
+export type Query_RootUserSupplyArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+export type Query_RootUserSupplyAggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+export type Query_RootUserSupplyByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -5290,6 +5187,8 @@ export type Rates_Bool_Exp = {
 
 /** unique or primary key constraints on table "rates" */
 export enum Rates_Constraint {
+  /** unique or primary key constraint */
+  RatesAssetIdKey = 'rates_asset_id_key',
   /** unique or primary key constraint */
   RatesPkey = 'rates_pkey'
 }
@@ -5639,6 +5538,7 @@ export type Repay_Tx = {
   assetId: Scalars['Int'];
   id: Scalars['Int'];
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount: Scalars['numeric'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
@@ -5702,6 +5602,7 @@ export type Repay_Tx_Avg_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "repay_tx" */
@@ -5709,6 +5610,7 @@ export type Repay_Tx_Avg_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "repay_tx". All fields are combined with a logical 'AND'. */
@@ -5721,6 +5623,7 @@ export type Repay_Tx_Bool_Exp = {
   assetId?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+  usdAmount?: InputMaybe<Numeric_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
   userId?: InputMaybe<String_Comparison_Exp>;
 };
@@ -5736,6 +5639,7 @@ export type Repay_Tx_Inc_Input = {
   amount?: InputMaybe<Scalars['numeric']>;
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "repay_tx" */
@@ -5745,6 +5649,7 @@ export type Repay_Tx_Insert_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -5756,6 +5661,7 @@ export type Repay_Tx_Max_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -5765,6 +5671,7 @@ export type Repay_Tx_Max_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -5775,6 +5682,7 @@ export type Repay_Tx_Min_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -5784,6 +5692,7 @@ export type Repay_Tx_Min_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -5810,6 +5719,7 @@ export type Repay_Tx_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -5830,6 +5740,8 @@ export enum Repay_Tx_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -5839,6 +5751,7 @@ export type Repay_Tx_Set_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -5848,6 +5761,7 @@ export type Repay_Tx_Stddev_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "repay_tx" */
@@ -5855,6 +5769,7 @@ export type Repay_Tx_Stddev_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -5863,6 +5778,7 @@ export type Repay_Tx_Stddev_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "repay_tx" */
@@ -5870,6 +5786,7 @@ export type Repay_Tx_Stddev_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -5878,6 +5795,7 @@ export type Repay_Tx_Stddev_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "repay_tx" */
@@ -5885,6 +5803,7 @@ export type Repay_Tx_Stddev_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -5893,6 +5812,7 @@ export type Repay_Tx_Sum_Fields = {
   amount?: Maybe<Scalars['numeric']>;
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "repay_tx" */
@@ -5900,6 +5820,7 @@ export type Repay_Tx_Sum_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "repay_tx" */
@@ -5913,6 +5834,8 @@ export enum Repay_Tx_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -5922,6 +5845,7 @@ export type Repay_Tx_Var_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "repay_tx" */
@@ -5929,6 +5853,7 @@ export type Repay_Tx_Var_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -5937,6 +5862,7 @@ export type Repay_Tx_Var_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "repay_tx" */
@@ -5944,6 +5870,7 @@ export type Repay_Tx_Var_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -5952,6 +5879,7 @@ export type Repay_Tx_Variance_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "repay_tx" */
@@ -5959,6 +5887,7 @@ export type Repay_Tx_Variance_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 export type Subscription_Root = {
@@ -6005,12 +5934,6 @@ export type Subscription_Root = {
   dipdupSchemaAggregate: Dipdup_Schema_Aggregate;
   /** fetch data from the table: "dipdup_schema" using primary key columns */
   dipdupSchemaByPk?: Maybe<Dipdup_Schema>;
-  /** fetch data from the table: "funds" */
-  funds: Array<Funds>;
-  /** fetch aggregated fields from the table: "funds" */
-  fundsAggregate: Funds_Aggregate;
-  /** fetch data from the table: "funds" using primary key columns */
-  fundsByPk?: Maybe<Funds>;
   /** fetch data from the table: "global_factors" */
   globalFactors: Array<Global_Factors>;
   /** fetch aggregated fields from the table: "global_factors" */
@@ -6063,8 +5986,20 @@ export type Subscription_Root = {
   user: Array<User>;
   /** fetch aggregated fields from the table: "user" */
   userAggregate: User_Aggregate;
+  /** An array relationship */
+  userBorrow: Array<User_Borrow>;
+  /** fetch aggregated fields from the table: "user_borrow" */
+  userBorrowAggregate: User_Borrow_Aggregate;
+  /** fetch data from the table: "user_borrow" using primary key columns */
+  userBorrowByPk?: Maybe<User_Borrow>;
   /** fetch data from the table: "user" using primary key columns */
   userByPk?: Maybe<User>;
+  /** fetch data from the table: "user_supply" */
+  userSupply: Array<User_Supply>;
+  /** fetch aggregated fields from the table: "user_supply" */
+  userSupplyAggregate: User_Supply_Aggregate;
+  /** fetch data from the table: "user_supply" using primary key columns */
+  userSupplyByPk?: Maybe<User_Supply>;
   /** fetch data from the table: "withdraw_tx" */
   withdrawTx: Array<Withdraw_Tx>;
   /** fetch aggregated fields from the table: "withdraw_tx" */
@@ -6232,29 +6167,6 @@ export type Subscription_RootDipdupSchemaAggregateArgs = {
 
 export type Subscription_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
-};
-
-
-export type Subscription_RootFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-
-export type Subscription_RootFundsAggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-
-export type Subscription_RootFundsByPkArgs = {
-  id: Scalars['Int'];
 };
 
 
@@ -6460,8 +6372,54 @@ export type Subscription_RootUserAggregateArgs = {
 };
 
 
+export type Subscription_RootUserBorrowArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserBorrowAggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserBorrowByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Subscription_RootUserByPkArgs = {
   address: Scalars['String'];
+};
+
+
+export type Subscription_RootUserSupplyArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserSupplyAggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+export type Subscription_RootUserSupplyByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -6496,6 +6454,7 @@ export type Supply_Tx = {
   assetId: Scalars['Int'];
   id: Scalars['Int'];
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount: Scalars['numeric'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
@@ -6559,6 +6518,7 @@ export type Supply_Tx_Avg_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "supply_tx" */
@@ -6566,6 +6526,7 @@ export type Supply_Tx_Avg_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "supply_tx". All fields are combined with a logical 'AND'. */
@@ -6578,6 +6539,7 @@ export type Supply_Tx_Bool_Exp = {
   assetId?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+  usdAmount?: InputMaybe<Numeric_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
   userId?: InputMaybe<String_Comparison_Exp>;
 };
@@ -6593,6 +6555,7 @@ export type Supply_Tx_Inc_Input = {
   amount?: InputMaybe<Scalars['numeric']>;
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "supply_tx" */
@@ -6602,6 +6565,7 @@ export type Supply_Tx_Insert_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -6613,6 +6577,7 @@ export type Supply_Tx_Max_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -6622,6 +6587,7 @@ export type Supply_Tx_Max_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -6632,6 +6598,7 @@ export type Supply_Tx_Min_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -6641,6 +6608,7 @@ export type Supply_Tx_Min_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -6667,6 +6635,7 @@ export type Supply_Tx_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -6687,6 +6656,8 @@ export enum Supply_Tx_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -6696,6 +6667,7 @@ export type Supply_Tx_Set_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -6705,6 +6677,7 @@ export type Supply_Tx_Stddev_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "supply_tx" */
@@ -6712,6 +6685,7 @@ export type Supply_Tx_Stddev_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -6720,6 +6694,7 @@ export type Supply_Tx_Stddev_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "supply_tx" */
@@ -6727,6 +6702,7 @@ export type Supply_Tx_Stddev_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -6735,6 +6711,7 @@ export type Supply_Tx_Stddev_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "supply_tx" */
@@ -6742,6 +6719,7 @@ export type Supply_Tx_Stddev_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -6750,6 +6728,7 @@ export type Supply_Tx_Sum_Fields = {
   amount?: Maybe<Scalars['numeric']>;
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "supply_tx" */
@@ -6757,6 +6736,7 @@ export type Supply_Tx_Sum_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "supply_tx" */
@@ -6770,6 +6750,8 @@ export enum Supply_Tx_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -6779,6 +6761,7 @@ export type Supply_Tx_Var_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "supply_tx" */
@@ -6786,6 +6769,7 @@ export type Supply_Tx_Var_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -6794,6 +6778,7 @@ export type Supply_Tx_Var_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "supply_tx" */
@@ -6801,6 +6786,7 @@ export type Supply_Tx_Var_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -6809,6 +6795,7 @@ export type Supply_Tx_Variance_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "supply_tx" */
@@ -6816,6 +6803,7 @@ export type Supply_Tx_Variance_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to compare columns of type "timestamptz". All fields are combined with logical 'AND'. */
@@ -7186,23 +7174,30 @@ export type User = {
   /** An aggregate relationship */
   liquidator_aggregate: Liquidate_Tx_Aggregate;
   maxCollateral: Scalars['numeric'];
+  netApy: Scalars['numeric'];
   outstandingBorrow: Scalars['numeric'];
+  totalBorrowUsd: Scalars['numeric'];
+  totalSupplyUsd: Scalars['numeric'];
+  /** An array relationship */
+  userBorrow: Array<User_Borrow>;
   /** An array relationship */
   userBorrowTx: Array<Borrow_Tx>;
   /** An aggregate relationship */
   userBorrowTx_aggregate: Borrow_Tx_Aggregate;
-  /** An array relationship */
-  userFunds: Array<Funds>;
   /** An aggregate relationship */
-  userFunds_aggregate: Funds_Aggregate;
+  userBorrow_aggregate: User_Borrow_Aggregate;
   /** An array relationship */
   userRepayTx: Array<Repay_Tx>;
   /** An aggregate relationship */
   userRepayTx_aggregate: Repay_Tx_Aggregate;
+  /** fetch data from the table: "user_supply" */
+  userSupply: Array<User_Supply>;
   /** An array relationship */
   userSupplyTx: Array<Supply_Tx>;
   /** An aggregate relationship */
   userSupplyTx_aggregate: Supply_Tx_Aggregate;
+  /** An aggregate relationship */
+  userSupply_aggregate: User_Supply_Aggregate;
   /** An array relationship */
   userWithdrawTx: Array<Withdraw_Tx>;
   /** An aggregate relationship */
@@ -7251,6 +7246,16 @@ export type UserLiquidator_AggregateArgs = {
 
 
 /** columns and relationships of "user" */
+export type UserUserBorrowArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
 export type UserUserBorrowTxArgs = {
   distinct_on?: InputMaybe<Array<Borrow_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7271,22 +7276,12 @@ export type UserUserBorrowTx_AggregateArgs = {
 
 
 /** columns and relationships of "user" */
-export type UserUserFundsArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
+export type UserUserBorrow_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Borrow_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
-};
-
-
-/** columns and relationships of "user" */
-export type UserUserFunds_AggregateArgs = {
-  distinct_on?: InputMaybe<Array<Funds_Select_Column>>;
-  limit?: InputMaybe<Scalars['Int']>;
-  offset?: InputMaybe<Scalars['Int']>;
-  order_by?: InputMaybe<Array<Funds_Order_By>>;
-  where?: InputMaybe<Funds_Bool_Exp>;
+  order_by?: InputMaybe<Array<User_Borrow_Order_By>>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
 };
 
 
@@ -7311,6 +7306,16 @@ export type UserUserRepayTx_AggregateArgs = {
 
 
 /** columns and relationships of "user" */
+export type UserUserSupplyArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
 export type UserUserSupplyTxArgs = {
   distinct_on?: InputMaybe<Array<Supply_Tx_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -7327,6 +7332,16 @@ export type UserUserSupplyTx_AggregateArgs = {
   offset?: InputMaybe<Scalars['Int']>;
   order_by?: InputMaybe<Array<Supply_Tx_Order_By>>;
   where?: InputMaybe<Supply_Tx_Bool_Exp>;
+};
+
+
+/** columns and relationships of "user" */
+export type UserUserSupply_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<User_Supply_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<User_Supply_Order_By>>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
 };
 
 
@@ -7386,7 +7401,10 @@ export type User_Avg_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
@@ -7401,12 +7419,377 @@ export type User_Bool_Exp = {
   liquidationRatio?: InputMaybe<Numeric_Comparison_Exp>;
   liquidator?: InputMaybe<Liquidate_Tx_Bool_Exp>;
   maxCollateral?: InputMaybe<Numeric_Comparison_Exp>;
+  netApy?: InputMaybe<Numeric_Comparison_Exp>;
   outstandingBorrow?: InputMaybe<Numeric_Comparison_Exp>;
+  totalBorrowUsd?: InputMaybe<Numeric_Comparison_Exp>;
+  totalSupplyUsd?: InputMaybe<Numeric_Comparison_Exp>;
+  userBorrow?: InputMaybe<User_Borrow_Bool_Exp>;
   userBorrowTx?: InputMaybe<Borrow_Tx_Bool_Exp>;
-  userFunds?: InputMaybe<Funds_Bool_Exp>;
   userRepayTx?: InputMaybe<Repay_Tx_Bool_Exp>;
+  userSupply?: InputMaybe<User_Supply_Bool_Exp>;
   userSupplyTx?: InputMaybe<Supply_Tx_Bool_Exp>;
   userWithdrawTx?: InputMaybe<Withdraw_Tx_Bool_Exp>;
+};
+
+/** columns and relationships of "user_borrow" */
+export type User_Borrow = {
+  __typename?: 'user_borrow';
+  /** An object relationship */
+  asset: Asset;
+  assetId: Scalars['Int'];
+  borrow: Scalars['numeric'];
+  borrowIndex: Scalars['numeric'];
+  id: Scalars['Int'];
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  /** An object relationship */
+  user: User;
+  userId: Scalars['String'];
+};
+
+/** aggregated selection of "user_borrow" */
+export type User_Borrow_Aggregate = {
+  __typename?: 'user_borrow_aggregate';
+  aggregate?: Maybe<User_Borrow_Aggregate_Fields>;
+  nodes: Array<User_Borrow>;
+};
+
+/** aggregate fields of "user_borrow" */
+export type User_Borrow_Aggregate_Fields = {
+  __typename?: 'user_borrow_aggregate_fields';
+  avg?: Maybe<User_Borrow_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<User_Borrow_Max_Fields>;
+  min?: Maybe<User_Borrow_Min_Fields>;
+  stddev?: Maybe<User_Borrow_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Borrow_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Borrow_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Borrow_Sum_Fields>;
+  var_pop?: Maybe<User_Borrow_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Borrow_Var_Samp_Fields>;
+  variance?: Maybe<User_Borrow_Variance_Fields>;
+};
+
+
+/** aggregate fields of "user_borrow" */
+export type User_Borrow_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Borrow_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "user_borrow" */
+export type User_Borrow_Aggregate_Order_By = {
+  avg?: InputMaybe<User_Borrow_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Borrow_Max_Order_By>;
+  min?: InputMaybe<User_Borrow_Min_Order_By>;
+  stddev?: InputMaybe<User_Borrow_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<User_Borrow_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<User_Borrow_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<User_Borrow_Sum_Order_By>;
+  var_pop?: InputMaybe<User_Borrow_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<User_Borrow_Var_Samp_Order_By>;
+  variance?: InputMaybe<User_Borrow_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_borrow" */
+export type User_Borrow_Arr_Rel_Insert_Input = {
+  data: Array<User_Borrow_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<User_Borrow_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type User_Borrow_Avg_Fields = {
+  __typename?: 'user_borrow_avg_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "user_borrow" */
+export type User_Borrow_Avg_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "user_borrow". All fields are combined with a logical 'AND'. */
+export type User_Borrow_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Borrow_Bool_Exp>>;
+  _not?: InputMaybe<User_Borrow_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Borrow_Bool_Exp>>;
+  asset?: InputMaybe<Asset_Bool_Exp>;
+  assetId?: InputMaybe<Int_Comparison_Exp>;
+  borrow?: InputMaybe<Numeric_Comparison_Exp>;
+  borrowIndex?: InputMaybe<Numeric_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  interestUpdateTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  user?: InputMaybe<User_Bool_Exp>;
+  userId?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_borrow" */
+export enum User_Borrow_Constraint {
+  /** unique or primary key constraint */
+  UserBorrowPkey = 'user_borrow_pkey'
+}
+
+/** input type for incrementing numeric columns in table "user_borrow" */
+export type User_Borrow_Inc_Input = {
+  assetId?: InputMaybe<Scalars['Int']>;
+  borrow?: InputMaybe<Scalars['numeric']>;
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "user_borrow" */
+export type User_Borrow_Insert_Input = {
+  asset?: InputMaybe<Asset_Obj_Rel_Insert_Input>;
+  assetId?: InputMaybe<Scalars['Int']>;
+  borrow?: InputMaybe<Scalars['numeric']>;
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['Int']>;
+  interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
+  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type User_Borrow_Max_Fields = {
+  __typename?: 'user_borrow_max_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  borrow?: Maybe<Scalars['numeric']>;
+  borrowIndex?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['Int']>;
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "user_borrow" */
+export type User_Borrow_Max_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Borrow_Min_Fields = {
+  __typename?: 'user_borrow_min_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  borrow?: Maybe<Scalars['numeric']>;
+  borrowIndex?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['Int']>;
+  interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "user_borrow" */
+export type User_Borrow_Min_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_borrow" */
+export type User_Borrow_Mutation_Response = {
+  __typename?: 'user_borrow_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Borrow>;
+};
+
+/** on conflict condition type for table "user_borrow" */
+export type User_Borrow_On_Conflict = {
+  constraint: User_Borrow_Constraint;
+  update_columns?: Array<User_Borrow_Update_Column>;
+  where?: InputMaybe<User_Borrow_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_borrow". */
+export type User_Borrow_Order_By = {
+  asset?: InputMaybe<Asset_Order_By>;
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  interestUpdateTime?: InputMaybe<Order_By>;
+  user?: InputMaybe<User_Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: user_borrow */
+export type User_Borrow_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "user_borrow" */
+export enum User_Borrow_Select_Column {
+  /** column name */
+  AssetId = 'assetId',
+  /** column name */
+  Borrow = 'borrow',
+  /** column name */
+  BorrowIndex = 'borrowIndex',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InterestUpdateTime = 'interestUpdateTime',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "user_borrow" */
+export type User_Borrow_Set_Input = {
+  assetId?: InputMaybe<Scalars['Int']>;
+  borrow?: InputMaybe<Scalars['numeric']>;
+  borrowIndex?: InputMaybe<Scalars['numeric']>;
+  id?: InputMaybe<Scalars['Int']>;
+  interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type User_Borrow_Stddev_Fields = {
+  __typename?: 'user_borrow_stddev_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "user_borrow" */
+export type User_Borrow_Stddev_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Borrow_Stddev_Pop_Fields = {
+  __typename?: 'user_borrow_stddev_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "user_borrow" */
+export type User_Borrow_Stddev_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Borrow_Stddev_Samp_Fields = {
+  __typename?: 'user_borrow_stddev_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "user_borrow" */
+export type User_Borrow_Stddev_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type User_Borrow_Sum_Fields = {
+  __typename?: 'user_borrow_sum_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  borrow?: Maybe<Scalars['numeric']>;
+  borrowIndex?: Maybe<Scalars['numeric']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "user_borrow" */
+export type User_Borrow_Sum_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "user_borrow" */
+export enum User_Borrow_Update_Column {
+  /** column name */
+  AssetId = 'assetId',
+  /** column name */
+  Borrow = 'borrow',
+  /** column name */
+  BorrowIndex = 'borrowIndex',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  InterestUpdateTime = 'interestUpdateTime',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** aggregate var_pop on columns */
+export type User_Borrow_Var_Pop_Fields = {
+  __typename?: 'user_borrow_var_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "user_borrow" */
+export type User_Borrow_Var_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Borrow_Var_Samp_Fields = {
+  __typename?: 'user_borrow_var_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "user_borrow" */
+export type User_Borrow_Var_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type User_Borrow_Variance_Fields = {
+  __typename?: 'user_borrow_variance_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  borrow?: Maybe<Scalars['Float']>;
+  borrowIndex?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "user_borrow" */
+export type User_Borrow_Variance_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  borrow?: InputMaybe<Order_By>;
+  borrowIndex?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
 };
 
 /** unique or primary key constraints on table "user" */
@@ -7421,7 +7804,10 @@ export type User_Inc_Input = {
   liquidationCollateral?: InputMaybe<Scalars['numeric']>;
   liquidationRatio?: InputMaybe<Scalars['numeric']>;
   maxCollateral?: InputMaybe<Scalars['numeric']>;
+  netApy?: InputMaybe<Scalars['numeric']>;
   outstandingBorrow?: InputMaybe<Scalars['numeric']>;
+  totalBorrowUsd?: InputMaybe<Scalars['numeric']>;
+  totalSupplyUsd?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "user" */
@@ -7433,10 +7819,14 @@ export type User_Insert_Input = {
   liquidationRatio?: InputMaybe<Scalars['numeric']>;
   liquidator?: InputMaybe<Liquidate_Tx_Arr_Rel_Insert_Input>;
   maxCollateral?: InputMaybe<Scalars['numeric']>;
+  netApy?: InputMaybe<Scalars['numeric']>;
   outstandingBorrow?: InputMaybe<Scalars['numeric']>;
+  totalBorrowUsd?: InputMaybe<Scalars['numeric']>;
+  totalSupplyUsd?: InputMaybe<Scalars['numeric']>;
+  userBorrow?: InputMaybe<User_Borrow_Arr_Rel_Insert_Input>;
   userBorrowTx?: InputMaybe<Borrow_Tx_Arr_Rel_Insert_Input>;
-  userFunds?: InputMaybe<Funds_Arr_Rel_Insert_Input>;
   userRepayTx?: InputMaybe<Repay_Tx_Arr_Rel_Insert_Input>;
+  userSupply?: InputMaybe<User_Supply_Arr_Rel_Insert_Input>;
   userSupplyTx?: InputMaybe<Supply_Tx_Arr_Rel_Insert_Input>;
   userWithdrawTx?: InputMaybe<Withdraw_Tx_Arr_Rel_Insert_Input>;
 };
@@ -7449,7 +7839,10 @@ export type User_Max_Fields = {
   liquidationCollateral?: Maybe<Scalars['numeric']>;
   liquidationRatio?: Maybe<Scalars['numeric']>;
   maxCollateral?: Maybe<Scalars['numeric']>;
+  netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
+  totalBorrowUsd?: Maybe<Scalars['numeric']>;
+  totalSupplyUsd?: Maybe<Scalars['numeric']>;
 };
 
 /** aggregate min on columns */
@@ -7460,7 +7853,10 @@ export type User_Min_Fields = {
   liquidationCollateral?: Maybe<Scalars['numeric']>;
   liquidationRatio?: Maybe<Scalars['numeric']>;
   maxCollateral?: Maybe<Scalars['numeric']>;
+  netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
+  totalBorrowUsd?: Maybe<Scalars['numeric']>;
+  totalSupplyUsd?: Maybe<Scalars['numeric']>;
 };
 
 /** response of any mutation on the table "user" */
@@ -7495,11 +7891,15 @@ export type User_Order_By = {
   liquidationRatio?: InputMaybe<Order_By>;
   liquidator_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
   maxCollateral?: InputMaybe<Order_By>;
+  netApy?: InputMaybe<Order_By>;
   outstandingBorrow?: InputMaybe<Order_By>;
+  totalBorrowUsd?: InputMaybe<Order_By>;
+  totalSupplyUsd?: InputMaybe<Order_By>;
   userBorrowTx_aggregate?: InputMaybe<Borrow_Tx_Aggregate_Order_By>;
-  userFunds_aggregate?: InputMaybe<Funds_Aggregate_Order_By>;
+  userBorrow_aggregate?: InputMaybe<User_Borrow_Aggregate_Order_By>;
   userRepayTx_aggregate?: InputMaybe<Repay_Tx_Aggregate_Order_By>;
   userSupplyTx_aggregate?: InputMaybe<Supply_Tx_Aggregate_Order_By>;
+  userSupply_aggregate?: InputMaybe<User_Supply_Aggregate_Order_By>;
   userWithdrawTx_aggregate?: InputMaybe<Withdraw_Tx_Aggregate_Order_By>;
 };
 
@@ -7521,7 +7921,13 @@ export enum User_Select_Column {
   /** column name */
   MaxCollateral = 'maxCollateral',
   /** column name */
-  OutstandingBorrow = 'outstandingBorrow'
+  NetApy = 'netApy',
+  /** column name */
+  OutstandingBorrow = 'outstandingBorrow',
+  /** column name */
+  TotalBorrowUsd = 'totalBorrowUsd',
+  /** column name */
+  TotalSupplyUsd = 'totalSupplyUsd'
 }
 
 /** input type for updating data in table "user" */
@@ -7531,7 +7937,10 @@ export type User_Set_Input = {
   liquidationCollateral?: InputMaybe<Scalars['numeric']>;
   liquidationRatio?: InputMaybe<Scalars['numeric']>;
   maxCollateral?: InputMaybe<Scalars['numeric']>;
+  netApy?: InputMaybe<Scalars['numeric']>;
   outstandingBorrow?: InputMaybe<Scalars['numeric']>;
+  totalBorrowUsd?: InputMaybe<Scalars['numeric']>;
+  totalSupplyUsd?: InputMaybe<Scalars['numeric']>;
 };
 
 /** aggregate stddev on columns */
@@ -7541,7 +7950,10 @@ export type User_Stddev_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -7551,7 +7963,10 @@ export type User_Stddev_Pop_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -7561,7 +7976,10 @@ export type User_Stddev_Samp_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate sum on columns */
@@ -7571,7 +7989,337 @@ export type User_Sum_Fields = {
   liquidationCollateral?: Maybe<Scalars['numeric']>;
   liquidationRatio?: Maybe<Scalars['numeric']>;
   maxCollateral?: Maybe<Scalars['numeric']>;
+  netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
+  totalBorrowUsd?: Maybe<Scalars['numeric']>;
+  totalSupplyUsd?: Maybe<Scalars['numeric']>;
+};
+
+/** columns and relationships of "user_supply" */
+export type User_Supply = {
+  __typename?: 'user_supply';
+  /** An object relationship */
+  asset: Asset;
+  assetId: Scalars['Int'];
+  entered: Scalars['Boolean'];
+  id: Scalars['Int'];
+  supply: Scalars['numeric'];
+  /** An object relationship */
+  user: User;
+  userId: Scalars['String'];
+};
+
+/** aggregated selection of "user_supply" */
+export type User_Supply_Aggregate = {
+  __typename?: 'user_supply_aggregate';
+  aggregate?: Maybe<User_Supply_Aggregate_Fields>;
+  nodes: Array<User_Supply>;
+};
+
+/** aggregate fields of "user_supply" */
+export type User_Supply_Aggregate_Fields = {
+  __typename?: 'user_supply_aggregate_fields';
+  avg?: Maybe<User_Supply_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<User_Supply_Max_Fields>;
+  min?: Maybe<User_Supply_Min_Fields>;
+  stddev?: Maybe<User_Supply_Stddev_Fields>;
+  stddev_pop?: Maybe<User_Supply_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<User_Supply_Stddev_Samp_Fields>;
+  sum?: Maybe<User_Supply_Sum_Fields>;
+  var_pop?: Maybe<User_Supply_Var_Pop_Fields>;
+  var_samp?: Maybe<User_Supply_Var_Samp_Fields>;
+  variance?: Maybe<User_Supply_Variance_Fields>;
+};
+
+
+/** aggregate fields of "user_supply" */
+export type User_Supply_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<User_Supply_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "user_supply" */
+export type User_Supply_Aggregate_Order_By = {
+  avg?: InputMaybe<User_Supply_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<User_Supply_Max_Order_By>;
+  min?: InputMaybe<User_Supply_Min_Order_By>;
+  stddev?: InputMaybe<User_Supply_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<User_Supply_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<User_Supply_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<User_Supply_Sum_Order_By>;
+  var_pop?: InputMaybe<User_Supply_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<User_Supply_Var_Samp_Order_By>;
+  variance?: InputMaybe<User_Supply_Variance_Order_By>;
+};
+
+/** input type for inserting array relation for remote table "user_supply" */
+export type User_Supply_Arr_Rel_Insert_Input = {
+  data: Array<User_Supply_Insert_Input>;
+  /** on conflict condition */
+  on_conflict?: InputMaybe<User_Supply_On_Conflict>;
+};
+
+/** aggregate avg on columns */
+export type User_Supply_Avg_Fields = {
+  __typename?: 'user_supply_avg_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "user_supply" */
+export type User_Supply_Avg_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "user_supply". All fields are combined with a logical 'AND'. */
+export type User_Supply_Bool_Exp = {
+  _and?: InputMaybe<Array<User_Supply_Bool_Exp>>;
+  _not?: InputMaybe<User_Supply_Bool_Exp>;
+  _or?: InputMaybe<Array<User_Supply_Bool_Exp>>;
+  asset?: InputMaybe<Asset_Bool_Exp>;
+  assetId?: InputMaybe<Int_Comparison_Exp>;
+  entered?: InputMaybe<Boolean_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  supply?: InputMaybe<Numeric_Comparison_Exp>;
+  user?: InputMaybe<User_Bool_Exp>;
+  userId?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** unique or primary key constraints on table "user_supply" */
+export enum User_Supply_Constraint {
+  /** unique or primary key constraint */
+  UserSupplyPkey = 'user_supply_pkey'
+}
+
+/** input type for incrementing numeric columns in table "user_supply" */
+export type User_Supply_Inc_Input = {
+  assetId?: InputMaybe<Scalars['Int']>;
+  id?: InputMaybe<Scalars['Int']>;
+  supply?: InputMaybe<Scalars['numeric']>;
+};
+
+/** input type for inserting data into table "user_supply" */
+export type User_Supply_Insert_Input = {
+  asset?: InputMaybe<Asset_Obj_Rel_Insert_Input>;
+  assetId?: InputMaybe<Scalars['Int']>;
+  entered?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['Int']>;
+  supply?: InputMaybe<Scalars['numeric']>;
+  user?: InputMaybe<User_Obj_Rel_Insert_Input>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type User_Supply_Max_Fields = {
+  __typename?: 'user_supply_max_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  supply?: Maybe<Scalars['numeric']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** order by max() on columns of table "user_supply" */
+export type User_Supply_Max_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type User_Supply_Min_Fields = {
+  __typename?: 'user_supply_min_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  supply?: Maybe<Scalars['numeric']>;
+  userId?: Maybe<Scalars['String']>;
+};
+
+/** order by min() on columns of table "user_supply" */
+export type User_Supply_Min_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** response of any mutation on the table "user_supply" */
+export type User_Supply_Mutation_Response = {
+  __typename?: 'user_supply_mutation_response';
+  /** number of rows affected by the mutation */
+  affected_rows: Scalars['Int'];
+  /** data from the rows affected by the mutation */
+  returning: Array<User_Supply>;
+};
+
+/** on conflict condition type for table "user_supply" */
+export type User_Supply_On_Conflict = {
+  constraint: User_Supply_Constraint;
+  update_columns?: Array<User_Supply_Update_Column>;
+  where?: InputMaybe<User_Supply_Bool_Exp>;
+};
+
+/** Ordering options when selecting data from "user_supply". */
+export type User_Supply_Order_By = {
+  asset?: InputMaybe<Asset_Order_By>;
+  assetId?: InputMaybe<Order_By>;
+  entered?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+  user?: InputMaybe<User_Order_By>;
+  userId?: InputMaybe<Order_By>;
+};
+
+/** primary key columns input for table: user_supply */
+export type User_Supply_Pk_Columns_Input = {
+  id: Scalars['Int'];
+};
+
+/** select columns of table "user_supply" */
+export enum User_Supply_Select_Column {
+  /** column name */
+  AssetId = 'assetId',
+  /** column name */
+  Entered = 'entered',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Supply = 'supply',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** input type for updating data in table "user_supply" */
+export type User_Supply_Set_Input = {
+  assetId?: InputMaybe<Scalars['Int']>;
+  entered?: InputMaybe<Scalars['Boolean']>;
+  id?: InputMaybe<Scalars['Int']>;
+  supply?: InputMaybe<Scalars['numeric']>;
+  userId?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate stddev on columns */
+export type User_Supply_Stddev_Fields = {
+  __typename?: 'user_supply_stddev_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "user_supply" */
+export type User_Supply_Stddev_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type User_Supply_Stddev_Pop_Fields = {
+  __typename?: 'user_supply_stddev_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "user_supply" */
+export type User_Supply_Stddev_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type User_Supply_Stddev_Samp_Fields = {
+  __typename?: 'user_supply_stddev_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "user_supply" */
+export type User_Supply_Stddev_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type User_Supply_Sum_Fields = {
+  __typename?: 'user_supply_sum_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+  supply?: Maybe<Scalars['numeric']>;
+};
+
+/** order by sum() on columns of table "user_supply" */
+export type User_Supply_Sum_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** update columns of table "user_supply" */
+export enum User_Supply_Update_Column {
+  /** column name */
+  AssetId = 'assetId',
+  /** column name */
+  Entered = 'entered',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Supply = 'supply',
+  /** column name */
+  UserId = 'userId'
+}
+
+/** aggregate var_pop on columns */
+export type User_Supply_Var_Pop_Fields = {
+  __typename?: 'user_supply_var_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "user_supply" */
+export type User_Supply_Var_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type User_Supply_Var_Samp_Fields = {
+  __typename?: 'user_supply_var_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "user_supply" */
+export type User_Supply_Var_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type User_Supply_Variance_Fields = {
+  __typename?: 'user_supply_variance_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+  supply?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "user_supply" */
+export type User_Supply_Variance_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supply?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "user" */
@@ -7587,7 +8335,13 @@ export enum User_Update_Column {
   /** column name */
   MaxCollateral = 'maxCollateral',
   /** column name */
-  OutstandingBorrow = 'outstandingBorrow'
+  NetApy = 'netApy',
+  /** column name */
+  OutstandingBorrow = 'outstandingBorrow',
+  /** column name */
+  TotalBorrowUsd = 'totalBorrowUsd',
+  /** column name */
+  TotalSupplyUsd = 'totalSupplyUsd'
 }
 
 /** aggregate var_pop on columns */
@@ -7597,7 +8351,10 @@ export type User_Var_Pop_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
@@ -7607,7 +8364,10 @@ export type User_Var_Samp_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
@@ -7617,7 +8377,10 @@ export type User_Variance_Fields = {
   liquidationCollateral?: Maybe<Scalars['Float']>;
   liquidationRatio?: Maybe<Scalars['Float']>;
   maxCollateral?: Maybe<Scalars['Float']>;
+  netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
+  totalBorrowUsd?: Maybe<Scalars['Float']>;
+  totalSupplyUsd?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "withdraw_tx" */
@@ -7629,6 +8392,7 @@ export type Withdraw_Tx = {
   assetId: Scalars['Int'];
   id: Scalars['Int'];
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount: Scalars['numeric'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
@@ -7692,6 +8456,7 @@ export type Withdraw_Tx_Avg_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "withdraw_tx" */
@@ -7699,6 +8464,7 @@ export type Withdraw_Tx_Avg_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "withdraw_tx". All fields are combined with a logical 'AND'. */
@@ -7711,6 +8477,7 @@ export type Withdraw_Tx_Bool_Exp = {
   assetId?: InputMaybe<Int_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   timestamp?: InputMaybe<Timestamptz_Comparison_Exp>;
+  usdAmount?: InputMaybe<Numeric_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
   userId?: InputMaybe<String_Comparison_Exp>;
 };
@@ -7726,6 +8493,7 @@ export type Withdraw_Tx_Inc_Input = {
   amount?: InputMaybe<Scalars['numeric']>;
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "withdraw_tx" */
@@ -7735,6 +8503,7 @@ export type Withdraw_Tx_Insert_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -7746,6 +8515,7 @@ export type Withdraw_Tx_Max_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -7755,6 +8525,7 @@ export type Withdraw_Tx_Max_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -7765,6 +8536,7 @@ export type Withdraw_Tx_Min_Fields = {
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
   timestamp?: Maybe<Scalars['timestamptz']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -7774,6 +8546,7 @@ export type Withdraw_Tx_Min_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -7800,6 +8573,7 @@ export type Withdraw_Tx_Order_By = {
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   timestamp?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -7820,6 +8594,8 @@ export enum Withdraw_Tx_Select_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -7829,6 +8605,7 @@ export type Withdraw_Tx_Set_Input = {
   assetId?: InputMaybe<Scalars['Int']>;
   id?: InputMaybe<Scalars['Int']>;
   timestamp?: InputMaybe<Scalars['timestamptz']>;
+  usdAmount?: InputMaybe<Scalars['numeric']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -7838,6 +8615,7 @@ export type Withdraw_Tx_Stddev_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "withdraw_tx" */
@@ -7845,6 +8623,7 @@ export type Withdraw_Tx_Stddev_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -7853,6 +8632,7 @@ export type Withdraw_Tx_Stddev_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "withdraw_tx" */
@@ -7860,6 +8640,7 @@ export type Withdraw_Tx_Stddev_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -7868,6 +8649,7 @@ export type Withdraw_Tx_Stddev_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "withdraw_tx" */
@@ -7875,6 +8657,7 @@ export type Withdraw_Tx_Stddev_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -7883,6 +8666,7 @@ export type Withdraw_Tx_Sum_Fields = {
   amount?: Maybe<Scalars['numeric']>;
   assetId?: Maybe<Scalars['Int']>;
   id?: Maybe<Scalars['Int']>;
+  usdAmount?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "withdraw_tx" */
@@ -7890,6 +8674,7 @@ export type Withdraw_Tx_Sum_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "withdraw_tx" */
@@ -7903,6 +8688,8 @@ export enum Withdraw_Tx_Update_Column {
   /** column name */
   Timestamp = 'timestamp',
   /** column name */
+  UsdAmount = 'usdAmount',
+  /** column name */
   UserId = 'userId'
 }
 
@@ -7912,6 +8699,7 @@ export type Withdraw_Tx_Var_Pop_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "withdraw_tx" */
@@ -7919,6 +8707,7 @@ export type Withdraw_Tx_Var_Pop_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -7927,6 +8716,7 @@ export type Withdraw_Tx_Var_Samp_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "withdraw_tx" */
@@ -7934,6 +8724,7 @@ export type Withdraw_Tx_Var_Samp_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -7942,6 +8733,7 @@ export type Withdraw_Tx_Variance_Fields = {
   amount?: Maybe<Scalars['Float']>;
   assetId?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  usdAmount?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "withdraw_tx" */
@@ -7949,36 +8741,229 @@ export type Withdraw_Tx_Variance_Order_By = {
   amount?: InputMaybe<Order_By>;
   assetId?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  usdAmount?: InputMaybe<Order_By>;
 };
 
-export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
+export type LendingAllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }>, suppliersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined } }> };
+export type LendingAllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }>, oraclePrice: Array<{ __typename?: 'oracle_price', name: string, price: any, ytoken: number }> };
 
-export type LendingAssetsQueryVariables = Exact<{ [key: string]: never; }>;
+export type LendingUserAssetsQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
 
 
-export type LendingAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, collateralFactor: any, totalLiquid: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any }> }> };
+export type LendingUserAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }> };
 
 export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'funds', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
+export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
+
+export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', totalSupply?: any | null | undefined, totalBorrowed?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
+export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', totalSupply?: any | null | undefined, totalBorrowed?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
+
+export type GetUserStatsQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type GetUserStatsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', maxCollateral: any, liquidationRatio: any, liquidationCollateral: any, borrowRatio: any, netApy: any, totalSupplyUsd: any, totalBorrowUsd: any }> };
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
 }>;
 
 
-export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, borrowersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'funds_aggregate', aggregate?: { __typename?: 'funds_aggregate_fields', count: number } | null | undefined }, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
+export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationThreshold: any, liquidationIncentive: any }> };
+
+export type OraclePricesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
+export type OraclePricesQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', ytoken: number, price: any }> };
+
+export type UserBorrowedYTokensQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserBorrowedYTokensQuery = { __typename?: 'query_root', userBorrow: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', ytoken: number } }> };
+
+
+export const LendingAllAssetsDocument = gql`
+    query LendingAllAssets {
+  asset {
+    ytoken
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    rates {
+      supply_apy
+      borrow_apy
+      utilization_rate
+    }
+    collateralFactor
+    totalLiquid
+  }
+  oraclePrice {
+    name
+    price
+    ytoken
+  }
+}
+    `;
+
+/**
+ * __useLendingAllAssetsQuery__
+ *
+ * To run a query within a React component, call `useLendingAllAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLendingAllAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLendingAllAssetsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLendingAllAssetsQuery(baseOptions?: Apollo.QueryHookOptions<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
+      }
+export function useLendingAllAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>(LendingAllAssetsDocument, options);
+        }
+export type LendingAllAssetsQueryHookResult = ReturnType<typeof useLendingAllAssetsQuery>;
+export type LendingAllAssetsLazyQueryHookResult = ReturnType<typeof useLendingAllAssetsLazyQuery>;
+export type LendingAllAssetsQueryResult = Apollo.QueryResult<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>;
+export const LendingUserAssetsDocument = gql`
+    query LendingUserAssets($account: String) {
+  userSupply(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+    supply
+    entered
+  }
+  userBorrow(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+    borrow
+  }
+  user(where: {address: {_eq: $account}}) {
+    maxCollateral
+    outstandingBorrow
+  }
+}
+    `;
+
+/**
+ * __useLendingUserAssetsQuery__
+ *
+ * To run a query within a React component, call `useLendingUserAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLendingUserAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLendingUserAssetsQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useLendingUserAssetsQuery(baseOptions?: Apollo.QueryHookOptions<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>(LendingUserAssetsDocument, options);
+      }
+export function useLendingUserAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>(LendingUserAssetsDocument, options);
+        }
+export type LendingUserAssetsQueryHookResult = ReturnType<typeof useLendingUserAssetsQuery>;
+export type LendingUserAssetsLazyQueryHookResult = ReturnType<typeof useLendingUserAssetsLazyQuery>;
+export type LendingUserAssetsQueryResult = Apollo.QueryResult<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>;
+export const LiquidationPositionsDocument = gql`
+    query LiquidationPositions {
+  user {
+    address
+    outstandingBorrow
+    liquidationRatio
+    borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+    collateralAssets: userSupply(where: {entered: {_eq: true}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+  }
+}
+    `;
+
+/**
+ * __useLiquidationPositionsQuery__
+ *
+ * To run a query within a React component, call `useLiquidationPositionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLiquidationPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLiquidationPositionsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useLiquidationPositionsQuery(baseOptions?: Apollo.QueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+      }
+export function useLiquidationPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+        }
+export type LiquidationPositionsQueryHookResult = ReturnType<typeof useLiquidationPositionsQuery>;
+export type LiquidationPositionsLazyQueryHookResult = ReturnType<typeof useLiquidationPositionsLazyQuery>;
+export type LiquidationPositionsQueryResult = Apollo.QueryResult<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>;
 export const MarketsAllDocument = gql`
     query MarketsAll {
   asset {
@@ -7998,7 +8983,7 @@ export const MarketsAllDocument = gql`
       supply_apy
       borrow_apy
     }
-    suppliersCount: assetUserFunds_aggregate(
+    suppliersCount: assetUserSupply_aggregate(
       where: {supply: {_gt: "0"}}
       distinct_on: userId
     ) {
@@ -8006,7 +8991,7 @@ export const MarketsAllDocument = gql`
         count
       }
     }
-    borrowersCount: assetUserFunds_aggregate(
+    borrowersCount: assetUserBorrow_aggregate(
       where: {borrow: {_gt: "0"}}
       distinct_on: userId
     ) {
@@ -8044,118 +9029,6 @@ export function useMarketsAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type MarketsAllQueryHookResult = ReturnType<typeof useMarketsAllQuery>;
 export type MarketsAllLazyQueryHookResult = ReturnType<typeof useMarketsAllLazyQuery>;
 export type MarketsAllQueryResult = Apollo.QueryResult<MarketsAllQuery, MarketsAllQueryVariables>;
-export const LendingAssetsDocument = gql`
-    query LendingAssets {
-  asset {
-    ytoken
-    contractAddress
-    isFa2
-    tokenId
-    tokens {
-      name
-      symbol
-      thumbnail
-      decimals
-    }
-    rates {
-      supply_apy
-      borrow_apy
-      utilization_rate
-    }
-    collateralFactor
-    totalLiquid
-  }
-}
-    `;
-
-/**
- * __useLendingAssetsQuery__
- *
- * To run a query within a React component, call `useLendingAssetsQuery` and pass it any options that fit your needs.
- * When your component renders, `useLendingAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLendingAssetsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useLendingAssetsQuery(baseOptions?: Apollo.QueryHookOptions<LendingAssetsQuery, LendingAssetsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LendingAssetsQuery, LendingAssetsQueryVariables>(LendingAssetsDocument, options);
-      }
-export function useLendingAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LendingAssetsQuery, LendingAssetsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LendingAssetsQuery, LendingAssetsQueryVariables>(LendingAssetsDocument, options);
-        }
-export type LendingAssetsQueryHookResult = ReturnType<typeof useLendingAssetsQuery>;
-export type LendingAssetsLazyQueryHookResult = ReturnType<typeof useLendingAssetsLazyQuery>;
-export type LendingAssetsQueryResult = Apollo.QueryResult<LendingAssetsQuery, LendingAssetsQueryVariables>;
-export const LiquidationPositionsDocument = gql`
-    query LiquidationPositions {
-  user {
-    address
-    outstandingBorrow
-    borrowedAssets: userFunds(where: {borrow: {_gt: "0"}}) {
-      asset {
-        contractAddress
-        isFa2
-        tokenId
-        tokens {
-          name
-          symbol
-          thumbnail
-          decimals
-        }
-      }
-    }
-    collateralAssets: userFunds(where: {entered: {_eq: true}}) {
-      asset {
-        contractAddress
-        isFa2
-        tokenId
-        tokens {
-          name
-          symbol
-          thumbnail
-          decimals
-        }
-      }
-    }
-    liquidationRatio
-  }
-}
-    `;
-
-/**
- * __useLiquidationPositionsQuery__
- *
- * To run a query within a React component, call `useLiquidationPositionsQuery` and pass it any options that fit your needs.
- * When your component renders, `useLiquidationPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLiquidationPositionsQuery({
- *   variables: {
- *   },
- * });
- */
-export function useLiquidationPositionsQuery(baseOptions?: Apollo.QueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
-      }
-export function useLiquidationPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
-        }
-export type LiquidationPositionsQueryHookResult = ReturnType<typeof useLiquidationPositionsQuery>;
-export type LiquidationPositionsLazyQueryHookResult = ReturnType<typeof useLiquidationPositionsLazyQuery>;
-export type LiquidationPositionsQueryResult = Apollo.QueryResult<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>;
 export const MarketOverviewDocument = gql`
     query MarketOverview {
   assetAggregate {
@@ -8170,12 +9043,18 @@ export const MarketOverviewDocument = gql`
     supplyVolume
     borrowVolume
   }
-  suppliersCount: fundsAggregate(where: {supply: {_gt: "0"}}, distinct_on: userId) {
+  suppliersCount: userSupplyAggregate(
+    where: {supply: {_gt: "0"}}
+    distinct_on: userId
+  ) {
     aggregate {
       count
     }
   }
-  borowersCount: fundsAggregate(where: {borrow: {_gt: "0"}}, distinct_on: userId) {
+  borowersCount: userBorrowAggregate(
+    where: {borrow: {_gt: "0"}}
+    distinct_on: userId
+  ) {
     aggregate {
       count
     }
@@ -8233,6 +9112,47 @@ export function useMarketOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type MarketOverviewQueryHookResult = ReturnType<typeof useMarketOverviewQuery>;
 export type MarketOverviewLazyQueryHookResult = ReturnType<typeof useMarketOverviewLazyQuery>;
 export type MarketOverviewQueryResult = Apollo.QueryResult<MarketOverviewQuery, MarketOverviewQueryVariables>;
+export const GetUserStatsDocument = gql`
+    query getUserStats($account: String) {
+  user(where: {address: {_eq: $account}}) {
+    maxCollateral
+    liquidationRatio
+    liquidationCollateral
+    borrowRatio
+    netApy
+    totalSupplyUsd
+    totalBorrowUsd
+  }
+}
+    `;
+
+/**
+ * __useGetUserStatsQuery__
+ *
+ * To run a query within a React component, call `useGetUserStatsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetUserStatsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetUserStatsQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useGetUserStatsQuery(baseOptions?: Apollo.QueryHookOptions<GetUserStatsQuery, GetUserStatsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
+      }
+export function useGetUserStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetUserStatsQuery, GetUserStatsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetUserStatsQuery, GetUserStatsQueryVariables>(GetUserStatsDocument, options);
+        }
+export type GetUserStatsQueryHookResult = ReturnType<typeof useGetUserStatsQuery>;
+export type GetUserStatsLazyQueryHookResult = ReturnType<typeof useGetUserStatsLazyQuery>;
+export type GetUserStatsQueryResult = Apollo.QueryResult<GetUserStatsQuery, GetUserStatsQueryVariables>;
 export const MarketsDetailsDocument = gql`
     query MarketsDetails($yToken: Int!) {
   asset(where: {ytoken: {_eq: $yToken}}) {
@@ -8257,7 +9177,13 @@ export const MarketsDetailsDocument = gql`
     collateralFactor
     reserves
     reserveFactor
-    borrowersCount: assetUserFunds_aggregate(
+    interestModel {
+      rate
+      multiplier
+      jumpMultiplier
+      kink
+    }
+    borrowersCount: assetUserBorrow_aggregate(
       where: {borrow: {_gt: "0"}}
       distinct_on: userId
     ) {
@@ -8265,19 +9191,13 @@ export const MarketsDetailsDocument = gql`
         count
       }
     }
-    suppliersCount: assetUserFunds_aggregate(
+    suppliersCount: assetUserSupply_aggregate(
       where: {supply: {_gt: "0"}}
       distinct_on: userId
     ) {
       aggregate {
         count
       }
-    }
-    interestModel {
-      rate
-      multiplier
-      jumpMultiplier
-      kink
     }
   }
   globalFactors {
@@ -8314,3 +9234,75 @@ export function useMarketsDetailsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type MarketsDetailsQueryHookResult = ReturnType<typeof useMarketsDetailsQuery>;
 export type MarketsDetailsLazyQueryHookResult = ReturnType<typeof useMarketsDetailsLazyQuery>;
 export type MarketsDetailsQueryResult = Apollo.QueryResult<MarketsDetailsQuery, MarketsDetailsQueryVariables>;
+export const OraclePricesDocument = gql`
+    query OraclePrices {
+  oraclePrice {
+    ytoken
+    price
+  }
+}
+    `;
+
+/**
+ * __useOraclePricesQuery__
+ *
+ * To run a query within a React component, call `useOraclePricesQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOraclePricesQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOraclePricesQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOraclePricesQuery(baseOptions?: Apollo.QueryHookOptions<OraclePricesQuery, OraclePricesQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OraclePricesQuery, OraclePricesQueryVariables>(OraclePricesDocument, options);
+      }
+export function useOraclePricesLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OraclePricesQuery, OraclePricesQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OraclePricesQuery, OraclePricesQueryVariables>(OraclePricesDocument, options);
+        }
+export type OraclePricesQueryHookResult = ReturnType<typeof useOraclePricesQuery>;
+export type OraclePricesLazyQueryHookResult = ReturnType<typeof useOraclePricesLazyQuery>;
+export type OraclePricesQueryResult = Apollo.QueryResult<OraclePricesQuery, OraclePricesQueryVariables>;
+export const UserBorrowedYTokensDocument = gql`
+    query UserBorrowedYTokens($account: String) {
+  userBorrow(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+  }
+}
+    `;
+
+/**
+ * __useUserBorrowedYTokensQuery__
+ *
+ * To run a query within a React component, call `useUserBorrowedYTokensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserBorrowedYTokensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserBorrowedYTokensQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useUserBorrowedYTokensQuery(baseOptions?: Apollo.QueryHookOptions<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>(UserBorrowedYTokensDocument, options);
+      }
+export function useUserBorrowedYTokensLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>(UserBorrowedYTokensDocument, options);
+        }
+export type UserBorrowedYTokensQueryHookResult = ReturnType<typeof useUserBorrowedYTokensQuery>;
+export type UserBorrowedYTokensLazyQueryHookResult = ReturnType<typeof useUserBorrowedYTokensLazyQuery>;
+export type UserBorrowedYTokensQueryResult = Apollo.QueryResult<UserBorrowedYTokensQuery, UserBorrowedYTokensQueryVariables>;

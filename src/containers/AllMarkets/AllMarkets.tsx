@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
-import BigNumber from 'bignumber.js';
 
-import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
-import { getPreparedPercentValue } from 'utils/getPreparedPercentValue';
+import { STANDARD_PRECISION } from 'constants/default';
+import { getPreparedTokenObject } from 'utils/helpers/token';
+import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
 import { Asset, MarketsAllQuery, useMarketsAllQuery } from 'generated/graphql';
 import { Markets } from 'components/tables/containers/Markets';
 
@@ -18,10 +18,10 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
   const preparedData = useMemo(() => (data ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as unknown as Asset);
 
-    const totalSupply = new BigNumber(el.totalSupply).div(1e18);
+    const totalSupply = convertUnits(el.totalSupply, STANDARD_PRECISION);
     const supplyApy = getPreparedPercentValue(el as unknown as Asset, 'supply_apy');
     const numberOfSupplier = el.suppliersCount.aggregate?.count ?? 0;
-    const totalBorrow = new BigNumber(el.totalBorrowed).div(1e18);
+    const totalBorrow = convertUnits(el.totalBorrowed, STANDARD_PRECISION);
     const borrowApy = getPreparedPercentValue(el as unknown as Asset, 'borrow_apy');
     const numberOfBorrowers = el.borrowersCount.aggregate?.count ?? 0;
 

@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
-import BigNumber from 'bignumber.js';
 
-import { getTokenName } from 'utils/getTokenName';
+import { STANDARD_PRECISION } from 'constants/default';
+import { getTokenName } from 'utils/helpers/token';
+import { convertUnits } from 'utils/helpers/amount';
 import { LiquidationPositionsQuery, useLiquidationPositionsQuery } from 'generated/graphql';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
 
@@ -32,10 +33,10 @@ const LiquidationPositionsWrapper: React.FC<LiquidationPositionsWrapperProps> = 
 
       result.push({
         borrowerAddress: el.address,
-        totalBorrowed: new BigNumber(el.outstandingBorrow).div(1e18),
+        totalBorrowed: convertUnits(el.outstandingBorrow, STANDARD_PRECISION),
         borrowedAsset,
         collateralAsset,
-        healthFactor: new BigNumber(el.liquidationRatio).div(1e18),
+        healthFactor: convertUnits(el.liquidationRatio, STANDARD_PRECISION),
       });
     }
     return result;

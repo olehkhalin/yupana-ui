@@ -1,0 +1,7 @@
+query UserBorrowedYTokens ($account: String) {
+  userBorrow(where: {userId: {_eq: $account}}) {
+    asset {
+      ytoken
+    }
+  }
+}
