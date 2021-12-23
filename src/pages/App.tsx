@@ -5,6 +5,7 @@ import {
 import animateScrollTo from 'animated-scroll-to';
 import BigNumber from 'bignumber.js';
 
+import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
 import { useAccountPkh } from 'utils/dapp';
 import {
   useOraclePricesQuery,
@@ -15,6 +16,7 @@ import {
   OraclePricesType,
   useOraclePrices,
 } from 'providers/OraclePricesProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
 import {
   UserBorrowedYTokensProvider,
   useUserBorrowedYTokens,
@@ -37,6 +39,7 @@ const AppInner = () => {
   const [fetch, { data: userBorrowedYTokensData }] = useUserBorrowedYTokensLazyQuery();
 
   const { setOraclePrices } = useOraclePrices();
+  const { setTezosPrice } = useCurrency();
   const { setUserBorrowedYTokens } = useUserBorrowedYTokens();
 
   const preparedOraclePrices = useMemo(() => {
@@ -45,7 +48,10 @@ const AppInner = () => {
     const newObj: OraclePricesType = {};
 
     oraclePricesData.oraclePrice.forEach((el) => {
-      newObj[el.ytoken] = new BigNumber(el.price);
+      newObj[el.ytoken] = {
+        price: new BigNumber(el.price),
+        decimals: el.decimals,
+      };
     });
 
     return newObj;
@@ -66,8 +72,14 @@ const AppInner = () => {
   }, [accountPkh, fetch]);
 
   useEffect(() => {
-    setOraclePrices(preparedOraclePrices);
-  }, [preparedOraclePrices, setOraclePrices]);
+    if (preparedOraclePrices) {
+      setOraclePrices(preparedOraclePrices);
+
+      const { price, decimals } = preparedOraclePrices[0]; // get tezos from oracle
+      const tezosPrice = convertTokenPrice(price, decimals);
+      setTezosPrice(+tezosPrice);
+    }
+  }, [preparedOraclePrices, setOraclePrices, setTezosPrice]);
 
   useEffect(() => {
     setUserBorrowedYTokens(preparedUserBorrowedYTokens);

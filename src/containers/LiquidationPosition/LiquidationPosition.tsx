@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
@@ -13,6 +14,8 @@ import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-col
 import s from './LiquidationPosition.module.sass';
 
 export const LiquidationPosition: React.FC = () => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const isWiderThanMphone = useWiderThanMphone();
 
   const ASSET_FROM_STEP_1 = 'XTZ';
@@ -107,7 +110,7 @@ export const LiquidationPosition: React.FC = () => {
               <div className={s.recieveValue}>
                 {getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
                 {' '}
-                {`(${getPrettyAmount({ value: 2141.70, currency: '$' })})`}
+                {`(${convertPriceByBasicCurrency(2100)})`}
               </div>
             </div>
 

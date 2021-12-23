@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -19,6 +20,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   data,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
 
   const columns = useMemo(
@@ -54,7 +56,9 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'priceOfBorrowedAsset',
-        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => `${priceOfBorrowedAsset.toFixed(2)}%`,
+        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => (
+          convertPriceByBasicCurrency(priceOfBorrowedAsset)
+        ),
       },
       {
         Header: () => (
@@ -72,10 +76,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: amountOfDebtUsd,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(amountOfDebtUsd)}
             </div>
           </div>
         ),
@@ -96,16 +97,13 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: maxLiquidateUsd,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(maxLiquidateUsd)}
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem],
+    [convertPriceByBasicCurrency, selectedItem],
   );
 
   return (

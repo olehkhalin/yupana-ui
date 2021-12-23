@@ -3,7 +3,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
-import { getPrettyAmount } from 'utils/helpers/amount';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { Button } from 'components/ui/Button';
 import { ProgressBar } from 'components/ui/ProgressBar';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
@@ -23,6 +23,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   title,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [amount, setAmount] = useState<number>(0);
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          {getPrettyAmount({ value, currency: '$' })}
+          {convertPriceByBasicCurrency(value)}
         </div>
       </div>
 

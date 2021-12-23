@@ -48,7 +48,7 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
     : new BigNumber(0)
   ), [userGeneralInfo]);
   const price = useMemo(() => (oraclePrices
-    ? oraclePrices[yToken!]
+    ? oraclePrices[yToken!].price
     : new BigNumber(1)
   ), [oraclePrices, yToken]);
 
