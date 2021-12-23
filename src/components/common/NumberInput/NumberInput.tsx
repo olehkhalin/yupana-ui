@@ -154,7 +154,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           value={localValue}
           maxValue={maxValue}
           onChange={handleSliderChange}
-          className={s.slider}
+          className={cx(s.slider, themeClasses[theme])}
         />
       )}
     </div>
