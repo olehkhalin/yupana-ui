@@ -118,7 +118,7 @@ export const UiKit: React.FC = () => {
           type="button"
           onClick={() => updateToast({
             type: 'info',
-            render: 'Test',
+            render: 'Request for Asset Borrow...',
           })}
           sizeT="small"
         >
@@ -133,7 +133,7 @@ export const UiKit: React.FC = () => {
           type="button"
           onClick={() => updateToast({
             type: 'error',
-            render: 'An unexpected error has occurred. Please retry your request',
+            render: 'An unexpected error has occrred. Please retry your request',
           })}
           sizeT="small"
         >

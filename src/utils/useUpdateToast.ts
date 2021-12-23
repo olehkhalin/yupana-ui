@@ -15,7 +15,7 @@ export default function useUpdateToast() {
     setTheme(type);
     const creationFn = type && type !== 'default' ? toast[type] : toast;
     if (toastIdRef.current && toast.isActive(toastIdRef.current)) {
-      toast.info(render);
+      toast(render);
     } else {
       toastIdRef.current = creationFn(render);
     }
