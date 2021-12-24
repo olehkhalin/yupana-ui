@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -19,6 +20,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   data,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
 
   const columns = useMemo(
@@ -57,7 +60,9 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'priceOfReceiveAsset',
-        accessor: ({ price }: any) => getPrettyAmount({ value: price, currency: '$' }),
+        accessor: ({ price }: any) => (
+          convertPriceByBasicCurrency(price)
+        ),
       },
       {
         Header: () => (
@@ -75,10 +80,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: 100,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(100)}
             </div>
           </div>
         ),
@@ -99,16 +101,13 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: 100,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(100)}
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem],
+    [convertPriceByBasicCurrency, selectedItem],
   );
 
   return (

@@ -1,5 +1,6 @@
 query MarketsDetails($yToken: Int!) {
   asset(where: { ytoken: { _eq: $yToken } }) {
+    ytoken
     contractAddress
     isFa2
     tokenId

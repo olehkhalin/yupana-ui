@@ -44,7 +44,7 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
     : new BigNumber(0)
   ), [userGeneralInfo]);
   const price = useMemo(() => (oraclePrices
-    ? oraclePrices[yToken!]
+    ? oraclePrices[yToken!].price
     : new BigNumber(1)
   ), [oraclePrices, yToken]);
 

@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { BorrowAsset, SupplyAsset } from 'types/liquidate';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
@@ -24,6 +25,8 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
     suppliedAssets,
   },
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const isWiderThanMphone = useWiderThanMphone();
 
   // TODO: Delete later
@@ -119,7 +122,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
               <div className={s.recieveValue}>
                 {getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
                 {' '}
-                {`(${getPrettyAmount({ value: 2141.70, currency: '$' })})`}
+                {`(${convertPriceByBasicCurrency(2100)})`}
               </div>
             </div>
 

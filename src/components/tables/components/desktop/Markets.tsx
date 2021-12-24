@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug } from 'utils/helpers/token';
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { getPrettyPercent } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
@@ -19,6 +20,8 @@ export const Markets: React.FC<MarketsProps> = ({
   data,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const columns = useMemo(
     () => [
       {
@@ -44,7 +47,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+            {convertPriceByBasicCurrency(row.totalSupply)}
           </span>
         ),
       },
@@ -83,7 +86,7 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
+            {convertPriceByBasicCurrency(row.totalBorrow)}
           </span>
         ),
       },
@@ -127,7 +130,7 @@ export const Markets: React.FC<MarketsProps> = ({
         ),
       },
     ],
-    [],
+    [convertPriceByBasicCurrency],
   );
 
   return (

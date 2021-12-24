@@ -1,8 +1,9 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { getPrettyPercent } from 'utils/helpers/amount';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import s from './UserStat.module.sass';
 
 type UserStatProps = {
@@ -17,33 +18,37 @@ export const UserStat: React.FC<UserStatProps> = ({
   userTotalBorrow,
   netApy,
   className,
-}) => (
-  <div className={cx(s.root, className)}>
-    <div className={s.item}>
-      <div className={s.title}>
-        Your Supply Balance:
-      </div>
-      <div className={s.value}>
-        {getPrettyAmount({ value: userTotalSupply, currency: '$' })}
-      </div>
-    </div>
+}) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
 
-    <div className={s.item}>
-      <div className={s.title}>
-        Net APY:
+  return (
+    <div className={cx(s.root, className)}>
+      <div className={s.item}>
+        <div className={s.title}>
+          Your Supply Balance:
+        </div>
+        <div className={s.value}>
+          {convertPriceByBasicCurrency(userTotalSupply)}
+        </div>
       </div>
-      <div className={s.value}>
-        {getPrettyPercent(netApy)}
-      </div>
-    </div>
 
-    <div className={s.item}>
-      <div className={s.title}>
-        Your Borrow Balance:
+      <div className={s.item}>
+        <div className={s.title}>
+          Net APY:
+        </div>
+        <div className={s.value}>
+          {getPrettyPercent(netApy)}
+        </div>
       </div>
-      <div className={s.value}>
-        {getPrettyAmount({ value: userTotalBorrow, currency: '$' })}
+
+      <div className={s.item}>
+        <div className={s.title}>
+          Your Borrow Balance:
+        </div>
+        <div className={s.value}>
+          {convertPriceByBasicCurrency(userTotalBorrow)}
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};

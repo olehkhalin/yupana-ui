@@ -31,7 +31,7 @@ export const getPrettyAmount = ({
   }
 
   if (currency) {
-    if (currency === '$') {
+    if (currency === '$' || currency === 'ꜩ') {
       return `${currency} ${finalValue}`;
     }
     return `${finalValue} ${currency}`;

@@ -2,7 +2,12 @@ import constate from 'constate';
 import { useState, useCallback } from 'react';
 import BigNumber from 'bignumber.js';
 
-export type OraclePricesType = { [key: number]: BigNumber };
+export type OraclePricesType = {
+  [key: number]: {
+    price: BigNumber
+    decimals: number
+  }
+};
 
 export const [
   OraclePricesProvider,

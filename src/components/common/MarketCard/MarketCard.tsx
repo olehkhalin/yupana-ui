@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { MarketCardInterface } from 'types/market-card';
 import { getUniqueKey } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -26,6 +27,8 @@ export const MarketCard: React.FC<MarketCardProps> = ({
   theme = 'primary',
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const isPrimaryTheme = theme === 'primary';
 
   return (
@@ -34,7 +37,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {isPrimaryTheme ? 'Total supply:' : 'Total borrow:'}
       </div>
       <div className={s.amount}>
-        {getPrettyAmount({ value: totalAmount, currency: '$' })}
+        {convertPriceByBasicCurrency(totalAmount)}
       </div>
 
       <div className={s.row}>
@@ -43,7 +46,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {isPrimaryTheme ? '24H Supply Volume' : '24H Borrow Volume'}
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: volume24h, currency: '$' })}
+          {convertPriceByBasicCurrency(volume24h)}
         </div>
       </div>
 

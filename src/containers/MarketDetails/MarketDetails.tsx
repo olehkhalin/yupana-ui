@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
@@ -30,6 +31,8 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
   data,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const {
     priceInUsd,
     availableLiquidity,
@@ -62,10 +65,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
-                value: availableLiquidity,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(availableLiquidity)}
             </div>
           </div>
 
@@ -81,10 +81,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
-                value: totalBorrow,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(totalBorrow)}
             </div>
           </div>
         </div>
@@ -126,7 +123,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
           />
           <Item
             text="Reserves"
-            value={getPrettyAmount({ value: reserves, currency: '$' })}
+            value={convertPriceByBasicCurrency(reserves)}
             icon={false}
             className={s.item}
           />
