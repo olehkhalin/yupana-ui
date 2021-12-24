@@ -22,4 +22,4 @@ export const LV_ACCOUNT_PKH = 'tz1fVQangAfb9J1hRRMP2bSB6LvASD6KpY8A';
 export const LV_ACCOUNT_PUBLIC_KEY = 'edpkvWbk81uh1DEvdWKR4g1bjyTGhdu1mDvznPUFE2zDwNsLXrEb9K';
 
 export const STANDARD_PRECISION = 18;
-export const COLLATERAL_PRECISION = 30;
+export const COLLATERAL_PRECISION = 42;

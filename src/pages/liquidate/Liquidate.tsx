@@ -16,7 +16,7 @@ export const Liquidate: React.FC = () => (
       className={s.root}
     >
       <LiquidateContainer />
+      <LiquidationPosition />
     </Section>
-    <LiquidationPosition />
   </>
 );

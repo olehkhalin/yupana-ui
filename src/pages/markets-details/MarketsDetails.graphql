@@ -3,6 +3,7 @@ query MarketsDetails($yToken: Int!) {
     contractAddress
     isFa2
     tokenId
+    liquidationThreshold
     tokens {
       name
       symbol
@@ -45,7 +46,6 @@ query MarketsDetails($yToken: Int!) {
     }
   }
   globalFactors {
-    liquidationThreshold
     liquidationIncentive
   }
 }

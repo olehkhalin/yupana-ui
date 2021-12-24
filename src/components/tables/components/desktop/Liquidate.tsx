@@ -44,10 +44,10 @@ export const Liquidate: React.FC<LiquidateProps> = ({
             Total Borrow
           </span>
         ),
-        id: 'totalBorrow',
+        id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow })}
+            {getPrettyAmount({ value: row.totalBorrowed })}
           </span>
         ),
       },
