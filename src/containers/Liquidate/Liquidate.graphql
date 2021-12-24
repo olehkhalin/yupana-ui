@@ -16,6 +16,7 @@ query Liquidate($address: String) {
           decimals
         }
       }
+      borrow
     }
     collateralAssets: userSupply(where: { entered: { _eq: true } }) {
       asset {
@@ -30,6 +31,11 @@ query Liquidate($address: String) {
           decimals
         }
       }
+      supply
     }
+  }
+  globalFactors {
+    liquidationIncentive
+    closeFactor
   }
 }

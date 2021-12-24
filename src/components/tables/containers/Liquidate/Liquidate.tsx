@@ -28,7 +28,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
     <>
       <LiquidateCard
         key={getUniqueKey()}
-        {...data[0]}
+        data={data[0]}
       />
     </>
   );

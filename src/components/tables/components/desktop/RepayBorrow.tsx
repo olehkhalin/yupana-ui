@@ -54,7 +54,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'priceOfBorrowedAsset',
-        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => `${priceOfBorrowedAsset.toFixed(2)}%`,
+        accessor: ({ price }: { price: number }) => getPrettyAmount({ value: price, currency: '$' }),
       },
       {
         Header: () => (
@@ -62,18 +62,18 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Amount of debt
           </span>
         ),
-        id: 'amountOfDebt',
-        accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
+        id: 'amountOfBorrowed',
+        accessor: ({ amountOfBorrowed, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
-                value: amountOfDebt,
+                value: amountOfBorrowed,
                 currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: amountOfDebtUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>
@@ -87,7 +87,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
+        accessor: ({ maxLiquidate, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -97,7 +97,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: maxLiquidateUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>

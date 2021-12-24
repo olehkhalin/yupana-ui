@@ -57,7 +57,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'priceOfReceiveAsset',
-        accessor: ({ priceOfReceiveAsset }: any) => `${getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}`,
+        accessor: ({ price }: any) => getPrettyAmount({ value: price, currency: '$' }),
       },
       {
         Header: () => (
@@ -66,7 +66,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
+        accessor: ({ amountOfSupplied, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -76,7 +76,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: amountOfSuppliedUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>
@@ -90,7 +90,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
+        accessor: ({ maxBonus, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -100,7 +100,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: maxBonusUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>

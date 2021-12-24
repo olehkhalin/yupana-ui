@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { BorrowAsset, SupplyAsset } from 'types/liquidate';
 import { useWiderThanMphone } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
@@ -7,14 +8,25 @@ import { Button } from 'components/ui/Button';
 import { Heading } from 'components/common/Heading';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
-import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
-import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
 
-import s from './LiquidationPosition.module.sass';
+import s from './LiquidationSteps.module.sass';
 
-export const LiquidationPosition: React.FC = () => {
+type LiquidationStepsProps = {
+  data: {
+    borrowedAssets: BorrowAsset[]
+    suppliedAssets: SupplyAsset[]
+  }
+};
+
+export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
+  data: {
+    borrowedAssets,
+    suppliedAssets,
+  },
+}) => {
   const isWiderThanMphone = useWiderThanMphone();
 
+  // TODO: Delete later
   const ASSET_FROM_STEP_1 = 'XTZ';
   const ASSET_FROM_STEP_2 = 'SMAK';
 
@@ -38,7 +50,7 @@ export const LiquidationPosition: React.FC = () => {
           Keep in mind that the amount of debt in different assets may be different,
           so the amount of collateral you receive also be different.
         </div>
-        <RepayBorrow data={REPAY_BORROW_DATA} />
+        <RepayBorrow data={borrowedAssets} />
       </section>
 
       <section className={s.section}>
@@ -59,7 +71,7 @@ export const LiquidationPosition: React.FC = () => {
           Remember that the percentage of the liquidation bonus depends on your choice,
           and also the amount of the chosen collateral asset must cover the debt and the bonus.
         </div>
-        <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} />
+        <ReceiveCollateral data={suppliedAssets} />
       </section>
       <section className={s.section}>
         <h2 className={s.title}>

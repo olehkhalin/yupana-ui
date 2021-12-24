@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { SupplyAsset } from 'types/liquidate';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -10,46 +11,25 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type ReceiveCollateralCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
-  priceOfReceiveAsset: number
-  amountOfSupplied: number
-  amountOfSuppliedUsd: number
-  maxBonus: number
-  maxBonusUsd: number
+  data: SupplyAsset
   active?: boolean
   setItem: (arg: string) => void
   className?: string
 };
 
 export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
-  id,
-  address,
-  name,
-  symbol,
-  thumbnailUri,
-  priceOfReceiveAsset,
-  amountOfSupplied,
-  amountOfSuppliedUsd,
-  maxBonus,
-  maxBonusUsd,
+  data: {
+    asset,
+    amountOfSupplied,
+    maxBonus,
+    price,
+  },
   active = false,
   setItem,
   className,
 }) => {
   const handleSetItem = () => {
-    setItem(getTokenSlug({ id, address }));
-  };
-
-  const tokenMetadata = {
-    id,
-    address,
-    name,
-    symbol,
-    thumbnailUri,
+    setItem(getTokenSlug({ id: asset.id, address: asset.address }));
   };
 
   return (
@@ -68,7 +48,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             Receive asset
           </div>
           <TokenName
-            token={tokenMetadata}
+            token={asset}
             active={active}
             logoClassName={s.logo}
           />
@@ -79,7 +59,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             Price of borrowed asset
           </div>
           <div className={s.amount}>
-            {getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}
+            {getPrettyAmount({ value: price, currency: '$' })}
           </div>
         </div>
 
@@ -91,12 +71,12 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             <div className={s.amount}>
               {getPrettyAmount({
                 value: amountOfSupplied,
-                currency: getSliceTokenName(tokenMetadata),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: amountOfSuppliedUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>
@@ -111,12 +91,12 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxBonus,
-                currency: getSliceTokenName(tokenMetadata),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: maxBonusUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>

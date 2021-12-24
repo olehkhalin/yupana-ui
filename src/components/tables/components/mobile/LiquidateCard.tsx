@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { LiquidateData } from 'types/liquidate';
 import { shortize } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -10,20 +11,18 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 import s from './Cards.module.sass';
 
 type LiquidateCardProps = {
-  totalBorrow: number
-  borrowedAsset: string[]
-  collateralAsset: string
-  healthFactor: number
-  borrowerAddress: string
+  data: LiquidateData
   className?: string
 };
 
 export const LiquidateCard: React.FC<LiquidateCardProps> = ({
-  totalBorrow,
-  borrowedAsset,
-  collateralAsset,
-  healthFactor,
-  borrowerAddress,
+  data: {
+    borrowedAssetsName,
+    collateralAssetsName,
+    borrowerAddress,
+    healthFactor,
+    totalBorrowed,
+  },
   className,
 }) => (
   <TableCard
@@ -36,7 +35,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Asset
       </div>
       <div className={s.value}>
-        {getPrettyAmount({ value: totalBorrow, currency: '$' })}
+        {getPrettyAmount({ value: totalBorrowed, currency: '$' })}
       </div>
     </div>
 
@@ -45,7 +44,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Borrow APY
       </div>
       <div className={s.value}>
-        {borrowedAsset.join(', ')}
+        {borrowedAssetsName.join(', ')}
       </div>
     </div>
 
@@ -69,7 +68,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         Collateral asset
       </div>
       <div className={s.value}>
-        {collateralAsset}
+        {collateralAssetsName}
       </div>
     </div>
 

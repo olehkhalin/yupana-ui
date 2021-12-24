@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { BorrowAsset } from 'types/liquidate';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -10,46 +11,25 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type RepayBorrowCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
-  priceOfBorrowedAsset: number
-  amountOfDebt: number
-  amountOfDebtUsd: number
-  maxLiquidate: number
-  maxLiquidateUsd: number
+  data: BorrowAsset
   active?: boolean
   setItem: (arg: string) => void
   className?: string
 };
 
 export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
-  id,
-  address,
-  name,
-  symbol,
-  thumbnailUri,
-  priceOfBorrowedAsset,
-  amountOfDebt,
-  amountOfDebtUsd,
-  maxLiquidate,
-  maxLiquidateUsd,
+  data: {
+    asset,
+    amountOfBorrowed,
+    maxLiquidate,
+    price,
+  },
   active = false,
   setItem,
   className,
 }) => {
   const handleSetItem = () => {
-    setItem(getTokenSlug({ id, address }));
-  };
-
-  const tokenMetadata = {
-    id,
-    address,
-    name,
-    symbol,
-    thumbnailUri,
+    setItem(getTokenSlug({ id: asset.id, address: asset.address }));
   };
 
   return (
@@ -70,7 +50,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             Borrowed asset
           </div>
           <TokenName
-            token={tokenMetadata}
+            token={asset}
             active={active}
             logoClassName={s.logo}
           />
@@ -81,7 +61,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             Price of borrowed asset
           </div>
           <div className={s.amount}>
-            {getPrettyAmount({ value: priceOfBorrowedAsset, currency: '$' })}
+            {getPrettyAmount({ value: price, currency: '$' })}
           </div>
         </div>
 
@@ -92,13 +72,13 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           <div className={s.value}>
             <div className={s.amount}>
               {getPrettyAmount({
-                value: amountOfDebt,
-                currency: getSliceTokenName(tokenMetadata),
+                value: amountOfBorrowed,
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: amountOfDebtUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>
@@ -113,12 +93,12 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             <div className={s.amount}>
               {getPrettyAmount({
                 value: maxLiquidate,
-                currency: getSliceTokenName(tokenMetadata),
+                currency: getSliceTokenName(asset),
               })}
             </div>
             <div className={s.amountUsd}>
               {getPrettyAmount({
-                value: maxLiquidateUsd,
+                value: 100,
                 currency: '$',
               })}
             </div>

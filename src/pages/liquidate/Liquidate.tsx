@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { Liquidate as LiquidateContainer } from 'containers/Liquidate';
-import { LiquidationPosition } from 'containers/LiquidationPosition';
 import { Section } from 'components/common/Section';
 
 import s from './Liquidate.module.sass';
@@ -16,7 +15,6 @@ export const Liquidate: React.FC = () => (
       className={s.root}
     >
       <LiquidateContainer />
-      <LiquidationPosition />
     </Section>
   </>
 );

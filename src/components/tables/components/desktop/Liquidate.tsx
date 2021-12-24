@@ -80,7 +80,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
+            {row.borrowedAssetsName.join(', ')}
           </span>
         ),
       },
@@ -93,7 +93,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAsset.join(', ')}
+            {row.collateralAssetsName.join(', ')}
           </span>
         ),
       },
