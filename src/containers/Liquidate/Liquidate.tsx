@@ -33,13 +33,13 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       .div(`1e${STANDARD_PRECISION}`);
 
     const prepareBorrowedAssets = user ? user.borrowedAssets.map(({ asset, borrow }: any) => {
-      const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
-        .div(asset.tokens[0].decimals);
-      const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
-      const assetPrice = {
+      const oraclePrice = {
         price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
         decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
       };
+      const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
+        .div(oraclePrice.decimals);
+      const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
 
       return ({
         asset: {
@@ -48,14 +48,14 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           id: asset.tokenId,
           address: asset.contractAddress,
         },
-        price: oraclePrices ? +convertTokenPrice(assetPrice.price, assetPrice.decimals) : 1,
+        price: oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1,
         amountOfBorrowed,
         maxLiquidate,
       });
     }) : [];
 
     const prepareCollateralAsset = user ? user.collateralAssets.map(({ asset, supply }: any) => {
-      const assetPrice = {
+      const oraclePrice = {
         price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
         decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
       };
@@ -67,9 +67,9 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           id: asset.tokenId,
           address: asset.contractAddress,
         },
-        price: oraclePrices ? +convertTokenPrice(assetPrice.price, assetPrice.decimals) : 1,
-        amountOfSupplied: convertUnits(supply, STANDARD_PRECISION).div(asset.tokens[0].decimals),
-        maxBonus: 1,
+        price: oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1,
+        amountOfSupplied: convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals),
+        maxBonus: 1, // TODO: Update later
       };
     }) : [];
 
