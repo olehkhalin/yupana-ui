@@ -3,9 +3,11 @@ import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
 import { LiquidateUser } from 'types/liquidate';
+import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
 import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
@@ -22,6 +24,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
   data,
   className,
 }) => {
+  const { oraclePrices } = useOraclePrices();
+
   const preparedData: LiquidateUser = useMemo(() => {
     const user = data && data.user[0];
     const globalFactors = data && data.globalFactors[0];
@@ -31,8 +35,11 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     const prepareBorrowedAssets = user ? user.borrowedAssets.map(({ asset, borrow }: any) => {
       const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
         .div(asset.tokens[0].decimals);
-
       const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
+      const assetPrice = {
+        price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+        decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+      };
 
       return ({
         asset: {
@@ -41,23 +48,30 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           id: asset.tokenId,
           address: asset.contractAddress,
         },
-        price: 1,
+        price: oraclePrices ? +convertTokenPrice(assetPrice.price, assetPrice.decimals) : 1,
         amountOfBorrowed,
         maxLiquidate,
       });
     }) : [];
 
-    const prepareCollateralAsset = user ? user.collateralAssets.map(({ asset, supply }: any) => ({
-      asset: {
-        name: asset.tokens[0].name,
-        symbol: asset.tokens[0].symbol,
-        id: asset.tokenId,
-        address: asset.contractAddress,
-      },
-      price: 1,
-      amountOfSupplied: convertUnits(supply, STANDARD_PRECISION).div(asset.tokens[0].decimals),
-      maxBonus: 1,
-    })) : [];
+    const prepareCollateralAsset = user ? user.collateralAssets.map(({ asset, supply }: any) => {
+      const assetPrice = {
+        price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+        decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+      };
+
+      return {
+        asset: {
+          name: asset.tokens[0].name,
+          symbol: asset.tokens[0].symbol,
+          id: asset.tokenId,
+          address: asset.contractAddress,
+        },
+        price: oraclePrices ? +convertTokenPrice(assetPrice.price, assetPrice.decimals) : 1,
+        amountOfSupplied: convertUnits(supply, STANDARD_PRECISION).div(asset.tokens[0].decimals),
+        maxBonus: 1,
+      };
+    }) : [];
 
     return {
       liquidate: [{
@@ -72,7 +86,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       borrowedAssets: prepareBorrowedAssets,
       suppliedAssets: prepareCollateralAsset,
     };
-  }, [data]);
+  }, [data, oraclePrices]);
 
   return (
     <>
