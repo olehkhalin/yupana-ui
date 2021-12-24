@@ -1,17 +1,22 @@
 import { TokenMetadataInterface } from './token';
 
+export interface YToken {
+  yToken: number
+}
+
 export interface BorrowAsset {
-  asset: TokenMetadataInterface
+  asset: TokenMetadataInterface & YToken
   price: number
   amountOfBorrowed: BigNumber
   maxLiquidate: BigNumber
+  maxLiquidateInUsd: BigNumber
 }
 
 export interface SupplyAsset {
   asset: TokenMetadataInterface
   price: number
   amountOfSupplied: BigNumber
-  maxBonus: number
+  maxBonus: BigNumber
 }
 
 export interface LiquidateData {

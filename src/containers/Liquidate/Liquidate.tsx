@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
@@ -26,6 +28,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
   className,
 }) => {
   const { oraclePrices } = useOraclePrices();
+  const { yTokenValue } = useYToken();
 
   const preparedData: LiquidateUser = useMemo(() => {
     const user = data && data.user[0];
@@ -45,6 +48,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 
       return ({
         asset: {
+          yToken: asset.ytoken,
           name: asset.tokens[0].name,
           symbol: asset.tokens[0].symbol,
           id: asset.tokenId,
@@ -53,8 +57,11 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         price: pricePerToken,
         amountOfBorrowed,
         maxLiquidate,
+        maxLiquidateInUsd: maxLiquidate.times(convertTokenPrice(oraclePrice.price, oraclePrice.decimals)),
       });
     }) : [];
+
+    const selectedBorrowToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === yTokenValue);
 
     const prepareCollateralAsset = user ? user.collateralAssets.map(({ asset, supply }: any) => {
       const oraclePrice = {
@@ -63,6 +70,30 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       };
       const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals);
       const pricePerToken = oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1;
+
+      // Counting maxBonus
+      let maxBonus: BigNumber = new BigNumber(1);
+
+      if (selectedBorrowToken) {
+        const { maxLiquidateInUsd } = selectedBorrowToken;
+
+        // !Test formula for maxBonus
+        const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(oraclePrice.decimals);
+        const tokenAmount = maxLiquidateInUsd.div(convertTokenPrice(oraclePrice.price, oraclePrice.decimals));
+
+        const maxLiquidate = BigNumber.min(tokenAmount, prepareSupply);
+
+        const liquidationIncentive = new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`);
+        maxBonus = maxLiquidate.times(liquidationIncentive.minus(1));
+
+        // TODO: Research Sophia formuals
+        // const supplyWithIncentive = prepareSupply.times(liquidationIncentive);
+        // if (maxLiquidate.lt(supplyWithIncentive)) {
+        //   maxBonus = maxLiquidate.times(liquidationIncentive.minus(1));
+        // } else if (maxLiquidate.gt(supplyWithIncentive)) {
+        //   maxBonus = prepareSupply.div(liquidationIncentive).times(liquidationIncentive.minus(1));
+        // }
+      }
 
       return {
         asset: {
@@ -73,7 +104,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         },
         price: pricePerToken,
         amountOfSupplied,
-        maxBonus: 1, // TODO: Update later
+        maxBonus, // TODO: Update later
       };
     }) : [];
 
@@ -90,7 +121,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       borrowedAssets: prepareBorrowedAssets,
       suppliedAssets: prepareCollateralAsset,
     };
-  }, [data, oraclePrices]);
+  }, [data, oraclePrices, yTokenValue]);
 
   return (
     <>
@@ -122,8 +153,10 @@ export const Liquidate: React.FC = () => {
   }
 
   return (
-    <LiquidateInner
-      data={data}
-    />
+    <YTokenProvider>
+      <LiquidateInner
+        data={data}
+      />
+    </YTokenProvider>
   );
 };

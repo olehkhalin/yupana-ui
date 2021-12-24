@@ -92,7 +92,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, asset }: any) => (
+        accessor: ({ maxBonus, price, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -101,10 +101,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: 100,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(maxBonus.times(price))}
             </div>
           </div>
         ),

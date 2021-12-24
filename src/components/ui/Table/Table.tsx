@@ -6,6 +6,8 @@ import {
 import animateScrollTo from 'animated-scroll-to';
 import cx from 'classnames';
 
+import { useYToken } from 'providers/YTokenProvider';
+import { YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/helpers/token';
 import { Pagination } from 'components/common/Pagination';
@@ -95,9 +97,12 @@ export const Table: React.FC<TableProps> = ({
     useExpanded,
   );
 
-  const handleSelectItem = (asset: TokenMetadataInterface) => {
+  const { setYTokenValue } = useYToken();
+
+  const handleSelectItem = (asset: TokenMetadataInterface & YToken) => {
     if (setSelectedItem) {
       setSelectedItem(asset);
+      setYTokenValue(asset.yToken);
     }
   };
 
@@ -168,6 +173,7 @@ export const Table: React.FC<TableProps> = ({
                 if (selectedItem) {
                   isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
                 }
+
                 return (
                   <React.Fragment key={row.getRowProps().key}>
                     <tr
