@@ -80,7 +80,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {convertPriceByBasicCurrency(amountOfBorrowed.times(price))}
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {convertPriceByBasicCurrency(maxLiquidate.times(price))}
             </div>
           </div>
         </div>

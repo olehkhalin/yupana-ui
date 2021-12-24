@@ -71,7 +71,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, asset }: any) => (
+        accessor: ({ amountOfSupplied, price, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -80,7 +80,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {convertPriceByBasicCurrency(amountOfSupplied.times(price))}
             </div>
           </div>
         ),
@@ -101,7 +101,10 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {getPrettyAmount({
+                value: 100,
+                currency: '$',
+              })}
             </div>
           </div>
         ),

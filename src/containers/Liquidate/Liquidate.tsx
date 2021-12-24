@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
@@ -40,6 +41,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
         .div(oraclePrice.decimals);
       const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
+      const pricePerToken = oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1;
 
       return ({
         asset: {
@@ -48,7 +50,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           id: asset.tokenId,
           address: asset.contractAddress,
         },
-        price: oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1,
+        price: pricePerToken,
         amountOfBorrowed,
         maxLiquidate,
       });
@@ -59,6 +61,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
         decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
       };
+      const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals);
+      const pricePerToken = oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1;
 
       return {
         asset: {
@@ -67,8 +71,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           id: asset.tokenId,
           address: asset.contractAddress,
         },
-        price: oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1,
-        amountOfSupplied: convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals),
+        price: pricePerToken,
+        amountOfSupplied,
         maxBonus: 1, // TODO: Update later
       };
     }) : [];

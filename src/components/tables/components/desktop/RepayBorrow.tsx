@@ -67,7 +67,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'amountOfBorrowed',
-        accessor: ({ amountOfBorrowed, asset }: any) => (
+        accessor: ({ amountOfBorrowed, price, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -76,7 +76,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {convertPriceByBasicCurrency(amountOfBorrowed.times(price))}
             </div>
           </div>
         ),
@@ -88,7 +88,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, asset }: any) => (
+        accessor: ({ maxLiquidate, price, asset }: any) => (
           <div>
             <div className={s.amount}>
               {getPrettyAmount({
@@ -97,7 +97,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(100)}
+              {convertPriceByBasicCurrency(maxLiquidate.times(price))}
             </div>
           </div>
         ),

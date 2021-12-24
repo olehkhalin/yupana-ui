@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { SupplyAsset } from 'types/liquidate';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -28,6 +29,8 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
   setItem,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const handleSetItem = () => {
     setItem(getTokenSlug({ id: asset.id, address: asset.address }));
   };
@@ -75,10 +78,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
               })}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
-                value: 100,
-                currency: '$',
-              })}
+              {convertPriceByBasicCurrency(amountOfSupplied.times(price))}
             </div>
           </div>
         </div>
