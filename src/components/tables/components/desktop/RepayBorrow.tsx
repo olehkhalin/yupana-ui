@@ -1,7 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Row } from 'react-table';
 
+import { useYToken } from 'providers/YTokenProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
+import { YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -21,7 +23,16 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
-  const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
+  const { setBorrowYToken } = useYToken();
+  const [selectedItem, setSelectedItem] = useState<
+  TokenMetadataInterface & YToken | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (selectedItem) {
+      setBorrowYToken(selectedItem.yToken);
+    }
+  }, [selectedItem, setBorrowYToken]);
 
   const columns = useMemo(
     () => [

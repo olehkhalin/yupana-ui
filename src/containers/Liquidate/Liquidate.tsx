@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable max-len */
-import React, { useMemo } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
@@ -28,100 +28,143 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
   className,
 }) => {
   const { oraclePrices } = useOraclePrices();
-  const { yTokenValue } = useYToken();
+  const { borrowYToken, collateralYToken } = useYToken();
+  const [maxLiquidatePlusBonus, setMaxLiquidatePlusBonus] = useState<BigNumber | null>(null);
+  const [stepThreeData, setStepThreeData] = useState<any>(null);
 
-  const preparedData: LiquidateUser = useMemo(() => {
-    const user = data && data.user[0];
-    const globalFactors = data && data.globalFactors[0];
-    const preparedMaxLiquidate = new BigNumber(globalFactors?.closeFactor ?? 1)
-      .div(`1e${STANDARD_PRECISION}`);
+  // Token prices in USD by Selected token in tables
+  const borrowTokenPrice = useMemo(() => (
+    oraclePrices && borrowYToken?.toString()
+      ? convertTokenPrice(oraclePrices[borrowYToken].price, oraclePrices[borrowYToken].decimals)
+      : undefined
+  ), [borrowYToken, oraclePrices]);
 
-    const prepareBorrowedAssets = user ? user.borrowedAssets.map(({ asset, borrow }: any) => {
-      const oraclePrice = {
-        price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-        decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
-      };
-      const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
-        .div(oraclePrice.decimals);
-      const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
-      const pricePerToken = oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1;
+  const collateralTokenPrice = useMemo(() => (
+    oraclePrices && collateralYToken?.toString()
+      ? convertTokenPrice(oraclePrices[collateralYToken].price, oraclePrices[collateralYToken].decimals)
+      : undefined
+  ), [collateralYToken, oraclePrices]);
 
-      return ({
-        asset: {
-          yToken: asset.ytoken,
-          name: asset.tokens[0].name,
-          symbol: asset.tokens[0].symbol,
-          id: asset.tokenId,
-          address: asset.contractAddress,
-        },
-        price: pricePerToken,
-        amountOfBorrowed,
-        maxLiquidate,
-        maxLiquidateInUsd: maxLiquidate.times(convertTokenPrice(oraclePrice.price, oraclePrice.decimals)),
+  // global data
+  const user = data && data.user[0];
+  const globalFactors = data && data.globalFactors[0];
+
+  // Prepare borrowed assets
+  const prepareBorrowedAssets = useMemo(() => {
+    const preparedMaxLiquidate = globalFactors ? new BigNumber(globalFactors.closeFactor)
+      .div(`1e${STANDARD_PRECISION}`) : 1;
+
+    if (user) {
+      return user.borrowedAssets.map(({ asset, borrow }: any) => {
+        // Get token price
+        const oraclePrice = {
+          price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+        };
+        const tokenPriceInUsd = +convertTokenPrice(oraclePrice.price, oraclePrice.decimals);
+
+        // Values in a token
+        const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
+          .div(oraclePrice.decimals);
+        const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
+
+        return ({
+          asset: {
+            yToken: asset.ytoken,
+            name: asset.tokens[0].name,
+            symbol: asset.tokens[0].symbol,
+            id: asset.tokenId,
+            address: asset.contractAddress,
+          },
+          price: tokenPriceInUsd,
+          amountOfBorrowed,
+          maxLiquidate,
+          maxLiquidateInUsd: maxLiquidate.times(tokenPriceInUsd),
+        });
       });
-    }) : [];
+    }
+    return [];
+  }, [globalFactors, oraclePrices, user]);
 
-    const selectedBorrowToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === yTokenValue);
+  // Find selected borrow token
+  const selectedBorrowToken = useMemo(
+    () => prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken),
+    [borrowYToken, prepareBorrowedAssets],
+  );
 
-    const prepareCollateralAsset = user ? user.collateralAssets.map(({ asset, supply }: any) => {
-      const oraclePrice = {
-        price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-        decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
-      };
-      const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals);
-      const pricePerToken = oraclePrices ? +convertTokenPrice(oraclePrice.price, oraclePrice.decimals) : 1;
+  // Prepare collateral assets
+  const prepareCollateralAsset = useMemo(() => {
+    if (user) {
+      return user.collateralAssets.map(({ asset, supply }: any) => {
+        // Get token price
+        const oraclePrice = {
+          price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+        };
+        const tokenPriceInUsd = +convertTokenPrice(oraclePrice.price, oraclePrice.decimals);
 
-      // Counting maxBonus
-      let maxBonus: BigNumber = new BigNumber(1);
+        const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals); // value in a token
 
-      if (selectedBorrowToken) {
-        const { maxLiquidateInUsd } = selectedBorrowToken;
+        let maxBonus: BigNumber = new BigNumber(1); // value in a token
+        if (selectedBorrowToken) {
+          const { maxLiquidateInUsd } = selectedBorrowToken;
+          const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(oraclePrice.decimals); // value in a token
+          const borrowTokenAmount = maxLiquidateInUsd.div(tokenPriceInUsd); // value in a token
 
-        // !Test formula for maxBonus
-        const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(oraclePrice.decimals);
-        const tokenAmount = maxLiquidateInUsd.div(convertTokenPrice(oraclePrice.price, oraclePrice.decimals));
+          // Counting maxBonus
+          const maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
+          const liquidationIncentive = new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`); // 1.05
+          maxBonus = maxLiquidate.times(liquidationIncentive.minus(1)); // maxLiquidate * 0.05
+          setMaxLiquidatePlusBonus(maxLiquidate.times(liquidationIncentive)); // maxLiquidate * 1.05
+        }
 
-        const maxLiquidate = BigNumber.min(tokenAmount, prepareSupply);
+        return {
+          asset: {
+            yToken: asset.ytoken,
+            name: asset.tokens[0].name,
+            symbol: asset.tokens[0].symbol,
+            id: asset.tokenId,
+            address: asset.contractAddress,
+          },
+          price: tokenPriceInUsd,
+          amountOfSupplied,
+          maxBonus,
+        };
+      });
+    }
+    return [];
+  }, [globalFactors?.liquidationIncentive, oraclePrices, selectedBorrowToken, user]);
 
-        const liquidationIncentive = new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`);
-        maxBonus = maxLiquidate.times(liquidationIncentive.minus(1));
+  // Set data for step 3
+  useEffect(() => {
+    if (maxLiquidatePlusBonus && collateralTokenPrice && borrowTokenPrice) {
+      const amountToClose = maxLiquidatePlusBonus.times(collateralTokenPrice).div(borrowTokenPrice);
+      setStepThreeData({
+        amountToClose,
+        ...prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken),
+      });
+    }
+  }, [borrowTokenPrice, borrowYToken, collateralTokenPrice, maxLiquidatePlusBonus, prepareBorrowedAssets]);
 
-        // TODO: Research Sophia formuals
-        // const supplyWithIncentive = prepareSupply.times(liquidationIncentive);
-        // if (maxLiquidate.lt(supplyWithIncentive)) {
-        //   maxBonus = maxLiquidate.times(liquidationIncentive.minus(1));
-        // } else if (maxLiquidate.gt(supplyWithIncentive)) {
-        //   maxBonus = prepareSupply.div(liquidationIncentive).times(liquidationIncentive.minus(1));
-        // }
-      }
+  // Prepare all data
+  const preparedData: LiquidateUser = useMemo(() => ({
+    liquidate: [{
+      borrowerAddress: user ? user.address : '',
+      borrowedAssetsName: prepareBorrowedAssets.map(({ asset }) => getTokenName(asset)),
+      collateralAssetsName: prepareCollateralAsset.map(({ asset }) => getTokenName(asset)),
+      totalBorrowed: user ? +convertUnits(user.outstandingBorrow, COLLATERAL_PRECISION) : 1,
+      healthFactor: user ? +convertUnits(
+        user.liquidationRatio, STANDARD_PRECISION,
+      ).toFixed(2) : 1,
+    }],
+    borrowedAssets: prepareBorrowedAssets,
+    suppliedAssets: prepareCollateralAsset,
+  }), [prepareBorrowedAssets, prepareCollateralAsset, user]);
 
-      return {
-        asset: {
-          name: asset.tokens[0].name,
-          symbol: asset.tokens[0].symbol,
-          id: asset.tokenId,
-          address: asset.contractAddress,
-        },
-        price: pricePerToken,
-        amountOfSupplied,
-        maxBonus, // TODO: Update later
-      };
-    }) : [];
-
-    return {
-      liquidate: [{
-        borrowerAddress: user ? user.address : '',
-        borrowedAssetsName: prepareBorrowedAssets.map(({ asset }) => getTokenName(asset)),
-        collateralAssetsName: prepareCollateralAsset.map(({ asset }) => getTokenName(asset)),
-        totalBorrowed: +convertUnits(user?.outstandingBorrow, COLLATERAL_PRECISION),
-        healthFactor: +convertUnits(
-          user?.liquidationRatio, STANDARD_PRECISION,
-        ).toFixed(2),
-      }],
-      borrowedAssets: prepareBorrowedAssets,
-      suppliedAssets: prepareCollateralAsset,
-    };
-  }, [data, oraclePrices, yTokenValue]);
+  // DEBUG
+  useEffect(() => {
+    console.log(JSON.stringify(stepThreeData, null, 2));
+  }, [stepThreeData]);
 
   return (
     <>

@@ -6,7 +6,6 @@ import {
 import animateScrollTo from 'animated-scroll-to';
 import cx from 'classnames';
 
-import { useYToken } from 'providers/YTokenProvider';
 import { YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/helpers/token';
@@ -19,8 +18,8 @@ type TableProps = {
   data: any[]
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
-  selectedItem?: TokenMetadataInterface
-  setSelectedItem?: (arg: TokenMetadataInterface) => void
+  selectedItem?: TokenMetadataInterface & YToken
+  setSelectedItem?: (arg: TokenMetadataInterface & YToken) => void
   isScrollToTop?: boolean
   // pagination
   pageSize?: number
@@ -97,12 +96,9 @@ export const Table: React.FC<TableProps> = ({
     useExpanded,
   );
 
-  const { setYTokenValue } = useYToken();
-
   const handleSelectItem = (asset: TokenMetadataInterface & YToken) => {
     if (setSelectedItem) {
       setSelectedItem(asset);
-      setYTokenValue(asset.yToken);
     }
   };
 
