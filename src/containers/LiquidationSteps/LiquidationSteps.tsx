@@ -15,14 +15,14 @@ import s from './LiquidationSteps.module.sass';
 type LiquidationStepsProps = {
   data: {
     borrowedAssets: BorrowAsset[]
-    suppliedAssets: SupplyAsset[]
+    collateralAssets: SupplyAsset[]
   }
 };
 
 export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
   data: {
     borrowedAssets,
-    suppliedAssets,
+    collateralAssets,
   },
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -74,7 +74,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
           Remember that the percentage of the liquidation bonus depends on your choice,
           and also the amount of the chosen collateral asset must cover the debt and the bonus.
         </div>
-        <ReceiveCollateral data={suppliedAssets} />
+        <ReceiveCollateral data={collateralAssets} />
       </section>
       <section className={s.section}>
         <h2 className={s.title}>

@@ -30,5 +30,5 @@ export interface LiquidateData {
 export interface LiquidateUser {
   liquidate: LiquidateData[]
   borrowedAssets: BorrowAsset[]
-  suppliedAssets: SupplyAsset[]
+  collateralAssets: SupplyAsset[]
 }
