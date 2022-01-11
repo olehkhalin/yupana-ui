@@ -45,7 +45,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       : undefined
   ), [collateralYToken, oraclePrices]);
 
-  // global data
+  // Global data
   const user = data && data.user[0];
   const globalFactors = data && data.globalFactors[0];
 
@@ -57,15 +57,15 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     if (user) {
       return user.borrowedAssets.map(({ asset, borrow }: any) => {
         // Get token price
-        const oraclePrice = {
+        const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
           decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
         };
-        const tokenPriceInUsd = +convertTokenPrice(oraclePrice.price, oraclePrice.decimals);
+        const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 
         // Values in a token
         const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
-          .div(oraclePrice.decimals);
+          .div(decimals);
         const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
 
         return ({
@@ -97,18 +97,18 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     if (user) {
       return user.collateralAssets.map(({ asset, supply }: any) => {
         // Get token price
-        const oraclePrice = {
+        const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
           decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
         };
-        const tokenPriceInUsd = +convertTokenPrice(oraclePrice.price, oraclePrice.decimals);
+        const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 
-        const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(oraclePrice.decimals); // value in a token
+        const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(decimals); // value in a token
 
         let maxBonus: BigNumber = new BigNumber(1); // value in a token
         if (selectedBorrowToken) {
           const { maxLiquidateInUsd } = selectedBorrowToken;
-          const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(oraclePrice.decimals); // value in a token
+          const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(decimals); // value in a token
           const borrowTokenAmount = maxLiquidateInUsd.div(tokenPriceInUsd); // value in a token
 
           // Counting maxBonus
