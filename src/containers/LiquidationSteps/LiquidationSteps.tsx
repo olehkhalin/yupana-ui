@@ -1,16 +1,12 @@
 import React from 'react';
 
 import { BorrowAsset, SupplyAsset } from 'types/liquidate';
-import { useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/helpers';
-import { getPrettyAmount } from 'utils/helpers/amount';
-import { Input } from 'components/ui/Input';
-import { Button } from 'components/ui/Button';
-import { Heading } from 'components/common/Heading';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 
 import s from './LiquidationSteps.module.sass';
+import { LiquidationForm } from './LiquidationForm';
 
 type LiquidationStepsProps = {
   data: {
@@ -25,13 +21,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
     collateralAssets,
   },
 }) => {
-  const { convertPriceByBasicCurrency } = useCurrency();
-
   const isWiderThanMphone = useWiderThanMphone();
-
-  // TODO: Delete later
-  const ASSET_FROM_STEP_1 = 'XTZ';
-  const ASSET_FROM_STEP_2 = 'SMAK';
 
   return (
     <>
@@ -89,54 +79,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
               </>
             )}
         </h2>
-        <div className={s.description}>
-          Now you can liquidate the debtor.
-          Be aware that the amount to be liquidated cannot exceed the MAX Liquidate of the debt.
-        </div>
-        <Heading
-          title={
-            isWiderThanMphone
-              ? `Amount to close in ${ASSET_FROM_STEP_1}:`
-              : 'Amount to close:'
-          }
-          className={s.heading}
-        />
-        <div className={s.liquidateWrapper}>
-          <div className={s.inputWrapper}>
-            <Input
-              inputClassName={s.input}
-            />
-            <Button
-              className={s.button}
-            >
-              Liquidate
-            </Button>
-          </div>
-
-          <div className={s.recieveInfo}>
-            <div className={s.recieveColumn}>
-              <div className={s.recieveTitle}>
-                You will receive:
-              </div>
-
-              <div className={s.recieveValue}>
-                {getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
-                {' '}
-                {`(${convertPriceByBasicCurrency(2100)})`}
-              </div>
-            </div>
-
-            <div className={s.recieveColumn}>
-              <div className={s.recieveTitle}>
-                Health factor of borrower after liquidation:
-              </div>
-
-              <div className={s.recieveValue}>
-                {getPrettyAmount({ value: 0.86 })}
-              </div>
-            </div>
-          </div>
-        </div>
+        <LiquidationForm />
       </section>
     </>
   );

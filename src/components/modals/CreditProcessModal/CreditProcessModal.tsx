@@ -36,7 +36,7 @@ export enum TypeEnum {
   REPAY = 'repay',
 }
 
-type FormTypes = {
+export type FormTypes = {
   amount: BigNumber
 };
 
