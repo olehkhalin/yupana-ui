@@ -45,7 +45,10 @@ const AppInner = () => {
     const newObj: OraclePricesType = {};
 
     oraclePricesData.oraclePrice.forEach((el) => {
-      newObj[el.ytoken] = new BigNumber(el.price);
+      newObj[el.ytoken] = {
+        price: new BigNumber(el.price),
+        decimals: new BigNumber(el.decimals),
+      };
     });
 
     return newObj;

@@ -43,9 +43,9 @@ query MarketsDetails($yToken: Int!) {
         count
       }
     }
+    liquidationThreshold
   }
   globalFactors {
-    liquidationThreshold
     liquidationIncentive
   }
 }

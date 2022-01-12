@@ -1,7 +1,12 @@
 import BigNumber from 'bignumber.js';
 import React, { useCallback, useMemo } from 'react';
 
-import { CONTRACT_ADDRESS, PROXY_CONTRACT_ADDRESS } from 'constants/default';
+import {
+  COLLATERAL_PRECISION_BACK,
+  CONTRACT_ADDRESS,
+  ORACLE_PRICE_PRECISION,
+  PROXY_CONTRACT_ADDRESS,
+} from 'constants/default';
 import { TokenMetadataInterface } from 'types/token';
 import { useAccountPkh, useTezos } from 'utils/dapp';
 import { borrow, repay } from 'utils/dapp/methods';
@@ -43,9 +48,9 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
     ? userGeneralInfo.outstandingBorrow
     : new BigNumber(0)
   ), [userGeneralInfo]);
-  const price = useMemo(() => (oraclePrices
+  const oraclePrice = useMemo(() => (oraclePrices
     ? oraclePrices[yToken!]
-    : new BigNumber(1)
+    : { price: new BigNumber(1), decimals: new BigNumber(1) }
   ), [oraclePrices, yToken]);
 
   const handleBorrowSubmit = useCallback(async (inputAmount: BigNumber) => {
@@ -64,28 +69,48 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
   const handleBorrow = useCallback(() => {
     setProcessCreditData({
       type: TypeEnum.BORROW,
-      maxAmount: (maxCollateral.minus(outstandingBorrow)).div(price),
+      maxAmount: convertUnits(maxCollateral.minus(outstandingBorrow), COLLATERAL_PRECISION_BACK)
+        .div(
+          convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+            .multipliedBy(oraclePrice.decimals),
+        )
+        .multipliedBy(
+          asset?.decimals ? new BigNumber(10).pow(asset.decimals) : 1,
+        ),
       asset: asset!,
-      borrowLimit: maxCollateral,
+      borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
-        : outstandingBorrow.div(maxCollateral),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => (
-        maxCollateral.eq(0)
-          ? new BigNumber(0)
-          : (outstandingBorrow.plus(
-            input.multipliedBy(price),
-          )).div(maxCollateral)
-      ),
+        : outstandingBorrow
+          .div(maxCollateral)
+          .multipliedBy(1e2),
+      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+        if (maxCollateral.eq(0)) {
+          return new BigNumber(0);
+        }
+
+        return (
+          convertUnits(outstandingBorrow, COLLATERAL_PRECISION_BACK)
+            .plus(
+              input.multipliedBy(
+                convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                  .multipliedBy(oraclePrice.decimals),
+              ),
+            )
+        ).div(
+          convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
+        ).multipliedBy(1e2);
+      },
       isOpen: true,
       onSubmit: (input: BigNumber) => handleBorrowSubmit(input),
+      oraclePrice,
     });
   }, [
     asset,
     handleBorrowSubmit,
     maxCollateral,
     outstandingBorrow,
-    price,
+    oraclePrice,
     setProcessCreditData,
   ]);
 
@@ -108,19 +133,32 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
       type: TypeEnum.REPAY,
       maxAmount: borrowed!,
       asset: asset!,
-      borrowLimit: maxCollateral,
+      borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
-        : outstandingBorrow.div(maxCollateral),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => (
-        maxCollateral.eq(0)
-          ? new BigNumber(0)
-          : (outstandingBorrow.minus(
-            input.multipliedBy(price),
-          )).div(maxCollateral)
-      ),
+        : outstandingBorrow
+          .div(maxCollateral)
+          .multipliedBy(1e2),
+      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+        if (maxCollateral.eq(0)) {
+          return new BigNumber(0);
+        }
+
+        return (
+          convertUnits(outstandingBorrow, COLLATERAL_PRECISION_BACK)
+            .minus(
+              input.multipliedBy(
+                convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                  .multipliedBy(oraclePrice.decimals),
+              ),
+            )
+        ).div(
+          convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
+        ).multipliedBy(1e2);
+      },
       isOpen: true,
       onSubmit: (input: BigNumber) => handleRepaySubmit(input),
+      oraclePrice,
     });
   }, [
     asset,
@@ -128,12 +166,13 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
     handleRepaySubmit,
     maxCollateral,
     outstandingBorrow,
-    price,
+    oraclePrice,
     setProcessCreditData,
   ]);
 
   return (
     <TableDropdown
+      yToken={yToken!}
       theme={theme}
       className={className}
       balanceLabel="Borrow balance"

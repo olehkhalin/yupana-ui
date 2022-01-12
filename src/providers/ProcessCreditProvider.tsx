@@ -4,6 +4,7 @@ import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
 import { ModalActions } from 'types/modal';
+import { OraclePriceType } from './OraclePricesProvider';
 
 export enum TypeEnum {
   SUPPLY = 'supply',
@@ -21,6 +22,7 @@ type ProcessCreditProps = {
   borrowLimitUsed: BigNumber
   dynamicBorrowLimitUsedFunc: (input: BigNumber) => BigNumber
   onSubmit: any
+  oraclePrice: OraclePriceType
 } & Pick<ModalActions, 'isOpen'> | null;
 
 export const [

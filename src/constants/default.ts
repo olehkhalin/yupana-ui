@@ -23,3 +23,5 @@ export const LV_ACCOUNT_PUBLIC_KEY = 'edpkvWbk81uh1DEvdWKR4g1bjyTGhdu1mDvznPUFE2
 
 export const STANDARD_PRECISION = 18;
 export const COLLATERAL_PRECISION = 30;
+export const COLLATERAL_PRECISION_BACK = 42;
+export const ORACLE_PRICE_PRECISION = 24;
