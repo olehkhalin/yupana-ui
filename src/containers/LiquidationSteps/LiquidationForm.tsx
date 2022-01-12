@@ -169,16 +169,6 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
               ) : '—'}
             </div>
           </div>
-
-          <div className={s.recieveColumn}>
-            <div className={s.recieveTitle}>
-              Health factor of borrower after liquidation:
-            </div>
-
-            <div className={s.recieveValue}>
-              {data ? getPrettyAmount({ value: 0 }) : '—'}
-            </div>
-          </div>
         </div>
       </div>
     </>
