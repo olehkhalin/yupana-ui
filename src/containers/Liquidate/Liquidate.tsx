@@ -126,16 +126,15 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(decimals); // value in a token
 
         let maxBonus: BigNumber = new BigNumber(1); // value in a token
-        let maxLiquidatePlusBonus: BigNumber = new BigNumber(1); // value in a token
+        let maxLiquidate: BigNumber = new BigNumber(1); // value in a token
         if (selectedBorrowToken) {
           const { maxLiquidateInUsd } = selectedBorrowToken;
           const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(decimals); // value in a token
           const borrowTokenAmount = maxLiquidateInUsd.div(tokenPriceInUsd); // value in a token
 
           // Counting maxBonus
-          const maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
+          maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
           maxBonus = maxLiquidate.times(liquidationIncentive.minus(1)); // maxLiquidate * 0.05
-          maxLiquidatePlusBonus = maxLiquidate.times(liquidationIncentive);
         }
 
         return {
@@ -148,7 +147,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
-          maxLiquidate: maxLiquidatePlusBonus,
+          maxLiquidate,
           amountOfSupplied,
           maxBonus,
         };

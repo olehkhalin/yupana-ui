@@ -83,15 +83,15 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
 
   const validateAmount = useMemo(
     () => (assetAmountValidationFactory({
-      max: prepareData.amountToClose,
+      max: prepareData.amountToClose.decimalPlaces(prepareData.borrowDecimals),
     })),
-    [prepareData.amountToClose],
+    [prepareData.amountToClose, prepareData.borrowDecimals],
   );
 
   // Submit form
   const onSubmit = useCallback(
-    () => {
-      console.log('Submit');
+    ({ amount: inputAmount }: FormTypes) => {
+      console.log('Submit', +inputAmount);
     },
     [],
   );
@@ -128,7 +128,7 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
                 theme="primary"
                 decimals={prepareData.borrowDecimals}
                 error={amountErrorMessage}
-                maxValue={prepareData.amountToClose}
+                maxValue={prepareData.amountToClose.decimalPlaces(prepareData.borrowDecimals)}
                 withSlider={false}
                 setFocus={() => setFocus('amount')}
                 exchangeRate={new BigNumber(prepareData.borrowAssetPrice)}
