@@ -39,7 +39,6 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 }) => {
   const { oraclePrices } = useOraclePrices();
   const { borrowYToken, collateralYToken } = useYToken();
-  const [maxLiquidatePlusBonus, setMaxLiquidatePlusBonus] = useState<BigNumber | null>(null);
   const [liquidationStepData, setLiquidationStepData] = useState<LiquidateStep | null>(null);
 
   // Token prices in USD by Selected token in tables
@@ -127,6 +126,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION).div(decimals); // value in a token
 
         let maxBonus: BigNumber = new BigNumber(1); // value in a token
+        let maxLiquidatePlusBonus: BigNumber = new BigNumber(1); // value in a token
         if (selectedBorrowToken) {
           const { maxLiquidateInUsd } = selectedBorrowToken;
           const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(decimals); // value in a token
@@ -135,7 +135,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           // Counting maxBonus
           const maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
           maxBonus = maxLiquidate.times(liquidationIncentive.minus(1)); // maxLiquidate * 0.05
-          setMaxLiquidatePlusBonus(maxLiquidate.times(liquidationIncentive)); // maxLiquidate * 1.05
+          maxLiquidatePlusBonus = maxLiquidate.times(liquidationIncentive);
         }
 
         return {
@@ -148,6 +148,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
+          maxLiquidate: maxLiquidatePlusBonus,
           amountOfSupplied,
           maxBonus,
         };
@@ -158,18 +159,18 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 
   // Set data for liquidation step (step 3)
   useEffect(() => {
-    if (maxLiquidatePlusBonus && collateralTokenOracle && borrowTokenOracle) {
-      const amountToClose = maxLiquidatePlusBonus
-        .times(collateralTokenOracle.price)
-        .div(collateralTokenOracle.decimals)
-        .div(borrowTokenOracle.price)
-        .times(borrowTokenOracle.decimals);
-
+    if (collateralTokenOracle && borrowTokenOracle) {
       const selectBorrowYToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken);
-      const selectCollateralYToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === collateralYToken);
+      const selectCollateralYToken = prepareCollateralAsset.find(({ asset }) => asset.yToken === collateralYToken);
+
       if (selectBorrowYToken && selectCollateralYToken) {
         const { asset: borrowAsset, price: borrowAssetPrice } = selectBorrowYToken;
-        const { asset: collateralAsset, price: collateralAssetPrice } = selectCollateralYToken;
+        const { asset: collateralAsset, price: collateralAssetPrice, maxLiquidate } = selectCollateralYToken;
+
+        const amountToClose = maxLiquidate
+          .times(collateralTokenOracle.price)
+          .div(borrowTokenOracle.price);
+
         setLiquidationStepData({
           borrowAsset,
           collateralAsset,
@@ -180,7 +181,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         });
       }
     }
-  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, collateralYToken, liquidationIncentive, maxLiquidatePlusBonus, prepareBorrowedAssets]);
+  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, collateralYToken, liquidationIncentive, prepareBorrowedAssets, prepareCollateralAsset]);
 
   // Prepare all data for tables
   const { liquidate, borrowedAssets, collateralAssets }: LiquidateUser = useMemo(() => ({
