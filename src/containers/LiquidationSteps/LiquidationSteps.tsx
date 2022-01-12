@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { LiquidateStep } from 'containers/Liquidate';
 import { BorrowAsset, SupplyAsset } from 'types/liquidate';
 import { useWiderThanMphone } from 'utils/helpers';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
@@ -12,6 +13,7 @@ type LiquidationStepsProps = {
   data: {
     borrowedAssets: BorrowAsset[]
     collateralAssets: SupplyAsset[]
+    liquidate: LiquidateStep | null
   }
 };
 
@@ -19,6 +21,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
   data: {
     borrowedAssets,
     collateralAssets,
+    liquidate,
   },
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
@@ -79,7 +82,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
               </>
             )}
         </h2>
-        <LiquidationForm />
+        <LiquidationForm data={liquidate} />
       </section>
     </>
   );

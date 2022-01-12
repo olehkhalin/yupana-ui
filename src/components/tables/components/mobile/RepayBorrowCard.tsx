@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 
 import { BorrowAsset } from 'types/liquidate';
+import { useYToken } from 'providers/YTokenProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -29,10 +30,12 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   setItem,
   className,
 }) => {
+  const { setBorrowYToken } = useYToken();
   const { convertPriceByBasicCurrency } = useCurrency();
 
   const handleSetItem = () => {
     setItem(getTokenSlug({ id: asset.id, address: asset.address }));
+    setBorrowYToken(asset.yToken);
   };
 
   return (

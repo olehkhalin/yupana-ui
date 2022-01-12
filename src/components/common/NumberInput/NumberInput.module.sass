@@ -80,6 +80,9 @@
   text-transform: uppercase
   color: $white
   transition: color $animationTime
+  &:disabled
+    color: rgba($white, .4)
+    text-shadow: none
 
 .primary
   .button
@@ -118,6 +121,18 @@
   color: $light-red
   text-shadow: none
   font-size: .75rem
+
+.disabled
+  border-color: rgba($white, .4)
+  cursor: not-allowed
+  .input, .exchange
+    color: rgba($white, .4)
+  .input
+    cursor: not-allowed
+  .button
+    &:hover
+      color: rgba($white, .4)
+      text-shadow: none
 
 @include media('>Mphone')
   .container

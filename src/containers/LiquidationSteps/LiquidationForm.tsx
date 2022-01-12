@@ -1,8 +1,14 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+/* eslint-disable max-len */
+import React, {
+  useCallback, useEffect, useMemo,
+} from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
+import cx from 'classnames';
 
 import { useCurrency } from 'providers/CurrencyProvider';
+import { LiquidateStep } from 'containers/Liquidate';
+import { getTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { assetAmountValidationFactory, getAdvancedErrorMessage } from 'utils/validation';
 import { useWiderThanMphone } from 'utils/helpers';
@@ -13,7 +19,13 @@ import { FormTypes } from 'components/modals/CreditProcessModal';
 
 import s from './LiquidationSteps.module.sass';
 
-export const LiquidationForm: React.FC = () => {
+type LiquidationFormProps = {
+  data: LiquidateStep | null
+};
+
+export const LiquidationForm: React.FC<LiquidationFormProps> = ({
+  data,
+}) => {
   const isWiderThanMphone = useWiderThanMphone();
   const { convertPriceByBasicCurrency } = useCurrency();
 
@@ -23,6 +35,7 @@ export const LiquidationForm: React.FC = () => {
     formState,
     watch,
     setFocus,
+    setValue,
   } = useForm<FormTypes>({
     defaultValues: {
       amount: new BigNumber(0),
@@ -34,9 +47,34 @@ export const LiquidationForm: React.FC = () => {
 
   // Subscribe on input
   const amount = watch('amount');
+
   useEffect(() => {
-    console.log(+amount);
-  }, [amount]);
+    if (data) {
+      setValue('amount', new BigNumber(0));
+    }
+  }, [data, setValue]);
+
+  // Prepare all data
+  const prepareData = useMemo(
+    () => {
+      const youWillReceive = data ? amount
+        .times(data.borrowAssetPrice)
+        .div(data.collateralAssetPrice)
+        .times(data.liquidationIncentive) : new BigNumber(0);
+
+      return ({
+        borrowAsset: data ? getTokenName(data.borrowAsset) : '',
+        collateralAsset: data ? getTokenName(data.collateralAsset) : '',
+        borrowDecimals: (data ? data.borrowAsset.decimals : 0) ?? 0,
+        amountToClose: data ? data.amountToClose : new BigNumber(0),
+        youWillReceive,
+        youWillReceiveInUsd: data ? youWillReceive.times(data?.collateralAssetPrice) : new BigNumber(0),
+        borrowAssetPrice: data ? new BigNumber(data.borrowAssetPrice) : new BigNumber(0),
+        collateralAssetPrice: data ? new BigNumber(data.collateralAssetPrice) : new BigNumber(0),
+      });
+    },
+    [amount, data],
+  );
 
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),
@@ -45,11 +83,12 @@ export const LiquidationForm: React.FC = () => {
 
   const validateAmount = useMemo(
     () => (assetAmountValidationFactory({
-      max: new BigNumber(5000),
+      max: prepareData.amountToClose,
     })),
-    [],
+    [prepareData.amountToClose],
   );
 
+  // Submit form
   const onSubmit = useCallback(
     () => {
       console.log('Submit');
@@ -65,10 +104,12 @@ export const LiquidationForm: React.FC = () => {
       </div>
       <Heading
         title={
-        isWiderThanMphone
-          ? 'Amount to close in \'XTZ\':'
+        // eslint-disable-next-line no-nested-ternary
+        data ? isWiderThanMphone
+          ? `Amount to close in ${prepareData.borrowAsset}:`
           : 'Amount to close:'
-    }
+          : 'Complete all the previous steps first:'
+        }
         className={s.heading}
       />
       <div className={s.liquidateWrapper}>
@@ -85,12 +126,14 @@ export const LiquidationForm: React.FC = () => {
               // @ts-ignore
               <NumberInput
                 theme="primary"
-                decimals={0}
+                decimals={prepareData.borrowDecimals}
                 error={amountErrorMessage}
-                maxValue={new BigNumber(5000)}
+                maxValue={prepareData.amountToClose}
                 withSlider={false}
                 setFocus={() => setFocus('amount')}
+                exchangeRate={new BigNumber(prepareData.borrowAssetPrice)}
                 className={s.input}
+                disabled={!data}
                 {...field}
               />
             )
@@ -98,8 +141,8 @@ export const LiquidationForm: React.FC = () => {
           />
           <Button
             type="submit"
-            disabled={(!!amountErrorMessage && amountErrorMessage !== 'Beware of the Liquidation Risk')}
-            className={s.button}
+            disabled={!!amountErrorMessage || !data}
+            className={cx(s.button, { [s.error]: amountErrorMessage })}
           >
             Liquidate
           </Button>
@@ -112,9 +155,18 @@ export const LiquidationForm: React.FC = () => {
             </div>
 
             <div className={s.recieveValue}>
-              {getPrettyAmount({ value: 802.12, currency: '\'SMAK\'' })}
-              {' '}
-              {`(${convertPriceByBasicCurrency(2100)})`}
+              {data ? (
+                <>
+                  {
+                    getPrettyAmount({
+                      value: prepareData.youWillReceive,
+                      currency: prepareData.collateralAsset,
+                    })
+                  }
+                  {' '}
+                  {`(${convertPriceByBasicCurrency(prepareData.youWillReceiveInUsd)})`}
+                </>
+              ) : '—'}
             </div>
           </div>
 
@@ -124,7 +176,7 @@ export const LiquidationForm: React.FC = () => {
             </div>
 
             <div className={s.recieveValue}>
-              {getPrettyAmount({ value: 0.86 })}
+              {data ? getPrettyAmount({ value: 0 }) : '—'}
             </div>
           </div>
         </div>

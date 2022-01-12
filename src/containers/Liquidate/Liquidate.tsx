@@ -9,7 +9,8 @@ import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
-import { LiquidateUser } from 'types/liquidate';
+import { LiquidateUser, YToken } from 'types/liquidate';
+import { TokenMetadataInterface } from 'types/token';
 import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
@@ -17,6 +18,15 @@ import { Liquidate as LiquidateTableContainer } from 'components/tables/containe
 import { LiquidateQuery, useLiquidateQuery } from 'generated/graphql';
 
 import s from './Liquidate.module.sass';
+
+export type LiquidateStep = {
+  borrowAsset: TokenMetadataInterface & YToken
+  collateralAsset: TokenMetadataInterface & YToken
+  amountToClose: BigNumber
+  liquidationIncentive: BigNumber
+  borrowAssetPrice: number
+  collateralAssetPrice: number
+};
 
 type LiquidateProps = {
   data: LiquidateQuery | undefined
@@ -30,30 +40,34 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
   const { oraclePrices } = useOraclePrices();
   const { borrowYToken, collateralYToken } = useYToken();
   const [maxLiquidatePlusBonus, setMaxLiquidatePlusBonus] = useState<BigNumber | null>(null);
-  const [stepThreeData, setStepThreeData] = useState<any>(null);
+  const [liquidationStepData, setLiquidationStepData] = useState<LiquidateStep | null>(null);
 
   // Token prices in USD by Selected token in tables
   const borrowTokenOracle = useMemo(() => (
     oraclePrices && borrowYToken?.toString()
-      ? ({
+      ? {
         price: convertTokenPrice(oraclePrices[borrowYToken].price, oraclePrices[borrowYToken].decimals),
         decimals: oraclePrices[borrowYToken].decimals,
-      })
+      }
       : undefined
   ), [borrowYToken, oraclePrices]);
 
   const collateralTokenOracle = useMemo(() => (
     oraclePrices && collateralYToken?.toString()
-      ? ({
+      ? {
         price: convertTokenPrice(oraclePrices[collateralYToken].price, oraclePrices[collateralYToken].decimals),
         decimals: oraclePrices[collateralYToken].decimals,
-      })
+      }
       : undefined
   ), [collateralYToken, oraclePrices]);
 
   // Global data
   const user = data && data.user[0];
   const globalFactors = data && data.globalFactors[0];
+  const liquidationIncentive = useMemo(
+    () => new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`), // 1.05
+    [globalFactors?.liquidationIncentive],
+  );
 
   // Prepare borrowed assets
   const prepareBorrowedAssets = useMemo(() => {
@@ -81,6 +95,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             symbol: asset.tokens[0].symbol,
             id: asset.tokenId,
             address: asset.contractAddress,
+            decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
           amountOfBorrowed,
@@ -119,7 +134,6 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 
           // Counting maxBonus
           const maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
-          const liquidationIncentive = new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`); // 1.05
           maxBonus = maxLiquidate.times(liquidationIncentive.minus(1)); // maxLiquidate * 0.05
           setMaxLiquidatePlusBonus(maxLiquidate.times(liquidationIncentive)); // maxLiquidate * 1.05
         }
@@ -131,6 +145,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             symbol: asset.tokens[0].symbol,
             id: asset.tokenId,
             address: asset.contractAddress,
+            decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
           amountOfSupplied,
@@ -139,9 +154,9 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       });
     }
     return [];
-  }, [globalFactors?.liquidationIncentive, oraclePrices, selectedBorrowToken, user]);
+  }, [liquidationIncentive, oraclePrices, selectedBorrowToken, user]);
 
-  // Set data for step 3
+  // Set data for liquidation step (step 3)
   useEffect(() => {
     if (maxLiquidatePlusBonus && collateralTokenOracle && borrowTokenOracle) {
       const amountToClose = maxLiquidatePlusBonus
@@ -150,14 +165,24 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         .div(borrowTokenOracle.price)
         .times(borrowTokenOracle.decimals);
 
-      setStepThreeData({
-        amountToClose,
-        ...prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken),
-      });
+      const selectBorrowYToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken);
+      const selectCollateralYToken = prepareBorrowedAssets.find(({ asset }) => asset.yToken === collateralYToken);
+      if (selectBorrowYToken && selectCollateralYToken) {
+        const { asset: borrowAsset, price: borrowAssetPrice } = selectBorrowYToken;
+        const { asset: collateralAsset, price: collateralAssetPrice } = selectCollateralYToken;
+        setLiquidationStepData({
+          borrowAsset,
+          collateralAsset,
+          amountToClose,
+          liquidationIncentive,
+          borrowAssetPrice,
+          collateralAssetPrice,
+        });
+      }
     }
-  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, maxLiquidatePlusBonus, prepareBorrowedAssets]);
+  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, collateralYToken, liquidationIncentive, maxLiquidatePlusBonus, prepareBorrowedAssets]);
 
-  // Prepare all data
+  // Prepare all data for tables
   const { liquidate, borrowedAssets, collateralAssets }: LiquidateUser = useMemo(() => ({
     liquidate: [{
       borrowerAddress: user ? user.address : '',
@@ -174,8 +199,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 
   // DEBUG
   useEffect(() => {
-    console.log(JSON.stringify(stepThreeData, null, 2));
-  }, [stepThreeData]);
+    console.log(JSON.stringify(liquidationStepData, null, 2));
+  }, [liquidationStepData]);
 
   return (
     <>
@@ -187,6 +212,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         data={{
           borrowedAssets,
           collateralAssets,
+          liquidate: liquidationStepData,
         }}
       />
     </>

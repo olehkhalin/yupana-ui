@@ -1,5 +1,5 @@
 import React, {
-  useCallback, useState, useMemo,
+  useCallback, useState, useMemo, useEffect,
 } from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
@@ -9,7 +9,7 @@ import { Slider } from 'components/ui/Slider';
 
 import s from './NumberInput.module.sass';
 
-const convertValueToCurrency = (val: BigNumber, exchangeRate: BigNumber) => (
+export const convertValueToCurrency = (val: BigNumber, exchangeRate: BigNumber) => (
   val
     ? val.multipliedBy(exchangeRate)
     : new BigNumber(0)
@@ -26,6 +26,7 @@ type NumberInputProps = Omit<React.HTMLProps<HTMLInputElement>, 'type' | 'onChan
   onChange?: (newValue: BigNumber) => void
   withSlider?: boolean
   setFocus: () => void
+  exchangeRate?: BigNumber
   className?: string
 };
 
@@ -45,16 +46,24 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   onChange,
   withSlider = true,
   setFocus,
+  exchangeRate = new BigNumber(1),
   className,
   ...props
 }, ref) => {
-  const exchangeRate = new BigNumber(1);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
 
   const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
   const [localValue, setLocalValue] = useState(valueStr);
 
   const [valueInBaseCurrency, setValueInBaseCurrency] = useState(new BigNumber(0));
+
+  // Reset values
+  useEffect(() => {
+    setLocalValue(valueStr);
+    if (+valueStr === 0) {
+      setValueInBaseCurrency(new BigNumber(0));
+    }
+  }, [valueStr]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,7 +116,12 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       <div className={s.inputWrapper}>
         <div
           onClick={setFocus}
-          className={cx(s.container, themeClasses[theme], { [s.error]: error })}
+          className={cx(
+            s.container,
+            themeClasses[theme],
+            { [s.error]: error },
+            { [s.disabled]: props.disabled },
+          )}
         >
           <div className={s.wrapper}>
             <input
@@ -132,6 +146,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             <Button
               theme="clear"
               onClick={handleMax}
+              disabled={props.disabled}
               className={s.button}
             >
               max

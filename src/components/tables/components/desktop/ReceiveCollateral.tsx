@@ -28,6 +28,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   TokenMetadataInterface & YToken | undefined
   >(undefined);
 
+  const isBorrowTokenSelect = borrowYToken?.toString();
+
   useEffect(() => {
     if (selectedItem) {
       setCollateralYToken(selectedItem.yToken);
@@ -102,27 +104,22 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, price, asset }: any) => {
-          if (borrowYToken?.toString()) {
-            return (
-              <div>
-                <div className={s.amount}>
-                  {getPrettyAmount({
-                    value: maxBonus,
-                    currency: getSliceTokenName(asset),
-                  })}
-                </div>
-                <div className={s.amountUsd}>
-                  {convertPriceByBasicCurrency(maxBonus.times(price))}
-                </div>
-              </div>
-            );
-          }
-          return '—';
-        },
+        accessor: ({ maxBonus, price, asset }: any) => (
+          <div>
+            <div className={s.amount}>
+              {isBorrowTokenSelect ? getPrettyAmount({
+                value: maxBonus,
+                currency: getSliceTokenName(asset),
+              }) : '—'}
+            </div>
+            <div className={s.amountUsd}>
+              {isBorrowTokenSelect ? convertPriceByBasicCurrency(maxBonus.times(price)) : '—'}
+            </div>
+          </div>
+        ),
       },
     ],
-    [borrowYToken, convertPriceByBasicCurrency, selectedItem],
+    [convertPriceByBasicCurrency, selectedItem, isBorrowTokenSelect],
   );
 
   return (

@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useYToken } from 'providers/YTokenProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
 import { SupplyAsset } from 'types/liquidate';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
@@ -30,9 +31,12 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
+  const { borrowYToken, setCollateralYToken } = useYToken();
+  const isBorrowTokenSelect = borrowYToken?.toString();
 
   const handleSetItem = () => {
     setItem(getTokenSlug({ id: asset.id, address: asset.address }));
+    setCollateralYToken(asset.yToken);
   };
 
   return (
@@ -85,20 +89,20 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
 
         <div className={s.row}>
           <div className={s.title}>
-            MAX Liquidate
+            MAX Bonus
           </div>
           <div className={s.value}>
             <div className={s.amount}>
-              {getPrettyAmount({
+              {isBorrowTokenSelect ? getPrettyAmount({
                 value: maxBonus,
                 currency: getSliceTokenName(asset),
-              })}
+              }) : '—'}
             </div>
             <div className={s.amountUsd}>
-              {getPrettyAmount({
+              {isBorrowTokenSelect ? getPrettyAmount({
                 value: 100,
                 currency: '$',
-              })}
+              }) : '—'}
             </div>
           </div>
         </div>

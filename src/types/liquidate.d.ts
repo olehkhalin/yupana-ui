@@ -13,7 +13,7 @@ export interface BorrowAsset {
 }
 
 export interface SupplyAsset {
-  asset: TokenMetadataInterface
+  asset: TokenMetadataInterface & YToken
   price: number
   amountOfSupplied: BigNumber
   maxBonus: BigNumber
