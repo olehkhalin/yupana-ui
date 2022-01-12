@@ -14,11 +14,17 @@ import s from './Tables.module.sass';
 
 type LiquidationPositionsProps = {
   data: any[]
+  pageCount: number
+  pageSize?: number
+  setOffset: (arg: number) => void
   className?: string
 };
 
 export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   data,
+  pageCount,
+  setOffset,
+  pageSize,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -120,6 +126,9 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       theme="tertiary"
       columns={columns}
       data={data}
+      pageCount={pageCount}
+      setOffset={setOffset}
+      pageSize={pageSize}
       pagination
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidationRow}

@@ -1,5 +1,5 @@
 import {
-  ApolloClient, from, HttpLink, InMemoryCache,
+  ApolloClient, defaultDataIdFromObject, from, HttpLink, InMemoryCache,
 } from '@apollo/client';
 import { onError } from '@apollo/client/link/error';
 
@@ -20,7 +20,16 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
 
-const cache = new InMemoryCache();
+const cache = new InMemoryCache({
+  dataIdFromObject(responseObject) {
+    console.log(responseObject);
+    // eslint-disable-next-line no-underscore-dangle
+    switch (responseObject.__typename) {
+      case 'user': return `user:${responseObject.address}`;
+      default: return defaultDataIdFromObject(responseObject);
+    }
+  },
+});
 
 export const client = new ApolloClient({
   link: from([errorLink, httpLink]),

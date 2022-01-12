@@ -1,20 +1,27 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { STANDARD_PRECISION } from 'constants/default';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
-import { LiquidationPositionsQuery, useLiquidationPositionsQuery } from 'generated/graphql';
+import { LiquidationPositionsQuery, useLiquidationPositionsLazyQuery, useLiquidationPositionsQuery } from 'generated/graphql';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
 
 type LiquidationPositionsWrapperProps = {
   data?: LiquidationPositionsQuery
+  setOffset: (arg: number) => void
   className?: string
 };
 
 const LiquidationPositionsWrapper: React.FC<LiquidationPositionsWrapperProps> = ({
   data,
+  setOffset,
   className,
 }) => {
+  const borrowersCount = useMemo(() => (
+    data?.userAggregate.aggregate?.count ?? 1
+  ),
+  [data?.userAggregate.aggregate?.count]);
+
   const preparedData = useMemo(() => (data ? data.user.reduce((result: any[], el) => {
     if (el.borrowedAssets.length >= 1 && el.collateralAssets.length >= 1) {
       const borrowedAsset = el.borrowedAssets.map((asset) => getTokenName({
@@ -45,6 +52,9 @@ const LiquidationPositionsWrapper: React.FC<LiquidationPositionsWrapperProps> = 
   return (
     <LiquidatationTable
       data={preparedData}
+      setOffset={setOffset}
+      pageSize={1}
+      pageCount={borrowersCount}
       className={className}
     />
   );
@@ -57,7 +67,24 @@ type AllLiquidationPositionsProps = {
 export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = ({
   className,
 }) => {
-  const { data, error } = useLiquidationPositionsQuery();
+  const [offset, setOffset] = useState<number>(0);
+
+  const { data, error } = useLiquidationPositionsQuery({
+    variables: {
+      limit: 1,
+      offset: 0,
+    },
+  });
+  const [fetchBorrowersData] = useLiquidationPositionsLazyQuery();
+
+  useEffect(() => {
+    fetchBorrowersData({
+      variables: {
+        limit: 1,
+        offset,
+      },
+    });
+  }, [fetchBorrowersData, offset]);
 
   if (!data || error) {
     return <></>;
@@ -66,6 +93,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
   return (
     <LiquidationPositionsWrapper
       data={data}
+      setOffset={setOffset}
       className={className}
     />
   );
