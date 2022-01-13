@@ -10,7 +10,7 @@ import {
   getPrettyPercent,
 } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -49,18 +49,18 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         id: 'balance',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
+        ) => (asset && wallet ? getPrettyAmount({
+          value: convertUnits(wallet ?? new BigNumber(0), asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
-        }),
+        }) : 0),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
         accessor: (
           { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
+        ) => asset && getPrettyAmount({
           value: convertUnits(borrowLimit, asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
@@ -81,10 +81,21 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     ],
     [],
   );
-
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown theme="secondary" />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, borrowed,
+        },
+      },
+    }: Row) => (
+      <BorrowTableDropdown
+        theme="secondary"
+        yToken={yToken}
+        asset={asset}
+        borrowed={borrowed}
+      />
     ),
     [],
   );

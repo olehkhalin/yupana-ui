@@ -5,22 +5,42 @@ import { Button } from 'components/ui/Button';
 
 import s from './TableDropdown.module.sass';
 
-type TableDropdownProps = {
+export type TableDropdownProps = {
   theme?: keyof typeof themeClasses
   className?: string
 };
+
+type EventType = React.MouseEvent<HTMLButtonElement>;
+
+type TableDropdownInnerProps = {
+  yToken: number
+  balanceLabel: string
+  balanceAmount: string
+  firstButtonLabel: string
+  secondButtonLabel: string
+  handleFirstButtonClick: () => void
+  handleSecondButtonClick: () => void
+} & TableDropdownProps;
 
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
 
-export const TableDropdown: React.FC<TableDropdownProps> = ({
+export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
+  yToken,
   theme = 'primary',
+  balanceLabel,
+  balanceAmount,
+  firstButtonLabel,
+  secondButtonLabel,
+  handleFirstButtonClick,
+  handleSecondButtonClick,
   className,
 }) => {
-  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick = (event: EventType, callback: () => void) => {
     event.stopPropagation();
+    callback();
   };
 
   const isSecondaryTheme = theme === 'secondary';
@@ -28,14 +48,14 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
     <div className={cx(s.root, themeClasses[theme], className)}>
       <div className={s.content}>
         <div className={s.title}>
-          {`${isSecondaryTheme ? 'Borrow' : 'Supply'} balance:`}
+          {`${balanceLabel}:`}
           <div className={s.amount}>
-            0.00 XTZ
+            {balanceAmount}
           </div>
         </div>
         <Button
           theme="clear"
-          href="/"
+          href={`/markets/${yToken}`}
           className={s.details}
         >
           Markets details...
@@ -46,24 +66,20 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? 'borrow' : 'supply'}
-          onClick={handleClick}
+          onClick={(e: EventType) => handleClick(e, handleFirstButtonClick)}
           className={s.button}
         >
-          {isSecondaryTheme ? 'Borrow' : 'Supply'}
+          {firstButtonLabel}
         </Button>
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? 'borrow' : 'supply'}
-          onClick={handleClick}
+          onClick={(e: EventType) => handleClick(e, handleSecondButtonClick)}
           className={s.button}
         >
-          {isSecondaryTheme ? 'Repay' : 'Withdraw'}
+          {secondButtonLabel}
         </Button>
       </div>
     </div>
   );
-};
-
-export const SupplyTableDropdown = () => {
-  <TableDropdown />;
 };
