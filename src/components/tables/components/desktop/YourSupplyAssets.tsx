@@ -11,7 +11,7 @@ import {
 } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -50,11 +50,11 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         id: 'balance',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
+        ) => (asset && wallet ? getPrettyAmount({
+          value: convertUnits(new BigNumber(0), asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
-        }),
+        }) : 0),
       },
       {
         Header: 'Collateral',
@@ -86,8 +86,21 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, supplied, wallet, collateralFactor,
+        },
+      },
+    }: Row) => (
+      <SupplyTableDropdown
+        yToken={yToken}
+        asset={asset}
+        supplied={supplied}
+        wallet={wallet}
+        collateralFactor={collateralFactor}
+      />
     ),
     [],
   );

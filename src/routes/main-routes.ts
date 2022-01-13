@@ -4,5 +4,4 @@ export enum AppRoutes {
   MARKETS_DETAILS = '/markets/:tokenSlug',
   LIQUIDATE = '/liquidate',
   LIQUIDATE_POSITION = '/liquidate/:borrower',
-  UIKIT = '/ui-kit',
 }
