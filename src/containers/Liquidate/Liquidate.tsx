@@ -79,7 +79,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         // Get token price
         const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
         };
         const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 
@@ -120,7 +120,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         // Get token price
         const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
         };
         const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 

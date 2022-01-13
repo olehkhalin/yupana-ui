@@ -49,18 +49,18 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         id: 'balance',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
+        ) => (asset && wallet ? getPrettyAmount({
+          value: convertUnits(wallet ?? new BigNumber(0), asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
-        }),
+        }) : 0),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
         accessor: (
           { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
+        ) => asset && getPrettyAmount({
           value: convertUnits(borrowLimit, asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,

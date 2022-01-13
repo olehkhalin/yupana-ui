@@ -3,6 +3,7 @@
 /* eslint-disable import/newline-after-import */
 import { gql } from '@apollo/client';
 import * as Apollo from '@apollo/client';
+
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
@@ -7191,6 +7192,7 @@ export type User_Borrow = {
   borrowIndex: Scalars['numeric'];
   id: Scalars['Int'];
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  predictedBorrow: Scalars['numeric'];
   /** An object relationship */
   user: User;
   userId: Scalars['String'];
@@ -7255,6 +7257,7 @@ export type User_Borrow_Avg_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "user_borrow" */
@@ -7264,6 +7267,7 @@ export type User_Borrow_Avg_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** Boolean expression to filter rows from the table "user_borrow". All fields are combined with a logical 'AND'. */
@@ -7278,6 +7282,7 @@ export type User_Borrow_Bool_Exp = {
   borrowIndex?: InputMaybe<Numeric_Comparison_Exp>;
   id?: InputMaybe<Int_Comparison_Exp>;
   interestUpdateTime?: InputMaybe<Timestamptz_Comparison_Exp>;
+  predictedBorrow?: InputMaybe<Numeric_Comparison_Exp>;
   user?: InputMaybe<User_Bool_Exp>;
   userId?: InputMaybe<String_Comparison_Exp>;
 };
@@ -7295,6 +7300,7 @@ export type User_Borrow_Inc_Input = {
   borrow?: InputMaybe<Scalars['numeric']>;
   borrowIndex?: InputMaybe<Scalars['numeric']>;
   id?: InputMaybe<Scalars['Int']>;
+  predictedBorrow?: InputMaybe<Scalars['numeric']>;
 };
 
 /** input type for inserting data into table "user_borrow" */
@@ -7306,6 +7312,7 @@ export type User_Borrow_Insert_Input = {
   borrowIndex?: InputMaybe<Scalars['numeric']>;
   id?: InputMaybe<Scalars['Int']>;
   interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
+  predictedBorrow?: InputMaybe<Scalars['numeric']>;
   user?: InputMaybe<User_Obj_Rel_Insert_Input>;
   userId?: InputMaybe<Scalars['String']>;
 };
@@ -7319,6 +7326,7 @@ export type User_Borrow_Max_Fields = {
   borrowIndex?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  predictedBorrow?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -7330,6 +7338,7 @@ export type User_Borrow_Max_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -7342,6 +7351,7 @@ export type User_Borrow_Min_Fields = {
   borrowIndex?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
+  predictedBorrow?: Maybe<Scalars['numeric']>;
   userId?: Maybe<Scalars['String']>;
 };
 
@@ -7353,6 +7363,7 @@ export type User_Borrow_Min_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
   userId?: InputMaybe<Order_By>;
 };
 
@@ -7381,6 +7392,7 @@ export type User_Borrow_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
   user?: InputMaybe<User_Order_By>;
   userId?: InputMaybe<Order_By>;
 };
@@ -7405,6 +7417,8 @@ export enum User_Borrow_Select_Column {
   /** column name */
   InterestUpdateTime = 'interestUpdateTime',
   /** column name */
+  PredictedBorrow = 'predictedBorrow',
+  /** column name */
   UserId = 'userId',
 }
 
@@ -7416,6 +7430,7 @@ export type User_Borrow_Set_Input = {
   borrowIndex?: InputMaybe<Scalars['numeric']>;
   id?: InputMaybe<Scalars['Int']>;
   interestUpdateTime?: InputMaybe<Scalars['timestamptz']>;
+  predictedBorrow?: InputMaybe<Scalars['numeric']>;
   userId?: InputMaybe<Scalars['String']>;
 };
 
@@ -7427,6 +7442,7 @@ export type User_Borrow_Stddev_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "user_borrow" */
@@ -7436,6 +7452,7 @@ export type User_Borrow_Stddev_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -7446,6 +7463,7 @@ export type User_Borrow_Stddev_Pop_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "user_borrow" */
@@ -7455,6 +7473,7 @@ export type User_Borrow_Stddev_Pop_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -7465,6 +7484,7 @@ export type User_Borrow_Stddev_Samp_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "user_borrow" */
@@ -7474,6 +7494,7 @@ export type User_Borrow_Stddev_Samp_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** aggregate sum on columns */
@@ -7484,6 +7505,7 @@ export type User_Borrow_Sum_Fields = {
   borrow?: Maybe<Scalars['numeric']>;
   borrowIndex?: Maybe<Scalars['numeric']>;
   id?: Maybe<Scalars['Int']>;
+  predictedBorrow?: Maybe<Scalars['numeric']>;
 };
 
 /** order by sum() on columns of table "user_borrow" */
@@ -7493,6 +7515,7 @@ export type User_Borrow_Sum_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** update columns of table "user_borrow" */
@@ -7510,6 +7533,8 @@ export enum User_Borrow_Update_Column {
   /** column name */
   InterestUpdateTime = 'interestUpdateTime',
   /** column name */
+  PredictedBorrow = 'predictedBorrow',
+  /** column name */
   UserId = 'userId',
 }
 
@@ -7521,6 +7546,7 @@ export type User_Borrow_Var_Pop_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "user_borrow" */
@@ -7530,6 +7556,7 @@ export type User_Borrow_Var_Pop_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** aggregate var_samp on columns */
@@ -7540,6 +7567,7 @@ export type User_Borrow_Var_Samp_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "user_borrow" */
@@ -7549,6 +7577,7 @@ export type User_Borrow_Var_Samp_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** aggregate variance on columns */
@@ -7559,6 +7588,7 @@ export type User_Borrow_Variance_Fields = {
   borrow?: Maybe<Scalars['Float']>;
   borrowIndex?: Maybe<Scalars['Float']>;
   id?: Maybe<Scalars['Float']>;
+  predictedBorrow?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "user_borrow" */
@@ -7568,6 +7598,7 @@ export type User_Borrow_Variance_Order_By = {
   borrow?: InputMaybe<Order_By>;
   borrowIndex?: InputMaybe<Order_By>;
   id?: InputMaybe<Order_By>;
+  predictedBorrow?: InputMaybe<Order_By>;
 };
 
 /** unique or primary key constraints on table "user" */
@@ -9044,6 +9075,7 @@ export const MarketsDetailsDocument = gql`
         count
       }
     }
+    liquidationThreshold
   }
   globalFactors {
     liquidationIncentive

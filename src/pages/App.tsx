@@ -50,7 +50,7 @@ const AppInner = () => {
     oraclePricesData.oraclePrice.forEach((el) => {
       newObj[el.ytoken] = {
         price: new BigNumber(el.price),
-        decimals: el.decimals,
+        decimals: new BigNumber(el.decimals),
       };
     });
 
