@@ -1,6 +1,7 @@
 import React from 'react';
 import BigNumber from 'bignumber.js';
 
+import { STANDARD_PRECISION } from 'constants/default';
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
 import { TokenMetadataInterface } from 'types/token';
@@ -75,7 +76,12 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Collateral Factor
         </div>
         <div className={s.value}>
-          {getPrettyPercent(collateralFactor)}
+          {getPrettyPercent(
+            convertUnits(
+              collateralFactor,
+              STANDARD_PRECISION,
+            ).multipliedBy(1e2),
+          )}
         </div>
       </div>
 
