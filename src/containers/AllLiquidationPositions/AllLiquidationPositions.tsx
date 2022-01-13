@@ -72,7 +72,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
   const { data, error } = useLiquidationPositionsQuery({
     variables: {
       limit: 1,
-      offset: 0,
+      offset,
     },
   });
   const [fetchBorrowersData] = useLiquidationPositionsLazyQuery();

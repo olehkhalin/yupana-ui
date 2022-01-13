@@ -26,7 +26,6 @@ type TableProps = {
   pageSize?: number
   pageCount?: number
   setOffset?: (arg: number) => void
-  activeItem?: any
   // TODO: Delete later
   pagination?: boolean
   // *
@@ -56,7 +55,6 @@ export const Table: React.FC<TableProps> = ({
   pageSize,
   pageCount = 1,
   setOffset,
-  activeItem,
   pagination = false,
   // *
   tableClassName,
@@ -90,8 +88,8 @@ export const Table: React.FC<TableProps> = ({
         pageSize: pageSize || 2,
       },
       pageCount: preparePageCount,
-      autoResetPage: false,
       manualPagination: true,
+      autoResetPage: false,
     },
     useExpanded,
     usePagination,
@@ -119,12 +117,6 @@ export const Table: React.FC<TableProps> = ({
       setOffset(offset);
     }
   }, [pageIndex, pageSize, setOffset]);
-
-  useEffect(() => {
-    if (activeItem) {
-      gotoPage(0);
-    }
-  }, [activeItem, gotoPage]);
 
   const compoundClassNames = cx(
     s.root,

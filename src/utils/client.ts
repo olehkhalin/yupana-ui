@@ -22,7 +22,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
 const cache = new InMemoryCache({
   dataIdFromObject(responseObject) {
-    console.log(responseObject);
     // eslint-disable-next-line no-underscore-dangle
     switch (responseObject.__typename) {
       case 'user': return `user:${responseObject.address}`;
