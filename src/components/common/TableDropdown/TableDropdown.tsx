@@ -13,6 +13,7 @@ export type TableDropdownProps = {
 type EventType = React.MouseEvent<HTMLButtonElement>;
 
 type TableDropdownInnerProps = {
+  yToken: number
   balanceLabel: string
   balanceAmount: string
   firstButtonLabel: string
@@ -27,6 +28,7 @@ const themeClasses = {
 };
 
 export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
+  yToken,
   theme = 'primary',
   balanceLabel,
   balanceAmount,
@@ -53,7 +55,7 @@ export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
         </div>
         <Button
           theme="clear"
-          href="/"
+          href={`/markets/${yToken}`}
           className={s.details}
         >
           Markets details...

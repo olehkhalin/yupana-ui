@@ -1,7 +1,13 @@
 import BigNumber from 'bignumber.js';
 import React, { useCallback, useMemo } from 'react';
 
-import { CONTRACT_ADDRESS, PROXY_CONTRACT_ADDRESS } from 'constants/default';
+import {
+  COLLATERAL_PRECISION_BACK,
+  CONTRACT_ADDRESS,
+  ORACLE_PRICE_PRECISION,
+  PROXY_CONTRACT_ADDRESS,
+  STANDARD_PRECISION,
+} from 'constants/default';
 import { TokenMetadataInterface } from 'types/token';
 import { useAccountPkh, useTezos } from 'utils/dapp';
 import { supply, withdraw } from 'utils/dapp/methods';
@@ -47,9 +53,9 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
     ? userGeneralInfo.outstandingBorrow
     : new BigNumber(0)
   ), [userGeneralInfo]);
-  const price = useMemo(() => (oraclePrices
-    ? oraclePrices[yToken!].price
-    : new BigNumber(1)
+  const oraclePrice = useMemo(() => (oraclePrices
+    ? oraclePrices[yToken!]
+    : { price: new BigNumber(1), decimals: new BigNumber(1) }
   ), [oraclePrices, yToken]);
 
   const handleSupplySubmit = useCallback(async (inputAmount: BigNumber) => {
@@ -71,30 +77,53 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
       type: TypeEnum.SUPPLY,
       maxAmount: wallet!,
       asset: asset!,
-      borrowLimit: maxCollateral,
+      borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
       dynamicBorrowLimitFunc: (input: BigNumber) => (
-        maxCollateral.plus(
-          input
-            .multipliedBy(price)
-            .multipliedBy(collateralFactor!),
-        )
+        convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK)
+          .plus(
+            input
+              .multipliedBy(
+                convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                  .multipliedBy(oraclePrice.decimals),
+              )
+              .multipliedBy(
+                convertUnits(collateralFactor!, STANDARD_PRECISION),
+              ),
+          )
       ),
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
-        : outstandingBorrow.div(maxCollateral),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => (
-        (outstandingBorrow.eq(0) || input.eq(0))
-          ? new BigNumber(0)
-          : outstandingBorrow.div(
-            maxCollateral.plus(
-              input
-                .multipliedBy(price)
-                .multipliedBy(collateralFactor!),
-            ),
-          )
-      ),
+        : outstandingBorrow.div(maxCollateral).multipliedBy(1e2),
+      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+        if (maxCollateral.eq(0)) {
+          return new BigNumber(0);
+        }
+
+        if (outstandingBorrow.eq(0) || input.eq(0)) {
+          return outstandingBorrow.div(maxCollateral).multipliedBy(1e2);
+        }
+
+        return (
+          convertUnits(outstandingBorrow, COLLATERAL_PRECISION_BACK)
+            .div(
+              convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK)
+                .plus(
+                  input
+                    .multipliedBy(
+                      convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                        .multipliedBy(oraclePrice.decimals),
+                    )
+                    .multipliedBy(
+                      convertUnits(collateralFactor!, STANDARD_PRECISION),
+                    ),
+                ),
+            )
+            .multipliedBy(1e2)
+        );
+      },
       isOpen: true,
       onSubmit: (input: BigNumber) => handleSupplySubmit(input),
+      oraclePrice,
     });
   }, [
     asset,
@@ -102,7 +131,7 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
     handleSupplySubmit,
     maxCollateral,
     outstandingBorrow,
-    price,
+    oraclePrice,
     setProcessCreditData,
     wallet,
   ]);
@@ -121,41 +150,84 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
   }, [accountPkh, tezos, userBorrowedYTokens, yToken]);
 
   const handleWithdraw = () => {
+    const maxAmount = BigNumber.min(
+      supplied ?? 0,
+      convertUnits(maxCollateral.minus(outstandingBorrow), COLLATERAL_PRECISION_BACK)
+        .div(
+          convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+            .multipliedBy(oraclePrice.decimals),
+        )
+        .div(
+          convertUnits(collateralFactor!, STANDARD_PRECISION),
+        )
+        .multipliedBy(
+          asset?.decimals ? new BigNumber(10).pow(asset.decimals) : 1,
+        ),
+    );
+
     setProcessCreditData({
       type: TypeEnum.WITHDRAW,
-      maxAmount: (maxCollateral.minus(outstandingBorrow))
-        .div(price)
-        .div(collateralFactor!),
+      maxAmount,
       asset: asset!,
-      borrowLimit: maxCollateral,
-      dynamicBorrowLimitFunc: (input: BigNumber) => (
-        maxCollateral.minus(
-          input
-            .multipliedBy(price)
-            .multipliedBy(collateralFactor!),
-        )
-      ),
+      borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK),
+      dynamicBorrowLimitFunc: (input: BigNumber) => {
+        if (maxAmount.eq(0)) {
+          return new BigNumber(0);
+        }
+
+        return (
+          convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK)
+            .minus(
+              input
+                .multipliedBy(
+                  convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                    .multipliedBy(oraclePrice.decimals),
+                )
+                .multipliedBy(
+                  convertUnits(collateralFactor!, STANDARD_PRECISION),
+                ),
+            )
+        );
+      },
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
-        : outstandingBorrow.div(maxCollateral),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => (
-        (outstandingBorrow.eq(0) || input.eq(0))
-          ? new BigNumber(0)
-          : outstandingBorrow.div(
-            maxCollateral.minus(
-              input
-                .multipliedBy(price)
-                .multipliedBy(collateralFactor!),
-            ),
-          )
-      ),
+        : outstandingBorrow.div(maxCollateral).multipliedBy(1e2),
+      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+        if (maxCollateral.eq(0)) {
+          return new BigNumber(0);
+        }
+
+        if (outstandingBorrow.eq(0) || input.eq(0)) {
+          return outstandingBorrow.div(maxCollateral).multipliedBy(1e2);
+        }
+
+        return (
+          convertUnits(outstandingBorrow, COLLATERAL_PRECISION_BACK)
+            .div(
+              convertUnits(maxCollateral, COLLATERAL_PRECISION_BACK)
+                .minus(
+                  input
+                    .multipliedBy(
+                      convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                        .multipliedBy(oraclePrice.decimals),
+                    )
+                    .multipliedBy(
+                      convertUnits(collateralFactor!, STANDARD_PRECISION),
+                    ),
+                ),
+            )
+            .multipliedBy(1e2)
+        );
+      },
       isOpen: true,
       onSubmit: (input: BigNumber) => handleWithdrawSubmit(input),
+      oraclePrice,
     });
   };
 
   return (
     <TableDropdown
+      yToken={yToken!}
       theme={theme}
       className={className}
       balanceLabel="Supply balance"

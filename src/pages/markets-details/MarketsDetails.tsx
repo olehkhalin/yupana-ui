@@ -33,7 +33,11 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
     const availableLiquidity = convertUnits(el.totalLiquid, STANDARD_PRECISION);
     const utilisationRate = getPreparedPercentValue(el as unknown as Asset, 'utilization_rate');
     const collateralFactor = convertUnits(el.collateralFactor, STANDARD_PRECISION);
-    const liquidationThreshold = 12;
+    const liquidationThreshold = convertUnits(
+      el.liquidationThreshold,
+      // data.globalFactors[0].liquidationThreshold,
+      STANDARD_PRECISION,
+    );
     const liquidationBonus = convertUnits(
       data.globalFactors[0].liquidationIncentive,
       STANDARD_PRECISION,
@@ -105,7 +109,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
 
 export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
-  const yToken = +tokenSlug.split('&')[1];
+  const yToken = +tokenSlug;
 
   const { data, error } = useMarketsDetailsQuery({
     variables: {

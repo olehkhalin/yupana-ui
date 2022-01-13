@@ -50,11 +50,11 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         id: 'balance',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
+        ) => (asset && wallet ? getPrettyAmount({
+          value: convertUnits(new BigNumber(0), asset.decimals),
           currency: getSliceTokenName(asset),
           dec: asset.decimals,
-        }),
+        }) : 0),
       },
       {
         Header: 'Collateral',

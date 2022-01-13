@@ -28,16 +28,20 @@ export const Slider: React.FC<SliderProps> = ({
   onChange,
   ...props
 }) => {
-  const percent = ((+value) / (+maxValue)) * 100;
+  const percent = maxValue.eq(0) ? 0 : ((+value) / (+maxValue)) * 100;
   const finalPercent = percent > 100 ? 100 : percent;
 
   const handleClickByPercentButton = (newPercent: any) => {
-    const numVal = new BigNumber(maxValue ? maxValue.multipliedBy(newPercent).div(1e2) : 0);
-    onChange(numVal);
+    if (!maxValue.eq(0)) {
+      const numVal = new BigNumber(maxValue ? maxValue.multipliedBy(newPercent).div(1e2) : 0);
+      onChange(numVal);
+    }
   };
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(new BigNumber(event.target.value));
+    if (!maxValue.eq(0)) {
+      onChange(new BigNumber(event.target.value));
+    }
   };
 
   return (
