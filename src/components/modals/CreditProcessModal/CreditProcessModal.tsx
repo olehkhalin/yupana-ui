@@ -5,6 +5,7 @@ import { Controller, useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { ORACLE_PRICE_PRECISION } from 'constants/default';
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
 import {
@@ -22,6 +23,7 @@ import {
   getAdvancedErrorMessage,
 } from 'utils/validation';
 import { useProcessCredit } from 'providers/ProcessCreditProvider';
+import { OraclePriceType } from 'providers/OraclePricesProvider';
 import { Modal } from 'components/ui/Modal';
 import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
@@ -56,6 +58,7 @@ type CreditProcessModalInnerProps = {
   balanceLabel: string
   maxAmount: BigNumber
   onSubmit: any
+  oraclePrice: OraclePriceType
 } & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
 export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
@@ -71,6 +74,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   balanceLabel,
   maxAmount,
   onSubmit,
+  oraclePrice,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const [dynamicBorrowLimit, setDynamicBorrowLimit] = useState(new BigNumber(0));
@@ -103,16 +107,20 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   }, [amount, dynamicBorrowLimitFunc, dynamicBorrowLimitUsedFunc]);
 
   const validateAmount = useMemo(
-    () => (assetAmountValidationFactory({
-      max: convertUnits(maxAmount, asset.decimals),
-      isLiquidationRiskIncluded: theme === 'secondary',
-    })),
-    [asset.decimals, maxAmount, theme],
+    () => (assetAmountValidationFactory({ max: convertUnits(maxAmount, asset.decimals) })),
+    [asset.decimals, maxAmount],
   );
 
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),
     [errors.amount],
+  );
+
+  const amountWarningMessage = useMemo(
+    () => (amount && amount.div(convertUnits(maxAmount, asset.decimals)).gte(0.8)
+      ? 'Beware of the Liquidation Risk'
+      : undefined),
+    [amount, asset.decimals, maxAmount],
   );
 
   // Form submit
@@ -195,10 +203,14 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
               <NumberInput
                 theme={theme}
                 decimals={asset.decimals ?? 0}
-                error={amountErrorMessage}
+                error={amountErrorMessage || amountWarningMessage}
                 className={s.input}
                 maxValue={convertUnits(maxAmount, asset.decimals)}
                 setFocus={() => setFocus('amount')}
+                exchangeRate={
+                  convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                    .multipliedBy(oraclePrice.decimals)
+                }
                 {...field}
               />
             )
@@ -233,10 +245,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
-          disabled={
-            (!!amountErrorMessage && amountErrorMessage !== 'Beware of the Liquidation Risk')
-            || operationLoading
-          }
+          disabled={!!amountErrorMessage || operationLoading || maxAmount.eq(0)}
         >
           {operationLoading ? 'Loading...' : title}
         </Button>
@@ -288,6 +297,7 @@ export const CreditProcessModal = () => {
     borrowLimitUsed,
     dynamicBorrowLimitUsedFunc,
     onSubmit,
+    oraclePrice,
   } = processCreditData;
 
   return (
@@ -302,6 +312,7 @@ export const CreditProcessModal = () => {
       isOpen
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
+      oraclePrice={oraclePrice}
       {...getModalLabels(type)}
     />
   );

@@ -20,6 +20,7 @@ import { LiquidateQuery, useLiquidateQuery } from 'generated/graphql';
 import s from './Liquidate.module.sass';
 
 export type LiquidateStep = {
+  borrowerAddress: string
   borrowAsset: TokenMetadataInterface & YToken
   collateralAsset: TokenMetadataInterface & YToken
   amountToClose: BigNumber
@@ -78,7 +79,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         // Get token price
         const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
         };
         const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 
@@ -119,7 +120,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         // Get token price
         const { price, decimals } = {
           price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
-          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : 1,
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
         };
         const tokenPriceInUsd = +convertTokenPrice(price, decimals);
 
@@ -171,6 +172,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           .div(borrowTokenOracle.price);
 
         setLiquidationStepData({
+          borrowerAddress: user ? user.address : '',
           borrowAsset,
           collateralAsset,
           amountToClose,
@@ -180,7 +182,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         });
       }
     }
-  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, collateralYToken, liquidationIncentive, prepareBorrowedAssets, prepareCollateralAsset]);
+  }, [borrowTokenOracle, borrowYToken, collateralTokenOracle, collateralYToken, liquidationIncentive, prepareBorrowedAssets, prepareCollateralAsset, user]);
 
   // Prepare all data for tables
   const { liquidate, borrowedAssets, collateralAssets }: LiquidateUser = useMemo(() => ({
@@ -196,11 +198,6 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     borrowedAssets: prepareBorrowedAssets,
     collateralAssets: prepareCollateralAsset,
   }), [prepareBorrowedAssets, prepareCollateralAsset, user]);
-
-  // DEBUG
-  useEffect(() => {
-    console.log(JSON.stringify(liquidationStepData, null, 2));
-  }, [liquidationStepData]);
 
   return (
     <>

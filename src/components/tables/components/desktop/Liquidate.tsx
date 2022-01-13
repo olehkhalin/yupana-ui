@@ -30,14 +30,11 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         ),
         id: 'borrowerAddress',
         accessor: (row: any) => (
-          <Button
-            href="/"
-            theme="accent"
-            sizeT="small"
-            className={cx(s.address, s.white, s.noShadow)}
+          <div
+            className={cx(s.address, s.white, s.noHover)}
           >
             {shortize(row.borrowerAddress)}
-          </Button>
+          </div>
         ),
       },
       {

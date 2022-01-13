@@ -6,8 +6,12 @@ import { Controller, useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useUserBorrowedYTokens } from 'providers/UserBorrowedYTokensProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
 import { LiquidateStep } from 'containers/Liquidate';
+import { CONTRACT_ADDRESS, PROXY_CONTRACT_ADDRESS } from 'constants/default';
+import { liquidate } from 'utils/dapp/methods/liquidate';
+import { useAccountPkh, useTezos } from 'utils/dapp';
 import { getTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { assetAmountValidationFactory, getAdvancedErrorMessage } from 'utils/validation';
@@ -28,6 +32,10 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const { convertPriceByBasicCurrency } = useCurrency();
+
+  const tezos = useTezos()!;
+  const accountPkh = useAccountPkh();
+  const { userBorrowedYTokens } = useUserBorrowedYTokens();
 
   const {
     handleSubmit,
@@ -90,10 +98,27 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
 
   // Submit form
   const onSubmit = useCallback(
-    ({ amount: inputAmount }: FormTypes) => {
-      console.log('Submit', +inputAmount);
+    async ({ amount: inputAmount }: FormTypes) => {
+      try {
+        if (data) {
+          const params = {
+            fabricaContractAddress: CONTRACT_ADDRESS,
+            proxyContractAddress: PROXY_CONTRACT_ADDRESS,
+            otherYTokens: userBorrowedYTokens,
+            borrowToken: data.borrowAsset.yToken,
+            collateralToken: data.collateralAsset.yToken,
+            borrower: data.borrowerAddress,
+            amount: inputAmount,
+          };
+
+          const operation = await liquidate(tezos, accountPkh!, params);
+          await operation.confirmation(1);
+        }
+      } catch (e) {
+        console.log(e);
+      }
     },
-    [],
+    [accountPkh, data, tezos, userBorrowedYTokens],
   );
 
   return (
