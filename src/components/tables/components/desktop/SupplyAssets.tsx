@@ -3,6 +3,7 @@ import { Row } from 'react-table';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
+import { STANDARD_PRECISION } from 'constants/default';
 import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/helpers/token';
 import {
@@ -11,7 +12,7 @@ import {
   getPrettyPercent,
 } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -49,7 +50,12 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         Header: 'Collateral Factor',
         id: 'collateralFactor',
         accessor: ({ collateralFactor }: { collateralFactor: number }) => (
-          getPrettyPercent(collateralFactor)
+          getPrettyPercent(
+            convertUnits(
+              collateralFactor,
+              STANDARD_PRECISION,
+            ).multipliedBy(1e2),
+          )
         ),
       },
       {
@@ -79,8 +85,21 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, supplied, wallet, collateralFactor,
+        },
+      },
+    }: Row) => (
+      <SupplyTableDropdown
+        yToken={yToken}
+        asset={asset}
+        supplied={supplied}
+        wallet={wallet}
+        collateralFactor={collateralFactor}
+      />
     ),
     [],
   );

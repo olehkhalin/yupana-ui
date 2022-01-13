@@ -1,23 +1,29 @@
 import React, {
-  useEffect, useCallback, useMemo,
+  useEffect, useCallback, useMemo, useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { ORACLE_PRICE_PRECISION } from 'constants/default';
 import { ModalActions } from 'types/modal';
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenName } from 'utils/helpers/token';
 import {
-  convertTokenAmountToDollars,
+  getSliceTokenName,
+  getTokenName,
+} from 'utils/helpers/token';
+import {
   getPrettyPercent,
   getPrettyAmount,
+  convertUnits,
 } from 'utils/helpers/amount';
 import { useWiderThanMphone } from 'utils/helpers';
 import {
   assetAmountValidationFactory,
   getAdvancedErrorMessage,
 } from 'utils/validation';
+import { useProcessCredit } from 'providers/ProcessCreditProvider';
+import { OraclePriceType } from 'providers/OraclePricesProvider';
 import { Modal } from 'components/ui/Modal';
 import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
@@ -41,51 +47,39 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-// export type AssetModalProps = ModalActionType & CreditProcessProps;
-
-export type ModalActionType = Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
-
-type CreditProcessModalProps = {
-  type?: TypeEnum
+type CreditProcessModalInnerProps = {
   theme?: keyof typeof themeClasses
-  // new props
   asset: TokenMetadataInterface
-  // TODO: Change to basic currency name
-  pricePerTokenInBasicCurrency: number
-  // Stats
-  yourBorrowLimit: number
-  borrowLimitUsed: number
-  dynamicBorrowLimitUsed: number
-  dynamicBorrowLimit?: number
-  // *
+  borrowLimit: BigNumber
+  borrowLimitUsed: BigNumber
+  dynamicBorrowLimitFunc?: (input: BigNumber) => BigNumber
+  dynamicBorrowLimitUsedFunc: (input: BigNumber) => BigNumber
   title: string
   balanceLabel: string
-  buttonLabel: string
-  maxAmount: number
-  // onSumbit: (props: any) => void
-  setIntroducedValueInBasicPrice: (arg: number) => void
-} & ModalActionType;
+  maxAmount: BigNumber
+  onSubmit: any
+  oraclePrice: OraclePriceType
+} & Pick<ModalActions, 'isOpen' | 'onRequestClose'>;
 
-export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
-  type = TypeEnum.SUPPLY,
+export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
   theme = 'primary',
   isOpen,
   onRequestClose,
-  // new props
   asset,
-  yourBorrowLimit,
+  borrowLimit,
   borrowLimitUsed,
-  pricePerTokenInBasicCurrency,
-  dynamicBorrowLimitUsed,
-  dynamicBorrowLimit,
+  dynamicBorrowLimitFunc,
+  dynamicBorrowLimitUsedFunc,
   title,
   balanceLabel,
-  buttonLabel,
   maxAmount,
-  // onSumbit,
-  setIntroducedValueInBasicPrice,
+  onSubmit,
+  oraclePrice,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
+  const [dynamicBorrowLimit, setDynamicBorrowLimit] = useState(new BigNumber(0));
+  const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(new BigNumber(0));
+  const [operationLoading, setOperationLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -105,20 +99,16 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
   // Subscribe on input
   const amount = watch('amount');
 
-  // Entered amount of tokens in USD // TODO: maybe change to usememo
   useEffect(() => {
-    // Add switch currency to tezos/dollars (pricePerTokenInDollars / tezosPrice * inputAmount)
-    setIntroducedValueInBasicPrice(
-      convertTokenAmountToDollars(+amount, pricePerTokenInBasicCurrency),
-    );
-  }, [amount, pricePerTokenInBasicCurrency, setIntroducedValueInBasicPrice]);
+    if (dynamicBorrowLimitFunc) {
+      setDynamicBorrowLimit(dynamicBorrowLimitFunc(amount));
+    }
+    setDynamicBorrowLimitUsed(dynamicBorrowLimitUsedFunc(amount));
+  }, [amount, dynamicBorrowLimitFunc, dynamicBorrowLimitUsedFunc]);
 
   const validateAmount = useMemo(
-    () => (assetAmountValidationFactory({
-      max: maxAmount,
-      isLiquidationRiskIncluded: type === TypeEnum.BORROW || type === TypeEnum.REPAY,
-    })),
-    [maxAmount, type],
+    () => (assetAmountValidationFactory({ max: convertUnits(maxAmount, asset.decimals) })),
+    [asset.decimals, maxAmount],
   );
 
   const amountErrorMessage = useMemo(
@@ -126,31 +116,45 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
     [errors.amount],
   );
 
-  // Form submit
-  const onSubmit = useCallback(
-    ({ amount: inputData }: FormTypes) => {
-      console.log('inputData', inputData);
-    },
-    [],
+  const amountWarningMessage = useMemo(
+    () => (amount && amount.div(convertUnits(maxAmount, asset.decimals)).gte(0.8)
+      ? 'Beware of the Liquidation Risk'
+      : undefined),
+    [amount, asset.decimals, maxAmount],
   );
 
-  const getYourBorrowLimit = () => {
-    const borrowLimit = getPrettyAmount({ value: yourBorrowLimit, currency: '$' });
+  // Form submit
+  const onSubmitInner = useCallback(
+    async ({ amount: inputData }: FormTypes) => {
+      const finalAmount = convertUnits(inputData, -(asset.decimals ?? 0));
+      try {
+        setOperationLoading(true);
+        await onSubmit(finalAmount);
+        console.log('submited');
+        onRequestClose();
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setOperationLoading(false);
+      }
+    },
+    [asset.decimals, onRequestClose, onSubmit],
+  );
 
-    if (dynamicBorrowLimit) {
-      return (
-        <>
-          {borrowLimit}
-          {' -> '}
-          {getPrettyAmount({ value: dynamicBorrowLimit ?? 0, currency: '$' })}
-        </>
-      );
+  const borrowLimitF = useMemo(() => {
+    const borrowLimitVal = getPrettyAmount({ value: borrowLimit, currency: '$' });
+
+    if (dynamicBorrowLimitFunc) {
+      return `${borrowLimitVal} -> ${getPrettyAmount({
+        value: dynamicBorrowLimit,
+        currency: '$',
+      })}`;
     }
 
-    return borrowLimit;
-  };
+    return borrowLimitVal;
+  }, [borrowLimit, dynamicBorrowLimit, dynamicBorrowLimitFunc]);
 
-  const isBorrowTheme = type === TypeEnum.BORROW || type === TypeEnum.REPAY;
+  const isBorrowTheme = theme === 'secondary';
 
   return (
     <Modal
@@ -161,8 +165,7 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
     >
       <form
-        // TODO: Update 'any' type
-        onSubmit={handleSubmit(onSubmit as any)}
+        onSubmit={handleSubmit(onSubmitInner as any)}
         className={s.form}
       >
         <h2 className={s.title}>
@@ -182,7 +185,11 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           {balanceLabel}
 
           <div className={s.balance}>
-            {maxAmount}
+            {getPrettyAmount({
+              value: convertUnits(maxAmount, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })}
           </div>
         </div>
 
@@ -194,11 +201,16 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
             ({ field }) => (
               // @ts-ignore
               <NumberInput
-                decimals={6}
-                error={amountErrorMessage}
+                theme={theme}
+                decimals={asset.decimals ?? 0}
+                error={amountErrorMessage || amountWarningMessage}
                 className={s.input}
-                maxValue={new BigNumber(maxAmount)}
+                maxValue={convertUnits(maxAmount, asset.decimals)}
                 setFocus={() => setFocus('amount')}
+                exchangeRate={
+                  convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                    .multipliedBy(oraclePrice.decimals)
+                }
                 {...field}
               />
             )
@@ -211,10 +223,10 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
 
         <div className={s.borrowLimit}>
           <div className={s.borrowDescription}>
-            {type === TypeEnum.WITHDRAW ? 'Available to borrow:' : 'Your Borrow Limit:'}
+            {dynamicBorrowLimitFunc ? 'Available to borrow:' : 'Your Borrow Limit:'}
           </div>
           <div className={s.borrowResult}>
-            {getYourBorrowLimit()}
+            {borrowLimitF}
           </div>
         </div>
 
@@ -233,11 +245,75 @@ export const CreditProcessModal: React.FC<CreditProcessModalProps> = ({
           sizeT={isWiderThanMphone ? 'large' : 'medium'}
           actionT={isBorrowTheme ? 'borrow' : 'supply'}
           type="submit"
-          disabled={(!!amountErrorMessage && amountErrorMessage !== 'Beware of the Liquidation Risk')}
+          disabled={!!amountErrorMessage || operationLoading || maxAmount.eq(0)}
         >
-          {buttonLabel}
+          {operationLoading ? 'Loading...' : title}
         </Button>
       </form>
     </Modal>
+  );
+};
+
+const getModalLabels = (type: TypeEnum) => {
+  switch (type) {
+    case TypeEnum.SUPPLY:
+      return ({
+        title: 'Supply',
+        balanceLabel: 'Wallet balance:',
+      });
+    case TypeEnum.WITHDRAW:
+      return ({
+        title: 'Withdraw',
+        balanceLabel: 'Supply balance:',
+      });
+    case TypeEnum.BORROW:
+      return ({
+        title: 'Borrow',
+        balanceLabel: 'Borrow balance:',
+      });
+    default:
+      return ({
+        title: 'Repay',
+        balanceLabel: 'Borrow balance:',
+      });
+  }
+};
+
+export const CreditProcessModal = () => {
+  const { processCreditData, setProcessCreditData } = useProcessCredit();
+
+  const handleModalClose = () => setProcessCreditData(null);
+
+  if (processCreditData === null) {
+    return <></>;
+  }
+
+  const {
+    type,
+    asset,
+    maxAmount,
+    borrowLimit,
+    dynamicBorrowLimitFunc,
+    borrowLimitUsed,
+    dynamicBorrowLimitUsedFunc,
+    onSubmit,
+    oraclePrice,
+  } = processCreditData;
+
+  return (
+    <CreditProcessModalInner
+      maxAmount={maxAmount}
+      asset={asset}
+      borrowLimit={borrowLimit}
+      dynamicBorrowLimitFunc={dynamicBorrowLimitFunc}
+      borrowLimitUsed={borrowLimitUsed}
+      dynamicBorrowLimitUsedFunc={dynamicBorrowLimitUsedFunc}
+      theme={(type === TypeEnum.SUPPLY || type === TypeEnum.WITHDRAW) ? 'primary' : 'secondary'}
+      isOpen
+      onRequestClose={handleModalClose}
+      onSubmit={onSubmit}
+      oraclePrice={oraclePrice}
+      {...getModalLabels(type)}
+    />
   );
 };

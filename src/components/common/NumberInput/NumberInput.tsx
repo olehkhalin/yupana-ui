@@ -27,6 +27,7 @@ type NumberInputProps = Omit<React.HTMLProps<HTMLInputElement>, 'type' | 'onChan
   withSlider?: boolean
   setFocus: () => void
   className?: string
+  exchangeRate: BigNumber
 };
 
 const themeClasses = {
@@ -46,9 +47,9 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   withSlider = true,
   setFocus,
   className,
+  exchangeRate,
   ...props
 }, ref) => {
-  const exchangeRate = new BigNumber(1);
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
 
   const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
@@ -154,7 +155,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
           value={localValue}
           maxValue={maxValue}
           onChange={handleSliderChange}
-          className={s.slider}
+          className={cx(s.slider, themeClasses[theme])}
         />
       )}
     </div>
