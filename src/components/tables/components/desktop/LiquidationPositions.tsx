@@ -46,7 +46,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => (
           <span className={s.yellow}>
-            Total borrowed
+            Total borrow
           </span>
         ),
         id: 'totalBorrowed',
