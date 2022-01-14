@@ -8,7 +8,7 @@ import cx from 'classnames';
 import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
-import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
+import { COLLATERAL_PRECISION_BACK, STANDARD_PRECISION } from 'constants/default';
 import { LiquidateUser, YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
@@ -190,7 +190,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       borrowerAddress: user ? user.address : '',
       borrowedAssetsName: prepareBorrowedAssets.map(({ asset }) => getTokenName(asset)),
       collateralAssetsName: prepareCollateralAsset.map(({ asset }) => getTokenName(asset)),
-      totalBorrowed: user ? +convertUnits(user.outstandingBorrow, COLLATERAL_PRECISION) : 1,
+      totalBorrowed: user ? +convertUnits(user.outstandingBorrow, COLLATERAL_PRECISION_BACK) : 1,
       healthFactor: user ? +convertUnits(
         user.liquidationRatio, STANDARD_PRECISION,
       ).toFixed(2) : 1,
