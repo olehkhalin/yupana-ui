@@ -11,8 +11,8 @@ import { Preloader } from 'components/ui/Preloader';
 import s from './SupplyLine.module.sass';
 
 type SupplyLineProps = {
-  token: TokenMetadataInterface
-  percent: number
+  token?: TokenMetadataInterface
+  percent?: number
   loading?: boolean
   theme?: keyof typeof themeClass
   className?: string
@@ -29,7 +29,7 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
   const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && percent) {
       setAmount(percent);
     }
   }, [loading, percent]);
@@ -38,7 +38,11 @@ export const SupplyLine: React.FC<SupplyLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.symbol}>
-          {getSlice(getTokenName(token), 5)}
+          {!loading && token ? getSlice(getTokenName(token), 5) : (
+            <Preloader
+              className={s.percentPreloader}
+            />
+          )}
         </div>
 
         <div className={s.percent}>

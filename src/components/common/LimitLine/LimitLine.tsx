@@ -12,8 +12,8 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 import s from './LimitLine.module.sass';
 
 type LimitLineProps = {
-  percent: number
-  value: number
+  percent: number | undefined
+  value: number | undefined
   title: string
   loading: boolean
   className?: string
@@ -27,10 +27,10 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   className,
 }) => {
   const [percentValue, setPercentValue] = useState<number>(0);
-  const timing = useMemo(() => ANIMATION_TIME + (percent / 100), [percent]);
+  const timing = useMemo(() => ANIMATION_TIME + ((percent ?? 1) / 100), [percent]);
 
   useEffect(() => {
-    if (!loading) {
+    if (!loading && percent) {
       setPercentValue(percent);
     }
   }, [loading, percent]);
@@ -39,7 +39,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.percent}>
-          {!loading ? (
+          {!loading && percent ? (
             <>
               <CountUp
                 start={0}
@@ -68,7 +68,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          {!loading
+          {!loading && value
             ? getPrettyAmount({ value, currency: '$' })
             : (
               <Preloader

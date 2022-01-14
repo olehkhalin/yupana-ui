@@ -2,7 +2,6 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
-import { useLoading } from 'hooks/useLoading';
 import { STANDARD_PRECISION } from 'constants/default';
 import { getPreparedTokenObject } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
@@ -48,29 +47,39 @@ const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
 };
 
 type MarketCardsWrapperProps = {
-  data: MarketOverviewQuery
-  loading?: boolean
+  data: MarketOverviewQuery | undefined
 };
 
 const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
   data,
-  loading,
 }) => {
-  const preparedData = useMemo(() => ({
-    supply: prepareObject(data),
-    borrow: prepareObject(data, false),
-  }), [data]);
+  const preparedData = useMemo(() => {
+    if (data) {
+      return {
+        supply: prepareObject(data),
+        borrow: prepareObject(data, false),
+      };
+    }
+    return undefined;
+  },
+  [data]);
 
   return (
     <>
       <MarketCard
-        {...preparedData.supply}
-        loading={loading}
+        totalAmount={preparedData?.supply.totalAmount}
+        volume24h={preparedData?.supply.volume24h}
+        numberOfMembers={preparedData?.supply.numberOfMembers}
+        assets={preparedData?.supply.assets}
+        loading={!preparedData}
         className={s.card}
       />
       <MarketCard
-        {...preparedData.borrow}
-        loading={loading}
+        totalAmount={preparedData?.borrow.totalAmount}
+        volume24h={preparedData?.borrow.volume24h}
+        numberOfMembers={preparedData?.borrow.numberOfMembers}
+        assets={preparedData?.borrow.assets}
+        loading={!preparedData}
         theme="secondary"
         className={s.card}
       />
@@ -85,20 +94,11 @@ type MarketCardsProps = {
 export const MarketCards: React.FC<MarketCardsProps> = ({
   className,
 }) => {
-  const { data, error } = useMarketOverviewQuery();
-
-  // TODO: Delete later
-  const { loading } = useLoading();
-
-  if (!data || error) {
-    return (
-      <></>
-    );
-  }
+  const { data } = useMarketOverviewQuery();
 
   return (
     <div className={cx(s.root, className)}>
-      <MarketCardsWrapper data={data} loading={loading} />
+      <MarketCardsWrapper data={data} />
     </div>
   );
 };

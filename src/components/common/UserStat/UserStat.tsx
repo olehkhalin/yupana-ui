@@ -7,9 +7,9 @@ import { Preloader } from 'components/ui/Preloader';
 import s from './UserStat.module.sass';
 
 type UserStatProps = {
-  userTotalSupply: number
-  userTotalBorrow: number
-  netApy: number
+  userTotalSupply: number | undefined
+  userTotalBorrow: number | undefined
+  netApy: number | undefined
   loading: boolean
   className?: string
 };
@@ -27,7 +27,7 @@ export const UserStat: React.FC<UserStatProps> = ({
         Your Supply Balance:
       </div>
       <div className={s.value}>
-        {!loading
+        {!loading && userTotalSupply
           ? getPrettyAmount({ value: userTotalSupply, currency: '$' })
           : (
             <Preloader
@@ -43,8 +43,8 @@ export const UserStat: React.FC<UserStatProps> = ({
         Net APY:
       </div>
       <div className={s.value}>
-        {!loading
-          ? `${getPrettyPercent(netApy)}%`
+        {!loading && netApy
+          ? getPrettyPercent(netApy)
           : (
             <Preloader
               theme="tertiary"
@@ -59,7 +59,7 @@ export const UserStat: React.FC<UserStatProps> = ({
         Your Borrow Balance:
       </div>
       <div className={s.value}>
-        {!loading
+        {!loading && userTotalBorrow
           ? getPrettyAmount({ value: userTotalBorrow, currency: '$' })
           : (
             <Preloader

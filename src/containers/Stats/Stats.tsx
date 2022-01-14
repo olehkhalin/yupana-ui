@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { useLoading } from 'hooks/useLoading';
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
 import { useAccountPkh } from 'utils/dapp';
 import { convertUnits } from 'utils/helpers/amount';
@@ -16,26 +15,18 @@ type StatsProps = {
 };
 
 type StatsInnerProps = {
-  data: GetUserStatsQuery
+  data: GetUserStatsQuery | undefined
+  loading: boolean
 } & StatsProps;
 
 const StatsInner: React.FC<StatsInnerProps> = ({
   data,
+  loading,
   className,
 }) => {
-  const { loading } = useLoading();
-
-  const {
-    netApy,
-    borrowRatio,
-    maxCollateral,
-    liquidationRatio,
-    liquidationCollateral,
-    totalSupply,
-    totalBorrow,
-  } = useMemo(
+  const prepareData = useMemo(
     () => {
-      if (data.user.length) {
+      if (data && data.user.length) {
         const user = data.user[0];
         return ({
           netApy: +convertUnits(user.netApy, STANDARD_PRECISION).multipliedBy(1e2),
@@ -55,16 +46,7 @@ const StatsInner: React.FC<StatsInnerProps> = ({
           totalBorrow: +convertUnits(user.totalBorrowUsd, COLLATERAL_PRECISION),
         });
       }
-
-      return {
-        netApy: 0,
-        borrowRatio: 0,
-        maxCollateral: 0,
-        liquidationRatio: 0,
-        liquidationCollateral: 0,
-        totalSupply: 0,
-        totalBorrow: 0,
-      };
+      return undefined;
     },
     [data],
   );
@@ -72,22 +54,22 @@ const StatsInner: React.FC<StatsInnerProps> = ({
   return (
     <section className={className}>
       <UserStat
-        userTotalSupply={totalSupply}
-        userTotalBorrow={totalBorrow}
-        netApy={netApy}
+        userTotalSupply={prepareData?.totalSupply}
+        userTotalBorrow={prepareData?.totalBorrow}
+        netApy={prepareData?.netApy}
         loading={loading}
         className={s.stat}
       />
       <LimitLine
-        percent={borrowRatio}
-        value={maxCollateral}
+        percent={prepareData?.borrowRatio}
+        value={prepareData?.maxCollateral}
         title="Your Borrow Limit"
         loading={loading}
         className={s.limit}
       />
       <LimitLine
-        percent={liquidationRatio}
-        value={liquidationCollateral}
+        percent={prepareData?.liquidationRatio}
+        value={prepareData?.liquidationCollateral}
         title="Your Liquidation Limit"
         loading={loading}
         className={s.limit}
@@ -100,7 +82,7 @@ export const Stats: React.FC<StatsProps> = ({
   className,
 }) => {
   const accountPkh = useAccountPkh();
-  const [fetch, { data }] = useGetUserStatsLazyQuery();
+  const [fetch, { data, loading }] = useGetUserStatsLazyQuery();
 
   useEffect(() => {
     fetch({
@@ -110,11 +92,11 @@ export const Stats: React.FC<StatsProps> = ({
     });
   }, [accountPkh, fetch]);
 
-  if (!data || !accountPkh) {
-    return <></>;
-  }
-
   return (
-    <StatsInner className={className} data={data} />
+    <StatsInner
+      data={data}
+      loading={loading}
+      className={className}
+    />
   );
 };
