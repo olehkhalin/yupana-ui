@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 
-import { useLoading } from 'hooks/useLoading';
 import { STANDARD_PRECISION } from 'constants/default';
 import { getPreparedTokenObject } from 'utils/helpers/token';
 import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
@@ -57,19 +56,12 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data, error } = useMarketsAllQuery();
-
-  // TODO: Delete later
-  const { loading } = useLoading();
-
-  if ((!data && !loading) || error) {
-    return <></>;
-  }
+  const { data } = useMarketsAllQuery();
 
   return (
     <AllMarketsWrapper
       data={data}
-      loading={loading}
+      loading={!data}
       className={className}
     />
   );

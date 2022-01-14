@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 
-import { useLoading } from 'hooks/useLoading';
 import { STANDARD_PRECISION } from 'constants/default';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
@@ -62,19 +61,12 @@ type AllLiquidationPositionsProps = {
 export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = ({
   className,
 }) => {
-  const { data, error } = useLiquidationPositionsQuery();
-
-  // TODO: Delete later
-  const { loading } = useLoading();
-
-  if (!data || error) {
-    return <></>;
-  }
+  const { data } = useLiquidationPositionsQuery();
 
   return (
     <LiquidationPositionsWrapper
       data={data}
-      loading={loading}
+      loading={!data}
       className={className}
     />
   );
