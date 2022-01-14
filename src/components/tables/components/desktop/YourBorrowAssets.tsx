@@ -1,10 +1,16 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -41,25 +47,38 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         accessor: ({ borrowApy }: { borrowApy: number | any }) => (
           loading
             ? borrowApy
-            : `${borrowApy.toFixed(2)}%`
+            : getPrettyPercent(borrowApy)
         ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
+        accessor: (
+          { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
+        ) => (
+          // eslint-disable-next-line no-nested-ternary
           loading
-            ? balance
-            : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
+            ? wallet
+            : (asset && wallet ? getPrettyAmount({
+              value: convertUnits(wallet ?? new BigNumber(0), asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            }) : 0)
         ),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
-        accessor: ({ borrowLimit }: { borrowLimit: number | any }) => (
+        accessor: (
+          { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
+        ) => (
           loading
             ? borrowLimit
-            : `${borrowLimit.toFixed(2)}%`
+            : asset && getPrettyAmount({
+              value: convertUnits(borrowLimit, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })
         ),
       },
       {
@@ -78,11 +97,21 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     ],
     [loading],
   );
-
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown theme="secondary" />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, borrowed,
+        },
+      },
+    }: Row) => (
+      <BorrowTableDropdown
+        theme="secondary"
+        yToken={yToken}
+        asset={asset}
+        borrowed={borrowed}
+      />
     ),
     [],
   );

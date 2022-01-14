@@ -1,9 +1,7 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
@@ -34,7 +32,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            href={loading ? '' : `${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}&${row.yToken}`}
+            href={loading ? '' : `${AppRoutes.MARKETS}/${row.yToken}`}
             theme="tertiary"
             loading={loading}
           />
@@ -132,7 +130,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={loading ? '' : `${AppRoutes.MARKETS}/${getTokenSlug(row.asset)}&${row.yToken}`}
+            href={loading ? '' : `${AppRoutes.MARKETS}/${row.yToken}`}
             className={s.link}
           >
             Details

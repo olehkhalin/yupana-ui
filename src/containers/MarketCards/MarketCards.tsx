@@ -3,30 +3,34 @@ import cx from 'classnames';
 import BigNumber from 'bignumber.js';
 
 import { useLoading } from 'hooks/useLoading';
-import { getPreparedTokenObject } from 'utils/getPreparedTokenObject';
+import { STANDARD_PRECISION } from 'constants/default';
+import { getPreparedTokenObject } from 'utils/helpers/token';
+import { convertUnits } from 'utils/helpers/amount';
 import { Asset, MarketOverviewQuery, useMarketOverviewQuery } from 'generated/graphql';
 import { MarketCard } from 'components/common/MarketCard';
 
 import s from './MarketCards.module.sass';
 
 const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
-  const totalAmount = new BigNumber(
+  const totalAmount = convertUnits(
     data.assetAggregate.aggregate?.sum?.[isSupply ? 'totalSupply' : 'totalBorrowed'] ?? '0',
-  ).div(1e18);
+    STANDARD_PRECISION,
+  );
   const numberOfMembers = isSupply
     ? +(data.suppliersCount.aggregate?.count ?? '0')
     : +(data.borowersCount.aggregate?.count ?? '0');
   const volume24h = data.dailyStats
     // TODO: Research decimals: div(10e26)
-    && data.dailyStats.length ? +(new BigNumber(data.dailyStats[0][isSupply ? 'supplyVolume' : 'borrowVolume']).div(10e26)) : 0;
+    && data.dailyStats.length ? +(new BigNumber(data.dailyStats[0][isSupply ? 'supplyVolume' : 'borrowVolume']).div(1e26)) : 0;
   // TODO: Change when api will be updated
 
   const assets = data[isSupply ? 'supplyAssets' : 'borrowAssets'].map((el) => {
     const asset = getPreparedTokenObject(el as Asset);
-    // @ts-ignore
-    const assetVolume24h = new BigNumber(el[isSupply ? 'totalSupply' : 'totalBorrowed'])
-      .div(1e18)
-      .multipliedBy(1e2)
+    const assetVolume24h = convertUnits(
+      // @ts-ignore
+      el[isSupply ? 'totalSupply' : 'totalBorrowed'],
+      STANDARD_PRECISION,
+    ).multipliedBy(1e2)
       .div(totalAmount);
 
     return {

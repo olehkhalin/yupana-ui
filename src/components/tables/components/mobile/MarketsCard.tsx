@@ -1,9 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { TokenMetadataInterface } from 'types/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
@@ -54,7 +52,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
     <TableCard
       withDetailsButton={!details}
       collapsed={false}
-      href={`${AppRoutes.MARKETS}/${getTokenSlug({ id, address })}&${yToken}`}
+      href={`${AppRoutes.MARKETS}/${yToken}`}
       preloaderTheme="tertiary"
       loading={loading}
       className={cx({ [s.marketsDetails]: details }, className)}

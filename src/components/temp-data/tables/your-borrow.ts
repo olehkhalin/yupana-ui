@@ -10,7 +10,7 @@ export const YOUR_BORROW_ASSETS_DATA = [
       thumbnailUri: XTZ_THUMBNAIL_URI,
     },
     borrowApy: 9.70,
-    balance: 75,
+    wallet: 75,
     borrowLimit: 13.248,
   },
   {
@@ -22,7 +22,7 @@ export const YOUR_BORROW_ASSETS_DATA = [
       thumbnailUri: XTZ_THUMBNAIL_URI,
     },
     borrowApy: 9.70,
-    balance: 75,
+    wallet: 75,
     borrowLimit: 13.248,
   },
   {

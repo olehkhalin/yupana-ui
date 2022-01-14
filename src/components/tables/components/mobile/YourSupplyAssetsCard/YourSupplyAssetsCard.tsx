@@ -1,37 +1,42 @@
 import React from 'react';
+import BigNumber from 'bignumber.js';
 
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { TokenMetadataInterface } from 'types/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
+import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
 
-import { getPrettyPercent } from 'utils/getPrettyPercent';
 import s from '../Cards.module.sass';
 
 type YourSupplyAssetsCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
+  isCollateral: boolean
+  yToken: number
   supplyApy: number
-  balance: number
   loading: boolean
+  wallet: number | BigNumber
   className?: string
-};
+} & TokenMetadataInterface;
 
 const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDropdownInterface> = ({
+  isCollateral,
+  yToken,
   id,
   address,
   name,
   symbol,
   thumbnailUri,
+  decimals,
   supplyApy,
-  balance,
   loading,
+  wallet,
   active,
   onClick,
   className,
@@ -42,6 +47,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
     name,
     symbol,
     thumbnailUri,
+    decimals,
   };
 
   return (
@@ -81,8 +87,12 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
         </div>
         <div className={s.value}>
           {loading
-            ? balance
-            : getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
 
@@ -96,7 +106,12 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
               —
             </div>
           )
-          : <CollateralSwitcher token={{ address }} />}
+          : (
+            <CollateralSwitcher
+              isCollateral={isCollateral}
+              yToken={yToken}
+            />
+          )}
       </div>
     </TableCard>
   );

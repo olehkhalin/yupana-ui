@@ -3,7 +3,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { Button } from 'components/ui/Button';
 import { Preloader } from 'components/ui/Preloader';
 import { ProgressBar } from 'components/ui/ProgressBar';

@@ -10,7 +10,9 @@ export const YOUR_SUPPLY_ASSETS_DATA = [
       thumbnailUri: XTZ_THUMBNAIL_URI,
     },
     supplyApy: 9.70,
-    balance: 75,
+    wallet: 75,
+    isCollateral: false,
+    yToken: 0,
   },
   {
     asset: {
@@ -21,7 +23,9 @@ export const YOUR_SUPPLY_ASSETS_DATA = [
       thumbnailUri: SMAK_THUMBNAIL_URI,
     },
     supplyApy: 9.70,
-    balance: 75,
+    wallet: 75,
+    isCollateral: false,
+    yToken: 1,
   },
   {
     asset: {

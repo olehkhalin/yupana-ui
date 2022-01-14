@@ -1,0 +1,138 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  position: relative
+  width: 100%
+
+.slider
+  width: 93%
+  height: 100%rem
+  overflow: hidden
+  border-radius: 1rem
+  margin: 0 0 1.375rem
+  -webkit-appearance: none
+
+.primary
+  .slider
+    background-color: rgba($light-blue, .2)
+  .number
+    color: $blue-neutral
+    text-shadow: $blue-shadow
+  .percent
+    &::before
+      color: $blue-neutral
+      transition: background-color $animationTime
+    &:hover
+      color: $blue-neutral
+      &::before
+        background-color: $blue-neutral
+  &::-webkit-slider-thumb
+    width: .625rem
+    height: .625rem
+    border: .125rem solid rgba($blue, .9)
+    border-radius: 50%
+    background: $white
+    box-shadow: -195px 0 0 190px $blue-neutral
+    filter: drop-shadow(0 0 0.2rem $blue)
+    -webkit-appearance: none
+  &::-moz-range-thumb
+    width: .625rem
+    height: .625rem
+    border: .125rem solid rgba($blue, .9)
+    border-radius: 50%
+    background: $white
+    box-shadow: -195px 0 0 190px $blue-neutral
+    filter: drop-shadow(0 0 0.2rem $blue)
+    -webkit-appearance: none
+
+.secondary
+  .slider
+    background-color: rgba($light-yellow, .2)
+  .number
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+  .percent
+    &::before
+      color: $light-yellow
+      transition: background-color $animationTime
+    &:hover
+      color: $light-yellow
+      &::before
+        background-color: $light-yellow
+  &::-webkit-slider-thumb
+    width: .625rem
+    height: .625rem
+    border: .125rem solid $light-yellow
+    border-radius: 50%
+    background: $white
+    box-shadow: -195px 0 0 190px $light-yellow
+    filter: drop-shadow(0 0 0.2rem $light-yellow)
+    -webkit-appearance: none
+  &::-moz-range-thumb
+    width: .625rem
+    height: .625rem
+    border: .125rem solid $light-yellow
+    border-radius: 50%
+    background: $white
+    box-shadow: -195px 0 0 190px $light-yellow
+    -moz-appearance: none
+
+.number
+  position: absolute
+  top: -1rem
+  left: 3px
+  font-weight: bold
+  font-size: 0.75rem
+  line-height: 0.875rem
+  color: $light-blue
+  text-shadow: $blue-shadow
+
+.percents
+  display: flex
+  width: 100%
+  justify-content: space-between
+  align-items: center
+
+.percent
+  position: relative
+  padding-top: 1.5rem
+  margin-top: -1.5rem
+  color: $white
+  font-weight: 400
+  font-size: .75rem
+  transition: color $animationTime
+  &:first-child
+    right: 4px
+  &:nth-of-type(2)
+    left: 2px
+  &:nth-of-type(3)
+    left: 4px
+  &:nth-of-type(4)
+    left: 6px
+  &:last-child
+    left: 5px
+  &::before
+    content: ''
+    position: relative
+    display: inline-block
+    left: 50%
+    bottom: 1rem
+    width: .375rem
+    height: .375rem
+    border-radius: 50%
+    background-color: $white
+    transition: background-color $animationTime
+
+@include media('>Mphone')
+  .percent
+    &:first-child
+      right: 2px
+    &:nth-of-type(2)
+      left: 2px
+    &:nth-of-type(3)
+      left: 3px
+    &:nth-of-type(4)
+      left: 5px
+    &:last-child
+      left: 3px

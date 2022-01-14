@@ -1,11 +1,17 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
+import BigNumber from 'bignumber.js';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { CollateralSwitcher } from 'components/common/CollateralSwitcher';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
@@ -42,25 +48,41 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         accessor: ({ supplyApy }: { supplyApy: number | any }) => (
           loading
             ? supplyApy
-            : `${supplyApy.toFixed(2)}%`
+            : getPrettyPercent(supplyApy)
         ),
       },
       {
         Header: 'Balance',
         id: 'balance',
-        accessor: ({ balance, asset }:{ balance: number | any, asset: TokenMetadataInterface }) => (
+        accessor: (
+          { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
+        ) => (
+          // eslint-disable-next-line no-nested-ternary
           loading
-            ? balance
-            : `${balance.toFixed(2)} ${getSliceTokenName(asset)}`
+            ? wallet
+            : (asset && wallet ? getPrettyAmount({
+              value: convertUnits(new BigNumber(0), asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            }) : 0)
         ),
       },
       {
         Header: 'Collateral',
-        id: 'collateral',
+        id: 'isCollateral',
+        accessor: (row: { isCollateral: boolean, yToken: number }) => ({
+          isCollateral: row.isCollateral,
+          yToken: row.yToken,
+        }),
         Cell: ({ row }: { row: Row }) => (
           loading
             ? '—'
-            : <CollateralSwitcher token={{ address: row.values.asset.address }} />
+            : (
+              <CollateralSwitcher
+                isCollateral={row.values.isCollateral.isCollateral}
+                yToken={row.values.isCollateral.yToken}
+              />
+            )
         ),
       },
       {
@@ -79,10 +101,22 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     [loading],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, supplied, wallet, collateralFactor,
+        },
+      },
+    }: Row) => (
+      <SupplyTableDropdown
+        yToken={yToken}
+        asset={asset}
+        supplied={supplied}
+        wallet={wallet}
+        collateralFactor={collateralFactor}
+      />
     ),
     [],
   );

@@ -1,0 +1,7 @@
+query OraclePrices {
+  oraclePrice {
+    ytoken
+    price
+    decimals
+  }
+}

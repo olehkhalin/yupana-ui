@@ -1,15 +1,15 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getTokenName } from 'utils/getTokenName';
+import { useWiderThanMphone } from 'utils/helpers';
+import { getPrettyAmount } from 'utils/helpers/amount';
+import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { TokenLogo } from 'components/ui/TokenLogo';
 import { Preloader } from 'components/ui/Preloader';
 import { TokenData } from 'components/tables/containers/TokenData';
 
-import { useWiderThanMphone } from 'utils/getMediaQuery';
 import s from './TokenDetails.module.sass';
 
 type TokenDetailsProps = {

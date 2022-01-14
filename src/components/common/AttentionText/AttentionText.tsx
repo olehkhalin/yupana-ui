@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
 
 import { Button } from 'components/ui/Button';
-import { InformationModal } from 'components/popups/InformationModal';
+import { InformationModal } from 'components/modals/InformationModal';
 import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './AttentionText.module.sass';

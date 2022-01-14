@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/helpers';
 import { YourSupplyAssetsCard, YourSupplyAssetsEmptyCard } from 'components/tables/components/mobile';
 import { YourSupplyAssets as YourSupplyAssetsDesktop } from 'components/tables/components/desktop';
 
@@ -35,7 +34,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
           asset: tokenMetadata, ...rest
         }) => (
           <YourSupplyAssetsCard
-            key={getUniqueKey()}
+            key={rest.yToken}
             loading={loading}
             {...tokenMetadata}
             {...rest}

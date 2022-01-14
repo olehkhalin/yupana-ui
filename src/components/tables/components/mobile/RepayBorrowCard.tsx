@@ -1,9 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
 import { Radio } from 'components/ui/Radio';
 import { TokenName } from 'components/common/TokenName';

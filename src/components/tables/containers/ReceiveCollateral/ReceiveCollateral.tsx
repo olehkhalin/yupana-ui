@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
-import { getTokenSlug } from 'utils/getTokenSlug';
+import { getUniqueKey, useWiderThanLphone } from 'utils/helpers';
+import { getTokenSlug } from 'utils/helpers/token';
 import { ReceiveCollateral as ReceiveCollateralDesktop } from 'components/tables/components/desktop';
 import { ReceiveCollateralCard } from 'components/tables/components/mobile/ReceiveCollateralCard';
 

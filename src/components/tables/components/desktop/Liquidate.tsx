@@ -1,8 +1,8 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { shortize } from 'utils/getShortize';
+import { getPrettyAmount } from 'utils/helpers/amount';
+import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as Attention } from 'svg/Attention.svg';

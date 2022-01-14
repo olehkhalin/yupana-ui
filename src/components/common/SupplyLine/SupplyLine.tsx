@@ -3,8 +3,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenName } from 'utils/getTokenName';
-import { getSlice } from 'utils/getSlice';
+import { getTokenName, getSlice } from 'utils/helpers/token';
 import { ANIMATION_TIME } from 'constants/default';
 import { ProgressBar, themeClass } from 'components/ui/ProgressBar';
 import { Preloader } from 'components/ui/Preloader';

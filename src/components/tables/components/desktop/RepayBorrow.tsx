@@ -2,9 +2,8 @@ import React, { useMemo, useState } from 'react';
 import { Row } from 'react-table';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenSlug } from 'utils/getTokenSlug';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { Radio } from 'components/ui/Radio';
 import { TokenName } from 'components/common/TokenName';

@@ -3164,6 +3164,22 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "rates",
             "description": "An array relationship",
             "args": [
@@ -4160,6 +4176,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "args": [],
@@ -4305,6 +4333,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -4679,6 +4719,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "rates",
             "description": null,
             "type": {
@@ -4864,6 +4916,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -5186,6 +5250,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "rates",
             "description": null,
             "type": {
@@ -5400,6 +5476,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "args": [],
@@ -5581,6 +5669,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -5782,6 +5882,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "args": [],
@@ -5963,6 +6075,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -6438,6 +6562,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "rates_aggregate",
             "description": null,
             "type": {
@@ -6652,6 +6788,12 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": "column name",
             "isDeprecated": false,
@@ -6788,6 +6930,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -6942,6 +7096,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -7109,6 +7275,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "type": {
@@ -7252,6 +7430,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -7419,6 +7609,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "type": {
@@ -7562,6 +7764,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -7729,6 +7943,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "type": {
@@ -7872,6 +8098,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -8028,6 +8266,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -8202,6 +8452,12 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": "column name",
             "isDeprecated": false,
@@ -8289,6 +8545,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -8456,6 +8724,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "type": {
@@ -8599,6 +8879,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -8766,6 +9058,18 @@
             "deprecationReason": null
           },
           {
+            "name": "liquidationThreshold",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "reserveFactor",
             "description": null,
             "type": {
@@ -8909,6 +9213,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -9065,6 +9381,18 @@
           },
           {
             "name": "lastPrice",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -18058,22 +18386,6 @@
             "deprecationReason": null
           },
           {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "priceFeedProxy",
             "description": null,
             "args": [],
@@ -18378,18 +18690,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -18492,18 +18792,6 @@
             "deprecationReason": null
           },
           {
-            "name": "liquidationThreshold",
-            "description": null,
-            "type": {
-              "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "priceFeedProxy",
             "description": null,
             "type": {
@@ -18590,18 +18878,6 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -18640,18 +18916,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -18733,18 +18997,6 @@
             "deprecationReason": null
           },
           {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "priceFeedProxy",
             "description": null,
             "args": [],
@@ -18805,18 +19057,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -19014,18 +19254,6 @@
             "deprecationReason": null
           },
           {
-            "name": "liquidationThreshold",
-            "description": null,
-            "type": {
-              "kind": "ENUM",
-              "name": "order_by",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "priceFeedProxy",
             "description": null,
             "type": {
@@ -19108,12 +19336,6 @@
             "deprecationReason": null
           },
           {
-            "name": "liquidationThreshold",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "priceFeedProxy",
             "description": "column name",
             "isDeprecated": false,
@@ -19160,18 +19382,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": null,
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -19251,18 +19461,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -19301,18 +19499,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -19369,18 +19555,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -19428,18 +19602,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -19469,12 +19631,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": "column name",
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -19534,18 +19690,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -19593,18 +19737,6 @@
             },
             "isDeprecated": false,
             "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
           }
         ],
         "inputFields": null,
@@ -19643,18 +19775,6 @@
           },
           {
             "name": "liquidationIncentive",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "Float",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "liquidationThreshold",
             "description": null,
             "args": [],
             "type": {
@@ -29611,6 +29731,22 @@
         "description": "columns and relationships of \"oracle_price\"",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "args": [],
@@ -29897,6 +30033,18 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -29985,6 +30133,18 @@
             "deprecationReason": null
           },
           {
+            "name": "decimals",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "type": {
@@ -30049,6 +30209,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "decimals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "type": {
@@ -30083,6 +30255,18 @@
         "description": "input type for inserting data into table \"oracle_price\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "name",
             "description": null,
@@ -30130,6 +30314,18 @@
         "description": "aggregate max on columns",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "args": [],
@@ -30176,6 +30372,18 @@
         "name": "oracle_price_min_fields",
         "description": "aggregate min on columns",
         "fields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "name",
             "description": null,
@@ -30339,6 +30547,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "decimals",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": null,
             "type": {
@@ -30415,6 +30635,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "decimals",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": "column name",
             "isDeprecated": false,
@@ -30441,6 +30667,18 @@
         "description": "input type for updating data in table \"oracle_price\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "name",
             "description": null,
@@ -30488,6 +30726,18 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -30522,6 +30772,18 @@
         "name": "oracle_price_stddev_pop_fields",
         "description": "aggregate stddev_pop on columns",
         "fields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "price",
             "description": null,
@@ -30558,6 +30820,18 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -30592,6 +30866,18 @@
         "name": "oracle_price_sum_fields",
         "description": "aggregate sum on columns",
         "fields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "price",
             "description": null,
@@ -30631,6 +30917,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "decimals",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "name",
             "description": "column name",
             "isDeprecated": false,
@@ -30656,6 +30948,18 @@
         "name": "oracle_price_var_pop_fields",
         "description": "aggregate var_pop on columns",
         "fields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "price",
             "description": null,
@@ -30692,6 +30996,18 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "price",
             "description": null,
             "args": [],
@@ -30726,6 +31042,18 @@
         "name": "oracle_price_variance_fields",
         "description": "aggregate variance on columns",
         "fields": [
+          {
+            "name": "decimals",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "price",
             "description": null,
@@ -51056,7 +51384,55 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -52522,7 +52898,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -52682,7 +53094,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -52776,6 +53224,22 @@
         "description": "columns and relationships of \"user_borrow\"",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "asset",
             "description": "An object relationship",
             "args": [],
@@ -52863,6 +53327,22 @@
               "kind": "SCALAR",
               "name": "timestamptz",
               "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
+                "ofType": null
+              }
             },
             "isDeprecated": false,
             "deprecationReason": null
@@ -53328,6 +53808,18 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -53365,6 +53857,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -53388,6 +53892,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -53425,6 +53941,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -53493,6 +54021,18 @@
                   "ofType": null
                 }
               }
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
             },
             "defaultValue": null,
             "isDeprecated": false,
@@ -53571,6 +54111,18 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "numeric_comparison_exp",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": null,
             "type": {
@@ -53623,6 +54175,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -53669,6 +54233,18 @@
             "defaultValue": null,
             "isDeprecated": false,
             "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
           }
         ],
         "interfaces": null,
@@ -53681,6 +54257,18 @@
         "description": "input type for inserting data into table \"user_borrow\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "asset",
             "description": null,
@@ -53754,6 +54342,18 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "user",
             "description": null,
             "type": {
@@ -53788,6 +54388,18 @@
         "description": "aggregate max on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -53848,6 +54460,18 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": null,
             "args": [],
@@ -53871,6 +54495,18 @@
         "description": "order by max() on columns of table \"user_borrow\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": null,
@@ -53921,6 +54557,18 @@
           },
           {
             "name": "interestUpdateTime",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -53954,6 +54602,18 @@
         "description": "aggregate min on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -54014,6 +54674,18 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": null,
             "args": [],
@@ -54037,6 +54709,18 @@
         "description": "order by min() on columns of table \"user_borrow\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": null,
@@ -54087,6 +54771,18 @@
           },
           {
             "name": "interestUpdateTime",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54235,6 +54931,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "asset",
             "description": null,
             "type": {
@@ -54296,6 +55004,18 @@
           },
           {
             "name": "interestUpdateTime",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54371,6 +55091,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "accruedInterest",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": "column name",
             "isDeprecated": false,
@@ -54401,6 +55127,12 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": "column name",
             "isDeprecated": false,
@@ -54415,6 +55147,18 @@
         "description": "input type for updating data in table \"user_borrow\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": null,
@@ -54476,6 +55220,18 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": null,
             "type": {
@@ -54497,6 +55253,18 @@
         "name": "user_borrow_stddev_fields",
         "description": "aggregate stddev on columns",
         "fields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": null,
@@ -54535,6 +55303,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -54558,6 +55338,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -54595,6 +55387,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54616,6 +55420,18 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -54653,6 +55469,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -54676,6 +55504,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -54713,6 +55553,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54734,6 +55586,18 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -54771,6 +55635,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -54794,6 +55670,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -54831,6 +55719,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54852,6 +55752,18 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -54894,6 +55806,18 @@
             "type": {
               "kind": "SCALAR",
               "name": "Int",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -54912,6 +55836,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -54949,6 +55885,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -54972,6 +55920,12 @@
         "inputFields": null,
         "interfaces": null,
         "enumValues": [
+          {
+            "name": "accruedInterest",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": "column name",
@@ -55003,6 +55957,12 @@
             "deprecationReason": null
           },
           {
+            "name": "predictedBorrow",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "userId",
             "description": "column name",
             "isDeprecated": false,
@@ -55016,6 +55976,18 @@
         "name": "user_borrow_var_pop_fields",
         "description": "aggregate var_pop on columns",
         "fields": [
+          {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "assetId",
             "description": null,
@@ -55054,6 +56026,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -55077,6 +56061,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -55114,6 +56110,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -55135,6 +56143,18 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -55172,6 +56192,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -55195,6 +56227,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -55232,6 +56276,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -55253,6 +56309,18 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "args": [],
@@ -55290,6 +56358,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "args": [],
             "type": {
@@ -55313,6 +56393,18 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "accruedInterest",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "assetId",
             "description": null,
             "type": {
@@ -55350,6 +56442,18 @@
           },
           {
             "name": "id",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "predictedBorrow",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -55437,7 +56541,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -55544,7 +56684,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -55698,7 +56874,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -55781,7 +56993,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -56042,7 +57290,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -56196,7 +57480,25 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -56271,7 +57573,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "defaultValue": null,
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "type": {
               "kind": "SCALAR",
@@ -56341,7 +57679,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -56412,7 +57786,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -56483,7 +57893,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -56554,7 +58000,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -58833,7 +60315,25 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -58895,7 +60395,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -58966,7 +60502,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {
@@ -59037,7 +60609,43 @@
             "deprecationReason": null
           },
           {
+            "name": "netApy",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "outstandingBorrow",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalBorrowUsd",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "Float",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "totalSupplyUsd",
             "description": null,
             "args": [],
             "type": {

@@ -1,13 +1,11 @@
 import React from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { useWiderThanLphone } from 'utils/helpers';
 import { BorrowAssetsCard } from 'components/tables/components/mobile';
 import { BorrowAssets as BorrowAssetsDesktop } from 'components/tables/components/desktop';
-import { AssetsType } from 'containers/Assets';
 
 type BorrowAssetsProps = {
-  data: AssetsType[]
+  data: any[]
   loading: boolean
   className?: string
 };
@@ -36,7 +34,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
           asset: tokenMetadata, ...rest
         }) => (
           <BorrowAssetsCard
-            key={getUniqueKey()}
+            key={rest.yToken}
             loading={loading}
             {...tokenMetadata}
             {...rest}

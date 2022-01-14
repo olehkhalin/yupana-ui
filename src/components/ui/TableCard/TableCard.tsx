@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Button } from 'components/ui/Button';
 import { DropdownArrow } from 'components/common/DropdownArrow';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 
 import s from './TableCard.module.sass';
 
@@ -78,7 +78,7 @@ export const TableCard: React.FC<TableCardProps> = ({
         checkTimeout={500}
         theme={{ collapse: s.ReactCollapse }}
       >
-        <TableDropdown
+        <SupplyTableDropdown
           theme={theme}
           className={s.dropdown}
         />

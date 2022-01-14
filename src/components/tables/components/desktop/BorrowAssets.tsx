@@ -1,19 +1,20 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 
-import { getSliceTokenName } from 'utils/getSliceTokenName';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
-import { AssetsType } from 'containers/Assets';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 
 import s from './Tables.module.sass';
 
 type BorrowAssetsProps = {
-  data: AssetsType[]
+  data: any[]
   loading: boolean
   className?: string
 };
@@ -40,21 +41,21 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: AssetsType) => (
+        accessor: ({ borrowApy }: any) => (
           loading ? borrowApy : getPrettyPercent(borrowApy)
         ),
       },
       {
         Header: 'Utilisation rate',
         id: 'utilisationRate',
-        accessor: ({ utilisationRate }: AssetsType) => (
+        accessor: ({ utilisationRate }: any) => (
           loading ? utilisationRate : getPrettyPercent(utilisationRate)
         ),
       },
       {
         Header: 'Liquidity',
         id: 'liquidity',
-        accessor: ({ liquidity, asset }: AssetsType) => (
+        accessor: ({ liquidity, asset }: any) => (
           loading
             ? liquidity
             : `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`
@@ -77,10 +78,21 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
     [loading],
   );
 
-  // Create a function that will render our row sub components
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown theme="secondary" />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, borrowed,
+        },
+      },
+    }: Row) => (
+      <BorrowTableDropdown
+        theme="secondary"
+        yToken={yToken}
+        asset={asset}
+        borrowed={borrowed}
+      />
     ),
     [],
   );

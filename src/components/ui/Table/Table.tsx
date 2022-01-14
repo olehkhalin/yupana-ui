@@ -7,7 +7,7 @@ import animateScrollTo from 'animated-scroll-to';
 import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
-import { getTokenSlug } from 'utils/getTokenSlug';
+import { getTokenSlug } from 'utils/helpers/token';
 import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Pagination } from 'components/common/Pagination';
 

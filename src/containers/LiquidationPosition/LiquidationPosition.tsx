@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { useLoading } from 'hooks/useLoading';
-import { useWiderThanMphone } from 'utils/getMediaQuery';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { useWiderThanMphone } from 'utils/helpers';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
 import { Preloader } from 'components/ui/Preloader';
 import { Button } from 'components/ui/Button';

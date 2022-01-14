@@ -1,27 +1,28 @@
 import React from 'react';
+import BigNumber from 'bignumber.js';
 
 import { withDropdown } from 'hocs/withDropdown';
 import { WithDropdownInterface } from 'types/with-dropdown';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
+import { TokenMetadataInterface } from 'types/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
+import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
 
-import { getPrettyPercent } from 'utils/getPrettyPercent';
 import s from '../Cards.module.sass';
 
 type YourBorrowAssetsCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
   borrowLimit: number
   borrowApy: number
-  balance: number
+  wallet: number | BigNumber
   thumbnailUri?: string
   loading: boolean
   className?: string
-};
+} & TokenMetadataInterface;
 
 const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
   id,
@@ -29,10 +30,11 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
   name,
   symbol,
   thumbnailUri,
+  decimals,
   borrowLimit,
   borrowApy,
-  balance,
   loading,
+  wallet,
   active,
   onClick,
   className,
@@ -43,6 +45,7 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
     name,
     symbol,
     thumbnailUri,
+    decimals,
   };
 
   return (
@@ -83,8 +86,12 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
         </div>
         <div className={s.value}>
           {loading
-            ? balance
-            : getPrettyAmount({ value: balance, currency: getSliceTokenName(tokenMetadata) })}
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
 
@@ -95,7 +102,11 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
         <div className={s.value}>
           {loading
             ? borrowLimit
-            : getPrettyPercent(borrowLimit)}
+            : getPrettyAmount({
+              value: convertUnits(borrowLimit, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>

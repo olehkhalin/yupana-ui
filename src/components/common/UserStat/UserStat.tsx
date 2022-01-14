@@ -1,23 +1,23 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { Preloader } from 'components/ui/Preloader';
 
 import s from './UserStat.module.sass';
 
 type UserStatProps = {
-  userSupplyBalance: number
-  userBorrowBalance: number
-  userNetApy: number
+  userTotalSupply: number
+  userTotalBorrow: number
+  netApy: number
   loading: boolean
   className?: string
 };
 
 export const UserStat: React.FC<UserStatProps> = ({
-  userSupplyBalance,
-  userBorrowBalance,
-  userNetApy,
+  userTotalSupply,
+  userTotalBorrow,
+  netApy,
   loading,
   className,
 }) => (
@@ -28,7 +28,7 @@ export const UserStat: React.FC<UserStatProps> = ({
       </div>
       <div className={s.value}>
         {!loading
-          ? getPrettyAmount({ value: userSupplyBalance, currency: '$' })
+          ? getPrettyAmount({ value: userTotalSupply, currency: '$' })
           : (
             <Preloader
               theme="primary"
@@ -44,7 +44,7 @@ export const UserStat: React.FC<UserStatProps> = ({
       </div>
       <div className={s.value}>
         {!loading
-          ? `${userNetApy}%`
+          ? `${getPrettyPercent(netApy)}%`
           : (
             <Preloader
               theme="tertiary"
@@ -60,7 +60,7 @@ export const UserStat: React.FC<UserStatProps> = ({
       </div>
       <div className={s.value}>
         {!loading
-          ? getPrettyAmount({ value: userBorrowBalance, currency: '$' })
+          ? getPrettyAmount({ value: userTotalBorrow, currency: '$' })
           : (
             <Preloader
               theme="secondary"

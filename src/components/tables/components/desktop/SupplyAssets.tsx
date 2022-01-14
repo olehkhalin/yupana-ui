@@ -2,19 +2,22 @@ import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 import cx from 'classnames';
 
-import { AssetsType } from 'containers/Assets';
-import { getSliceTokenName } from 'utils/getSliceTokenName';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
-import { getPrettyPercent } from 'utils/getPrettyPercent';
+import { STANDARD_PRECISION } from 'constants/default';
+import { getSliceTokenName } from 'utils/helpers/token';
+import {
+  convertUnits,
+  getPrettyAmount,
+  getPrettyPercent,
+} from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
-import { TableDropdown } from 'components/common/TableDropdown';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 import { TokenName } from 'components/common/TokenName';
 import { DropdownArrow } from 'components/common/DropdownArrow';
 
 import s from './Tables.module.sass';
 
 type SupplyAssetsProps = {
-  data: AssetsType[]
+  data: any[]
   loading: boolean
   className?: string
 };
@@ -41,24 +44,33 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: AssetsType) => (
+        accessor: ({ supplyApy }: any) => (
           loading ? supplyApy : getPrettyPercent(supplyApy)
         ),
       },
       {
         Header: 'Collateral Factor',
         id: 'collateralFactor',
-        accessor: ({ collateralFactor }: AssetsType) => (
-          loading ? collateralFactor : getPrettyPercent(collateralFactor)
+        accessor: ({ collateralFactor }: any) => (
+          loading ? collateralFactor : getPrettyPercent(
+            convertUnits(
+              collateralFactor,
+              STANDARD_PRECISION,
+            ).multipliedBy(1e2),
+          )
         ),
       },
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: ({ wallet, asset }: AssetsType) => (
+        accessor: ({ wallet, asset }: any) => (
           loading
             ? wallet
-            : `${getPrettyAmount({ value: wallet, currency: getSliceTokenName(asset), dec: asset.decimals })}`
+            : getPrettyAmount({
+              value: convertUnits(wallet, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })
         ),
       },
       {
@@ -78,8 +90,21 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   );
 
   const renderRowSubComponent = React.useCallback(
-    () => (
-      <TableDropdown />
+    ({
+      // @ts-ignore
+      row: {
+        original: {
+          yToken, asset, supplied, wallet, collateralFactor,
+        },
+      },
+    }: Row) => (
+      <SupplyTableDropdown
+        yToken={yToken}
+        asset={asset}
+        supplied={supplied}
+        wallet={wallet}
+        collateralFactor={collateralFactor}
+      />
     ),
     [],
   );

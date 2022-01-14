@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { shortize } from 'utils/getShortize';
-import { getPrettyAmount } from 'utils/getPrettyAmount';
+import { shortize } from 'utils/helpers/token';
+import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
 import { Button } from 'components/ui/Button';
 import { ReactComponent as Attention } from 'svg/Attention.svg';

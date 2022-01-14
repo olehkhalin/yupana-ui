@@ -1,7 +1,6 @@
 import React from 'react';
 
-import { getUniqueKey } from 'utils/getUniqueKey';
-import { useWiderThanLphone } from 'utils/getMediaQuery';
+import { getUniqueKey, useWiderThanLphone } from 'utils/helpers';
 import { MarketsCard } from 'components/tables/components/mobile';
 import { Markets as MarketsDesktop } from 'components/tables/components/desktop';
 

@@ -6,10 +6,10 @@ import {
   useAccountPkh,
 } from 'utils/dapp';
 
-import { useWiderThanMphone } from 'utils/getMediaQuery';
-import { shortize } from 'utils/getShortize';
-import { Account } from 'components/popups/Account';
-import { ConnectToWallet } from 'components/popups/ConnectToWallet';
+import { useWiderThanMphone } from 'utils/helpers';
+import { shortize } from 'utils/helpers/token';
+import { AccountModal } from 'components/modals/AccountModal';
+import { ConnectToWalletModal } from 'components/modals/ConnectToWalletModal';
 import { Button } from 'components/ui/Button';
 
 import s from './ConnectWalletButton.module.sass';
@@ -63,14 +63,14 @@ export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
         </Button>
       )}
 
-      <Account
+      <AccountModal
         // TODO: Update later
         address={accountPkh ?? 'account_address'}
         isOpen={accountModalIsOpen}
         onRequestClose={handleAccountModal}
       />
 
-      <ConnectToWallet
+      <ConnectToWalletModal
         isOpen={connectModalIsOpen}
         onRequestClose={handleConnectModal}
       />
