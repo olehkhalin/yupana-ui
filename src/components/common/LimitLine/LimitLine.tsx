@@ -12,8 +12,8 @@ import s from './LimitLine.module.sass';
 
 type LimitLineProps = {
   text?: string
-  percent: number
-  value: number
+  percent: number | undefined
+  value: number | undefined
   theme?: 'primary' | 'secondary'
   loading: boolean
   className?: string
