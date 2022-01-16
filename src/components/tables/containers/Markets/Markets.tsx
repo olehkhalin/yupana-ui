@@ -6,11 +6,13 @@ import { Markets as MarketsDesktop } from 'components/tables/components/desktop'
 
 type MarketsProps = {
   data: any[]
+  loading?: boolean
   className?: string
 };
 
 export const Markets: React.FC<MarketsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -19,6 +21,7 @@ export const Markets: React.FC<MarketsProps> = ({
     return (
       <MarketsDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );
@@ -33,6 +36,7 @@ export const Markets: React.FC<MarketsProps> = ({
           <MarketsCard
             key={getUniqueKey()}
             details={false}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />

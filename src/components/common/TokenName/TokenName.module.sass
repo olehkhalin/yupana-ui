@@ -1,14 +1,14 @@
 @import 'styles/variables.sass'
 
 .root
-  text-transform: none
-
-.wrapper
   display: flex
   align-items: center
   color: $white
   &:hover
     text-shadow: $white-shadow
+  &.loading
+    &:hover
+      text-shadow: none
 
 .active
   text-shadow: $white-shadow

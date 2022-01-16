@@ -13,17 +13,23 @@ import {
 import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 
 import s from './Cards.module.sass';
 
 type SupplyAssetsCardProps = {
-  collateralFactor: number
+  yToken: number
+  supplied: BigNumber
+  collateralFactor: BigNumber
   supplyApy: number
-  wallet: number | BigNumber
+  loading: boolean
+  wallet: BigNumber
   className?: string
 } & TokenMetadataInterface;
 
 const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInterface> = ({
+  yToken,
+  supplied,
   id,
   address,
   name,
@@ -33,6 +39,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
   collateralFactor,
   supplyApy,
   wallet,
+  loading,
   active,
   onClick,
   className,
@@ -48,9 +55,20 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
 
   return (
     <TableCard
+      preloaderTheme="primary"
       active={active}
       onClick={onClick}
+      loading={loading}
       className={className}
+      TableDropdown={(
+        <SupplyTableDropdown
+          yToken={yToken}
+          asset={tokenMetadata}
+          supplied={supplied}
+          wallet={wallet}
+          collateralFactor={collateralFactor}
+        />
+      )}
     >
       <div className={s.row}>
         <div className={s.title}>
@@ -58,6 +76,8 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="primary"
           logoClassName={s.logo}
         />
       </div>
@@ -67,7 +87,9 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Supply APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(supplyApy)}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -76,12 +98,14 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Collateral Factor
         </div>
         <div className={s.value}>
-          {getPrettyPercent(
-            convertUnits(
-              collateralFactor,
-              STANDARD_PRECISION,
-            ).multipliedBy(1e2),
-          )}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(
+              convertUnits(
+                collateralFactor,
+                STANDARD_PRECISION,
+              ).multipliedBy(1e2),
+            )}
         </div>
       </div>
 
@@ -90,11 +114,13 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Wallet
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(wallet, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>

@@ -8,6 +8,7 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug } from 'utils/helpers/token';
+import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Pagination } from 'components/common/Pagination';
 
 import s from './Table.module.sass';
@@ -15,8 +16,11 @@ import s from './Table.module.sass';
 type TableProps = {
   columns: any
   data: any[]
+  loading?: boolean
   renderRowSubComponent?: any
   theme?: keyof typeof themeClasses
+  preloaderTheme?: PreloaderThemes
+  isMaxContentPreloader?: boolean
   selectedItem?: TokenMetadataInterface
   setSelectedItem?: (arg: TokenMetadataInterface) => void
   isScrollToTop?: boolean
@@ -45,8 +49,11 @@ const themeClasses = {
 export const Table: React.FC<TableProps> = ({
   columns: userColumns,
   data,
+  loading,
   renderRowSubComponent,
   theme = 'primary',
+  preloaderTheme = 'primary',
+  isMaxContentPreloader = false,
   selectedItem,
   setSelectedItem,
   isScrollToTop = false,
@@ -127,18 +134,25 @@ export const Table: React.FC<TableProps> = ({
   const compoundClassNames = cx(
     s.root,
     themeClasses[theme],
+    { [s.loading]: loading },
     className,
   );
 
   return (
     <>
-      <div className={compoundClassNames}>
+      <div className={cx(compoundClassNames)}>
+        {loading && isMaxContentPreloader && (
+        <Preloader
+          theme={preloaderTheme}
+          className={s.preloader}
+        />
+        )}
         <div className={s.wrapper}>
           <table
             {...getTableProps()}
             className={cx(
               s.table,
-              { [s.isShowPagination]: isShowPagination && pagination },
+              { [s.isShowPagination]: isShowPagination && pagination && !loading },
               tableClassName,
             )}
           >
@@ -155,17 +169,17 @@ export const Table: React.FC<TableProps> = ({
               ))}
             </thead>
             <tbody {...getTableBodyProps()} className={s.tbody}>
-              {!(data && data.length) ? (
-                <tr className={cx(s.tr, s.noAssets, rowClassName)}>
-                  <td>
-                    {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
-                  </td>
-                </tr>
-              ) : rows.map((row) => {
+              {loading && !isMaxContentPreloader && (
+              <Preloader
+                theme={preloaderTheme}
+                className={s.preloader}
+              />
+              )}
+              {rows.map((row) => {
                 prepareRow(row);
 
                 let isSelected: boolean = false;
-                if (selectedItem) {
+                if (selectedItem && !loading) {
                   isSelected = getTokenSlug(selectedItem) === getTokenSlug(row.values.asset);
                 }
                 return (
@@ -176,12 +190,15 @@ export const Table: React.FC<TableProps> = ({
                       className={cx(
                         s.tr,
                         s.trBody,
-                        { [s.selected]: isSelected },
+                        { [s.selected]: isSelected && !loading },
+                        { [s.loading]: loading },
                         rowClassName,
                       )}
                     >
                       {row.cells.map((cell) => (
-                        <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>{cell.render('Cell')}</td>
+                        <td {...cell.getCellProps()} key={cell.getCellProps().key} className={s.td}>
+                          {cell.render('Cell')}
+                        </td>
                       ))}
                     </tr>
                     {row.isExpanded ? (
@@ -198,7 +215,7 @@ export const Table: React.FC<TableProps> = ({
           </table>
         </div>
       </div>
-      {isShowPagination && pagination && (
+      {!loading && isShowPagination && pagination && (
         <Pagination
           pageIndex={pageIndex}
           canPreviousPage={canPreviousPage}

@@ -7,18 +7,42 @@
 
 .slider
   width: 93%
-  height: 100%rem
-  overflow: hidden
-  border-radius: 1rem
   margin: 0 0 1.375rem
+  border-radius: 1rem
+  height: .75rem
+  overflow: hidden
   -webkit-appearance: none
+  &::-webkit-slider-runnable-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
+    -webkit-appearance: none
+  &::-moz-range-track
+    width: 100%
+    height: .75rem
+    color: $light-blue
+    border-radius: 1rem
+  &::-webkit-slider-thumb
+    position: relative
+    width: .75rem
+    height: .75rem
+    border-radius: 1rem
+    background: $white
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
+  &::-moz-range-thumb
+    position: relative
+    width: .5rem
+    height: .5rem
+    border-radius: 1rem
+    background: $white
+    border: .125rem solid $blue
+    cursor: pointer
+    -webkit-appearance: none
 
 .primary
-  .slider
-    background-color: rgba($light-blue, .2)
-  .number
-    color: $blue-neutral
-    text-shadow: $blue-shadow
   .percent
     &::before
       color: $blue-neutral
@@ -27,31 +51,19 @@
       color: $blue-neutral
       &::before
         background-color: $blue-neutral
-  &::-webkit-slider-thumb
-    width: .625rem
-    height: .625rem
-    border: .125rem solid rgba($blue, .9)
-    border-radius: 50%
-    background: $white
-    box-shadow: -195px 0 0 190px $blue-neutral
-    filter: drop-shadow(0 0 0.2rem $blue)
-    -webkit-appearance: none
-  &::-moz-range-thumb
-    width: .625rem
-    height: .625rem
-    border: .125rem solid rgba($blue, .9)
-    border-radius: 50%
-    background: $white
-    box-shadow: -195px 0 0 190px $blue-neutral
-    filter: drop-shadow(0 0 0.2rem $blue)
-    -webkit-appearance: none
+  .slider
+    background-color: rgba($light-blue, .2)
+    &::-webkit-slider-thumb
+     border-color: $blue-neutral
+     box-shadow: -195px 0 0 190px $blue-neutral
+    &::-moz-range-thumb
+     border-color: $blue-neutral
+     box-shadow: -195px 0 0 190px $blue-neutral
+  .number
+    color: $blue-neutral
+    text-shadow: $blue-shadow
 
 .secondary
-  .slider
-    background-color: rgba($light-yellow, .2)
-  .number
-    color: $light-yellow
-    text-shadow: $light-yellow-shadow
   .percent
     &::before
       color: $light-yellow
@@ -60,23 +72,17 @@
       color: $light-yellow
       &::before
         background-color: $light-yellow
-  &::-webkit-slider-thumb
-    width: .625rem
-    height: .625rem
-    border: .125rem solid $light-yellow
-    border-radius: 50%
-    background: $white
-    box-shadow: -195px 0 0 190px $light-yellow
-    filter: drop-shadow(0 0 0.2rem $light-yellow)
-    -webkit-appearance: none
-  &::-moz-range-thumb
-    width: .625rem
-    height: .625rem
-    border: .125rem solid $light-yellow
-    border-radius: 50%
-    background: $white
-    box-shadow: -195px 0 0 190px $light-yellow
-    -moz-appearance: none
+  .slider
+    background-color: rgba($light-yellow, .2)
+    &::-webkit-slider-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+    &::-moz-range-thumb
+      border-color: $light-yellow
+      box-shadow: -195px 0 0 190px $light-yellow
+  .number
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
 
 .number
   position: absolute

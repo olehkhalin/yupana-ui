@@ -1,17 +1,26 @@
 import React from 'react';
+import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
-import { MarketCardInterface } from 'types/market-card';
+import { TokenMetadataInterface } from 'types/token';
 import { getUniqueKey } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
+import { Preloader } from 'components/ui/Preloader';
 import { SupplyLine } from 'components/common/SupplyLine';
 
 import s from './MarketCard.module.sass';
 
 type MarketCardProps = {
+  loading?: boolean
   theme?: keyof typeof themeClasses
+  totalAmount: BigNumber | number | undefined
+  volume24h: BigNumber | number | undefined
+  numberOfMembers: number | undefined
+  assets: (TokenMetadataInterface & {
+    volume24h: number
+  })[] | undefined
   className?: string
-} & MarketCardInterface;
+};
 
 const themeClasses = {
   primary: s.primary,
@@ -19,6 +28,7 @@ const themeClasses = {
 };
 
 export const MarketCard: React.FC<MarketCardProps> = ({
+  loading,
   totalAmount,
   volume24h,
   numberOfMembers,
@@ -34,16 +44,29 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         {isPrimaryTheme ? 'Total supply:' : 'Total borrow:'}
       </div>
       <div className={s.amount}>
-        {getPrettyAmount({ value: totalAmount, currency: '$' })}
+        {!loading && totalAmount
+          ? getPrettyAmount({ value: totalAmount, currency: '$' })
+          : (
+            <Preloader
+              theme={theme}
+              sizeT="medium"
+              className={s.amountPreloader}
+            />
+          )}
       </div>
 
       <div className={s.row}>
         <div className={s.text}>
-          {/* Top 3 markets */}
           {isPrimaryTheme ? '24H Supply Volume' : '24H Borrow Volume'}
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: volume24h, currency: '$' })}
+          {!loading && volume24h?.toString()
+            ? getPrettyAmount({ value: volume24h, currency: '$' })
+            : (
+              <Preloader
+                className={s.valuePreloader}
+              />
+            )}
         </div>
       </div>
 
@@ -53,7 +76,13 @@ export const MarketCard: React.FC<MarketCardProps> = ({
           {` ${isPrimaryTheme ? 'Suppliers' : 'Borrowers'}`}
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: numberOfMembers, dec: 0 })}
+          {!loading && numberOfMembers
+            ? getPrettyAmount({ value: numberOfMembers, dec: 0 })
+            : (
+              <Preloader
+                className={s.valuePreloader}
+              />
+            )}
         </div>
       </div>
 
@@ -61,15 +90,31 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         Top 3 markets
       </div>
       <div className={s.wrapper}>
-        {assets.map(({ volume24h: assetVolume24h, ...rest }) => (
-          <SupplyLine
-            key={getUniqueKey()}
-            percent={assetVolume24h}
-            token={rest}
-            theme={isPrimaryTheme ? 'primary' : 'secondary'}
-            className={s.progressBar}
-          />
-        ))}
+        {!loading
+          && assets && assets.length ? assets.map(({ volume24h: assetVolume24h, ...rest }) => (
+            <SupplyLine
+              key={getUniqueKey()}
+              percent={assetVolume24h}
+              token={rest}
+              loading={loading}
+              className={s.progressBar}
+            />
+          )) : (
+            <>
+              <SupplyLine
+                loading={loading}
+                className={s.progressBar}
+              />
+              <SupplyLine
+                loading={loading}
+                className={s.progressBar}
+              />
+              <SupplyLine
+                loading={loading}
+                className={s.progressBar}
+              />
+            </>
+          )}
       </div>
     </div>
   );
