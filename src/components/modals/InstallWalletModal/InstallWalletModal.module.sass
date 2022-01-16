@@ -1,0 +1,19 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.icon
+  margin-right: .5rem
+
+.button
+  display: flex
+  align-items: center
+  color: $blue-neutral
+  transition: $animationTime
+  &:hover
+    color: $light-yellow
+  &:active
+    color: $white
+
+@include media('>Mphone')
+  .header
+    margin-bottom: 2rem

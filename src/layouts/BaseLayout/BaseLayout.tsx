@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { Header } from 'components/common/Header';
 import { Footer } from 'components/common/Footer';
 import { Container } from 'components/common/Container';
+import { InstallWalletModal } from 'components/modals/InstallWalletModal';
 
 import s from './BaseLayout.module.sass';
 
@@ -23,5 +24,6 @@ export const BaseLayout: React.FC<BaseLayoutProps> = ({
       {children}
     </Container>
     <Footer />
+    <InstallWalletModal />
   </>
 );

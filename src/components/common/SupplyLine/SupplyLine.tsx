@@ -6,12 +6,14 @@ import { TokenMetadataInterface } from 'types/token';
 import { getTokenName, getSlice } from 'utils/helpers/token';
 import { ANIMATION_TIME } from 'constants/default';
 import { ProgressBar, themeClass } from 'components/ui/ProgressBar';
+import { Preloader } from 'components/ui/Preloader';
 
 import s from './SupplyLine.module.sass';
 
 type SupplyLineProps = {
-  token: TokenMetadataInterface
-  percent: number
+  token?: TokenMetadataInterface
+  percent?: number
+  loading?: boolean
   theme?: keyof typeof themeClass
   className?: string
 };
@@ -19,35 +21,43 @@ type SupplyLineProps = {
 export const SupplyLine: React.FC<SupplyLineProps> = ({
   token,
   percent,
+  loading,
   theme = 'primary',
   className,
 }) => {
   const [amount, setAmount] = useState<number>(0);
+  const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
 
   useEffect(() => {
-    const timeout = setTimeout(() => {
+    if (!loading && percent) {
       setAmount(percent);
-    }, 1000);
-    return () => clearTimeout(timeout);
-  }, [percent]);
-
-  const timing = useMemo(() => ANIMATION_TIME + (amount / 100), [amount]);
+    }
+  }, [loading, percent]);
 
   return (
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.symbol}>
-          {getSlice(getTokenName(token), 5)}
+          {!loading && token ? getSlice(getTokenName(token), 5) : (
+            <Preloader
+              className={s.percentPreloader}
+            />
+          )}
         </div>
 
         <div className={s.percent}>
-          <CountUp
-            start={0}
-            end={amount}
-            decimals={2}
-            duration={timing}
-          />
-          %
+          {!loading ? (
+            <CountUp
+              start={0}
+              end={amount}
+              decimals={2}
+              duration={timing}
+            />
+          ) : (
+            <Preloader
+              className={s.percentPreloader}
+            />
+          )}
         </div>
       </div>
 

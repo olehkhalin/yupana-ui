@@ -10,11 +10,13 @@ import s from './Tables.module.sass';
 
 type LiquidateProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const Liquidate: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -28,12 +30,13 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href="/"
             theme="accent"
             sizeT="small"
+            href={loading ? '' : '/'}
+            disabled={loading}
             className={cx(s.address, s.white, s.noShadow)}
           >
-            {shortize(row.borrowerAddress)}
+            {loading ? row.borrowerAddress : shortize(row.borrowerAddress)}
           </Button>
         ),
       },
@@ -46,7 +49,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyAmount({ value: row.totalBorrow })}
+            {loading ? row.totalBorrow : getPrettyAmount({ value: row.totalBorrow })}
           </span>
         ),
       },
@@ -64,7 +67,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.healthFactor}
+            {loading ? row.healthFactor : row.healthFactor}
           </span>
         ),
       },
@@ -77,7 +80,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
+            {loading ? row.borrowedAsset : row.borrowedAsset.join(', ')}
           </span>
         ),
       },
@@ -90,19 +93,21 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAsset.join(', ')}
+            {loading ? row.collateralAsset : row.collateralAsset.join(', ')}
           </span>
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quinary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidateRow}
       className={cx(s.bigTableWrapper, className)}
