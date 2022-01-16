@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
@@ -184,7 +185,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   useEffect(() => {
     setUserGeneralInfo(
-      accountPkh && userAssetsData
+      accountPkh && userAssetsData && userAssetsData.user.length
         ? {
           maxCollateral: new BigNumber(userAssetsData.user[0]
             ? userAssetsData.user[0].maxCollateral
