@@ -70,15 +70,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Header: 'Borrow limit',
         id: 'borrowLimit',
         accessor: (
-          { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
+          { borrowLimit }: { borrowLimit: number },
         ) => (
           loading
             ? borrowLimit
-            : asset && getPrettyAmount({
-              value: convertUnits(borrowLimit, asset.decimals),
-              currency: getSliceTokenName(asset),
-              dec: asset.decimals,
-            })
+            : `${borrowLimit.toFixed(2)}%`
         ),
       },
       {

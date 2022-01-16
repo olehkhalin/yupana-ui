@@ -102,11 +102,7 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
         <div className={s.value}>
           {loading
             ? borrowLimit
-            : getPrettyAmount({
-              value: convertUnits(borrowLimit, tokenMetadata.decimals),
-              currency: getSliceTokenName(tokenMetadata),
-              dec: tokenMetadata.decimals,
-            })}
+            : `${borrowLimit.toFixed(2)}%`}
         </div>
       </div>
     </TableCard>

@@ -6,7 +6,7 @@ import cx from 'classnames';
 import useSWR from 'swr';
 import BigNumber from 'bignumber.js';
 
-import { STANDARD_PRECISION } from 'constants/default';
+import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from 'constants/default';
 // import { useLoading } from 'hooks/useLoading';
 import {
   getUserBalance,
@@ -28,6 +28,7 @@ import {
   useUserGeneralInfo,
 } from 'providers/UserGeneralInfoProvider';
 import { ProcessCreditProvider } from 'providers/ProcessCreditProvider';
+import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { Section } from 'components/common/Section';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
 import { YOUR_ASSETS_DATA_LOADING } from 'components/tables/loading-preview/your-assets-loading';
@@ -59,6 +60,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
   const { setUserGeneralInfo } = useUserGeneralInfo();
+  const { oraclePrices } = useOraclePrices();
 
   const getAssetsStats = useCallback(async () => {
     if (!allAssetsData) return [];
@@ -128,13 +130,34 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
     () => (
       (accountPkh && userAssetsData) ? userAssetsData.userBorrow.map((el) => {
         const borrowed = convertUnits(el.borrow, STANDARD_PRECISION);
+        const yToken = el.asset.ytoken;
+
+        const oraclePrice = oraclePrices
+          ? oraclePrices[yToken]
+          : null;
+
+        const maxCollateral = userAssetsData.user[0]
+          ? new BigNumber(userAssetsData.user[0].maxCollateral)
+          : null;
+
+        const borrowLimit = oraclePrice && maxCollateral
+          ? new BigNumber(el.borrow)
+            .multipliedBy(
+              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+                .multipliedBy(oraclePrice.decimals),
+            )
+            .div(
+              convertUnits(maxCollateral, STANDARD_PRECISION),
+            )
+          : new BigNumber(0);
 
         return {
-          yToken: el.asset.ytoken,
+          yToken,
           borrowed,
+          borrowLimit,
         };
       }) : []),
-    [accountPkh, userAssetsData],
+    [accountPkh, oraclePrices, userAssetsData],
   );
 
   const preparedAllAssets = useMemo(
