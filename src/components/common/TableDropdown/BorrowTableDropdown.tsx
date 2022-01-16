@@ -12,6 +12,7 @@ import { useAccountPkh, useTezos } from 'utils/dapp';
 import { borrow, repay } from 'utils/dapp/methods';
 import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { getSliceTokenName } from 'utils/helpers/token';
+import useUpdateToast from 'utils/useUpdateToast';
 import { useUserGeneralInfo } from 'providers/UserGeneralInfoProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { TypeEnum, useProcessCredit } from 'providers/ProcessCreditProvider';
@@ -36,6 +37,7 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
   const { oraclePrices } = useOraclePrices();
   const { setProcessCreditData } = useProcessCredit();
   const { userBorrowedYTokens } = useUserBorrowedYTokens();
+  const updateToast = useUpdateToast();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -54,6 +56,10 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
   ), [oraclePrices, yToken]);
 
   const handleBorrowSubmit = useCallback(async (inputAmount: BigNumber) => {
+    updateToast({
+      type: 'info',
+      render: 'Request for Asset Borrow...',
+    });
     const params = {
       fabricaContractAddress: CONTRACT_ADDRESS,
       proxyContractAddress: PROXY_CONTRACT_ADDRESS,
@@ -64,7 +70,11 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
 
     const operation = await borrow(tezos, accountPkh!, params);
     await operation.confirmation(1);
-  }, [accountPkh, tezos, userBorrowedYTokens, yToken]);
+    updateToast({
+      type: 'info',
+      render: 'The Asset Supply request was successful, please wait...',
+    });
+  }, [accountPkh, tezos, updateToast, userBorrowedYTokens, yToken]);
 
   const handleBorrow = useCallback(() => {
     setProcessCreditData({
@@ -115,6 +125,10 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
   ]);
 
   const handleRepaySubmit = useCallback(async (inputAmount: BigNumber) => {
+    updateToast({
+      type: 'info',
+      render: 'Request for Asset Repay...',
+    });
     const params = {
       fabricaContractAddress: CONTRACT_ADDRESS,
       proxyContractAddress: PROXY_CONTRACT_ADDRESS,
@@ -126,7 +140,11 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
 
     const operation = await repay(tezos, accountPkh!, params);
     await operation.confirmation(1);
-  }, [accountPkh, asset, tezos, yToken]);
+    updateToast({
+      type: 'info',
+      render: 'The Asset Repay request was successful, please wait...',
+    });
+  }, [accountPkh, asset, tezos, updateToast, yToken]);
 
   const handleRepay = useCallback(() => {
     setProcessCreditData({

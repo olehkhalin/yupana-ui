@@ -22,6 +22,7 @@ import {
   assetAmountValidationFactory,
   getAdvancedErrorMessage,
 } from 'utils/validation';
+import useUpdateToast from 'utils/useUpdateToast';
 import { useProcessCredit } from 'providers/ProcessCreditProvider';
 import { OraclePriceType } from 'providers/OraclePricesProvider';
 import { Modal } from 'components/ui/Modal';
@@ -76,6 +77,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   onSubmit,
   oraclePrice,
 }) => {
+  const updateToast = useUpdateToast();
   const isWiderThanMphone = useWiderThanMphone();
   const [dynamicBorrowLimit, setDynamicBorrowLimit] = useState(new BigNumber(0));
   const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(new BigNumber(0));
@@ -133,12 +135,16 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
         console.log('submited');
         onRequestClose();
       } catch (e) {
-        console.error(e);
+        updateToast({
+          type: 'error',
+          // @ts-ignore
+          render: e.message,
+        });
       } finally {
         setOperationLoading(false);
       }
     },
-    [asset.decimals, onRequestClose, onSubmit],
+    [asset.decimals, onRequestClose, onSubmit, updateToast],
   );
 
   const borrowLimitF = useMemo(() => {
