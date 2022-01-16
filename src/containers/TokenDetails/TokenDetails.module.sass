@@ -18,11 +18,13 @@
   margin-right: 2rem
 
 .name, .price
+  height: 2rem
   text-shadow: $white-shadow
   font-size: 1.5rem
   font-weight: 700
 
 .name
+  width: 100%
   margin-bottom: 0.5rem
 
 .price
@@ -34,6 +36,9 @@
     flex-direction: row
     align-items: center
     justify-content: space-between
+  .name, .price
+    width: initial
+    height: initial
   .name
     margin-bottom: 0
     text-shadow: $white-shadow-button

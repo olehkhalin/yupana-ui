@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { AbortedBeaconError } from '@airgap/beacon-sdk';
 
+import { useConnectModalsState } from 'hooks/useConnectModalsState';
 import { ModalActions } from 'types/modal';
 import { TEMPLE_WALLET_NOT_INSTALLED_MESSAGE, useConnectWithBeacon, useConnectWithTemple } from 'utils/dapp';
 import { Modal } from 'components/ui/Modal';
@@ -20,6 +21,7 @@ export const ConnectToWalletModal: React.FC<ModalActions> = ({
   isOpen,
   onRequestClose,
 }) => {
+  const { openInstallTempleWalletModal } = useConnectModalsState();
   const connectWithBeacon = useConnectWithBeacon();
   const connectWithTemple = useConnectWithTemple();
 
@@ -36,6 +38,8 @@ export const ConnectToWalletModal: React.FC<ModalActions> = ({
       if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
         // eslint-disable-next-line no-console
         console.log('Install Temple wallet!');
+        onRequestClose();
+        openInstallTempleWalletModal();
       } else {
         const authenticationWasRejected = (e.name === 'NotGrantedTempleWalletError') || (e instanceof AbortedBeaconError);
         if (!authenticationWasRejected) {
@@ -45,7 +49,7 @@ export const ConnectToWalletModal: React.FC<ModalActions> = ({
       }
     }
   },
-  [connectWithBeacon, connectWithTemple, onRequestClose]);
+  [connectWithBeacon, connectWithTemple, onRequestClose, openInstallTempleWalletModal]);
 
   return (
     <Modal

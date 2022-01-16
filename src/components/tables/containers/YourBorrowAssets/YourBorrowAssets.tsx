@@ -6,11 +6,13 @@ import { YourBorrowAssets as YourBorrowAssetsDesktop } from 'components/tables/c
 
 type YourBorrowAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const isWiderThanLphone = useWiderThanLphone();
@@ -19,6 +21,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
     return (
       <YourBorrowAssetsDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );
@@ -32,6 +35,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         }) => (
           <YourBorrowAssetsCard
             key={rest.yToken}
+            loading={loading}
             {...tokenMetadata}
             {...rest}
           />
