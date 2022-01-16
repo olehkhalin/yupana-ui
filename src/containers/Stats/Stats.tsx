@@ -85,12 +85,18 @@ export const Stats: React.FC<StatsProps> = ({
   const [fetch, { data, loading }] = useGetUserStatsLazyQuery();
 
   useEffect(() => {
-    fetch({
-      variables: {
-        account: accountPkh,
-      },
-    });
+    if (accountPkh) {
+      fetch({
+        variables: {
+          account: accountPkh,
+        },
+      });
+    }
   }, [accountPkh, fetch]);
+
+  if (!accountPkh && !loading) {
+    return <></>;
+  }
 
   return (
     <StatsInner
