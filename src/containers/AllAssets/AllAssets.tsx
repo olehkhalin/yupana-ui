@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 import React, {
   useCallback, useEffect, useMemo, useState,
 } from 'react';
@@ -6,6 +7,7 @@ import useSWR from 'swr';
 import BigNumber from 'bignumber.js';
 
 import { STANDARD_PRECISION } from 'constants/default';
+// import { useLoading } from 'hooks/useLoading';
 import {
   getUserBalance,
   useAccountPkh,
@@ -28,6 +30,8 @@ import {
 import { ProcessCreditProvider } from 'providers/ProcessCreditProvider';
 import { Section } from 'components/common/Section';
 import { AssetsSwitcher } from 'components/common/AssetsSwitcher';
+import { YOUR_ASSETS_DATA_LOADING } from 'components/tables/loading-preview/your-assets-loading';
+import { ASSETS_DATA_LOADING } from 'components/tables/loading-preview/assets-loading';
 import { YourSupplyAssets } from 'components/tables/containers/YourSupplyAssets';
 import { YourBorrowAssets } from 'components/tables/containers/YourBorrowAssets';
 import { SupplyAssets } from 'components/tables/containers/SupplyAssets';
@@ -46,9 +50,9 @@ type AllAssetsInnerProps = {
 } & AssetsProps;
 
 const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
-  className,
   allAssetsData,
   userAssetsData,
+  className,
 }) => {
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -101,6 +105,8 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
     { refreshInterval: 30000 },
   );
 
+  const loading = !assetsStats || !assetsStats.length;
+
   // TODO: Research
   // useOnBlock(tezos, revalidate);
 
@@ -145,7 +151,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
             .find(({ yToken }) => yToken === item.yToken)
           ?? { borrowed: new BigNumber(0) }
         ),
-      })) : []),
+      })) : ASSETS_DATA_LOADING),
     [assetsStats, usersSupplyAssetsPrepared, usersBorrowedAssetsPrepared],
   );
 
@@ -158,7 +164,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
             ...(assetsStats.find(({ yToken }) => yToken === item.yToken)),
           }
         ))
-        : []
+        : YOUR_ASSETS_DATA_LOADING
     ),
     [assetsStats, usersSupplyAssetsPrepared],
   );
@@ -172,14 +178,14 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
             ...(assetsStats.find(({ yToken }) => yToken === item.yToken)),
           }
         ))
-        : []
+        : YOUR_ASSETS_DATA_LOADING
     ),
     [assetsStats, usersBorrowedAssetsPrepared],
   );
 
   useEffect(() => {
     setUserGeneralInfo(
-      accountPkh && userAssetsData
+      accountPkh && userAssetsData && userAssetsData.user.length
         ? {
           maxCollateral: new BigNumber(userAssetsData.user[0]
             ? userAssetsData.user[0].maxCollateral
@@ -214,7 +220,10 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
             title="Your supply assets"
             className={cx(s.col, { [s.show]: isAssetSwitcherActive && !isWiderThanMdesktop })}
           >
-            <YourSupplyAssets data={preparedUserSupplyAssets} />
+            <YourSupplyAssets
+              data={preparedUserSupplyAssets}
+              loading={loading}
+            />
           </Section>
 
           <Section
@@ -222,7 +231,10 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
             theme="secondary"
             className={cx(s.col, { [s.show]: !isAssetSwitcherActive && !isWiderThanMdesktop })}
           >
-            <YourBorrowAssets data={preparedUserBorrowAssets} />
+            <YourBorrowAssets
+              data={preparedUserBorrowAssets}
+              loading={loading}
+            />
           </Section>
         </div>
       )}
@@ -236,7 +248,10 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           }}
           className={cx(s.col, { [s.show]: isAssetSwitcherActive && !isWiderThanMdesktop })}
         >
-          <SupplyAssets data={preparedAllAssets} />
+          <SupplyAssets
+            data={preparedAllAssets}
+            loading={loading}
+          />
         </Section>
 
         <Section
@@ -248,7 +263,10 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
           theme="secondary"
           className={cx(s.col, { [s.show]: !isAssetSwitcherActive && !isWiderThanMdesktop })}
         >
-          <BorrowAssets data={preparedAllAssets} />
+          <BorrowAssets
+            data={preparedAllAssets}
+            loading={loading}
+          />
         </Section>
       </div>
     </>
@@ -260,10 +278,13 @@ export const AllAssets: React.FC<AssetsProps> = ({
 }) => {
   const accountPkh = useAccountPkh();
 
-  const { data: allAssetsData, error: allAssetsError } = useLendingAllAssetsQuery();
+  const {
+    data: allAssetsData,
+    // error: allAssetsError, // TODO: Research
+  } = useLendingAllAssetsQuery();
   const [fetch, {
     data: userAssetsData,
-    error: userAssetsError,
+    // error: userAssetsError, // TODO: Research
   }] = useLendingUserAssetsLazyQuery();
 
   useEffect(() => {
@@ -275,10 +296,6 @@ export const AllAssets: React.FC<AssetsProps> = ({
       });
     }
   }, [accountPkh, fetch]);
-
-  if (userAssetsError || allAssetsError) {
-    return <></>;
-  }
 
   return (
     <UserGeneralInfoProvider>

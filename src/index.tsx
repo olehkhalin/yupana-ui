@@ -6,6 +6,7 @@ import '@formatjs/intl-numberformat/locale-data/en';
 import { ApolloProvider } from '@apollo/client';
 
 import { ThemeProvider } from 'providers/ThemeContext';
+import { ConnectModalsStateProvider } from 'hooks/useConnectModalsState';
 import { DAppProvider } from 'utils/dapp';
 import { CurrencyProvider } from 'providers/CurrencyProvider';
 import App from 'pages/App';
@@ -18,13 +19,15 @@ ReactDOM.render(
   <Router>
     <React.StrictMode>
       <ApolloProvider client={client}>
-        <CurrencyProvider>
-          <ThemeProvider>
+        <ConnectModalsStateProvider>
+          <CurrencyProvider>
+            <ThemeProvider>
             <DAppProvider>
               <App />
             </DAppProvider>
-          </ThemeProvider>
-        </CurrencyProvider>
+            </ThemeProvider>
+          </CurrencyProvider>
+        </ConnectModalsStateProvider>
       </ApolloProvider>
     </React.StrictMode>
   </Router>,

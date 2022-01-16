@@ -19,6 +19,7 @@ type BorrowAssetsCardProps = {
   liquidity: number | BigNumber
   borrowApy: number
   utilisationRate: number
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
@@ -32,6 +33,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
   liquidity,
   borrowApy,
   utilisationRate,
+  loading,
   active,
   onClick,
   className,
@@ -50,6 +52,8 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
       active={active}
       onClick={onClick}
       theme="secondary"
+      preloaderTheme="secondary"
+      loading={loading}
       className={className}
     >
       <div className={s.row}>
@@ -58,6 +62,8 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="secondary"
           logoClassName={s.logo}
         />
       </div>
@@ -67,7 +73,9 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Borrow APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(borrowApy)}
+          {loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -76,7 +84,9 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Utilisation rate
         </div>
         <div className={s.value}>
-          {getPrettyPercent(utilisationRate)}
+          {loading
+            ? utilisationRate
+            : getPrettyPercent(utilisationRate)}
         </div>
       </div>
 
@@ -85,11 +95,13 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Liquidity
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(liquidity, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? liquidity
+            : getPrettyAmount({
+              value: convertUnits(liquidity, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>

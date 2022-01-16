@@ -4,6 +4,7 @@ import cx from 'classnames';
 import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
+import { Preloader } from 'components/ui/Preloader';
 import { Section } from 'components/common/Section';
 import { Item } from 'components/common/Item';
 import { Heading } from 'components/common/Heading';
@@ -14,6 +15,7 @@ import s from './MarketDetails.module.sass';
 type MarketDetailsProps = {
   asset: TokenMetadataInterface
   data: any
+  loading?: boolean
   className?: string
 };
 
@@ -28,6 +30,7 @@ const {
 export const MarketDetails: React.FC<MarketDetailsProps> = ({
   asset,
   data,
+  loading,
   className,
 }) => {
   const {
@@ -56,13 +59,17 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             </div>
 
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="primary" />
+              ) : getPrettyAmount({
                 value: availableLiquidity / priceInUsd,
                 currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="primary" />
+              ) : getPrettyAmount({
                 value: availableLiquidity,
                 currency: '$',
               })}
@@ -75,13 +82,17 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             </div>
 
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="secondary" />
+              ) : getPrettyAmount({
                 value: totalBorrow / priceInUsd,
                 currency: getTokenName(asset),
               })}
             </div>
             <div className={s.statValue}>
-              {getPrettyAmount({
+              {loading ? (
+                <Preloader sizeT="medium" theme="secondary" />
+              ) : getPrettyAmount({
                 value: totalBorrow,
                 currency: '$',
               })}
@@ -101,6 +112,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             value={getPrettyPercent(utilisationRate)}
             title={utilizationRate.title}
             description={utilizationRate.description}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -108,6 +120,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             value={getPrettyPercent(collateralFactor)}
             title={collateralFactorPopup.title}
             description={collateralFactorPopup.description}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -115,6 +128,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             value={getPrettyPercent(liquidationThreshold)}
             title={liquidationThresholdPopup.title}
             description={liquidationThresholdPopup.description}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -122,24 +136,28 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             value={getPrettyPercent(liquidationBonus)}
             title={liquidationBonusPopup.title}
             description={liquidationBonusPopup.description}
+            loading={loading}
             className={s.item}
           />
           <Item
             text="Reserves"
             value={getPrettyAmount({ value: reserves, currency: '$' })}
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
             text="Reserve Factor"
             value={getPrettyPercent(reserveFactor)}
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
             text={`y${asset.symbol} Minted`}
             value={getPrettyAmount({ value: minted })}
             icon={false}
+            loading={loading}
             className={s.item}
           />
           <Item
@@ -147,6 +165,7 @@ export const MarketDetails: React.FC<MarketDetailsProps> = ({
             value={`${getPrettyAmount({ value: exchangeRate, currency: `y${asset.symbol}` })}`}
             title={exchangeRatePopup.title}
             description={`1 ${getTokenName(asset)} = `}
+            loading={loading}
             className={s.item}
           />
         </div>
