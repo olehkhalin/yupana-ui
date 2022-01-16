@@ -1,5 +1,6 @@
 export const REPAY_BORROW_LOADING_DATA = [
   {
+    yToken: 0,
     asset: '—',
     priceOfBorrowedAsset: '—',
     amountOfDebt: '—',
@@ -8,6 +9,7 @@ export const REPAY_BORROW_LOADING_DATA = [
     maxLiquidateUsd: '—',
   },
   {
+    yToken: 1,
     asset: '—',
     priceOfBorrowedAsset: '—',
     amountOfDebt: '—',
@@ -16,6 +18,7 @@ export const REPAY_BORROW_LOADING_DATA = [
     maxLiquidateUsd: '—',
   },
   {
+    yToken: 2,
     asset: '—',
     priceOfBorrowedAsset: '—',
     amountOfDebt: '—',

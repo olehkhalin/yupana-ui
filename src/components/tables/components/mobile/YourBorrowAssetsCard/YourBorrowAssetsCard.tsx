@@ -12,10 +12,13 @@ import {
 import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 
 import s from '../Cards.module.sass';
 
 type YourBorrowAssetsCardProps = {
+  yToken: number
+  borrowed: BigNumber
   borrowLimit: number
   borrowApy: number
   wallet: number | BigNumber
@@ -24,7 +27,11 @@ type YourBorrowAssetsCardProps = {
   className?: string
 } & TokenMetadataInterface;
 
-const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
+const OrdinaryYourBorrowAssetsCard: React.FC<
+YourBorrowAssetsCardProps & WithDropdownInterface
+> = ({
+  yToken,
+  borrowed,
   id,
   address,
   name,
@@ -56,6 +63,14 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
       preloaderTheme="secondary"
       loading={loading}
       className={className}
+      TableDropdown={(
+        <BorrowTableDropdown
+          theme="secondary"
+          yToken={yToken}
+          asset={tokenMetadata}
+          borrowed={borrowed}
+        />
+      )}
     >
       <div className={s.row}>
         <div className={s.title}>

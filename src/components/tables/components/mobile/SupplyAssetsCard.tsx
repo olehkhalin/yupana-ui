@@ -13,18 +13,23 @@ import {
 import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { SupplyTableDropdown } from 'components/common/TableDropdown';
 
 import s from './Cards.module.sass';
 
 type SupplyAssetsCardProps = {
-  collateralFactor: number
+  yToken: number
+  supplied: BigNumber
+  collateralFactor: BigNumber
   supplyApy: number
   loading: boolean
-  wallet: number | BigNumber
+  wallet: BigNumber
   className?: string
 } & TokenMetadataInterface;
 
 const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInterface> = ({
+  yToken,
+  supplied,
   id,
   address,
   name,
@@ -55,6 +60,15 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
       onClick={onClick}
       loading={loading}
       className={className}
+      TableDropdown={(
+        <SupplyTableDropdown
+          yToken={yToken}
+          asset={tokenMetadata}
+          supplied={supplied}
+          wallet={wallet}
+          collateralFactor={collateralFactor}
+        />
+      )}
     >
       <div className={s.row}>
         <div className={s.title}>

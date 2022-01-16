@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactElement } from 'react';
 import { UnmountClosed } from 'react-collapse';
 import cx from 'classnames';
 
 import { Preloader, PreloaderThemes } from 'components/ui/Preloader';
 import { Button } from 'components/ui/Button';
 import { DropdownArrow } from 'components/common/DropdownArrow';
-import { SupplyTableDropdown } from 'components/common/TableDropdown';
+// import { SupplyTableDropdown } from 'components/common/TableDropdown';
 
 import s from './TableCard.module.sass';
 
@@ -18,6 +18,7 @@ type TableCardProps = {
   active?: boolean
   href?: string
   onClick?: <T>(arg?: T) => void
+  TableDropdown?: ReactElement // TODO: Research if we should use it necessarily
   className?: string
 };
 
@@ -35,6 +36,7 @@ export const TableCard: React.FC<TableCardProps> = ({
   active = false,
   href,
   onClick,
+  TableDropdown,
   className,
   children,
 }) => (
@@ -78,10 +80,7 @@ export const TableCard: React.FC<TableCardProps> = ({
         checkTimeout={500}
         theme={{ collapse: s.ReactCollapse }}
       >
-        <SupplyTableDropdown
-          theme={theme}
-          className={s.dropdown}
-        />
+        {TableDropdown}
       </UnmountClosed>
     )}
   </div>
