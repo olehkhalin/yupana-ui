@@ -6,9 +6,13 @@ import FallbackLogo from 'svg/FallbackLogo.svg';
 
 import s from './TokenLogo.module.sass';
 
+export type TokenLogoThemes = keyof typeof themeClasses;
+
 type TokenLogoProps = {
+  theme?: TokenLogoThemes
   logo: TokenLogoInterface
   sizeT?: keyof typeof sizeClass
+  loading?: boolean
   className?: string
 };
 
@@ -18,9 +22,17 @@ const sizeClass = {
   large: s.large,
 };
 
+const themeClasses = {
+  primary: s.primary,
+  secondary: s.secondary,
+  tertiary: s.tertiary,
+};
+
 export const TokenLogo: React.FC<TokenLogoProps> = ({
+  theme,
   logo,
   sizeT = 'small',
+  loading,
   className,
 }) => {
   const compoundClassName = cx(
@@ -31,16 +43,12 @@ export const TokenLogo: React.FC<TokenLogoProps> = ({
 
   return (
     <>
-      {logo.thumbnailUri ? (
-        <img
-          src={logo.thumbnailUri}
-          alt={logo.name ?? 'Symbol'}
-          className={compoundClassName}
-        />
+      {loading && theme ? (
+        <div className={cx(compoundClassName, themeClasses[theme])} />
       ) : (
         <img
-          src={FallbackLogo}
-          alt={logo.name ?? 'Logo'}
+          src={logo.thumbnailUri ? logo.thumbnailUri : FallbackLogo}
+          alt={logo.name ?? 'Symbol'}
           className={compoundClassName}
         />
       )}

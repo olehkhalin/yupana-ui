@@ -1,11 +1,8 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
-import BigNumber from 'bignumber.js';
 
-import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/helpers/token';
 import {
-  convertUnits,
   getPrettyAmount,
   getPrettyPercent,
 } from 'utils/helpers/amount';
@@ -18,11 +15,13 @@ import s from './Tables.module.sass';
 
 type BorrowAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -32,7 +31,9 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
           <TokenName
+            theme="secondary"
             token={{ ...row.values.asset }}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),
@@ -40,33 +41,32 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => (
-          getPrettyPercent(borrowApy)
+        accessor: ({ borrowApy }: any) => (
+          loading ? borrowApy : getPrettyPercent(borrowApy)
         ),
       },
       {
         Header: 'Utilisation rate',
         id: 'utilisationRate',
-        accessor: ({ utilisationRate }: { utilisationRate: number }) => (
-          getPrettyPercent(utilisationRate)
+        accessor: ({ utilisationRate }: any) => (
+          loading ? utilisationRate : getPrettyPercent(utilisationRate)
         ),
       },
       {
         Header: 'Liquidity',
         id: 'liquidity',
-        accessor: (
-          { liquidity, asset }: { liquidity: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(liquidity, asset.decimals),
-          currency: getSliceTokenName(asset),
-          dec: asset.decimals,
-        }),
+        accessor: ({ liquidity, asset }: any) => (
+          loading
+            ? liquidity
+            : `${getPrettyAmount({ value: liquidity, currency: getSliceTokenName(asset), dec: asset.decimals })}`
+        ),
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={loading}
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}
@@ -75,7 +75,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   const renderRowSubComponent = React.useCallback(
@@ -100,8 +100,11 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   return (
     <Table
       theme="secondary"
+      preloaderTheme="secondary"
+      isMaxContentPreloader
       columns={columns}
       data={data}
+      loading={loading}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.borrowRow}
       className={className}

@@ -18,11 +18,13 @@ import s from './Tables.module.sass';
 
 type YourBorrowAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -32,6 +34,8 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
           <TokenName
+            theme="secondary"
+            loading={loading}
             token={{ ...row.values.asset }}
             {...row.getToggleRowExpandedProps()}
           />
@@ -40,8 +44,10 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       {
         Header: 'Borrow APY',
         id: 'borrowApy',
-        accessor: ({ borrowApy }: { borrowApy: number }) => (
-          getPrettyPercent(borrowApy)
+        accessor: ({ borrowApy }: { borrowApy: number | any }) => (
+          loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)
         ),
       },
       {
@@ -49,28 +55,38 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         id: 'balance',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => (asset && wallet ? getPrettyAmount({
-          value: convertUnits(wallet ?? new BigNumber(0), asset.decimals),
-          currency: getSliceTokenName(asset),
-          dec: asset.decimals,
-        }) : 0),
+        ) => (
+          // eslint-disable-next-line no-nested-ternary
+          loading
+            ? wallet
+            : (asset && wallet ? getPrettyAmount({
+              value: convertUnits(wallet ?? new BigNumber(0), asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            }) : 0)
+        ),
       },
       {
         Header: 'Borrow limit',
         id: 'borrowLimit',
         accessor: (
           { borrowLimit, asset }: { borrowLimit: number, asset: TokenMetadataInterface },
-        ) => asset && getPrettyAmount({
-          value: convertUnits(borrowLimit, asset.decimals),
-          currency: getSliceTokenName(asset),
-          dec: asset.decimals,
-        }),
+        ) => (
+          loading
+            ? borrowLimit
+            : asset && getPrettyAmount({
+              value: convertUnits(borrowLimit, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })
+        ),
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={loading}
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}
@@ -79,7 +95,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
   const renderRowSubComponent = React.useCallback(
     ({
@@ -103,8 +119,11 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   return (
     <Table
       theme="secondary"
+      preloaderTheme="secondary"
+      isMaxContentPreloader
       columns={columns}
       data={data}
+      loading={loading}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.ownAssetsRow}
       className={className}
