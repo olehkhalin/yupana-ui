@@ -18,7 +18,7 @@ export const PROXY_CONTRACT_ADDRESS = 'KT1WvRRn1SZc26aLZHZvYmj6ogELyVbCYDqG';
 
 export const DECIMALS_VALUE = 6;
 
-export const INSTALL_TEMPLE_WALLET = 'https://templewallet.com/';
+export const TEMPLE_WALLET_LINK = 'https://templewallet.com/';
 
 export const LAMBDA_CONTRACT_ADDRESS = 'KT19ewhnhaCcCuoF1Ly2pxXAFRiF3UtgaY9U';
 export const LV_ACCOUNT_PKH = 'tz1fVQangAfb9J1hRRMP2bSB6LvASD6KpY8A';

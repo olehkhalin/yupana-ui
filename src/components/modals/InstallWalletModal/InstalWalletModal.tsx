@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { INSTALL_TEMPLE_WALLET } from 'constants/default';
+import { TEMPLE_WALLET_LINK } from 'constants/default';
 import { useConnectModalsState } from 'hooks/useConnectModalsState';
 import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
@@ -27,7 +27,7 @@ export const InstallWalletModal: React.FC = () => {
       />
       <Button
         theme="clear"
-        href={INSTALL_TEMPLE_WALLET}
+        href={TEMPLE_WALLET_LINK}
         external
         className={s.button}
       >
