@@ -21,6 +21,7 @@
   @include blue-background
 
 .root
+  position: relative
   padding: 2rem 1.5rem
   &::-webkit-scrollbar
     display: none
@@ -46,11 +47,18 @@
   font-weight: 700
 
 .trBody
+  td
+    display: flex
+    align-items: center
   &:first-of-type
     .td
       padding-top: 1.5rem
+  &:first-of-type:last-of-type
+    .td
+      padding: 1.5rem 0
 
 .tbody
+  position: relative
   display: flex
   flex-direction: column
   width: 100%
@@ -73,10 +81,10 @@
 
 .isShowPagination
   .tbody
+    border-bottom: .063rem solid rgba($white, .5)
     .tr
       &:last-child
         padding-bottom: 1rem
-        border-bottom: .063rem solid rgba($white, .5)
 
 .primary, .secondary
   width: 100%
@@ -134,6 +142,10 @@
     &::after
       box-shadow: $white-shadow
       opacity: .5
+    .tr
+      padding: 0 1rem
+  .tbody
+    padding: 0 1rem
   .tr
     &:not(:last-child)
       margin-bottom: 1.5rem
@@ -179,6 +191,11 @@
       background: $yellow-light-gradient
       &::after
         @include yellow-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
     &.selected
       background: $yellow-light-gradient
       &::after
@@ -194,13 +211,28 @@
       background: $blue-light-gradient
       &::after
         @include blue-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
     &.selected
       background: $blue-light-gradient
       &::after
         @include blue-strong
 
+.padding
+  padding: 1rem
+
 .pagination
   margin-top: 1rem
+
+.preloader
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
 
 @include media('>Mdesktop')
   .primary, .secondary

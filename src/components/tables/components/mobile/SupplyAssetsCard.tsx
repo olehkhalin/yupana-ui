@@ -19,6 +19,7 @@ import s from './Cards.module.sass';
 type SupplyAssetsCardProps = {
   collateralFactor: number
   supplyApy: number
+  loading: boolean
   wallet: number | BigNumber
   className?: string
 } & TokenMetadataInterface;
@@ -33,6 +34,7 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
   collateralFactor,
   supplyApy,
   wallet,
+  loading,
   active,
   onClick,
   className,
@@ -48,8 +50,10 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
 
   return (
     <TableCard
+      preloaderTheme="primary"
       active={active}
       onClick={onClick}
+      loading={loading}
       className={className}
     >
       <div className={s.row}>
@@ -58,6 +62,8 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="primary"
           logoClassName={s.logo}
         />
       </div>
@@ -67,7 +73,9 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Supply APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(supplyApy)}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -76,12 +84,14 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Collateral Factor
         </div>
         <div className={s.value}>
-          {getPrettyPercent(
-            convertUnits(
-              collateralFactor,
-              STANDARD_PRECISION,
-            ).multipliedBy(1e2),
-          )}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(
+              convertUnits(
+                collateralFactor,
+                STANDARD_PRECISION,
+              ).multipliedBy(1e2),
+            )}
         </div>
       </div>
 
@@ -90,11 +100,13 @@ const OrdinarySupplyAssetsCard: React.FC<SupplyAssetsCardProps & WithDropdownInt
           Wallet
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(wallet, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>
