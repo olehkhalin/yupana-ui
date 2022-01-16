@@ -50,7 +50,6 @@ export const Slider: React.FC<SliderProps> = ({
         {finalPercent.toFixed(2)}
         %
       </div>
-
       <input
         type="range"
         step="0.01"
