@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { ToastContainer, TypeOptions, CloseButtonProps } from 'react-toastify';
 
 import { useWiderThanMphone } from 'utils/helpers/getMediaQuery';
-import { ThemeContext, ToastThemes } from 'providers/ThemeContext';
+import { ToastThemeContext, ToastThemes } from 'providers/ToastThemeProvider';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -31,7 +31,7 @@ const CustomCloseButton = ({ closeToast }: CloseButtonProps) => (
 );
 
 export const Toast: React.FC = () => {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ToastThemeContext);
   const isWiderThanMphone = useWiderThanMphone();
 
   return (

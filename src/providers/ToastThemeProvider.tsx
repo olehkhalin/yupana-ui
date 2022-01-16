@@ -7,28 +7,30 @@ export enum ToastThemes {
   ERROR = 'error',
 }
 
-export type ThemeContextValue = {
+export type ToastThemeContextValue = {
   type: ToastThemes
   setTheme: (arg: ToastThemes) => void
 };
 
-export const ThemeContext = createContext<any>({
+export const ToastThemeContext = createContext<any>({
   type: ToastThemes.INFO,
   setTheme: () => { },
 });
 
-export const ThemeProvider = ({ children }: any) => {
-  const [theme, setTheme] = useState<ThemeContextValue>({
+export const ToastThemeProvider = ({ children }: any) => {
+  const [theme, setTheme] = useState<ToastThemeContextValue>({
     type: ToastThemes.INFO,
     setTheme: () => { },
   });
 
   return (
-    <ThemeContext.Provider value={{
-      theme, setTheme,
-    }}
+    <ToastThemeContext.Provider
+      value={{
+        theme,
+        setTheme,
+      }}
     >
       {children}
-    </ThemeContext.Provider>
+    </ToastThemeContext.Provider>
   );
 };

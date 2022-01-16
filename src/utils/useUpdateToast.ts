@@ -1,12 +1,11 @@
 import { useCallback, useContext, useRef } from 'react';
 import { UpdateOptions, toast } from 'react-toastify';
 
-import { ThemeContext } from 'providers/ThemeContext';
-// import { getUniqueKey } from './getUniqueKey';
+import { ToastThemeContext } from 'providers/ToastThemeProvider';
 
 export default function useUpdateToast() {
   const toastIdRef = useRef<string | number>();
-  const { setTheme } = useContext(ThemeContext);
+  const { setTheme } = useContext(ToastThemeContext);
 
   return useCallback(({
     type,
