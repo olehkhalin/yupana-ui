@@ -1,15 +1,19 @@
 import React from 'react';
 
 import { useCurrency } from 'providers/CurrencyProvider';
+import { useLoading } from 'hooks/useLoading';
 import { useWiderThanMphone } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { Input } from 'components/ui/Input';
+import { Preloader } from 'components/ui/Preloader';
 import { Button } from 'components/ui/Button';
 import { Heading } from 'components/common/Heading';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
 import { REPAY_BORROW_DATA } from 'components/temp-data/tables/repay-borrow';
 import { RECEIVE_COLLATERAL_DATA } from 'components/temp-data/tables/receive-collateral';
+import { REPAY_BORROW_LOADING_DATA } from 'components/tables/loading-preview/repay-borrow-loading';
+import { RECEIVE_COLLATERAL_LOADING_DATA } from 'components/tables/loading-preview/receive-collateral-loading';
 
 import s from './LiquidationPosition.module.sass';
 
@@ -17,6 +21,7 @@ export const LiquidationPosition: React.FC = () => {
   const { convertPriceByBasicCurrency } = useCurrency();
 
   const isWiderThanMphone = useWiderThanMphone();
+  const { loading } = useLoading();
 
   const ASSET_FROM_STEP_1 = 'XTZ';
   const ASSET_FROM_STEP_2 = 'SMAK';
@@ -41,7 +46,10 @@ export const LiquidationPosition: React.FC = () => {
           Keep in mind that the amount of debt in different assets may be different,
           so the amount of collateral you receive also be different.
         </div>
-        <RepayBorrow data={REPAY_BORROW_DATA} />
+        <RepayBorrow
+          data={loading ? REPAY_BORROW_LOADING_DATA : REPAY_BORROW_DATA}
+          loading={loading}
+        />
       </section>
 
       <section className={s.section}>
@@ -62,7 +70,10 @@ export const LiquidationPosition: React.FC = () => {
           Remember that the percentage of the liquidation bonus depends on your choice,
           and also the amount of the chosen collateral asset must cover the debt and the bonus.
         </div>
-        <ReceiveCollateral data={RECEIVE_COLLATERAL_DATA} />
+        <ReceiveCollateral
+          data={loading ? RECEIVE_COLLATERAL_LOADING_DATA : RECEIVE_COLLATERAL_DATA}
+          loading={loading}
+        />
       </section>
       <section className={s.section}>
         <h2 className={s.title}>
@@ -108,9 +119,19 @@ export const LiquidationPosition: React.FC = () => {
               </div>
 
               <div className={s.recieveValue}>
-                {getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
-                {' '}
-                {`(${convertPriceByBasicCurrency(2100)})`}
+                {
+                  loading
+                    ? (
+                      <Preloader
+                        sizeT="medium"
+                        theme="tertiary"
+                      />
+                    ) : (
+                      `${getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
+                       
+                      (${convertPriceByBasicCurrency(2100)})`
+                    )
+                }
               </div>
             </div>
 
@@ -120,7 +141,16 @@ export const LiquidationPosition: React.FC = () => {
               </div>
 
               <div className={s.recieveValue}>
-                {getPrettyAmount({ value: 0.86 })}
+                {
+                loading
+                  ? (
+                    <Preloader
+                      sizeT="medium"
+                      theme="tertiary"
+                    />
+                  )
+                  : getPrettyAmount({ value: 0.86 })
+                }
               </div>
             </div>
           </div>

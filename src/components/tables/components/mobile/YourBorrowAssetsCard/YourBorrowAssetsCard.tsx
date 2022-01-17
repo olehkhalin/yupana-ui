@@ -12,18 +12,26 @@ import {
 import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 
 import s from '../Cards.module.sass';
 
 type YourBorrowAssetsCardProps = {
+  yToken: number
+  borrowed: BigNumber
   borrowLimit: number
   borrowApy: number
   wallet: number | BigNumber
   thumbnailUri?: string
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
-const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDropdownInterface> = ({
+const OrdinaryYourBorrowAssetsCard: React.FC<
+YourBorrowAssetsCardProps & WithDropdownInterface
+> = ({
+  yToken,
+  borrowed,
   id,
   address,
   name,
@@ -32,6 +40,7 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
   decimals,
   borrowLimit,
   borrowApy,
+  loading,
   wallet,
   active,
   onClick,
@@ -51,7 +60,17 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
       active={active}
       onClick={onClick}
       theme="secondary"
+      preloaderTheme="secondary"
+      loading={loading}
       className={className}
+      TableDropdown={(
+        <BorrowTableDropdown
+          theme="secondary"
+          yToken={yToken}
+          asset={tokenMetadata}
+          borrowed={borrowed}
+        />
+      )}
     >
       <div className={s.row}>
         <div className={s.title}>
@@ -59,6 +78,8 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="secondary"
           logoClassName={s.logo}
         />
       </div>
@@ -68,7 +89,9 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Borrow APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(borrowApy)}
+          {loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -77,11 +100,13 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Balance
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(wallet, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
 
@@ -90,11 +115,9 @@ const OrdinaryYourBorrowAssetsCard: React.FC<YourBorrowAssetsCardProps & WithDro
           Borrow limit
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(borrowLimit, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? borrowLimit
+            : `${borrowLimit.toFixed(2)}%`}
         </div>
       </div>
     </TableCard>

@@ -8667,6 +8667,7 @@ export const LendingUserAssetsDocument = gql`
   user(where: {address: {_eq: $account}}) {
     maxCollateral
     outstandingBorrow
+    maxCollateral
   }
 }
     `;

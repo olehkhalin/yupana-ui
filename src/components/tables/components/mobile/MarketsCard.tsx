@@ -19,6 +19,7 @@ type MarketsCardProps = {
   borrowApy: number
   numberOfBorrowers: number
   details?: boolean
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
@@ -35,6 +36,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
   borrowApy,
   supplyApy,
   numberOfBorrowers,
+  loading,
   details = false,
   className,
 }) => {
@@ -54,6 +56,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
       withDetailsButton={!details}
       collapsed={false}
       href={`${AppRoutes.MARKETS}/${yToken}`}
+      preloaderTheme="tertiary"
+      loading={loading}
       className={cx({ [s.marketsDetails]: details }, className)}
     >
       {!details && (
@@ -63,6 +67,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="tertiary"
           logoClassName={s.logo}
         />
       </div>
@@ -73,7 +79,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Total Supply
         </div>
         <div className={s.value}>
-          {convertPriceByBasicCurrency(totalSupply)}
+          {loading
+            ? totalSupply
+            : convertPriceByBasicCurrency(totalSupply)}
         </div>
       </div>
 
@@ -82,7 +90,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Supply APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(supplyApy)}
+          {loading
+            ? supplyApy
+            : getPrettyPercent(supplyApy)}
         </div>
       </div>
 
@@ -100,7 +110,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Total borrow
         </div>
         <div className={s.value}>
-          {convertPriceByBasicCurrency(totalBorrow)}
+          {loading
+            ? totalBorrow
+            : convertPriceByBasicCurrency(totalBorrow)}
         </div>
       </div>
 
@@ -109,7 +121,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           Borrow APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(borrowApy)}
+          {loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -118,7 +132,9 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
           # of borrowers
         </div>
         <div className={s.value}>
-          {`${numberOfBorrowers.toFixed(2)}%`}
+          {loading
+            ? numberOfBorrowers
+            : getPrettyPercent(numberOfBorrowers)}
         </div>
       </div>
     </TableCard>

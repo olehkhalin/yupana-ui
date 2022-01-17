@@ -1,0 +1,92 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.preloader
+  position: relative
+  height: 100%
+  border-radius: .25rem
+  overflow: hidden
+
+.layout
+  width: 100%
+  height: 100%
+  min-height: 1rem
+  border-radius: .25rem
+  overflow: hidden
+  &.primary
+    background: rgba($blue-neutral, .04)
+    .light
+      background: $blue-preloader-gradient
+  &.secondary
+    background: rgba($light-yellow, .04)
+    .light
+      background: $yellow-preloader-gradient
+  &.tertiary
+    background-color: rgba($white, .04)
+    .light
+      background: $white-preloader-gradient
+  &.quaternary
+    background-color: rgba($white, .04)
+    .light
+      animation: lite-blue-yellow 1.2s ease-in-out infinite
+  &.quinary
+    background-color: rgba($white, .04)
+    .light
+      animation: lite-yellow-blue 1.2s ease-in-out infinite
+
+.light
+  position: relative
+  width: 40%
+  height: 100%
+  min-height: 16px
+  transition: background $animationTime
+  animation: lite 1.2s ease-in-out infinite
+
+.preloaderLogo
+  width: 1.5rem
+  height: 1.5rem
+  border-radius: 50%
+
+.small
+  width: 6.125rem
+  height: 1.21rem
+.medium
+  width: 7.75rem
+  height: 2.4rem
+.large
+  width: 13.75rem
+  height: 3.25rem
+.fluent
+  width: 100%
+  height: 100%
+
+@keyframes lite
+  0%
+    left: -100%
+  100%
+    left: 100%
+
+@keyframes lite-blue-yellow
+  0%
+    left: -50%
+    background: $blue-preloader-gradient
+  100%
+    left: 100%
+    background: $yellow-preloader-gradient
+
+@keyframes lite-yellow-blue
+  0%
+    left: -50%
+    background: $yellow-preloader-gradient
+  100%
+    left: 100%
+    background: $blue-preloader-gradient
+
+@include media('>Mphone')
+  .small
+    width: 7.875rem
+    height: 1rem
+
+@include media('>Mtablet')
+  .large
+    width: 23.75rem

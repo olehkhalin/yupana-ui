@@ -2,6 +2,7 @@ export const ANIMATION_TIME = 0.25;
 
 // TODO: Delete later
 export const XTZ_CURRENT_PRICE = 6;
+export const LOADING_TIME = 2000;
 
 export type NetworkType = 'mainnet' | 'edo2net' | 'florencenet' | 'granadanet' | 'sandbox' | 'hangzhounet';
 export const APP_NAME = 'Yupana Finance';
@@ -16,6 +17,8 @@ export const CONTRACT_ADDRESS = 'KT1LTqpmGJ11EebMVWAzJ7DWd9msgExvHM94';
 export const PROXY_CONTRACT_ADDRESS = 'KT1WvRRn1SZc26aLZHZvYmj6ogELyVbCYDqG';
 
 export const DECIMALS_VALUE = 6;
+
+export const TEMPLE_WALLET_LINK = 'https://templewallet.com/';
 
 export const LAMBDA_CONTRACT_ADDRESS = 'KT19ewhnhaCcCuoF1Ly2pxXAFRiF3UtgaY9U';
 export const LV_ACCOUNT_PKH = 'tz1fVQangAfb9J1hRRMP2bSB6LvASD6KpY8A';

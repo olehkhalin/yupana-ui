@@ -13,11 +13,13 @@ import s from './Tables.module.sass';
 
 type RepayBorrowProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -29,7 +31,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         Header: 'Asset',
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => {
-          const isRadioButtonActive = selectedItem
+          const isRadioButtonActive = selectedItem && !loading
             ? getTokenSlug(row.values.asset) === getTokenSlug({
               address: selectedItem.address,
               id: selectedItem.id,
@@ -40,10 +42,13 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
               <Radio
                 active={isRadioButtonActive}
                 theme="secondary"
+                disabled={loading}
                 className={s.radio}
               />
               <TokenName
                 token={{ ...row.values.asset }}
+                theme="secondary"
+                loading={loading}
               />
             </>
           );
@@ -57,7 +62,9 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         ),
         id: 'priceOfBorrowedAsset',
         accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => (
-          convertPriceByBasicCurrency(priceOfBorrowedAsset)
+          loading
+            ? priceOfBorrowedAsset
+            : convertPriceByBasicCurrency(priceOfBorrowedAsset)
         ),
       },
       {
@@ -70,13 +77,21 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: amountOfDebt,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? amountOfDebt
+                  : getPrettyAmount({
+                    value: amountOfDebt,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(amountOfDebtUsd)}
+              {
+                loading
+                  ? amountOfDebtUsd
+                  : convertPriceByBasicCurrency(amountOfDebtUsd)
+              }
             </div>
           </div>
         ),
@@ -91,26 +106,36 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: maxLiquidate,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? maxLiquidate
+                  : getPrettyAmount({
+                    value: maxLiquidate,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(maxLiquidateUsd)}
+              {
+                loading
+                  ? maxLiquidateUsd
+                  : convertPriceByBasicCurrency(maxLiquidateUsd)
+              }
             </div>
           </div>
         ),
       },
     ],
-    [convertPriceByBasicCurrency, selectedItem],
+    [selectedItem, loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="octonary"
+      preloaderTheme="secondary"
       columns={columns}
       data={data}
+      loading={loading}
       setSelectedItem={setSelectedItem}
       selectedItem={selectedItem}
       rowClassName={s.repayRow}

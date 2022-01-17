@@ -12,11 +12,13 @@ import s from './Tables.module.sass';
 
 type MarketsProps = {
   data: any[]
+  loading?: boolean
   className?: string
 };
 
 export const Markets: React.FC<MarketsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -33,7 +35,9 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <TokenName
             token={{ ...row.asset }}
-            href={`${AppRoutes.MARKETS}/${row.yToken}`}
+            href={loading ? '' : `${AppRoutes.MARKETS}/${row.yToken}`}
+            theme="tertiary"
+            loading={loading}
           />
         ),
       },
@@ -46,7 +50,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {convertPriceByBasicCurrency(row.totalSupply)}
+            {loading
+              ? row.totalSupply
+              : convertPriceByBasicCurrency(row.totalSupply)}
           </span>
         ),
       },
@@ -59,7 +65,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyPercent(row.supplyApy)}
+            {loading
+              ? row.supplyApy
+              : getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -85,7 +93,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {convertPriceByBasicCurrency(row.totalBorrow)}
+            {loading
+              ? row.totalBorrow
+              : convertPriceByBasicCurrency(row.totalBorrow)}
           </span>
         ),
       },
@@ -98,7 +108,9 @@ export const Markets: React.FC<MarketsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.borrowApy)}
+            {loading
+              ? row.borrowApy
+              : getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
@@ -121,7 +133,7 @@ export const Markets: React.FC<MarketsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={`${AppRoutes.MARKETS}/${row.yToken}`}
+            href={loading ? '' : `${AppRoutes.MARKETS}/${row.yToken}`}
             className={s.link}
           >
             Details
@@ -129,14 +141,16 @@ export const Markets: React.FC<MarketsProps> = ({
         ),
       },
     ],
-    [convertPriceByBasicCurrency],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quaternary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTable}
       rowClassName={s.marketsRow}
       className={cx(s.bigTableWrapper, className)}

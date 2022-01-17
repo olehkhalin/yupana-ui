@@ -1,15 +1,17 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyPercent } from 'utils/helpers/amount';
-
 import { useCurrency } from 'providers/CurrencyProvider';
+import { getPrettyPercent } from 'utils/helpers/amount';
+import { Preloader } from 'components/ui/Preloader';
+
 import s from './UserStat.module.sass';
 
 type UserStatProps = {
-  userTotalSupply: number
-  userTotalBorrow: number
-  netApy: number
+  userTotalSupply: number | undefined
+  userTotalBorrow: number | undefined
+  netApy: number | undefined
+  loading: boolean
   className?: string
 };
 
@@ -17,6 +19,7 @@ export const UserStat: React.FC<UserStatProps> = ({
   userTotalSupply,
   userTotalBorrow,
   netApy,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -28,7 +31,14 @@ export const UserStat: React.FC<UserStatProps> = ({
           Your Supply Balance:
         </div>
         <div className={s.value}>
-          {convertPriceByBasicCurrency(userTotalSupply)}
+          {!loading && userTotalSupply
+            ? convertPriceByBasicCurrency(userTotalSupply)
+            : (
+              <Preloader
+                theme="primary"
+                sizeT="medium"
+              />
+            )}
         </div>
       </div>
 
@@ -37,7 +47,14 @@ export const UserStat: React.FC<UserStatProps> = ({
           Net APY:
         </div>
         <div className={s.value}>
-          {getPrettyPercent(netApy)}
+          {!loading && netApy
+            ? getPrettyPercent(netApy)
+            : (
+              <Preloader
+                theme="tertiary"
+                sizeT="medium"
+              />
+            )}
         </div>
       </div>
 
@@ -46,7 +63,14 @@ export const UserStat: React.FC<UserStatProps> = ({
           Your Borrow Balance:
         </div>
         <div className={s.value}>
-          {convertPriceByBasicCurrency(userTotalBorrow)}
+          {!loading && userTotalBorrow
+            ? convertPriceByBasicCurrency(userTotalBorrow)
+            : (
+              <Preloader
+                theme="secondary"
+                sizeT="medium"
+              />
+            )}
         </div>
       </div>
     </div>

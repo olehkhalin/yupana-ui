@@ -13,11 +13,13 @@ import s from './Tables.module.sass';
 
 type ReceiveCollateralProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -34,7 +36,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => {
-          const isRadioButtonActive = selectedItem
+          const isRadioButtonActive = selectedItem && !loading
             ? getTokenSlug(row.values.asset) === getTokenSlug({
               address: selectedItem.address,
               id: selectedItem.id,
@@ -44,10 +46,13 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             <>
               <Radio
                 active={isRadioButtonActive}
+                disabled={loading}
                 className={s.radio}
               />
               <TokenName
                 token={{ ...row.values.asset }}
+                theme="primary"
+                loading={loading}
               />
             </>
           );
@@ -61,7 +66,9 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         ),
         id: 'priceOfReceiveAsset',
         accessor: ({ priceOfReceiveAsset }: any) => (
-          convertPriceByBasicCurrency(priceOfReceiveAsset)
+          loading
+            ? priceOfReceiveAsset
+            : convertPriceByBasicCurrency(priceOfReceiveAsset)
         ),
       },
       {
@@ -74,13 +81,21 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: amountOfSupplied,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? amountOfSupplied
+                  : getPrettyAmount({
+                    value: amountOfSupplied,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(amountOfSuppliedUsd)}
+              {
+                loading
+                  ? amountOfSuppliedUsd
+                  : convertPriceByBasicCurrency(amountOfSuppliedUsd)
+              }
             </div>
           </div>
         ),
@@ -95,26 +110,36 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
         accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: maxBonus,
-                currency: getSliceTokenName(asset),
-              })}
+              {
+                loading
+                  ? maxBonus
+                  : getPrettyAmount({
+                    value: maxBonus,
+                    currency: getSliceTokenName(asset),
+                  })
+              }
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(maxBonusUsd)}
+              {
+                loading
+                  ? maxBonusUsd
+                  : convertPriceByBasicCurrency(maxBonusUsd)
+              }
             </div>
           </div>
         ),
       },
     ],
-    [convertPriceByBasicCurrency, selectedItem],
+    [selectedItem, loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="quinary"
+      preloaderTheme="primary"
       columns={columns}
       data={data}
+      loading={loading}
       setSelectedItem={setSelectedItem}
       selectedItem={selectedItem}
       rowClassName={s.repayRow}
