@@ -1,28 +1,32 @@
-import React, { useMemo, useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
 import { getPrettyAmount } from 'utils/helpers/amount';
-import { Button } from 'components/ui/Button';
 import { Preloader } from 'components/ui/Preloader';
 import { ProgressBar } from 'components/ui/ProgressBar';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
+import { AttentionText, ModalContent } from 'components/common/AttentionText';
 
 import s from './LimitLine.module.sass';
 
 type LimitLineProps = {
+  text?: string
   percent: number | undefined
   value: number | undefined
-  title: string
+  theme?: 'primary' | 'secondary'
   loading: boolean
   className?: string
-};
+} & ModalContent;
 
 export const LimitLine: React.FC<LimitLineProps> = ({
+  text,
   percent,
   value,
   title,
+  description,
+  buttonText,
+  theme,
   loading,
   className,
 }) => {
@@ -58,13 +62,14 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.title}>
-          {title}
-          <Button
-            theme="clear"
-            className={s.attention}
-          >
-            <Attention className={s.icon} />
-          </Button>
+          <AttentionText
+            text={text}
+            title={title}
+            description={description}
+            buttonText={buttonText}
+            theme={theme}
+            className={s.title}
+          />
         </div>
 
         <div className={s.value}>
@@ -82,7 +87,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
       <ProgressBar
         amount={percentValue}
         timing={timing}
-        theme="secondary"
+        theme={theme}
       />
     </div>
   );
