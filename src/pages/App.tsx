@@ -85,8 +85,10 @@ const AppInner = () => {
       setOraclePrices(preparedOraclePrices);
 
       // Prepare tezos price
-      const tezosPrice = new BigNumber(allTezosData.value.computedPrice).div(1e6);
-      setTezosPrice(+tezosPrice);
+      if (allTezosData) {
+        const tezosPrice = new BigNumber(allTezosData.value.computedPrice).div(1e6);
+        setTezosPrice(+tezosPrice);
+      }
     }
   }, [allTezosData, oraclePricesData, preparedOraclePrices, setOraclePrices, setTezosPrice]);
 
