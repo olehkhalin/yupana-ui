@@ -3,8 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { STANDARD_PRECISION } from 'constants/default';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
-import { LiquidationPositionsQuery, useLiquidationPositionsLazyQuery, useLiquidationPositionsQuery } from 'generated/graphql';
-import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
+import { LiquidationPositionsQuery, useLiquidationPositionsLazyQuery } from 'generated/graphql';
+import { LiquidationPositions as LiquidationTable } from 'components/tables/components/desktop';
 
 type LiquidationPositionsWrapperProps = {
   data?: LiquidationPositionsQuery
@@ -50,7 +50,7 @@ const LiquidationPositionsWrapper: React.FC<LiquidationPositionsWrapperProps> = 
   }, []) : []), [data]);
 
   return (
-    <LiquidatationTable
+    <LiquidationTable
       data={preparedData}
       setOffset={setOffset}
       pageSize={1}
@@ -69,13 +69,12 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
 }) => {
   const [offset, setOffset] = useState<number>(0);
 
-  const { data, error } = useLiquidationPositionsQuery({
+  const [fetchBorrowersData, { data, error, loading }] = useLiquidationPositionsLazyQuery({
     variables: {
       limit: 1,
       offset,
     },
   });
-  const [fetchBorrowersData] = useLiquidationPositionsLazyQuery();
 
   useEffect(() => {
     fetchBorrowersData({
@@ -86,7 +85,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
     });
   }, [fetchBorrowersData, offset]);
 
-  if (!data || error) {
+  if ((!data && !loading) || error) {
     return <></>;
   }
 
