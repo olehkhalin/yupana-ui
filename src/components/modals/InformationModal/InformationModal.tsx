@@ -5,9 +5,7 @@ import { Modal } from 'components/ui/Modal';
 import { Button } from 'components/ui/Button';
 import { ModalHeader } from 'components/common/ModalHeader';
 
-type InformationModalProps = {
-  buttonText?: string
-} & ModalInterface;
+type InformationModalProps = ModalInterface;
 
 export const InformationModal: React.FC<InformationModalProps> = ({
   title,
