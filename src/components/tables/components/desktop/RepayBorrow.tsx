@@ -119,7 +119,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             <div className={s.amount}>
               {
                 loading
-                  ? maxLiquidate
+                  ? '-'
                   : getPrettyAmount({
                     value: maxLiquidate,
                     currency: getSliceTokenName(asset),

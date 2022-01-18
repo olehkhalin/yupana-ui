@@ -1,7 +1,6 @@
 import React from 'react';
 
 import { LiquidateStep } from 'containers/Liquidate';
-import { BorrowAsset, SupplyAsset } from 'types/liquidate';
 import { useWiderThanMphone } from 'utils/helpers';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';
@@ -11,8 +10,8 @@ import { LiquidationForm } from './LiquidationForm';
 
 type LiquidationStepsProps = {
   data: {
-    borrowedAssets: BorrowAsset[]
-    collateralAssets: SupplyAsset[]
+    borrowedAssets: any[]
+    collateralAssets: any[]
     liquidate: LiquidateStep | null
   }
   loading: boolean
