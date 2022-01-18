@@ -15,6 +15,7 @@ type LiquidationStepsProps = {
     collateralAssets: SupplyAsset[]
     liquidate: LiquidateStep | null
   }
+  loading: boolean
 };
 
 export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
@@ -23,6 +24,7 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
     collateralAssets,
     liquidate,
   },
+  loading,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
 
@@ -46,7 +48,10 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
           Keep in mind that the amount of debt in different assets may be different,
           so the amount of collateral you receive also be different.
         </div>
-        <RepayBorrow data={borrowedAssets} />
+        <RepayBorrow
+          data={borrowedAssets}
+          loading={loading}
+        />
       </section>
 
       <section className={s.section}>
@@ -67,7 +72,10 @@ export const LiquidationSteps: React.FC<LiquidationStepsProps> = ({
           Remember that the percentage of the liquidation bonus depends on your choice,
           and also the amount of the chosen collateral asset must cover the debt and the bonus.
         </div>
-        <ReceiveCollateral data={collateralAssets} />
+        <ReceiveCollateral
+          data={collateralAssets}
+          loading={loading}
+        />
       </section>
       <section className={s.section}>
         <h2 className={s.title}>

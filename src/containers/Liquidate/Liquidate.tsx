@@ -8,13 +8,13 @@ import cx from 'classnames';
 import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
+import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
 import { LiquidateUser, YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
-import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
 import { LiquidateQuery, useLiquidateQuery } from 'generated/graphql';
 
 import s from './Liquidate.module.sass';
@@ -31,11 +31,13 @@ export type LiquidateStep = {
 
 type LiquidateProps = {
   data: LiquidateQuery | undefined
+  loading: boolean
   className?: string
 };
 
 const LiquidateInner: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { oraclePrices } = useOraclePrices();
@@ -203,6 +205,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     <>
       <LiquidateTableContainer
         data={liquidate}
+        loading={loading}
         className={cx(s.table, className)}
       />
       <LiquidationSteps
@@ -211,6 +214,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           collateralAssets,
           liquidate: liquidationStepData,
         }}
+        loading={loading}
       />
     </>
   );
@@ -219,7 +223,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 export const Liquidate: React.FC = () => {
   const { borrower }: { borrower: string } = useParams();
 
-  const { data, error } = useLiquidateQuery({
+  const { data, loading, error } = useLiquidateQuery({
     variables: {
       address: borrower,
     },
@@ -233,6 +237,7 @@ export const Liquidate: React.FC = () => {
     <YTokenProvider>
       <LiquidateInner
         data={data}
+        loading={loading}
       />
     </YTokenProvider>
   );

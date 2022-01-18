@@ -17,7 +17,7 @@ export const getPrettyAmount = ({
   //   return '~0';
   // }
 
-  if (value.toString().length > 6) {
+  if (String(value).length > 6) { // value.toString().length
     finalValue = new Intl.NumberFormat(
       'en',
       {

@@ -16,6 +16,7 @@ type ReceiveCollateralCardProps = {
   data: SupplyAsset
   active?: boolean
   setItem: (arg: string) => void
+  loading: boolean
   className?: string
 };
 
@@ -28,6 +29,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
   },
   active = false,
   setItem,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -41,13 +43,16 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
 
   return (
     <TableCard
+      preloaderTheme="primary"
       onClick={handleSetItem}
       collapsed={false}
+      loading={loading}
       className={cx(s.receiveRoot, { [s.active]: active }, className)}
     >
       <div className={s.wrapper}>
         <Radio
           active={active}
+          disabled={loading}
           className={s.radio}
         />
         <div className={s.row}>
@@ -57,6 +62,8 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           <TokenName
             token={asset}
             active={active}
+            loading={loading}
+            theme="primary"
             logoClassName={s.logo}
           />
         </div>
@@ -66,7 +73,9 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             Price of borrowed asset
           </div>
           <div className={s.amount}>
-            {getPrettyAmount({ value: price, currency: '$' })}
+            {loading
+              ? '-'
+              : getPrettyAmount({ value: price, currency: '$' })}
           </div>
         </div>
 
@@ -76,13 +85,17 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           </div>
           <div className={s.value}>
             <div className={s.amount}>
-              {getPrettyAmount({
-                value: amountOfSupplied,
-                currency: getSliceTokenName(asset),
-              })}
+              {loading
+                ? '-'
+                : getPrettyAmount({
+                  value: amountOfSupplied,
+                  currency: getSliceTokenName(asset),
+                })}
             </div>
             <div className={s.amountUsd}>
-              {convertPriceByBasicCurrency(amountOfSupplied.times(price))}
+              {loading
+                ? '-'
+                : convertPriceByBasicCurrency(amountOfSupplied.times(price))}
             </div>
           </div>
         </div>
@@ -93,16 +106,17 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           </div>
           <div className={s.value}>
             <div className={s.amount}>
-              {isBorrowTokenSelect ? getPrettyAmount({
-                value: maxBonus,
-                currency: getSliceTokenName(asset),
-              }) : '—'}
+              {(loading || !isBorrowTokenSelect)
+                ? '-'
+                : getPrettyAmount({
+                  value: maxBonus,
+                  currency: getSliceTokenName(asset),
+                })}
             </div>
             <div className={s.amountUsd}>
-              {isBorrowTokenSelect ? getPrettyAmount({
-                value: 100,
-                currency: '$',
-              }) : '—'}
+              {(loading || !isBorrowTokenSelect)
+                ? '-'
+                : convertPriceByBasicCurrency(100)}
             </div>
           </div>
         </div>

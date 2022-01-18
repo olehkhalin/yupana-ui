@@ -17,6 +17,7 @@ type LiquidationPositionsProps = {
   pageCount: number
   pageSize?: number
   setOffset: (arg: number) => void
+  loading: boolean
   className?: string
 };
 
@@ -25,6 +26,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   pageCount,
   setOffset,
   pageSize,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -40,12 +42,13 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowerAddress',
         accessor: (row: any) => (
           <Button
-            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
             theme="accent"
             sizeT="small"
+            href={loading ? '' : `${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            disabled={loading}
             className={cx(s.address, s.white, s.noShadow)}
           >
-            {shortize(row.borrowerAddress)}
+            {loading ? row.borrowerAddress : shortize(row.borrowerAddress)}
           </Button>
         ),
       },
@@ -58,7 +61,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {convertPriceByBasicCurrency(row.totalBorrowed)}
+            {loading ? row.borrowerAddress : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
@@ -74,7 +77,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.healthFactor)}
+            {loading ? row.borrowerAddress : getPrettyPercent(row.healthFactor)}
           </span>
         ),
       },
@@ -87,7 +90,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAsset.join(', ')}
+            {loading ? row.borrowerAddress : row.borrowedAsset.join(', ')}
           </span>
         ),
       },
@@ -100,7 +103,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAsset.join(', ')}
+            {loading ? row.borrowerAddress : row.collateralAsset.join(', ')}
           </span>
         ),
       },
@@ -110,7 +113,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         accessor: (row: any) => (
           <Button
             theme="light"
-            href={`${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            href={loading ? '' : `${AppRoutes.LIQUIDATE}/${row.borrowerAddress}`}
+            disabled={loading}
             className={s.link}
           >
             Liquidate
@@ -118,17 +122,19 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         ),
       },
     ],
-    [convertPriceByBasicCurrency],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quinary"
       columns={columns}
       data={data}
       pageCount={pageCount}
       setOffset={setOffset}
       pageSize={pageSize}
+      loading={loading}
       pagination
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidationRow}

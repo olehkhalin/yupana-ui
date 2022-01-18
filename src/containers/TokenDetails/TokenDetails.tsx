@@ -1,39 +1,32 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import cx from 'classnames';
 
 import { useCurrency } from 'providers/CurrencyProvider';
-import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
+import { useWiderThanMphone } from 'utils/helpers';
 import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
 import { TokenLogo } from 'components/ui/TokenLogo';
+import { Preloader } from 'components/ui/Preloader';
 import { TokenData } from 'components/tables/containers/TokenData';
 
-import { useOraclePrices } from 'providers/OraclePricesProvider';
 import s from './TokenDetails.module.sass';
 
 type TokenDetailsProps = {
   asset: TokenMetadataInterface
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const TokenDetails: React.FC<TokenDetailsProps> = ({
   asset,
   data,
+  loading,
   className,
 }) => {
-  const { oraclePrices } = useOraclePrices();
-  const { convertPriceByBasicCurrency } = useCurrency();
-
-  const tokenPrice = useMemo(() => {
-    if (oraclePrices) {
-      const token = oraclePrices[data[0].yToken];
-      return convertPriceByBasicCurrency(convertTokenPrice(token.price, token.decimals));
-    }
-
-    return '0';
-  }, [convertPriceByBasicCurrency, data, oraclePrices]);
+  const { tezosPrice } = useCurrency();
+  const iwWiderThanMphone = useWiderThanMphone();
 
   return (
     <Section className={cx(s.root, className)}>
@@ -48,16 +41,30 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
             className={s.logo}
           />
           <h1 className={s.name}>
-            {`${getTokenName(asset, true)}`}
+            {!loading
+              ? `${getTokenName(asset, true)}`
+              : (
+                <Preloader
+                  sizeT={iwWiderThanMphone ? 'large' : 'fluent'}
+                />
+              )}
           </h1>
         </div>
         <div className={s.price}>
-          {`Price: ${tokenPrice}`}
+          {!loading
+            ? `Price: ${tezosPrice}`
+            : (
+              <Preloader
+                theme="primary"
+                sizeT={iwWiderThanMphone ? 'large' : 'fluent'}
+              />
+            )}
         </div>
       </div>
 
       <TokenData
         data={data}
+        loading={loading}
       />
     </Section>
   );

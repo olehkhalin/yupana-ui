@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { useCurrency } from 'providers/CurrencyProvider';
+import { LiquidateData } from 'types/liquidate';
 import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -10,12 +11,14 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 import s from './Tables.module.sass';
 
 type LiquidateProps = {
-  data: any[]
+  data: LiquidateData[]
+  loading: boolean
   className?: string
 };
 
 export const Liquidate: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -30,11 +33,15 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         ),
         id: 'borrowerAddress',
         accessor: (row: any) => (
-          <div
-            className={cx(s.address, s.white, s.noHover)}
+          <Button
+            theme="accent"
+            sizeT="small"
+            href={loading ? '' : '/'}
+            disabled={loading}
+            className={cx(s.address, s.white, s.noShadow)}
           >
-            {shortize(row.borrowerAddress)}
-          </div>
+            {loading ? '-' : shortize(row.borrowerAddress)}
+          </Button>
         ),
       },
       {
@@ -46,7 +53,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {convertPriceByBasicCurrency(row.totalBorrowed)}
+            {loading ? '-' : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
@@ -66,7 +73,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.healthFactor}
+            {loading ? '-' : row.healthFactor}
           </span>
         ),
       },
@@ -79,7 +86,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAssetsName.join(', ')}
+            {loading ? '-' : row.borrowedAssetsName.join(', ')}
           </span>
         ),
       },
@@ -92,19 +99,21 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAssetsName.join(', ')}
+            {loading ? '-' : row.collateralAssetsName.join(', ')}
           </span>
         ),
       },
     ],
-    [convertPriceByBasicCurrency],
+    [convertPriceByBasicCurrency, loading],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quinary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidateRow}
       className={cx(s.bigTableWrapper, className)}
