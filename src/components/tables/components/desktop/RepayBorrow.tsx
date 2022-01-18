@@ -71,7 +71,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Price of borrowed asset
           </span>
         ),
-        id: 'priceOfBorrowedAsset',
+        id: 'price',
         accessor: ({ price }: { price: number }) => (
           loading
             ? '—'

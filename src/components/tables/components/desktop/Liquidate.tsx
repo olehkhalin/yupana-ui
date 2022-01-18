@@ -39,7 +39,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
             disabled={loading}
             className={cx(s.address, s.white, s.noShadow)}
           >
-            {loading ? '-' : shortize(row.borrowerAddress)}
+            {loading ? '—' : shortize(row.borrowerAddress)}
           </Button>
         ),
       },
@@ -52,7 +52,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? '-' : convertPriceByBasicCurrency(row.totalBorrowed)}
+            {loading ? '—' : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
@@ -70,7 +70,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? '-' : row.healthFactor}
+            {loading ? '—' : row.healthFactor}
           </span>
         ),
       },
@@ -83,7 +83,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? '-' : row.borrowedAssetsName.join(', ')}
+            {loading ? '—' : row.borrowedAssetsName.join(', ')}
           </span>
         ),
       },
@@ -96,12 +96,12 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {loading ? '-' : row.collateralAssetsName.join(', ')}
+            {loading ? '—' : row.collateralAssetsName.join(', ')}
           </span>
         ),
       },
     ],
-    [convertPriceByBasicCurrency, loading],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (

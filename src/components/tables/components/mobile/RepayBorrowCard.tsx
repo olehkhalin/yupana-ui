@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { BorrowAsset } from 'types/liquidate';
 import { useYToken } from 'providers/YTokenProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
@@ -13,7 +12,7 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type RepayBorrowCardProps = {
-  data: BorrowAsset
+  data: any
   active?: boolean
   setItem: (arg: string) => void
   loading: boolean
@@ -25,6 +24,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
     asset,
     amountOfBorrowed,
     maxLiquidate,
+    maxLiquidateInUsd,
     price,
   },
   active = false,
@@ -96,7 +96,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             <div className={s.amountUsd}>
               {loading
                 ? '-'
-                : convertPriceByBasicCurrency(amountOfBorrowed.times(price))}
+                : convertPriceByBasicCurrency(amountOfBorrowed)}
             </div>
           </div>
         </div>
@@ -117,7 +117,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             <div className={s.amountUsd}>
               {loading
                 ? '-'
-                : convertPriceByBasicCurrency(maxLiquidate.times(price))}
+                : convertPriceByBasicCurrency(maxLiquidateInUsd)}
             </div>
           </div>
         </div>

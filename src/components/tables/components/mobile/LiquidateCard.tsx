@@ -42,7 +42,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           Asset
         </div>
         <div className={s.value}>
-          {loading ? '-' : convertPriceByBasicCurrency(totalBorrowed)}
+          {loading ? '—' : convertPriceByBasicCurrency(totalBorrowed)}
         </div>
       </div>
       <div className={s.row}>
@@ -51,7 +51,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? '-'
+            ? '—'
             : borrowedAssetsName.join(', ')}
         </div>
       </div>
@@ -68,7 +68,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? '-'
+            ? '—'
             : getPrettyAmount({ value: healthFactor })}
         </div>
       </div>
@@ -78,7 +78,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           Collateral asset
         </div>
         <div className={s.value}>
-          {loading ? '-' : collateralAssetsName.join(', ')}
+          {loading ? '—' : collateralAssetsName.join(', ')}
         </div>
       </div>
 
@@ -88,7 +88,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
         </div>
         <div className={s.value}>
           {loading
-            ? '-'
+            ? '—'
             : shortize(borrowerAddress)}
         </div>
       </div>

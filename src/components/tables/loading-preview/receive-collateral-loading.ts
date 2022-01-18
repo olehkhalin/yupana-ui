@@ -1,26 +1,20 @@
 export const RECEIVE_COLLATERAL_LOADING_DATA = [
   {
     asset: '—',
-    priceOfReceiveAsset: '—',
+    price: '—',
     amountOfSupplied: '—',
-    amountOfSuppliedUsd: '—',
     maxBonus: '—',
-    maxBonusUsd: '—',
   },
   {
     asset: '—',
-    priceOfReceiveAsset: '—',
+    price: '—',
     amountOfSupplied: '—',
-    amountOfSuppliedUsd: '—',
     maxBonus: '—',
-    maxBonusUsd: '—',
   },
   {
     asset: '—',
-    priceOfReceiveAsset: '—',
+    price: '—',
     amountOfSupplied: '—',
-    amountOfSuppliedUsd: '—',
     maxBonus: '—',
-    maxBonusUsd: '—',
   },
 ];

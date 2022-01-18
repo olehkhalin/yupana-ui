@@ -8,13 +8,15 @@ import cx from 'classnames';
 import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { LiquidationSteps } from 'containers/LiquidationSteps';
-import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
 import { COLLATERAL_PRECISION_BACK, STANDARD_PRECISION } from 'constants/default';
 import { LiquidateUser, YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
+import { REPAY_BORROW_LOADING_DATA } from 'components/tables/loading-preview/repay-borrow-loading';
+import { RECEIVE_COLLATERAL_LOADING_DATA } from 'components/tables/loading-preview/receive-collateral-loading';
+import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
 import { LiquidateQuery, useLiquidateQuery } from 'generated/graphql';
 
 import s from './Liquidate.module.sass';
@@ -100,7 +102,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
-          amountOfBorrowed,
+          amountOfBorrowed: amountOfBorrowed.times(tokenPriceInUsd),
           maxLiquidate,
           maxLiquidateInUsd: maxLiquidate.times(tokenPriceInUsd),
         });
@@ -210,8 +212,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
       />
       <LiquidationSteps
         data={{
-          borrowedAssets,
-          collateralAssets,
+          borrowedAssets: loading ? REPAY_BORROW_LOADING_DATA : borrowedAssets,
+          collateralAssets: loading ? RECEIVE_COLLATERAL_LOADING_DATA : collateralAssets,
           liquidate: liquidationStepData,
         }}
         loading={loading}
@@ -223,15 +225,11 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
 export const Liquidate: React.FC = () => {
   const { borrower }: { borrower: string } = useParams();
 
-  const { data, loading, error } = useLiquidateQuery({
+  const { data, loading } = useLiquidateQuery({
     variables: {
       address: borrower,
     },
   });
-
-  if (!data || error) {
-    return <></>;
-  }
 
   return (
     <YTokenProvider>
