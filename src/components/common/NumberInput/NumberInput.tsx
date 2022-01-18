@@ -4,6 +4,7 @@ import React, {
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 
@@ -50,6 +51,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   className,
   ...props
 }, ref) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
 
   const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
@@ -138,7 +140,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             />
 
             <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
-              {`$ ${valueInBaseCurrency.toFixed(2)}`}
+              {convertPriceByBasicCurrency(valueInBaseCurrency)}
             </div>
           </div>
 
