@@ -76,10 +76,10 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             Price of receive asset
           </span>
         ),
-        id: 'priceOfReceiveAsset',
+        id: 'price',
         accessor: ({ price }: any) => (
           loading
-            ? '-'
+            ? price
             : convertPriceByBasicCurrency(price)
         ),
       },
@@ -90,12 +90,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, price, asset }: any) => (
+        accessor: ({ amountOfSupplied, amountOfSuppliedInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
                 loading
-                  ? '-'
+                  ? amountOfSupplied
                   : getPrettyAmount({
                     value: amountOfSupplied,
                     currency: getSliceTokenName(asset),
@@ -105,8 +105,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? '-'
-                  : convertPriceByBasicCurrency(amountOfSupplied.times(price))
+                  ? amountOfSuppliedInUsd
+                  : convertPriceByBasicCurrency(amountOfSuppliedInUsd)
               }
             </div>
           </div>
@@ -119,7 +119,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, price, asset }: any) => (
+        accessor: ({ maxBonus, maxBonusInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
@@ -135,7 +135,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
               {
                 (loading || !isBorrowTokenSelect)
                   ? '—'
-                  : convertPriceByBasicCurrency(maxBonus.times(price))
+                  : convertPriceByBasicCurrency(maxBonusInUsd)
               }
             </div>
           </div>

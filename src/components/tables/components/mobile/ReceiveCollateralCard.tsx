@@ -3,7 +3,6 @@ import cx from 'classnames';
 
 import { useYToken } from 'providers/YTokenProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
-import { SupplyAsset } from 'types/liquidate';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -13,7 +12,7 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type ReceiveCollateralCardProps = {
-  data: SupplyAsset
+  data: any
   active?: boolean
   setItem: (arg: string) => void
   loading: boolean
@@ -24,6 +23,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
   data: {
     asset,
     amountOfSupplied,
+    amountOfSuppliedInUsd,
     maxBonus,
     price,
   },
@@ -74,7 +74,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           </div>
           <div className={s.amount}>
             {loading
-              ? '-'
+              ? price
               : getPrettyAmount({ value: price, currency: '$' })}
           </div>
         </div>
@@ -86,7 +86,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           <div className={s.value}>
             <div className={s.amount}>
               {loading
-                ? '-'
+                ? amountOfSupplied
                 : getPrettyAmount({
                   value: amountOfSupplied,
                   currency: getSliceTokenName(asset),
@@ -94,8 +94,8 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? '-'
-                : convertPriceByBasicCurrency(amountOfSupplied.times(price))}
+                ? amountOfSuppliedInUsd
+                : convertPriceByBasicCurrency(amountOfSuppliedInUsd)}
             </div>
           </div>
         </div>
@@ -116,7 +116,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             <div className={s.amountUsd}>
               {(loading || !isBorrowTokenSelect)
                 ? '—'
-                : convertPriceByBasicCurrency(maxBonus.times(price))}
+                : convertPriceByBasicCurrency(maxBonus)}
             </div>
           </div>
         </div>

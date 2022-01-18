@@ -102,7 +102,8 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             decimals: asset.tokens[0].decimals,
           },
           price: tokenPriceInUsd,
-          amountOfBorrowed: amountOfBorrowed.times(tokenPriceInUsd),
+          amountOfBorrowed,
+          amountOfBorrowedInUsd: amountOfBorrowed.times(tokenPriceInUsd),
           maxLiquidate,
           maxLiquidateInUsd: maxLiquidate.times(tokenPriceInUsd),
         });
@@ -154,7 +155,9 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           price: tokenPriceInUsd,
           maxLiquidate,
           amountOfSupplied,
+          amountOfSuppliedInUsd: amountOfSupplied.times(tokenPriceInUsd),
           maxBonus,
+          maxBonusInUsd: maxBonus.times(tokenPriceInUsd),
         };
       });
     }

@@ -74,7 +74,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
         id: 'price',
         accessor: ({ price }: { price: number }) => (
           loading
-            ? '-'
+            ? price
             : convertPriceByBasicCurrency(price)
         ),
       },
@@ -85,12 +85,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'amountOfBorrowed',
-        accessor: ({ amountOfBorrowed, price, asset }: any) => (
+        accessor: ({ amountOfBorrowed, amountOfBorrowedInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
                 loading
-                  ? '-'
+                  ? amountOfBorrowed
                   : getPrettyAmount({
                     value: amountOfBorrowed,
                     currency: getSliceTokenName(asset),
@@ -100,8 +100,8 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? '-'
-                  : convertPriceByBasicCurrency(amountOfBorrowed.times(price))
+                  ? amountOfBorrowedInUsd
+                  : convertPriceByBasicCurrency(amountOfBorrowedInUsd)
               }
             </div>
           </div>
@@ -114,12 +114,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, price, asset }: any) => (
+        accessor: ({ maxLiquidate, maxLiquidateInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
                 loading
-                  ? '-'
+                  ? maxLiquidate
                   : getPrettyAmount({
                     value: maxLiquidate,
                     currency: getSliceTokenName(asset),
@@ -129,8 +129,8 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? '-'
-                  : convertPriceByBasicCurrency(maxLiquidate.times(price))
+                  ? maxLiquidateInUsd
+                  : convertPriceByBasicCurrency(maxLiquidateInUsd)
               }
             </div>
           </div>
