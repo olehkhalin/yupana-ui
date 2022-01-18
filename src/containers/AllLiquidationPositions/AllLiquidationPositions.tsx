@@ -97,7 +97,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
     <LiquidationPositionsWrapper
       data={data}
       setOffset={setOffset}
-      loading={!data}
+      loading={loading}
       className={className}
     />
   );

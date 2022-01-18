@@ -100,7 +100,7 @@ export const Stats: React.FC<StatsProps> = ({
     }
   }, [accountPkh, fetch]);
 
-  if (!accountPkh && !loading) {
+  if (!accountPkh || (!data && !loading)) {
     return <></>;
   }
 

@@ -48,10 +48,12 @@ const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
 
 type MarketCardsWrapperProps = {
   data: MarketOverviewQuery | undefined
+  loading: boolean
 };
 
 const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
   data,
+  loading,
 }) => {
   const preparedData = useMemo(() => {
     if (data) {
@@ -71,7 +73,7 @@ const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
         volume24h={preparedData?.supply.volume24h}
         numberOfMembers={preparedData?.supply.numberOfMembers}
         assets={preparedData?.supply.assets}
-        loading={!preparedData}
+        loading={loading}
         className={s.card}
       />
       <MarketCard
@@ -79,7 +81,7 @@ const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
         volume24h={preparedData?.borrow.volume24h}
         numberOfMembers={preparedData?.borrow.numberOfMembers}
         assets={preparedData?.borrow.assets}
-        loading={!preparedData}
+        loading={loading}
         theme="secondary"
         className={s.card}
       />
@@ -94,11 +96,21 @@ type MarketCardsProps = {
 export const MarketCards: React.FC<MarketCardsProps> = ({
   className,
 }) => {
-  const { data } = useMarketOverviewQuery();
+  const { data, loading, error } = useMarketOverviewQuery();
+
+  if ((!data && !loading) || error) {
+    return (
+      <>
+      </>
+    );
+  }
 
   return (
     <div className={cx(s.root, className)}>
-      <MarketCardsWrapper data={data} />
+      <MarketCardsWrapper
+        data={data}
+        loading={loading}
+      />
     </div>
   );
 };
