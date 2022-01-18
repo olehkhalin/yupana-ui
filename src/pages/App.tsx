@@ -83,14 +83,16 @@ const AppInner = () => {
   useEffect(() => {
     if (preparedOraclePrices) {
       setOraclePrices(preparedOraclePrices);
-
-      // Prepare tezos price
-      if (allTezosData) {
-        const tezosPrice = new BigNumber(allTezosData.value.computedPrice).div(1e6);
-        setTezosPrice(+tezosPrice);
-      }
     }
-  }, [allTezosData, oraclePricesData, preparedOraclePrices, setOraclePrices, setTezosPrice]);
+  }, [preparedOraclePrices, setOraclePrices]);
+
+  // Prepare tezos price
+  useEffect(() => {
+    if (allTezosData) {
+      const tezosPrice = new BigNumber(allTezosData.value.computedPrice).div(1e6);
+      setTezosPrice(+tezosPrice);
+    }
+  }, [allTezosData, setTezosPrice]);
 
   useEffect(() => {
     setUserBorrowedYTokens(preparedUserBorrowedYTokens);
