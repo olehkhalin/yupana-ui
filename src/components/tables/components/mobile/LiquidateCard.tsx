@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { LiquidateData } from 'types/liquidate';
 import { useCurrency } from 'providers/CurrencyProvider';
 import { shortize } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -12,18 +11,22 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 import s from './Cards.module.sass';
 
 type LiquidateCardProps = {
-  data: LiquidateData
+  totalBorrowed: number
+  borrowedAssetsName: string[]
+  collateralAssetsName: string[]
+  healthFactor: number
+  borrowerAddress: string
+  loading: boolean
   className?: string
 };
 
 export const LiquidateCard: React.FC<LiquidateCardProps> = ({
-  data: {
-    borrowedAssetsName,
-    collateralAssetsName,
-    borrowerAddress,
-    healthFactor,
-    totalBorrowed,
-  },
+  borrowedAssetsName,
+  collateralAssetsName,
+  borrowerAddress,
+  healthFactor,
+  totalBorrowed,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -39,16 +42,17 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           Asset
         </div>
         <div className={s.value}>
-          {convertPriceByBasicCurrency(totalBorrowed)}
+          {loading ? '-' : convertPriceByBasicCurrency(totalBorrowed)}
         </div>
       </div>
-
       <div className={s.row}>
         <div className={s.title}>
           Borrow APY
         </div>
         <div className={s.value}>
-          {borrowedAssetsName.join(', ')}
+          {loading
+            ? '-'
+            : borrowedAssetsName.join(', ')}
         </div>
       </div>
 
@@ -63,7 +67,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           </Button>
         </div>
         <div className={s.value}>
-          {getPrettyAmount({ value: healthFactor })}
+          {loading
+            ? '-'
+            : getPrettyAmount({ value: healthFactor })}
         </div>
       </div>
 
@@ -72,7 +78,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           Collateral asset
         </div>
         <div className={s.value}>
-          {collateralAssetsName}
+          {loading ? '-' : collateralAssetsName.join(', ')}
         </div>
       </div>
 
@@ -81,7 +87,9 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
           Borrowed address
         </div>
         <div className={s.value}>
-          {shortize(borrowerAddress)}
+          {loading
+            ? '-'
+            : shortize(borrowerAddress)}
         </div>
       </div>
     </TableCard>

@@ -1,0 +1,32 @@
+export const ASSETS_DATA_LOADING = [
+  {
+    yToken: 0,
+    asset: '—',
+    supplyApy: '—',
+    collateralFactor: '—',
+    borrowApy: '—',
+    utilisationRate: '—',
+    liquidity: '—',
+    wallet: '—',
+  },
+  {
+    yToken: 1,
+    asset: '—',
+    supplyApy: '—',
+    collateralFactor: '—',
+    borrowApy: '—',
+    utilisationRate: '—',
+    liquidity: '—',
+    wallet: '—',
+  },
+  {
+    yToken: 2,
+    asset: '—',
+    supplyApy: '—',
+    collateralFactor: '—',
+    borrowApy: '—',
+    utilisationRate: '—',
+    liquidity: '—',
+    wallet: '—',
+  },
+];

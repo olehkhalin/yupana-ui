@@ -4,29 +4,33 @@ import cx from 'classnames';
 
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenName, getSlice } from 'utils/helpers/token';
-import { TokenLogo } from 'components/ui/TokenLogo';
+import { TokenLogo, TokenLogoThemes } from 'components/ui/TokenLogo';
 import { Button } from 'components/ui/Button';
 import { Tooltip } from 'components/ui/Tooltip';
 
 import s from './TokenName.module.sass';
 
 type AssetNameProps = {
+  theme?: TokenLogoThemes
   token: TokenMetadataInterface
   href?: string
   external?: boolean
   logoClassName?: string
   active?: boolean
+  loading?: boolean
   className?: string
 };
 
 export const TokenName: React.FC<AssetNameProps> = ({
+  theme,
   token,
   active = false,
   logoClassName,
+  loading,
   className,
   ...props
 }) => {
-  const tokenName = getTokenName(token);
+  const tokenName = loading ? '—' : getTokenName(token);
   const metadata = {
     name: getSlice(tokenName, 5),
     isSlice: tokenName ? tokenName.length > 8 : token.symbol ? token.symbol.length > 8 : false,
@@ -35,18 +39,28 @@ export const TokenName: React.FC<AssetNameProps> = ({
   const content = (
     <>
       <TokenLogo
+        theme={theme}
         logo={{ name: tokenName, thumbnailUri: token.thumbnailUri }}
+        loading={loading}
         className={cx(s.logo, logoClassName)}
       />
       {metadata.name}
     </>
   );
 
+  const compoundClassNames = cx(
+    s.root,
+    { [s.active]: active },
+    { [s.loading]: loading },
+    className,
+  );
+
   return (
     <Button
       theme="clear"
       sizeT="small"
-      className={cx(s.wrapper, { [s.active]: active }, className)}
+      className={compoundClassNames}
+      disabled={loading}
       {...props}
     >
       {
@@ -55,9 +69,7 @@ export const TokenName: React.FC<AssetNameProps> = ({
             <Tooltip
               content={tokenName}
             >
-              <div className={s.wrapper}>
-                {content}
-              </div>
+              {content}
             </Tooltip>
           )
           : content

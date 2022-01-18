@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 
+import { useLoading } from 'hooks/useLoading';
 import { STANDARD_PRECISION } from 'constants/default';
 import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
 import { getPreparedTokenObject } from 'utils/helpers/token';
@@ -8,15 +9,18 @@ import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';
+import { MARKET_DETAILS_LOADINT_DATA } from 'components/tables/loading-preview/market-details-loading';
 
 import s from './MarketsDetails.module.sass';
 
 type MarketsDetailsWrapperProps = {
   data: MarketsDetailsQuery
+  loading: boolean
 };
 
 const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
   data,
+  loading,
 }) => {
   const preparedData = useMemo(() => {
     // Token details
@@ -92,15 +96,18 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
     <>
       <TokenDetails
         asset={preparedData.asset}
-        data={preparedData.tokenDetails}
+        data={loading ? MARKET_DETAILS_LOADINT_DATA : preparedData.tokenDetails}
+        loading={loading}
         className={s.tokenDetails}
       />
       <MarketDetails
         asset={preparedData.asset}
+        loading={loading}
         data={preparedData.marketDetails}
       />
       <InterestRateModel
         asset={preparedData.asset}
+        loading={loading}
         data={preparedData.interestRateModel}
       />
     </>
@@ -111,17 +118,23 @@ export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
   const yToken = +tokenSlug;
 
+  // TODO: Delete later
+  const { loading } = useLoading();
+
   const { data, error } = useMarketsDetailsQuery({
     variables: {
       yToken,
     },
   });
 
-  if (error || !data || data.asset.length < 1) { // TODO: Add loading to if statement
-    return <>404</>;
+  if (error || !data) { // TODO: Add loading to if statement
+    return <>Page not found 404!</>;
   }
 
   return (
-    <MarketsDetailsWrapper data={data} />
+    <MarketsDetailsWrapper
+      data={data}
+      loading={loading}
+    />
   );
 };

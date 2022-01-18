@@ -12,17 +12,23 @@ import {
 import { getSliceTokenName } from 'utils/helpers/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
+import { BorrowTableDropdown } from 'components/common/TableDropdown';
 
 import s from './Cards.module.sass';
 
 type BorrowAssetsCardProps = {
+  yToken: number
+  borrowed: BigNumber
   liquidity: number | BigNumber
   borrowApy: number
   utilisationRate: number
+  loading: boolean
   className?: string
 } & TokenMetadataInterface;
 
 const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInterface> = ({
+  yToken,
+  borrowed,
   id,
   address,
   name,
@@ -32,6 +38,7 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
   liquidity,
   borrowApy,
   utilisationRate,
+  loading,
   active,
   onClick,
   className,
@@ -50,7 +57,17 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
       active={active}
       onClick={onClick}
       theme="secondary"
+      preloaderTheme="secondary"
+      loading={loading}
       className={className}
+      TableDropdown={(
+        <BorrowTableDropdown
+          theme="secondary"
+          yToken={yToken}
+          asset={tokenMetadata}
+          borrowed={borrowed}
+        />
+      )}
     >
       <div className={s.row}>
         <div className={s.title}>
@@ -58,6 +75,8 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
         </div>
         <TokenName
           token={tokenMetadata}
+          loading={loading}
+          theme="secondary"
           logoClassName={s.logo}
         />
       </div>
@@ -67,7 +86,9 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Borrow APY
         </div>
         <div className={s.value}>
-          {getPrettyPercent(borrowApy)}
+          {loading
+            ? borrowApy
+            : getPrettyPercent(borrowApy)}
         </div>
       </div>
 
@@ -76,7 +97,9 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Utilisation rate
         </div>
         <div className={s.value}>
-          {getPrettyPercent(utilisationRate)}
+          {loading
+            ? utilisationRate
+            : getPrettyPercent(utilisationRate)}
         </div>
       </div>
 
@@ -85,11 +108,13 @@ const OrdinaryBorrowAssetsCard: React.FC<BorrowAssetsCardProps & WithDropdownInt
           Liquidity
         </div>
         <div className={s.value}>
-          {getPrettyAmount({
-            value: convertUnits(liquidity, tokenMetadata.decimals),
-            currency: getSliceTokenName(tokenMetadata),
-            dec: tokenMetadata.decimals,
-          })}
+          {loading
+            ? liquidity
+            : getPrettyAmount({
+              value: convertUnits(liquidity, tokenMetadata.decimals),
+              currency: getSliceTokenName(tokenMetadata),
+              dec: tokenMetadata.decimals,
+            })}
         </div>
       </div>
     </TableCard>

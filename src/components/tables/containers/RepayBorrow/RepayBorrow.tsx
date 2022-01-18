@@ -7,11 +7,13 @@ import { RepayBorrowCard } from 'components/tables/components/mobile';
 
 type RepayBorrowProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   data,
+  loading,
   className,
 }) => {
   const [selectedItem, setSelectedItem] = useState<string>('');
@@ -21,6 +23,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
     return (
       <RepayBorrowDesktop
         data={data}
+        loading={loading}
         className={className}
       />
     );
@@ -31,11 +34,12 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
       {data.map((asset) => (
         <RepayBorrowCard
           key={getUniqueKey()}
+          data={asset}
           active={selectedItem === getTokenSlug(
             { id: asset.asset.id, address: asset.asset.address },
           )}
           setItem={setSelectedItem}
-          data={asset}
+          loading={loading}
         />
       ))}
     </>

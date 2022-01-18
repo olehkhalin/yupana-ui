@@ -13,6 +13,7 @@ import { useAccountPkh, useTezos } from 'utils/dapp';
 import { supply, withdraw } from 'utils/dapp/methods';
 import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { getSliceTokenName } from 'utils/helpers/token';
+import useUpdateToast from 'utils/useUpdateToast';
 import { useUserGeneralInfo } from 'providers/UserGeneralInfoProvider';
 import { useOraclePrices } from 'providers/OraclePricesProvider';
 import { TypeEnum, useProcessCredit } from 'providers/ProcessCreditProvider';
@@ -41,6 +42,7 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
   const { oraclePrices } = useOraclePrices();
   const { setProcessCreditData } = useProcessCredit();
   const { userBorrowedYTokens } = useUserBorrowedYTokens();
+  const updateToast = useUpdateToast();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -59,6 +61,10 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
   ), [oraclePrices, yToken]);
 
   const handleSupplySubmit = useCallback(async (inputAmount: BigNumber) => {
+    updateToast({
+      type: 'info',
+      render: 'Request for Asset Supply...',
+    });
     const params = {
       fabricaContractAddress: CONTRACT_ADDRESS,
       proxyContractAddress: PROXY_CONTRACT_ADDRESS,
@@ -70,7 +76,11 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
 
     const operation = await supply(tezos, accountPkh!, params);
     await operation.confirmation(1);
-  }, [accountPkh, asset, tezos, yToken]);
+    updateToast({
+      type: 'info',
+      render: 'The Asset Supply request was successful, please wait...',
+    });
+  }, [accountPkh, asset, tezos, updateToast, yToken]);
 
   const handleSupply = useCallback(() => {
     setProcessCreditData({
@@ -137,6 +147,10 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
   ]);
 
   const handleWithdrawSubmit = useCallback(async (inputAmount: BigNumber) => {
+    updateToast({
+      type: 'info',
+      render: 'Request for Asset Withdraw...',
+    });
     const params = {
       fabricaContractAddress: CONTRACT_ADDRESS,
       proxyContractAddress: PROXY_CONTRACT_ADDRESS,
@@ -147,7 +161,11 @@ export const SupplyTableDropdown:React.FC<SupplyDropdownProps> = ({
 
     const operation = await withdraw(tezos, accountPkh!, params);
     await operation.confirmation(1);
-  }, [accountPkh, tezos, userBorrowedYTokens, yToken]);
+    updateToast({
+      type: 'info',
+      render: 'The Asset Withdraw request was successful, please wait...',
+    });
+  }, [accountPkh, tezos, updateToast, userBorrowedYTokens, yToken]);
 
   const handleWithdraw = () => {
     const maxAmount = BigNumber.min(

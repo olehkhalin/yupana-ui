@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import { Row } from 'react-table';
 import cx from 'classnames';
-import BigNumber from 'bignumber.js';
 
 import { STANDARD_PRECISION } from 'constants/default';
-import { TokenMetadataInterface } from 'types/token';
 import { getSliceTokenName } from 'utils/helpers/token';
 import {
   convertUnits,
@@ -20,11 +18,13 @@ import s from './Tables.module.sass';
 
 type SupplyAssetsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const columns = useMemo(
@@ -34,6 +34,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: 'asset',
         Cell: ({ row }: { row: Row }) => (
           <TokenName
+            theme="primary"
+            loading={loading}
             token={{ ...row.values.asset }}
             {...row.getToggleRowExpandedProps()}
           />
@@ -42,15 +44,15 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Supply APY',
         id: 'supplyApy',
-        accessor: ({ supplyApy }: { supplyApy: number }) => (
-          getPrettyPercent(supplyApy)
+        accessor: ({ supplyApy }: any) => (
+          loading ? supplyApy : getPrettyPercent(supplyApy)
         ),
       },
       {
         Header: 'Collateral Factor',
         id: 'collateralFactor',
-        accessor: ({ collateralFactor }: { collateralFactor: number }) => (
-          getPrettyPercent(
+        accessor: ({ collateralFactor }: any) => (
+          loading ? collateralFactor : getPrettyPercent(
             convertUnits(
               collateralFactor,
               STANDARD_PRECISION,
@@ -61,19 +63,22 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       {
         Header: 'Wallet',
         id: 'wallet',
-        accessor: (
-          { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
-        ) => getPrettyAmount({
-          value: convertUnits(wallet, asset.decimals),
-          currency: getSliceTokenName(asset),
-          dec: asset.decimals,
-        }),
+        accessor: ({ wallet, asset }: any) => (
+          loading
+            ? wallet
+            : getPrettyAmount({
+              value: convertUnits(wallet, asset.decimals),
+              currency: getSliceTokenName(asset),
+              dec: asset.decimals,
+            })
+        ),
       },
       {
         Header: () => null,
         id: 'expander',
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            loading={loading}
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
@@ -81,7 +86,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         ),
       },
     ],
-    [],
+    [loading],
   );
 
   const renderRowSubComponent = React.useCallback(
@@ -108,6 +113,8 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
     <Table
       columns={columns}
       data={data}
+      isMaxContentPreloader
+      loading={loading}
       renderRowSubComponent={renderRowSubComponent}
       rowClassName={s.supplyRow}
       className={cx(s.root, className)}

@@ -15,24 +15,18 @@ type StatsProps = {
 };
 
 type StatsInnerProps = {
-  data: GetUserStatsQuery
+  data: GetUserStatsQuery | undefined
+  loading: boolean
 } & StatsProps;
 
 const StatsInner: React.FC<StatsInnerProps> = ({
   data,
+  loading,
   className,
 }) => {
-  const {
-    netApy,
-    borrowRatio,
-    maxCollateral,
-    liquidationRatio,
-    liquidationCollateral,
-    totalSupply,
-    totalBorrow,
-  } = useMemo(
+  const prepareData = useMemo(
     () => {
-      if (data.user.length) {
+      if (data && data.user.length) {
         const user = data.user[0];
         return ({
           netApy: +convertUnits(user.netApy, STANDARD_PRECISION).multipliedBy(1e2),
@@ -52,16 +46,7 @@ const StatsInner: React.FC<StatsInnerProps> = ({
           totalBorrow: +convertUnits(user.totalBorrowUsd, COLLATERAL_PRECISION),
         });
       }
-
-      return {
-        netApy: 0,
-        borrowRatio: 0,
-        maxCollateral: 0,
-        liquidationRatio: 0,
-        liquidationCollateral: 0,
-        totalSupply: 0,
-        totalBorrow: 0,
-      };
+      return undefined;
     },
     [data],
   );
@@ -69,21 +54,30 @@ const StatsInner: React.FC<StatsInnerProps> = ({
   return (
     <section className={className}>
       <UserStat
-        userTotalSupply={totalSupply}
-        userTotalBorrow={totalBorrow}
-        netApy={netApy}
+        userTotalSupply={prepareData?.totalSupply}
+        userTotalBorrow={prepareData?.totalBorrow}
+        netApy={prepareData?.netApy}
+        loading={loading}
         className={s.stat}
       />
       <LimitLine
-        percent={borrowRatio}
-        value={maxCollateral}
+        percent={prepareData?.borrowRatio}
+        value={prepareData?.maxCollateral}
         title="Your Borrow Limit"
+        text="Your Borrow Limit"
+        description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
+        loading={loading}
+        theme="secondary"
         className={s.limit}
       />
       <LimitLine
-        percent={liquidationRatio}
-        value={liquidationCollateral}
+        percent={prepareData?.liquidationRatio}
+        value={prepareData?.liquidationCollateral}
         title="Your Liquidation Limit"
+        text="Your Liquidation Limit"
+        description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
+        loading={loading}
+        theme="secondary"
         className={s.limit}
       />
     </section>
@@ -94,21 +88,27 @@ export const Stats: React.FC<StatsProps> = ({
   className,
 }) => {
   const accountPkh = useAccountPkh();
-  const [fetch, { data }] = useGetUserStatsLazyQuery();
+  const [fetch, { data, loading }] = useGetUserStatsLazyQuery();
 
   useEffect(() => {
-    fetch({
-      variables: {
-        account: accountPkh,
-      },
-    });
+    if (accountPkh) {
+      fetch({
+        variables: {
+          account: accountPkh,
+        },
+      });
+    }
   }, [accountPkh, fetch]);
 
-  if (!data || !accountPkh) {
+  if (!accountPkh && !loading) {
     return <></>;
   }
 
   return (
-    <StatsInner className={className} data={data} />
+    <StatsInner
+      data={data}
+      loading={loading}
+      className={className}
+    />
   );
 };

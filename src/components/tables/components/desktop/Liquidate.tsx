@@ -5,17 +5,18 @@ import { useCurrency } from 'providers/CurrencyProvider';
 import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
-import { ReactComponent as Attention } from 'svg/Attention.svg';
-
+import { AttentionText } from 'components/common/AttentionText';
 import s from './Tables.module.sass';
 
 type LiquidateProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const Liquidate: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -30,11 +31,15 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         ),
         id: 'borrowerAddress',
         accessor: (row: any) => (
-          <div
-            className={cx(s.address, s.white, s.noHover)}
+          <Button
+            theme="accent"
+            sizeT="small"
+            href={loading ? '' : '/'}
+            disabled={loading}
+            className={cx(s.address, s.white, s.noShadow)}
           >
-            {shortize(row.borrowerAddress)}
-          </div>
+            {loading ? row.borrowerAddress : shortize(row.borrowerAddress)}
+          </Button>
         ),
       },
       {
@@ -46,27 +51,25 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {convertPriceByBasicCurrency(row.totalBorrowed)}
+            {loading ? row.totalBorrow : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
       {
         Header: () => (
           <div className={cx(s.wrapper, s.yellow)}>
-            Health factor
-            <Button
-              theme="clear"
-              sizeT="small"
-              className={s.attention}
-            >
-              <Attention className={s.attentionIcon} />
-            </Button>
+            <AttentionText
+              text="Health factor"
+              title="Health factor"
+              description="The health factor represents the safety of your loan derived from the proportion of collateral versus amount borrowed. Keep it above 1 to avoid liquidation."
+              theme="secondary"
+            />
           </div>
         ),
         id: 'healthFactor',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.healthFactor}
+            {loading ? row.healthFactor : row.healthFactor}
           </span>
         ),
       },
@@ -79,7 +82,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'borrowedAsset',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {row.borrowedAssetsName.join(', ')}
+            {loading ? '-' : row.borrowedAssetsName.join(', ')}
           </span>
         ),
       },
@@ -92,19 +95,21 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         id: 'collateralAsset',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {row.collateralAssetsName.join(', ')}
+            {loading ? '-' : row.collateralAssetsName.join(', ')}
           </span>
         ),
       },
     ],
-    [convertPriceByBasicCurrency],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quinary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTableLiquidate}
       rowClassName={s.liquidateRow}
       className={cx(s.bigTableWrapper, className)}

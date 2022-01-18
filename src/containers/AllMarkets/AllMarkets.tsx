@@ -5,17 +5,20 @@ import { getPreparedTokenObject } from 'utils/helpers/token';
 import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
 import { Asset, MarketsAllQuery, useMarketsAllQuery } from 'generated/graphql';
 import { Markets } from 'components/tables/containers/Markets';
+import { ALL_MARKETS_LOADING_DATA } from 'components/tables/loading-preview/all-markets-loading';
 
 type AllMarketsWrapperProps = {
   data?: MarketsAllQuery
+  loading?: boolean
   className?: string
 };
 
 const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
   data,
+  loading,
   className,
 }) => {
-  const preparedData = useMemo(() => (data ? data.asset.map((el) => {
+  const preparedData = useMemo(() => (data && !loading ? data.asset.map((el) => {
     const asset = getPreparedTokenObject(el as unknown as Asset);
 
     const totalSupply = convertUnits(el.totalSupply, STANDARD_PRECISION);
@@ -35,11 +38,12 @@ const AllMarketsWrapper: React.FC<AllMarketsWrapperProps> = ({
       borrowApy,
       numberOfBorrowers,
     };
-  }) : []), [data]);
+  }) : ALL_MARKETS_LOADING_DATA), [data, loading]);
 
   return (
     <Markets
       data={preparedData}
+      loading={loading}
       className={className}
     />
   );
@@ -52,15 +56,12 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data, error } = useMarketsAllQuery();
-
-  if (!data || error) {
-    return <></>;
-  }
+  const { data } = useMarketsAllQuery();
 
   return (
     <AllMarketsWrapper
       data={data}
+      loading={!data}
       className={className}
     />
   );

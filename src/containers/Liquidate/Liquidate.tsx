@@ -31,11 +31,13 @@ export type LiquidateStep = {
 
 type LiquidateProps = {
   data: LiquidateQuery | undefined
+  loading: boolean
   className?: string
 };
 
 const LiquidateInner: React.FC<LiquidateProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { oraclePrices } = useOraclePrices();
@@ -203,6 +205,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
     <>
       <LiquidateTableContainer
         data={liquidate}
+        loading={loading}
         className={cx(s.table, className)}
       />
       <LiquidationSteps
@@ -211,6 +214,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
           collateralAssets,
           liquidate: liquidationStepData,
         }}
+        loading={loading}
       />
     </>
   );
@@ -233,6 +237,7 @@ export const Liquidate: React.FC = () => {
     <YTokenProvider>
       <LiquidateInner
         data={data}
+        loading={!data}
       />
     </YTokenProvider>
   );

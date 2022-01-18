@@ -9,11 +9,13 @@ import s from './Tables.module.sass';
 
 type MarketsDetailsProps = {
   data: any[]
+  loading: boolean
   className?: string
 };
 
 export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
   data,
+  loading,
   className,
 }) => {
   const { convertPriceByBasicCurrency } = useCurrency();
@@ -29,7 +31,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'totalSupply',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {convertPriceByBasicCurrency(row.totalSupply)}
+            {loading
+              ? row.totalSupply
+              : convertPriceByBasicCurrency(row.totalSupply)}
           </span>
         ),
       },
@@ -42,7 +46,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'supplyApy',
         accessor: (row: any) => (
           <span className={s.blue}>
-            {getPrettyPercent(row.supplyApy)}
+            {loading
+              ? row.supplyApy
+              : getPrettyPercent(row.supplyApy)}
           </span>
         ),
       },
@@ -68,7 +74,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'totalBorrow',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {convertPriceByBasicCurrency(row.totalBorrow)}
+            {loading
+              ? row.totalBorrow
+              : convertPriceByBasicCurrency(row.totalBorrow)}
           </span>
         ),
       },
@@ -81,7 +89,9 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         id: 'borrowApy',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {getPrettyPercent(row.borrowApy)}
+            {loading
+              ? row.borrowApy
+              : getPrettyPercent(row.borrowApy)}
           </span>
         ),
       },
@@ -99,14 +109,16 @@ export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
         ),
       },
     ],
-    [convertPriceByBasicCurrency],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (
     <Table
       theme="tertiary"
+      preloaderTheme="quaternary"
       columns={columns}
       data={data}
+      loading={loading}
       tableClassName={s.bigTable}
       rowClassName={s.marketsDetailsRow}
       className={cx(s.bigTableWrapper, className)}
