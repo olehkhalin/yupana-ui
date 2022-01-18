@@ -12,6 +12,7 @@ import { COLLATERAL_PRECISION_BACK, STANDARD_PRECISION } from 'constants/default
 import { LiquidateUser, YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
+import { precision } from 'utils/helpers/amount/precision';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
 import { REPAY_BORROW_LOADING_DATA } from 'components/tables/loading-preview/repay-borrow-loading';
@@ -69,14 +70,14 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
   const user = data && data.user[0];
   const globalFactors = data && data.globalFactors[0];
   const liquidationIncentive = useMemo(
-    () => new BigNumber(globalFactors?.liquidationIncentive).div(`1e${STANDARD_PRECISION}`), // 1.05
+    () => new BigNumber(globalFactors?.liquidationIncentive).div(precision(STANDARD_PRECISION)), // 1.05
     [globalFactors?.liquidationIncentive],
   );
 
   // Prepare borrowed assets
   const prepareBorrowedAssets = useMemo(() => {
     const preparedMaxLiquidate = globalFactors ? new BigNumber(globalFactors.closeFactor)
-      .div(`1e${STANDARD_PRECISION}`) : 1;
+      .div(precision(STANDARD_PRECISION)) : 1;
 
     if (user) {
       return user.borrowedAssets.map(({ asset, borrow }: any) => {
@@ -135,7 +136,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
         let maxLiquidate: BigNumber = new BigNumber(1); // value in a token
         if (selectedBorrowToken) {
           const { maxLiquidateInUsd } = selectedBorrowToken;
-          const prepareSupply = new BigNumber(supply).div(`1e${STANDARD_PRECISION}`).div(decimals); // value in a token
+          const prepareSupply = new BigNumber(supply).div(precision(STANDARD_PRECISION)).div(decimals); // value in a token
           const borrowTokenAmount = maxLiquidateInUsd.div(tokenPriceInUsd); // value in a token
 
           // Counting maxBonus
