@@ -23,6 +23,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   data: {
     asset,
     amountOfBorrowed,
+    amountOfBorrowedInUsd,
     maxLiquidate,
     maxLiquidateInUsd,
     price,
@@ -75,7 +76,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           </div>
           <div className={s.amount}>
             {loading
-              ? '-'
+              ? price
               : convertPriceByBasicCurrency(price)}
           </div>
         </div>
@@ -87,7 +88,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           <div className={s.value}>
             <div className={s.amount}>
               {loading
-                ? '-'
+                ? amountOfBorrowed
                 : getPrettyAmount({
                   value: amountOfBorrowed,
                   currency: getSliceTokenName(asset),
@@ -95,8 +96,8 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? '-'
-                : convertPriceByBasicCurrency(amountOfBorrowed)}
+                ? amountOfBorrowedInUsd
+                : convertPriceByBasicCurrency(amountOfBorrowedInUsd)}
             </div>
           </div>
         </div>
@@ -108,7 +109,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           <div className={s.value}>
             <div className={s.amount}>
               {loading
-                ? '-'
+                ? maxLiquidate
                 : getPrettyAmount({
                   value: maxLiquidate,
                   currency: getSliceTokenName(asset),
@@ -116,7 +117,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? '-'
+                ? maxLiquidateInUsd
                 : convertPriceByBasicCurrency(maxLiquidateInUsd)}
             </div>
           </div>
