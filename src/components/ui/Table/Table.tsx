@@ -169,7 +169,13 @@ export const Table: React.FC<TableProps> = ({
                 className={s.preloader}
               />
               )}
-              {rows.map((row) => {
+              {!(data && data.length) ? (
+                <tr className={cx(s.tr, s.noAssets, rowClassName)}>
+                  <td>
+                    {`You have no ${theme === 'primary' ? 'supplied' : 'borrowed'} assets`}
+                  </td>
+                </tr>
+              ) : rows.map((row) => {
                 prepareRow(row);
 
                 let isSelected: boolean = false;

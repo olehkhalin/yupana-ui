@@ -44,11 +44,11 @@ export const LimitLine: React.FC<LimitLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.percent}>
-          {!loading && percent ? (
+          {!loading ? (
             <>
               <CountUp
                 start={0}
-                end={percent}
+                end={percent ?? 0}
                 decimals={2}
                 duration={timing}
               />
@@ -74,8 +74,8 @@ export const LimitLine: React.FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          {!loading && value
-            ? convertPriceByBasicCurrency(value)
+          {!loading
+            ? convertPriceByBasicCurrency(value ?? 0)
             : (
               <Preloader
                 theme="tertiary"

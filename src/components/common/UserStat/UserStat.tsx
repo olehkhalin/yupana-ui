@@ -31,8 +31,8 @@ export const UserStat: React.FC<UserStatProps> = ({
           Your Supply Balance:
         </div>
         <div className={s.value}>
-          {!loading && userTotalSupply
-            ? convertPriceByBasicCurrency(userTotalSupply)
+          {!loading
+            ? convertPriceByBasicCurrency(userTotalSupply ?? 0)
             : (
               <Preloader
                 theme="primary"
@@ -47,8 +47,8 @@ export const UserStat: React.FC<UserStatProps> = ({
           Net APY:
         </div>
         <div className={s.value}>
-          {!loading && netApy
-            ? getPrettyPercent(netApy)
+          {!loading
+            ? getPrettyPercent(netApy ?? 0)
             : (
               <Preloader
                 theme="tertiary"
@@ -63,8 +63,8 @@ export const UserStat: React.FC<UserStatProps> = ({
           Your Borrow Balance:
         </div>
         <div className={s.value}>
-          {!loading && userTotalBorrow
-            ? convertPriceByBasicCurrency(userTotalBorrow)
+          {!loading
+            ? convertPriceByBasicCurrency(userTotalBorrow ?? 0)
             : (
               <Preloader
                 theme="secondary"
