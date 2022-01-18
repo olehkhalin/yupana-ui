@@ -7,10 +7,14 @@ import { ReactComponent as Attention } from 'svg/Attention.svg';
 
 import s from './AttentionText.module.sass';
 
-export interface AttentionTextProps {
-  text: string
+export type ModalContent = {
   title?: string
   description?: string
+  buttonText?: string
+};
+
+export interface AttentionTextProps extends ModalContent {
+  text?: string
   theme?: keyof typeof themeClasses
   icon?: boolean
   className?: string
@@ -25,6 +29,7 @@ export const AttentionText: React.FC<AttentionTextProps> = ({
   text,
   title,
   description,
+  buttonText,
   theme = 'primary',
   icon = true,
   className,
@@ -52,6 +57,7 @@ export const AttentionText: React.FC<AttentionTextProps> = ({
           <InformationModal
             title={title}
             description={description}
+            buttonText={buttonText}
             isOpen={isOpen}
             onRequestClose={handleModal}
             onClick={handleModal}
