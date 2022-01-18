@@ -3,9 +3,9 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { STANDARD_PRECISION } from 'constants/default';
 import { getTokenName } from 'utils/helpers/token';
 import { convertUnits } from 'utils/helpers/amount';
-import { LiquidationPositionsQuery, useLiquidationPositionsLazyQuery, useLiquidationPositionsQuery } from 'generated/graphql';
 import { LiquidationPositions as LiquidatationTable } from 'components/tables/components/desktop';
 import { ALL_LIQUIDATION_POSITIONS_LOADING_DATA } from 'components/tables/loading-preview/all-liquidation-positions';
+import { LiquidationPositionsQuery, useLiquidationPositionsLazyQuery } from 'generated/graphql';
 
 type LiquidationPositionsWrapperProps = {
   data?: LiquidationPositionsQuery
@@ -73,13 +73,12 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
 }) => {
   const [offset, setOffset] = useState<number>(0);
 
-  const { data, error } = useLiquidationPositionsQuery({
+  const [fetchBorrowersData, { data, error, loading }] = useLiquidationPositionsLazyQuery({
     variables: {
       limit: 1,
       offset,
     },
   });
-  const [fetchBorrowersData] = useLiquidationPositionsLazyQuery();
 
   useEffect(() => {
     fetchBorrowersData({
@@ -90,7 +89,7 @@ export const AllLiquidationPositions: React.FC<AllLiquidationPositionsProps> = (
     });
   }, [fetchBorrowersData, offset]);
 
-  if (!data || error) {
+  if ((!data && !loading) || error) {
     return <></>;
   }
 
