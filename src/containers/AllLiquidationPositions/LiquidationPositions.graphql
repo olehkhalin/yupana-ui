@@ -1,5 +1,5 @@
-query LiquidationPositions {
-  user {
+query LiquidationPositions($limit: Int, $offset: Int) {
+  user(limit: $limit, offset: $offset) {
     address
     outstandingBorrow
     liquidationRatio
@@ -28,6 +28,11 @@ query LiquidationPositions {
           decimals
         }
       }
+    }
+  }
+  userAggregate {
+    aggregate {
+      count
     }
   }
 }

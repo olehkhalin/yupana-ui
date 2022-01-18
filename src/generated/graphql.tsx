@@ -8561,9 +8561,12 @@ export type LendingUserAssetsQueryVariables = Exact<{
 
 export type LendingUserAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', supply: any, entered: boolean, asset: { __typename?: 'asset', ytoken: number } }>, userBorrow: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number } }>, user: Array<{ __typename?: 'user', maxCollateral: any, outstandingBorrow: any }> };
 
-export type LiquidationPositionsQueryVariables = Exact<{ [key: string]: never; }>;
+export type LiquidationPositionsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
 
-export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }> };
+export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, userAggregate: { __typename?: 'user_aggregate', aggregate?: { __typename?: 'user_aggregate_fields', count: number } | null | undefined } };
 
 export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -8707,8 +8710,8 @@ export type LendingUserAssetsQueryHookResult = ReturnType<typeof useLendingUserA
 export type LendingUserAssetsLazyQueryHookResult = ReturnType<typeof useLendingUserAssetsLazyQuery>;
 export type LendingUserAssetsQueryResult = Apollo.QueryResult<LendingUserAssetsQuery, LendingUserAssetsQueryVariables>;
 export const LiquidationPositionsDocument = gql`
-    query LiquidationPositions {
-  user {
+    query LiquidationPositions($limit: Int, $offset: Int) {
+  user(limit: $limit, offset: $offset) {
     address
     outstandingBorrow
     liquidationRatio
@@ -8739,6 +8742,11 @@ export const LiquidationPositionsDocument = gql`
       }
     }
   }
+  userAggregate {
+    aggregate {
+      count
+    }
+  }
 }
     `;
 
@@ -8754,6 +8762,8 @@ export const LiquidationPositionsDocument = gql`
  * @example
  * const { data, loading, error } = useLiquidationPositionsQuery({
  *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
  *   },
  * });
  */

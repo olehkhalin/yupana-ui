@@ -14,12 +14,18 @@ import s from './Tables.module.sass';
 
 type LiquidationPositionsProps = {
   data: any[]
+  pageCount: number
+  pageSize?: number
+  setOffset: (arg: number) => void
   loading: boolean
   className?: string
 };
 
 export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   data,
+  pageCount,
+  setOffset,
+  pageSize,
   loading,
   className,
 }) => {
@@ -125,6 +131,9 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       preloaderTheme="quinary"
       columns={columns}
       data={data}
+      pageCount={pageCount}
+      setOffset={setOffset}
+      pageSize={pageSize}
       loading={loading}
       pagination
       tableClassName={s.bigTableLiquidate}

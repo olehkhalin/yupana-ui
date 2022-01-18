@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   useTable,
   useExpanded,
+  usePagination,
 } from 'react-table';
 import animateScrollTo from 'animated-scroll-to';
 import cx from 'classnames';
@@ -29,7 +30,6 @@ type TableProps = {
   pageSize?: number
   pageCount?: number
   setOffset?: (arg: number) => void
-  activeItem?: any
   // TODO: Delete later
   pagination?: boolean
   // *
@@ -60,9 +60,8 @@ export const Table: React.FC<TableProps> = ({
   isScrollToTop = false,
   // pagination
   pageSize,
-  pageCount = 100,
+  pageCount = 1,
   setOffset,
-  activeItem,
   pagination = false,
   // *
   tableClassName,
@@ -71,7 +70,8 @@ export const Table: React.FC<TableProps> = ({
   className,
 }) => {
   // TODO: change all data type & row types. REF: https://stackoverflow.com/questions/65182522/react-table-types-of-property-accessor-are-incompatible
-  const preparePageCount = Math.ceil(pageCount / (pageSize || 10));
+  const preparePageCount = Math.ceil(pageCount / (pageSize || 2));
+
   const {
     getTableProps,
     getTableBodyProps,
@@ -82,7 +82,6 @@ export const Table: React.FC<TableProps> = ({
     rows,
     canPreviousPage,
     canNextPage,
-    pageOptions,
     nextPage,
     previousPage,
     gotoPage,
@@ -92,15 +91,15 @@ export const Table: React.FC<TableProps> = ({
       columns: userColumns,
       data,
       initialState: {
-        pageIndex: 5,
-        pageSize: pageSize || 10,
+        pageIndex: 0,
+        pageSize: pageSize || 2,
       },
       pageCount: preparePageCount,
-      disableSortRemove: true,
-      autoResetPage: false,
       manualPagination: true,
+      autoResetPage: false,
     },
     useExpanded,
+    usePagination,
   );
 
   const handleSelectItem = (asset: TokenMetadataInterface & YToken) => {
@@ -117,20 +116,14 @@ export const Table: React.FC<TableProps> = ({
   }, [isScrollToTop, pageIndex]);
 
   // Pagination
-  const isShowPagination = Math.ceil(pageCount / (pageSize || 10)) > 1;
+  const isShowPagination = Math.ceil(pageCount / (pageSize || 2)) > 1;
 
   useEffect(() => {
     if (setOffset) {
-      const offset = pageIndex === 0 ? pageIndex : pageIndex * (pageSize || 10);
+      const offset = pageIndex === 0 ? pageIndex : pageIndex * (pageSize || 2);
       setOffset(offset);
     }
   }, [pageIndex, pageSize, setOffset]);
-
-  useEffect(() => {
-    if (activeItem) {
-      gotoPage(0);
-    }
-  }, [activeItem, gotoPage]);
 
   const compoundClassNames = cx(
     s.root,
@@ -222,7 +215,7 @@ export const Table: React.FC<TableProps> = ({
           pageIndex={pageIndex}
           canPreviousPage={canPreviousPage}
           canNextPage={canNextPage}
-          pageCount={(pageOptions && pageOptions.length) ?? 13566}
+          pageCount={preparePageCount}
           nextPage={nextPage}
           previousPage={previousPage}
           gotoPage={gotoPage}

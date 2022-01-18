@@ -1,10 +1,10 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getPrettyPercent } from 'utils/helpers/amount';
 import { Preloader } from 'components/ui/Preloader';
 
-import { useCurrency } from 'providers/CurrencyProvider';
 import s from './UserStat.module.sass';
 
 type UserStatProps = {

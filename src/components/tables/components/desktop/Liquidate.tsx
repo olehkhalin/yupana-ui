@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import cx from 'classnames';
 
 import { useCurrency } from 'providers/CurrencyProvider';
+import { LiquidateData } from 'types/liquidate';
 import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -9,7 +10,7 @@ import { AttentionText } from 'components/common/AttentionText';
 import s from './Tables.module.sass';
 
 type LiquidateProps = {
-  data: any[]
+  data: LiquidateData[]
   loading: boolean
   className?: string
 };
