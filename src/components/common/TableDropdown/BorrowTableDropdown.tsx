@@ -134,6 +134,7 @@ export const BorrowTableDropdown:React.FC<BorrowDropdownProps> = ({
       proxyContractAddress: PROXY_CONTRACT_ADDRESS,
       yToken: [yToken!],
       amount: inputAmount,
+      otherYTokens: userBorrowedYTokens,
       tokenContract: asset!.address,
       tokenId: asset!.id,
     };

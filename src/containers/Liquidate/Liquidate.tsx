@@ -98,7 +98,7 @@ const LiquidateInner: React.FC<LiquidateProps> = ({
             yToken: asset.ytoken,
             name: asset.tokens[0].name,
             symbol: asset.tokens[0].symbol,
-            id: asset.tokenId,
+            id: asset.isFa2 ? asset.tokenId : undefined,
             address: asset.contractAddress,
             decimals: asset.tokens[0].decimals,
           },

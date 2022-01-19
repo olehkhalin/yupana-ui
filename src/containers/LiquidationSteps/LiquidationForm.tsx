@@ -13,7 +13,7 @@ import { CONTRACT_ADDRESS, PROXY_CONTRACT_ADDRESS } from 'constants/default';
 import { liquidate } from 'utils/dapp/methods/liquidate';
 import { useAccountPkh, useTezos } from 'utils/dapp';
 import { getTokenName } from 'utils/helpers/token';
-import { getPrettyAmount } from 'utils/helpers/amount';
+import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { assetAmountValidationFactory, getAdvancedErrorMessage } from 'utils/validation';
 import { useWiderThanMphone } from 'utils/helpers';
 import { Button } from 'components/ui/Button';
@@ -104,11 +104,13 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
           const params = {
             fabricaContractAddress: CONTRACT_ADDRESS,
             proxyContractAddress: PROXY_CONTRACT_ADDRESS,
-            otherYTokens: userBorrowedYTokens,
+            otherYTokens: [...userBorrowedYTokens, data.collateralAsset.yToken],
             borrowToken: data.borrowAsset.yToken,
             collateralToken: data.collateralAsset.yToken,
+            tokenContract: data.borrowAsset.address,
+            tokenId: data.borrowAsset.id,
             borrower: data.borrowerAddress,
-            amount: inputAmount,
+            amount: convertUnits(inputAmount, -(prepareData.borrowDecimals ?? 0)),
           };
 
           const operation = await liquidate(tezos, accountPkh!, params);
@@ -118,7 +120,7 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
         console.log(e);
       }
     },
-    [accountPkh, data, tezos, userBorrowedYTokens],
+    [accountPkh, data, prepareData.borrowDecimals, tezos, userBorrowedYTokens],
   );
 
   return (
