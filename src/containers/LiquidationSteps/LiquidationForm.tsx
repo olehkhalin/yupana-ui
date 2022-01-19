@@ -8,7 +8,7 @@ import cx from 'classnames';
 
 import { useUserBorrowedYTokens } from 'providers/UserBorrowedYTokensProvider';
 import { useCurrency } from 'providers/CurrencyProvider';
-import { LiquidateStep } from 'containers/Liquidate';
+import { LiquidateStep } from 'pages/liquidate/Liquidate';
 import { CONTRACT_ADDRESS, PROXY_CONTRACT_ADDRESS } from 'constants/default';
 import { liquidate } from 'utils/dapp/methods/liquidate';
 import { useAccountPkh, useTezos } from 'utils/dapp';

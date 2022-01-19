@@ -8859,13 +8859,6 @@ export type MarketsAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MarketsAllQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalSupply: any, totalBorrowed: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
-export type LiquidateQueryVariables = Exact<{
-  address?: InputMaybe<Scalars['String']>;
-}>;
-
-
-export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
-
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -8877,6 +8870,13 @@ export type GetUserStatsQueryVariables = Exact<{
 
 
 export type GetUserStatsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', maxCollateral: any, liquidationRatio: any, liquidationCollateral: any, borrowRatio: any, netApy: any, totalSupplyUsd: any, totalBorrowUsd: any }> };
+
+export type LiquidateQueryVariables = Exact<{
+  address?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
@@ -9142,77 +9142,6 @@ export function useMarketsAllLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions
 export type MarketsAllQueryHookResult = ReturnType<typeof useMarketsAllQuery>;
 export type MarketsAllLazyQueryHookResult = ReturnType<typeof useMarketsAllLazyQuery>;
 export type MarketsAllQueryResult = Apollo.QueryResult<MarketsAllQuery, MarketsAllQueryVariables>;
-export const LiquidateDocument = gql`
-    query Liquidate($address: String) {
-  user(where: {address: {_eq: $address}}) {
-    address
-    outstandingBorrow
-    liquidationRatio
-    borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
-      asset {
-        ytoken
-        contractAddress
-        isFa2
-        tokenId
-        tokens {
-          name
-          symbol
-          thumbnail
-          decimals
-        }
-      }
-      borrow
-    }
-    collateralAssets: userSupply(where: {entered: {_eq: true}}) {
-      asset {
-        ytoken
-        contractAddress
-        isFa2
-        tokenId
-        tokens {
-          name
-          symbol
-          thumbnail
-          decimals
-        }
-      }
-      supply
-    }
-  }
-  globalFactors {
-    liquidationIncentive
-    closeFactor
-  }
-}
-    `;
-
-/**
- * __useLiquidateQuery__
- *
- * To run a query within a React component, call `useLiquidateQuery` and pass it any options that fit your needs.
- * When your component renders, `useLiquidateQuery` returns an object from Apollo Client that contains loading, error, and data properties
- * you can use to render your UI.
- *
- * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
- *
- * @example
- * const { data, loading, error } = useLiquidateQuery({
- *   variables: {
- *      address: // value for 'address'
- *   },
- * });
- */
-export function useLiquidateQuery(baseOptions?: Apollo.QueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
-        const options = {...defaultOptions, ...baseOptions}
-        return Apollo.useQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
-      }
-export function useLiquidateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
-          const options = {...defaultOptions, ...baseOptions}
-          return Apollo.useLazyQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
-        }
-export type LiquidateQueryHookResult = ReturnType<typeof useLiquidateQuery>;
-export type LiquidateLazyQueryHookResult = ReturnType<typeof useLiquidateLazyQuery>;
-export type LiquidateQueryResult = Apollo.QueryResult<LiquidateQuery, LiquidateQueryVariables>;
 export const MarketOverviewDocument = gql`
     query MarketOverview {
   assetAggregate {
@@ -9337,6 +9266,79 @@ export function useGetUserStatsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptio
 export type GetUserStatsQueryHookResult = ReturnType<typeof useGetUserStatsQuery>;
 export type GetUserStatsLazyQueryHookResult = ReturnType<typeof useGetUserStatsLazyQuery>;
 export type GetUserStatsQueryResult = Apollo.QueryResult<GetUserStatsQuery, GetUserStatsQueryVariables>;
+export const LiquidateDocument = gql`
+    query Liquidate($address: String) {
+  user(
+    where: {address: {_eq: $address}, liquidationRatio: {_lte: "1000000000000000000", _neq: "0"}}
+  ) {
+    address
+    outstandingBorrow
+    liquidationRatio
+    borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      borrow
+    }
+    collateralAssets: userSupply(where: {entered: {_eq: true}}) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      supply
+    }
+  }
+  globalFactors {
+    liquidationIncentive
+    closeFactor
+  }
+}
+    `;
+
+/**
+ * __useLiquidateQuery__
+ *
+ * To run a query within a React component, call `useLiquidateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLiquidateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLiquidateQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useLiquidateQuery(baseOptions?: Apollo.QueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
+      }
+export function useLiquidateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
+        }
+export type LiquidateQueryHookResult = ReturnType<typeof useLiquidateQuery>;
+export type LiquidateLazyQueryHookResult = ReturnType<typeof useLiquidateLazyQuery>;
+export type LiquidateQueryResult = Apollo.QueryResult<LiquidateQuery, LiquidateQueryVariables>;
 export const MarketsDetailsDocument = gql`
     query MarketsDetails($yToken: Int!) {
   asset(where: {ytoken: {_eq: $yToken}}) {

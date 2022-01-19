@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LiquidateStep } from 'containers/Liquidate';
+import { LiquidateStep } from 'pages/liquidate/Liquidate';
 import { useWiderThanMphone } from 'utils/helpers';
 import { RepayBorrow } from 'components/tables/containers/RepayBorrow';
 import { ReceiveCollateral } from 'components/tables/containers/ReceiveCollateral';

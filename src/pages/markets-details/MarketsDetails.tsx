@@ -1,12 +1,13 @@
-/* eslint-disable max-len */
-import React, { useMemo, useEffect } from 'react';
-import { useHistory, useParams } from 'react-router-dom';
+import React, { useMemo } from 'react';
+import { useParams } from 'react-router-dom';
 import BigNumber from 'bignumber.js';
 
 import { STANDARD_PRECISION } from 'constants/default';
 import { Asset, MarketsDetailsQuery, useMarketsDetailsQuery } from 'generated/graphql';
 import { getPreparedTokenObject } from 'utils/helpers/token';
 import { convertUnits, getPreparedPercentValue } from 'utils/helpers/amount';
+import BaseLayout from 'layouts/BaseLayout';
+import NotFound from 'pages/not-found';
 import { TokenDetails } from 'containers/TokenDetails';
 import { MarketDetails } from 'containers/MarketDetails';
 import { InterestRateModel } from 'containers/InterestRateModel';
@@ -14,24 +15,15 @@ import { MARKET_DETAILS_LOADINT_DATA } from 'components/tables/loading-preview/m
 
 import s from './MarketsDetails.module.sass';
 
-type MarketsDetailsWrapperProps = {
+type MarketsDetailsInnerProps = {
   data: MarketsDetailsQuery | undefined
   loading: boolean
 };
 
-const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
+const MarketsDetailsInner: React.FC<MarketsDetailsInnerProps> = ({
   data,
   loading,
 }) => {
-  const history = useHistory();
-
-  useEffect(() => {
-    if (!loading && data && !data.asset.length) {
-      return history.push('/404');
-    }
-    return undefined;
-  }, [data, history, loading]);
-
   const preparedData = useMemo(() => {
     if (data && data.asset && data.asset.length) {
       // Token details
@@ -64,7 +56,10 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
       // Interest rate model
       const baseRatePerYear = convertUnits(el.interestModel.rate, STANDARD_PRECISION);
       const multiplierPerYear = convertUnits(el.interestModel.multiplier, STANDARD_PRECISION);
-      const jumpMultiplierPerYear = convertUnits(el.interestModel.jumpMultiplier, STANDARD_PRECISION);
+      const jumpMultiplierPerYear = convertUnits(
+        el.interestModel.jumpMultiplier,
+        STANDARD_PRECISION,
+      );
       const kink = convertUnits(el.interestModel.kink, STANDARD_PRECISION);
 
       return {
@@ -154,7 +149,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
   }
 
   return (
-    <>
+    <BaseLayout>
       <TokenDetails
         asset={preparedData.asset}
         data={loading ? MARKET_DETAILS_LOADINT_DATA : preparedData.tokenDetails}
@@ -171,7 +166,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
         loading={loading}
         data={preparedData.interestRateModel}
       />
-    </>
+    </BaseLayout>
   );
 };
 
@@ -179,14 +174,18 @@ export const MarketsDetails: React.FC = () => {
   const { tokenSlug }: { tokenSlug: string } = useParams();
   const yToken = +tokenSlug;
 
-  const { data, loading } = useMarketsDetailsQuery({
+  const { data, error, loading } = useMarketsDetailsQuery({
     variables: {
       yToken,
     },
   });
 
+  if ((!loading && (!data || !data.asset.length)) || error) {
+    return <NotFound />;
+  }
+
   return (
-    <MarketsDetailsWrapper
+    <MarketsDetailsInner
       data={data}
       loading={loading}
     />
