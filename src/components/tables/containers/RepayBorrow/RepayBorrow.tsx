@@ -31,16 +31,15 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
 
   return (
     <>
-      {data.map(({ asset, ...rest }) => (
+      {data.map((asset) => (
         <RepayBorrowCard
           key={getUniqueKey()}
-          {...asset}
+          data={asset}
           active={selectedItem === getTokenSlug(
-            { id: asset.id, address: asset.address },
+            { id: asset.asset.id, address: asset.asset.address },
           )}
           setItem={setSelectedItem}
           loading={loading}
-          {...rest}
         />
       ))}
     </>

@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useYToken } from 'providers/YTokenProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -10,48 +12,33 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type ReceiveCollateralCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
-  priceOfReceiveAsset: number
-  amountOfSupplied: number
-  amountOfSuppliedUsd: number
-  maxBonus: number
-  maxBonusUsd: number
-  loading: boolean
+  data: any
   active?: boolean
   setItem: (arg: string) => void
+  loading: boolean
   className?: string
 };
 
 export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
-  id,
-  address,
-  name,
-  symbol,
-  thumbnailUri,
-  priceOfReceiveAsset,
-  amountOfSupplied,
-  amountOfSuppliedUsd,
-  maxBonus,
-  maxBonusUsd,
-  loading,
+  data: {
+    asset,
+    amountOfSupplied,
+    amountOfSuppliedInUsd,
+    maxBonus,
+    price,
+  },
   active = false,
   setItem,
+  loading,
   className,
 }) => {
-  const handleSetItem = () => {
-    setItem(getTokenSlug({ id, address }));
-  };
+  const { convertPriceByBasicCurrency } = useCurrency();
+  const { borrowYToken, setCollateralYToken } = useYToken();
+  const isBorrowTokenSelect = borrowYToken?.toString();
 
-  const tokenMetadata = {
-    id,
-    address,
-    name,
-    symbol,
-    thumbnailUri,
+  const handleSetItem = () => {
+    setItem(getTokenSlug({ id: asset.id, address: asset.address }));
+    setCollateralYToken(asset.yToken);
   };
 
   return (
@@ -73,7 +60,7 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
             Receive asset
           </div>
           <TokenName
-            token={tokenMetadata}
+            token={asset}
             active={active}
             loading={loading}
             theme="primary"
@@ -87,8 +74,8 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
           </div>
           <div className={s.amount}>
             {loading
-              ? priceOfReceiveAsset
-              : getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}
+              ? price
+              : getPrettyAmount({ value: price, currency: '$' })}
           </div>
         </div>
 
@@ -102,40 +89,34 @@ export const ReceiveCollateralCard: React.FC<ReceiveCollateralCardProps> = ({
                 ? amountOfSupplied
                 : getPrettyAmount({
                   value: amountOfSupplied,
-                  currency: getSliceTokenName(tokenMetadata),
+                  currency: getSliceTokenName(asset),
                 })}
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? amountOfSuppliedUsd
-                : getPrettyAmount({
-                  value: amountOfSuppliedUsd,
-                  currency: '$',
-                })}
+                ? amountOfSuppliedInUsd
+                : convertPriceByBasicCurrency(amountOfSuppliedInUsd)}
             </div>
           </div>
         </div>
 
         <div className={s.row}>
           <div className={s.title}>
-            MAX Liquidate
+            MAX Bonus
           </div>
           <div className={s.value}>
             <div className={s.amount}>
-              {loading
-                ? maxBonus
+              {(loading || !isBorrowTokenSelect)
+                ? '—'
                 : getPrettyAmount({
                   value: maxBonus,
-                  currency: getSliceTokenName(tokenMetadata),
+                  currency: getSliceTokenName(asset),
                 })}
             </div>
             <div className={s.amountUsd}>
-              {loading
-                ? maxBonusUsd
-                : getPrettyAmount({
-                  value: maxBonusUsd,
-                  currency: '$',
-                })}
+              {(loading || !isBorrowTokenSelect)
+                ? '—'
+                : convertPriceByBasicCurrency(maxBonus)}
             </div>
           </div>
         </div>

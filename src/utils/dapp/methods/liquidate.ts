@@ -1,23 +1,35 @@
 import { TezosToolkit } from '@taquito/taquito';
+import BigNumber from 'bignumber.js';
+import { batchify } from '../batchify';
 
-import { batchify } from 'utils/dapp/batchify';
 import { commonMethods, CommonParams } from './commonMethods';
 
-type RepayProps = CommonParams;
+type Params = Pick<CommonParams, 'fabricaContractAddress' | 'proxyContractAddress' | 'otherYTokens'>;
 
-export const repay = async (
+type LiquidateParams = {
+  borrowToken: number
+  collateralToken: number
+  borrower: string,
+  amount: BigNumber
+} & Params;
+
+export const liquidate = async (
   tezos: TezosToolkit,
   accountPkh: string,
-  params: RepayProps,
+  params: LiquidateParams,
 ) => {
   const {
     fabricaContractAddress,
-    yToken,
+    borrowToken,
+    collateralToken,
+    borrower,
     amount,
   } = params;
 
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
-  const mainMethod = fabricaContract.methods.repay(yToken, amount);
+  const mainMethod = fabricaContract.methods.liquidate(
+    borrowToken, collateralToken, borrower, amount,
+  );
 
   const batch = tezos.wallet.batch([]);
 
@@ -26,6 +38,7 @@ export const repay = async (
     accountPkh,
     {
       ...params,
+      yToken: [collateralToken],
       fabricaContract,
       isAllowanceNeeded: true,
       method: mainMethod,

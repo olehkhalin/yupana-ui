@@ -1,15 +1,16 @@
 import React, {
-  useCallback, useState, useMemo,
+  useCallback, useState, useMemo, useEffect,
 } from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { Button } from 'components/ui/Button';
 import { Slider } from 'components/ui/Slider';
 
 import s from './NumberInput.module.sass';
 
-const convertValueToCurrency = (val: BigNumber, exchangeRate: BigNumber) => (
+export const convertValueToCurrency = (val: BigNumber, exchangeRate: BigNumber) => (
   val
     ? val.multipliedBy(exchangeRate)
     : new BigNumber(0)
@@ -26,8 +27,8 @@ type NumberInputProps = Omit<React.HTMLProps<HTMLInputElement>, 'type' | 'onChan
   onChange?: (newValue: BigNumber) => void
   withSlider?: boolean
   setFocus: () => void
+  exchangeRate?: BigNumber
   className?: string
-  exchangeRate: BigNumber
 };
 
 const themeClasses = {
@@ -46,16 +47,25 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
   onChange,
   withSlider = true,
   setFocus,
+  exchangeRate = new BigNumber(1),
   className,
-  exchangeRate,
   ...props
 }, ref) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
 
   const valueStr = useMemo(() => (value !== undefined ? value.toString() : ''), [value]);
   const [localValue, setLocalValue] = useState(valueStr);
 
   const [valueInBaseCurrency, setValueInBaseCurrency] = useState(new BigNumber(0));
+
+  // Reset values
+  useEffect(() => {
+    setLocalValue(valueStr);
+    if (+valueStr === 0) {
+      setValueInBaseCurrency(new BigNumber(0));
+    }
+  }, [valueStr]);
 
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -108,7 +118,12 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
       <div className={s.inputWrapper}>
         <div
           onClick={setFocus}
-          className={cx(s.container, themeClasses[theme], { [s.error]: error })}
+          className={cx(
+            s.container,
+            themeClasses[theme],
+            { [s.error]: error },
+            { [s.disabled]: props.disabled },
+          )}
         >
           <div className={s.wrapper}>
             <input
@@ -125,7 +140,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             />
 
             <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
-              {`$ ${valueInBaseCurrency.toFixed(2)}`}
+              {convertPriceByBasicCurrency(valueInBaseCurrency)}
             </div>
           </div>
 
@@ -133,6 +148,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             <Button
               theme="clear"
               onClick={handleMax}
+              disabled={props.disabled}
               className={s.button}
             >
               max

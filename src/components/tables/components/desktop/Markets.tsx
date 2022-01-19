@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { useCurrency } from 'providers/CurrencyProvider';
+import { getPrettyPercent } from 'utils/helpers/amount';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
 import { TokenName } from 'components/common/TokenName';
@@ -20,6 +21,8 @@ export const Markets: React.FC<MarketsProps> = ({
   loading,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const columns = useMemo(
     () => [
       {
@@ -49,7 +52,7 @@ export const Markets: React.FC<MarketsProps> = ({
           <span className={s.blue}>
             {loading
               ? row.totalSupply
-              : getPrettyAmount({ value: row.totalSupply, currency: '$' })}
+              : convertPriceByBasicCurrency(row.totalSupply)}
           </span>
         ),
       },
@@ -92,7 +95,7 @@ export const Markets: React.FC<MarketsProps> = ({
           <span className={s.yellow}>
             {loading
               ? row.totalBorrow
-              : getPrettyAmount({ value: row.totalBorrow, currency: '$' })}
+              : convertPriceByBasicCurrency(row.totalBorrow)}
           </span>
         ),
       },
@@ -138,7 +141,7 @@ export const Markets: React.FC<MarketsProps> = ({
         ),
       },
     ],
-    [loading],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (

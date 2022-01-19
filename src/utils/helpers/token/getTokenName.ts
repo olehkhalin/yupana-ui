@@ -7,7 +7,7 @@ export const getTokenName = ({
   name, symbol, id, address,
 }: TokenMetadataInterface, fullName?: boolean, firstName?: boolean): string => (
   name && symbol && fullName
-    ? `${symbol}${name ? ` / ${name}` : ''}`
+    ? `${name ? `${name} (${symbol})` : ''}`
     : (firstName ? name : symbol) || (
       (firstName ? symbol : name) || (`${
         address !== 'tez'

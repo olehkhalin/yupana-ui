@@ -64,14 +64,20 @@ const StatsInner: React.FC<StatsInnerProps> = ({
         percent={prepareData?.borrowRatio}
         value={prepareData?.maxCollateral}
         title="Your Borrow Limit"
+        text="Your Borrow Limit"
+        description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
         loading={loading}
+        theme="secondary"
         className={s.limit}
       />
       <LimitLine
         percent={prepareData?.liquidationRatio}
         value={prepareData?.liquidationCollateral}
         title="Your Liquidation Limit"
+        text="Your Liquidation Limit"
+        description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
         loading={loading}
+        theme="secondary"
         className={s.limit}
       />
     </section>
@@ -94,7 +100,7 @@ export const Stats: React.FC<StatsProps> = ({
     }
   }, [accountPkh, fetch]);
 
-  if (!accountPkh && !loading) {
+  if (!accountPkh || (!data && !loading)) {
     return <></>;
   }
 

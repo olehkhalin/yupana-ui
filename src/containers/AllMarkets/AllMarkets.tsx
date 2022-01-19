@@ -56,12 +56,19 @@ type AllMarketsProps = {
 export const AllMarkets: React.FC<AllMarketsProps> = ({
   className,
 }) => {
-  const { data } = useMarketsAllQuery();
+  const { data, loading, error } = useMarketsAllQuery();
+
+  if ((!data && !loading) || error) {
+    return (
+      <>
+      </>
+    );
+  }
 
   return (
     <AllMarketsWrapper
       data={data}
-      loading={!data}
+      loading={loading}
       className={className}
     />
   );

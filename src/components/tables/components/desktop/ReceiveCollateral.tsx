@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Row } from 'react-table';
 
+import { useYToken } from 'providers/YTokenProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
+import { YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -21,7 +24,19 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
   loading,
   className,
 }) => {
-  const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
+  const { convertPriceByBasicCurrency } = useCurrency();
+  const { borrowYToken, setCollateralYToken } = useYToken();
+  const [selectedItem, setSelectedItem] = useState<
+  TokenMetadataInterface & YToken | undefined
+  >(undefined);
+
+  const isBorrowTokenSelect = borrowYToken?.toString();
+
+  useEffect(() => {
+    if (selectedItem) {
+      setCollateralYToken(selectedItem.yToken);
+    }
+  }, [selectedItem, setCollateralYToken]);
 
   const columns = useMemo(
     () => [
@@ -61,11 +76,11 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             Price of receive asset
           </span>
         ),
-        id: 'priceOfReceiveAsset',
-        accessor: ({ priceOfReceiveAsset }: any) => (
+        id: 'price',
+        accessor: ({ price }: any) => (
           loading
-            ? priceOfReceiveAsset
-            : `${getPrettyAmount({ value: priceOfReceiveAsset, currency: '$' })}`
+            ? price
+            : convertPriceByBasicCurrency(price)
         ),
       },
       {
@@ -75,7 +90,7 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'amountOfSupplied',
-        accessor: ({ amountOfSupplied, amountOfSuppliedUsd, asset }: any) => (
+        accessor: ({ amountOfSupplied, amountOfSuppliedInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
@@ -90,11 +105,8 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? amountOfSuppliedUsd
-                  : getPrettyAmount({
-                    value: amountOfSuppliedUsd,
-                    currency: '$',
-                  })
+                  ? amountOfSuppliedInUsd
+                  : convertPriceByBasicCurrency(amountOfSuppliedInUsd)
               }
             </div>
           </div>
@@ -107,12 +119,12 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
           </span>
         ),
         id: 'maxBonus',
-        accessor: ({ maxBonus, maxBonusUsd, asset }: any) => (
+        accessor: ({ maxBonus, maxBonusInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
-                loading
-                  ? maxBonus
+                (loading || !isBorrowTokenSelect)
+                  ? '—'
                   : getPrettyAmount({
                     value: maxBonus,
                     currency: getSliceTokenName(asset),
@@ -121,19 +133,16 @@ export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
             </div>
             <div className={s.amountUsd}>
               {
-                loading
-                  ? maxBonusUsd
-                  : getPrettyAmount({
-                    value: maxBonusUsd,
-                    currency: '$',
-                  })
+                (loading || !isBorrowTokenSelect)
+                  ? '—'
+                  : convertPriceByBasicCurrency(maxBonusInUsd)
               }
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem, loading],
+    [selectedItem, loading, convertPriceByBasicCurrency, isBorrowTokenSelect],
   );
 
   return (

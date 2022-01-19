@@ -1,22 +1,292 @@
-import React from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import BigNumber from 'bignumber.js';
+import cx from 'classnames';
+import { useParams } from 'react-router-dom';
 
-import { Liquidate as LiquidateContainer } from 'containers/Liquidate';
-import { LiquidationPosition } from 'containers/LiquidationPosition';
+import { LiquidateQuery, useLiquidateQuery } from 'generated/graphql';
+import { COLLATERAL_PRECISION_BACK, STANDARD_PRECISION } from 'constants/default';
+import { TokenMetadataInterface } from 'types/token';
+import { LiquidateUser, YToken } from 'types/liquidate';
+import { convertTokenPrice } from 'utils/helpers/amount/convertTokenPrice';
+import { precision } from 'utils/helpers/amount/precision';
+import { convertUnits } from 'utils/helpers/amount';
+import { getTokenName } from 'utils/helpers/token';
+import { useOraclePrices } from 'providers/OraclePricesProvider';
+import { useYToken, YTokenProvider } from 'providers/YTokenProvider';
+import BaseLayout from 'layouts/BaseLayout';
+import NotFound from 'pages/not-found';
+import { LiquidationSteps } from 'containers/LiquidationSteps';
 import { Section } from 'components/common/Section';
+import { Liquidate as LiquidateTableContainer } from 'components/tables/containers/Liquidate';
+import {
+  REPAY_BORROW_LOADING_DATA,
+} from 'components/tables/loading-preview/repay-borrow-loading';
+import {
+  RECEIVE_COLLATERAL_LOADING_DATA,
+} from 'components/tables/loading-preview/receive-collateral-loading';
 
 import s from './Liquidate.module.sass';
 
-export const Liquidate: React.FC = () => (
-  <>
-    <Section
-      title="Liquidate"
-      theme="tertiary"
-      head
-      headingClassName={s.heading}
-      className={s.root}
-    >
-      <LiquidateContainer />
-    </Section>
-    <LiquidationPosition />
-  </>
-);
+export type LiquidateStep = {
+  borrowerAddress: string
+  borrowAsset: TokenMetadataInterface & YToken
+  collateralAsset: TokenMetadataInterface & YToken
+  amountToClose: BigNumber
+  liquidationIncentive: BigNumber
+  borrowAssetPrice: number
+  collateralAssetPrice: number
+};
+
+type LiquidateProps = {
+  data: LiquidateQuery | undefined
+  loading: boolean
+  className?: string
+};
+
+const LiquidateInner: React.FC<LiquidateProps> = ({
+  data,
+  loading,
+  className,
+}) => {
+  const { oraclePrices } = useOraclePrices();
+  const { borrowYToken, collateralYToken } = useYToken();
+  const [liquidationStepData, setLiquidationStepData] = useState<LiquidateStep | null>(null);
+
+  // Token prices in USD by Selected token in tables
+  const borrowTokenOracle = useMemo(() => (
+    oraclePrices && borrowYToken?.toString()
+      ? {
+        price: convertTokenPrice(
+          oraclePrices[borrowYToken].price,
+          oraclePrices[borrowYToken].decimals,
+        ),
+        decimals: oraclePrices[borrowYToken].decimals,
+      }
+      : undefined
+  ), [borrowYToken, oraclePrices]);
+
+  const collateralTokenOracle = useMemo(() => (
+    oraclePrices && collateralYToken?.toString()
+      ? {
+        price: convertTokenPrice(
+          oraclePrices[collateralYToken].price,
+          oraclePrices[collateralYToken].decimals,
+        ),
+        decimals: oraclePrices[collateralYToken].decimals,
+      }
+      : undefined
+  ), [collateralYToken, oraclePrices]);
+
+  // Global data
+  const user = data && data.user[0];
+  const globalFactors = data && data.globalFactors[0];
+  const liquidationIncentive = useMemo(
+    () => new BigNumber(globalFactors?.liquidationIncentive)
+      .div(precision(STANDARD_PRECISION)), // 1.05
+    [globalFactors?.liquidationIncentive],
+  );
+
+  // Prepare borrowed assets
+  const prepareBorrowedAssets = useMemo(() => {
+    const preparedMaxLiquidate = globalFactors ? new BigNumber(globalFactors.closeFactor)
+      .div(precision(STANDARD_PRECISION)) : 1;
+
+    if (user) {
+      return user.borrowedAssets.map(({ asset, borrow }: any) => {
+        // Get token price
+        const { price, decimals } = {
+          price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
+        };
+        const tokenPriceInUsd = +convertTokenPrice(price, decimals);
+
+        // Values in a token
+        const amountOfBorrowed = convertUnits(borrow, STANDARD_PRECISION)
+          .div(decimals);
+        const maxLiquidate = amountOfBorrowed.times(preparedMaxLiquidate);
+
+        return ({
+          asset: {
+            yToken: asset.ytoken,
+            name: asset.tokens[0].name,
+            symbol: asset.tokens[0].symbol,
+            id: asset.isFa2 ? asset.tokenId : undefined,
+            address: asset.contractAddress,
+            decimals: asset.tokens[0].decimals,
+          },
+          price: tokenPriceInUsd,
+          amountOfBorrowed,
+          amountOfBorrowedInUsd: amountOfBorrowed.times(tokenPriceInUsd),
+          maxLiquidate,
+          maxLiquidateInUsd: maxLiquidate.times(tokenPriceInUsd),
+        });
+      });
+    }
+    return [];
+  }, [globalFactors, oraclePrices, user]);
+
+  // Find selected borrow token
+  const selectedBorrowToken = useMemo(
+    () => prepareBorrowedAssets.find(({ asset }) => asset.yToken === borrowYToken),
+    [borrowYToken, prepareBorrowedAssets],
+  );
+
+  // Prepare collateral assets
+  const prepareCollateralAsset = useMemo(() => {
+    if (user) {
+      return user.collateralAssets.map(({ asset, supply }: any) => {
+        // Get token price
+        const { price, decimals } = {
+          price: oraclePrices ? oraclePrices[asset.ytoken].price : new BigNumber(1),
+          decimals: oraclePrices ? oraclePrices[asset.ytoken].decimals : new BigNumber(1),
+        };
+        const tokenPriceInUsd = +convertTokenPrice(price, decimals);
+
+        const amountOfSupplied = convertUnits(
+          supply,
+          STANDARD_PRECISION,
+        ).div(decimals); // value in a token
+
+        let maxBonus: BigNumber = new BigNumber(1); // value in a token
+        let maxLiquidate: BigNumber = new BigNumber(1); // value in a token
+        if (selectedBorrowToken) {
+          const { maxLiquidateInUsd } = selectedBorrowToken;
+          const prepareSupply = new BigNumber(supply)
+            .div(precision(STANDARD_PRECISION))
+            .div(decimals); // value in a token
+          const borrowTokenAmount = maxLiquidateInUsd.div(tokenPriceInUsd); // value in a token
+
+          // Counting maxBonus
+          maxLiquidate = BigNumber.min(borrowTokenAmount, prepareSupply); // value in a token
+          maxBonus = maxLiquidate.times(liquidationIncentive.minus(1)); // maxLiquidate * 0.05
+        }
+
+        return {
+          asset: {
+            yToken: asset.ytoken,
+            name: asset.tokens[0].name,
+            symbol: asset.tokens[0].symbol,
+            id: asset.tokenId,
+            address: asset.contractAddress,
+            decimals: asset.tokens[0].decimals,
+          },
+          price: tokenPriceInUsd,
+          maxLiquidate,
+          amountOfSupplied,
+          amountOfSuppliedInUsd: amountOfSupplied.times(tokenPriceInUsd),
+          maxBonus,
+          maxBonusInUsd: maxBonus.times(tokenPriceInUsd),
+        };
+      });
+    }
+    return [];
+  }, [liquidationIncentive, oraclePrices, selectedBorrowToken, user]);
+
+  // Set data for liquidation step (step 3)
+  useEffect(() => {
+    if (collateralTokenOracle && borrowTokenOracle) {
+      const selectBorrowYToken = prepareBorrowedAssets.find(
+        ({ asset }) => asset.yToken === borrowYToken,
+      );
+      const selectCollateralYToken = prepareCollateralAsset.find(
+        ({ asset }) => asset.yToken === collateralYToken,
+      );
+
+      if (selectBorrowYToken && selectCollateralYToken) {
+        const { asset: borrowAsset, price: borrowAssetPrice } = selectBorrowYToken;
+        const {
+          asset: collateralAsset,
+          price: collateralAssetPrice,
+          maxLiquidate,
+        } = selectCollateralYToken;
+
+        const amountToClose = maxLiquidate
+          .times(collateralTokenOracle.price)
+          .div(borrowTokenOracle.price);
+
+        setLiquidationStepData({
+          borrowerAddress: user ? user.address : '',
+          borrowAsset,
+          collateralAsset,
+          amountToClose,
+          liquidationIncentive,
+          borrowAssetPrice,
+          collateralAssetPrice,
+        });
+      }
+    }
+  }, [
+    borrowTokenOracle,
+    borrowYToken,
+    collateralTokenOracle,
+    collateralYToken,
+    liquidationIncentive,
+    prepareBorrowedAssets,
+    prepareCollateralAsset,
+    user,
+  ]);
+
+  // Prepare all data for tables
+  const { liquidate, borrowedAssets, collateralAssets }: LiquidateUser = useMemo(() => ({
+    liquidate: [{
+      borrowerAddress: user ? user.address : '',
+      borrowedAssetsName: prepareBorrowedAssets.map(({ asset }) => getTokenName(asset)),
+      collateralAssetsName: prepareCollateralAsset.map(({ asset }) => getTokenName(asset)),
+      totalBorrowed: user ? +convertUnits(user.outstandingBorrow, COLLATERAL_PRECISION_BACK) : 1,
+      healthFactor: user ? +convertUnits(
+        user.liquidationRatio, STANDARD_PRECISION,
+      ).toFixed(2) : 1,
+    }],
+    borrowedAssets: prepareBorrowedAssets,
+    collateralAssets: prepareCollateralAsset,
+  }), [prepareBorrowedAssets, prepareCollateralAsset, user]);
+
+  return (
+    <BaseLayout>
+      <Section
+        title="Liquidate"
+        theme="tertiary"
+        head
+        headingClassName={s.heading}
+        className={s.root}
+      >
+        <LiquidateTableContainer
+          data={liquidate}
+          loading={loading}
+          className={cx(s.table, className)}
+        />
+        <LiquidationSteps
+          data={{
+            borrowedAssets: loading ? REPAY_BORROW_LOADING_DATA : borrowedAssets,
+            collateralAssets: loading ? RECEIVE_COLLATERAL_LOADING_DATA : collateralAssets,
+            liquidate: liquidationStepData,
+          }}
+          loading={loading}
+        />
+      </Section>
+    </BaseLayout>
+  );
+};
+
+export const Liquidate: React.FC = () => {
+  const { borrower }: { borrower: string } = useParams();
+
+  const { data, error, loading } = useLiquidateQuery({
+    variables: {
+      address: borrower,
+    },
+  });
+
+  if ((!loading && (!data || !data.user.length)) || error) {
+    return <NotFound />;
+  }
+
+  return (
+    <YTokenProvider>
+      <LiquidateInner
+        data={data}
+        loading={loading}
+      />
+    </YTokenProvider>
+  );
+};

@@ -180,7 +180,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
 
   const preparedUserSupplyAssets = useMemo(
     () => (
-      usersSupplyAssetsPrepared && assetsStats
+      usersSupplyAssetsPrepared && assetsStats && !loading
         ? usersSupplyAssetsPrepared.map((item) => (
           {
             ...item,
@@ -189,12 +189,12 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         ))
         : YOUR_ASSETS_DATA_LOADING
     ),
-    [assetsStats, usersSupplyAssetsPrepared],
+    [assetsStats, loading, usersSupplyAssetsPrepared],
   );
 
   const preparedUserBorrowAssets = useMemo(
     () => (
-      usersBorrowedAssetsPrepared && assetsStats
+      usersBorrowedAssetsPrepared && assetsStats && !loading
         ? usersBorrowedAssetsPrepared.map((item) => (
           {
             ...item,
@@ -203,7 +203,7 @@ const AllAssetsInner: React.FC<AllAssetsInnerProps> = ({
         ))
         : YOUR_ASSETS_DATA_LOADING
     ),
-    [assetsStats, usersBorrowedAssetsPrepared],
+    [assetsStats, loading, usersBorrowedAssetsPrepared],
   );
 
   useEffect(() => {

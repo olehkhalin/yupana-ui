@@ -1,6 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { Row } from 'react-table';
 
+import { useYToken } from 'providers/YTokenProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
+import { YToken } from 'types/liquidate';
 import { TokenMetadataInterface } from 'types/token';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -21,7 +24,17 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
   loading,
   className,
 }) => {
-  const [selectedItem, setSelectedItem] = useState<TokenMetadataInterface | undefined>(undefined);
+  const { convertPriceByBasicCurrency } = useCurrency();
+  const { setBorrowYToken } = useYToken();
+  const [selectedItem, setSelectedItem] = useState<
+  TokenMetadataInterface & YToken | undefined
+  >(undefined);
+
+  useEffect(() => {
+    if (selectedItem) {
+      setBorrowYToken(selectedItem.yToken);
+    }
+  }, [selectedItem, setBorrowYToken]);
 
   const columns = useMemo(
     () => [
@@ -58,11 +71,11 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Price of borrowed asset
           </span>
         ),
-        id: 'priceOfBorrowedAsset',
-        accessor: ({ priceOfBorrowedAsset }: { priceOfBorrowedAsset: number }) => (
+        id: 'price',
+        accessor: ({ price }: { price: number }) => (
           loading
-            ? priceOfBorrowedAsset
-            : `${priceOfBorrowedAsset.toFixed(2)}%`
+            ? price
+            : convertPriceByBasicCurrency(price)
         ),
       },
       {
@@ -71,15 +84,15 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             Amount of debt
           </span>
         ),
-        id: 'amountOfDebt',
-        accessor: ({ amountOfDebt, amountOfDebtUsd, asset }: any) => (
+        id: 'amountOfBorrowed',
+        accessor: ({ amountOfBorrowed, amountOfBorrowedInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
                 loading
-                  ? amountOfDebt
+                  ? amountOfBorrowed
                   : getPrettyAmount({
-                    value: amountOfDebt,
+                    value: amountOfBorrowed,
                     currency: getSliceTokenName(asset),
                   })
               }
@@ -87,11 +100,8 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? amountOfDebtUsd
-                  : getPrettyAmount({
-                    value: amountOfDebtUsd,
-                    currency: '$',
-                  })
+                  ? amountOfBorrowedInUsd
+                  : convertPriceByBasicCurrency(amountOfBorrowedInUsd)
               }
             </div>
           </div>
@@ -104,7 +114,7 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
           </span>
         ),
         id: 'maxLiquidate',
-        accessor: ({ maxLiquidate, maxLiquidateUsd, asset }: any) => (
+        accessor: ({ maxLiquidate, maxLiquidateInUsd, asset }: any) => (
           <div>
             <div className={s.amount}>
               {
@@ -119,18 +129,15 @@ export const RepayBorrow: React.FC<RepayBorrowProps> = ({
             <div className={s.amountUsd}>
               {
                 loading
-                  ? maxLiquidateUsd
-                  : getPrettyAmount({
-                    value: maxLiquidateUsd,
-                    currency: '$',
-                  })
+                  ? maxLiquidateInUsd
+                  : convertPriceByBasicCurrency(maxLiquidateInUsd)
               }
             </div>
           </div>
         ),
       },
     ],
-    [selectedItem, loading],
+    [selectedItem, loading, convertPriceByBasicCurrency],
   );
 
   return (

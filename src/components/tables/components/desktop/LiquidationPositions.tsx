@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { AppRoutes } from 'routes/main-routes';
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { getPrettyPercent } from 'utils/helpers/amount';
 import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -13,15 +14,23 @@ import s from './Tables.module.sass';
 
 type LiquidationPositionsProps = {
   data: any[]
+  pageCount: number
+  pageSize?: number
+  setOffset: (arg: number) => void
   loading: boolean
   className?: string
 };
 
 export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   data,
+  pageCount,
+  setOffset,
+  pageSize,
   loading,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const columns = useMemo(
     () => [
       {
@@ -46,13 +55,13 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       {
         Header: () => (
           <span className={s.yellow}>
-            Total borrowed
+            Total borrow
           </span>
         ),
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? row.borrowerAddress : getPrettyAmount({ value: row.totalBorrowed })}
+            {loading ? row.borrowerAddress : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
@@ -113,7 +122,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         ),
       },
     ],
-    [loading],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (
@@ -122,6 +131,9 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
       preloaderTheme="quinary"
       columns={columns}
       data={data}
+      pageCount={pageCount}
+      setOffset={setOffset}
+      pageSize={pageSize}
       loading={loading}
       pagination
       tableClassName={s.bigTableLiquidate}

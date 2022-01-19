@@ -8,17 +8,6 @@
 .radio
   margin-right: 1rem
 
-.attention
-  margin-left: 0.25rem
-  &:hover
-    .attentionIcon
-      path
-        fill: $light-yellow
-
-.attentionIcon
-  path
-    transition: fill $animationTime
-
 .icon
   margin-left: auto
   margin-top: -.25rem
@@ -90,6 +79,9 @@
     color: $white
     &:hover
       text-shadow: $white-shadow-button
+  &.noHover
+    &:hover
+      text-shadow: initial
 
 .amount
   margin-bottom: .25rem

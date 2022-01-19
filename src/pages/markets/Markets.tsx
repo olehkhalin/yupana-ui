@@ -1,11 +1,12 @@
 import React from 'react';
 
+import BaseLayout from 'layouts/BaseLayout';
 import { AllMarkets } from 'containers/AllMarkets';
 import { MarketCards } from 'containers/MarketCards';
 import { Section } from 'components/common/Section';
 
 export const Markets: React.FC = () => (
-  <>
+  <BaseLayout>
     <Section
       title="Market overview"
       theme="tertiary"
@@ -19,5 +20,5 @@ export const Markets: React.FC = () => (
     >
       <AllMarkets />
     </Section>
-  </>
+  </BaseLayout>
 );

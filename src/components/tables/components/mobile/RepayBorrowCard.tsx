@@ -1,6 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useYToken } from 'providers/YTokenProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -10,48 +12,33 @@ import { TokenName } from 'components/common/TokenName';
 import s from './Cards.module.sass';
 
 type RepayBorrowCardProps = {
-  id?: string
-  address: string
-  name?: string
-  symbol?: string
-  thumbnailUri?: string
-  priceOfBorrowedAsset: number
-  amountOfDebt: number
-  amountOfDebtUsd: number
-  maxLiquidate: number
-  maxLiquidateUsd: number
-  loading: boolean
+  data: any
   active?: boolean
   setItem: (arg: string) => void
+  loading: boolean
   className?: string
 };
 
 export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
-  id,
-  address,
-  name,
-  symbol,
-  thumbnailUri,
-  priceOfBorrowedAsset,
-  amountOfDebt,
-  amountOfDebtUsd,
-  maxLiquidate,
-  maxLiquidateUsd,
-  loading,
+  data: {
+    asset,
+    amountOfBorrowed,
+    amountOfBorrowedInUsd,
+    maxLiquidate,
+    maxLiquidateInUsd,
+    price,
+  },
   active = false,
   setItem,
+  loading,
   className,
 }) => {
-  const handleSetItem = () => {
-    setItem(getTokenSlug({ id, address }));
-  };
+  const { setBorrowYToken } = useYToken();
+  const { convertPriceByBasicCurrency } = useCurrency();
 
-  const tokenMetadata = {
-    id,
-    address,
-    name,
-    symbol,
-    thumbnailUri,
+  const handleSetItem = () => {
+    setItem(getTokenSlug({ id: asset.id, address: asset.address }));
+    setBorrowYToken(asset.yToken);
   };
 
   return (
@@ -75,7 +62,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             Borrowed asset
           </div>
           <TokenName
-            token={tokenMetadata}
+            token={asset}
             active={active}
             loading={loading}
             theme="secondary"
@@ -89,8 +76,8 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           </div>
           <div className={s.amount}>
             {loading
-              ? priceOfBorrowedAsset
-              : getPrettyAmount({ value: priceOfBorrowedAsset, currency: '$' })}
+              ? price
+              : convertPriceByBasicCurrency(price)}
           </div>
         </div>
 
@@ -101,19 +88,16 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           <div className={s.value}>
             <div className={s.amount}>
               {loading
-                ? amountOfDebt
+                ? amountOfBorrowed
                 : getPrettyAmount({
-                  value: amountOfDebt,
-                  currency: getSliceTokenName(tokenMetadata),
+                  value: amountOfBorrowed,
+                  currency: getSliceTokenName(asset),
                 })}
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? amountOfDebtUsd
-                : getPrettyAmount({
-                  value: amountOfDebtUsd,
-                  currency: '$',
-                })}
+                ? amountOfBorrowedInUsd
+                : convertPriceByBasicCurrency(amountOfBorrowedInUsd)}
             </div>
           </div>
         </div>
@@ -128,16 +112,13 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
                 ? maxLiquidate
                 : getPrettyAmount({
                   value: maxLiquidate,
-                  currency: getSliceTokenName(tokenMetadata),
+                  currency: getSliceTokenName(asset),
                 })}
             </div>
             <div className={s.amountUsd}>
               {loading
-                ? maxLiquidateUsd
-                : getPrettyAmount({
-                  value: maxLiquidateUsd,
-                  currency: '$',
-                })}
+                ? maxLiquidateInUsd
+                : convertPriceByBasicCurrency(maxLiquidateInUsd)}
             </div>
           </div>
         </div>
