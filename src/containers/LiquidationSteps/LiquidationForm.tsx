@@ -1,6 +1,5 @@
-/* eslint-disable max-len */
 import React, {
-  useCallback, useEffect, useMemo,
+  useCallback, useEffect, useMemo, useState,
 } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import BigNumber from 'bignumber.js';
@@ -16,6 +15,7 @@ import { getTokenName } from 'utils/helpers/token';
 import { convertUnits, getPrettyAmount } from 'utils/helpers/amount';
 import { assetAmountValidationFactory, getAdvancedErrorMessage } from 'utils/validation';
 import { useWiderThanMphone } from 'utils/helpers';
+import useUpdateToast from 'utils/useUpdateToast';
 import { Button } from 'components/ui/Button';
 import { Heading } from 'components/common/Heading';
 import { NumberInput } from 'components/common/NumberInput';
@@ -32,10 +32,13 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const { convertPriceByBasicCurrency } = useCurrency();
+  const updateToast = useUpdateToast();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
   const { userBorrowedYTokens } = useUserBorrowedYTokens();
+
+  const [operationLoading, setOperationLoading] = useState(false);
 
   const {
     handleSubmit,
@@ -76,7 +79,9 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
         borrowDecimals: (data ? data.borrowAsset.decimals : 0) ?? 0,
         amountToClose: data ? data.amountToClose : new BigNumber(0),
         youWillReceive,
-        youWillReceiveInUsd: data ? youWillReceive.times(data?.collateralAssetPrice) : new BigNumber(0),
+        youWillReceiveInUsd: data
+          ? youWillReceive.times(data?.collateralAssetPrice)
+          : new BigNumber(0),
         borrowAssetPrice: data ? new BigNumber(data.borrowAssetPrice) : new BigNumber(0),
         collateralAssetPrice: data ? new BigNumber(data.collateralAssetPrice) : new BigNumber(0),
       });
@@ -101,6 +106,11 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
     async ({ amount: inputAmount }: FormTypes) => {
       try {
         if (data) {
+          setOperationLoading(true);
+          updateToast({
+            type: 'info',
+            render: 'Request for Asset Liquidate...',
+          });
           const params = {
             fabricaContractAddress: CONTRACT_ADDRESS,
             proxyContractAddress: PROXY_CONTRACT_ADDRESS,
@@ -115,12 +125,22 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
 
           const operation = await liquidate(tezos, accountPkh!, params);
           await operation.confirmation(1);
+          updateToast({
+            type: 'info',
+            render: 'The Asset Liquidate request was successful, please wait...',
+          });
         }
       } catch (e) {
-        console.log(e);
+        updateToast({
+          type: 'error',
+          // @ts-ignore
+          render: e.message,
+        });
+      } finally {
+        setOperationLoading(false);
       }
     },
-    [accountPkh, data, prepareData.borrowDecimals, tezos, userBorrowedYTokens],
+    [accountPkh, data, prepareData.borrowDecimals, tezos, updateToast, userBorrowedYTokens],
   );
 
   return (
@@ -168,10 +188,10 @@ export const LiquidationForm: React.FC<LiquidationFormProps> = ({
           />
           <Button
             type="submit"
-            disabled={!!amountErrorMessage || !data}
+            disabled={!!amountErrorMessage || !data || operationLoading}
             className={cx(s.button, { [s.error]: amountErrorMessage })}
           >
-            Liquidate
+            {operationLoading ? 'Loading...' : 'Liquidate'}
           </Button>
         </form>
 

@@ -46,12 +46,12 @@ const prepareObject = (data: MarketOverviewQuery, isSupply = true) => {
   };
 };
 
-type MarketCardsWrapperProps = {
+type MarketCardsInnerProps = {
   data: MarketOverviewQuery | undefined
   loading: boolean
 };
 
-const MarketCardsWrapper: React.FC<MarketCardsWrapperProps> = ({
+const MarketCardsInner: React.FC<MarketCardsInnerProps> = ({
   data,
   loading,
 }) => {
@@ -107,7 +107,7 @@ export const MarketCards: React.FC<MarketCardsProps> = ({
 
   return (
     <div className={cx(s.root, className)}>
-      <MarketCardsWrapper
+      <MarketCardsInner
         data={data}
         loading={loading}
       />
