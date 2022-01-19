@@ -4,7 +4,9 @@ import {
 } from 'react-router-dom';
 import animateScrollTo from 'animated-scroll-to';
 import BigNumber from 'bignumber.js';
+import useSWR from 'swr';
 
+import { fetchTezosPrice } from 'utils/helpers/getTezosPrice';
 import { useAccountPkh } from 'utils/dapp';
 import {
   useOraclePricesQuery,
@@ -15,6 +17,7 @@ import {
   OraclePricesType,
   useOraclePrices,
 } from 'providers/OraclePricesProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
 import {
   UserBorrowedYTokensProvider,
   useUserBorrowedYTokens,
@@ -27,6 +30,14 @@ import NotFound from 'pages/not-found';
 const AppInner = () => {
   const { pathname } = useLocation();
 
+  const {
+    data: allTezosData,
+  } = useSWR(
+    ['tezos-price'],
+    fetchTezosPrice,
+    { refreshInterval: 30000 }, // TODO: Recreate with useOnBlock
+  );
+
   useEffect(() => {
     animateScrollTo(window.pageYOffset - window.pageYOffset,
       { speed: 750, maxDuration: 1000, minDuration: 100 });
@@ -37,6 +48,7 @@ const AppInner = () => {
   const [fetch, { data: userBorrowedYTokensData }] = useUserBorrowedYTokensLazyQuery();
 
   const { setOraclePrices } = useOraclePrices();
+  const { setTezosPrice } = useCurrency();
   const { setUserBorrowedYTokens } = useUserBorrowedYTokens();
 
   const preparedOraclePrices = useMemo(() => {
@@ -69,8 +81,18 @@ const AppInner = () => {
   }, [accountPkh, fetch]);
 
   useEffect(() => {
-    setOraclePrices(preparedOraclePrices);
+    if (preparedOraclePrices) {
+      setOraclePrices(preparedOraclePrices);
+    }
   }, [preparedOraclePrices, setOraclePrices]);
+
+  // Prepare tezos price
+  useEffect(() => {
+    if (allTezosData) {
+      const tezosPrice = new BigNumber(allTezosData.value.computedPrice).div(1e6);
+      setTezosPrice(+tezosPrice);
+    }
+  }, [allTezosData, setTezosPrice]);
 
   useEffect(() => {
     setUserBorrowedYTokens(preparedUserBorrowedYTokens);

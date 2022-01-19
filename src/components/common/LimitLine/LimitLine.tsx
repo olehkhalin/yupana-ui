@@ -3,7 +3,7 @@ import CountUp from 'react-countup';
 import cx from 'classnames';
 
 import { ANIMATION_TIME } from 'constants/default';
-import { getPrettyAmount } from 'utils/helpers/amount';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { Preloader } from 'components/ui/Preloader';
 import { ProgressBar } from 'components/ui/ProgressBar';
 import { AttentionText, ModalContent } from 'components/common/AttentionText';
@@ -30,6 +30,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
   loading,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [percentValue, setPercentValue] = useState<number>(0);
   const timing = useMemo(() => ANIMATION_TIME + ((percent ?? 1) / 100), [percent]);
 
@@ -74,7 +75,7 @@ export const LimitLine: React.FC<LimitLineProps> = ({
 
         <div className={s.value}>
           {!loading && value
-            ? getPrettyAmount({ value, currency: '$' })
+            ? convertPriceByBasicCurrency(value)
             : (
               <Preloader
                 theme="tertiary"

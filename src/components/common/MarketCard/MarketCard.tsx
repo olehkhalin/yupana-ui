@@ -2,6 +2,7 @@ import React from 'react';
 import BigNumber from 'bignumber.js';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { TokenMetadataInterface } from 'types/token';
 import { getUniqueKey } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -36,6 +37,8 @@ export const MarketCard: React.FC<MarketCardProps> = ({
   theme = 'primary',
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const isPrimaryTheme = theme === 'primary';
 
   return (
@@ -45,7 +48,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
       </div>
       <div className={s.amount}>
         {!loading && totalAmount
-          ? getPrettyAmount({ value: totalAmount, currency: '$' })
+          ? convertPriceByBasicCurrency(totalAmount)
           : (
             <Preloader
               theme={theme}
@@ -61,7 +64,7 @@ export const MarketCard: React.FC<MarketCardProps> = ({
         </div>
         <div className={s.value}>
           {!loading && volume24h?.toString()
-            ? getPrettyAmount({ value: volume24h, currency: '$' })
+            ? convertPriceByBasicCurrency(volume24h)
             : (
               <Preloader
                 className={s.valuePreloader}

@@ -1,6 +1,7 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { getTokenSlug, getSliceTokenName } from 'utils/helpers/token';
 import { getPrettyAmount } from 'utils/helpers/amount';
 import { TableCard } from 'components/ui/TableCard';
@@ -42,6 +43,8 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
   setItem,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const handleSetItem = () => {
     setItem(getTokenSlug({ id, address }));
   };
@@ -90,7 +93,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
           <div className={s.amount}>
             {loading
               ? priceOfBorrowedAsset
-              : getPrettyAmount({ value: priceOfBorrowedAsset, currency: '$' })}
+              : convertPriceByBasicCurrency(priceOfBorrowedAsset)}
           </div>
         </div>
 
@@ -110,10 +113,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             <div className={s.amountUsd}>
               {loading
                 ? amountOfDebtUsd
-                : getPrettyAmount({
-                  value: amountOfDebtUsd,
-                  currency: '$',
-                })}
+                : convertPriceByBasicCurrency(amountOfDebtUsd)}
             </div>
           </div>
         </div>
@@ -134,10 +134,7 @@ export const RepayBorrowCard: React.FC<RepayBorrowCardProps> = ({
             <div className={s.amountUsd}>
               {loading
                 ? maxLiquidateUsd
-                : getPrettyAmount({
-                  value: maxLiquidateUsd,
-                  currency: '$',
-                })}
+                : convertPriceByBasicCurrency(maxLiquidateUsd)}
             </div>
           </div>
         </div>

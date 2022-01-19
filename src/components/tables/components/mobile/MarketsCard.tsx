@@ -1,7 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { useCurrency } from 'providers/CurrencyProvider';
+import { getPrettyPercent } from 'utils/helpers/amount';
 import { TokenMetadataInterface } from 'types/token';
 import { TableCard } from 'components/ui/TableCard';
 import { TokenName } from 'components/common/TokenName';
@@ -39,6 +40,8 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
   details = false,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const tokenMetadata = {
     id,
     address,
@@ -78,7 +81,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         <div className={s.value}>
           {loading
             ? totalSupply
-            : getPrettyAmount({ value: totalSupply, currency: '$' })}
+            : convertPriceByBasicCurrency(totalSupply)}
         </div>
       </div>
 
@@ -109,7 +112,7 @@ export const MarketsCard: React.FC<MarketsCardProps> = ({
         <div className={s.value}>
           {loading
             ? totalBorrow
-            : getPrettyAmount({ value: totalBorrow, currency: '$' })}
+            : convertPriceByBasicCurrency(totalBorrow)}
         </div>
       </div>
 

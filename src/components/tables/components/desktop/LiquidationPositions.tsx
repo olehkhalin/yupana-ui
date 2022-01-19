@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { AppRoutes } from 'routes/main-routes';
-import { getPrettyAmount, getPrettyPercent } from 'utils/helpers/amount';
+import { getPrettyPercent } from 'utils/helpers/amount';
 import { shortize } from 'utils/helpers/token';
 import { Table } from 'components/ui/Table';
 import { Button } from 'components/ui/Button';
@@ -22,6 +23,8 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
   loading,
   className,
 }) => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const columns = useMemo(
     () => [
       {
@@ -52,7 +55,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         id: 'totalBorrowed',
         accessor: (row: any) => (
           <span className={s.yellow}>
-            {loading ? row.borrowerAddress : getPrettyAmount({ value: row.totalBorrowed })}
+            {loading ? row.borrowerAddress : convertPriceByBasicCurrency(row.totalBorrowed)}
           </span>
         ),
       },
@@ -113,7 +116,7 @@ export const LiquidationPositions: React.FC<LiquidationPositionsProps> = ({
         ),
       },
     ],
-    [loading],
+    [loading, convertPriceByBasicCurrency],
   );
 
   return (

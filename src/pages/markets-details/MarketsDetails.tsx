@@ -60,6 +60,7 @@ const MarketsDetailsWrapper: React.FC<MarketsDetailsWrapperProps> = ({
       asset,
       tokenDetails: [
         {
+          yToken: el.ytoken,
           totalSupply,
           supplyApy,
           numberOfSupplier,

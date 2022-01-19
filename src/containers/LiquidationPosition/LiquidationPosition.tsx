@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { useLoading } from 'hooks/useLoading';
 import { useWiderThanMphone } from 'utils/helpers';
 import { getPrettyAmount } from 'utils/helpers/amount';
@@ -17,6 +18,8 @@ import { RECEIVE_COLLATERAL_LOADING_DATA } from 'components/tables/loading-previ
 import s from './LiquidationPosition.module.sass';
 
 export const LiquidationPosition: React.FC = () => {
+  const { convertPriceByBasicCurrency } = useCurrency();
+
   const isWiderThanMphone = useWiderThanMphone();
   const { loading } = useLoading();
 
@@ -126,7 +129,7 @@ export const LiquidationPosition: React.FC = () => {
                     ) : (
                       `${getPrettyAmount({ value: 802.12, currency: ASSET_FROM_STEP_2 })}
                        
-                      (${getPrettyAmount({ value: 2141.70, currency: '$' })})`
+                      (${convertPriceByBasicCurrency(2100)})`
                     )
                 }
               </div>

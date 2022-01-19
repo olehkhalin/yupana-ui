@@ -1,8 +1,8 @@
 import React from 'react';
 import cx from 'classnames';
 
+import { useCurrency } from 'providers/CurrencyProvider';
 import { useWiderThanMphone } from 'utils/helpers';
-import { getPrettyAmount } from 'utils/helpers/amount';
 import { getTokenName } from 'utils/helpers/token';
 import { TokenMetadataInterface } from 'types/token';
 import { Section } from 'components/common/Section';
@@ -25,6 +25,7 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
   loading,
   className,
 }) => {
+  const { tezosPrice, convertPriceByBasicCurrency } = useCurrency();
   const iwWiderThanMphone = useWiderThanMphone();
 
   return (
@@ -53,7 +54,7 @@ export const TokenDetails: React.FC<TokenDetailsProps> = ({
         </div>
         <div className={s.price}>
           {!loading
-            ? `Price: ${getPrettyAmount({ value: 4.20, currency: '$' })}`
+            ? `Price: ${convertPriceByBasicCurrency(tezosPrice)}`
             : (
               <Preloader
                 theme="primary"

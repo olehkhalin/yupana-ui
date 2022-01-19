@@ -1,5 +1,7 @@
-import constate from 'constate';
 import { useState, useEffect, useCallback } from 'react';
+import constate from 'constate';
+import BigNumber from 'bignumber.js';
+import { getPrettyAmount } from 'utils/helpers/amount';
 
 export enum CurrencyEnum {
   XTZ = 'xtz',
@@ -11,6 +13,7 @@ export const [
   useCurrency,
 ] = constate(() => {
   const [currencyState, setCurrencyState] = useState<CurrencyEnum>(CurrencyEnum.XTZ);
+  const [tezosPrice, setTezosPrice] = useState<number>(1);
 
   const setCurrency = useCallback((currency: CurrencyEnum) => {
     window.localStorage.setItem('currency', currency);
@@ -26,8 +29,20 @@ export const [
     }
   }, [setCurrency]);
 
+  // Convert price by global basic currency
+  const convertPriceByBasicCurrency = (
+    number: number | BigNumber,
+  ) => (
+    currencyState === CurrencyEnum.XTZ
+      ? getPrettyAmount({ value: +number / tezosPrice, currency: 'ꜩ' })
+      : getPrettyAmount({ value: number, currency: '$' })
+  );
+
   return {
     currency: currencyState,
     setCurrency,
+    tezosPrice,
+    setTezosPrice,
+    convertPriceByBasicCurrency,
   };
 });
