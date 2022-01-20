@@ -101,7 +101,7 @@ export const Liquidate: React.FC<LiquidateProps> = ({
         ),
       },
     ],
-    [loading, convertPriceByBasicCurrency],
+    [convertPriceByBasicCurrency, loading],
   );
 
   return (
