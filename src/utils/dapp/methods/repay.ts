@@ -3,7 +3,7 @@ import { TezosToolkit } from '@taquito/taquito';
 import { batchify } from 'utils/dapp/batchify';
 import { commonMethods, CommonParams } from './commonMethods';
 
-type RepayProps = Omit<CommonParams, 'otherYTokens'>;
+type RepayProps = CommonParams;
 
 export const repay = async (
   tezos: TezosToolkit,

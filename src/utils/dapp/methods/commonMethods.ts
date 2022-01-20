@@ -8,6 +8,22 @@ import {
 
 import { getAllowance } from '../getAllowance';
 
+const removeDuplicatedYToken = (arr: number[], value: number) => {
+  if (!arr || !arr.length) {
+    return [];
+  }
+  const newArr = [...arr];
+  let i = 0;
+  while (i < newArr.length) {
+    if (newArr[i] === value) {
+      newArr.splice(i, 1);
+    } else {
+      ++i;
+    }
+  }
+  return newArr;
+};
+
 export type CommonParams = {
   fabricaContractAddress: string
   proxyContractAddress: string
@@ -42,18 +58,22 @@ export const commonMethods = async (
     method,
   } = commonParams;
 
+  const preparedOtherYTokens = otherYTokens && otherYTokens.length
+    ? removeDuplicatedYToken(otherYTokens, yToken[0])
+    : [];
+
   const proxyContract = await tezos.wallet.at(proxyContractAddress);
 
   let methods: ContractMethod<Wallet>[] = [];
 
   const finalGetPriceArray = [yToken];
-  if (otherYTokens && otherYTokens.length > 0) {
-    finalGetPriceArray.push(otherYTokens);
+  if (preparedOtherYTokens && preparedOtherYTokens.length > 0) {
+    finalGetPriceArray.push(preparedOtherYTokens);
   }
   const getPriceMethod = proxyContract.methods.getPrice(finalGetPriceArray);
   const updateInterestMethod = fabricaContract.methods.updateInterest(yToken);
-  const updateAllInterestMethods = (otherYTokens && otherYTokens.length > 0)
-    ? otherYTokens.map((tok) => (
+  const updateAllInterestMethods = (preparedOtherYTokens && preparedOtherYTokens.length > 0)
+    ? preparedOtherYTokens.map((tok) => (
       fabricaContract.methods.updateInterest(tok)
     ))
     : [];

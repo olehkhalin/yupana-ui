@@ -1,5 +1,5 @@
 query Liquidate($address: String) {
-  user(where: { address: { _eq: $address } }) {
+  user(where: {address: {_eq: $address}, liquidationRatio: {_lte: "1000000000000000000", _neq: "0"}}) {
     address
     outstandingBorrow
     liquidationRatio

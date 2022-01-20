@@ -25,6 +25,7 @@ import {
 import useUpdateToast from 'utils/useUpdateToast';
 import { useProcessCredit } from 'providers/ProcessCreditProvider';
 import { OraclePriceType } from 'providers/OraclePricesProvider';
+import { useCurrency } from 'providers/CurrencyProvider';
 import { Modal } from 'components/ui/Modal';
 import { NumberInput } from 'components/common/NumberInput';
 import { Button } from 'components/ui/Button';
@@ -79,6 +80,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
 }) => {
   const updateToast = useUpdateToast();
   const isWiderThanMphone = useWiderThanMphone();
+  const { convertPriceByBasicCurrency } = useCurrency();
   const [dynamicBorrowLimit, setDynamicBorrowLimit] = useState(new BigNumber(0));
   const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(new BigNumber(0));
   const [operationLoading, setOperationLoading] = useState(false);
@@ -119,10 +121,10 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   );
 
   const amountWarningMessage = useMemo(
-    () => (amount && amount.div(convertUnits(maxAmount, asset.decimals)).gte(0.8)
+    () => (theme === 'secondary' && amount && amount.div(convertUnits(maxAmount, asset.decimals)).gte(0.8)
       ? 'Beware of the Liquidation Risk'
       : undefined),
-    [amount, asset.decimals, maxAmount],
+    [amount, asset.decimals, maxAmount, theme],
   );
 
   // Form submit
@@ -132,7 +134,6 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
       try {
         setOperationLoading(true);
         await onSubmit(finalAmount);
-        console.log('submited');
         onRequestClose();
       } catch (e) {
         updateToast({
@@ -148,17 +149,14 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   );
 
   const borrowLimitF = useMemo(() => {
-    const borrowLimitVal = getPrettyAmount({ value: borrowLimit, currency: '$' });
+    const borrowLimitVal = convertPriceByBasicCurrency(borrowLimit);
 
     if (dynamicBorrowLimitFunc) {
-      return `${borrowLimitVal} -> ${getPrettyAmount({
-        value: dynamicBorrowLimit,
-        currency: '$',
-      })}`;
+      return `${borrowLimitVal} -> ${convertPriceByBasicCurrency(dynamicBorrowLimit)}`;
     }
 
     return borrowLimitVal;
-  }, [borrowLimit, dynamicBorrowLimit, dynamicBorrowLimitFunc]);
+  }, [borrowLimit, convertPriceByBasicCurrency, dynamicBorrowLimit, dynamicBorrowLimitFunc]);
 
   const isBorrowTheme = theme === 'secondary';
 
