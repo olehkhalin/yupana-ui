@@ -130,7 +130,8 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
   // Form submit
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
-      const finalAmount = convertUnits(inputData, -(asset.decimals ?? 0));
+      const mutezAmount = new BigNumber(convertUnits(inputData, -(asset.decimals ?? 0)).toFixed(0));
+      const finalAmount = mutezAmount.eq(maxAmount.toFixed(0)) ? new BigNumber(0) : mutezAmount;
       try {
         setOperationLoading(true);
         await onSubmit(finalAmount);
@@ -145,7 +146,7 @@ export const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = (
         setOperationLoading(false);
       }
     },
-    [asset.decimals, onRequestClose, onSubmit, updateToast],
+    [asset.decimals, maxAmount, onRequestClose, onSubmit, updateToast],
   );
 
   const borrowLimitF = useMemo(() => {

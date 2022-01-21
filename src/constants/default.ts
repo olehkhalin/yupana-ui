@@ -28,3 +28,5 @@ export const STANDARD_PRECISION = 18;
 export const COLLATERAL_PRECISION = 30;
 export const COLLATERAL_PRECISION_BACK = 42;
 export const ORACLE_PRICE_PRECISION = 24;
+
+export const TEZOS_PRICE_API = 'https://api.hangzhou2net.tzkt.io/v1/contracts/KT1PMQZxQTrFPJn3pEaj9rvGfJA9Hvx7Z1CL/bigmaps/assetMap/keys/XTZ-USD';

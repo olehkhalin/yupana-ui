@@ -35,11 +35,12 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
     <TableCard
       theme="secondary"
       collapsed={false}
+      loading={loading}
       className={cx(s.liquidate, className)}
     >
       <div className={s.row}>
         <div className={s.title}>
-          Asset
+          Total borrow
         </div>
         <div className={s.value}>
           {loading ? '—' : convertPriceByBasicCurrency(totalBorrowed)}
@@ -47,7 +48,7 @@ export const LiquidateCard: React.FC<LiquidateCardProps> = ({
       </div>
       <div className={s.row}>
         <div className={s.title}>
-          Borrow APY
+          Borrowed asset
         </div>
         <div className={s.value}>
           {loading

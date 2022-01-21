@@ -1,7 +1,10 @@
 import React, { useEffect, useMemo } from 'react';
 import BigNumber from 'bignumber.js';
 
-import { COLLATERAL_PRECISION, STANDARD_PRECISION } from 'constants/default';
+import {
+  COLLATERAL_PRECISION_BACK,
+  STANDARD_PRECISION,
+} from 'constants/default';
 import { useAccountPkh } from 'utils/dapp';
 import { convertUnits } from 'utils/helpers/amount';
 import { LimitLine } from 'components/common/LimitLine';
@@ -28,22 +31,30 @@ const StatsInner: React.FC<StatsInnerProps> = ({
     () => {
       if (data && data.user.length) {
         const user = data.user[0];
+
         return ({
           netApy: +convertUnits(user.netApy, STANDARD_PRECISION).multipliedBy(1e2),
-          borrowRatio: +(
-            new BigNumber(1)
-              .div(convertUnits(user.borrowRatio, STANDARD_PRECISION))
-              .multipliedBy(1e2)
+          borrowRatio: convertUnits(user.borrowRatio, STANDARD_PRECISION).eq(0)
+            ? 0
+            : +(
+              new BigNumber(1)
+                .div(convertUnits(user.borrowRatio, STANDARD_PRECISION))
+                .multipliedBy(1e2)
+            ),
+          maxCollateral: +convertUnits(user.maxCollateral, COLLATERAL_PRECISION_BACK),
+          liquidationRatio: convertUnits(user.liquidationRatio, STANDARD_PRECISION).eq(0)
+            ? 0
+            : +(
+              new BigNumber(1)
+                .div(convertUnits(user.liquidationRatio, STANDARD_PRECISION))
+                .multipliedBy(1e2)
+            ),
+          liquidationCollateral: +convertUnits(
+            user.liquidationCollateral,
+            COLLATERAL_PRECISION_BACK,
           ),
-          maxCollateral: +convertUnits(user.maxCollateral, COLLATERAL_PRECISION),
-          liquidationRatio: +(
-            new BigNumber(1)
-              .div(convertUnits(user.liquidationRatio, STANDARD_PRECISION))
-              .multipliedBy(1e2)
-          ),
-          liquidationCollateral: +convertUnits(user.liquidationCollateral, COLLATERAL_PRECISION),
-          totalSupply: +convertUnits(user.totalSupplyUsd, COLLATERAL_PRECISION),
-          totalBorrow: +convertUnits(user.totalBorrowUsd, COLLATERAL_PRECISION),
+          totalSupply: +convertUnits(user.totalSupplyUsd, COLLATERAL_PRECISION_BACK),
+          totalBorrow: +convertUnits(user.totalBorrowUsd, COLLATERAL_PRECISION_BACK),
         });
       }
       return undefined;
