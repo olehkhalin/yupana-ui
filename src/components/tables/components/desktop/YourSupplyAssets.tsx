@@ -52,8 +52,8 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
         ),
       },
       {
-        Header: 'Balance',
-        id: 'balance',
+        Header: 'Wallet',
+        id: 'wallet',
         accessor: (
           { wallet, asset }: { wallet: number | BigNumber, asset: TokenMetadataInterface },
         ) => (
@@ -61,7 +61,7 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
           loading
             ? wallet
             : (asset && wallet ? getPrettyAmount({
-              value: convertUnits(new BigNumber(0), asset.decimals),
+              value: convertUnits(wallet, asset.decimals),
               currency: getSliceTokenName(asset),
               dec: asset.decimals,
             }) : 0)

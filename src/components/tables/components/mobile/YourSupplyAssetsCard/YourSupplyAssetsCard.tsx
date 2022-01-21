@@ -97,7 +97,7 @@ const OrdinaryYourSupplyAssetsCard: React.FC<YourSupplyAssetsCardProps & WithDro
 
       <div className={s.row}>
         <div className={s.title}>
-          Balance
+          Wallet
         </div>
         <div className={s.value}>
           {loading

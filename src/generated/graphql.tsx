@@ -8955,14 +8955,14 @@ export type LendingAllAssetsLazyQueryHookResult = ReturnType<typeof useLendingAl
 export type LendingAllAssetsQueryResult = Apollo.QueryResult<LendingAllAssetsQuery, LendingAllAssetsQueryVariables>;
 export const LendingUserAssetsDocument = gql`
     query LendingUserAssets($account: String) {
-  userSupply(where: {userId: {_eq: $account}}) {
+  userSupply(where: {userId: {_eq: $account}, supply: {_neq: "0"}}) {
     asset {
       ytoken
     }
     supply
     entered
   }
-  userBorrow(where: {userId: {_eq: $account}}) {
+  userBorrow(where: {userId: {_eq: $account}, borrow: {_neq: "0"}}) {
     asset {
       ytoken
     }
