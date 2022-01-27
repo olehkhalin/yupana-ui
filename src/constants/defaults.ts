@@ -13,9 +13,4 @@ export const LAST_USED_CONNECTION_KEY = "lastUsedConnection";
 export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
-console.log(
-  "process.env.REACT_APP_NETWORK_RPC",
-  process.env.REACT_APP_NETWORK_RPC
-);
-
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
