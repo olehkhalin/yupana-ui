@@ -2,17 +2,20 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
+import { DAppProvider } from "utils/dapp";
+import { ToastProvider } from "hooks/useUpdateToast";
 import App from "pages/App";
 import "styles/global.sass";
 
 import reportWebVitals from "./reportWebVitals";
-import { DAppProvider } from "utils/dapp";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <DAppProvider>
-        <App />
+        <ToastProvider>
+          <App />
+        </ToastProvider>
       </DAppProvider>
     </Router>
   </React.StrictMode>,

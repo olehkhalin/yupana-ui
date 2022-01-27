@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
-import { AbortedBeaconError } from "@airgap/beacon-sdk";
 
 import { useConnectModalsState } from "hooks/useConnectModalsState";
+import { useUpdateToast } from "hooks/useUpdateToast";
 import { ModalActions } from "types/modal";
 import {
   TEMPLE_WALLET_NOT_INSTALLED_MESSAGE,
@@ -28,6 +28,7 @@ export const ConnectWalletModal: React.FC<ModalActions> = ({
   const { openInstallTempleWalletModal } = useConnectModalsState();
   const connectWithBeacon = useConnectWithBeacon();
   const connectWithTemple = useConnectWithTemple();
+  const { updateToast } = useUpdateToast();
 
   const handleConnectClick = useCallback(
     async (walletType: WalletType) => {
@@ -39,21 +40,26 @@ export const ConnectWalletModal: React.FC<ModalActions> = ({
           await connectWithTemple(true);
           onRequestClose();
         }
-      } catch (e: any) {
-        if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
-          onRequestClose();
-          openInstallTempleWalletModal();
-        } else {
-          const authenticationWasRejected =
-            e.name === "NotGrantedTempleWalletError" ||
-            e instanceof AbortedBeaconError;
-          if (!authenticationWasRejected) {
-            console.log(
-              `Error while connecting with ${
+      } catch (e) {
+        if (e instanceof Error) {
+          if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
+            onRequestClose();
+            openInstallTempleWalletModal();
+          } else {
+            updateToast({
+              type: "error",
+              render: `Error while connecting with ${
                 walletType === WalletType.BEACON ? "Beacon" : "Temple Wallet"
-              }: ${e.message}`
-            ); // TODO: Replace with toast
+              }: ${e.message}`,
+            });
           }
+        } else {
+          updateToast({
+            type: "error",
+            render: `Error while connecting with ${
+              walletType === WalletType.BEACON ? "Beacon" : "Temple Wallet"
+            }`,
+          });
         }
       }
     },
@@ -62,6 +68,7 @@ export const ConnectWalletModal: React.FC<ModalActions> = ({
       connectWithTemple,
       onRequestClose,
       openInstallTempleWalletModal,
+      updateToast,
     ]
   );
 

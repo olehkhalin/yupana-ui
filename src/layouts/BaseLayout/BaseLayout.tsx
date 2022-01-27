@@ -1,6 +1,7 @@
 import React, { FC } from "react";
 import cx from "classnames";
 
+import { Toast } from "components/ui/Toast";
 import { Header } from "components/common/Header";
 import { Container } from "components/common/Container";
 import { Footer } from "components/common/Footer";
@@ -21,6 +22,7 @@ export const BaseLayout: FC<BaseLayoutProps> = ({
     <Header className={cx(s.header, headerClassName)} />
     <Container main className={cx(s.container, className)}>
       {children}
+      <Toast />
     </Container>
     <Footer />
   </>
