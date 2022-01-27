@@ -1,0 +1,61 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.currency
+  position: relative
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  height: 2rem
+  width: 2.5rem
+  padding: .063rem
+  font-size: .75rem
+  background-color: rgba($light-yellow, .2)
+  color: rgba($light-yellow, .5)
+  border-radius: .125rem
+  &::before
+    content: ''
+    position: absolute
+    left: .063rem
+    right: .063rem
+    height: .875rem
+    background-color: $light-yellow
+    border-radius: .125rem
+    transform: translateY(0%)
+    transition: transform $animationTime
+  &.active
+    &::before
+      transform: translateY(115%)
+
+.item
+  display: flex
+  align-items: center
+  justify-content: center
+  height: .875rem
+  transition: color $animationTime
+  z-index: 1
+  &.active
+    color: $graphite
+
+@include media('>Mphone')
+  .root
+    display: flex
+    align-items: center
+  .button
+    padding: .5rem
+    margin: 0
+    color: rgba($light-yellow, .5)
+    font-size: .875rem
+    text-transform: uppercase
+    transition: color $animationTime
+    &:hover:not(.active)
+      color: rgba($light-yellow, .8)
+  .active
+    color: $light-yellow
+    text-shadow: $light-yellow-shadow
+  .separator
+    width: .128rem
+    height: 1rem
+    background-color: $light-yellow
+    border-radius: .25rem
+    box-shadow: $light-yellow-shadow

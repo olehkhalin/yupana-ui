@@ -1,0 +1,95 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  width: 100%
+  padding: 1rem 0 1.5rem
+  position: relative
+  background-color: $black
+  border-top: .063rem solid $blue-neutral
+  z-index: 3
+
+.container
+  display: flex
+  flex-direction: column
+
+.row
+  display: flex
+  justify-content: space-between
+  &:not(:last-child)
+    flex-direction: column
+    margin-bottom: 1.5rem
+
+.links
+  display: flex
+  flex-direction: column
+  margin-top: 1.5rem
+
+.column
+  display: flex
+  &:first-child
+    order: 2
+  &:last-child
+    margin-bottom: 1rem
+    order: 1
+
+.link
+  font-size: 0.75rem
+  text-decoration: underline
+  white-space: nowrap
+  transition: color $animationTime
+  text-align: right
+  &:hover
+    color: $blue
+  &:not(:last-child)
+    margin-right: 1rem
+
+.copyright
+  max-width: 50%
+  font-size: 0.75rem
+
+.company
+  display: flex
+  flex-direction: column
+  font-size: .75rem
+  text-align: right
+
+.owner
+  transition: color $animationTime
+  &:hover
+    color: $light-yellow
+
+.marginRight
+  margin-right: .25rem
+
+@include media(">Mphone")
+  .root
+    padding: 2rem 0
+  .row
+    flex-direction: row
+    justify-content: space-between
+    align-items: flex-start
+    &:not(:last-child)
+      flex-direction: initial
+  .links
+    flex-direction: row
+    margin-top: 0
+  .link
+    &:not(:last-child)
+      margin-bottom: .5rem
+      margin-right: 0
+  .column
+    flex-direction: column
+    margin-bottom: 0
+    &:first-child
+      margin-right: 3rem
+      order: 1
+    &:last-child
+      margin-bottom: initial
+      order: 2
+  .copyright
+    max-width: initial
+  .company
+    flex-direction: row
+  .withLove
+    margin-right: .25rem

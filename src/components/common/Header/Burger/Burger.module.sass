@@ -1,0 +1,29 @@
+@import "styles/variables.sass"
+
+.root
+  display: flex
+  flex-direction: column
+  justify-content: space-between
+  &:hover
+    .item
+      background-color: $blue-neutral
+      box-shadow: $blue-shadow
+
+.active
+  .item
+    background-color: $light-yellow
+    box-shadow: $light-yellow-shadow
+    &:nth-child(1)
+      transform: translateY(8px) rotate(45deg)
+    &:nth-child(2)
+      opacity: 0
+    &:nth-child(3)
+      transform: translateY(-8px) rotate(-45deg)
+
+.item
+  width: 1.5rem
+  height: .25rem
+  margin: .125rem 0
+  background-color: $white
+  border-radius: .5rem
+  transition: transform $animationTime linear, opacity $animationTime, background-color $animationTime, box-shadow $animationTime

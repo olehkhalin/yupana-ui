@@ -1,12 +1,12 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    "baseUrl": "src/",
+    "target": "es2019",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,9 +18,11 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "importsNotUsedAsValues": "remove",
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "allowJs": false
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

@@ -1,0 +1,100 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  position: relative
+  z-index: 9
+  width: 100%
+  background-color: $main
+
+.headerWrapper
+  background-color: $main
+
+.container
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: .7rem 1rem
+
+.logotype
+  display: flex
+  align-items: center
+  justify-content: center
+
+.logo
+  height: auto
+
+.content
+  display: flex
+  justify-content: flex-end
+  align-items: center
+  width: 100%
+  margin-left: 1.25rem
+
+.navItem
+  margin-right: 2rem
+
+.currencySwitcher
+  margin-left: .75rem
+
+.mobile
+  display: flex
+
+.desktop, .logoDesktop
+  display: none
+
+@include media(">phone")
+  .logoDesktop
+    display: flex
+  .logoMobile
+    display: none
+
+@include media("<=tablet")
+  .burger
+    height: auto
+    margin-left: .75rem
+  .dropdown
+    position: absolute
+    left: 0
+    top: 0
+    width: 100%
+    display: flex
+    justify-content: center
+    padding: 1.5rem 0
+    background-color: rgba($dark-blue, .9)
+    border-bottom-left-radius: .5rem
+    border-bottom-right-radius: .5rem
+    transform: translateY(-100%)
+    transition: transform $animationTime
+    z-index: -1
+    &.active
+      transform: translateY(3.5rem)
+    .navlist
+      display: flex
+      flex-direction: column
+      align-items: center
+    .navItem
+      margin-right: 0
+      &:not(:last-child)
+        margin-bottom: 1rem
+
+@include media('<=phone')
+  .dropdown
+    &.active
+      transform: translateY(4rem)
+
+@include media(">tablet")
+  .mobile
+    display: none
+  .desktop
+    display: flex
+  .logo
+    width: 5.9375rem
+  .container
+    padding: 1rem
+  .currencySwitcher
+    margin-left: 1.5rem
+
+@include media(">Ltablet")
+  .navItem
+    margin-right: 2.5rem

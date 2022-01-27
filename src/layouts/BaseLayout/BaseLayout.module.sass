@@ -1,0 +1,11 @@
+@import 'styles/breakpoints.scss'
+
+.container
+  min-height: calc(100vh - 14rem) // 100vh - (4rem header + 10rem footer)
+
+.header
+  margin-bottom: 2rem
+
+@include media('>Ltablet')
+  .header
+    margin-bottom: 4rem

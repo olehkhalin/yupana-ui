@@ -1,0 +1,55 @@
+@import "styles/variables"
+
+html,
+body
+  padding: 0
+  margin: 0
+  min-width: 320px
+  min-height: 100vh
+  background: $main-background
+  color: $white
+  font-size: 16px
+  font-family: $font
+  font-weight: 400
+  line-height: 1.21
+  letter-spacing: 0.03em
+
+html
+  background-color: $main
+
+body
+  background: center 0 / cover no-repeat url('../images/background.png')
+  background-attachment: fixed
+
+a
+  color: $white
+  text-decoration: none
+  cursor: pointer
+
+*
+  box-sizing: border-box
+
+h1, h2, h3, h4, h5, h6, p
+  margin: 0
+  padding: 0
+
+button
+  padding: 0
+  margin: 0
+  background-color: transparent
+  box-shadow: none
+  outline: none
+  border: none
+  cursor: pointer
+  letter-spacing: 0.03em
+  font-family: $font
+  &:disabled
+    cursor: not-allowed
+
+ul, ol
+  list-style: none
+  padding: 0
+  margin: 0
+
+.ReactModal__Body--open
+  overflow-y: hidden
