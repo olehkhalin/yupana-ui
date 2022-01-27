@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import constate from "constate";
+import useSWR from "swr";
 import { NetworkType as BeaconNetworkType } from "@airgap/beacon-sdk";
 import { TempleWallet } from "@temple-wallet/dapp";
 import { MichelCodecPacker, TezosToolkit, Extension } from "@taquito/taquito";
@@ -11,8 +13,6 @@ import {
   TezosStorageHandler,
   IpfsHttpHandler,
 } from "@taquito/tzip16";
-import constate from "constate";
-import useSWR from "swr";
 
 import {
   APP_NAME,
@@ -25,6 +25,7 @@ import {
 } from "constants/defaults";
 import { ReadOnlySigner } from "./ReadOnlySigner";
 import { FastRpcClient } from "./taquito-fast-rpc";
+import { Subscription } from "@taquito/taquito/dist/types/subscribe/interface";
 
 const defaultRpcClient = new FastRpcClient(NETWORK_RPC);
 
@@ -81,10 +82,9 @@ async function connectWalletTemple(forcePermission: boolean) {
     );
   }
 
-  const tezos = new TezosToolkit(defaultRpcClient as any);
+  const tezos = new TezosToolkit(defaultRpcClient);
   tezos.setWalletProvider(wallet);
   tezos.setPackerProvider(michelEncoder);
-  // @ts-ignore
   tezos.setRpcProvider(defaultRpcClient);
   const { pkh, publicKey } = wallet.permission!;
   tezos.setSignerProvider(new ReadOnlySigner(pkh, publicKey));
@@ -109,7 +109,6 @@ async function connectWalletBeacon(forcePermission: boolean) {
     });
   }
 
-  // @ts-ignore
   const tezos = new TezosToolkit(defaultRpcClient);
   tezos.setPackerProvider(michelEncoder);
   tezos.setWalletProvider(beaconWallet);
@@ -135,7 +134,6 @@ export type DAppType = {
   templeWallet: TempleWallet | null;
 };
 
-// @ts-ignore
 export const fallbackToolkit = new TezosToolkit(defaultRpcClient);
 fallbackToolkit.setPackerProvider(michelEncoder);
 fallbackToolkit.addExtension(tzip16Module);
@@ -191,11 +189,9 @@ function useDApp() {
 
           if (lastUsedConnection === "temple") {
             const newToolkit = wlt.connected
-              ? new TezosToolkit(defaultRpcClient as any)
+              ? new TezosToolkit(defaultRpcClient)
               : fallbackToolkit;
             newToolkit.setWalletProvider(wlt);
-            // @ts-ignore
-            // newToolkit.setRpcProvider(defaultRpcClient);
             newToolkit.addExtension(tzip16Module);
             newToolkit.addExtension(tzip12Module);
             setState({
@@ -240,7 +236,6 @@ function useDApp() {
             return;
           }
 
-          // @ts-ignore
           const toolkit = new TezosToolkit(defaultRpcClient);
           toolkit.setPackerProvider(michelEncoder);
           toolkit.setWalletProvider(beaconWallet);
@@ -354,11 +349,11 @@ export const [
 export const useOnBlock = (
   tezos: TezosToolkit | null,
   callback: (hash: string) => void
-) => {
+): void => {
   const blockHashRef = useRef<string | undefined>();
 
   useEffect(() => {
-    let sub: any; // Which type do I have to set here?
+    let sub: Subscription<string>;
 
     if (!tezos) {
       return () => undefined;

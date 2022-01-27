@@ -1,6 +1,5 @@
-/* eslint-disable */
-import { RpcClient } from '@taquito/rpc';
-import memoize from 'p-memoize';
+import { RpcClient } from "@taquito/rpc";
+import memoize from "p-memoize";
 
 interface RPCOptions {
   block: string;
@@ -31,7 +30,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getBalanceMemo = memoize(super.getBalance.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -51,7 +50,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getStorageMemo = memoize(super.getStorage.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -61,7 +60,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getScriptMemo = memoize(super.getScript.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -71,7 +70,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getContractMemo = memoize(super.getContract.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -91,7 +90,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getEntrypointsMemo = memoize(super.getEntrypoints.bind(this), {
-    cacheKey: ([contract, opts]) => [contract, toOptsKey(opts)].join(''),
+    cacheKey: ([contract, opts]) => [contract, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -101,7 +100,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getManagerKeyMemo = memoize(super.getManagerKey.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -111,7 +110,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getDelegateMemo = memoize(super.getDelegate.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -121,7 +120,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getBigMapExprMemo = memoize(super.getBigMapExpr.bind(this), {
-    cacheKey: ([id, expr, opts]) => [id, expr, toOptsKey(opts)].join(''),
+    cacheKey: ([id, expr, opts]) => [id, expr, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -131,7 +130,7 @@ export class FastRpcClient extends RpcClient {
   }
 
   getDelegatesMemo = memoize(super.getDelegates.bind(this), {
-    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(''),
+    cacheKey: ([address, opts]) => [address, toOptsKey(opts)].join(""),
     maxAge: this.memoizeMaxAge,
   });
 
@@ -186,7 +185,10 @@ export class FastRpcClient extends RpcClient {
   }
 
   private refreshLatestBlock = onlyOncePerExec(async () => {
-    if (!this.latestBlock || Date.now() - this.latestBlock.refreshedAt > this.refreshInterval) {
+    if (
+      !this.latestBlock ||
+      Date.now() - this.latestBlock.refreshedAt > this.refreshInterval
+    ) {
       const hash = await super.getBlockHash();
       this.latestBlock = { hash, refreshedAt: Date.now() };
     }
@@ -194,18 +196,19 @@ export class FastRpcClient extends RpcClient {
 }
 
 function wantsHead(opts?: RPCOptions) {
-  return !opts?.block || opts.block === 'head';
+  return !opts?.block || opts.block === "head";
 }
 
 function toOptsKey(opts?: RPCOptions) {
-  return opts?.block ?? 'head';
+  return opts?.block ?? "head";
 }
 
 function onlyOncePerExec<T>(factory: () => Promise<T>) {
   let worker: Promise<T> | null = null;
 
-  return () => worker
-    ?? (worker = factory().finally(() => {
+  return () =>
+    worker ??
+    (worker = factory().finally(() => {
       worker = null;
     }));
 }

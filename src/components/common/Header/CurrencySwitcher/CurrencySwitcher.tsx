@@ -13,17 +13,17 @@ type CurrencySwitcherProps = {
 export const CurrencySwitcher: FC<CurrencySwitcherProps> = ({ className }) => {
   const isWiderThanMphone = useWiderThanMphone();
 
-  const handleSwitchCurrency = () => {
-    console.log("handle switch");
-  };
-
-  const handleSwitchCurrencyMobile = (arg: boolean) => {
-    if (arg) {
-      console.log("arg");
-    } else {
-      console.log("else - arg");
-    }
-  };
+  // const handleSwitchCurrency = () => {
+  //   console.log("handle switch");
+  // };
+  //
+  // const handleSwitchCurrencyMobile = (arg: boolean) => {
+  //   if (arg) {
+  //     console.log("arg");
+  //   } else {
+  //     console.log("else - arg");
+  //   }
+  // };
 
   if (isWiderThanMphone) {
     return (
