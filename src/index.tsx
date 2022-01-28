@@ -1,9 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ApolloProvider } from "@apollo/client";
 
-import { DAppProvider } from "utils/dapp";
 import { ToastProvider } from "hooks/useUpdateToast";
+import { GlobalFactorsProvider } from "hooks/useGlobalFactors";
+import { DAppProvider } from "utils/dapp";
+import { client } from "utils/client";
 import App from "pages/App";
 import "styles/global.sass";
 
@@ -13,9 +16,13 @@ ReactDOM.render(
   <React.StrictMode>
     <Router>
       <DAppProvider>
-        <ToastProvider>
-          <App />
-        </ToastProvider>
+        <ApolloProvider client={client}>
+          <ToastProvider>
+            <GlobalFactorsProvider>
+              <App />
+            </GlobalFactorsProvider>
+          </ToastProvider>
+        </ApolloProvider>
       </DAppProvider>
     </Router>
   </React.StrictMode>,

@@ -1,0 +1,6 @@
+query GlobalFactors {
+  globalFactors {
+    yupanaContract
+    priceFeedProxy
+  }
+}

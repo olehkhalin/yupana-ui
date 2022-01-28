@@ -14,3 +14,9 @@ export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
+
+// Contract fallbacks
+export const YUPANA_CONTRACT_FALLBACK =
+  process.env.REACT_APP_YUPANA_CONTRACT_FALLBACK!;
+export const ORACLE_PRICES_CONTRACT_FALLBACK =
+  process.env.REACT_APP_ORACLE_PRICES_CONTRACT_FALLBACK!;

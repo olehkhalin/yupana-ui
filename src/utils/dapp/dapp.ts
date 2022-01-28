@@ -348,7 +348,7 @@ export const [
  */
 export const useOnBlock = (
   tezos: TezosToolkit | null,
-  callback: (hash: string) => void
+  callbacks: ((hash: string) => void)[]
 ): void => {
   const blockHashRef = useRef<string | undefined>();
 
@@ -364,7 +364,9 @@ export const useOnBlock = (
 
       sub.on("data", (hash: string) => {
         if (blockHashRef.current && blockHashRef.current !== hash) {
-          callback(hash);
+          callbacks.forEach((callback) => {
+            callback(hash);
+          });
         }
         blockHashRef.current = hash;
       });
@@ -379,5 +381,5 @@ export const useOnBlock = (
 
     spawnSub();
     return () => sub.close();
-  }, [tezos, callback]);
+  }, [tezos, callbacks]);
 };
