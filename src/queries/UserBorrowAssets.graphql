@@ -1,0 +1,7 @@
+query UserBorrowAssets($account: String) {
+  userBorrow(where: {userId: {_eq: $account}}) {
+    assetId
+    borrow
+    borrowIndex
+  }
+}

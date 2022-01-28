@@ -1,5 +1,6 @@
-import { ApolloClient, from, HttpLink, InMemoryCache } from "@apollo/client";
+import { ApolloClient, from, HttpLink } from "@apollo/client";
 import { onError } from "@apollo/client/link/error";
+import { cache } from "./cache";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_APOLLO_CLIENT_ENDPOINT,
@@ -19,8 +20,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 
   if (networkError) console.log(`[Network error]: ${networkError}`);
 });
-
-const cache = new InMemoryCache();
 
 export const client = new ApolloClient({
   link: from([errorLink, httpLink]),

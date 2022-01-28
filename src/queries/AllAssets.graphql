@@ -1,0 +1,27 @@
+query AllAssets {
+  asset {
+    ytoken
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      decimals
+      thumbnail
+    }
+    totalLiquid
+    totalSupply
+    totalBorrowed
+    reserves
+    collateralFactor
+    liquidationThreshold
+    rates {
+      supply_apy
+      borrow_apy
+      borrow_rate
+    }
+    interestUpdateTime
+    borrowIndex
+  }
+}

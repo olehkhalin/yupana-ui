@@ -1,0 +1,7 @@
+query UserSupplyAssets($account: String) {
+  userSupply(where: {userId: {_eq: $account}}) {
+    assetId
+    supply
+    entered
+  }
+}

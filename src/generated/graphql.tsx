@@ -6874,12 +6874,92 @@ export type Withdraw_Tx_Variance_Order_By = {
   usdAmount?: InputMaybe<Order_By>;
 };
 
+export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any }> }> };
+
 export type GlobalFactorsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
 export type GlobalFactorsQuery = { __typename?: 'query_root', globalFactors: Array<{ __typename?: 'global_factors', yupanaContract: string, priceFeedProxy: string }> };
 
+export type OraclePriceQueryVariables = Exact<{ [key: string]: never; }>;
 
+
+export type OraclePriceQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', ytoken: number, price: any, decimals: any }> };
+
+export type UserBorrowAssetsQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserBorrowAssetsQuery = { __typename?: 'query_root', userBorrow: Array<{ __typename?: 'user_borrow', assetId: number, borrow: any, borrowIndex: any }> };
+
+export type UserSupplyAssetsQueryVariables = Exact<{
+  account?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', assetId: number, supply: any, entered: boolean }> };
+
+
+export const AllAssetsDocument = gql`
+    query AllAssets {
+  asset {
+    ytoken
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      decimals
+      thumbnail
+    }
+    totalLiquid
+    totalSupply
+    totalBorrowed
+    reserves
+    collateralFactor
+    liquidationThreshold
+    rates {
+      supply_apy
+      borrow_apy
+      borrow_rate
+    }
+    interestUpdateTime
+    borrowIndex
+  }
+}
+    `;
+
+/**
+ * __useAllAssetsQuery__
+ *
+ * To run a query within a React component, call `useAllAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useAllAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useAllAssetsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useAllAssetsQuery(baseOptions?: Apollo.QueryHookOptions<AllAssetsQuery, AllAssetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<AllAssetsQuery, AllAssetsQueryVariables>(AllAssetsDocument, options);
+      }
+export function useAllAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<AllAssetsQuery, AllAssetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<AllAssetsQuery, AllAssetsQueryVariables>(AllAssetsDocument, options);
+        }
+export type AllAssetsQueryHookResult = ReturnType<typeof useAllAssetsQuery>;
+export type AllAssetsLazyQueryHookResult = ReturnType<typeof useAllAssetsLazyQuery>;
+export type AllAssetsQueryResult = Apollo.QueryResult<AllAssetsQuery, AllAssetsQueryVariables>;
 export const GlobalFactorsDocument = gql`
     query GlobalFactors {
   globalFactors {
@@ -6915,3 +6995,113 @@ export function useGlobalFactorsLazyQuery(baseOptions?: Apollo.LazyQueryHookOpti
 export type GlobalFactorsQueryHookResult = ReturnType<typeof useGlobalFactorsQuery>;
 export type GlobalFactorsLazyQueryHookResult = ReturnType<typeof useGlobalFactorsLazyQuery>;
 export type GlobalFactorsQueryResult = Apollo.QueryResult<GlobalFactorsQuery, GlobalFactorsQueryVariables>;
+export const OraclePriceDocument = gql`
+    query OraclePrice {
+  oraclePrice {
+    ytoken
+    price
+    decimals
+  }
+}
+    `;
+
+/**
+ * __useOraclePriceQuery__
+ *
+ * To run a query within a React component, call `useOraclePriceQuery` and pass it any options that fit your needs.
+ * When your component renders, `useOraclePriceQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useOraclePriceQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useOraclePriceQuery(baseOptions?: Apollo.QueryHookOptions<OraclePriceQuery, OraclePriceQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<OraclePriceQuery, OraclePriceQueryVariables>(OraclePriceDocument, options);
+      }
+export function useOraclePriceLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<OraclePriceQuery, OraclePriceQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<OraclePriceQuery, OraclePriceQueryVariables>(OraclePriceDocument, options);
+        }
+export type OraclePriceQueryHookResult = ReturnType<typeof useOraclePriceQuery>;
+export type OraclePriceLazyQueryHookResult = ReturnType<typeof useOraclePriceLazyQuery>;
+export type OraclePriceQueryResult = Apollo.QueryResult<OraclePriceQuery, OraclePriceQueryVariables>;
+export const UserBorrowAssetsDocument = gql`
+    query UserBorrowAssets($account: String) {
+  userBorrow(where: {userId: {_eq: $account}}) {
+    assetId
+    borrow
+    borrowIndex
+  }
+}
+    `;
+
+/**
+ * __useUserBorrowAssetsQuery__
+ *
+ * To run a query within a React component, call `useUserBorrowAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserBorrowAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserBorrowAssetsQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useUserBorrowAssetsQuery(baseOptions?: Apollo.QueryHookOptions<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>(UserBorrowAssetsDocument, options);
+      }
+export function useUserBorrowAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>(UserBorrowAssetsDocument, options);
+        }
+export type UserBorrowAssetsQueryHookResult = ReturnType<typeof useUserBorrowAssetsQuery>;
+export type UserBorrowAssetsLazyQueryHookResult = ReturnType<typeof useUserBorrowAssetsLazyQuery>;
+export type UserBorrowAssetsQueryResult = Apollo.QueryResult<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>;
+export const UserSupplyAssetsDocument = gql`
+    query UserSupplyAssets($account: String) {
+  userSupply(where: {userId: {_eq: $account}}) {
+    assetId
+    supply
+    entered
+  }
+}
+    `;
+
+/**
+ * __useUserSupplyAssetsQuery__
+ *
+ * To run a query within a React component, call `useUserSupplyAssetsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUserSupplyAssetsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUserSupplyAssetsQuery({
+ *   variables: {
+ *      account: // value for 'account'
+ *   },
+ * });
+ */
+export function useUserSupplyAssetsQuery(baseOptions?: Apollo.QueryHookOptions<UserSupplyAssetsQuery, UserSupplyAssetsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<UserSupplyAssetsQuery, UserSupplyAssetsQueryVariables>(UserSupplyAssetsDocument, options);
+      }
+export function useUserSupplyAssetsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<UserSupplyAssetsQuery, UserSupplyAssetsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<UserSupplyAssetsQuery, UserSupplyAssetsQueryVariables>(UserSupplyAssetsDocument, options);
+        }
+export type UserSupplyAssetsQueryHookResult = ReturnType<typeof useUserSupplyAssetsQuery>;
+export type UserSupplyAssetsLazyQueryHookResult = ReturnType<typeof useUserSupplyAssetsLazyQuery>;
+export type UserSupplyAssetsQueryResult = Apollo.QueryResult<UserSupplyAssetsQuery, UserSupplyAssetsQueryVariables>;
