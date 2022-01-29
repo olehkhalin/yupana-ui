@@ -14,6 +14,7 @@ export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
+export const TEZOS_PRICE_API_URL = process.env.REACT_APP_TEZOS_PRICE_API_URL!;
 
 // Contract fallbacks
 export const YUPANA_CONTRACT_FALLBACK =
@@ -23,3 +24,4 @@ export const ORACLE_PRICES_CONTRACT_FALLBACK =
 
 // Precisions
 export const STANDARD_PRECISION = 18;
+export const COLLATERAL_PRECISION = 42;
