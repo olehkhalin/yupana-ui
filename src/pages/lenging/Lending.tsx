@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 
 import BaseLayout from "layouts/BaseLayout";
-import { UserStats } from "components/lending/UserStats";
+import { Stats } from "components/lending/Stats";
 
 export const Lending: FC = () => {
   return (
     <BaseLayout>
-      <UserStats />
+      <Stats />
     </BaseLayout>
   );
 };

@@ -80,9 +80,9 @@ export const useUserStats = () => {
     return {
       data: null,
       loading:
-        assetsLoading &&
-        supplyAssetsLoading &&
-        borrowAssetsLoading &&
+        assetsLoading ||
+        supplyAssetsLoading ||
+        borrowAssetsLoading ||
         oraclePricesLoading,
       error: false,
     };

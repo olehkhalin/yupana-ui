@@ -1,0 +1,73 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+  width: 100%
+
+.content
+  position: relative
+  display: flex
+  flex-wrap: wrap
+  margin-bottom: .656rem
+  font-weight: 700
+
+.title
+  display: flex
+  align-items: center
+  width: 100%
+  min-width: max-content
+  justify-content: center
+  order: -1
+  margin-bottom: .5rem
+  color: $white
+  text-shadow: none
+
+.percent, .value
+  width: 50%
+  min-height: 1.25rem
+
+.value
+  text-align: right
+  svg
+    height: 1rem
+    width: auto
+    margin-top: .15rem
+  .preloader
+    margin-left: auto
+
+.attention
+  margin-left: .25rem
+  &:hover
+    .icon
+      path
+        fill: $light-yellow
+
+.icon
+  path
+    transition: fill $animationTime
+
+.preloader
+  width: 6.125rem
+  height: 1.063rem
+
+@include media('>Mphone')
+  .preloader
+    width: 7.875rem
+
+@include media('>Lphone')
+  .title
+    width: 50%
+    order: 0
+    margin-bottom: 0
+  .content
+    margin-bottom: 1rem
+    display: flex
+    flex-wrap: nowrap
+  .percent, .value
+    width: 25%
+  .root
+    display: flex
+    flex-direction: column
+    width: 100%

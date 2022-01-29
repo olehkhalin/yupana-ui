@@ -13,6 +13,7 @@ export const LAST_USED_CONNECTION_KEY = "lastUsedConnection";
 export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
+// General
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
 export const TEZOS_PRICE_API_URL = process.env.REACT_APP_TEZOS_PRICE_API_URL!;
 
@@ -25,3 +26,6 @@ export const ORACLE_PRICES_CONTRACT_FALLBACK =
 // Precisions
 export const STANDARD_PRECISION = 18;
 export const COLLATERAL_PRECISION = 42;
+
+// Animation
+export const ANIMATION_TIME = 0.25;
