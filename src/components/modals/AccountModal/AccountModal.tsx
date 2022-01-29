@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, FC } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 
@@ -20,7 +20,7 @@ type AccountModalProps = {
   address: string;
 } & ModalActions;
 
-export const AccountModal: React.FC<AccountModalProps> = ({
+export const AccountModal: FC<AccountModalProps> = ({
   address,
   isOpen,
   onRequestClose,

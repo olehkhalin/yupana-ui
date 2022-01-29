@@ -15,6 +15,7 @@ module.exports = {
     "@typescript-eslint/triple-slash-reference": "off",
     "@typescript-eslint/ban-ts-comment": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off",
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
     "react/prop-types": "off",

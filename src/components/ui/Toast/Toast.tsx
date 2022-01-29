@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 import { ToastContainer, CloseButtonProps } from "react-toastify";
 
@@ -24,7 +24,7 @@ const CustomCloseButton = ({ closeToast }: CloseButtonProps) => (
   </Button>
 );
 
-export const Toast: React.FC = () => {
+export const Toast: FC = () => {
   const { toastTheme } = useUpdateToast();
   const isWiderThanMphone = useWiderThanMphone();
 

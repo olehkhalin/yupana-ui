@@ -45,9 +45,10 @@ export const calculateMaxCollateral = (
         .multipliedBy(asset.collateralFactor)
         .multipliedBy(assetTotal)
         .div(asset.totalSupply)
-        .div(new BigNumber(10).pow(STANDARD_PRECISION))
     );
   });
 
-  return maxCollateral;
+  return maxCollateral.eq(0)
+    ? new BigNumber(0)
+    : maxCollateral.div(new BigNumber(10).pow(STANDARD_PRECISION));
 };

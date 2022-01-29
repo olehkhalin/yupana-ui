@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { FC, useCallback } from "react";
 
 import { useConnectModalsState } from "hooks/useConnectModalsState";
 import { useUpdateToast } from "hooks/useUpdateToast";
@@ -21,7 +21,7 @@ enum WalletType {
   TEMPLE = "temple",
 }
 
-export const ConnectWalletModal: React.FC<ModalActions> = ({
+export const ConnectWalletModal: FC<ModalActions> = ({
   isOpen,
   onRequestClose,
 }) => {

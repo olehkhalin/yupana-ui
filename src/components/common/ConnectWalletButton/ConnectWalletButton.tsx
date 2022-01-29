@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, FC } from "react";
 import cx from "classnames";
 
 import { useWiderThanMphone } from "utils/helpers";
@@ -14,7 +14,7 @@ type ConnectWalletButtonProps = {
   className?: string;
 };
 
-export const ConnectWalletButton: React.FC<ConnectWalletButtonProps> = ({
+export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   className,
 }) => {
   const isWiderThanMphone = useWiderThanMphone();

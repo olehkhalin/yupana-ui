@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import s from "./ModalHeader.module.sass";
@@ -9,7 +9,7 @@ type ModalHeaderProps = {
   className?: string;
 };
 
-export const ModalHeader: React.FC<ModalHeaderProps> = ({
+export const ModalHeader: FC<ModalHeaderProps> = ({
   title,
   description,
   className,

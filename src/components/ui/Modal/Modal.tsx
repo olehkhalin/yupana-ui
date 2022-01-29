@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import ReactModal from "react-modal";
 import cx from "classnames";
 
@@ -19,7 +19,7 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: FC<ModalProps> = ({
   theme = "primary",
   className,
   overlayClassName,
