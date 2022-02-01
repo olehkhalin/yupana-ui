@@ -7,7 +7,7 @@ export const getPrettyAmount = ({
   withTooltip = false,
 }: {
   value: number | BigNumber;
-  currency?: string | undefined;
+  currency?: string | null;
   dec?: number;
   withTooltip?: boolean;
 }) => {

@@ -11,6 +11,7 @@ import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { CollateralSwitcher } from "components/common/CollateralSwitcher";
 import { DropdownArrow } from "components/tables/DropdownArrow";
+import { TableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Tables.module.sass";
 
@@ -94,7 +95,23 @@ export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
     ],
     [loading]
   );
-  const renderRowSubComponent = useCallback(() => <>Test</>, []);
+  const renderRowSubComponent = useCallback(
+    ({
+      row: {
+        original: { yToken, asset, supply },
+      },
+    }) => (
+      <TableDropdown
+        yToken={yToken}
+        asset={asset}
+        balanceAmount={supply}
+        balanceLabel="Supply balance"
+        firstButtonLabel="Supply"
+        secondButtonLabel="Withdraw"
+      />
+    ),
+    []
+  );
 
   return (
     <Table

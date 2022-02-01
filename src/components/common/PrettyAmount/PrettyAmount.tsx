@@ -11,7 +11,7 @@ import s from "./PrettyAmount.module.sass";
 
 type PrettyAmountProps = {
   amount: BigNumber;
-  currency?: string;
+  currency?: string | null;
   isConvertable?: boolean;
   isMinified?: boolean;
   className?: string;

@@ -1,0 +1,57 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-grow: 1
+  flex-direction: column
+  width: 100%
+  padding-top: 1rem
+
+.primary
+  color: $light-blue
+
+.secondary
+  color: $light-yellow
+
+.title
+  display: flex
+  margin-bottom: .5rem
+  font-weight: 700
+
+.amount
+  margin-left: .5rem
+
+.details
+  font-size: .75rem
+  font-weight: 400
+  text-transform: none
+  text-decoration: underline
+
+.content
+  margin-bottom: 1rem
+
+.buttons
+  display: flex
+
+.button
+  display: flex
+  justify-content: center
+  width: 8rem
+  &:not(:last-child)
+    margin-right: 2rem
+
+@include media('>Lphone')
+  .root
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    margin-top: initial
+    padding: 0 0 1rem
+  .content
+    margin-bottom: initial
+  .buttons
+    justify-content: center
+  .button
+    &:not(:last-child)
+      margin-right: 1rem
