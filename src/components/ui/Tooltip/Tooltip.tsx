@@ -4,8 +4,10 @@ import cx from "classnames";
 
 import s from "./Tooltip.module.sass";
 
+export type TooltipTheme = keyof typeof themeClass;
+
 export type TooltipProps = {
-  theme?: keyof typeof themeClass;
+  theme?: TooltipTheme;
   content?: ReactNode;
   className?: string;
 } & TippyProps;

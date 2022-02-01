@@ -38,6 +38,25 @@
       left: .438rem
       right: auto
 
+.secondary
+  position: relative
+  right: -.35rem
+  top: -.05rem
+  padding: .5rem
+  background-color: $saturated-yellow
+  &::after
+    right: .438rem
+  &[data-placement^='top']
+    &::after
+      border-top: .563rem solid $saturated-yellow
+  &[data-placement^='bottom']
+    &::after
+      border-bottom: .563rem solid $saturated-yellow
+  &[data-placement$='start']
+    &::after
+      left: .438rem
+      right: auto
+
 .wrapper
   display: inline-flex
   align-items: center

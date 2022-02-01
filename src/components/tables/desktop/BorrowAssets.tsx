@@ -1,6 +1,6 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
-import { Cell } from "react-table";
+import { Cell, Row } from "react-table";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
@@ -9,6 +9,7 @@ import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { DropdownArrow } from "components/tables/DropdownArrow";
 
 import s from "./Tables.module.sass";
 
@@ -28,11 +29,12 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
       {
         Header: "Asset",
         accessor: "asset",
-        Cell: ({ cell: { value } }: { cell: Cell }) => (
+        Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) => (
           <AssetName
             theme="secondary"
             asset={loading ? undefined : { ...value }}
             loading={loading}
+            {...row.getToggleRowExpandedProps()}
           />
         ),
       },
@@ -69,26 +71,37 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
               )}
               currency={getSliceAssetName(value.asset)}
               isMinified
+              tooltipTheme="secondary"
             />
           ),
       },
       {
         Header: () => null,
         id: "expander",
+        Cell: ({ row }: { row: Row }) => (
+          <DropdownArrow
+            theme="secondary"
+            active={row.isExpanded}
+            className={s.icon}
+            {...row.getToggleRowExpandedProps()}
+          />
+        ),
       },
     ],
     [loading]
   );
+  const renderRowSubComponent = useCallback(() => <>Test</>, []);
 
   return (
     <Table
       theme="secondary"
       columns={columns}
-      data={data}
+      data={data ?? [0, 1, 2]}
       loading={loading}
       emptyText="There is no borrow assets"
       rowClassName={s.borrowRow}
       className={className}
+      renderRowSubComponent={renderRowSubComponent}
     />
   );
 };

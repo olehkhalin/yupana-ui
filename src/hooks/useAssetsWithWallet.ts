@@ -24,7 +24,7 @@ export const useAssetsWithWallet = (): UseAssetsResponse => {
     const assetsWithWallet = await Promise.all(
       data.assets.map(async (asset) => {
         let wallet = new BigNumber(0);
-        if (accountPkh && tezos) {
+        if (!!accountPkh && !!tezos) {
           wallet =
             (await getUserBalance(
               tezos,

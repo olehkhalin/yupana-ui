@@ -1,6 +1,6 @@
 import { FC } from "react";
 
-import Lending from "pages/lenging";
+import Lending from "pages/lending";
 import Markets from "pages/markets";
 import LiquidationPositions from "pages/liquidation-positions";
 import MarketsDetails from "pages/markets-details";

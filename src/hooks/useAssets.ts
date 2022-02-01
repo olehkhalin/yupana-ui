@@ -55,7 +55,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
     }
   }, [accountPkh, fetchBorrowAssets, fetchSupplyAssets]);
 
-  if (!assets || !supplyAssets || !borrowAssets || !accountPkh) {
+  if (!assets) {
     return {
       data: null,
       loading: assetsLoading || supplyAssetsLoading || borrowAssetsLoading,
@@ -63,37 +63,41 @@ export const [AssetsProvider, useAssets] = constate(() => {
     };
   }
 
-  const preparedSupplyAssets = supplyAssets.userSupply.map((asset) => ({
-    assetId: asset.assetId,
-    supply: new BigNumber(asset.supply),
-    isCollateral: asset.entered,
-  }));
+  const preparedSupplyAssets = supplyAssets
+    ? supplyAssets.userSupply.map((asset) => ({
+        assetId: asset.assetId,
+        supply: new BigNumber(asset.supply),
+        isCollateral: asset.entered,
+      }))
+    : [];
 
-  const preparedBorrowAssets = borrowAssets.userBorrow.map((asset) => {
-    const assetInfo = assets.asset.find(
-      ({ ytoken }) => ytoken === asset.assetId
-    )!;
+  const preparedBorrowAssets = borrowAssets
+    ? borrowAssets.userBorrow.map((asset) => {
+        const assetInfo = assets.asset.find(
+          ({ ytoken }) => ytoken === asset.assetId
+        )!;
 
-    const deltaInSeconds = new BigNumber(
-      new BigNumber(new Date().getTime()).minus(
-        new Date(assetInfo.interestUpdateTime).getTime()
-      )
-    ).div(1000);
-    const interestFactor = new BigNumber(
-      assetInfo.rates[0].borrow_rate
-    ).multipliedBy(deltaInSeconds);
-    const borrowIndex = interestFactor.multipliedBy(asset.borrowIndex);
-    const borrowWithInterest = new BigNumber(asset.borrow)
-      .multipliedBy(borrowIndex)
-      .div(asset.borrowIndex);
+        const deltaInSeconds = new BigNumber(
+          new BigNumber(new Date().getTime()).minus(
+            new Date(assetInfo.interestUpdateTime).getTime()
+          )
+        ).div(1000);
+        const interestFactor = new BigNumber(
+          assetInfo.rates[0].borrow_rate
+        ).multipliedBy(deltaInSeconds);
+        const borrowIndex = interestFactor.multipliedBy(asset.borrowIndex);
+        const borrowWithInterest = new BigNumber(asset.borrow)
+          .multipliedBy(borrowIndex)
+          .div(asset.borrowIndex);
 
-    return {
-      assetId: asset.assetId,
-      borrow: new BigNumber(asset.borrow),
-      borrowIndex: new BigNumber(asset.borrowIndex),
-      borrowWithInterest,
-    };
-  });
+        return {
+          assetId: asset.assetId,
+          borrow: new BigNumber(asset.borrow),
+          borrowIndex: new BigNumber(asset.borrowIndex),
+          borrowWithInterest,
+        };
+      })
+    : [];
 
   const finalAssets = assets.asset.map((asset) => {
     const borrowAsset = preparedBorrowAssets.find(

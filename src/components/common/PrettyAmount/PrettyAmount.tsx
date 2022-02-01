@@ -4,7 +4,7 @@ import cx from "classnames";
 
 import { getPrettyAmount } from "utils/helpers/amount";
 import { CurrencyEnum, useCurrency } from "hooks/useCurrency";
-import { Tooltip } from "components/ui/Tooltip";
+import { Tooltip, TooltipTheme } from "components/ui/Tooltip";
 import { ReactComponent as TezosIcon } from "svg/Tezos.svg";
 
 import s from "./PrettyAmount.module.sass";
@@ -15,6 +15,7 @@ type PrettyAmountProps = {
   isConvertable?: boolean;
   isMinified?: boolean;
   className?: string;
+  tooltipTheme?: TooltipTheme;
 };
 
 export const PrettyAmount: FC<PrettyAmountProps> = ({
@@ -23,6 +24,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   isConvertable = false,
   isMinified = false,
   className,
+  tooltipTheme,
 }) => {
   const { currency: convertableCurrency, convertPriceByBasicCurrency } =
     useCurrency();
@@ -41,7 +43,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
     decSplit = 2;
   }
 
-  const finalDecLength = decimalPlaces.toString().length;
+  const finalDecLength = decimalPlaces ? decimalPlaces.toString().length : 0;
 
   let isShownDecTooltip = false;
   if (finalDecLength > decSplit) {
@@ -62,6 +64,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
           currency: finalCurrency,
           dec: 1e24,
         })}
+        theme={tooltipTheme}
       >
         <span className={compoundClassNames}>
           {getPrettyAmount({
@@ -84,6 +87,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
           value: convertedAmount,
           currency: finalCurrency,
         })}
+        theme={tooltipTheme}
       >
         <span className={compoundClassNames}>
           {getPrettyAmount({

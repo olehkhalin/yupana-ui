@@ -1,12 +1,11 @@
 import React, { useCallback, useMemo } from "react";
-import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
-import cx from "classnames";
+import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
-import { getSliceAssetName } from "utils/helpers/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
@@ -14,13 +13,13 @@ import { DropdownArrow } from "components/tables/DropdownArrow";
 
 import s from "./Tables.module.sass";
 
-type SupplyAssetsProps = {
+type YourBorrowAssetsProps = {
   data?: AssetsResponseData;
   loading?: boolean;
   className?: string;
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   data,
   loading,
   className,
@@ -32,7 +31,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         accessor: "asset",
         Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) => (
           <AssetName
-            theme="primary"
+            theme="secondary"
             asset={loading ? undefined : { ...value }}
             loading={loading}
             {...row.getToggleRowExpandedProps()}
@@ -40,22 +39,12 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         ),
       },
       {
-        Header: "Supply APY",
-        accessor: "rates.supplyApy",
+        Header: "Borrow APY",
+        accessor: "rates.borrowApy",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
             : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
-      },
-      {
-        Header: "Collateral Factor",
-        accessor: "collateralFactor",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading
-            ? "—"
-            : getPrettyPercent(
-                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
-              ),
       },
       {
         Header: "Wallet",
@@ -71,14 +60,24 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
               amount={convertUnits(value.wallet, value.asset.decimals)}
               currency={getSliceAssetName(value.asset)}
               isMinified
+              tooltipTheme="secondary"
             />
           ),
+      },
+      {
+        Header: "Borrow limit",
+        accessor: "rates.utilizationRate",
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
+          loading
+            ? "—"
+            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
       },
       {
         Header: () => null,
         id: "expander",
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
+            theme="secondary"
             active={row.isExpanded}
             className={s.icon}
             {...row.getToggleRowExpandedProps()}
@@ -92,12 +91,13 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
 
   return (
     <Table
+      theme="secondary"
       columns={columns}
       data={data ?? [0, 1, 2]}
+      emptyText="You have no borrowed assets"
       loading={loading}
-      emptyText="There is no supply assets"
-      rowClassName={s.supplyRow}
-      className={cx(s.root, className)}
+      rowClassName={s.ownAssetsRow}
+      className={className}
       renderRowSubComponent={renderRowSubComponent}
     />
   );

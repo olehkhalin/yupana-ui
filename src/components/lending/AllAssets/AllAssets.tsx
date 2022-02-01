@@ -1,11 +1,19 @@
 import React, { useState } from "react";
+import BigNumber from "bignumber.js";
 import cx from "classnames";
 
+import { STANDARD_PRECISION } from "constants/defaults";
 import { useWiderThanMdesktop } from "utils/helpers";
+import { useAccountPkh } from "utils/dapp";
 import { useAssetsWithWallet } from "hooks/useAssetsWithWallet";
 import { Section } from "components/common/Section";
 import { AssetsSwitcher } from "components/common/AssetsSwitcher";
-import { BorrowAssets, SupplyAssets } from "components/tables/desktop";
+import {
+  SupplyAssets,
+  BorrowAssets,
+  YourSupplyAssets,
+  YourBorrowAssets,
+} from "components/tables/desktop";
 
 import s from "./AllAssets.module.sass";
 
@@ -14,6 +22,7 @@ type AssetsProps = {
 };
 
 export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
+  const accountPkh = useAccountPkh();
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
 
@@ -32,6 +41,40 @@ export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
           className={s.switcher}
         />
       )}
+
+      {accountPkh && (
+        <div className={cx(s.root, className)}>
+          <Section
+            title="Your supply assets"
+            className={cx(s.col, {
+              [s.show]: isAssetSwitcherActive && !isWiderThanMdesktop,
+            })}
+          >
+            <YourSupplyAssets
+              data={data?.supplyAssets.filter(({ supply }) =>
+                supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+              )}
+              loading={loading}
+            />
+          </Section>
+
+          <Section
+            title="Your borrow assets"
+            theme="secondary"
+            className={cx(s.col, {
+              [s.show]: !isAssetSwitcherActive && !isWiderThanMdesktop,
+            })}
+          >
+            <YourBorrowAssets
+              data={data?.borrowAssets.filter(({ borrow }) =>
+                borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+              )}
+              loading={loading}
+            />
+          </Section>
+        </div>
+      )}
+
       <div className={cx(s.root, className)}>
         <Section
           title="Supply assets"

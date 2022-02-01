@@ -1,5 +1,5 @@
 import React from "react";
-import { useTable } from "react-table";
+import { useTable, useExpanded } from "react-table";
 import cx from "classnames";
 
 import { Preloader } from "components/ui/Preloader";
@@ -8,7 +8,7 @@ import s from "./Table.module.sass";
 
 type TableProps = {
   columns: any;
-  data?: any[];
+  data: any[];
   loading?: boolean;
   emptyText: string;
   theme?: keyof typeof themeClasses;
@@ -16,6 +16,8 @@ type TableProps = {
   rowClassName?: string;
   theadClassName?: string;
   className?: string;
+  // Expanded row
+  renderRowSubComponent?: any;
 };
 
 const themeClasses = {
@@ -27,7 +29,7 @@ const themeClasses = {
 };
 
 export const Table: React.FC<TableProps> = ({
-  columns,
+  columns: uColumns,
   data,
   loading,
   emptyText,
@@ -36,12 +38,22 @@ export const Table: React.FC<TableProps> = ({
   rowClassName,
   theadClassName,
   className,
+  renderRowSubComponent,
 }) => {
-  const { getTableProps, getTableBodyProps, headerGroups, prepareRow, rows } =
-    useTable({
-      columns,
-      data: data ?? [0, 1, 2],
-    });
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    prepareRow,
+    rows,
+    visibleColumns,
+  } = useTable(
+    {
+      columns: uColumns,
+      data: data,
+    },
+    useExpanded
+  );
 
   const compoundClassNames = cx(s.root, themeClasses[theme], className);
 
@@ -74,21 +86,36 @@ export const Table: React.FC<TableProps> = ({
                 prepareRow(row);
 
                 return (
-                  <tr
-                    {...row.getRowProps()}
-                    key={row.getRowProps().key}
-                    className={cx(s.tr, s.trBody, rowClassName)}
-                  >
-                    {row.cells.map((cell) => (
-                      <td
-                        {...cell.getCellProps()}
-                        key={cell.getCellProps().key}
-                        className={s.td}
+                  <React.Fragment key={row.getRowProps().key}>
+                    <tr
+                      {...row.getRowProps()}
+                      className={cx(s.tr, s.trBody, rowClassName)}
+                    >
+                      {row.cells.map((cell) => (
+                        <td
+                          {...cell.getCellProps()}
+                          key={cell.getCellProps().key}
+                          className={s.td}
+                        >
+                          {cell.render("Cell")}
+                        </td>
+                      ))}
+                    </tr>
+                    {row.isExpanded ? (
+                      <tr
+                        {...row.getRowProps()}
+                        key={`${row.getRowProps().key}-inner`}
+                        className={s.subTr}
                       >
-                        {cell.render("Cell")}
-                      </td>
-                    ))}
-                  </tr>
+                        <td
+                          colSpan={visibleColumns.length}
+                          className={s.dropdownTd}
+                        >
+                          {renderRowSubComponent({ row })}
+                        </td>
+                      </tr>
+                    ) : null}
+                  </React.Fragment>
                 );
               })
             )}

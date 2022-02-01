@@ -1,26 +1,26 @@
 import React, { useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
-import cx from "classnames";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
-import { getSliceAssetName } from "utils/helpers/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { CollateralSwitcher } from "components/common/CollateralSwitcher";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 
 import s from "./Tables.module.sass";
 
-type SupplyAssetsProps = {
+type YourSupplyAssetsProps = {
   data?: AssetsResponseData;
   loading?: boolean;
   className?: string;
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
   data,
   loading,
   className,
@@ -48,16 +48,6 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
             : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
       },
       {
-        Header: "Collateral Factor",
-        accessor: "collateralFactor",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading
-            ? "—"
-            : getPrettyPercent(
-                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
-              ),
-      },
-      {
         Header: "Wallet",
         accessor: (row: { wallet: BigNumber; asset: AssetType }) => ({
           wallet: row.wallet,
@@ -71,6 +61,22 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
               amount={convertUnits(value.wallet, value.asset.decimals)}
               currency={getSliceAssetName(value.asset)}
               isMinified
+            />
+          ),
+      },
+      {
+        Header: "Collateral",
+        accessor: (row: { isCollateral: boolean; yToken: number }) => ({
+          isCollateral: row.isCollateral,
+          yToken: row.yToken,
+        }),
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
+          loading ? (
+            "—"
+          ) : (
+            <CollateralSwitcher
+              yToken={value.yToken}
+              isCollateral={value.isCollateral}
             />
           ),
       },
@@ -95,9 +101,9 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       columns={columns}
       data={data ?? [0, 1, 2]}
       loading={loading}
-      emptyText="There is no supply assets"
-      rowClassName={s.supplyRow}
-      className={cx(s.root, className)}
+      emptyText="You have no supplied assets"
+      rowClassName={s.ownAssetsRow}
+      className={className}
       renderRowSubComponent={renderRowSubComponent}
     />
   );
