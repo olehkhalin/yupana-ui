@@ -4,14 +4,11 @@ import cx from "classnames";
 
 import s from "./Tooltip.module.sass";
 
-export interface TooltipProps extends TippyProps {
+export type TooltipProps = {
   theme?: keyof typeof themeClass;
   content?: ReactNode;
   className?: string;
-}
-
-type TooltipWrapper = Pick<TooltipProps, "children">;
-export type TooltipWrapperInterface = TooltipWrapper;
+} & TippyProps;
 
 const themeClass = {
   primary: s.primary,

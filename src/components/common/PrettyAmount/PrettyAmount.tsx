@@ -13,6 +13,7 @@ type PrettyAmountProps = {
   amount: BigNumber;
   currency?: string;
   isConvertable?: boolean;
+  isMinified?: boolean;
   className?: string;
 };
 
@@ -20,6 +21,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   amount,
   currency,
   isConvertable = false,
+  isMinified = false,
   className,
 }) => {
   const { currency: convertableCurrency, convertPriceByBasicCurrency } =
@@ -34,22 +36,23 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   const integerPart = convertedAmount.decimalPlaces(0);
   const decimalPlaces = +convertedAmount.toString().split(".")[1];
 
-  let decSplit = 6;
+  let decSplit = isMinified ? 2 : 6;
   if (integerPart.gte(1000)) {
     decSplit = 2;
   }
 
+  const finalDecLength = decimalPlaces.toString().length;
+
   let isShownDecTooltip = false;
-  if (decimalPlaces > decSplit) {
+  if (finalDecLength > decSplit) {
     isShownDecTooltip = true;
   }
 
-  const isShownSimpleTooltip = integerPart.toString().length > 6;
+  const isShownSimpleTooltip =
+    integerPart.toString().length > (isMinified ? 3 : 6);
 
   const finalCurrency =
     isConvertable && convertableCurrency === CurrencyEnum.USD ? "$" : currency;
-
-  console.log("finalCurrency", finalCurrency);
 
   if (isShownSimpleTooltip) {
     return (
@@ -64,6 +67,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
           {getPrettyAmount({
             value: convertedAmount,
             currency: finalCurrency,
+            dec: isMinified ? 3 : undefined,
           })}
           {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
             <TezosIcon className={s.tezosIcon} />
@@ -89,6 +93,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
             ),
             currency: finalCurrency,
             withTooltip: true,
+            dec: isMinified ? 3 : undefined,
           })}
           {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
             <TezosIcon className={s.tezosIcon} />
@@ -103,6 +108,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
       {getPrettyAmount({
         value: convertedAmount,
         currency: finalCurrency,
+        dec: isMinified ? 3 : undefined,
       })}
       {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
         <TezosIcon className={s.tezosIcon} />

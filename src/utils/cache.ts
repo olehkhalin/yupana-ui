@@ -8,11 +8,13 @@ import {
 
 export type GlobalVariablesType = {
   maxCollateral: BigNumber;
+  liquidationCollateral: BigNumber;
   outstandingBorrow: BigNumber;
 };
 
 const globalVariablesInitial = {
   maxCollateral: new BigNumber(0),
+  liquidationCollateral: new BigNumber(0),
   outstandingBorrow: new BigNumber(0),
 };
 

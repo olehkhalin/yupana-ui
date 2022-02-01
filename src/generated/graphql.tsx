@@ -6877,7 +6877,7 @@ export type Withdraw_Tx_Variance_Order_By = {
 export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any }> }> };
+export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }> }> };
 
 export type GlobalFactorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6927,6 +6927,7 @@ export const AllAssetsDocument = gql`
       supply_apy
       borrow_apy
       borrow_rate
+      utilization_rate
     }
     interestUpdateTime
     borrowIndex

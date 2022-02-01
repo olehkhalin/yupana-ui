@@ -16,6 +16,7 @@ const themeClassPreloader = {
   secondary: s.secondary,
   tertiary: s.tertiary,
   quaternary: s.quaternary,
+  octonary: s.octonary,
   quinary: s.quinary,
 };
 

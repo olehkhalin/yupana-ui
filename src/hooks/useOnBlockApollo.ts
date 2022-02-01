@@ -6,17 +6,38 @@ import { useOnBlock } from "utils/dapp";
 export const useOnBlockApollo = (
   tezos: TezosToolkit | null,
   useQuery: any, // TODO: Replace with type
-  fetchParams?: any
+  withAccount = false,
+  account?: string | null
 ) => {
   const [fetchQuery] = useQuery();
 
   useEffect(() => {
-    fetchQuery(fetchParams);
-  }, [fetchParams, fetchQuery]);
+    if (withAccount) {
+      if (account) {
+        fetchQuery({
+          variables: {
+            account,
+          },
+        });
+      }
+    } else {
+      fetchQuery();
+    }
+  }, [account, fetchQuery, withAccount]);
 
   const updateData = useCallback(() => {
-    fetchQuery(fetchParams);
-  }, [fetchParams, fetchQuery]);
+    if (withAccount) {
+      if (account) {
+        fetchQuery({
+          variables: {
+            account,
+          },
+        });
+      }
+    } else {
+      fetchQuery();
+    }
+  }, [account, fetchQuery, withAccount]);
 
   useOnBlock(tezos, [updateData]);
 };

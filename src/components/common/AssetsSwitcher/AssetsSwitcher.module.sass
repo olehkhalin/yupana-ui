@@ -1,0 +1,52 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  justify-content: space-between
+  align-items: center
+  max-width: 18rem
+  width: 100%
+  padding: .5rem
+  border: .063rem solid $blue-neutral
+  border-radius: .5rem
+  transition: border-color $animationTime
+  &.active
+    border: .063rem solid $light-yellow
+
+.button
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  padding: .25rem 0
+  border-radius: .25rem
+  font-size: .875rem
+  font-weight: 700
+  transition: box-shadow $animationTime, background-color $animationTime, color $animationTime
+  &:not(:last-child)
+    margin-right: .5rem
+
+.supply
+  background-color: rgba($blue-neutral, .16)
+  color: $blue-neutral
+  &.active
+    background-color: $blue-neutral
+    color: $graphite
+    box-shadow: $blue-shadow-button
+  &:hover
+    box-shadow: $blue-shadow
+
+.borrow
+  background-color: rgba($light-yellow, .16)
+  color: $light-yellow
+  &.active
+    background-color: $light-yellow
+    color: $graphite
+    box-shadow: $light-yellow-shadow-button
+  &:hover
+    box-shadow: $light-yellow-shadow
+
+@include media('>Lphone')
+  .root
+    max-width: 28rem

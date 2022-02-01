@@ -55,7 +55,6 @@ export const [CurrencyProvider, useCurrency] = constate(() => {
   useOnBlock(tezos, [mutate]);
 
   useEffect(() => {
-    console.log("allTezosData", allTezosData);
     if (
       allTezosData &&
       allTezosData.value &&
@@ -66,7 +65,9 @@ export const [CurrencyProvider, useCurrency] = constate(() => {
   }, [allTezosData]);
 
   const convertPriceByBasicCurrency = (number: BigNumber) =>
-    currencyState === CurrencyEnum.XTZ ? number.div(tezosPrice) : number;
+    currencyState === CurrencyEnum.XTZ
+      ? number.div(tezosPrice).decimalPlaces(6, BigNumber.ROUND_DOWN)
+      : number.decimalPlaces(2, BigNumber.ROUND_DOWN);
 
   return {
     currency: currencyState,

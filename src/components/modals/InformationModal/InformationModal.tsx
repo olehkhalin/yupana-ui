@@ -1,13 +1,11 @@
 import React from "react";
 
-import { ModalInterface } from "types/modal";
+import { ModalProps } from "types/modal";
 import { Modal } from "components/ui/Modal";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
 import { Button } from "components/ui/Button";
 
-type InformationModalProps = ModalInterface;
-
-export const InformationModal: React.FC<InformationModalProps> = ({
+export const InformationModal: React.FC<ModalProps> = ({
   title,
   description,
   buttonText = "Ok, I got it",

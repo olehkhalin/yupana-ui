@@ -13,6 +13,13 @@ export const LAST_USED_CONNECTION_KEY = "lastUsedConnection";
 export const NETWORK = process.env.REACT_APP_NETWORK as NetworkType;
 export const NETWORK_RPC = process.env.REACT_APP_NETWORK_RPC!;
 
+// Lambda
+export const LAMBDA_CONTRACT_ADDRESS =
+  process.env.REACT_APP_LAMBDA_CONTRACT_ADDRESS!;
+export const LV_ACCOUNT_PKH = process.env.REACT_APP_LV_ACCOUNT_PKH!;
+export const LV_ACCOUNT_PUBLIC_KEY =
+  process.env.REACT_APP_LV_ACCOUNT_PUBLIC_KEY!;
+
 // General
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
 export const TEZOS_PRICE_API_URL = process.env.REACT_APP_TEZOS_PRICE_API_URL!;

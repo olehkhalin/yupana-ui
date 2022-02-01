@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import cx from "classnames";
 
-import { ModalInterface } from "types/modal";
+import { ModalProps } from "types/modal";
 import { Button } from "components/ui/Button";
 import { InformationModal } from "components/modals/InformationModal";
 import { ReactComponent as Attention } from "svg/Attention.svg";
@@ -9,15 +9,15 @@ import { ReactComponent as Attention } from "svg/Attention.svg";
 import s from "./AttentionText.module.sass";
 
 export type ModalContent = Pick<
-  ModalInterface,
+  ModalProps,
   "title" | "description" | "buttonText"
 >;
 
-export interface AttentionTextProps extends ModalContent {
+export type AttentionTextProps = {
   text: string;
   theme: keyof typeof themeClasses;
   className?: string;
-}
+} & ModalContent;
 
 export const themeClasses = {
   primary: s.primary,

@@ -1,0 +1,220 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+@mixin yellow-background
+  background-color: $light-yellow
+@mixin blue-background
+  background-color: $blue-neutral
+
+@mixin yellow-light
+  box-shadow: $light-yellow-shadow
+  @include yellow-background
+@mixin blue-light
+  box-shadow: $blue-shadow-button
+  @include blue-background
+
+@mixin yellow-strong
+  box-shadow: $light-yellow-shadow
+  @include yellow-background
+@mixin blue-strong
+  box-shadow: $blue-shadow-button
+  @include blue-background
+
+.root
+  position: relative
+  padding: 2rem 1.5rem
+  &::-webkit-scrollbar
+    display: none
+
+.table
+  position: relative
+  width: 100%
+  text-align: left
+  border-collapse: collapse
+
+.thead
+  position: relative
+  &::after
+    content: ''
+    position: absolute
+    height: .063rem
+    width: 100%
+    background-color: $white
+
+.th
+  padding-bottom: 1rem
+  font-size: 0.875rem
+  font-weight: 700
+
+.trBody
+  td
+    display: flex
+    align-items: center
+  &:first-of-type
+    .td
+      padding-top: 1.75rem
+
+.tbody
+  position: relative
+  display: flex
+  flex-direction: column
+  width: 100%
+
+.td
+  padding: .75rem 0
+  &:first-child
+    width: 7.5rem
+
+.tr
+  display: grid
+  &.noAssets
+    display: grid
+    grid-template-columns: 1fr
+    margin-top: 1.5rem
+    text-align: center
+
+.primary, .secondary
+  width: 100%
+
+.primary
+  color: $light-blue
+  background: linear-gradient(180deg, rgba(0, 205, 238, 0.04) 0%, rgba(0, 0, 0, 0) 100%)
+  .thead
+    border-color: $light-blue
+    text-shadow: $blue-shadow
+    &::after
+      @include blue-light
+
+.secondary
+  position: relative
+  color: $light-yellow
+  background: linear-gradient(263.59deg, #000610 0%, #110D00 100%)
+  &::after
+    content: ''
+    position: absolute
+    left: -0.25rem
+    top: 0.125rem
+    height: 100%
+    width: 0.25rem
+    transform: skewY(-45deg)
+    @include yellow-light
+  &::before
+    content: ''
+    position: absolute
+    left: -0.125rem
+    top: 100%
+    width: 100%
+    height: 0.25rem
+    transform: skewX(-45deg)
+    @include yellow-light
+  .thead
+    border-color: $light-yellow
+    text-shadow: $light-yellow-shadow
+    &::after
+      @include yellow-light
+
+.tertiary
+  padding: 0
+  color: $light-blue
+  font-weight: 700
+  margin-left: -1rem
+  margin-right: -1rem
+  width: auto
+  .wrapper
+    min-width: 100%
+    width: max-content
+    padding-left: 1rem
+    padding-right: 1rem
+  .thead
+    &::after
+      box-shadow: $white-shadow
+      opacity: .5
+    .tr
+      padding: 0 1rem
+  .tbody
+    padding: 0 1rem
+  .tr
+    &:not(:last-child)
+      margin-bottom: 1.5rem
+
+.octonary, .quinary
+  padding: 0
+  .thead
+    .tr
+      padding: 0 1rem
+  .trBody
+    position: relative
+    padding: 1rem
+    transition: background $animationTime
+    cursor: pointer
+    &:first-child
+      margin-top: 1rem
+    &:not(:last-child)
+      margin-bottom: 0.5rem
+    &:first-of-type
+      .td
+        padding-top: 0
+    &::after
+      content: ''
+      position: absolute
+      bottom: 0
+      height: .063rem
+      width: 100%
+      background-color: transparent
+    .tr
+      padding: 0 1rem
+  .td
+    display: flex
+    align-items: center
+    padding: 0
+
+.octonary
+  color: $light-yellow
+  .thead
+    &::after
+      @include yellow-light
+  .trBody
+    &:hover
+      background: $yellow-light-gradient
+      &::after
+        @include yellow-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
+    &.selected
+      background: $yellow-light-gradient
+      &::after
+        @include yellow-strong
+
+.quinary
+  color: $blue-neutral
+  .thead
+    &::after
+      @include blue-light
+  .trBody
+    &:hover
+      background: $blue-light-gradient
+      &::after
+        @include blue-strong
+    &.loading
+      &:hover
+        background: initial
+        &::after
+          content: none
+    &.selected
+      background: $blue-light-gradient
+      &::after
+        @include blue-strong
+
+.preloader
+  position: absolute
+  top: 0
+  bottom: 0
+  left: 0
+  right: 0
+
+@include media('>Mdesktop')
+  .primary, .secondary
+    width: 37.5rem

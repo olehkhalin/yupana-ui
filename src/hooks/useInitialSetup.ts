@@ -8,12 +8,14 @@ import {
   useUserSupplyAssetsLazyQuery,
 } from "generated/graphql";
 import {
-  calculateMaxCollateral,
+  calculateCollaterals,
   calculateOutstandingBorrow,
 } from "utils/dapp/helpers";
 import { contractAddressesVar, globalVariablesVar } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
-import { useOnBlockApolloWithData } from "./useOnBlockApollo";
+
+import { useOnBlockApollo, useOnBlockApolloWithData } from "./useOnBlockApollo";
+import { useAssets } from "./useAssets";
 
 export const useInitialSetup = () => {
   const tezos = useTezos();
@@ -21,37 +23,11 @@ export const useInitialSetup = () => {
 
   const { data: contractAddressesData } = useGlobalFactorsQuery();
   const oraclePrices = useOnBlockApolloWithData(tezos, useOraclePriceLazyQuery);
-  const allAssets = useOnBlockApolloWithData(tezos, useAllAssetsLazyQuery);
-  const userSupplyAssets = useOnBlockApolloWithData(
-    tezos,
-    useUserSupplyAssetsLazyQuery,
-    true,
-    accountPkh
-  );
-  const userBorrowAssets = useOnBlockApolloWithData(
-    tezos,
-    useUserBorrowAssetsLazyQuery,
-    true,
-    accountPkh
-  );
+  useOnBlockApollo(tezos, useAllAssetsLazyQuery);
+  useOnBlockApollo(tezos, useUserSupplyAssetsLazyQuery, true, accountPkh);
+  useOnBlockApollo(tezos, useUserBorrowAssetsLazyQuery, true, accountPkh);
 
-  useEffect(() => {
-    const maxCollateral = calculateMaxCollateral(
-      allAssets,
-      oraclePrices,
-      userSupplyAssets
-    );
-    const outstandingBorrow = calculateOutstandingBorrow(
-      allAssets,
-      oraclePrices,
-      userBorrowAssets
-    );
-
-    globalVariablesVar({
-      maxCollateral,
-      outstandingBorrow,
-    });
-  }, [allAssets, oraclePrices, userBorrowAssets, userSupplyAssets]);
+  const { data } = useAssets();
 
   useEffect(() => {
     if (contractAddressesData) {
@@ -61,4 +37,23 @@ export const useInitialSetup = () => {
       });
     }
   }, [contractAddressesData]);
+
+  useEffect(() => {
+    if (data) {
+      const { maxCollateral, liquidationCollateral } = calculateCollaterals(
+        data.supplyAssets,
+        oraclePrices
+      );
+      const outstandingBorrow = calculateOutstandingBorrow(
+        data.borrowAssets,
+        oraclePrices
+      );
+
+      globalVariablesVar({
+        maxCollateral,
+        liquidationCollateral,
+        outstandingBorrow,
+      });
+    }
+  });
 };

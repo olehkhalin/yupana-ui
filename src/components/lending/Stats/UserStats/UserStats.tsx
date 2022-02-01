@@ -26,7 +26,7 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
         <div className={s.title}>Your Supply Balance:</div>
         <div className={s.value}>
           {loading || !data ? (
-            <Preloader />
+            <Preloader theme="primary" sizeT="medium" />
           ) : (
             <PrettyAmount
               amount={convertUnits(
@@ -44,7 +44,7 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
         <div className={s.title}>Net APY:</div>
         <div className={s.value}>
           {loading || !data ? (
-            <Preloader />
+            <Preloader theme="tertiary" sizeT="medium" />
           ) : (
             getPrettyPercent(
               convertUnits(data.netApy, STANDARD_PRECISION).multipliedBy(1e2)
@@ -57,7 +57,7 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
         <div className={s.title}>Your Borrow Balance:</div>
         <div className={s.value}>
           {loading || !data ? (
-            <Preloader />
+            <Preloader theme="secondary" sizeT="medium" />
           ) : (
             <PrettyAmount
               amount={convertUnits(
