@@ -10,28 +10,35 @@ import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./TableDropdown.module.sass";
 
-type TableDropdownProps = {
+export type TableDropdownProps = {
+  theme?: keyof typeof themeClasses;
+  className?: string;
+};
+
+type TableDropdownInnerProps = {
   yToken: number;
   asset: AssetType;
   balanceAmount: BigNumber;
   balanceLabel: string;
   firstButtonLabel: string;
+  handleFirstButtonClick?: () => void;
   secondButtonLabel: string;
-  theme?: keyof typeof themeClasses;
-  className?: string;
-};
+  handleSecondButtonClick?: () => void;
+} & TableDropdownProps;
 
 const themeClasses = {
   primary: s.primary,
   secondary: s.secondary,
 };
 
-export const TableDropdown: React.FC<TableDropdownProps> = ({
+export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
   yToken,
   theme = "primary",
   balanceLabel,
   firstButtonLabel,
+  handleFirstButtonClick,
   secondButtonLabel,
+  handleSecondButtonClick,
   asset,
   balanceAmount,
   className,
@@ -62,7 +69,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={() => console.log("firstButton")}
+          onClick={handleFirstButtonClick}
           className={s.button}
         >
           {firstButtonLabel}
@@ -70,7 +77,7 @@ export const TableDropdown: React.FC<TableDropdownProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={() => console.log("secondButton")}
+          onClick={handleSecondButtonClick}
           className={s.button}
         >
           {secondButtonLabel}

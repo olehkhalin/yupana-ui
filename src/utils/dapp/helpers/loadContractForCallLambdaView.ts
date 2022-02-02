@@ -1,5 +1,5 @@
 import { TezosToolkit } from "@taquito/taquito";
-import memoize from "p-memoize";
+import memoizee from "memoizee";
 
 import { lambdaSigner } from "./lambdaSigner";
 import { getContract } from "./getStorage";
@@ -17,6 +17,6 @@ async function loadContractForCallLambdaViewPure(
   return contract;
 }
 
-export const loadContractForCallLambdaView = memoize(
+export const loadContractForCallLambdaView = memoizee(
   loadContractForCallLambdaViewPure
 );

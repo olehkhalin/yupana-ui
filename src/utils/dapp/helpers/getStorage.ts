@@ -1,18 +1,18 @@
 import { TezosToolkit } from "@taquito/taquito";
-import memoize from "p-memoize";
+import memoizee from "memoizee";
 import BigNumber from "bignumber.js";
 
 const getContractPure = (tezos: TezosToolkit, address: string) =>
   tezos.contract.at(address);
 
-export const getContract = memoize(getContractPure);
+export const getContract = memoizee(getContractPure);
 
 const getStoragePure = async (tezos: TezosToolkit, contractAddress: string) => {
   const contract = await getContract(tezos, contractAddress);
   return contract?.storage<any>();
 };
 
-export const getStorageInfo = memoize(getStoragePure, { maxAge: 30000 });
+export const getStorageInfo = memoizee(getStoragePure, { maxAge: 30000 });
 
 export const getStorage = async (
   tezos: TezosToolkit,

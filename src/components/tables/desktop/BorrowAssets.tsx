@@ -10,7 +10,7 @@ import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
-import { TableDropdown } from "components/tables/TableDropdown";
+import { BorrowTableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Tables.module.sass";
 
@@ -94,17 +94,15 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, borrow },
+        original: { yToken, asset, borrow, totalLiquid },
       },
     }) => (
-      <TableDropdown
+      <BorrowTableDropdown
         theme="secondary"
         yToken={yToken}
         asset={asset}
-        balanceAmount={borrow}
-        balanceLabel="Borrow balance"
-        firstButtonLabel="Borrow"
-        secondButtonLabel="Repay"
+        borrow={borrow}
+        liquidity={totalLiquid}
       />
     ),
     []

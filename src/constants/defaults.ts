@@ -33,6 +33,7 @@ export const ORACLE_PRICES_CONTRACT_FALLBACK =
 // Precisions
 export const STANDARD_PRECISION = 18;
 export const COLLATERAL_PRECISION = 42;
+export const ORACLE_PRICE_PRECISION = 24;
 
 // Animation
 export const ANIMATION_TIME = 0.25;

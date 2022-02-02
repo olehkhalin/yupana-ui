@@ -6,6 +6,7 @@ import { STANDARD_PRECISION } from "constants/defaults";
 import { useWiderThanMdesktop } from "utils/helpers";
 import { useAccountPkh } from "utils/dapp";
 import { useAssetsWithWallet } from "hooks/useAssetsWithWallet";
+import { CreditProcessModalProvider } from "hooks/useCreditProcessModal";
 import { Section } from "components/common/Section";
 import { AssetsSwitcher } from "components/common/AssetsSwitcher";
 import {
@@ -14,6 +15,7 @@ import {
   YourSupplyAssets,
   YourBorrowAssets,
 } from "components/tables/desktop";
+import { CreditProcessModal } from "components/modals/CreditProcessModal";
 
 import s from "./AllAssets.module.sass";
 
@@ -33,7 +35,7 @@ export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
   }
 
   return (
-    <>
+    <CreditProcessModalProvider>
       {!isWiderThanMdesktop && (
         <AssetsSwitcher
           active={isAssetSwitcherActive}
@@ -103,6 +105,7 @@ export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
           <BorrowAssets data={data?.assets} loading={loading} />
         </Section>
       </div>
-    </>
+      <CreditProcessModal />
+    </CreditProcessModalProvider>
   );
 };

@@ -36,6 +36,14 @@ export const contractAddressesVar = makeVar<ContractAddressesType>(
   contractAddressesInitial
 );
 
+export type BorrowedYTokensType = number[];
+
+const borrowedYTokensInitial: BorrowedYTokensType = [];
+
+export const borrowedYTokensVar = makeVar<BorrowedYTokensType>(
+  borrowedYTokensInitial
+);
+
 export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -48,6 +56,11 @@ export const cache = new InMemoryCache({
         contractAddresses: {
           read() {
             return contractAddressesVar();
+          },
+        },
+        borrowedYTokens: {
+          read() {
+            return borrowedYTokensVar();
           },
         },
       },

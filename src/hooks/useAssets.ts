@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import BigNumber from "bignumber.js";
 import constate from "constate";
 
+import { STANDARD_PRECISION } from "constants/defaults";
 import {
   useAllAssetsQuery,
   useUserBorrowAssetsLazyQuery,
@@ -9,6 +10,7 @@ import {
 } from "generated/graphql";
 import { UseAssetsResponse } from "types/asset";
 import { useAccountPkh } from "utils/dapp";
+import { BorrowedYTokensType, borrowedYTokensVar } from "utils/cache";
 
 const returnZeroIfNotExist = (element: any, key: string) =>
   element ? element[key] : new BigNumber(0);
@@ -71,8 +73,17 @@ export const [AssetsProvider, useAssets] = constate(() => {
       }))
     : [];
 
+  const borrowedYTokens: BorrowedYTokensType = [];
+
   const preparedBorrowAssets = borrowAssets
     ? borrowAssets.userBorrow.map((asset) => {
+        if (
+          new BigNumber(asset.borrow).gte(
+            new BigNumber(10).pow(STANDARD_PRECISION)
+          )
+        ) {
+          borrowedYTokens.push(asset.assetId);
+        }
         const assetInfo = assets.asset.find(
           ({ ytoken }) => ytoken === asset.assetId
         )!;
@@ -85,7 +96,10 @@ export const [AssetsProvider, useAssets] = constate(() => {
         const interestFactor = new BigNumber(
           assetInfo.rates[0].borrow_rate
         ).multipliedBy(deltaInSeconds);
-        const borrowIndex = interestFactor.multipliedBy(asset.borrowIndex);
+        const borrowIndex = interestFactor
+          .multipliedBy(asset.borrowIndex)
+          .div(new BigNumber(10).pow(STANDARD_PRECISION))
+          .plus(asset.borrowIndex);
         const borrowWithInterest = new BigNumber(asset.borrow)
           .multipliedBy(borrowIndex)
           .div(asset.borrowIndex);
@@ -98,6 +112,8 @@ export const [AssetsProvider, useAssets] = constate(() => {
         };
       })
     : [];
+
+  borrowedYTokensVar(borrowedYTokens);
 
   const finalAssets = assets.asset.map((asset) => {
     const borrowAsset = preparedBorrowAssets.find(
@@ -112,7 +128,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
       asset: {
         contractAddress: asset.contractAddress,
         isFa2: asset.isFa2,
-        tokenId: asset.tokenId,
+        tokenId: asset.isFa2 ? asset.tokenId : undefined,
         decimals: asset.tokens[0].decimals,
         name: asset.tokens[0].name,
         symbol: asset.tokens[0].symbol,
