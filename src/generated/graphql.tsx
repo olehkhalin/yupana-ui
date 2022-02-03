@@ -6906,7 +6906,7 @@ export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Arr
 
 export const AllAssetsDocument = gql`
     query AllAssets {
-  asset {
+  asset(order_by: {ytoken: asc}) {
     ytoken
     contractAddress
     isFa2
@@ -7034,7 +7034,7 @@ export type OraclePriceLazyQueryHookResult = ReturnType<typeof useOraclePriceLaz
 export type OraclePriceQueryResult = Apollo.QueryResult<OraclePriceQuery, OraclePriceQueryVariables>;
 export const UserBorrowAssetsDocument = gql`
     query UserBorrowAssets($account: String) {
-  userBorrow(where: {userId: {_eq: $account}}) {
+  userBorrow(where: {userId: {_eq: $account}}, order_by: {asset: {ytoken: asc}}) {
     assetId
     borrow
     borrowIndex
@@ -7071,7 +7071,7 @@ export type UserBorrowAssetsLazyQueryHookResult = ReturnType<typeof useUserBorro
 export type UserBorrowAssetsQueryResult = Apollo.QueryResult<UserBorrowAssetsQuery, UserBorrowAssetsQueryVariables>;
 export const UserSupplyAssetsDocument = gql`
     query UserSupplyAssets($account: String) {
-  userSupply(where: {userId: {_eq: $account}}) {
+  userSupply(where: {userId: {_eq: $account}}, order_by: {asset: {ytoken: asc}}) {
     assetId
     supply
     entered

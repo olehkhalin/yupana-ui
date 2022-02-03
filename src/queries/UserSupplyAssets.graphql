@@ -1,5 +1,5 @@
 query UserSupplyAssets($account: String) {
-  userSupply(where: {userId: {_eq: $account}}) {
+  userSupply(where: {userId: {_eq: $account}}, order_by: { asset: { ytoken: asc } }) {
     assetId
     supply
     entered
