@@ -1,9 +1,14 @@
 import React, { useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
+import { useReactiveVar } from "@apollo/client";
+import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { globalVariablesVar } from "utils/cache";
+import { calculateAssetBorrowLimitPercent } from "utils/dapp/helpers";
+import { useOraclePriceQuery } from "generated/graphql";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { BalanceAmount } from "components/common/BalanceAmount";
@@ -23,6 +28,9 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   loading,
   className,
 }) => {
+  const { data: oraclePrices } = useOraclePriceQuery();
+  const { maxCollateral } = useReactiveVar(globalVariablesVar);
+
   const columns = useMemo(
     () => [
       {
@@ -64,13 +72,30 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
       },
       {
         Header: "Borrow limit",
-        accessor: "rates.utilizationRate",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading
-            ? "—"
-            : getPrettyPercent(
-                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
-              ),
+        accessor: (row: { borrowWithInterest: BigNumber; yToken: number }) => ({
+          borrowWithInterest: row.borrowWithInterest,
+          yToken: row.yToken,
+        }),
+        Cell: ({ cell: { value } }: { cell: Cell }) => {
+          if (loading) {
+            return "—";
+          }
+
+          if (oraclePrices) {
+            const oraclePrice = oraclePrices.oraclePrice.find(
+              ({ ytoken }) => ytoken === value.yToken
+            );
+            if (oraclePrice) {
+              return calculateAssetBorrowLimitPercent(
+                value.borrowWithInterest,
+                oraclePrice,
+                maxCollateral
+              );
+            }
+          }
+
+          return getPrettyPercent(0);
+        },
       },
       {
         Header: () => null,
@@ -86,7 +111,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         ),
       },
     ],
-    [loading]
+    [loading, maxCollateral, oraclePrices]
   );
   const renderRowSubComponent = useCallback(
     ({
