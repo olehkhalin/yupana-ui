@@ -1,5 +1,6 @@
 import BigNumber from "bignumber.js";
 
+import { STANDARD_PRECISION } from "constants/defaults";
 import { OraclePriceQuery } from "generated/graphql";
 import { AssetsResponseData } from "types/asset";
 
@@ -11,8 +12,8 @@ export const calculateOutstandingBorrow = (
     return new BigNumber(0);
   }
   const prices = pricesData.oraclePrice;
-  const borrowAssetsFiltered = borrowAssets.filter(
-    ({ borrow }) => !new BigNumber(borrow).eq(0)
+  const borrowAssetsFiltered = borrowAssets.filter(({ borrow }) =>
+    borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))
   );
 
   if (borrowAssetsFiltered.length === 0) {
