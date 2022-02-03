@@ -2,10 +2,8 @@
 
 .container
   min-height: calc(100vh - 14rem) // 100vh - (4rem header + 10rem footer)
-
-.header
-  margin-bottom: 2rem
+  margin-top: 6rem // 2rem + 4rem header
 
 @include media('>Ltablet')
-  .header
-    margin-bottom: 4rem
+  .container
+    margin-top: 8rem // 4rem + 4rem header
