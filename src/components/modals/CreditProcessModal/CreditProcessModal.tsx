@@ -101,9 +101,7 @@ const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
   const validateAmount = useMemo(
     () =>
       assetAmountValidationFactory({
-        max: new BigNumber(
-          convertUnits(maxAmount, asset.decimals).toFixed(asset.decimals ?? 0)
-        ),
+        max: convertUnits(maxAmount, asset.decimals, true),
       }),
     [asset.decimals, maxAmount]
   );
@@ -117,7 +115,7 @@ const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
     () =>
       type === CreditProcessModalEnum.BORROW &&
       amount &&
-      amount.div(convertUnits(maxAmount, asset.decimals)).gte(0.8)
+      amount.div(convertUnits(maxAmount, asset.decimals, true)).gte(0.8)
         ? "Beware of the Liquidation Risk"
         : undefined,
     [amount, asset.decimals, maxAmount, type]
@@ -127,9 +125,12 @@ const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
       const mutezAmount = new BigNumber(
-        convertUnits(inputData, -(asset.decimals ?? 0)).toFixed(0)
+        convertUnits(inputData, -asset.decimals)
       );
-      const isMaxAmount = mutezAmount.eq(maxAmount.toFixed(0));
+
+      const isMaxAmount = mutezAmount.eq(
+        maxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
+      );
       try {
         setOperationLoading(true);
         await onSubmit(mutezAmount, isMaxAmount);
@@ -177,7 +178,7 @@ const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
 
           <div className={s.balance}>
             <PrettyAmount
-              amount={convertUnits(maxAmount, asset.decimals)}
+              amount={convertUnits(maxAmount, asset.decimals, true)}
               currency={getSliceAssetName(asset)}
               tooltipTheme={theme}
             />
@@ -192,10 +193,10 @@ const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
             // @ts-ignore
             <NumberInput
               theme={theme}
-              decimals={asset.decimals ?? 0}
+              decimals={asset.decimals}
               error={amountErrorMessage || amountWarningMessage}
               className={s.input}
-              maxValue={convertUnits(maxAmount, asset.decimals)}
+              maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
               exchangeRate={convertUnits(
                 oraclePrice.price,

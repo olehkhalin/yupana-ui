@@ -69,7 +69,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
             "—"
           ) : (
             <PrettyAmount
-              amount={convertUnits(value.wallet, value.asset.decimals)}
+              amount={convertUnits(value.wallet, value.asset.decimals, true)}
               currency={getSliceAssetName(value.asset)}
               isMinified
             />
@@ -82,6 +82,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
           <DropdownArrow
             active={row.isExpanded}
             className={s.icon}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),

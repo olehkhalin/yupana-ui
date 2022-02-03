@@ -58,7 +58,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
             "—"
           ) : (
             <PrettyAmount
-              amount={convertUnits(value.wallet, value.asset.decimals)}
+              amount={convertUnits(value.wallet, value.asset.decimals, true)}
               currency={getSliceAssetName(value.asset)}
               isMinified
               tooltipTheme="secondary"
@@ -81,6 +81,7 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),

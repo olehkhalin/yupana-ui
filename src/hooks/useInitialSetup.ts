@@ -1,31 +1,17 @@
 import { useEffect } from "react";
 
-import {
-  useAllAssetsLazyQuery,
-  useGlobalFactorsQuery,
-  useOraclePriceLazyQuery,
-  useUserBorrowAssetsLazyQuery,
-  useUserSupplyAssetsLazyQuery,
-} from "generated/graphql";
+import { useGlobalFactorsQuery, useOraclePriceQuery } from "generated/graphql";
 import {
   calculateCollaterals,
   calculateOutstandingBorrow,
 } from "utils/dapp/helpers";
 import { contractAddressesVar, globalVariablesVar } from "utils/cache";
-import { useAccountPkh, useTezos } from "utils/dapp";
 
-import { useOnBlockApollo, useOnBlockApolloWithData } from "./useOnBlockApollo";
 import { useAssets } from "./useAssets";
 
 export const useInitialSetup = () => {
-  const tezos = useTezos();
-  const accountPkh = useAccountPkh();
-
   const { data: contractAddressesData } = useGlobalFactorsQuery();
-  const oraclePrices = useOnBlockApolloWithData(tezos, useOraclePriceLazyQuery);
-  useOnBlockApollo(tezos, useAllAssetsLazyQuery);
-  useOnBlockApollo(tezos, useUserSupplyAssetsLazyQuery, true, accountPkh);
-  useOnBlockApollo(tezos, useUserBorrowAssetsLazyQuery, true, accountPkh);
+  const { data: oraclePrices } = useOraclePriceQuery();
 
   const { data } = useAssets();
 
@@ -39,7 +25,7 @@ export const useInitialSetup = () => {
   }, [contractAddressesData]);
 
   useEffect(() => {
-    if (data) {
+    if (data && oraclePrices) {
       const { maxCollateral, liquidationCollateral } = calculateCollaterals(
         data.supplyAssets,
         oraclePrices

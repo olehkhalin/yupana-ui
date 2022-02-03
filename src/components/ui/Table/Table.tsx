@@ -51,6 +51,7 @@ export const Table: React.FC<TableProps> = ({
     {
       columns: uColumns,
       data: data,
+      autoResetExpanded: false,
     },
     useExpanded
   );
