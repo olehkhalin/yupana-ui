@@ -68,7 +68,9 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+            : getPrettyPercent(
+                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
+              ),
       },
       {
         Header: () => null,
@@ -89,14 +91,14 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, borrow, totalLiquid },
+        original: { yToken, asset, borrowWithInterest, totalLiquid },
       },
     }) => (
       <BorrowTableDropdown
         theme="secondary"
         yToken={yToken}
         asset={asset}
-        borrow={borrow}
+        borrow={borrowWithInterest}
         liquidity={totalLiquid}
       />
     ),

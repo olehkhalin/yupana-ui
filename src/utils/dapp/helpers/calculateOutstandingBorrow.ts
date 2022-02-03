@@ -12,8 +12,8 @@ export const calculateOutstandingBorrow = (
     return new BigNumber(0);
   }
   const prices = pricesData.oraclePrice;
-  const borrowAssetsFiltered = borrowAssets.filter(({ borrow }) =>
-    borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+  const borrowAssetsFiltered = borrowAssets.filter(({ borrowWithInterest }) =>
+    borrowWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION))
   );
 
   if (borrowAssetsFiltered.length === 0) {

@@ -98,14 +98,14 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, borrow, totalLiquid },
+        original: { yToken, asset, borrowWithInterest, totalLiquid },
       },
     }) => (
       <BorrowTableDropdown
         theme="secondary"
         yToken={yToken}
         asset={asset}
-        borrow={borrow}
+        borrow={borrowWithInterest}
         liquidity={totalLiquid}
       />
     ),

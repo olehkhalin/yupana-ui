@@ -68,8 +68,10 @@ export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
             })}
           >
             <YourBorrowAssets
-              data={data?.borrowAssets.filter(({ borrow }) =>
-                borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+              data={data?.borrowAssets.filter(({ borrowWithInterest }) =>
+                borrowWithInterest.gte(
+                  new BigNumber(10).pow(STANDARD_PRECISION)
+                )
               )}
               loading={loading}
             />
