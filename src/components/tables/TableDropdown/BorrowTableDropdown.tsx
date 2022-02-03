@@ -183,8 +183,9 @@ export const BorrowTableDropdown: React.FC<BorrowDropdownProps> = ({
     [
       accountPkh,
       asset.contractAddress,
-      asset?.decimals,
+      asset.decimals,
       asset.tokenId,
+      borrowedYTokens,
       fabrica,
       priceFeedProxy,
       tezos,

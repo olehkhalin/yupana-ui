@@ -1,8 +1,8 @@
 import BigNumber from "bignumber.js";
 
+import { STANDARD_PRECISION } from "constants/defaults";
 import { OraclePriceQuery } from "generated/graphql";
 import { AssetsResponseData } from "types/asset";
-import { STANDARD_PRECISION } from "constants/defaults";
 
 type CalculateCollateralsResponse = {
   maxCollateral: BigNumber;
@@ -23,7 +23,8 @@ export const calculateCollaterals = (
   }
   const prices = pricesData.oraclePrice;
   const supplyAssetsFiltered = supplyAssets.filter(
-    ({ isCollateral }) => isCollateral
+    ({ isCollateral, supply }) =>
+      isCollateral && supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))
   );
 
   if (supplyAssetsFiltered.length === 0) {

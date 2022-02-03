@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import { useOraclePriceQuery } from "generated/graphql";
 
 import { useAssets } from "./useAssets";
+import { STANDARD_PRECISION } from "../constants/defaults";
 
 export const useUserStats = () => {
   const {
@@ -17,19 +18,11 @@ export const useUserStats = () => {
     error: oraclePricesError,
   } = useOraclePriceQuery();
 
-  if (allAssetsError || oraclePricesError) {
-    return {
-      data: null,
-      loading: false,
-      error: true,
-    };
-  }
-
   if (!allAssets || !oraclePrices) {
     return {
       data: null,
       loading: allAssetsLoading || oraclePricesLoading,
-      error: false,
+      error: !!allAssetsError || !!oraclePricesError,
     };
   }
 
@@ -45,8 +38,14 @@ export const useUserStats = () => {
       ({ ytoken }) => ytoken === asset.yToken
     );
     if (lastPrice) {
-      supplyUsdAmount = asset.supply.multipliedBy(lastPrice.price);
-      borrowUsdAmount = asset.borrowWithInterest.multipliedBy(lastPrice.price);
+      if (asset.supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))) {
+        supplyUsdAmount = asset.supply.multipliedBy(lastPrice.price);
+      }
+      if (asset.borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))) {
+        borrowUsdAmount = asset.borrowWithInterest.multipliedBy(
+          lastPrice.price
+        );
+      }
     }
 
     totalSupplyUsd = totalSupplyUsd.plus(supplyUsdAmount);

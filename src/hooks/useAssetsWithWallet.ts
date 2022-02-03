@@ -43,7 +43,7 @@ export const useAssetsWithWallet = (): UseAssetsResponse => {
     const supplyAssets = data.supplyAssets.map(
       (asset) => assetsWithWallet.find(({ yToken }) => yToken === asset.yToken)!
     );
-    const borrowAssets = data.supplyAssets.map(
+    const borrowAssets = data.borrowAssets.map(
       (asset) => assetsWithWallet.find(({ yToken }) => yToken === asset.yToken)!
     );
 
