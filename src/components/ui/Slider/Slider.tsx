@@ -13,6 +13,7 @@ type SliderProps = Omit<
 > & {
   theme?: keyof typeof themeClasses;
   value?: string;
+  decimals: number;
   maxValue: BigNumber;
   className?: string;
   onChange: (newValue: BigNumber) => void;
@@ -26,6 +27,7 @@ const themeClasses = {
 export const Slider: React.FC<SliderProps> = ({
   theme = "primary",
   value = "0",
+  decimals,
   maxValue,
   className,
   onChange,
@@ -34,7 +36,7 @@ export const Slider: React.FC<SliderProps> = ({
   const percent = maxValue.eq(0) ? 0 : (+value / +maxValue) * 100;
   const finalPercent = percent > 100 ? 100 : percent;
 
-  const handleClickByPercentButton = (newPercent: any) => {
+  const handleClickByPercentButton = (newPercent: number) => {
     if (!maxValue.eq(0)) {
       const numVal = new BigNumber(
         maxValue ? maxValue.multipliedBy(newPercent).div(1e2) : 0
@@ -56,7 +58,7 @@ export const Slider: React.FC<SliderProps> = ({
       </div>
       <input
         type="range"
-        step="0.01"
+        step={1 / 10 ** decimals}
         value={value || 0}
         className={cx(s.slider, themeClasses[theme], className)}
         max={+(maxValue ?? 1)}

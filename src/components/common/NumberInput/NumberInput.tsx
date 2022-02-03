@@ -189,6 +189,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
             theme={theme}
             value={localValue}
             maxValue={maxValue}
+            decimals={decimals}
             onChange={handleSliderChange}
             className={cx(s.slider, themeClasses[theme])}
           />

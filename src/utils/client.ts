@@ -24,4 +24,5 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 export const client = new ApolloClient({
   link: from([errorLink, httpLink]),
   cache,
+  connectToDevTools: true,
 });

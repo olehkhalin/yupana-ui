@@ -68,7 +68,8 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
             <PrettyAmount
               amount={convertUnits(
                 convertUnits(value.totalLiquid, STANDARD_PRECISION),
-                value.asset.decimals
+                value.asset.decimals,
+                true
               )}
               currency={getSliceAssetName(value.asset)}
               isMinified
@@ -84,6 +85,7 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
             theme="secondary"
             active={row.isExpanded}
             className={s.icon}
+            loading={loading}
             {...row.getToggleRowExpandedProps()}
           />
         ),

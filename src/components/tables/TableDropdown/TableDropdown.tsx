@@ -53,7 +53,8 @@ export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
           <PrettyAmount
             amount={convertUnits(
               convertUnits(balanceAmount, STANDARD_PRECISION),
-              asset.decimals
+              asset.decimals,
+              true
             )}
             currency={asset.symbol}
             isMinified

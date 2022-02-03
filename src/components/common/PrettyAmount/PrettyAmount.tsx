@@ -59,11 +59,18 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   if (isShownSimpleTooltip) {
     return (
       <Tooltip
-        content={getPrettyAmount({
-          value: convertedAmount,
-          currency: finalCurrency,
-          dec: 1e24,
-        })}
+        content={
+          <span className={s.tooltipContent}>
+            {getPrettyAmount({
+              value: convertedAmount,
+              currency: finalCurrency,
+              dec: 1e24,
+            })}
+            {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
+              <TezosIcon className={s.tezosIconTooltip} />
+            )}
+          </span>
+        }
         theme={tooltipTheme}
       >
         <span className={compoundClassNames}>
@@ -83,10 +90,17 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   if (isShownDecTooltip) {
     return (
       <Tooltip
-        content={getPrettyAmount({
-          value: convertedAmount,
-          currency: finalCurrency,
-        })}
+        content={
+          <span className={s.tooltipContent}>
+            {getPrettyAmount({
+              value: convertedAmount,
+              currency: finalCurrency,
+            })}
+            {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
+              <TezosIcon className={s.tezosIconTooltip} />
+            )}
+          </span>
+        }
         theme={tooltipTheme}
       >
         <span className={compoundClassNames}>

@@ -6,6 +6,7 @@ import { useOraclePriceQuery } from "generated/graphql";
 import {
   COLLATERAL_PRECISION,
   ORACLE_PRICE_PRECISION,
+  STANDARD_PRECISION,
 } from "constants/defaults";
 import { AssetType } from "types/asset";
 import {
@@ -85,14 +86,22 @@ export const BorrowTableDropdown: React.FC<BorrowDropdownProps> = ({
         render: "The Asset Supply request was successful, please wait...",
       });
     },
-    [accountPkh, fabrica, priceFeedProxy, tezos, updateToast, yToken]
+    [
+      accountPkh,
+      borrowedYTokens,
+      fabrica,
+      priceFeedProxy,
+      tezos,
+      updateToast,
+      yToken,
+    ]
   );
 
   const handleBorrow = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.BORROW,
       maxAmount: BigNumber.min(
-        liquidity,
+        convertUnits(liquidity, STANDARD_PRECISION),
         convertUnits(
           maxCollateral.minus(outstandingBorrow),
           COLLATERAL_PRECISION
@@ -187,7 +196,9 @@ export const BorrowTableDropdown: React.FC<BorrowDropdownProps> = ({
   const handleRepay = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.REPAY,
-      maxAmount: borrowed.lt(1) ? new BigNumber(0) : borrowed,
+      maxAmount: convertUnits(borrowed, STANDARD_PRECISION).lt(1)
+        ? new BigNumber(0)
+        : convertUnits(borrowed, STANDARD_PRECISION),
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)

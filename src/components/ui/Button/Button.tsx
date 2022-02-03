@@ -88,14 +88,8 @@ export const Button: FC<ButtonProps> = ({
     return (
       <NavLink
         to={href}
-        className={(isActive) =>
-          cx(
-            classNames,
-            {
-              [s.activeClassName]: isActive,
-            },
-            isActive && activeClassName
-          )
+        className={({ isActive }) =>
+          cx(classNames, isActive && cx(s.active, activeClassName))
         }
       >
         {inner}
