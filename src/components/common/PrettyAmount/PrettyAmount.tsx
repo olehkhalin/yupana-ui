@@ -9,7 +9,7 @@ import { ReactComponent as TezosIcon } from "svg/Tezos.svg";
 
 import s from "./PrettyAmount.module.sass";
 
-type PrettyAmountProps = {
+export type PrettyAmountProps = {
   amount: BigNumber;
   currency?: string | null;
   isConvertable?: boolean;

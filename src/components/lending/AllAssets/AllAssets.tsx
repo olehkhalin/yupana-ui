@@ -5,7 +5,7 @@ import cx from "classnames";
 import { STANDARD_PRECISION } from "constants/defaults";
 import { useWiderThanMdesktop } from "utils/helpers";
 import { useAccountPkh } from "utils/dapp";
-import { useAssetsWithWallet } from "hooks/useAssetsWithWallet";
+import { useAssets } from "hooks/useAssets";
 import { CreditProcessModalProvider } from "hooks/useCreditProcessModal";
 import { Section } from "components/common/Section";
 import { AssetsSwitcher } from "components/common/AssetsSwitcher";
@@ -28,7 +28,7 @@ export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
 
-  const { data, loading, error } = useAssetsWithWallet();
+  const { data, loading, error } = useAssets();
 
   if (error) {
     return <></>;

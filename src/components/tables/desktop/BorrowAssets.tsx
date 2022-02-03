@@ -45,7 +45,9 @@ export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+            : getPrettyPercent(
+                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
+              ),
       },
       {
         Header: "Utilisation rate",
