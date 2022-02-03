@@ -19,7 +19,7 @@ export const BaseLayout: FC<BaseLayoutProps> = ({
   className,
 }) => (
   <>
-    <Header className={cx(s.header, headerClassName)} />
+    <Header className={headerClassName} />
     <Container main className={cx(s.container, className)}>
       {children}
       <Toast />

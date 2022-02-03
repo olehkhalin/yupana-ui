@@ -1,5 +1,5 @@
 query AllAssets {
-  asset {
+  asset(order_by: { ytoken: asc }) {
     ytoken
     contractAddress
     isFa2

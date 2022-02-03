@@ -41,7 +41,9 @@ export const useUserStats = () => {
       if (asset.supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))) {
         supplyUsdAmount = asset.supply.multipliedBy(lastPrice.price);
       }
-      if (asset.borrow.gte(new BigNumber(10).pow(STANDARD_PRECISION))) {
+      if (
+        asset.borrowWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+      ) {
         borrowUsdAmount = asset.borrowWithInterest.multipliedBy(
           lastPrice.price
         );

@@ -1,5 +1,5 @@
 query UserBorrowAssets($account: String) {
-  userBorrow(where: {userId: {_eq: $account}}) {
+  userBorrow(where: {userId: {_eq: $account}}, order_by: { asset: { ytoken: asc } }) {
     assetId
     borrow
     borrowIndex

@@ -29,7 +29,7 @@ const themeClasses = {
 };
 
 export const Table: React.FC<TableProps> = ({
-  columns: uColumns,
+  columns,
   data,
   loading,
   emptyText,
@@ -49,7 +49,7 @@ export const Table: React.FC<TableProps> = ({
     visibleColumns,
   } = useTable(
     {
-      columns: uColumns,
+      columns,
       data: data,
       autoResetExpanded: false,
     },

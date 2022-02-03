@@ -6,11 +6,13 @@ import { useOnBlock, useTezos } from "utils/dapp";
 import { components } from "routes/components";
 import { AppRoutes } from "routes/main-routes";
 import { useInitialSetup } from "hooks/useInitialSetup";
+import { useMatchMutate } from "hooks/useMatchMutate";
 import NotFound from "pages/not-found";
 
 const App: FC = () => {
   const location = useLocation();
   const tezos = useTezos();
+  const matchMutate = useMatchMutate();
 
   useInitialSetup();
 
@@ -21,6 +23,7 @@ const App: FC = () => {
           include: "active",
         })
         .catch(console.error),
+    () => matchMutate("asset-wallet-amount"),
   ]);
 
   if (location.pathname === "/") {

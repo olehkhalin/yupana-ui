@@ -1,14 +1,17 @@
 import React, { useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
+import { useReactiveVar } from "@apollo/client";
 import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData, AssetType } from "types/asset";
+import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
-import { getSliceAssetName } from "utils/helpers/asset";
+import { globalVariablesVar } from "utils/cache";
+import { calculateAssetBorrowLimitPercent } from "utils/dapp/helpers";
+import { useOraclePriceQuery } from "generated/graphql";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
-import { PrettyAmount } from "components/common/PrettyAmount";
+import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { BorrowTableDropdown } from "components/tables/TableDropdown";
 
@@ -25,6 +28,9 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
   loading,
   className,
 }) => {
+  const { data: oraclePrices } = useOraclePriceQuery();
+  const { maxCollateral } = useReactiveVar(globalVariablesVar);
+
   const columns = useMemo(
     () => [
       {
@@ -45,33 +51,51 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+            : getPrettyPercent(
+                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
+              ),
       },
       {
         Header: "Wallet",
-        accessor: (row: { wallet: BigNumber; asset: AssetType }) => ({
-          wallet: row.wallet,
-          asset: row.asset,
-        }),
+        id: "wallet",
+        accessor: "asset",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading ? (
             "—"
           ) : (
-            <PrettyAmount
-              amount={convertUnits(value.wallet, value.asset.decimals, true)}
-              currency={getSliceAssetName(value.asset)}
+            <BalanceAmount
+              asset={value}
               isMinified
-              tooltipTheme="secondary"
+              preloaderTheme="secondary"
             />
           ),
       },
       {
         Header: "Borrow limit",
-        accessor: "rates.utilizationRate",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading
-            ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+        accessor: (row: { borrowWithInterest: BigNumber; yToken: number }) => ({
+          borrowWithInterest: row.borrowWithInterest,
+          yToken: row.yToken,
+        }),
+        Cell: ({ cell: { value } }: { cell: Cell }) => {
+          if (loading) {
+            return "—";
+          }
+
+          if (oraclePrices) {
+            const oraclePrice = oraclePrices.oraclePrice.find(
+              ({ ytoken }) => ytoken === value.yToken
+            );
+            if (oraclePrice) {
+              return calculateAssetBorrowLimitPercent(
+                value.borrowWithInterest,
+                oraclePrice,
+                maxCollateral
+              );
+            }
+          }
+
+          return getPrettyPercent(0);
+        },
       },
       {
         Header: () => null,
@@ -87,19 +111,19 @@ export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
         ),
       },
     ],
-    [loading]
+    [loading, maxCollateral, oraclePrices]
   );
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, borrow, totalLiquid },
+        original: { yToken, asset, borrowWithInterest, totalLiquid },
       },
     }) => (
       <BorrowTableDropdown
         theme="secondary"
         yToken={yToken}
         asset={asset}
-        borrow={borrow}
+        borrow={borrowWithInterest}
         liquidity={totalLiquid}
       />
     ),

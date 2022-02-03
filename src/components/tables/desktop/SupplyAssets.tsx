@@ -1,15 +1,13 @@
 import React, { useCallback, useMemo } from "react";
-import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
 import cx from "classnames";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData, AssetType } from "types/asset";
-import { getSliceAssetName } from "utils/helpers/asset";
+import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
-import { PrettyAmount } from "components/common/PrettyAmount";
+import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
@@ -46,7 +44,9 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+            : getPrettyPercent(
+                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
+              ),
       },
       {
         Header: "Collateral Factor",
@@ -60,20 +60,10 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
       },
       {
         Header: "Wallet",
-        accessor: (row: { wallet: BigNumber; asset: AssetType }) => ({
-          wallet: row.wallet,
-          asset: row.asset,
-        }),
+        id: "wallet",
+        accessor: "asset",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? (
-            "—"
-          ) : (
-            <PrettyAmount
-              amount={convertUnits(value.wallet, value.asset.decimals, true)}
-              currency={getSliceAssetName(value.asset)}
-              isMinified
-            />
-          ),
+          loading ? "—" : <BalanceAmount asset={value} isMinified />,
       },
       {
         Header: () => null,
@@ -93,14 +83,7 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: {
-          yToken,
-          asset,
-          supply,
-          collateralFactor,
-          wallet,
-          isCollateral,
-        },
+        original: { yToken, asset, supply, collateralFactor, isCollateral },
       },
     }) => (
       <SupplyTableDropdown
@@ -108,7 +91,6 @@ export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
         asset={asset}
         collateralFactor={collateralFactor}
         supply={supply}
-        wallet={wallet}
         isCollateral={isCollateral}
       />
     ),

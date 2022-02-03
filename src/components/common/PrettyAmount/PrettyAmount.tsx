@@ -9,7 +9,7 @@ import { ReactComponent as TezosIcon } from "svg/Tezos.svg";
 
 import s from "./PrettyAmount.module.sass";
 
-type PrettyAmountProps = {
+export type PrettyAmountProps = {
   amount: BigNumber;
   currency?: string | null;
   isConvertable?: boolean;
@@ -36,14 +36,14 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
     : amount;
 
   const integerPart = convertedAmount.decimalPlaces(0);
-  const decimalPlaces = +convertedAmount.toString().split(".")[1];
+  const decimalPlaces = convertedAmount.toString().split(".")[1];
 
   let decSplit = isMinified ? 2 : 6;
   if (integerPart.gte(1000)) {
     decSplit = 2;
   }
 
-  const finalDecLength = decimalPlaces ? decimalPlaces.toString().length : 0;
+  const finalDecLength = decimalPlaces ? decimalPlaces.length : 0;
 
   let isShownDecTooltip = false;
   if (finalDecLength > decSplit) {

@@ -14,6 +14,7 @@ import {
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useBalance } from "hooks/useBalance";
 import {
   borrowedYTokensVar,
   contractAddressesVar,
@@ -30,7 +31,6 @@ type SupplyDropdownProps = {
   asset: AssetType;
   collateralFactor: BigNumber;
   supply: BigNumber;
-  wallet: BigNumber;
   isCollateral: boolean;
 } & TableDropdownProps;
 
@@ -39,7 +39,6 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
   asset,
   collateralFactor,
   supply: supplied,
-  wallet,
   isCollateral,
   theme,
   className,
@@ -51,6 +50,7 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
+  const { data: walletData } = useBalance(asset);
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -91,22 +91,13 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
         render: "The Asset Supply request was successful, please wait...",
       });
     },
-    [
-      accountPkh,
-      asset.contractAddress,
-      asset.tokenId,
-      fabrica,
-      priceFeedProxy,
-      tezos,
-      updateToast,
-      yToken,
-    ]
+    [accountPkh, asset, fabrica, priceFeedProxy, tezos, updateToast, yToken]
   );
 
   const handleSupply = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.SUPPLY,
-      maxAmount: wallet,
+      maxAmount: walletData ?? new BigNumber(0),
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       dynamicBorrowLimitFunc: (input: BigNumber) =>
@@ -154,14 +145,14 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
       oraclePrice,
     });
   }, [
+    setCreditProcessModalData,
+    walletData,
     asset,
-    collateralFactor,
-    handleSupplySubmit,
     maxCollateral,
     outstandingBorrow,
     oraclePrice,
-    setCreditProcessModalData,
-    wallet,
+    collateralFactor,
+    handleSupplySubmit,
   ]);
 
   const handleWithdrawSubmit = useCallback(
@@ -186,7 +177,16 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
         render: "The Asset Withdraw request was successful, please wait...",
       });
     },
-    [accountPkh, fabrica, priceFeedProxy, tezos, updateToast, yToken]
+    [
+      accountPkh,
+      asset,
+      borrowedYTokens,
+      fabrica,
+      priceFeedProxy,
+      tezos,
+      updateToast,
+      yToken,
+    ]
   );
 
   const handleWithdraw = () => {

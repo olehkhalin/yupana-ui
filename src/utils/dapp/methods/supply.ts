@@ -1,6 +1,7 @@
 import { TezosToolkit } from "@taquito/taquito";
 
 import { batchify } from "utils/dapp/helpers";
+
 import { commonMethods, CommonParams } from "./commonMethods";
 
 type SupplyParams = Omit<CommonParams, "otherYTokens">;
