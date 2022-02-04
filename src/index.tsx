@@ -1,5 +1,7 @@
-import React from "react";
+import React, { StrictMode } from "react";
 import ReactDOM from "react-dom";
+import "@formatjs/intl-numberformat/polyfill";
+import "@formatjs/intl-numberformat/locale-data/en";
 
 import App from "pages/App";
 import { BaseProvider } from "components/common/BaseProvider";
@@ -8,11 +10,11 @@ import "styles/global.sass";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <StrictMode>
     <BaseProvider>
       <App />
     </BaseProvider>
-  </React.StrictMode>,
+  </StrictMode>,
   document.getElementById("root")
 );
 

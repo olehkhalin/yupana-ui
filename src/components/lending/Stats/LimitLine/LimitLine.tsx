@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, FC } from "react";
 import CountUp from "react-countup";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
@@ -18,7 +18,7 @@ type LimitLineProps = {
   className?: string;
 } & ModalContent;
 
-export const LimitLine: React.FC<LimitLineProps> = ({
+export const LimitLine: FC<LimitLineProps> = ({
   text,
   percent,
   value,

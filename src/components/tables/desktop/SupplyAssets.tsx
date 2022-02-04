@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
 import cx from "classnames";
 
@@ -19,7 +19,7 @@ type SupplyAssetsProps = {
   className?: string;
 };
 
-export const SupplyAssets: React.FC<SupplyAssetsProps> = ({
+export const SupplyAssets: FC<SupplyAssetsProps> = ({
   data,
   loading,
   className,

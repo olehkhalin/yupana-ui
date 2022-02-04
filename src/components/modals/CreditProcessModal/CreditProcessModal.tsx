@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback, useMemo, useState } from "react";
+import React, { useEffect, useCallback, useMemo, useState, FC } from "react";
 import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
@@ -53,7 +53,7 @@ type CreditProcessModalInnerProps = {
   };
 } & Pick<ModalActions, "isOpen" | "onRequestClose">;
 
-const CreditProcessModalInner: React.FC<CreditProcessModalInnerProps> = ({
+const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   type,
   theme = "primary",
   isOpen,

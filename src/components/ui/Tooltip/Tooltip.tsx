@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import Tippy, { TippyProps } from "@tippyjs/react";
 import cx from "classnames";
 
@@ -18,7 +18,7 @@ const themeClass = {
   tertiary: s.tertiary,
 };
 
-export const Tooltip: React.FC<TooltipProps> = ({
+export const Tooltip: FC<TooltipProps> = ({
   theme = "primary",
   content,
   className,

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, Fragment } from "react";
 import { useTable, useExpanded } from "react-table";
 import cx from "classnames";
 
@@ -28,7 +28,7 @@ const themeClasses = {
   quinary: s.quinary,
 };
 
-export const Table: React.FC<TableProps> = ({
+export const Table: FC<TableProps> = ({
   columns,
   data,
   loading,
@@ -87,7 +87,7 @@ export const Table: React.FC<TableProps> = ({
                 prepareRow(row);
 
                 return (
-                  <React.Fragment key={row.getRowProps().key}>
+                  <Fragment key={row.getRowProps().key}>
                     <tr
                       {...row.getRowProps()}
                       className={cx(s.tr, s.trBody, rowClassName)}
@@ -116,7 +116,7 @@ export const Table: React.FC<TableProps> = ({
                         </td>
                       </tr>
                     ) : null}
-                  </React.Fragment>
+                  </Fragment>
                 );
               })
             )}

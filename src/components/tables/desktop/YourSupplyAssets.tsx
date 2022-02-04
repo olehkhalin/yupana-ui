@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
 
 import { STANDARD_PRECISION } from "constants/defaults";
@@ -19,7 +19,7 @@ type YourSupplyAssetsProps = {
   className?: string;
 };
 
-export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
+export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
   data,
   loading,
   className,

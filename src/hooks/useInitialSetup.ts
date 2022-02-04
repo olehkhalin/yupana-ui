@@ -4,7 +4,7 @@ import { useGlobalFactorsQuery, useOraclePriceQuery } from "generated/graphql";
 import {
   calculateCollaterals,
   calculateOutstandingBorrow,
-} from "utils/dapp/helpers";
+} from "utils/helpers/api";
 import { contractAddressesVar, globalVariablesVar } from "utils/cache";
 
 import { useAssets } from "./useAssets";

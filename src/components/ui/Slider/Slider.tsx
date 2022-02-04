@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEvent, FC, HTMLProps } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -8,7 +8,7 @@ import { Button } from "components/ui/Button";
 import s from "./Slider.module.sass";
 
 type SliderProps = Omit<
-  React.HTMLProps<HTMLInputElement>,
+  HTMLProps<HTMLInputElement>,
   "type" | "onChange" | "value"
 > & {
   theme?: keyof typeof themeClasses;
@@ -24,7 +24,7 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const Slider: React.FC<SliderProps> = ({
+export const Slider: FC<SliderProps> = ({
   theme = "primary",
   value = "0",
   decimals,
@@ -45,7 +45,7 @@ export const Slider: React.FC<SliderProps> = ({
     }
   };
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!maxValue.eq(0)) {
       onChange(new BigNumber(event.target.value));
     }

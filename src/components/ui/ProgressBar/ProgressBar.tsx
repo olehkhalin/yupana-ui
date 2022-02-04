@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import s from "./ProgressBar.module.sass";
@@ -15,7 +15,7 @@ export const themeClass = {
   secondary: s.secondary,
 };
 
-export const ProgressBar: React.FC<ProgressBarProps> = ({
+export const ProgressBar: FC<ProgressBarProps> = ({
   amount,
   timing,
   theme = "primary",

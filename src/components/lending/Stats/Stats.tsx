@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { useReactiveVar } from "@apollo/client";
 import BigNumber from "bignumber.js";
 
@@ -28,7 +28,7 @@ type StatsProps = {
   className?: string;
 };
 
-export const Stats: React.FC<StatsProps> = ({ className }) => {
+export const Stats: FC<StatsProps> = ({ className }) => {
   const { maxCollateral, outstandingBorrow, liquidationCollateral } =
     useReactiveVar(globalVariablesVar);
 

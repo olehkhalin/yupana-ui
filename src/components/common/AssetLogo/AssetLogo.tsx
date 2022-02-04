@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { AssetType } from "types/asset";
@@ -27,7 +27,7 @@ const themeClasses = {
   tertiary: s.tertiary,
 };
 
-export const AssetLogo: React.FC<AssetLogoProps> = ({
+export const AssetLogo: FC<AssetLogoProps> = ({
   theme = "primary",
   logo,
   sizeT = "small",

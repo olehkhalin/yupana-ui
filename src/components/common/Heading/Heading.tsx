@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { Button } from "components/ui/Button";
@@ -23,7 +23,7 @@ const themeClass = {
   tertiary: s.tertiary,
 };
 
-export const Heading: React.FC<HeadingProps> = ({
+export const Heading: FC<HeadingProps> = ({
   title,
   link,
   head = false,

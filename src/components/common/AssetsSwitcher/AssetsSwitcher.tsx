@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import s from "./AssetsSwitcher.module.sass";
@@ -9,7 +9,7 @@ type AssetsSwitcherProps = {
   className?: string;
 };
 
-export const AssetsSwitcher: React.FC<AssetsSwitcherProps> = ({
+export const AssetsSwitcher: FC<AssetsSwitcherProps> = ({
   active,
   setActive,
   className,

@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { useReactiveVar } from "@apollo/client";
 
@@ -34,7 +34,7 @@ type SupplyDropdownProps = {
   isCollateral: boolean;
 } & TableDropdownProps;
 
-export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
+export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   yToken,
   asset,
   collateralFactor,
@@ -179,7 +179,6 @@ export const SupplyTableDropdown: React.FC<SupplyDropdownProps> = ({
     },
     [
       accountPkh,
-      asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,

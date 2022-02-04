@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import s from "./Switcher.module.sass";
@@ -10,7 +10,7 @@ type SwitcherProps = {
   className?: string;
 };
 
-export const Switcher: React.FC<SwitcherProps> = ({
+export const Switcher: FC<SwitcherProps> = ({
   active,
   handleChange,
   disabled,
