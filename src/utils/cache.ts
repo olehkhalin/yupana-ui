@@ -10,12 +10,16 @@ export type GlobalVariablesType = {
   maxCollateral: BigNumber;
   liquidationCollateral: BigNumber;
   outstandingBorrow: BigNumber;
+  totalUsdSupply: BigNumber;
+  totalUsdBorrowed: BigNumber;
 };
 
 const globalVariablesInitial = {
   maxCollateral: new BigNumber(0),
   liquidationCollateral: new BigNumber(0),
   outstandingBorrow: new BigNumber(0),
+  totalUsdSupply: new BigNumber(0),
+  totalUsdBorrowed: new BigNumber(0),
 };
 
 export const globalVariablesVar = makeVar<GlobalVariablesType>(

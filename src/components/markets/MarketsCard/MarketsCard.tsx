@@ -29,7 +29,11 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
         {isPrimaryTheme ? "Total supply:" : "Total borrow:"}
       </div>
       <div className={s.amount}>
-        <PrettyAmount amount={totalAmount} isConvertable />
+        <PrettyAmount
+          amount={totalAmount}
+          isConvertable
+          className={s.withTezosLarge}
+        />
       </div>
 
       <div className={s.row}>
@@ -37,7 +41,11 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
           {isPrimaryTheme ? "24H Supply Volume" : "24H Borrow Volume"}
         </div>
         <div className={s.value}>
-          <PrettyAmount amount={volume24h} isConvertable />
+          <PrettyAmount
+            amount={volume24h}
+            isConvertable
+            className={s.withTezos}
+          />
         </div>
       </div>
 

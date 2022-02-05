@@ -52,7 +52,6 @@ export const prepareMarketsOverview = (
   });
 
   return {
-    totalAmount,
     volume24h,
     numberOfMembers,
     assets,

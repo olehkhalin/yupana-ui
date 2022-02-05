@@ -6882,7 +6882,7 @@ export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: {
 export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }> }> };
+export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
 export type GlobalFactorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7019,6 +7019,22 @@ export const AllAssetsDocument = gql`
     }
     interestUpdateTime
     borrowIndex
+    suppliersCount: assetUserSupply_aggregate(
+      where: {supply: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
+    borrowersCount: assetUserBorrow_aggregate(
+      where: {borrow: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
   }
 }
     `;

@@ -4,6 +4,7 @@ import { useGlobalFactorsQuery, useOraclePriceQuery } from "generated/graphql";
 import {
   calculateCollaterals,
   calculateOutstandingBorrow,
+  calculateUsdTotal,
 } from "utils/helpers/api";
 import { contractAddressesVar, globalVariablesVar } from "utils/cache";
 
@@ -34,11 +35,17 @@ export const useInitialSetup = () => {
         data.borrowAssets,
         oraclePrices
       );
+      const { totalUsdSupply, totalUsdBorrowed } = calculateUsdTotal(
+        data.assets,
+        oraclePrices
+      );
 
       globalVariablesVar({
         maxCollateral,
         liquidationCollateral,
         outstandingBorrow,
+        totalUsdSupply,
+        totalUsdBorrowed,
       });
     }
   });

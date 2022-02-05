@@ -1,7 +1,9 @@
 import React, { FC, useMemo } from "react";
+import { useReactiveVar } from "@apollo/client";
 import cx from "classnames";
 
 import { prepareMarketsOverview } from "utils/helpers/api";
+import { globalVariablesVar } from "utils/cache";
 import { MarketOverviewQuery, useMarketOverviewQuery } from "generated/graphql";
 import { Section } from "components/common/Section";
 import {
@@ -17,6 +19,8 @@ type MarketsCardsInnerProps = {
 };
 
 const MarketsCardsInner: FC<MarketsCardsInnerProps> = ({ data, loading }) => {
+  const { totalUsdSupply, totalUsdBorrowed } =
+    useReactiveVar(globalVariablesVar);
   const preparedData = useMemo(() => {
     if (data) {
       return {
@@ -44,14 +48,14 @@ const MarketsCardsInner: FC<MarketsCardsInnerProps> = ({ data, loading }) => {
   return (
     <>
       <MarketsCard
-        totalAmount={supply.totalAmount}
+        totalAmount={totalUsdSupply}
         volume24h={supply.volume24h}
         numberOfMembers={supply.numberOfMembers}
         assets={supply.assets}
         className={s.card}
       />
       <MarketsCard
-        totalAmount={borrow.totalAmount}
+        totalAmount={totalUsdBorrowed}
         volume24h={borrow.volume24h}
         numberOfMembers={borrow.numberOfMembers}
         assets={borrow.assets}
