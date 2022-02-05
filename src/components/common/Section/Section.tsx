@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { Heading, HeadingProps } from "components/common/Heading";
@@ -11,7 +11,7 @@ type SectionProps = {
   className?: string;
 } & Omit<HeadingProps, "title">;
 
-export const Section: React.FC<SectionProps> = ({
+export const Section: FC<SectionProps> = ({
   title,
   headingClassName,
   className,

@@ -1,4 +1,12 @@
-import React, { useCallback, useState, useMemo, useEffect } from "react";
+import React, {
+  useCallback,
+  useState,
+  useMemo,
+  useEffect,
+  HTMLProps,
+  forwardRef,
+  ChangeEvent,
+} from "react";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
@@ -14,7 +22,7 @@ export const convertValueToCurrency = (
 ) => (val ? val.multipliedBy(exchangeRate) : new BigNumber(0));
 
 type NumberInputProps = Omit<
-  React.HTMLProps<HTMLInputElement>,
+  HTMLProps<HTMLInputElement>,
   "type" | "onChange" | "value" | "min" | "max"
 > & {
   decimals: number;
@@ -36,7 +44,7 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
+export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
   (
     {
       decimals,
@@ -76,7 +84,7 @@ export const NumberInput = React.forwardRef<HTMLInputElement, NumberInputProps>(
     }, [valueStr]);
 
     const handleChange = useCallback(
-      (e: React.ChangeEvent<HTMLInputElement>) => {
+      (e: ChangeEvent<HTMLInputElement>) => {
         let val = e.target.value.replace(/ /g, "").replace(/,/g, ".");
 
         let numVal = new BigNumber(val || 0);

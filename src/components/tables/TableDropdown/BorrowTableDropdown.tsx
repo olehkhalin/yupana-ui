@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { useReactiveVar } from "@apollo/client";
 
@@ -32,7 +32,7 @@ type BorrowDropdownProps = {
   liquidity: BigNumber;
 } & TableDropdownProps;
 
-export const BorrowTableDropdown: React.FC<BorrowDropdownProps> = ({
+export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   yToken,
   asset,
   borrow: borrowed,

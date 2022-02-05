@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { Button, HTMLButtonType } from "components/ui/Button";
@@ -19,7 +19,7 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const DropdownArrow: React.FC<DropdownArrowProps> = ({
+export const DropdownArrow: FC<DropdownArrowProps> = ({
   active,
   theme = "primary",
   loading,

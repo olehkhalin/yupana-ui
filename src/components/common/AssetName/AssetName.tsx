@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { AssetType } from "types/asset";
@@ -20,7 +20,7 @@ type AssetNameProps = {
   className?: string;
 };
 
-export const AssetName: React.FC<AssetNameProps> = ({
+export const AssetName: FC<AssetNameProps> = ({
   theme,
   asset,
   active = false,

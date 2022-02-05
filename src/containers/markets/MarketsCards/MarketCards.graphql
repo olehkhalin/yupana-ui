@@ -1,0 +1,55 @@
+query MarketOverview {
+  assetAggregate {
+    aggregate {
+      sum {
+        usdSupply
+        usdBorrow
+      }
+    }
+  }
+  dailyStats {
+    supplyVolume
+    borrowVolume
+  }
+  suppliersCount: userSupplyAggregate(
+    where: { supply: { _gt: "0" } }
+    distinct_on: userId
+  ) {
+    aggregate {
+      count
+    }
+  }
+  borowersCount: userBorrowAggregate(
+    where: { borrow: { _gt: "0" } }
+    distinct_on: userId
+  ) {
+    aggregate {
+      count
+    }
+  }
+
+  supplyAssets: asset(order_by: { usdSupply: desc }) {
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    usdSupply
+  }
+  borrowAssets: asset(order_by: { usdBorrow: desc }) {
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    usdBorrow
+  }
+}

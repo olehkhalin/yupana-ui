@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, FC } from "react";
 import cx from "classnames";
 
 import { ModalProps } from "types/modal";
@@ -24,7 +24,7 @@ export const themeClasses = {
   secondary: s.secondary,
 };
 
-export const AttentionText: React.FC<AttentionTextProps> = ({
+export const AttentionText: FC<AttentionTextProps> = ({
   text,
   title,
   description,

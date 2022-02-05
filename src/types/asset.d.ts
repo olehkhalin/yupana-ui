@@ -31,6 +31,8 @@ export type AssetsResponseItem = {
   borrowWithInterest: BigNumber;
   supply: BigNumber;
   isCollateral: boolean;
+  numberOfSuppliers: number;
+  numberOfBorrowers: number;
 };
 
 export type AssetsResponseData = AssetsResponseItem[];

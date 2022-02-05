@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -31,7 +31,7 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
-export const TableDropdown: React.FC<TableDropdownInnerProps> = ({
+export const TableDropdown: FC<TableDropdownInnerProps> = ({
   yToken,
   theme = "primary",
   balanceLabel,

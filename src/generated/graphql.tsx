@@ -6874,10 +6874,15 @@ export type Withdraw_Tx_Variance_Order_By = {
   usdAmount?: InputMaybe<Order_By>;
 };
 
+export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', usdSupply?: any | null | undefined, usdBorrow?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdBorrow: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
+
 export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }> }> };
+export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
 
 export type GlobalFactorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -6904,6 +6909,89 @@ export type UserSupplyAssetsQueryVariables = Exact<{
 export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', assetId: number, supply: any, entered: boolean }> };
 
 
+export const MarketOverviewDocument = gql`
+    query MarketOverview {
+  assetAggregate {
+    aggregate {
+      sum {
+        usdSupply
+        usdBorrow
+      }
+    }
+  }
+  dailyStats {
+    supplyVolume
+    borrowVolume
+  }
+  suppliersCount: userSupplyAggregate(
+    where: {supply: {_gt: "0"}}
+    distinct_on: userId
+  ) {
+    aggregate {
+      count
+    }
+  }
+  borowersCount: userBorrowAggregate(
+    where: {borrow: {_gt: "0"}}
+    distinct_on: userId
+  ) {
+    aggregate {
+      count
+    }
+  }
+  supplyAssets: asset(order_by: {usdSupply: desc}) {
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    usdSupply
+  }
+  borrowAssets: asset(order_by: {usdBorrow: desc}) {
+    contractAddress
+    isFa2
+    tokenId
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    usdBorrow
+  }
+}
+    `;
+
+/**
+ * __useMarketOverviewQuery__
+ *
+ * To run a query within a React component, call `useMarketOverviewQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMarketOverviewQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMarketOverviewQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMarketOverviewQuery(baseOptions?: Apollo.QueryHookOptions<MarketOverviewQuery, MarketOverviewQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
+      }
+export function useMarketOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<MarketOverviewQuery, MarketOverviewQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<MarketOverviewQuery, MarketOverviewQueryVariables>(MarketOverviewDocument, options);
+        }
+export type MarketOverviewQueryHookResult = ReturnType<typeof useMarketOverviewQuery>;
+export type MarketOverviewLazyQueryHookResult = ReturnType<typeof useMarketOverviewLazyQuery>;
+export type MarketOverviewQueryResult = Apollo.QueryResult<MarketOverviewQuery, MarketOverviewQueryVariables>;
 export const AllAssetsDocument = gql`
     query AllAssets {
   asset(order_by: {ytoken: asc}) {
@@ -6931,6 +7019,22 @@ export const AllAssetsDocument = gql`
     }
     interestUpdateTime
     borrowIndex
+    suppliersCount: assetUserSupply_aggregate(
+      where: {supply: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
+    borrowersCount: assetUserBorrow_aggregate(
+      where: {borrow: {_gt: "0"}}
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
   }
 }
     `;

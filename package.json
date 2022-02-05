@@ -5,6 +5,7 @@
   "dependencies": {
     "@airgap/beacon-sdk": "2.3.9",
     "@apollo/client": "^3.5.8",
+    "@formatjs/intl-numberformat": "^7.4.1",
     "@taquito/beacon-wallet": "11.1.0",
     "@taquito/rpc": "11.1.0",
     "@taquito/taquito": "11.1.0",

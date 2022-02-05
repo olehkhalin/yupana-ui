@@ -155,6 +155,8 @@ export const [AssetsProvider, useAssets] = constate(() => {
       ),
       supply: returnZeroIfNotExist(supplyAsset, "supply"),
       isCollateral: supplyAsset ? supplyAsset.isCollateral : false,
+      numberOfSuppliers: asset.suppliersCount.aggregate?.count ?? 0,
+      numberOfBorrowers: asset.borrowersCount.aggregate?.count ?? 0,
     };
   });
 

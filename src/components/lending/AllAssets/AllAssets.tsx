@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
@@ -23,7 +23,7 @@ type AssetsProps = {
   className?: string;
 };
 
-export const AllAssets: React.FC<AssetsProps> = ({ className }) => {
+export const AllAssets: FC<AssetsProps> = ({ className }) => {
   const accountPkh = useAccountPkh();
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);

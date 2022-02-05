@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
 
@@ -20,7 +20,7 @@ type BorrowAssetsProps = {
   className?: string;
 };
 
-export const BorrowAssets: React.FC<BorrowAssetsProps> = ({
+export const BorrowAssets: FC<BorrowAssetsProps> = ({
   data,
   loading,
   className,

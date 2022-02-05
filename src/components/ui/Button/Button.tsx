@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, HTMLProps } from "react";
 import { NavLink } from "react-router-dom";
 import cx from "classnames";
 
@@ -7,8 +7,8 @@ import { ReactComponent as Arrow } from "svg/Arrow.svg";
 import s from "./Button.module.sass";
 
 export type HTMLButtonType =
-  | React.HTMLProps<HTMLButtonElement>
-  | React.HTMLProps<HTMLAnchorElement>;
+  | HTMLProps<HTMLButtonElement>
+  | HTMLProps<HTMLAnchorElement>;
 
 type ButtonProps = {
   theme?: keyof typeof themeClass;
@@ -79,7 +79,7 @@ export const Button: FC<ButtonProps> = ({
           target="_blank"
           rel="noreferrer noopener"
           className={classNames}
-          {...(props as React.HTMLProps<HTMLAnchorElement>)}
+          {...(props as HTMLProps<HTMLAnchorElement>)}
         >
           {inner}
         </a>

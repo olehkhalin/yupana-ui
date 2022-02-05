@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
 import { useReactiveVar } from "@apollo/client";
 import BigNumber from "bignumber.js";
@@ -7,7 +7,7 @@ import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { globalVariablesVar } from "utils/cache";
-import { calculateAssetBorrowLimitPercent } from "utils/dapp/helpers";
+import { calculateAssetBorrowLimitPercent } from "utils/helpers/api";
 import { useOraclePriceQuery } from "generated/graphql";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
@@ -23,7 +23,7 @@ type YourBorrowAssetsProps = {
   className?: string;
 };
 
-export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
+export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
   data,
   loading,
   className,

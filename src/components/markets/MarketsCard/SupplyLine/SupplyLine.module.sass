@@ -1,0 +1,32 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  display: flex
+  flex-direction: column
+  width: 100%
+  text-shadow: $white-shadow
+
+.content
+  display: flex
+  justify-content: space-between
+  margin-bottom: .5rem
+  font-weight: 700
+  height: 20px
+
+.symbol
+  display: flex
+  align-items: center
+
+.percent
+  text-align: right
+
+.percentPreloader
+  width: 6.125rem
+  height: 1.063rem
+
+@include media('>Mphone')
+  .content
+    margin-bottom: 1rem
+  .percentPreloader
+    width: 7.875rem

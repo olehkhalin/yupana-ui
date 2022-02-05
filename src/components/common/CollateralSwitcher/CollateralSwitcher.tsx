@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
 
@@ -14,7 +14,7 @@ type SwitcherProps = {
   className?: string;
 };
 
-export const CollateralSwitcher: React.FC<SwitcherProps> = ({
+export const CollateralSwitcher: FC<SwitcherProps> = ({
   yToken,
   isCollateral,
   className,
@@ -72,6 +72,7 @@ export const CollateralSwitcher: React.FC<SwitcherProps> = ({
     }
   }, [
     accountPkh,
+    borrowedYTokens,
     disabled,
     fabrica,
     isCollateral,
