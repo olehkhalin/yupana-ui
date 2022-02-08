@@ -1,5 +1,6 @@
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Navigate, Route, Routes, useLocation } from "react-router-dom";
+import animateScrollTo from "animated-scroll-to";
 
 import { client } from "utils/client";
 import { useOnBlock, useTezos } from "utils/dapp";
@@ -11,6 +12,7 @@ import NotFound from "pages/not-found";
 
 const App: FC = () => {
   const location = useLocation();
+  const { pathname } = useLocation();
   const tezos = useTezos();
   const matchMutate = useMatchMutate();
 
@@ -25,6 +27,14 @@ const App: FC = () => {
         .catch(console.error),
     () => matchMutate("asset-wallet-amount"),
   ]);
+
+  useEffect(() => {
+    animateScrollTo(window.pageYOffset - window.pageYOffset, {
+      speed: 750,
+      maxDuration: 1000,
+      minDuration: 100,
+    });
+  }, [pathname]);
 
   if (location.pathname === "/") {
     return <Navigate to={AppRoutes.LENDING} />;

@@ -1,0 +1,57 @@
+query MarketsDetails($yToken: Int!) {
+  asset(where: { ytoken: { _eq: $yToken } }) {
+    ytoken
+    contractAddress
+    isFa2
+    tokenId
+    liquidationThreshold
+    tokens {
+      name
+      symbol
+      thumbnail
+      decimals
+    }
+    totalSupply
+    totalBorrowed
+    rates {
+      supply_apy
+      borrow_apy
+      utilization_rate
+      exchange_rate
+    }
+    totalLiquid
+    collateralFactor
+    reserves
+    reserveFactor
+    interestModel {
+      rate
+      multiplier
+      jumpMultiplier
+      kink
+    }
+    borrowersCount: assetUserBorrow_aggregate(
+      where: { borrow: { _gt: "1000000000000000000" } }
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
+    suppliersCount: assetUserSupply_aggregate(
+      where: { supply: { _gt: "1000000000000000000" } }
+      distinct_on: userId
+    ) {
+      aggregate {
+        count
+      }
+    }
+    liquidationThreshold
+  }
+  oraclePrice(where: {ytoken: {_eq: $yToken}}) {
+    price
+    decimals
+  }
+  globalFactors {
+    liquidationIncentive
+  }
+}
