@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { Preloader } from "components/ui/Preloader";
@@ -14,7 +14,7 @@ type ItemProps = {
   loading?: boolean;
 } & AttentionTextProps;
 
-export const Item: React.FC<ItemProps> = ({
+export const Item: FC<ItemProps> = ({
   value,
   className,
   loading,

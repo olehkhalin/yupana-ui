@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -25,7 +25,7 @@ type InterestRateModelProps = {
   className?: string;
 };
 
-export const InterestRateModel: React.FC<InterestRateModelProps> = ({
+export const InterestRateModel: FC<InterestRateModelProps> = ({
   asset,
   currentUtilizationRate,
   baseRatePerYear,

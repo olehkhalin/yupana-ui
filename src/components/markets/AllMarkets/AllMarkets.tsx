@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { useAssets } from "hooks/useAssets";
 import { Section } from "components/common/Section";
@@ -8,7 +8,7 @@ type AllMarketsProps = {
   className?: string;
 };
 
-export const AllMarkets: React.FC<AllMarketsProps> = ({ className }) => {
+export const AllMarkets: FC<AllMarketsProps> = ({ className }) => {
   const { data, loading, error } = useAssets();
 
   if ((!data && !loading) || error) {

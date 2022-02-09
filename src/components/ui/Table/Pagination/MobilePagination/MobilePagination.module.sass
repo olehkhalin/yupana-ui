@@ -1,0 +1,26 @@
+@import '../DesktopPagination/DesktopPagination.module'
+
+.input
+  min-width: 1.875rem
+  margin: 0 .75rem 0 .5rem
+  padding: .25rem 0
+  color: $white
+  text-shadow: $white-shadow
+  border: .063rem solid $white
+  box-shadow: none
+  text-align: center
+  &::-webkit-inner-spin-button
+    -webkit-appearance: none
+    -moz-appearance: textfield
+  &.focus, &.active
+    color: $white
+    text-shadow: none
+    border-color: $white
+  &.error
+    color: $red
+    text-shadow: $red-shadow
+    border-color: $red
+    box-shadow: $red-shadow
+
+.submit
+  display: none

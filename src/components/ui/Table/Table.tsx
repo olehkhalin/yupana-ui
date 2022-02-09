@@ -1,9 +1,11 @@
-import React, { FC, Fragment } from "react";
-import { useTable, useExpanded } from "react-table";
+import React, { FC, Fragment, useEffect } from "react";
+import { useTable, useExpanded, usePagination } from "react-table";
 import cx from "classnames";
 
+import { LIQUIDATION_POSITIONS_ITEMS_PER_PAGE } from "constants/defaults";
 import { Preloader } from "components/ui/Preloader";
 
+import { Pagination } from "./Pagination";
 import s from "./Table.module.sass";
 
 type TableProps = {
@@ -18,6 +20,11 @@ type TableProps = {
   className?: string;
   // Expanded row
   renderRowSubComponent?: any;
+  // Pagination
+  isPaginated?: boolean;
+  pageSize?: number;
+  pageCount?: number;
+  setOffset?: (arg: number) => void;
 };
 
 const themeClasses = {
@@ -38,8 +45,17 @@ export const Table: FC<TableProps> = ({
   rowClassName,
   theadClassName,
   className,
+  // Expanded
   renderRowSubComponent,
+  // Pagination
+  isPaginated = false,
+  pageSize,
+  pageCount = 1,
+  setOffset,
 }) => {
+  {
+    console.log("data-tbl", data);
+  }
   const {
     getTableProps,
     getTableBodyProps,
@@ -47,82 +63,130 @@ export const Table: FC<TableProps> = ({
     prepareRow,
     rows,
     visibleColumns,
+    // Pagination
+    state: { pageIndex },
+    canPreviousPage,
+    canNextPage,
+    nextPage,
+    previousPage,
+    gotoPage,
   } = useTable(
     {
       columns,
-      data: data,
+      data,
+      // Expanded
       autoResetExpanded: false,
+      // Pagination
+      initialState: {
+        pageIndex: 0,
+        pageSize: pageSize || LIQUIDATION_POSITIONS_ITEMS_PER_PAGE,
+      },
+      pageCount: Math.ceil(
+        pageCount / (pageSize || LIQUIDATION_POSITIONS_ITEMS_PER_PAGE)
+      ),
+      manualPagination: true,
+      autoResetPage: false,
     },
-    useExpanded
+    useExpanded,
+    usePagination
   );
+
+  const preparePageCount = Math.ceil(
+    pageCount / (pageSize || LIQUIDATION_POSITIONS_ITEMS_PER_PAGE)
+  );
+
+  useEffect(() => {
+    if (setOffset) {
+      const offset =
+        pageIndex === 0
+          ? pageIndex
+          : pageIndex * (pageSize || LIQUIDATION_POSITIONS_ITEMS_PER_PAGE);
+      setOffset(offset);
+    }
+  }, [pageIndex, pageSize, setOffset]);
 
   const compoundClassNames = cx(s.root, themeClasses[theme], className);
 
   return (
-    <div className={cx(compoundClassNames)}>
-      {loading && <Preloader theme={theme} className={s.preloader} />}
-      <div className={s.wrapper}>
-        <table {...getTableProps()} className={cx(s.table, tableClassName)}>
-          <thead className={cx(s.thead, theadClassName)}>
-            {headerGroups.map((headerGroup) => (
-              <tr
-                key={headerGroup.getHeaderGroupProps().key}
-                className={cx(s.tr, rowClassName)}
-              >
-                {headerGroup.headers.map((column) => (
-                  <th key={column.getHeaderProps().key} className={s.th}>
-                    {column.render("Header")}
-                  </th>
-                ))}
-              </tr>
-            ))}
-          </thead>
-          <tbody {...getTableBodyProps()} className={s.tbody}>
-            {(!data || data.length === 0) && !loading ? (
-              <tr className={cx(s.tr, s.noAssets, rowClassName)}>
-                <td>{emptyText}</td>
-              </tr>
-            ) : (
-              rows.map((row) => {
-                prepareRow(row);
+    <>
+      <div className={cx(compoundClassNames)}>
+        {loading && <Preloader theme={theme} className={s.preloader} />}
+        <div className={s.wrapper}>
+          <table {...getTableProps()} className={cx(s.table, tableClassName)}>
+            <thead className={cx(s.thead, theadClassName)}>
+              {headerGroups.map((headerGroup) => (
+                <tr
+                  key={headerGroup.getHeaderGroupProps().key}
+                  className={cx(s.tr, rowClassName)}
+                >
+                  {headerGroup.headers.map((column) => (
+                    <th key={column.getHeaderProps().key} className={s.th}>
+                      {column.render("Header")}
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()} className={s.tbody}>
+              {(!data || data.length === 0) && !loading ? (
+                <tr className={cx(s.tr, s.noAssets, rowClassName)}>
+                  <td>{emptyText}</td>
+                </tr>
+              ) : (
+                rows.map((row) => {
+                  prepareRow(row);
 
-                return (
-                  <Fragment key={row.getRowProps().key}>
-                    <tr
-                      {...row.getRowProps()}
-                      className={cx(s.tr, s.trBody, rowClassName)}
-                    >
-                      {row.cells.map((cell) => (
-                        <td
-                          {...cell.getCellProps()}
-                          key={cell.getCellProps().key}
-                          className={s.td}
-                        >
-                          {cell.render("Cell")}
-                        </td>
-                      ))}
-                    </tr>
-                    {row.isExpanded ? (
+                  return (
+                    <Fragment key={row.getRowProps().key}>
                       <tr
                         {...row.getRowProps()}
-                        key={`${row.getRowProps().key}-inner`}
-                        className={s.subTr}
+                        className={cx(s.tr, s.trBody, rowClassName)}
                       >
-                        <td
-                          colSpan={visibleColumns.length}
-                          className={s.dropdownTd}
-                        >
-                          {renderRowSubComponent({ row })}
-                        </td>
+                        {row.cells.map((cell) => (
+                          <td
+                            {...cell.getCellProps()}
+                            key={cell.getCellProps().key}
+                            className={s.td}
+                          >
+                            {cell.render("Cell")}
+                          </td>
+                        ))}
                       </tr>
-                    ) : null}
-                  </Fragment>
-                );
-              })
-            )}
-          </tbody>
-        </table>
+                      {row.isExpanded ? (
+                        <tr
+                          {...row.getRowProps()}
+                          key={`${row.getRowProps().key}-inner`}
+                          className={s.subTr}
+                        >
+                          <td
+                            colSpan={visibleColumns.length}
+                            className={s.dropdownTd}
+                          >
+                            {renderRowSubComponent({ row })}
+                          </td>
+                        </tr>
+                      ) : null}
+                    </Fragment>
+                  );
+                })
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
-    </div>
+      {!loading && preparePageCount > 1 && isPaginated && (
+        <Pagination
+          pageIndex={pageIndex}
+          canPreviousPage={canPreviousPage}
+          canNextPage={canNextPage}
+          pageCount={preparePageCount}
+          nextPage={nextPage}
+          previousPage={previousPage}
+          gotoPage={gotoPage}
+          setOffset={setOffset}
+          className={s.pagination}
+        />
+      )}
+    </>
   );
 };

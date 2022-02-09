@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -37,7 +37,7 @@ type MarketsDetailsInfoProps = {
   className?: string;
 };
 
-export const MarketsDetailsInfo: React.FC<MarketsDetailsInfoProps> = ({
+export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
   asset,
   price,
   availableLiquidity,

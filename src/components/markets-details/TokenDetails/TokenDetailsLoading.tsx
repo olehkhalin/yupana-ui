@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { useWiderThanMphone } from "utils/helpers";
@@ -13,7 +13,7 @@ type TokenDetailsLoadingProps = {
   className?: string;
 };
 
-export const TokenDetailsLoading: React.FC<TokenDetailsLoadingProps> = ({
+export const TokenDetailsLoading: FC<TokenDetailsLoadingProps> = ({
   className,
 }) => {
   const iwWiderThanMphone = useWiderThanMphone();

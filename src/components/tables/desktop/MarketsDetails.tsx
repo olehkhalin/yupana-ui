@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { Cell } from "react-table";
 import cx from "classnames";
@@ -24,7 +24,7 @@ type MarketsDetailsProps = {
   className?: string;
 };
 
-export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
+export const MarketsDetails: FC<MarketsDetailsProps> = ({
   data,
   loading,
   className,

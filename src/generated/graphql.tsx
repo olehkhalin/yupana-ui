@@ -6874,6 +6874,14 @@ export type Withdraw_Tx_Variance_Order_By = {
   usdAmount?: InputMaybe<Order_By>;
 };
 
+export type LiquidationPositionsQueryVariables = Exact<{
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, userAggregate: { __typename?: 'user_aggregate', aggregate?: { __typename?: 'user_aggregate_fields', count: number } | null | undefined } };
+
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -6916,6 +6924,75 @@ export type UserSupplyAssetsQueryVariables = Exact<{
 export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Array<{ __typename?: 'user_supply', assetId: number, supply: any, entered: boolean }> };
 
 
+export const LiquidationPositionsDocument = gql`
+    query LiquidationPositions($limit: Int, $offset: Int) {
+  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
+    address
+    outstandingBorrow
+    liquidationRatio
+    borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+    collateralAssets: userSupply(where: {entered: {_eq: true}}) {
+      asset {
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+    }
+  }
+  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `;
+
+/**
+ * __useLiquidationPositionsQuery__
+ *
+ * To run a query within a React component, call `useLiquidationPositionsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLiquidationPositionsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLiquidationPositionsQuery({
+ *   variables: {
+ *      limit: // value for 'limit'
+ *      offset: // value for 'offset'
+ *   },
+ * });
+ */
+export function useLiquidationPositionsQuery(baseOptions?: Apollo.QueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+      }
+export function useLiquidationPositionsLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>(LiquidationPositionsDocument, options);
+        }
+export type LiquidationPositionsQueryHookResult = ReturnType<typeof useLiquidationPositionsQuery>;
+export type LiquidationPositionsLazyQueryHookResult = ReturnType<typeof useLiquidationPositionsLazyQuery>;
+export type LiquidationPositionsQueryResult = Apollo.QueryResult<LiquidationPositionsQuery, LiquidationPositionsQueryVariables>;
 export const MarketOverviewDocument = gql`
     query MarketOverview {
   assetAggregate {
