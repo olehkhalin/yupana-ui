@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -18,7 +18,7 @@ type TokenDetailsProps = {
   className?: string;
 };
 
-export const TokenDetails: React.FC<TokenDetailsProps> = ({
+export const TokenDetails: FC<TokenDetailsProps> = ({
   asset,
   data,
   price,

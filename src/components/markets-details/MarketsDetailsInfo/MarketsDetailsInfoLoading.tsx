@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { MARKET_DETAILS } from "constants/popups/market-details";
@@ -47,9 +47,9 @@ type MarketsDetailsInfoLoadingProps = {
   className?: string;
 };
 
-export const MarketsDetailsInfoLoading: React.FC<
-  MarketsDetailsInfoLoadingProps
-> = ({ className }) => {
+export const MarketsDetailsInfoLoading: FC<MarketsDetailsInfoLoadingProps> = ({
+  className,
+}) => {
   return (
     <Section className={cx(s.root, className)}>
       <div className={s.graphWrapper}>

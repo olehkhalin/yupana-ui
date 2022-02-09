@@ -23,6 +23,10 @@ export const LV_ACCOUNT_PUBLIC_KEY =
 // General
 export const EXPLORER_URL = process.env.REACT_APP_EXPLRER_URL;
 export const TEZOS_PRICE_API_URL = process.env.REACT_APP_TEZOS_PRICE_API_URL!;
+export const LIQUIDATION_POSITIONS_ITEMS_PER_PAGE = process.env
+  .REACT_APP_LIQUIDATION_POSITIONS_ITEMS_PER_PAGE
+  ? +process.env.REACT_APP_LIQUIDATION_POSITIONS_ITEMS_PER_PAGE
+  : 10;
 
 // Contract fallbacks
 export const YUPANA_CONTRACT_FALLBACK =

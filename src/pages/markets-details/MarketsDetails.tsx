@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { FC, useMemo } from "react";
 import { useParams } from "react-router-dom";
 
 import { MarketsDetailsQuery, useMarketsDetailsQuery } from "generated/graphql";
@@ -25,7 +25,7 @@ type MarketsDetailsInnerProps = {
   loading: boolean;
 };
 
-const MarketsDetailsInner: React.FC<MarketsDetailsInnerProps> = ({
+const MarketsDetailsInner: FC<MarketsDetailsInnerProps> = ({
   data,
   loading,
 }) => {
@@ -85,7 +85,7 @@ const MarketsDetailsInner: React.FC<MarketsDetailsInnerProps> = ({
   );
 };
 
-export const MarketsDetails: React.FC = () => {
+export const MarketsDetails: FC = () => {
   // @ts-ignore
   const { yToken: yTokenString }: { yToken: string } = useParams();
   const yToken = +yTokenString;

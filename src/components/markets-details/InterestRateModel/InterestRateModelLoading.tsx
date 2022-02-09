@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import cx from "classnames";
 
 import { Section } from "components/common/Section";
@@ -31,9 +31,9 @@ type InterestRateModelLoadingProps = {
   className?: string;
 };
 
-export const InterestRateModelLoading: React.FC<
-  InterestRateModelLoadingProps
-> = ({ className }) => {
+export const InterestRateModelLoading: FC<InterestRateModelLoadingProps> = ({
+  className,
+}) => {
   return (
     <Section className={cx(s.root, className)}>
       <div className={s.detailsWrapper}>

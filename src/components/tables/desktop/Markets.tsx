@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { Cell } from "react-table";
 import cx from "classnames";
@@ -21,11 +21,7 @@ type MarketsProps = {
   className?: string;
 };
 
-export const Markets: React.FC<MarketsProps> = ({
-  data,
-  loading,
-  className,
-}) => {
+export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
 
   const calculateUsdTotals = useCallback(

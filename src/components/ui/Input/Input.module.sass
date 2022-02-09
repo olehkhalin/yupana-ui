@@ -1,0 +1,105 @@
+@import "styles/variables.sass"
+@import "styles/breakpoints.scss"
+
+.root
+  width: 100%
+  max-width: 29rem
+  display: flex
+  flex-direction: column
+  position: relative
+  // &::before
+  //   content: ''
+  //   position: absolute
+  //   top: .25rem
+  //   right: .25rem
+  //   width: 100%
+  //   height: 100%
+  //   max-height: 2.75rem
+  //   border-radius: .25rem
+  //   box-shadow: -16px 16px 24px $white
+  //   opacity: .04
+  //   background-color: $white
+  //   transition: background-color $animationTime, box-shadow $animationTime, opacity $animationTime
+
+.input
+  color: $white
+  width: 100%
+  outline: none
+  cursor: pointer
+  padding: .75rem 1.25rem
+  border-radius: .25rem
+  text-align: center
+  font-size: 1rem
+  font-weight: 700
+  line-height: 1
+  transition: background-color $animationTime, color $animationTime, border-color $animationTime
+  background-color: transparent
+  border: 1px solid $white
+  box-shadow: 0 0 2px $white
+  text-shadow: 0 0 2px $white
+  position: relative
+  z-index: 1
+  &::placeholder
+    color: $white
+    transition: color $animationTime
+
+// .hovered
+//   &::before
+//     box-shadow: -16px 16px 24px $light-blue
+//     background-color: $light-blue
+//   .input
+//     color: $light-blue
+//     box-shadow: 0 0 2px $light-blue
+//     border-color: $light-blue
+//     text-shadow: 0 0 2px $light-blue
+//     &::placeholder
+//       color: $light-blue
+
+.active
+  &::before
+    box-shadow: -16px 16px 24px $light-yellow
+    background-color: $light-yellow
+  .input
+    color: $light-yellow
+    box-shadow: 0 0 2px $light-yellow
+    border-color: $light-yellow
+    text-shadow: 0 0 2px $light-yellow
+    text-align: left
+    &::placeholder
+      color: $light-yellow
+
+.error
+  &::before
+    box-shadow: -16px 16px 24px $red
+    background-color: $red
+  .input
+    color: $red
+    box-shadow: 0 0 2px $red
+    border-color: $red
+    text-shadow: 0 0 2px $red
+    &::placeholder
+      color: $red
+  .errorContainer
+    max-height: 1.5rem
+
+.disabled
+  &::before
+    opacity: 0
+  .input
+    border-color: $white-50
+    color: $white-50
+    background-color: transparent
+    text-shadow: none
+    box-shadow: none
+    &::placeholder
+      color: $white-50
+
+.errorContainer
+  max-height: 0
+  overflow: hidden
+  transition: max-height $animationTime
+.errorText
+  padding-top: .5rem
+  text-align: left
+  font-size: 0.875rem
+  color: $red
