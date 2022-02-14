@@ -25,7 +25,12 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
 
   const calculateUsdTotals = useCallback(
-    (total: BigNumber, yToken: number, asset: AssetType) => {
+    (
+      total: BigNumber,
+      yToken: number,
+      asset: AssetType,
+      exchangeRate?: BigNumber
+    ) => {
       const oraclePrice = oraclePrices
         ? oraclePrices.oraclePrice.find(({ ytoken }) => ytoken === yToken) ?? {
             price: new BigNumber(0),
@@ -37,7 +42,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
           };
 
       return convertUnits(
-        convertUnits(total, STANDARD_PRECISION),
+        convertUnits(total.multipliedBy(exchangeRate ?? 1), STANDARD_PRECISION),
         asset.decimals
       )
         .multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
@@ -70,10 +75,12 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
         accessor: (row: {
           asset: AssetType;
           totalSupply: BigNumber;
+          exchangeRate: BigNumber;
           yToken: number;
         }) => ({
           asset: row.asset,
           totalSupply: row.totalSupply,
+          exchangeRate: row.exchangeRate,
           yToken: row.yToken,
         }),
         Cell: ({ cell: { value } }: { cell: Cell }) => {
@@ -86,7 +93,8 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               amount={calculateUsdTotals(
                 value.totalSupply,
                 value.yToken,
-                value.asset
+                value.asset,
+                value.exchangeRate
               )}
               // isMinified
               isConvertable

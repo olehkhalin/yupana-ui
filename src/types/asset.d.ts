@@ -22,6 +22,7 @@ export type AssetsResponseItem = {
     supplyApy: BigNumber;
     utilizationRate: BigNumber;
   };
+  exchangeRate: BigNumber;
   reserves: BigNumber;
   totalBorrowed: BigNumber;
   totalLiquid: BigNumber;
@@ -30,6 +31,7 @@ export type AssetsResponseItem = {
   borrowIndex: BigNumber;
   borrowWithInterest: BigNumber;
   supply: BigNumber;
+  supplyWithInterest: BigNumber;
   isCollateral: boolean;
   numberOfSuppliers: number;
   numberOfBorrowers: number;

@@ -1,9 +1,9 @@
 import BigNumber from "bignumber.js";
 
+import { STANDARD_PRECISION } from "constants/defaults";
 import { useOraclePriceQuery } from "generated/graphql";
 
 import { useAssets } from "./useAssets";
-import { STANDARD_PRECISION } from "../constants/defaults";
 
 export const useUserStats = () => {
   const {
@@ -38,8 +38,12 @@ export const useUserStats = () => {
       ({ ytoken }) => ytoken === asset.yToken
     );
     if (lastPrice) {
-      if (asset.supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))) {
-        supplyUsdAmount = asset.supply.multipliedBy(lastPrice.price);
+      if (
+        asset.supplyWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+      ) {
+        supplyUsdAmount = asset.supplyWithInterest.multipliedBy(
+          lastPrice.price
+        );
       }
       if (
         asset.borrowWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION))
