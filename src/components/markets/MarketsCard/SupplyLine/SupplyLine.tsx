@@ -17,7 +17,6 @@ export const SupplyLine: FC<SupplyLineWithDataProps> = ({
 }) => {
   const [amount, setAmount] = useState<number>(0);
   const timing = useMemo(() => ANIMATION_TIME + amount / 100, [amount]);
-  console.log("timing", timing);
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;

@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 export type AssetType = {
   contractAddress: string;
   isFa2: boolean;
-  tokenId: number;
+  tokenId?: number;
   decimals: number;
   name?: string | null;
   symbol?: string | null;

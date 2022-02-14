@@ -1,0 +1,40 @@
+query Liquidate($address: String) {
+  user(where: {address: {_eq: $address}, liquidationRatio: {_neq: "0"}}) {
+    address
+    liquidationRatio
+    borrowedAssets: userBorrow(where: { borrow: { _gt: "0" } }) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      borrow
+    }
+    collateralAssets: userSupply(where: { entered: { _eq: true } }) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      supply
+    }
+  }
+  globalFactors {
+    liquidationIncentive
+    closeFactor
+  }
+}

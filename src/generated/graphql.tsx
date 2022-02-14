@@ -6887,6 +6887,13 @@ export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', usdSupply?: any | null | undefined, usdBorrow?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdBorrow: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
 
+export type LiquidateQueryVariables = Exact<{
+  address?: InputMaybe<Scalars['String']>;
+}>;
+
+
+export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
+
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
 }>;
@@ -6926,7 +6933,11 @@ export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Arr
 
 export const LiquidationPositionsDocument = gql`
     query LiquidationPositions($limit: Int, $offset: Int) {
-  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
+  user(
+    limit: $limit
+    offset: $offset
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     address
     outstandingBorrow
     liquidationRatio
@@ -6957,7 +6968,9 @@ export const LiquidationPositionsDocument = gql`
       }
     }
   }
-  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
+  userAggregate(
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     aggregate {
       count
     }
@@ -7076,6 +7089,77 @@ export function useMarketOverviewLazyQuery(baseOptions?: Apollo.LazyQueryHookOpt
 export type MarketOverviewQueryHookResult = ReturnType<typeof useMarketOverviewQuery>;
 export type MarketOverviewLazyQueryHookResult = ReturnType<typeof useMarketOverviewLazyQuery>;
 export type MarketOverviewQueryResult = Apollo.QueryResult<MarketOverviewQuery, MarketOverviewQueryVariables>;
+export const LiquidateDocument = gql`
+    query Liquidate($address: String) {
+  user(where: {address: {_eq: $address}, liquidationRatio: {_neq: "0"}}) {
+    address
+    outstandingBorrow
+    liquidationRatio
+    borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      borrow
+    }
+    collateralAssets: userSupply(where: {entered: {_eq: true}}) {
+      asset {
+        ytoken
+        contractAddress
+        isFa2
+        tokenId
+        tokens {
+          name
+          symbol
+          thumbnail
+          decimals
+        }
+      }
+      supply
+    }
+  }
+  globalFactors {
+    liquidationIncentive
+    closeFactor
+  }
+}
+    `;
+
+/**
+ * __useLiquidateQuery__
+ *
+ * To run a query within a React component, call `useLiquidateQuery` and pass it any options that fit your needs.
+ * When your component renders, `useLiquidateQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useLiquidateQuery({
+ *   variables: {
+ *      address: // value for 'address'
+ *   },
+ * });
+ */
+export function useLiquidateQuery(baseOptions?: Apollo.QueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
+      }
+export function useLiquidateLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<LiquidateQuery, LiquidateQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<LiquidateQuery, LiquidateQueryVariables>(LiquidateDocument, options);
+        }
+export type LiquidateQueryHookResult = ReturnType<typeof useLiquidateQuery>;
+export type LiquidateLazyQueryHookResult = ReturnType<typeof useLiquidateLazyQuery>;
+export type LiquidateQueryResult = Apollo.QueryResult<LiquidateQuery, LiquidateQueryVariables>;
 export const MarketsDetailsDocument = gql`
     query MarketsDetails($yToken: Int!) {
   asset(where: {ytoken: {_eq: $yToken}}) {
