@@ -83,14 +83,20 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, supply, collateralFactor, isCollateral },
+        original: {
+          yToken,
+          asset,
+          supplyWithInterest,
+          collateralFactor,
+          isCollateral,
+        },
       },
     }) => (
       <SupplyTableDropdown
         yToken={yToken}
         asset={asset}
         collateralFactor={collateralFactor}
-        supply={supply}
+        supply={supplyWithInterest}
         isCollateral={isCollateral}
       />
     ),

@@ -32,7 +32,9 @@ export const calculateUsdTotal = (
 
     totalUsdSupply = totalUsdSupply.plus(
       convertUnits(
-        convertUnits(asset.totalSupply, STANDARD_PRECISION),
+        convertUnits(asset.totalSupply, STANDARD_PRECISION).multipliedBy(
+          asset.exchangeRate
+        ),
         asset.asset.decimals
       )
         .multipliedBy(convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION))

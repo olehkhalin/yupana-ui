@@ -12,7 +12,7 @@ type TableProps = {
   columns: any;
   data: any[];
   loading?: boolean;
-  emptyText: string;
+  emptyText?: string;
   theme?: keyof typeof themeClasses;
   tableClassName?: string;
   rowClassName?: string;
@@ -25,6 +25,9 @@ type TableProps = {
   pageSize?: number;
   pageCount?: number;
   setOffset?: (arg: number) => void;
+  // Row selection
+  selectedItem?: number;
+  setSelectedItem?: (arg: number) => void;
 };
 
 const themeClasses = {
@@ -52,10 +55,10 @@ export const Table: FC<TableProps> = ({
   pageSize,
   pageCount = 1,
   setOffset,
+  // Row selection
+  selectedItem,
+  setSelectedItem,
 }) => {
-  {
-    console.log("data-tbl", data);
-  }
   const {
     getTableProps,
     getTableBodyProps,
@@ -95,6 +98,12 @@ export const Table: FC<TableProps> = ({
     pageCount / (pageSize || LIQUIDATION_POSITIONS_ITEMS_PER_PAGE)
   );
 
+  const handleSelectItem = (asset: number) => {
+    if (!!setSelectedItem) {
+      setSelectedItem(asset);
+    }
+  };
+
   useEffect(() => {
     if (setOffset) {
       const offset =
@@ -106,6 +115,10 @@ export const Table: FC<TableProps> = ({
   }, [pageIndex, pageSize, setOffset]);
 
   const compoundClassNames = cx(s.root, themeClasses[theme], className);
+
+  if ((!data || data.length === 0) && !loading && !emptyText) {
+    return <></>;
+  }
 
   return (
     <>
@@ -136,11 +149,25 @@ export const Table: FC<TableProps> = ({
                 rows.map((row) => {
                   prepareRow(row);
 
+                  let isSelected = false;
+                  if (selectedItem !== undefined && !loading) {
+                    isSelected = selectedItem == row.values.yToken.yToken;
+                  }
+
                   return (
                     <Fragment key={row.getRowProps().key}>
                       <tr
                         {...row.getRowProps()}
-                        className={cx(s.tr, s.trBody, rowClassName)}
+                        onClick={() =>
+                          !!setSelectedItem &&
+                          handleSelectItem(row.values.yToken.yToken)
+                        }
+                        className={cx(
+                          s.tr,
+                          s.trBody,
+                          { [s.selected]: isSelected && !loading },
+                          rowClassName
+                        )}
                       >
                         {row.cells.map((cell) => (
                           <td

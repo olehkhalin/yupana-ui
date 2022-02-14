@@ -3,7 +3,7 @@ import BigNumber from "bignumber.js";
 export type AssetType = {
   contractAddress: string;
   isFa2: boolean;
-  tokenId: number;
+  tokenId?: number;
   decimals: number;
   name?: string | null;
   symbol?: string | null;
@@ -22,6 +22,7 @@ export type AssetsResponseItem = {
     supplyApy: BigNumber;
     utilizationRate: BigNumber;
   };
+  exchangeRate: BigNumber;
   reserves: BigNumber;
   totalBorrowed: BigNumber;
   totalLiquid: BigNumber;
@@ -30,6 +31,7 @@ export type AssetsResponseItem = {
   borrowIndex: BigNumber;
   borrowWithInterest: BigNumber;
   supply: BigNumber;
+  supplyWithInterest: BigNumber;
   isCollateral: boolean;
   numberOfSuppliers: number;
   numberOfBorrowers: number;

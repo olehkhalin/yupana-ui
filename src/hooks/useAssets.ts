@@ -123,6 +123,37 @@ export const [AssetsProvider, useAssets] = constate(() => {
       ({ assetId }) => assetId === asset.ytoken
     );
 
+    const deltaInSeconds = new BigNumber(
+      new BigNumber(new Date().getTime()).minus(
+        new Date(asset.interestUpdateTime).getTime()
+      )
+    ).div(1000);
+    const interestFactor = new BigNumber(
+      asset.rates[0].borrow_rate
+    ).multipliedBy(deltaInSeconds);
+
+    const interestAccumulatedF = interestFactor
+      .multipliedBy(asset.totalBorrowed)
+      .div(new BigNumber(10).pow(STANDARD_PRECISION));
+    const predictedTotalBorrowsF = interestAccumulatedF.plus(
+      asset.totalBorrowed
+    );
+    const predictedTotalReservesF = interestAccumulatedF
+      .multipliedBy(asset.reserveFactor)
+      .div(new BigNumber(10).pow(STANDARD_PRECISION))
+      .plus(asset.reserves);
+
+    const predictedExchangeRate = new BigNumber(asset.totalSupply).gt(0)
+      ? new BigNumber(asset.totalLiquid)
+          .plus(predictedTotalBorrowsF)
+          .minus(predictedTotalReservesF)
+          .div(asset.totalSupply)
+      : new BigNumber(1);
+
+    const supplyWithInterest = supplyAsset
+      ? supplyAsset.supply.multipliedBy(predictedExchangeRate)
+      : new BigNumber(0);
+
     return {
       yToken: asset.ytoken,
       asset: {
@@ -147,6 +178,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
       totalBorrowed: new BigNumber(asset.totalBorrowed),
       totalLiquid: new BigNumber(asset.totalLiquid),
       totalSupply: new BigNumber(asset.totalSupply),
+      exchangeRate: predictedExchangeRate,
       borrow: returnZeroIfNotExist(borrowAsset, "borrow"),
       borrowIndex: returnZeroIfNotExist(borrowAsset, "borrowIndex"),
       borrowWithInterest: returnZeroIfNotExist(
@@ -154,6 +186,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
         "borrowWithInterest"
       ),
       supply: returnZeroIfNotExist(supplyAsset, "supply"),
+      supplyWithInterest,
       isCollateral: supplyAsset ? supplyAsset.isCollateral : false,
       numberOfSuppliers: asset.suppliersCount.aggregate?.count ?? 0,
       numberOfBorrowers: asset.borrowersCount.aggregate?.count ?? 0,

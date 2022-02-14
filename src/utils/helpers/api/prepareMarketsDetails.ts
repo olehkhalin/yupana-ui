@@ -1,8 +1,13 @@
+import BigNumber from "bignumber.js";
+
 import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from "constants/defaults";
 import { MarketsDetailsQuery } from "generated/graphql";
 import { convertUnits } from "utils/helpers/amount";
 
-export const prepareMarketsDetails = (data: MarketsDetailsQuery) => {
+export const prepareMarketsDetails = (
+  data: MarketsDetailsQuery,
+  exchangeRate: BigNumber
+) => {
   // Token details
   const el = data.asset[0];
   const asset = {
@@ -19,7 +24,7 @@ export const prepareMarketsDetails = (data: MarketsDetailsQuery) => {
     ORACLE_PRICE_PRECISION
   ).multipliedBy(data.oraclePrice[0].decimals);
   const totalSupply = convertUnits(
-    convertUnits(el.totalSupply, STANDARD_PRECISION),
+    convertUnits(el.totalSupply, STANDARD_PRECISION).multipliedBy(exchangeRate),
     asset.decimals,
     true
   ).multipliedBy(price);
@@ -70,10 +75,6 @@ export const prepareMarketsDetails = (data: MarketsDetailsQuery) => {
     el.reserveFactor,
     STANDARD_PRECISION
   ).multipliedBy(1e2);
-  const exchangeRate = convertUnits(
-    el.rates[0].exchange_rate,
-    STANDARD_PRECISION
-  );
 
   // Interest rate model
   const baseRatePerYear = convertUnits(
@@ -117,7 +118,10 @@ export const prepareMarketsDetails = (data: MarketsDetailsQuery) => {
       reserves,
       reserveFactor,
       minted: totalSupply,
-      exchangeRate,
+      exchangeRate: exchangeRate.decimalPlaces(
+        asset.decimals,
+        BigNumber.ROUND_DOWN
+      ),
     },
     interestRateModel: {
       currentUtilizationRate: utilisationRate,

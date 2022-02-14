@@ -1,10 +1,10 @@
-query LiquidationPositions($limit: Int, $offset: Int) {
-  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
+query Liquidate($address: String) {
+  user(where: {address: {_eq: $address}, liquidationRatio: {_neq: "0"}}) {
     address
-    outstandingBorrow
     liquidationRatio
     borrowedAssets: userBorrow(where: { borrow: { _gt: "0" } }) {
       asset {
+        ytoken
         contractAddress
         isFa2
         tokenId
@@ -15,9 +15,11 @@ query LiquidationPositions($limit: Int, $offset: Int) {
           decimals
         }
       }
+      borrow
     }
     collateralAssets: userSupply(where: { entered: { _eq: true } }) {
       asset {
+        ytoken
         contractAddress
         isFa2
         tokenId
@@ -28,11 +30,11 @@ query LiquidationPositions($limit: Int, $offset: Int) {
           decimals
         }
       }
+      supply
     }
   }
-  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
-    aggregate {
-      count
-    }
+  globalFactors {
+    liquidationIncentive
+    closeFactor
   }
 }

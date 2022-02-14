@@ -105,7 +105,6 @@ export const DesktopPagination: FC<DesktopPaginationProps> = ({
 
   // go to the page
   const handleGoToPage = (item: number) => {
-    console.log("handleGoToPage", item - 1);
     if (setOffset) {
       gotoPage(item - 1);
     }
