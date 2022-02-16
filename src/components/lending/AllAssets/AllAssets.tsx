@@ -10,11 +10,11 @@ import { CreditProcessModalProvider } from "hooks/useCreditProcessModal";
 import { Section } from "components/common/Section";
 import { AssetsSwitcher } from "components/common/AssetsSwitcher";
 import {
-  SupplyAssets,
   BorrowAssets,
-  YourSupplyAssets,
+  SupplyAssets,
   YourBorrowAssets,
-} from "components/tables/desktop";
+  YourSupplyAssets,
+} from "components/tables/containers";
 import { CreditProcessModal } from "components/modals/CreditProcessModal";
 
 import s from "./AllAssets.module.sass";
