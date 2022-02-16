@@ -31,7 +31,8 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
             <PrettyAmount
               amount={convertUnits(data.totalSupplyUsd, COLLATERAL_PRECISION)}
               isConvertable
-              className={s.supplyValue}
+              theme="primary"
+              className={s.valueBalance}
             />
           )}
         </div>
@@ -59,7 +60,8 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
             <PrettyAmount
               amount={convertUnits(data.totalBorrowUsd, COLLATERAL_PRECISION)}
               isConvertable
-              className={s.borrowValue}
+              theme="secondary"
+              className={s.valueBalance}
             />
           )}
         </div>

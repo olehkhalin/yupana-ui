@@ -98,6 +98,8 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               )}
               // isMinified
               isConvertable
+              size="small"
+              theme="primary"
               className={cx(s.blue, s.withTezos)}
             />
           );
@@ -148,6 +150,8 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
                 value.asset
               )}
               isConvertable
+              size="small"
+              theme="secondary"
               className={cx(s.yellow, s.withTezos)}
             />
           );

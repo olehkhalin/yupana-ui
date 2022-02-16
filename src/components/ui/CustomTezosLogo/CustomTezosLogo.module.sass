@@ -1,0 +1,63 @@
+@import 'styles/breakpoints.scss'
+@import 'styles/variables.sass'
+  
+.root
+  width: 100%
+  height: 100%
+
+.primary
+  path
+    fill: $light-blue
+
+.secondary
+  path
+    fill: $light-yellow
+
+.tertiary
+  path
+    fill: $white
+
+.superExtraSmall
+  width: .75rem
+  height: .75rem
+
+.extraSmall
+  width: .875rem
+  height: .875rem
+
+.small
+  width: 1rem
+  height: 1rem
+
+.medium
+  width: 1rem
+  height: 1rem
+
+.large
+  width: 1.5rem
+  height: 1.5rem
+
+.extraLarge
+  width: 1.5rem
+  height: 1.5rem
+
+@include media('>Mphone')
+  .large
+    width: 2rem
+    height: 2rem
+  .extraSmall
+    width: 1rem
+    height: 1rem
+
+@include media('>Lphone')
+  .medium
+    width: 1.5rem
+    height: 1.5rem
+  .extraLarge
+    width: 2rem
+    height: 2rem
+
+@include media('>Ltablet')
+  .extraLarge
+    width: 3rem
+    height: 3rem

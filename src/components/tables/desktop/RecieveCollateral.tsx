@@ -114,7 +114,11 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
         Header: () => <span className={s.blue}>Price of receive asset</span>,
         accessor: "price",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? "—" : <PrettyAmount amount={value} isConvertable />,
+          loading ? (
+            "—"
+          ) : (
+            <PrettyAmount amount={value} theme="primary" isConvertable />
+          ),
       },
       {
         Header: () => <span className={s.blue}>Amount of supplied</span>,
@@ -154,6 +158,8 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                     value.asset.decimals
                   ).multipliedBy(value.price)}
                   isConvertable
+                  theme="primary"
+                  size="superExtraSmall"
                 />
               )}
             </div>
@@ -204,6 +210,8 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                       value.asset.decimals
                     ).multipliedBy(value.price)}
                     isConvertable
+                    size="superExtraSmall"
+                    theme="primary"
                   />
                 )}
               </div>

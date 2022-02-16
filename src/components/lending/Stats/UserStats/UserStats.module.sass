@@ -36,15 +36,19 @@
 .value
   font-size: 1.5rem
 
-.supplyValue
-  svg
-    path
-      fill: $light-blue
+.valueBalance
+  min-width: 1.5rem
+  min-height: 1.5rem
 
-.borrowValue
-  svg
-    path
-      fill: $light-yellow
+// .supplyValue
+//   svg
+//     path
+//       fill: $light-blue
+
+// .borrowValue
+//   svg
+//     path
+//       fill: $light-yellow
 
 @include media('>Mphone')
   .root
@@ -65,7 +69,10 @@
     font-size: 1.25rem
   .value
     font-size: 2rem
-  .supplyValue, .borrowValue
-    svg
-      height: 1.6rem
-      width: auto
+  .valueBalance
+    min-width: 2rem
+    min-height: 2rem
+  // .supplyValue, .borrowValue
+  //   svg
+  //     height: 1.6rem
+  //     width: auto

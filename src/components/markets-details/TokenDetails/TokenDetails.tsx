@@ -41,7 +41,14 @@ export const TokenDetails: FC<TokenDetailsProps> = ({
           <h1 className={s.name}>{getAssetName(asset, true)}</h1>
         </div>
         <div className={s.price}>
-          Price: <PrettyAmount amount={price} isConvertable />
+          Price:{" "}
+          <PrettyAmount
+            amount={price}
+            theme="primary"
+            size="extraLarge"
+            isConvertable
+            className={s.priceNumber}
+          />
         </div>
       </div>
 
