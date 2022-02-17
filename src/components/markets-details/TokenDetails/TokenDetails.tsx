@@ -7,7 +7,10 @@ import { AssetType } from "types/asset";
 import { Section } from "components/common/Section";
 import { AssetLogo } from "components/common/AssetLogo";
 import { PrettyAmount } from "components/common/PrettyAmount";
-import { MarketsDetails, MarketsDetailsInfo } from "components/tables/desktop";
+import {
+  MarketsDetails,
+  MarketsDetailsInfo,
+} from "components/tables/containers";
 
 import s from "./TokenDetails.module.sass";
 
