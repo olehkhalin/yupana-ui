@@ -1,22 +1,13 @@
 import React, { FC, useMemo } from "react";
-import BigNumber from "bignumber.js";
 import { Cell } from "react-table";
 import cx from "classnames";
 
 import { getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { MarketsDetailsInfo } from "components/tables/containers/MarketsDetails";
 
 import s from "./Tables.module.sass";
-
-export type MarketsDetailsInfo = {
-  totalSupply: BigNumber;
-  supplyApy: BigNumber;
-  numberOfSupplier: number;
-  totalBorrow: BigNumber;
-  borrowApy: BigNumber;
-  numberOfBorrowers: number;
-};
 
 type MarketsDetailsProps = {
   data?: MarketsDetailsInfo[];

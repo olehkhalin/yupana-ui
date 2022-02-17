@@ -2,7 +2,7 @@ import React, { FC } from "react";
 
 import { useAssets } from "hooks/useAssets";
 import { Section } from "components/common/Section";
-import { Markets } from "components/tables/desktop";
+import { Markets } from "components/tables/containers";
 
 type AllMarketsProps = {
   className?: string;
