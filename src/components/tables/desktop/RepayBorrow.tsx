@@ -15,7 +15,7 @@ import { PrettyAmount } from "components/common/PrettyAmount";
 import s from "./Tables.module.sass";
 
 type RepayBorrowProps = {
-  data: LiquidateDetailsBorrowedAssets | number[];
+  data?: LiquidateDetailsBorrowedAssets;
   loading?: boolean;
   className?: string;
 };
@@ -28,7 +28,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
   const [selectedItem, setSelectedItem] = useState<number | undefined>(
     undefined
   );
-  const { setBorrowedAssetYToken } = useLiquidateData();
+  const { liquidateData, setBorrowedAssetYToken } = useLiquidateData();
 
   useEffect(() => {
     if (selectedItem !== undefined) {
@@ -36,10 +36,16 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
     }
   }, [selectedItem, setBorrowedAssetYToken]);
 
+  useEffect(() => {
+    if (liquidateData && liquidateData.brrowedAssetYToken !== undefined) {
+      setSelectedItem(liquidateData.brrowedAssetYToken);
+    }
+  }, [liquidateData]);
+
   const columns = useMemo(
     () => [
       {
-        Header: "Asset",
+        Header: "Borrowed Asset",
         id: "yToken",
         accessor: (row: { yToken: number; asset: AssetType }) => ({
           yToken: row.yToken,
@@ -162,7 +168,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
     <Table
       theme="octonary"
       columns={columns}
-      data={data}
+      data={data ?? [0, 1]}
       loading={loading}
       selectedItem={selectedItem}
       setSelectedItem={setSelectedItem}

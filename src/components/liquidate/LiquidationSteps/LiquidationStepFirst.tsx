@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { useWiderThanMphone } from "utils/helpers";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
-import { RepayBorrow } from "components/tables/desktop";
+import { RepayBorrow } from "components/tables/containers";
 
 import s from "./LiquidationSteps.module.sass";
 
@@ -31,7 +31,7 @@ export const LiquidationStepFirst: FC = () => {
         collateral you receive also be different.
       </div>
       <RepayBorrow
-        data={data ? data.borrowedAssets : [0, 1]}
+        data={data ? data.borrowedAssets : undefined}
         loading={loading}
       />
     </section>

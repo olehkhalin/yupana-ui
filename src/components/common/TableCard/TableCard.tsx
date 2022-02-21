@@ -7,11 +7,11 @@ import { DropdownArrow } from "components/tables/DropdownArrow";
 
 import s from "./TableCard.module.sass";
 
-type FunctionType = () => string;
+type FunctionType = () => string | ReactElement;
 
 type DataType = {
   id?: string;
-  title: string;
+  title: ReactElement | string;
   content: ReactElement | string | FunctionType;
   isLogo?: boolean;
   rowClassName?: string;
@@ -24,6 +24,8 @@ type TableCardProps = {
   renderRowSubComponent?: (props: any) => void;
   href?: string;
   theme?: keyof typeof themeClasses;
+  yToken?: number;
+  handleClick?: (props: number) => void;
   className?: string;
 };
 
@@ -40,6 +42,8 @@ export const TableCard: React.FC<TableCardProps> = ({
   renderRowSubComponent,
   href,
   theme = "primary",
+  yToken,
+  handleClick,
   className,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
@@ -50,7 +54,12 @@ export const TableCard: React.FC<TableCardProps> = ({
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
       className={cx(s.root, themeClasses[theme], className)}
-      onClick={() => setIsOpened(!isOpened)}
+      onClick={() => {
+        setIsOpened(!isOpened);
+        if (yToken !== undefined && handleClick) {
+          handleClick(yToken);
+        }
+      }}
     >
       {loading && <Preloader theme={theme} className={s.preloader} />}
       {isExpander && (
@@ -73,9 +82,12 @@ export const TableCard: React.FC<TableCardProps> = ({
           Details
         </Button>
       )}
-      {data.map(({ id, title, content, isLogo, rowClassName }) => (
+      {data.map(({ id, title, content, isLogo, rowClassName }, i) => (
         <>
-          <div className={cx(s.row, rowClassName)} key={id ?? title}>
+          <div
+            className={cx(s.row, rowClassName)}
+            key={id ?? (title && typeof title === "string" ? title : i)}
+          >
             <h4 className={s.title}>{title}</h4>
             <div className={cx({ [s.value]: !isLogo })}>
               {typeof content === "function" ? content() : content}

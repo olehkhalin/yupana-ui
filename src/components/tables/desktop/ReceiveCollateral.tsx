@@ -17,7 +17,7 @@ import { PrettyAmount } from "components/common/PrettyAmount";
 import s from "./Tables.module.sass";
 
 type ReceiveCollateralProps = {
-  data: LiquidateDetailsCollateralAssets | number[];
+  data?: LiquidateDetailsCollateralAssets;
   loading?: boolean;
   className?: string;
 };
@@ -40,6 +40,12 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
       setCollateralAssetYToken(selectedItem);
     }
   }, [selectedItem, setCollateralAssetYToken]);
+
+  useEffect(() => {
+    if (liquidateData && liquidateData.collateralAssetYToken !== undefined) {
+      setSelectedItem(liquidateData.collateralAssetYToken);
+    }
+  }, [liquidateData]);
 
   const calculateMaxBonus = useCallback(
     (amountOfSupplied: BigNumber, asset: AssetType, price: BigNumber) => {
@@ -219,7 +225,7 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
     <Table
       theme="quinary"
       columns={columns}
-      data={data}
+      data={data ?? [0, 1]}
       loading={loading}
       selectedItem={selectedItem}
       setSelectedItem={setSelectedItem}

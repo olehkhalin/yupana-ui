@@ -9,7 +9,7 @@ import { LiquidateDataProvider } from "hooks/useLiquidateData";
 import NotFound from "pages/not-found";
 import BaseLayout from "layouts/BaseLayout";
 import { Section } from "components/common/Section";
-import { Liquidate as LiquidateTable } from "components/tables/desktop";
+import { Liquidate as LiquidateTable } from "components/tables/containers";
 import {
   LiquidationStepFirst,
   LiquidationStepSecond,
