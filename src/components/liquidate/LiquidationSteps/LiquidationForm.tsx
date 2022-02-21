@@ -156,6 +156,18 @@ export const LiquidationForm: FC = () => {
       return undefined;
     }
     const liquidBonus = liquidateAllData.liquidationIncentive;
+    const bonus = convertUnits(
+      convertUnits(amount, -borrowedAssetObject.asset.decimals).multipliedBy(
+        liquidBonus.minus(1)
+      ),
+      borrowedAssetObject.asset.decimals
+    )
+      .multipliedBy(borrowedAssetObject.price)
+      .div(collateralAssetObject.price)
+      .decimalPlaces(
+        collateralAssetObject.asset.decimals,
+        BigNumber.ROUND_DOWN
+      );
     const receive = convertUnits(
       convertUnits(amount, -borrowedAssetObject.asset.decimals).plus(
         convertUnits(amount, -borrowedAssetObject.asset.decimals).multipliedBy(
@@ -172,6 +184,7 @@ export const LiquidationForm: FC = () => {
       );
     return {
       receive,
+      bonus,
     };
   }, [amount, liquidateData]);
 
@@ -249,7 +262,16 @@ export const LiquidationForm: FC = () => {
   );
 
   return (
-    <>
+    <section className={s.section}>
+      <h2 className={s.title}>
+        {isWiderThanMphone ? (
+          "Step 3 — Liquidate debt address"
+        ) : (
+          <>
+            Step 3<span className={s.subtitle}>Liquidate debt address</span>
+          </>
+        )}
+      </h2>
       <div className={s.description}>
         Now you can liquidate the debtor. Be aware that the amount to be
         liquidated cannot exceed the MAX Liquidate of the debt.
@@ -257,9 +279,7 @@ export const LiquidationForm: FC = () => {
       <Heading
         title={
           preparedData
-            ? isWiderThanMphone
-              ? `Amount to close in ${preparedData.borrowedAsset.name}:`
-              : "Amount to close:"
+            ? `Amount to close in ${preparedData.borrowedAsset.name}:`
             : "Complete all the previous steps first:"
         }
         className={s.heading}
@@ -323,8 +343,32 @@ export const LiquidationForm: FC = () => {
               )}
             </div>
           </div>
+          <div className={s.recieveColumn}>
+            <div className={s.recieveTitle}>Your bonus:</div>
+
+            <div className={s.recieveValue}>
+              {youWillRecieveAmount && preparedData ? (
+                <>
+                  <PrettyAmount
+                    amount={youWillRecieveAmount.bonus}
+                    currency={getAssetName(preparedData.collateralAsset.asset)}
+                  />
+                  {" ("}
+                  <PrettyAmount
+                    amount={youWillRecieveAmount.bonus.multipliedBy(
+                      preparedData.collateralAsset.price
+                    )}
+                    isConvertable
+                  />
+                  {")"}
+                </>
+              ) : (
+                "—"
+              )}
+            </div>
+          </div>
         </div>
       </div>
-    </>
+    </section>
   );
 };
