@@ -2011,6 +2011,72 @@ export enum Dipdup_Head_Select_Column {
   UpdatedAt = 'updatedAt'
 }
 
+/** columns and relationships of "dipdup_head_status" */
+export type Dipdup_Head_Status = {
+  __typename?: 'dipdup_head_status';
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+/** aggregated selection of "dipdup_head_status" */
+export type Dipdup_Head_Status_Aggregate = {
+  __typename?: 'dipdup_head_status_aggregate';
+  aggregate?: Maybe<Dipdup_Head_Status_Aggregate_Fields>;
+  nodes: Array<Dipdup_Head_Status>;
+};
+
+/** aggregate fields of "dipdup_head_status" */
+export type Dipdup_Head_Status_Aggregate_Fields = {
+  __typename?: 'dipdup_head_status_aggregate_fields';
+  count: Scalars['Int'];
+  max?: Maybe<Dipdup_Head_Status_Max_Fields>;
+  min?: Maybe<Dipdup_Head_Status_Min_Fields>;
+};
+
+
+/** aggregate fields of "dipdup_head_status" */
+export type Dipdup_Head_Status_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Dipdup_Head_Status_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "dipdup_head_status". All fields are combined with a logical 'AND'. */
+export type Dipdup_Head_Status_Bool_Exp = {
+  _and?: InputMaybe<Array<Dipdup_Head_Status_Bool_Exp>>;
+  _not?: InputMaybe<Dipdup_Head_Status_Bool_Exp>;
+  _or?: InputMaybe<Array<Dipdup_Head_Status_Bool_Exp>>;
+  name?: InputMaybe<String_Comparison_Exp>;
+  status?: InputMaybe<String_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Dipdup_Head_Status_Max_Fields = {
+  __typename?: 'dipdup_head_status_max_fields';
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type Dipdup_Head_Status_Min_Fields = {
+  __typename?: 'dipdup_head_status_min_fields';
+  name?: Maybe<Scalars['String']>;
+  status?: Maybe<Scalars['String']>;
+};
+
+/** Ordering options when selecting data from "dipdup_head_status". */
+export type Dipdup_Head_Status_Order_By = {
+  name?: InputMaybe<Order_By>;
+  status?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "dipdup_head_status" */
+export enum Dipdup_Head_Status_Select_Column {
+  /** column name */
+  Name = 'name',
+  /** column name */
+  Status = 'status'
+}
+
 /** aggregate stddev on columns */
 export type Dipdup_Head_Stddev_Fields = {
   __typename?: 'dipdup_head_stddev_fields';
@@ -3222,6 +3288,10 @@ export type Query_Root = {
   dipdupHeadAggregate: Dipdup_Head_Aggregate;
   /** fetch data from the table: "dipdup_head" using primary key columns */
   dipdupHeadByPk?: Maybe<Dipdup_Head>;
+  /** fetch data from the table: "dipdup_head_status" */
+  dipdupHeadStatus: Array<Dipdup_Head_Status>;
+  /** fetch aggregated fields from the table: "dipdup_head_status" */
+  dipdupHeadStatusAggregate: Dipdup_Head_Status_Aggregate;
   /** fetch data from the table: "dipdup_index" */
   dipdupIndex: Array<Dipdup_Index>;
   /** fetch aggregated fields from the table: "dipdup_index" */
@@ -3467,6 +3537,24 @@ export type Query_RootDipdupHeadAggregateArgs = {
 
 export type Query_RootDipdupHeadByPkArgs = {
   name: Scalars['String'];
+};
+
+
+export type Query_RootDipdupHeadStatusArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Head_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Head_Status_Order_By>>;
+  where?: InputMaybe<Dipdup_Head_Status_Bool_Exp>;
+};
+
+
+export type Query_RootDipdupHeadStatusAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Head_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Head_Status_Order_By>>;
+  where?: InputMaybe<Dipdup_Head_Status_Bool_Exp>;
 };
 
 
@@ -4475,6 +4563,10 @@ export type Subscription_Root = {
   dipdupHeadAggregate: Dipdup_Head_Aggregate;
   /** fetch data from the table: "dipdup_head" using primary key columns */
   dipdupHeadByPk?: Maybe<Dipdup_Head>;
+  /** fetch data from the table: "dipdup_head_status" */
+  dipdupHeadStatus: Array<Dipdup_Head_Status>;
+  /** fetch aggregated fields from the table: "dipdup_head_status" */
+  dipdupHeadStatusAggregate: Dipdup_Head_Status_Aggregate;
   /** fetch data from the table: "dipdup_index" */
   dipdupIndex: Array<Dipdup_Index>;
   /** fetch aggregated fields from the table: "dipdup_index" */
@@ -4720,6 +4812,24 @@ export type Subscription_RootDipdupHeadAggregateArgs = {
 
 export type Subscription_RootDipdupHeadByPkArgs = {
   name: Scalars['String'];
+};
+
+
+export type Subscription_RootDipdupHeadStatusArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Head_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Head_Status_Order_By>>;
+  where?: InputMaybe<Dipdup_Head_Status_Bool_Exp>;
+};
+
+
+export type Subscription_RootDipdupHeadStatusAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Head_Status_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Head_Status_Order_By>>;
+  where?: InputMaybe<Dipdup_Head_Status_Bool_Exp>;
 };
 
 
@@ -6933,7 +7043,11 @@ export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Arr
 
 export const LiquidationPositionsDocument = gql`
     query LiquidationPositions($limit: Int, $offset: Int) {
-  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
+  user(
+    limit: $limit
+    offset: $offset
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     address
     outstandingBorrow
     liquidationRatio
@@ -6964,7 +7078,9 @@ export const LiquidationPositionsDocument = gql`
       }
     }
   }
-  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
+  userAggregate(
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     aggregate {
       count
     }
