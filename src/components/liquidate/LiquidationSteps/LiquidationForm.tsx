@@ -227,9 +227,17 @@ export const LiquidationForm: FC = () => {
             borrower: borrowerAddress,
             amount: convertUnits(
               inputAmount,
-              preparedData.borrowedAsset.decimals
+              -preparedData.borrowedAsset.decimals
             ),
           };
+
+          console.log(
+            "convertUnits(\n" +
+              "              inputAmount,\n" +
+              "              preparedData.borrowedAsset.decimals\n" +
+              "            )",
+            +convertUnits(inputAmount, preparedData.borrowedAsset.decimals)
+          );
 
           const operation = await liquidate(tezos, accountPkh!, params);
           await operation.confirmation(1);
