@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { useWiderThanMphone } from "utils/helpers";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
-import { ReceiveCollateral } from "components/tables/desktop/RecieveCollateral";
+import { ReceiveCollateral } from "components/tables/containers";
 
 import s from "./LiquidationSteps.module.sass";
 
@@ -32,7 +32,7 @@ export const LiquidationStepSecond: FC = () => {
         the debt and the bonus.
       </div>
       <ReceiveCollateral
-        data={data ? data.collateralAssets : [0, 1]}
+        data={data ? data.collateralAssets : undefined}
         loading={loading}
       />
     </section>

@@ -83,12 +83,10 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
           exchangeRate: row.exchangeRate,
           yToken: row.yToken,
         }),
-        Cell: ({ cell: { value } }: { cell: Cell }) => {
-          if (loading) {
-            return "—";
-          }
-
-          return (
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
+          loading ? (
+            "—"
+          ) : (
             <PrettyAmount
               amount={calculateUsdTotals(
                 value.totalSupply,
@@ -96,14 +94,12 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
                 value.asset,
                 value.exchangeRate
               )}
-              // isMinified
               isConvertable
               size="small"
               theme="primary"
               className={cx(s.blue, s.withTezos)}
             />
-          );
-        },
+          ),
       },
       {
         Header: () => <span className={s.blue}>Supply APY</span>,
@@ -137,12 +133,10 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
           totalBorrowed: row.totalBorrowed,
           yToken: row.yToken,
         }),
-        Cell: ({ cell: { value } }: { cell: Cell }) => {
-          if (loading) {
-            return <span className={s.yellow}>—</span>;
-          }
-
-          return (
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
+          loading ? (
+            <span className={s.yellow}>—</span>
+          ) : (
             <PrettyAmount
               amount={calculateUsdTotals(
                 value.totalBorrowed,
@@ -154,8 +148,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               theme="secondary"
               className={cx(s.yellow, s.withTezos)}
             />
-          );
-        },
+          ),
       },
       {
         Header: () => <span className={s.yellow}>Borrow APY</span>,
@@ -192,7 +185,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
         ),
       },
     ],
-    [loading]
+    [calculateUsdTotals, loading]
   );
 
   return (

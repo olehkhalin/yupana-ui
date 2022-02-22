@@ -1,5 +1,4 @@
 import React, { FC, useMemo } from "react";
-import BigNumber from "bignumber.js";
 import { Cell } from "react-table";
 import cx from "classnames";
 
@@ -8,17 +7,12 @@ import { getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { AttentionText } from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { LiquidateData } from "components/tables/containers";
 
 import s from "./Tables.module.sass";
 
 type LiquidateProps = {
-  data?: {
-    borrowerAddress: string;
-    borrowedAssetsNames: string[];
-    collateralAssetsNames: string[];
-    totalBorrowed: BigNumber;
-    healthFactor: BigNumber;
-  }[];
+  data?: LiquidateData;
   loading?: boolean;
   className?: string;
 };

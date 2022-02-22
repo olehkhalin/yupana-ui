@@ -1,0 +1,66 @@
+@import 'styles/variables'
+
+.logo
+  margin-right: .5rem
+
+.blue
+  color: $blue-neutral !important
+  h4
+    text-shadow: $blue-shadow !important
+
+.yellow
+  color: $light-yellow !important
+  h4
+    text-shadow: $light-yellow-shadow !important
+
+.marketsDetails
+  padding-bottom: 0
+  font-size: .875rem
+  &::after
+    display: none
+  .yellow, .blue
+    div
+      font-size: 1rem
+
+.liquidate
+  font-size: .875rem
+  .blue, .yellow
+    justify-content: space-between
+    > h4
+      width: initial
+    > div
+      font-size: 1rem
+  &:last-child
+    padding-bottom: 0
+    &::after
+      display: none
+
+.amount
+  margin-bottom: .25rem
+  font-size: 1rem
+  font-weight: 400
+  text-shadow: initial
+
+.amountUsd
+  font-size: .75rem
+
+.radio
+  position: absolute
+  top: .25rem
+  right: .75rem
+
+.repayBorrow, .receiveCollateral
+  position: relative
+  cursor: pointer
+
+.repayBorrow
+  &.active
+    background: linear-gradient(0deg, rgba(255, 199, 0, .3), rgba(255, 184, 0, 0) 91.23%)
+    .amount
+      text-shadow: $light-yellow-shadow
+
+.receiveCollateral
+  &.active
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 209, 255, 0.3) 100%)
+    .amount
+      text-shadow: $blue-shadow

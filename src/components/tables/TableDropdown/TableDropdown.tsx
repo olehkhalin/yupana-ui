@@ -10,6 +10,8 @@ import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./TableDropdown.module.sass";
 
+type EventType = React.MouseEvent<HTMLButtonElement>;
+
 export type TableDropdownProps = {
   theme?: keyof typeof themeClasses;
   className?: string;
@@ -45,6 +47,11 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
 }) => {
   const isSecondaryTheme = theme === "secondary";
 
+  const handleClick = (event: EventType, callback?: () => void) => {
+    event.stopPropagation();
+    callback && callback();
+  };
+
   return (
     <div className={cx(s.root, themeClasses[theme], className)}>
       <div className={s.content}>
@@ -70,7 +77,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={handleFirstButtonClick}
+          onClick={(e: EventType) => handleClick(e, handleFirstButtonClick)}
           className={s.button}
         >
           {firstButtonLabel}
@@ -78,7 +85,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={handleSecondButtonClick}
+          onClick={(e: EventType) => handleClick(e, handleSecondButtonClick)}
           className={s.button}
         >
           {secondButtonLabel}

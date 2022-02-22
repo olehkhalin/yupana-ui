@@ -41,10 +41,10 @@ const LiquidationPositionsWrapper: FC<LiquidationPositionsWrapperProps> = ({
 
   return (
     <Section
-      title="Liquidation positions"
+      title="Liquidatable positions"
       theme="tertiary"
       link={{
-        label: "Docks: Liquidations",
+        label: "Docs: Liquidations",
         link: "/",
       }}
       head
