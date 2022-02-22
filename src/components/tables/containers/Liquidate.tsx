@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import BigNumber from "bignumber.js";
 
 import { useWiderThanLphone } from "utils/helpers";
@@ -19,11 +19,7 @@ type LiquidateProps = {
   className?: string;
 };
 
-export const Liquidate: React.FC<LiquidateProps> = ({
-  data,
-  loading,
-  className,
-}) => {
+export const Liquidate: FC<LiquidateProps> = ({ data, loading, className }) => {
   const isWiderThanLphone = useWiderThanLphone();
 
   if (isWiderThanLphone) {

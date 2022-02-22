@@ -61,6 +61,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
               "—"
             ) : (
               <CollateralSwitcher
+                asset={el.asset}
                 yToken={el.yToken}
                 isCollateral={el.isCollateral}
               />

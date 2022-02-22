@@ -18,6 +18,7 @@ import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { Status, useTransactions } from "hooks/useTransactions";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/common/Heading";
 import { NumberInput } from "components/common/NumberInput";
@@ -33,6 +34,7 @@ export const LiquidationForm: FC = () => {
   const { updateToast } = useUpdateToast();
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
+  const { addTransaction } = useTransactions();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -231,15 +233,18 @@ export const LiquidationForm: FC = () => {
             ),
           };
 
-          console.log(
-            "convertUnits(\n" +
-              "              inputAmount,\n" +
-              "              preparedData.borrowedAsset.decimals\n" +
-              "            )",
-            +convertUnits(inputAmount, preparedData.borrowedAsset.decimals)
-          );
-
           const operation = await liquidate(tezos, accountPkh!, params);
+          addTransaction({
+            type: "Liquidation",
+            amount: convertUnits(
+              inputAmount,
+              preparedData.borrowedAsset.decimals
+            ),
+            name: preparedData.borrowedAsset.name,
+            opHash: operation.opHash,
+            status: Status.PENDING,
+            timestamp: Date.now(),
+          });
           await operation.confirmation(1);
           updateToast({
             type: "info",
@@ -259,6 +264,7 @@ export const LiquidationForm: FC = () => {
     },
     [
       accountPkh,
+      addTransaction,
       borrowedYTokens,
       borrowerAddress,
       fabrica,

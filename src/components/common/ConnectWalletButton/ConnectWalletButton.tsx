@@ -4,10 +4,12 @@ import cx from "classnames";
 import { useWiderThanMphone } from "utils/helpers";
 import { shortize } from "utils/helpers";
 import { useReady, useAccountPkh } from "utils/dapp";
+import { useTransactions } from "hooks/useTransactions";
 import { AccountModal } from "components/modals/AccountModal";
 import { ConnectWalletModal } from "components/modals/ConnectWalletModal";
 import { Button } from "components/ui/Button";
 
+import { TransactionsIcon } from "./TransactionsIcon";
 import s from "./ConnectWalletButton.module.sass";
 
 type ConnectWalletButtonProps = {
@@ -20,6 +22,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   const isWiderThanMphone = useWiderThanMphone();
   const ready = useReady();
   const accountPkh = useAccountPkh();
+  const { isTransactionsExist } = useTransactions();
 
   const [accountModalIsOpen, setAccountModalIsOpen] = useState<boolean>(false);
   const [connectModalIsOpen, setConnectModalIsOpen] = useState<boolean>(false);
@@ -38,12 +41,19 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
         <>
           <Button
             sizeT="medium"
-            theme="primary"
+            theme="secondary"
             aria-label={accountPkh}
             onClick={handleAccountModal}
-            className={cx(s.button, className)}
+            className={cx(
+              s.button,
+              { [s.transactions]: isTransactionsExist },
+              className
+            )}
           >
-            {shortize(accountPkh, isWiderThanMphone ? 7 : 4)}
+            <span className={s.buttonText}>
+              {shortize(accountPkh, isWiderThanMphone ? 6 : 4)}
+            </span>
+            {isTransactionsExist && <TransactionsIcon />}
           </Button>
           <AccountModal
             address={accountPkh}

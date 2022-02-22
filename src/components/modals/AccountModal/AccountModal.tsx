@@ -7,6 +7,7 @@ import { shortize } from "utils/helpers";
 import { useWiderThanMphone } from "utils/helpers";
 import { useDisconnect } from "utils/dapp";
 import { ModalActions } from "types/modal";
+import { useTransactions } from "hooks/useTransactions";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
@@ -14,6 +15,7 @@ import { ReactComponent as IconCopy } from "svg/IconCopy.svg";
 import { ReactComponent as IconLink } from "svg/IconLink.svg";
 import { ReactComponent as Success } from "svg/Success.svg";
 
+import { TransactionsHistory } from "./TransactionsHistory";
 import s from "./AccountModal.module.sass";
 
 type AccountModalProps = {
@@ -28,6 +30,7 @@ export const AccountModal: FC<AccountModalProps> = ({
   const disconnect = useDisconnect();
   const isWiderThanMphone = useWiderThanMphone();
   const [success, setSuccess] = useState<boolean>(false);
+  const { isTransactionsExist } = useTransactions();
 
   const handleSetSuccessOfCopy = () => {
     if (!success) {
@@ -43,7 +46,11 @@ export const AccountModal: FC<AccountModalProps> = ({
   }, [disconnect, onRequestClose]);
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+    <Modal
+      isOpen={isOpen}
+      onRequestClose={onRequestClose}
+      innerClassName={s.innerModal}
+    >
       <Button theme="clear" onClick={handleLogout} className={s.logout}>
         log out
       </Button>
@@ -75,6 +82,9 @@ export const AccountModal: FC<AccountModalProps> = ({
           </Button>
         </CopyToClipboard>
       </div>
+      {isTransactionsExist && (
+        <TransactionsHistory className={s.transactions} />
+      )}
     </Modal>
   );
 };

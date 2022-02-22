@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { AssetsResponseData } from "types/asset";
 import { useWiderThanLphone } from "utils/helpers";
@@ -11,7 +11,7 @@ type YourSupplyAssetsProps = {
   className?: string;
 };
 
-export const YourSupplyAssets: React.FC<YourSupplyAssetsProps> = ({
+export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
   data,
   loading,
   className,

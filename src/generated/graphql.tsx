@@ -111,6 +111,8 @@ export type Asset = {
   collateralAsset_aggregate: Liquidate_Tx_Aggregate;
   collateralFactor: Scalars['numeric'];
   contractAddress: Scalars['String'];
+  dailyBorrow: Scalars['numeric'];
+  dailySupply: Scalars['numeric'];
   /** An object relationship */
   interestModel: Interest_Model;
   interestModelId: Scalars['String'];
@@ -415,6 +417,8 @@ export type Asset_Avg_Fields = {
   __typename?: 'asset_avg_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -432,6 +436,8 @@ export type Asset_Avg_Fields = {
 export type Asset_Avg_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -460,6 +466,8 @@ export type Asset_Bool_Exp = {
   collateralAsset?: InputMaybe<Liquidate_Tx_Bool_Exp>;
   collateralFactor?: InputMaybe<Numeric_Comparison_Exp>;
   contractAddress?: InputMaybe<String_Comparison_Exp>;
+  dailyBorrow?: InputMaybe<Numeric_Comparison_Exp>;
+  dailySupply?: InputMaybe<Numeric_Comparison_Exp>;
   interestModel?: InputMaybe<Interest_Model_Bool_Exp>;
   interestModelId?: InputMaybe<String_Comparison_Exp>;
   interestUpdateTime?: InputMaybe<Timestamptz_Comparison_Exp>;
@@ -487,6 +495,8 @@ export type Asset_Max_Fields = {
   borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
   contractAddress?: Maybe<Scalars['String']>;
+  dailyBorrow?: Maybe<Scalars['numeric']>;
+  dailySupply?: Maybe<Scalars['numeric']>;
   interestModelId?: Maybe<Scalars['String']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
@@ -507,6 +517,8 @@ export type Asset_Max_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   interestModelId?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
@@ -528,6 +540,8 @@ export type Asset_Min_Fields = {
   borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
   contractAddress?: Maybe<Scalars['String']>;
+  dailyBorrow?: Maybe<Scalars['numeric']>;
+  dailySupply?: Maybe<Scalars['numeric']>;
   interestModelId?: Maybe<Scalars['String']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
@@ -548,6 +562,8 @@ export type Asset_Min_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   interestModelId?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
@@ -575,6 +591,8 @@ export type Asset_Order_By = {
   collateralAsset_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
   contractAddress?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   interestModel?: InputMaybe<Interest_Model_Order_By>;
   interestModelId?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
@@ -848,6 +866,10 @@ export enum Asset_Select_Column {
   /** column name */
   ContractAddress = 'contractAddress',
   /** column name */
+  DailyBorrow = 'dailyBorrow',
+  /** column name */
+  DailySupply = 'dailySupply',
+  /** column name */
   InterestModelId = 'interestModelId',
   /** column name */
   InterestUpdateTime = 'interestUpdateTime',
@@ -882,6 +904,8 @@ export type Asset_Stddev_Fields = {
   __typename?: 'asset_stddev_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -899,6 +923,8 @@ export type Asset_Stddev_Fields = {
 export type Asset_Stddev_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -917,6 +943,8 @@ export type Asset_Stddev_Pop_Fields = {
   __typename?: 'asset_stddev_pop_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -934,6 +962,8 @@ export type Asset_Stddev_Pop_Fields = {
 export type Asset_Stddev_Pop_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -952,6 +982,8 @@ export type Asset_Stddev_Samp_Fields = {
   __typename?: 'asset_stddev_samp_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -969,6 +1001,8 @@ export type Asset_Stddev_Samp_Fields = {
 export type Asset_Stddev_Samp_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -987,6 +1021,8 @@ export type Asset_Sum_Fields = {
   __typename?: 'asset_sum_fields';
   borrowIndex?: Maybe<Scalars['numeric']>;
   collateralFactor?: Maybe<Scalars['numeric']>;
+  dailyBorrow?: Maybe<Scalars['numeric']>;
+  dailySupply?: Maybe<Scalars['numeric']>;
   lastPrice?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
@@ -1004,6 +1040,8 @@ export type Asset_Sum_Fields = {
 export type Asset_Sum_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -1022,6 +1060,8 @@ export type Asset_Var_Pop_Fields = {
   __typename?: 'asset_var_pop_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -1039,6 +1079,8 @@ export type Asset_Var_Pop_Fields = {
 export type Asset_Var_Pop_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -1057,6 +1099,8 @@ export type Asset_Var_Samp_Fields = {
   __typename?: 'asset_var_samp_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -1074,6 +1118,8 @@ export type Asset_Var_Samp_Fields = {
 export type Asset_Var_Samp_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -1092,6 +1138,8 @@ export type Asset_Variance_Fields = {
   __typename?: 'asset_variance_fields';
   borrowIndex?: Maybe<Scalars['Float']>;
   collateralFactor?: Maybe<Scalars['Float']>;
+  dailyBorrow?: Maybe<Scalars['Float']>;
+  dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
@@ -1109,6 +1157,8 @@ export type Asset_Variance_Fields = {
 export type Asset_Variance_Order_By = {
   borrowIndex?: InputMaybe<Order_By>;
   collateralFactor?: InputMaybe<Order_By>;
+  dailyBorrow?: InputMaybe<Order_By>;
+  dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -7397,7 +7447,9 @@ export type GlobalFactorsLazyQueryHookResult = ReturnType<typeof useGlobalFactor
 export type GlobalFactorsQueryResult = Apollo.QueryResult<GlobalFactorsQuery, GlobalFactorsQueryVariables>;
 export const LiquidateDocument = gql`
     query Liquidate($address: String) {
-  user(where: {address: {_eq: $address}, liquidationRatio: {_neq: "0"}}) {
+  user(
+    where: {address: {_eq: $address}, liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     address
     liquidationRatio
     borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import BigNumber from "bignumber.js";
 
 import { useWiderThanLphone } from "utils/helpers";
@@ -20,7 +20,7 @@ type MarketsDetailsProps = {
   className?: string;
 };
 
-export const MarketsDetails: React.FC<MarketsDetailsProps> = ({
+export const MarketsDetails: FC<MarketsDetailsProps> = ({
   data,
   loading,
   className,

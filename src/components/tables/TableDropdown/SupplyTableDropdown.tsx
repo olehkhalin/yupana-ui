@@ -15,6 +15,7 @@ import {
 } from "hooks/useCreditProcessModal";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBalance } from "hooks/useBalance";
+import { Status, useTransactions } from "hooks/useTransactions";
 import {
   borrowedYTokensVar,
   contractAddressesVar,
@@ -23,6 +24,7 @@ import {
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { supply, withdraw } from "utils/dapp/methods";
 import { convertUnits } from "utils/helpers/amount";
+import { getAssetName } from "utils/helpers/asset";
 
 import { TableDropdown, TableDropdownProps } from "./TableDropdown";
 
@@ -51,6 +53,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { data: walletData } = useBalance(asset);
+  const { addTransaction } = useTransactions();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -85,13 +88,30 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       };
 
       const operation = await supply(tezos, accountPkh, params);
+      addTransaction({
+        type: "Supply",
+        amount: convertUnits(inputAmount, asset.decimals),
+        name: getAssetName(asset),
+        opHash: operation.opHash,
+        status: Status.PENDING,
+        timestamp: Date.now(),
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
         render: "The Asset Supply request was successful, please wait...",
       });
     },
-    [accountPkh, asset, fabrica, priceFeedProxy, tezos, updateToast, yToken]
+    [
+      accountPkh,
+      addTransaction,
+      asset,
+      fabrica,
+      priceFeedProxy,
+      tezos,
+      updateToast,
+      yToken,
+    ]
   );
 
   const handleSupply = useCallback(() => {
@@ -171,6 +191,15 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       };
 
       const operation = await withdraw(tezos, accountPkh, params);
+
+      addTransaction({
+        type: "Withdraw",
+        amount: convertUnits(inputAmount, asset.decimals),
+        name: getAssetName(asset),
+        opHash: operation.opHash,
+        timestamp: Date.now(),
+        status: Status.PENDING,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",

@@ -1,0 +1,14 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  position: absolute
+  right: .25rem
+
+.blue
+  > path
+    fill: $light-blue
+
+@include media('>Mphone')
+  .root
+    right: .5rem

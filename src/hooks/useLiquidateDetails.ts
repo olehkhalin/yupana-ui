@@ -70,11 +70,19 @@ export const useLiquidateDetails = (
     error: oraclePricesError,
   } = useOraclePriceQuery();
 
-  if (!liquidateInfo || !liquidateInfo.user[0] || !oraclePrices) {
+  if (!liquidateInfo || !oraclePrices) {
     return {
       data: null,
       loading: liquidateInfoLoading || oraclePricesLoading,
       error: !!liquidateInfoError || !!oraclePricesError,
+    };
+  }
+
+  if (!(liquidateInfo.user.length > 0) || !liquidateInfo.user[0]) {
+    return {
+      data: null,
+      loading: false,
+      error: true,
     };
   }
 

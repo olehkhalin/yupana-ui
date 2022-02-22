@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { LiquidateDetailsBorrowedAssets } from "types/liquidate-details";
 import { useWiderThanLphone } from "utils/helpers";
@@ -11,7 +11,7 @@ type RepayBorrowProps = {
   className?: string;
 };
 
-export const RepayBorrow: React.FC<RepayBorrowProps> = ({
+export const RepayBorrow: FC<RepayBorrowProps> = ({
   data,
   loading,
   className,
