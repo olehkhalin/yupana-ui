@@ -21,15 +21,23 @@ export const sizeClass = {
 type CustomTezosLogo = {
   theme?: keyof typeof themeClass;
   size?: keyof typeof sizeClass;
+  error?: boolean;
   className?: string;
 };
 
 export const CustomTezosLogo: FC<CustomTezosLogo> = ({
   theme = "tertiary",
   size = "small",
+  error = false,
   className,
 }) => {
-  const classNames = cx(s.root, themeClass[theme], sizeClass[size], className);
+  const classNames = cx(
+    s.root,
+    themeClass[theme],
+    sizeClass[size],
+    { [s.error]: error },
+    className
+  );
 
   return (
     <svg

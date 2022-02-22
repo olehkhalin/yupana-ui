@@ -63,8 +63,6 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
     },
     ref
   ) => {
-    const [isInputFocus, setIsInputFocus] = useState<boolean>(false);
-
     const valueStr = useMemo(
       () => (value !== undefined ? value.toString() : ""),
       [value]
@@ -154,8 +152,6 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             <div className={s.wrapper}>
               <input
                 placeholder="0.00"
-                onFocus={() => setIsInputFocus(true)}
-                onBlur={() => setIsInputFocus(false)}
                 value={localValue}
                 ref={ref}
                 max={max?.toString()}
@@ -165,11 +161,15 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 {...props}
               />
 
-              <div className={cx(s.exchange, { [s.active]: isInputFocus })}>
+              <div className={cx(s.exchange, { [s.active]: !!localValue })}>
                 <PrettyAmount
                   amount={valueInBaseCurrency}
                   isConvertable
-                  className={cx(s.prettyTez, { [s.active]: isInputFocus })}
+                  className={cx(
+                    s.prettyTez,
+                    { [s.active]: !!localValue },
+                    { [s.error]: error }
+                  )}
                   tooltipTheme={theme}
                 />
               </div>

@@ -54,12 +54,6 @@
   &.active
     color: $white
 
-.prettyTez
-  &.active
-    svg
-      path
-        fill: $white !important
-
 .primary, .secondary
   &.error
     border-color: $light-red
@@ -103,6 +97,20 @@
     svg
       path
         fill: $light-blue
+
+.root
+  .prettyTez
+    &.active
+      svg
+        path
+          fill: $white
+
+.root
+  .prettyTez
+    &.error
+      svg
+        path
+          fill: $red
 
 .secondary
   .button
