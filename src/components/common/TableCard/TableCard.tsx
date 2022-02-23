@@ -1,4 +1,4 @@
-import React, { ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState } from "react";
 import cx from "classnames";
 
 import { Preloader } from "components/ui/Preloader";
@@ -35,7 +35,7 @@ const themeClasses = {
   tertiary: s.tertiary,
 };
 
-export const TableCard: React.FC<TableCardProps> = ({
+export const TableCard: FC<TableCardProps> = ({
   data,
   loading,
   subComponent,

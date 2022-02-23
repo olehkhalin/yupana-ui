@@ -14,6 +14,7 @@ import {
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { Status, useTransactions } from "hooks/useTransactions";
 import {
   borrowedYTokensVar,
   contractAddressesVar,
@@ -22,6 +23,7 @@ import {
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { borrow, repay } from "utils/dapp/methods";
 import { convertUnits } from "utils/helpers/amount";
+import { getAssetName } from "utils/helpers/asset";
 
 import { TableDropdown, TableDropdownProps } from "./TableDropdown";
 
@@ -47,6 +49,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
+  const { addTransaction } = useTransactions();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -80,14 +83,24 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       };
 
       const operation = await borrow(tezos, accountPkh!, params);
+      addTransaction({
+        type: "Borrow",
+        amount: convertUnits(inputAmount, asset.decimals),
+        name: getAssetName(asset),
+        opHash: operation.opHash,
+        status: Status.PENDING,
+        timestamp: Date.now(),
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Supply request was successful, please wait...",
+        render: "The Asset Borrow request was successful, please wait...",
       });
     },
     [
       accountPkh,
+      addTransaction,
+      asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
@@ -174,6 +187,14 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       };
 
       const operation = await repay(tezos, accountPkh!, params);
+      addTransaction({
+        type: "Repay",
+        amount: convertUnits(inputAmount, asset.decimals),
+        name: getAssetName(asset),
+        opHash: operation.opHash,
+        status: Status.PENDING,
+        timestamp: Date.now(),
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
@@ -182,9 +203,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     },
     [
       accountPkh,
-      asset.contractAddress,
-      asset.decimals,
-      asset.tokenId,
+      addTransaction,
+      asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,

@@ -47,7 +47,7 @@
     &.borrow
       background-color: $light-yellow
       box-shadow: $light-yellow-shadow-button
-    &:hover, &:focus
+    &:hover
       color: rgba($graphite, .6)
       box-shadow: $white-shadow-button
       border-color: $white
@@ -79,7 +79,7 @@
       box-shadow: $light-yellow-shadow-button
       text-shadow: $light-yellow-shadow
       color: $light-yellow
-    &:hover, &:focus
+    &:hover
       color: $white
       box-shadow: $white-shadow-button
       text-shadow: $white-shadow
@@ -95,7 +95,7 @@
   &:not(:disabled)
     box-shadow: $white-shadow-button
     color: $graphite
-    &:hover, &:focus
+    &:hover
       &.supply
         box-shadow: $blue-shadow-button
         border-color: $blue-neutral
@@ -138,7 +138,7 @@
   background-color: transparent
   &:not(:disabled)
     color: $white
-    &:hover, &:focus
+    &:hover
       text-shadow: $white-shadow-button
       .arrow
         filter: drop-shadow($white-shadow)
@@ -179,7 +179,7 @@
       text-shadow: $light-yellow-shadow-button
       .arrow
         filter: drop-shadow($light-yellow-shadow)
-  &:focus, &:active
+  &:active
     &.supply, &.borrow
       color: $white
       text-shadow: $white-shadow-button

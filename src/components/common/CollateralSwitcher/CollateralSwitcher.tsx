@@ -2,19 +2,24 @@ import React, { FC, useCallback, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
 
-import { useUpdateToast } from "hooks/useUpdateToast";
+import { AssetType } from "types/asset";
 import { enterMarket, exitMarket } from "utils/dapp/methods";
 import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
+import { getAssetName } from "utils/helpers/asset";
+import { useUpdateToast } from "hooks/useUpdateToast";
+import { Status, useTransactions } from "hooks/useTransactions";
 import { Switcher } from "components/ui/Switcher";
 
 type SwitcherProps = {
+  asset: AssetType;
   yToken: number;
   isCollateral: boolean;
   className?: string;
 };
 
 export const CollateralSwitcher: FC<SwitcherProps> = ({
+  asset,
   yToken,
   isCollateral,
   className,
@@ -25,6 +30,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const accountPkh = useAccountPkh()!;
   const [disabled, setDisabled] = useState(false);
   const { updateToast } = useUpdateToast();
+  const { addTransaction } = useTransactions();
 
   const handleChange = useCallback(async () => {
     if (!disabled) {
@@ -42,6 +48,13 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           yToken: [yToken],
         };
 
+        const prepareTransaction = {
+          type: !isCollateral ? "Enable collateral" : "Disabled collateral",
+          name: getAssetName(asset),
+          status: Status.PENDING,
+          timestamp: Date.now(),
+          opHash: "",
+        };
         updateToast({
           type: "info",
           render: "Request for update Asset collateral status...",
@@ -53,6 +66,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           params.otherYTokens = borrowedYTokens;
           operation = await exitMarket(tezos, accountPkh, params);
         }
+        prepareTransaction.opHash = operation.opHash;
+        addTransaction(prepareTransaction);
         await operation.confirmation(1);
 
         updateToast({
@@ -72,6 +87,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
     }
   }, [
     accountPkh,
+    addTransaction,
+    asset,
     borrowedYTokens,
     disabled,
     fabrica,

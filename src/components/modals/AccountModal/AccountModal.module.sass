@@ -4,6 +4,9 @@
 .root
   margin-bottom: 0.5rem
 
+.innerModal
+  padding: .75rem 1rem
+
 .address
   margin-bottom: 1.438rem
   font-weight: bold
@@ -76,7 +79,12 @@
   path
     transition: fill $animationTime
 
+.transactions
+  margin-top: 2rem
+
 @include media('>Mphone')
+  .innerModal
+    padding: 2rem 3.5rem
   .address
     margin-bottom: 2.5rem
   .options

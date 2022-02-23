@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { AssetsResponseData } from "types/asset";
 import { useWiderThanLphone } from "utils/helpers";
@@ -11,7 +11,7 @@ type YourBorrowAssetsProps = {
   className?: string;
 };
 
-export const YourBorrowAssets: React.FC<YourBorrowAssetsProps> = ({
+export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
   data,
   loading,
   className,
