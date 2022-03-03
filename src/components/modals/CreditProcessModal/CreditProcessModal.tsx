@@ -46,6 +46,7 @@ type CreditProcessModalInnerProps = {
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
+  walletBalance?: BigNumber;
   onSubmit: any;
   oraclePrice: {
     price: BigNumber;
@@ -66,6 +67,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   title,
   balanceLabel,
   maxAmount,
+  walletBalance,
   onSubmit,
   oraclePrice,
 }) => {
@@ -121,6 +123,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [amount, asset.decimals, maxAmount, type]
   );
 
+  const amountGTBalance = useMemo(
+    () =>
+      type === CreditProcessModalEnum.REPAY &&
+      amount &&
+      amount.gt(walletBalance ?? new BigNumber(0))
+        ? "Insufficient Wallet Balance"
+        : undefined,
+    [amount, walletBalance, type]
+  );
+
   // Form submit
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
@@ -149,6 +161,11 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 
   const isBorrowTheme = theme === "secondary";
+
+  const errorMessage = useMemo(
+    () => amountErrorMessage || amountWarningMessage || amountGTBalance,
+    [amountErrorMessage, amountGTBalance, amountWarningMessage]
+  );
 
   return (
     <Modal
@@ -194,7 +211,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             <NumberInput
               theme={theme}
               decimals={asset.decimals}
-              error={amountErrorMessage || amountWarningMessage}
+              error={errorMessage}
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
@@ -251,7 +268,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           sizeT={isWiderThanMphone ? "large" : "medium"}
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
-          disabled={!!amountErrorMessage || operationLoading || maxAmount.eq(0)}
+          disabled={!!errorMessage || operationLoading || maxAmount.eq(0)}
         >
           {operationLoading ? "Loading..." : title}
         </Button>
@@ -305,6 +322,7 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitUsedFunc,
     onSubmit,
     oraclePrice,
+    walletBalance,
   } = creditProcessModalData;
 
   return (
@@ -326,6 +344,7 @@ export const CreditProcessModal = () => {
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
+      walletBalance={walletBalance}
       {...getModalLabels(type)}
     />
   );

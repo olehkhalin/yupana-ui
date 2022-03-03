@@ -208,6 +208,8 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
     },
     [
       accountPkh,
+      addTransaction,
+      asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,

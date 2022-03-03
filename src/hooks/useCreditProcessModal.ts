@@ -16,6 +16,7 @@ type CreditProcessModalProps =
   | ({
       type: CreditProcessModalEnum;
       maxAmount: BigNumber;
+      walletBalance?: BigNumber;
       asset: AssetType;
       borrowLimit: BigNumber;
       dynamicBorrowLimitFunc?: (input: BigNumber) => BigNumber;
