@@ -74,8 +74,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           supplyWithInterest: el.supplyWithInterest,
           collateralFactor: el.collateralFactor,
           isCollateral: el.isCollateral,
-          totalSupply: el.totalSupply,
-          totalBorrowed: el.totalBorrowed,
+          totalLiquid: el.totalLiquid,
         },
       })),
     [data, loading]
@@ -87,8 +86,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
       asset,
       collateralFactor,
       supplyWithInterest,
-      totalSupply,
-      totalBorrowed,
+      totalLiquid,
       isCollateral,
     }) => (
       <SupplyTableDropdown
@@ -96,8 +94,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         asset={asset}
         collateralFactor={collateralFactor}
         supply={supplyWithInterest}
-        totalSupply={totalSupply}
-        totalBorrowed={totalBorrowed}
+        totalLiquid={totalLiquid}
         isCollateral={isCollateral}
       />
     ),

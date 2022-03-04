@@ -33,8 +33,7 @@ type SupplyDropdownProps = {
   asset: AssetType;
   collateralFactor: BigNumber;
   supply: BigNumber;
-  totalSupply: BigNumber;
-  totalBorrowed: BigNumber;
+  totalLiquid: BigNumber;
   isCollateral: boolean;
 } & TableDropdownProps;
 
@@ -43,8 +42,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   asset,
   collateralFactor,
   supply: supplied,
-  totalSupply,
-  totalBorrowed,
+  totalLiquid,
   isCollateral,
   theme,
   className,
@@ -238,16 +236,9 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     const convertedSupplied = convertUnits(supplied, STANDARD_PRECISION);
 
-    const convertedTotalSupplied = convertUnits(
-      totalSupply,
-      STANDARD_PRECISION
-    );
-    const convertedTotalBorrowed = convertUnits(
-      totalBorrowed,
-      STANDARD_PRECISION
-    );
+    const convertedTotalLiquid = convertUnits(totalLiquid, STANDARD_PRECISION);
     const availableToWithdraw = convertUnits(
-      convertedTotalSupplied.minus(convertedTotalBorrowed),
+      convertedTotalLiquid,
       asset.decimals
     );
 
