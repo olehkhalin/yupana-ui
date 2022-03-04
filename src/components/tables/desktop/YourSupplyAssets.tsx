@@ -99,6 +99,8 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           yToken,
           asset,
           supplyWithInterest,
+          totalSupply,
+          totalBorrowed,
           collateralFactor,
           isCollateral,
         },
@@ -109,6 +111,8 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         asset={asset}
         collateralFactor={collateralFactor}
         supply={supplyWithInterest}
+        totalSupply={totalSupply}
+        totalBorrowed={totalBorrowed}
         isCollateral={isCollateral}
       />
     ),
