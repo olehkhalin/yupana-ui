@@ -117,12 +117,10 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const amountWarningMessage = useMemo(
     () =>
-      type === CreditProcessModalEnum.BORROW &&
-      amount &&
-      amount.div(convertUnits(maxAmount, asset.decimals, true)).gte(0.8)
+      type === CreditProcessModalEnum.BORROW && dynamicBorrowLimitUsed.gte(80)
         ? "Beware of the Liquidation Risk"
         : undefined,
-    [amount, asset.decimals, maxAmount, type]
+    [dynamicBorrowLimitUsed, type]
   );
 
   const amountGTBalance = useMemo(
