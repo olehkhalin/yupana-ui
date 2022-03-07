@@ -128,6 +128,14 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [data?.assets]
   );
 
+  const borrowWarningMessage = useMemo(
+    () =>
+      type === CreditProcessModalEnum.BORROW && !isCollateralExist
+        ? "Please, enable collateral to borrow."
+        : undefined,
+    [isCollateralExist, type]
+  );
+
   // Form submit
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
@@ -156,20 +164,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 
   const isBorrowTheme = theme === "secondary";
-
-  if (!isCollateralExist && type === CreditProcessModalEnum.BORROW) {
-    return (
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={onRequestClose}
-        innerClassName={s.inner}
-        theme={theme}
-        className={cx(s.root, { [s.borrow]: isBorrowTheme })}
-      >
-        Please, enable collateral for at least one of the assets to borrow.
-      </Modal>
-    );
-  }
 
   return (
     <Modal
@@ -215,7 +209,11 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             <NumberInput
               theme={theme}
               decimals={asset.decimals}
-              error={amountErrorMessage || amountWarningMessage}
+              error={
+                amountErrorMessage ||
+                amountWarningMessage ||
+                borrowWarningMessage
+              }
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
@@ -223,6 +221,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION
               ).multipliedBy(oraclePrice.decimals)}
+              disabled={!!borrowWarningMessage}
               {...field}
             />
           )}
@@ -272,7 +271,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           sizeT={isWiderThanMphone ? "large" : "medium"}
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
-          disabled={!!amountErrorMessage || operationLoading || maxAmount.eq(0)}
+          disabled={
+            !!amountErrorMessage ||
+            !!borrowWarningMessage ||
+            operationLoading ||
+            maxAmount.eq(0)
+          }
         >
           {operationLoading ? "Loading..." : title}
         </Button>

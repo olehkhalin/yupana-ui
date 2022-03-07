@@ -55,11 +55,6 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           timestamp: Date.now(),
           opHash: "",
         };
-        updateToast({
-          type: "info",
-          render: "Request for update Asset collateral status...",
-        });
-
         if (!isCollateral) {
           operation = await enterMarket(tezos, accountPkh, params);
         } else {
@@ -68,12 +63,19 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         }
         prepareTransaction.opHash = operation.opHash;
         addTransaction(prepareTransaction);
-        await operation.confirmation(1);
-
         updateToast({
           type: "info",
-          render:
-            "The Asset collateral status changing request was successful, please wait...",
+          render: `Request for update ${getAssetName(
+            asset
+          )} collateral status. You can follow your transaction in transaction history.`,
+        });
+
+        await operation.confirmation(1);
+        updateToast({
+          type: "info",
+          render: `The ${getAssetName(
+            asset
+          )} collateral status changing request was successful, please wait...`,
         });
       } catch (e) {
         updateToast({

@@ -103,9 +103,9 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       if (!isCollateral) {
         updateToast({
           type: "info",
-          render: `Please, turn on collateral for ${getAssetName(
+          render: `Reminder, collateral for ${getAssetName(
             asset
-          )} if you want to take some borrow. `,
+          )} now is disabled!`,
         });
       }
       updateToast({
