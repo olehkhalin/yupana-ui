@@ -14,6 +14,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useAssets } from "hooks/useAssets";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
@@ -78,6 +79,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
   const [operationLoading, setOperationLoading] = useState(false);
+  const { data } = useAssets();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -121,6 +123,11 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [amount, asset.decimals, maxAmount, type]
   );
 
+  const isCollateralExist = useMemo(
+    () => data?.assets.some((asset) => asset.isCollateral),
+    [data?.assets]
+  );
+
   // Form submit
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
@@ -149,6 +156,20 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 
   const isBorrowTheme = theme === "secondary";
+
+  if (!isCollateralExist && type === CreditProcessModalEnum.BORROW) {
+    return (
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={onRequestClose}
+        innerClassName={s.inner}
+        theme={theme}
+        className={cx(s.root, { [s.borrow]: isBorrowTheme })}
+      >
+        Please, enable collateral for at least one of the assets to borrow.
+      </Modal>
+    );
+  }
 
   return (
     <Modal
