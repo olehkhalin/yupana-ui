@@ -31,7 +31,7 @@ export const Toast: FC = () => {
   return (
     <ToastContainer
       limit={10}
-      autoClose={5000}
+      autoClose={10000}
       position={isWiderThanMphone ? "bottom-right" : "top-center"}
       closeButton={CustomCloseButton}
       hideProgressBar

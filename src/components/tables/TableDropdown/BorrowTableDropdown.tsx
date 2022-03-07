@@ -70,10 +70,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
 
   const handleBorrowSubmit = useCallback(
     async (inputAmount: BigNumber) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Borrow...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -91,10 +87,16 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         status: Status.PENDING,
         timestamp: Date.now(),
       });
+      updateToast({
+        type: "info",
+        render: `Request for ${getAssetName(
+          asset
+        )} Borrow. You can follow your transaction in transaction history.`,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Borrow request was successful, please wait...",
+        render: `The ${getAssetName(asset)} Borrow request was successful!`,
       });
     },
     [
@@ -165,10 +167,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
 
   const handleRepaySubmit = useCallback(
     async (inputAmount: BigNumber, isMaxAmount?: boolean) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Repay...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -195,10 +193,16 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         status: Status.PENDING,
         timestamp: Date.now(),
       });
+      updateToast({
+        type: "info",
+        render: `Request for ${getAssetName(
+          asset
+        )} Repay. You can follow your transaction in transaction history.`,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Repay request was successful, please wait...",
+        render: `The ${getAssetName(asset)} Repay request was successful!`,
       });
     },
     [
