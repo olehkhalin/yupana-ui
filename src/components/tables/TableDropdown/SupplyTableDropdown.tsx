@@ -262,6 +262,10 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
           return new BigNumber(0);
         }
 
+        if (!isCollateral) {
+          return convertUnits(maxCollateral, COLLATERAL_PRECISION);
+        }
+
         return convertUnits(maxCollateral, COLLATERAL_PRECISION).minus(
           input
             .multipliedBy(
@@ -281,7 +285,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
           return new BigNumber(0);
         }
 
-        if (outstandingBorrow.eq(0) || input.eq(0)) {
+        if (outstandingBorrow.eq(0) || input.eq(0) || !isCollateral) {
           return outstandingBorrow.div(maxCollateral).multipliedBy(1e2);
         }
 
