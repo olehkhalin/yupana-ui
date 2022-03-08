@@ -116,7 +116,7 @@ export const LiquidationForm: FC = () => {
       borrowedAsset,
       collateralAsset,
     };
-  }, [liquidateData]);
+  }, [liquidateAllData, liquidateData]);
 
   const { handleSubmit, control, formState, watch, setFocus, setValue } =
     useForm<FormTypes>({
@@ -188,7 +188,7 @@ export const LiquidationForm: FC = () => {
       receive,
       bonus,
     };
-  }, [amount, liquidateData]);
+  }, [amount, liquidateAllData, liquidateData]);
 
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),
