@@ -3,7 +3,11 @@ import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
 import BigNumber from "bignumber.js";
 
-import { COLLATERAL_PRECISION, STANDARD_PRECISION } from "constants/defaults";
+import {
+  COLLATERAL_PRECISION,
+  ORACLE_PRICE_PRECISION,
+  STANDARD_PRECISION,
+} from "constants/defaults";
 import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
 import { enterMarket, exitMarket } from "utils/dapp/methods";
@@ -74,27 +78,35 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         return "Asset cover the borrow. You can't disable the collateral.";
       }
 
-      const someAssetCanCoverABorrow = withoutCurrentToken.some((el) => {
-        return oraclePrice?.oraclePrice.some((orc) => {
-          if (orc.ytoken === el.yToken) {
-            let dec = 18;
-            if (el.yToken === 1) {
-              dec = 16;
-            }
+      const commonCollateralOfOtherAssets = withoutCurrentToken.reduce(
+        (acc, currentAsset) => {
+          const oracleData = oraclePrice?.oraclePrice.find(
+            (asset) => asset.ytoken === currentAsset.yToken
+          ) ?? {
+            price: new BigNumber(0),
+            decimals: 1000000,
+          };
 
-            const price = convertUnits(
-              convertUnits(el.supply, STANDARD_PRECISION),
-              el.asset.decimals
-            ).multipliedBy(convertUnits(orc.price, dec));
+          const price = convertUnits(
+            convertUnits(currentAsset.supply, STANDARD_PRECISION),
+            currentAsset.asset.decimals
+          ).multipliedBy(
+            convertUnits(oracleData.price, ORACLE_PRICE_PRECISION).multipliedBy(
+              oracleData.decimals
+            )
+          );
 
-            return price.multipliedBy(0.8).gte(userTotalBorrow);
-          }
-          return false;
-        });
-      });
+          return acc.plus(price);
+        },
+        new BigNumber(0)
+      );
 
-      return !someAssetCanCoverABorrow
-        ? "On the current asset, you cannot disable the collateral. Other assets can't cover the borrow."
+      const otherAssetsCanCoverTheBorrow = commonCollateralOfOtherAssets
+        .multipliedBy(0.8)
+        .gte(userTotalBorrow);
+
+      return !otherAssetsCanCoverTheBorrow
+        ? "On the current asset you can't disable the collateral. Other assets can't cover the borrow."
         : "";
     }
 
