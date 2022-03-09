@@ -73,7 +73,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
       if (
         supplyWithCollateral.length === 1 &&
         !withoutCurrentToken.length &&
-        isCollateral
+        isCollateral &&
+        userTotalBorrow.gt(0)
       ) {
         return "Asset cover the borrow. You can't disable the collateral.";
       }
@@ -90,20 +91,24 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           const price = convertUnits(
             convertUnits(currentAsset.supply, STANDARD_PRECISION),
             currentAsset.asset.decimals
-          ).multipliedBy(
-            convertUnits(oracleData.price, ORACLE_PRICE_PRECISION).multipliedBy(
-              oracleData.decimals
+          )
+            .multipliedBy(
+              convertUnits(
+                oracleData.price,
+                ORACLE_PRICE_PRECISION
+              ).multipliedBy(oracleData.decimals)
             )
-          );
+            .multipliedBy(
+              convertUnits(currentAsset.collateralFactor, STANDARD_PRECISION)
+            );
 
           return acc.plus(price);
         },
         new BigNumber(0)
       );
 
-      const otherAssetsCanCoverTheBorrow = commonCollateralOfOtherAssets
-        .multipliedBy(0.8)
-        .gte(userTotalBorrow);
+      const otherAssetsCanCoverTheBorrow =
+        commonCollateralOfOtherAssets.gte(userTotalBorrow);
 
       return !otherAssetsCanCoverTheBorrow
         ? "On the current asset you can't disable the collateral. Other assets can't cover the borrow."
