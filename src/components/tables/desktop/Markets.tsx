@@ -95,7 +95,9 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
                 value.exchangeRate
               )}
               isConvertable
-              className={cx(s.blue, s.withTezos)}
+              size="small"
+              theme="primary"
+              className={s.blue}
             />
           ),
       },
@@ -142,7 +144,9 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
                 value.asset
               )}
               isConvertable
-              className={cx(s.yellow, s.withTezos)}
+              size="small"
+              theme="secondary"
+              className={s.yellow}
             />
           ),
       },

@@ -25,7 +25,11 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading }) => {
             content: loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={el.totalBorrowed} isConvertable />
+              <PrettyAmount
+                amount={el.totalBorrowed}
+                isConvertable
+                theme="secondary"
+              />
             ),
             rowClassName: s.yellow,
           },

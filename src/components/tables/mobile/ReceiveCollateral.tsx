@@ -127,6 +127,7 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                 amount={el.price}
                 isConvertable
                 className={s.amount}
+                theme="primary"
               />
             ),
           },
@@ -145,6 +146,7 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                         true
                       )}
                       currency={getAssetName(el.asset)}
+                      theme="primary"
                     />
                   )}
                 </div>
@@ -158,6 +160,8 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                         el.asset.decimals
                       ).multipliedBy(el.price)}
                       isConvertable
+                      theme="primary"
+                      size="extraSmall"
                     />
                   )}
                 </div>
@@ -185,6 +189,7 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                       <PrettyAmount
                         amount={convertUnits(maxBonus, el.asset.decimals, true)}
                         currency={getAssetName(el.asset)}
+                        theme="primary"
                       />
                     )}
                   </div>
@@ -198,6 +203,8 @@ export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
                           el.asset.decimals
                         ).multipliedBy(el.price)}
                         isConvertable
+                        theme="primary"
+                        size="extraSmall"
                       />
                     )}
                   </div>
