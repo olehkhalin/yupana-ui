@@ -3,7 +3,10 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import { ORACLE_PRICE_PRECISION } from "constants/defaults";
+import {
+  COLLATERAL_PRECISION,
+  ORACLE_PRICE_PRECISION,
+} from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
@@ -15,6 +18,7 @@ import {
 } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useAssets } from "hooks/useAssets";
+import { useUserStats } from "hooks/useUserStats";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
@@ -80,6 +84,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
   const [operationLoading, setOperationLoading] = useState(false);
   const { data } = useAssets();
+  const { data: userStats } = useUserStats();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -108,6 +113,17 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [asset.decimals, maxAmount]
   );
 
+  const userTotalSupply = useMemo(
+    () =>
+      userStats
+        ? convertUnits(
+            userStats.totalSupplyUsd,
+            COLLATERAL_PRECISION
+          ).decimalPlaces(asset.decimals)
+        : new BigNumber(0),
+    [asset.decimals, userStats]
+  );
+
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),
     [errors.amount]
@@ -128,13 +144,21 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [data?.assets]
   );
 
-  const borrowWarningMessage = useMemo(
-    () =>
-      type === CreditProcessModalEnum.BORROW && !isCollateralExist
-        ? "Please, enable collateral to borrow."
-        : undefined,
-    [isCollateralExist, type]
-  );
+  const borrowWarningMessage = useMemo(() => {
+    const isBorrowModal = type === CreditProcessModalEnum.BORROW;
+    if (isBorrowModal && userTotalSupply.lte(0)) {
+      return "Please, supply some asset to borrow.";
+    }
+
+    if (
+      isBorrowModal &&
+      type === CreditProcessModalEnum.BORROW &&
+      !isCollateralExist
+    ) {
+      return "Please, enable collateral to borrow.";
+    }
+    return undefined;
+  }, [isCollateralExist, type, userTotalSupply]);
 
   // Form submit
   const onSubmitInner = useCallback(
