@@ -16,6 +16,7 @@ export type PrettyAmountProps = {
   isConvertable?: boolean;
   isMinified?: boolean;
   className?: string;
+  tezosClassName?: string;
   tooltipTheme?: TooltipTheme;
   theme?: keyof typeof themeClass;
   size?: keyof typeof sizeClass;
@@ -27,6 +28,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   isConvertable = false,
   isMinified = false,
   className,
+  tezosClassName,
   tooltipTheme,
   theme,
   size,
@@ -61,50 +63,48 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   const finalCurrency =
     isConvertable && convertableCurrency === CurrencyEnum.USD ? "$" : currency;
 
-  if (isShownSimpleTooltip) {
-    return (
-      <Tooltip
-        content={
-          <span className={s.tooltipContent}>
-            {getPrettyAmount({
-              value: convertedAmount,
-              currency: finalCurrency,
-              dec: 1e24,
-            })}
-            {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
-              // <TezosIcon className={s.tezosIconTooltip} />
-              <CustomTezosLogo theme="tertiary" size="superExtraSmall" />
-            )}
-          </span>
-        }
-        theme={tooltipTheme}
-      >
-        <span className={compoundClassNames}>
-          {getPrettyAmount({
-            value: convertedAmount,
-            currency: finalCurrency,
-            dec: isMinified ? 3 : undefined,
-          })}
-          {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
-            // <TezosIcon className={s.tezosIcon} />
-            <CustomTezosLogo theme={theme} size={size} className={className} />
-          )}
-        </span>
-      </Tooltip>
-    );
-  }
+  const isTezosCurrency =
+    isConvertable && convertableCurrency === CurrencyEnum.XTZ;
 
-  if (isShownDecTooltip) {
+  if (isShownSimpleTooltip || isShownDecTooltip) {
+    let tooltipAmount = "";
+
+    let childrenAmount = "";
+
+    if (isShownSimpleTooltip) {
+      tooltipAmount = getPrettyAmount({
+        value: convertedAmount,
+        currency: finalCurrency,
+        dec: 1e24,
+      });
+
+      childrenAmount = getPrettyAmount({
+        value: convertedAmount,
+        currency: finalCurrency,
+        dec: isMinified ? 3 : undefined,
+      });
+    }
+
+    if (isShownDecTooltip) {
+      tooltipAmount = getPrettyAmount({
+        value: convertedAmount,
+        currency: finalCurrency,
+      });
+
+      childrenAmount = getPrettyAmount({
+        value: convertedAmount.decimalPlaces(decSplit, BigNumber.ROUND_DOWN),
+        currency: finalCurrency,
+        withTooltip: true,
+        dec: isMinified ? 3 : undefined,
+      });
+    }
+
     return (
       <Tooltip
         content={
           <span className={s.tooltipContent}>
-            {getPrettyAmount({
-              value: convertedAmount,
-              currency: finalCurrency,
-            })}
-            {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
-              // <TezosIcon className={s.tezosIconTooltip} />
+            {tooltipAmount}
+            {isTezosCurrency && (
               <CustomTezosLogo theme="tertiary" size="superExtraSmall" />
             )}
           </span>
@@ -112,18 +112,13 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
         theme={tooltipTheme}
       >
         <span className={compoundClassNames}>
-          {getPrettyAmount({
-            value: convertedAmount.decimalPlaces(
-              decSplit,
-              BigNumber.ROUND_DOWN
-            ),
-            currency: finalCurrency,
-            withTooltip: true,
-            dec: isMinified ? 3 : undefined,
-          })}
-          {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
-            // <TezosIcon className={s.tezosIcon} />
-            <CustomTezosLogo theme={theme} size={size} className={className} />
+          {childrenAmount}
+          {isTezosCurrency && (
+            <CustomTezosLogo
+              theme={theme}
+              size={size}
+              className={tezosClassName}
+            />
           )}
         </span>
       </Tooltip>
@@ -137,9 +132,8 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
         currency: finalCurrency,
         dec: isMinified ? 3 : undefined,
       })}
-      {isConvertable && convertableCurrency === CurrencyEnum.XTZ && (
-        // <TezosIcon className={s.tezosIcon} />
-        <CustomTezosLogo theme={theme} size={size} className={className} />
+      {isTezosCurrency && (
+        <CustomTezosLogo theme={theme} size={size} className={tezosClassName} />
       )}
     </span>
   );

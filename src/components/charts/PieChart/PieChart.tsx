@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { FC, useEffect, useMemo, useRef } from "react";
 import * as d3 from "d3";
 import cx from "classnames";
 
@@ -18,7 +18,7 @@ type PieChartProps = {
 
 const colors = ["#FFB800", "#00E0FF"];
 
-export const PieChart: React.FC<PieChartProps> = ({ data, className }) => {
+export const PieChart: FC<PieChartProps> = ({ data, className }) => {
   const containerRef = useRef(null);
   const g1Ref = useRef(null);
   const g2Ref = useRef(null);

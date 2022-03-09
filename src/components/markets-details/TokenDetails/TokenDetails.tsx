@@ -50,7 +50,7 @@ export const TokenDetails: FC<TokenDetailsProps> = ({
             theme="primary"
             size="extraLarge"
             isConvertable
-            className={s.priceNumber}
+            tezosClassName={s.priceNumber}
           />
         </div>
       </div>

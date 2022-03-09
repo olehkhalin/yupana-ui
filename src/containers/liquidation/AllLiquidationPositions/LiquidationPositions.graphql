@@ -1,5 +1,5 @@
 query LiquidationPositions($limit: Int, $offset: Int) {
-  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}) {
+  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
     address
     outstandingBorrow
     liquidationRatio
@@ -30,7 +30,7 @@ query LiquidationPositions($limit: Int, $offset: Int) {
       }
     }
   }
-  userAggregate(where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}) {
+  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
     aggregate {
       count
     }

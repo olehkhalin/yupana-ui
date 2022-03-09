@@ -165,7 +165,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 <PrettyAmount
                   amount={valueInBaseCurrency}
                   isConvertable
-                  className={cx(
+                  tezosClassName={cx(
                     s.prettyTez,
                     { [s.active]: !!localValue },
                     { [s.error]: error }
