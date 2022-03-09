@@ -3,3 +3,4 @@ export * from "./getShortize";
 export * from "./getSlice";
 export * from "./getSlice";
 export * from "./getSliceAssetName";
+export * from "./getPrepareAssetLogoUrl";

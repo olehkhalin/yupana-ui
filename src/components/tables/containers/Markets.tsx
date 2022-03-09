@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { AssetsResponseData } from "types/asset";
 import { useWiderThanLphone } from "utils/helpers";
@@ -11,11 +11,7 @@ type MarketsProps = {
   className?: string;
 };
 
-export const Markets: React.FC<MarketsProps> = ({
-  data,
-  loading,
-  className,
-}) => {
+export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
   const isWiderThanLphone = useWiderThanLphone();
 
   if (isWiderThanLphone) {

@@ -2,7 +2,7 @@ import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData } from "types/asset";
+import { AssetsResponseData, AssetType } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
@@ -57,15 +57,21 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
       },
       {
         Header: "Collateral",
-        accessor: (row: { isCollateral: boolean; yToken: number }) => ({
-          isCollateral: row.isCollateral,
+        accessor: (row: {
+          asset: AssetType;
+          isCollateral: boolean;
+          yToken: number;
+        }) => ({
+          asset: row.asset,
           yToken: row.yToken,
+          isCollateral: row.isCollateral,
         }),
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading ? (
             "—"
           ) : (
             <CollateralSwitcher
+              asset={value.asset}
               yToken={value.yToken}
               isCollateral={value.isCollateral}
             />

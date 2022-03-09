@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 
 import { LiquidateDetailsCollateralAssets } from "types/liquidate-details";
 import { useWiderThanLphone } from "utils/helpers";
@@ -11,7 +11,7 @@ type ReceiveCollateralProps = {
   className?: string;
 };
 
-export const ReceiveCollateral: React.FC<ReceiveCollateralProps> = ({
+export const ReceiveCollateral: FC<ReceiveCollateralProps> = ({
   data,
   loading,
   className,

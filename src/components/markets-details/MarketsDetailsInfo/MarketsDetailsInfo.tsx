@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
@@ -10,6 +10,7 @@ import { Section } from "components/common/Section";
 import { Heading } from "components/common/Heading";
 import { Item } from "components/markets-details/Item";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { PieChart } from "components/charts/PieChart";
 
 import s from "./MarketsDetailsInfo.module.sass";
 
@@ -52,10 +53,26 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
   exchangeRate,
   className,
 }) => {
+  const chartValues = useMemo(
+    () => [
+      {
+        label: "Total borrow",
+        value: +totalBorrow,
+      },
+      {
+        label: "Available liquidity",
+        value: +availableLiquidity,
+      },
+    ],
+    [availableLiquidity, totalBorrow]
+  );
+
   return (
     <Section className={cx(s.root, className)}>
       <div className={s.graphWrapper}>
-        <div className={s.pieGraph} />
+        <div className={s.pieGraph}>
+          <PieChart data={chartValues} />
+        </div>
 
         <div className={s.graphStats}>
           <div className={s.stat}>

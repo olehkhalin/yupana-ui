@@ -12,7 +12,7 @@ export const LiquidationStepSecond: FC = () => {
   const { borrowerAddress }: { borrowerAddress: string } = useParams();
   const isWiderThanMphone = useWiderThanMphone();
 
-  const { data, loading } = useLiquidateDetails(borrowerAddress);
+  const { data, loading, error } = useLiquidateDetails(borrowerAddress);
 
   return (
     <section className={s.section}>
@@ -33,7 +33,7 @@ export const LiquidationStepSecond: FC = () => {
       </div>
       <ReceiveCollateral
         data={data ? data.collateralAssets : undefined}
-        loading={loading}
+        loading={error ? true : loading}
       />
     </section>
   );

@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import cx from "classnames";
 
 import { AssetType } from "types/asset";
+import { getPrepareAssetLogoUrl } from "utils/helpers/asset";
 import FallbackLogo from "svg/FallbackLogo.svg";
 
 import s from "./AssetLogo.module.sass";
@@ -38,7 +39,11 @@ export const AssetLogo: FC<AssetLogoProps> = ({
   if (logo) {
     return (
       <img
-        src={logo.thumbnail ? logo.thumbnail : FallbackLogo}
+        src={
+          getPrepareAssetLogoUrl(logo.thumbnail)
+            ? getPrepareAssetLogoUrl(logo.thumbnail)
+            : FallbackLogo
+        }
         alt={logo.name ?? "Symbol"}
         className={compoundClassName}
       />

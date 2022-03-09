@@ -1,0 +1,88 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  width: 100%
+
+.title
+  margin-bottom: 1.25rem
+  padding-bottom: .5rem
+  font-size: .875rem
+  border-bottom: .063rem solid rgba($white, .5)
+
+.wrapper
+  max-height: 19.5rem
+  overflow: hidden
+  overflow-y: auto
+
+.transaction
+  display: flex
+  justify-content: space-between
+  &:not(:last-child)
+    margin-bottom: 1.5rem
+
+.info
+  display: flex
+  justify-content: space-between
+  flex: 1
+
+.statusText
+  text-transform: capitalize
+
+.status
+  margin-right: .5rem
+
+.info
+  display: flex
+  flex-direction: column
+  align-items: flex-start
+  font-size: .875rem
+
+.type
+  display: flex
+  justify-content: space-between
+  align-items: center
+  width: 100%
+  margin-bottom: .5rem
+
+.amount
+  margin-bottom: .25rem
+  font-size: 1rem
+  font-weight: 700
+
+.footer
+  display: flex
+  justify-content: space-between
+  align-items: flex-end
+  width: 100%
+
+.link
+  > path
+    transition: fill $animationTime
+
+.linkButton
+  &:hover
+    .link
+      > path
+        fill: $white
+
+.timestamp
+  font-size: .75rem
+
+// colors 
+.blue
+  color: $light-blue
+  > path
+    fill: $light-blue
+.yellow
+  color: $light-yellow
+  > path
+    fill: $light-yellow
+.red
+  color: $light-red
+  > path
+    fill: $light-red
+
+@include media('>Mphone')
+  .title
+    font-size: 1rem
