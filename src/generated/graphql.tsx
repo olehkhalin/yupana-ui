@@ -7093,7 +7093,11 @@ export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Arr
 
 export const LiquidationPositionsDocument = gql`
     query LiquidationPositions($limit: Int, $offset: Int) {
-  user(limit: $limit, offset: $offset, where: {liquidationRatio: {_neq: "0"}}) {
+  user(
+    limit: $limit
+    offset: $offset
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     address
     outstandingBorrow
     liquidationRatio
@@ -7124,7 +7128,9 @@ export const LiquidationPositionsDocument = gql`
       }
     }
   }
-  userAggregate(where: {liquidationRatio: {_neq: "0"}}) {
+  userAggregate(
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     aggregate {
       count
     }
@@ -7441,7 +7447,9 @@ export type GlobalFactorsLazyQueryHookResult = ReturnType<typeof useGlobalFactor
 export type GlobalFactorsQueryResult = Apollo.QueryResult<GlobalFactorsQuery, GlobalFactorsQueryVariables>;
 export const LiquidateDocument = gql`
     query Liquidate($address: String) {
-  user(where: {address: {_eq: $address}, liquidationRatio: {_neq: "0"}}) {
+  user(
+    where: {address: {_eq: $address}, liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+  ) {
     address
     liquidationRatio
     borrowedAssets: userBorrow(where: {borrow: {_gt: "0"}}) {
