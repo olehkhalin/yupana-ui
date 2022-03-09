@@ -31,6 +31,10 @@
   margin-left: 5rem
   color: $white
 
+.priceNumber
+  path
+    fill: $white
+
 @include media('>Mphone')
   .tokenWrapper
     flex-direction: row
@@ -46,6 +50,9 @@
     margin-left: 0
     color: $light-blue
     text-shadow: $blue-shadow-button
+  .priceNumber
+    path
+      fill: $light-blue
 
 @include media('>Lphone')
   .name, .price

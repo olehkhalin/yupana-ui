@@ -88,6 +88,8 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
               <PrettyAmount
                 amount={availableLiquidity.multipliedBy(price)}
                 isConvertable
+                size="medium"
+                theme="primary"
               />
             </div>
           </div>
@@ -105,6 +107,8 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
               <PrettyAmount
                 amount={totalBorrow.multipliedBy(price)}
                 isConvertable
+                size="medium"
+                theme="secondary"
               />
             </div>
           </div>
@@ -144,7 +148,9 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text="Reserves"
-            value={<PrettyAmount amount={reserves} isConvertable />}
+            value={
+              <PrettyAmount amount={reserves} size="extraSmall" isConvertable />
+            }
             icon={false}
             className={s.item}
           />
@@ -156,7 +162,9 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text={`y${asset.symbol} Minted`}
-            value={<PrettyAmount amount={minted} isConvertable />}
+            value={
+              <PrettyAmount amount={minted} size="extraSmall" isConvertable />
+            }
             icon={false}
             className={s.item}
           />

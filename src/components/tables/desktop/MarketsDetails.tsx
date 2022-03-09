@@ -27,7 +27,11 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({
         accessor: "totalSupply",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <span className={s.blue}>
-            {loading ? "—" : <PrettyAmount amount={value} isConvertable />}
+            {loading ? (
+              "—"
+            ) : (
+              <PrettyAmount amount={value} theme="primary" isConvertable />
+            )}
           </span>
         ),
       },
@@ -52,7 +56,11 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({
         accessor: "totalBorrow",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <span className={s.yellow}>
-            {loading ? "—" : <PrettyAmount amount={value} isConvertable />}
+            {loading ? (
+              "—"
+            ) : (
+              <PrettyAmount amount={value} theme="secondary" isConvertable />
+            )}
           </span>
         ),
       },
