@@ -47,6 +47,7 @@ type CreditProcessModalInnerProps = {
   balanceLabel: string;
   maxAmount: BigNumber;
   walletBalance?: BigNumber;
+  liquidity?: BigNumber;
   availableToWithdraw?: BigNumber;
   onSubmit: any;
   oraclePrice: {
@@ -69,6 +70,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   balanceLabel,
   maxAmount,
   walletBalance,
+  liquidity,
   availableToWithdraw,
   onSubmit,
   oraclePrice,
@@ -133,14 +135,23 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [amount, walletBalance, type]
   );
 
-  const amountGTAvailableToWithdraw = useMemo(
-    () =>
-      type === CreditProcessModalEnum.WITHDRAW &&
-      amount &&
-      amount.gt(availableToWithdraw ?? new BigNumber(0))
+  const checkValueInContract = useCallback(
+    (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
+      const val = value ?? new BigNumber(0);
+      return type === modalType && amount && amount.gt(val ?? new BigNumber(0))
         ? "Insufficient balance in contract"
-        : undefined,
-    [amount, availableToWithdraw, type]
+        : undefined;
+    },
+    [amount, type]
+  );
+
+  const insufficientContractBalanceError = useMemo(
+    () =>
+      checkValueInContract(
+        CreditProcessModalEnum.WITHDRAW,
+        availableToWithdraw
+      ) || checkValueInContract(CreditProcessModalEnum.BORROW, liquidity),
+    [availableToWithdraw, checkValueInContract, liquidity]
   );
 
   // Form submit
@@ -173,8 +184,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const isBorrowTheme = theme === "secondary";
 
   const errorMessage = useMemo(
-    () => amountErrorMessage || amountGTBalance || amountGTAvailableToWithdraw,
-    [amountErrorMessage, amountGTAvailableToWithdraw, amountGTBalance]
+    () =>
+      amountErrorMessage || amountGTBalance || insufficientContractBalanceError,
+    [amountErrorMessage, amountGTBalance, insufficientContractBalanceError]
   );
 
   return (
@@ -333,6 +345,7 @@ export const CreditProcessModal = () => {
     onSubmit,
     oraclePrice,
     walletBalance,
+    liquidity,
     availableToWithdraw,
   } = creditProcessModalData;
 
@@ -356,6 +369,7 @@ export const CreditProcessModal = () => {
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
       walletBalance={walletBalance}
+      liquidity={liquidity}
       availableToWithdraw={availableToWithdraw}
       {...getModalLabels(type)}
     />

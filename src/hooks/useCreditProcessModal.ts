@@ -17,6 +17,7 @@ type CreditProcessModalProps =
       type: CreditProcessModalEnum;
       maxAmount: BigNumber;
       walletBalance?: BigNumber;
+      liquidity?: BigNumber;
       availableToWithdraw?: BigNumber;
       asset: AssetType;
       borrowLimit: BigNumber;
