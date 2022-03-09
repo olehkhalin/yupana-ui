@@ -6,6 +6,7 @@ import cx from "classnames";
 import {
   COLLATERAL_PRECISION,
   ORACLE_PRICE_PRECISION,
+  STANDARD_PRECISION,
 } from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
@@ -144,21 +145,40 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [data?.assets]
   );
 
+  const everySuppliedAssetWithoutCollateral = useMemo(
+    () =>
+      data?.supplyAssets
+        .filter(({ supply }) =>
+          supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+        )
+        .every((asset) => !asset.isCollateral) ?? false,
+    [data?.supplyAssets]
+  );
+
   const borrowWarningMessage = useMemo(() => {
     const isBorrowModal = type === CreditProcessModalEnum.BORROW;
-    if (isBorrowModal && userTotalSupply.lte(0)) {
-      return "Please, supply some asset to borrow.";
+    if (isBorrowModal) {
+      if (userTotalSupply.lte(0)) {
+        return "Please, supply some asset to borrow.";
+      }
+      if (
+        (isBorrowModal &&
+          isCollateralExist &&
+          everySuppliedAssetWithoutCollateral) ||
+        everySuppliedAssetWithoutCollateral ||
+        (isBorrowModal && !isCollateralExist && userTotalSupply.lte(0))
+      ) {
+        return "Please, enable collateral to borrow.";
+      }
     }
 
-    if (
-      isBorrowModal &&
-      type === CreditProcessModalEnum.BORROW &&
-      !isCollateralExist
-    ) {
-      return "Please, enable collateral to borrow.";
-    }
     return undefined;
-  }, [isCollateralExist, type, userTotalSupply]);
+  }, [
+    isCollateralExist,
+    everySuppliedAssetWithoutCollateral,
+    type,
+    userTotalSupply,
+  ]);
 
   // Form submit
   const onSubmitInner = useCallback(
