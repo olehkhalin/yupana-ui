@@ -10,6 +10,7 @@ import { getAssetName } from "utils/helpers/asset";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Switcher } from "components/ui/Switcher";
+import { useCollateralWarningMessage } from "hooks/useCollateralWarningMessage";
 
 type SwitcherProps = {
   asset: AssetType;
@@ -32,9 +33,21 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
 
+  const collateralWarningMessage = useCollateralWarningMessage(
+    yToken,
+    isCollateral
+  );
+
   const handleChange = useCallback(async () => {
     if (!disabled) {
       try {
+        if (collateralWarningMessage) {
+          return updateToast({
+            type: "info",
+            render: collateralWarningMessage,
+          });
+        }
+
         setDisabled(true);
         let operation: BatchWalletOperation;
         const params: {
@@ -55,11 +68,6 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           timestamp: Date.now(),
           opHash: "",
         };
-        updateToast({
-          type: "info",
-          render: "Request for update Asset collateral status...",
-        });
-
         if (!isCollateral) {
           operation = await enterMarket(tezos, accountPkh, params);
         } else {
@@ -68,12 +76,19 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         }
         prepareTransaction.opHash = operation.opHash;
         addTransaction(prepareTransaction);
-        await operation.confirmation(1);
-
         updateToast({
           type: "info",
-          render:
-            "The Asset collateral status changing request was successful, please wait...",
+          render: `Request for update ${getAssetName(
+            asset
+          )} collateral status. You can follow your transaction in transaction history.`,
+        });
+
+        await operation.confirmation(1);
+        updateToast({
+          type: "info",
+          render: `The ${getAssetName(
+            asset
+          )} collateral status changing request was successful, please wait...`,
         });
       } catch (e) {
         updateToast({
@@ -93,6 +108,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
     disabled,
     fabrica,
     isCollateral,
+    collateralWarningMessage,
     priceFeedProxy,
     tezos,
     updateToast,

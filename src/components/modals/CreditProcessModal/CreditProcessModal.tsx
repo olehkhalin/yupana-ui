@@ -3,7 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import { ORACLE_PRICE_PRECISION } from "constants/defaults";
+import {
+  COLLATERAL_PRECISION,
+  ORACLE_PRICE_PRECISION,
+  STANDARD_PRECISION,
+} from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
@@ -14,6 +18,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
@@ -154,6 +159,8 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [availableToWithdraw, checkValueInContract, liquidity]
   );
 
+  const borrowWarningMessage = useBorrowWarningMessage(asset, type);
+
   // Form submit
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
@@ -233,7 +240,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             <NumberInput
               theme={theme}
               decimals={asset.decimals}
-              error={errorMessage || amountWarningMessage}
+              error={
+                errorMessage || amountWarningMessage || borrowWarningMessage
+              }
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
@@ -241,6 +250,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION
               ).multipliedBy(oraclePrice.decimals)}
+              disabled={!!borrowWarningMessage}
               {...field}
             />
           )}
@@ -290,7 +300,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           sizeT={isWiderThanMphone ? "large" : "medium"}
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
-          disabled={!!errorMessage || operationLoading || maxAmount.eq(0)}
+          disabled={
+            !!errorMessage ||
+            !!borrowWarningMessage ||
+            operationLoading ||
+            maxAmount.eq(0)
+          }
         >
           {operationLoading ? "Loading..." : title}
         </Button>
