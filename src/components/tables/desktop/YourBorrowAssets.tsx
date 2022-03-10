@@ -67,6 +67,7 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
               asset={value}
               isMinified
               preloaderTheme="secondary"
+              tooltipTheme="secondary"
             />
           ),
       },

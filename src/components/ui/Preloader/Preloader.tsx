@@ -5,7 +5,7 @@ import s from "./Preloader.module.sass";
 
 export type PreloaderThemes = keyof typeof themeClassPreloader;
 
-type PreloaderProps = {
+export type PreloaderProps = {
   theme?: PreloaderThemes;
   sizeT?: keyof typeof sizeClass;
   className?: string;
