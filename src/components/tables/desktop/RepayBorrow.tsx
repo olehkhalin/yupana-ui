@@ -70,7 +70,11 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
         Header: () => <span className={s.yellow}>Price of borrowed asset</span>,
         accessor: "price",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? "—" : <PrettyAmount amount={value} isConvertable />,
+          loading ? (
+            "—"
+          ) : (
+            <PrettyAmount amount={value} theme="secondary" isConvertable />
+          ),
       },
       {
         Header: () => <span className={s.yellow}>Amount of debt</span>,
@@ -110,6 +114,8 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                     value.asset.decimals
                   ).multipliedBy(value.price)}
                   isConvertable
+                  size="superExtraSmall"
+                  theme="secondary"
                 />
               )}
             </div>
@@ -154,6 +160,8 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                     value.asset.decimals
                   ).multipliedBy(value.price)}
                   isConvertable
+                  size="superExtraSmall"
+                  theme="secondary"
                 />
               )}
             </div>

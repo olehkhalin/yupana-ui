@@ -23,7 +23,11 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({ data, loading }) => {
             content: loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={el.totalSupply} isConvertable />
+              <PrettyAmount
+                amount={el.totalSupply}
+                isConvertable
+                theme="primary"
+              />
             ),
             rowClassName: s.blue,
           },
@@ -42,7 +46,11 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({ data, loading }) => {
             content: loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={el.totalBorrow} isConvertable />
+              <PrettyAmount
+                amount={el.totalBorrow}
+                isConvertable
+                theme="secondary"
+              />
             ),
             rowClassName: s.yellow,
           },
