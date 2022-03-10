@@ -59,7 +59,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({ data, loading }) => {
             content: loading ? (
               "—"
             ) : (
-              <BalanceAmount asset={el.asset} isMinified />
+              <BalanceAmount sizeT="small" asset={el.asset} isMinified />
             ),
           },
         ],

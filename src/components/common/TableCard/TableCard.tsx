@@ -89,9 +89,10 @@ export const TableCard: FC<TableCardProps> = ({
             key={id ?? (title && typeof title === "string" ? title : i)}
           >
             <h4 className={s.title}>{title}</h4>
-            <div className={cx({ [s.value]: !isLogo })}>
-              {typeof content === "function" ? content() : content}
-            </div>
+            {/* TODO: Research */}
+            {/* <div className={cx({ [s.value]: !isLogo })}> */}
+            {typeof content === "function" ? content() : content}
+            {/* </div> */}
           </div>
         </>
       ))}

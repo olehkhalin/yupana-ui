@@ -5,7 +5,11 @@ import { AssetType } from "types/asset";
 import { useBalance } from "hooks/useBalance";
 import { convertUnits } from "utils/helpers/amount";
 import { getSliceAssetName } from "utils/helpers/asset";
-import { Preloader, PreloaderThemes } from "components/ui/Preloader";
+import {
+  Preloader,
+  PreloaderProps,
+  PreloaderThemes,
+} from "components/ui/Preloader";
 import {
   PrettyAmount,
   PrettyAmountProps,
@@ -15,7 +19,8 @@ type BalanceAmountProps = {
   asset: AssetType;
   preloaderTheme?: PreloaderThemes;
   className?: string;
-} & Omit<PrettyAmountProps, "amount">;
+} & Omit<PrettyAmountProps, "amount"> &
+  PreloaderProps;
 
 export const BalanceAmount: FC<BalanceAmountProps> = ({
   asset,
@@ -26,7 +31,7 @@ export const BalanceAmount: FC<BalanceAmountProps> = ({
   const { data, loading } = useBalance(asset);
 
   if (loading) {
-    return <Preloader theme={preloaderTheme} />;
+    return <Preloader theme={preloaderTheme} {...props} />;
   }
 
   return (
