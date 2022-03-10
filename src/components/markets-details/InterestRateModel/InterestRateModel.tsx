@@ -2,9 +2,11 @@ import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
-import { getPrettyAmount, getPrettyPercent } from "utils/helpers/amount";
+import { DOCS_LINKS } from "constants/docs";
+import { getPrettyPercent } from "utils/helpers/amount";
 import { getAssetName } from "utils/helpers/asset";
 import { AssetType } from "types/asset";
+import { PrettyAmount } from "components/common/PrettyAmount";
 import { Section } from "components/common/Section";
 import { Item } from "components/markets-details/Item";
 import { Heading } from "components/common/Heading";
@@ -47,7 +49,8 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           title="Interest Rate Model"
           link={{
             label: "IRM in docs",
-            link: "/",
+            link: DOCS_LINKS.irm,
+            external: true,
           }}
           theme="secondary"
           className={s.detailsTitle}
@@ -66,7 +69,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
-            value={getPrettyPercent(baseRatePerYear)}
+            value={<PrettyAmount amount={baseRatePerYear} size="extraSmall" />}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
             theme="secondary"
@@ -74,18 +77,18 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Multiplier per year"
-            value={getPrettyAmount({
-              value: multiplierPerYear.decimalPlaces(6),
-            })} // TODO: Research
+            value={
+              <PrettyAmount amount={multiplierPerYear} size="extraSmall" />
+            }
             theme="secondary"
             icon={false}
             className={s.item}
           />
           <Item
             text="Jump multiplier per year"
-            value={getPrettyAmount({
-              value: jumpMultiplierPerYear.decimalPlaces(6),
-            })} // TODO: Research
+            value={
+              <PrettyAmount amount={jumpMultiplierPerYear} size="extraSmall" />
+            }
             theme="secondary"
             icon={false}
             className={s.item}

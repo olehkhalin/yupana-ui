@@ -188,7 +188,7 @@ export const LiquidationForm: FC = () => {
       receive,
       bonus,
     };
-  }, [amount, liquidateData]);
+  }, [amount, liquidateAllData, liquidateData]);
 
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),

@@ -33,6 +33,7 @@ type SupplyDropdownProps = {
   asset: AssetType;
   collateralFactor: BigNumber;
   supply: BigNumber;
+  totalLiquid: BigNumber;
   isCollateral: boolean;
 } & TableDropdownProps;
 
@@ -41,6 +42,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   asset,
   collateralFactor,
   supply: supplied,
+  totalLiquid,
   isCollateral,
   theme,
   className,
@@ -74,10 +76,6 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
   const handleSupplySubmit = useCallback(
     async (inputAmount: BigNumber) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Supply...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -96,10 +94,25 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         status: Status.PENDING,
         timestamp: Date.now(),
       });
-      await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Supply request was successful, please wait...",
+        render: `Request for ${getAssetName(
+          asset
+        )} Supply. You can follow your transaction in transaction history.`,
+      });
+      await operation.confirmation(1);
+
+      if (!isCollateral) {
+        updateToast({
+          type: "info",
+          render: `Reminder, collateral for ${getAssetName(
+            asset
+          )} now is disabled!`,
+        });
+      }
+      updateToast({
+        type: "info",
+        render: `The ${getAssetName(asset)} Supply request was successful!`,
       });
     },
     [
@@ -107,6 +120,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       addTransaction,
       asset,
       fabrica,
+      isCollateral,
       priceFeedProxy,
       tezos,
       updateToast,
@@ -177,10 +191,6 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
   const handleWithdrawSubmit = useCallback(
     async (inputAmount: BigNumber, isMaxAmount?: boolean) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Withdraw...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -200,14 +210,22 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         timestamp: Date.now(),
         status: Status.PENDING,
       });
+      updateToast({
+        type: "info",
+        render: `Request for ${getAssetName(
+          asset
+        )} Withdraw. You can follow your transaction in transaction history.`,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Withdraw request was successful, please wait...",
+        render: `The ${getAssetName(asset)} Withdraw request was successful!`,
       });
     },
     [
       accountPkh,
+      addTransaction,
+      asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
@@ -232,6 +250,12 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     const convertedSupplied = convertUnits(supplied, STANDARD_PRECISION);
 
+    const convertedTotalLiquid = convertUnits(totalLiquid, STANDARD_PRECISION);
+    const availableToWithdraw = convertUnits(
+      convertedTotalLiquid,
+      asset.decimals
+    );
+
     const maxAmount = isCollateral
       ? BigNumber.min(convertedSupplied, maxAmountInner)
       : new BigNumber(convertedSupplied);
@@ -240,10 +264,15 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       type: CreditProcessModalEnum.WITHDRAW,
       maxAmount: maxAmount.lt(1) ? new BigNumber(0) : maxAmount,
       asset: asset,
+      availableToWithdraw,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       dynamicBorrowLimitFunc: (input: BigNumber) => {
         if (maxAmount.eq(0)) {
           return new BigNumber(0);
+        }
+
+        if (!isCollateral) {
+          return convertUnits(maxCollateral, COLLATERAL_PRECISION);
         }
 
         return convertUnits(maxCollateral, COLLATERAL_PRECISION).minus(
@@ -265,7 +294,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
           return new BigNumber(0);
         }
 
-        if (outstandingBorrow.eq(0) || input.eq(0)) {
+        if (outstandingBorrow.eq(0) || input.eq(0) || !isCollateral) {
           return outstandingBorrow.div(maxCollateral).multipliedBy(1e2);
         }
 
