@@ -116,7 +116,7 @@ export const LiquidationForm: FC = () => {
       borrowedAsset,
       collateralAsset,
     };
-  }, [liquidateAllData, liquidateData]);
+  }, [liquidateData]);
 
   const { handleSubmit, control, formState, watch, setFocus, setValue } =
     useForm<FormTypes>({

@@ -138,7 +138,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const checkValueInContract = useCallback(
     (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
       const val = value ?? new BigNumber(0);
-      return type === modalType && amount && amount.gt(val ?? new BigNumber(0))
+      return type === modalType && amount && amount.gt(val)
         ? "Insufficient balance in contract"
         : undefined;
     },
