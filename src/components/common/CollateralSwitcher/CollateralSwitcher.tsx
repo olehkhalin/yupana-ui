@@ -1,25 +1,18 @@
-import React, { FC, useCallback, useMemo, useState } from "react";
+import React, { FC, useCallback, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
-import BigNumber from "bignumber.js";
 
-import {
-  COLLATERAL_PRECISION,
-  ORACLE_PRICE_PRECISION,
-  STANDARD_PRECISION,
-} from "constants/defaults";
 import { AssetType } from "types/asset";
-import { convertUnits } from "utils/helpers/amount";
 import { enterMarket, exitMarket } from "utils/dapp/methods";
 import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { getAssetName } from "utils/helpers/asset";
 import { useAssets } from "hooks/useAssets";
-import { useUserStats } from "hooks/useUserStats";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Switcher } from "components/ui/Switcher";
 import { useOraclePriceQuery } from "generated/graphql";
+import { useCollateralWarningMessage } from "hooks/useCollateralWarningMessage";
 
 type SwitcherProps = {
   asset: AssetType;
@@ -42,81 +35,14 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
   const { data } = useAssets();
-  const { data: userStats } = useUserStats();
   const { data: oraclePrice } = useOraclePriceQuery();
 
-  const userTotalBorrow = useMemo(
-    () =>
-      userStats
-        ? convertUnits(
-            userStats.totalBorrowUsd,
-            COLLATERAL_PRECISION
-          ).decimalPlaces(2)
-        : new BigNumber(0),
-    [userStats]
-  );
-
-  const collateralWarningMessage = useMemo(() => {
-    if (data && data.supplyAssets && data.supplyAssets.length) {
-      const supplyWithCollateral = data.supplyAssets.filter(
-        (el) => el.isCollateral
-      );
-
-      if (!supplyWithCollateral.length) {
-        return "";
-      }
-
-      const withoutCurrentToken = supplyWithCollateral.filter(
-        (el) => el.yToken !== yToken
-      );
-
-      if (
-        supplyWithCollateral.length === 1 &&
-        !withoutCurrentToken.length &&
-        isCollateral &&
-        userTotalBorrow.gt(0)
-      ) {
-        return "Asset cover the borrow. You can't disable the collateral.";
-      }
-
-      const commonCollateralOfOtherAssets = withoutCurrentToken.reduce(
-        (acc, currentAsset) => {
-          const oracleData = oraclePrice?.oraclePrice.find(
-            (asset) => asset.ytoken === currentAsset.yToken
-          ) ?? {
-            price: new BigNumber(0),
-            decimals: 1000000,
-          };
-
-          const price = convertUnits(
-            convertUnits(currentAsset.supply, STANDARD_PRECISION),
-            currentAsset.asset.decimals
-          )
-            .multipliedBy(
-              convertUnits(
-                oracleData.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oracleData.decimals)
-            )
-            .multipliedBy(
-              convertUnits(currentAsset.collateralFactor, STANDARD_PRECISION)
-            );
-
-          return acc.plus(price);
-        },
-        new BigNumber(0)
-      );
-
-      const otherAssetsCanCoverTheBorrow =
-        commonCollateralOfOtherAssets.gte(userTotalBorrow);
-
-      return !otherAssetsCanCoverTheBorrow
-        ? "On the current asset you can't disable the collateral. Other assets can't cover the borrow."
-        : "";
-    }
-
-    return "";
-  }, [data, isCollateral, oraclePrice?.oraclePrice, userTotalBorrow, yToken]);
+  const collateralWarningMessage = useCollateralWarningMessage({
+    data,
+    oraclePrice,
+    yToken,
+    isCollateral,
+  });
 
   const handleChange = useCallback(async () => {
     if (!disabled) {
