@@ -43,15 +43,11 @@ export const AssetLogo: FC<AssetLogoProps> = ({
       return FallbackLogo;
     }
 
-    if (logo) {
-      const image =
-        getPrepareAssetLogoUrl(logo.thumbnail) && !isLoadingFailed
-          ? getPrepareAssetLogoUrl(logo.thumbnail)
-          : FallbackLogo;
-      return image;
-    }
-
-    return FallbackLogo;
+    return logo
+      ? getPrepareAssetLogoUrl(logo.thumbnail) && !isLoadingFailed
+        ? getPrepareAssetLogoUrl(logo.thumbnail)
+        : FallbackLogo
+      : FallbackLogo;
   }, [isLoaded, isLoadingFailed, logo]);
 
   if (logo) {
