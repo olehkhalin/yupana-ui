@@ -18,8 +18,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
-import { useAssets } from "hooks/useAssets";
-import { useUserStats } from "hooks/useUserStats";
+import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
@@ -90,8 +89,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
   const [operationLoading, setOperationLoading] = useState(false);
-  const { data } = useAssets();
-  const { data: userStats } = useUserStats();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -118,17 +115,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
         max: convertUnits(maxAmount, asset.decimals, true),
       }),
     [asset.decimals, maxAmount]
-  );
-
-  const userTotalSupply = useMemo(
-    () =>
-      userStats
-        ? convertUnits(
-            userStats.totalSupplyUsd,
-            COLLATERAL_PRECISION
-          ).decimalPlaces(asset.decimals)
-        : new BigNumber(0),
-    [asset.decimals, userStats]
   );
 
   const amountErrorMessage = useMemo(
@@ -173,45 +159,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [availableToWithdraw, checkValueInContract, liquidity]
   );
 
-  const isCollateralExist = useMemo(
-    () => data?.assets.some((asset) => asset.isCollateral),
-    [data?.assets]
-  );
-
-  const everySuppliedAssetWithoutCollateral = useMemo(
-    () =>
-      data?.supplyAssets
-        .filter(({ supply }) =>
-          supply.gte(new BigNumber(10).pow(STANDARD_PRECISION))
-        )
-        .every((asset) => !asset.isCollateral) ?? false,
-    [data?.supplyAssets]
-  );
-
-  const borrowWarningMessage = useMemo(() => {
-    const isBorrowModal = type === CreditProcessModalEnum.BORROW;
-    if (isBorrowModal) {
-      if (userTotalSupply.lte(0)) {
-        return "Please, supply some asset to borrow.";
-      }
-      if (
-        (isBorrowModal &&
-          isCollateralExist &&
-          everySuppliedAssetWithoutCollateral) ||
-        everySuppliedAssetWithoutCollateral ||
-        (isBorrowModal && !isCollateralExist && userTotalSupply.lte(0))
-      ) {
-        return "Please, enable collateral to borrow.";
-      }
-    }
-
-    return undefined;
-  }, [
-    isCollateralExist,
-    everySuppliedAssetWithoutCollateral,
-    type,
-    userTotalSupply,
-  ]);
+  const borrowWarningMessage = useBorrowWarningMessage(asset, type);
 
   // Form submit
   const onSubmitInner = useCallback(

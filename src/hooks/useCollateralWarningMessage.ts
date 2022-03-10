@@ -12,13 +12,10 @@ import { useOraclePriceQuery } from "generated/graphql";
 import { useAssets } from "./useAssets";
 import { useUserStats } from "./useUserStats";
 
-export const useCollateralWarningMessage = ({
-  yToken,
-  isCollateral,
-}: {
-  yToken: number;
-  isCollateral: boolean;
-}) => {
+export const useCollateralWarningMessage = (
+  yToken: number,
+  isCollateral: boolean
+) => {
   const { data } = useAssets();
   const { data: oraclePrice } = useOraclePriceQuery();
   const { data: userStats } = useUserStats();

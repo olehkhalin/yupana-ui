@@ -33,10 +33,10 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
 
-  const collateralWarningMessage = useCollateralWarningMessage({
+  const collateralWarningMessage = useCollateralWarningMessage(
     yToken,
-    isCollateral,
-  });
+    isCollateral
+  );
 
   const handleChange = useCallback(async () => {
     if (!disabled) {
