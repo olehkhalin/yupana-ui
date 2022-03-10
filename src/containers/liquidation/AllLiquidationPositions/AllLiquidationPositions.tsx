@@ -1,5 +1,6 @@
 import React, { FC, useEffect, useMemo, useState } from "react";
 
+import { DOCS_LINKS } from "constants/docs";
 import { LIQUIDATION_POSITIONS_ITEMS_PER_PAGE } from "constants/defaults";
 import {
   LiquidationPositionsQuery,
@@ -45,7 +46,8 @@ const LiquidationPositionsWrapper: FC<LiquidationPositionsWrapperProps> = ({
       theme="tertiary"
       link={{
         label: "Docs: Liquidations",
-        link: "/",
+        link: DOCS_LINKS.liquidations,
+        external: true,
       }}
       head
     >

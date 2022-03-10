@@ -54,12 +54,6 @@
   &.active
     color: $white
 
-.prettyTez
-  &.active
-    svg
-      path
-        fill: $white !important
-
 .primary, .secondary
   &.error
     border-color: $light-red
@@ -73,9 +67,8 @@
       &::placeholder
         color: $light-red
     .prettyTez
-      svg
-        path
-          fill: $light-red
+      path
+        fill: $light-red
 
 .button
   display: flex
@@ -100,9 +93,20 @@
       color: $light-blue
       text-shadow: $blue-shadow
   .prettyTez
-    svg
+    path
+      fill: $light-blue
+
+.root
+  .prettyTez
+    &.active
       path
-        fill: $light-blue
+        fill: $white
+
+.root
+  .prettyTez
+    &.error
+      path
+        fill: $red
 
 .secondary
   .button
@@ -115,9 +119,8 @@
     &::placeholder
       color: $light-yellow
   .prettyTez
-    svg
-      path
-        fill: $light-yellow
+    path
+      fill: $light-yellow
 
 .errorContainer
   display: flex
@@ -156,11 +159,10 @@
       fill: rgba($white, .4)
 
 .prettyTez
-  svg
-    height: 0.75rem
-    width: auto
-    margin-top: 0.1rem
-    margin-left: 0.25rem
+  height: 0.75rem
+  width: auto
+  margin-top: 0.1rem
+  margin-left: 0.25rem
 
 @include media('>Mphone')
   .container

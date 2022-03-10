@@ -60,6 +60,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({ data, loading }) => {
               "—"
             ) : (
               <BalanceAmount
+                sizeT="small"
                 asset={el.asset}
                 isMinified
                 preloaderClassName={s.balance}

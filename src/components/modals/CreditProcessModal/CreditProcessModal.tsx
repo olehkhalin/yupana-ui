@@ -309,7 +309,7 @@ const getModalLabels = (type: CreditProcessModalEnum) => {
     case CreditProcessModalEnum.WITHDRAW:
       return {
         title: "Withdraw",
-        balanceLabel: "Supply balance:",
+        balanceLabel: "Available to withdraw:",
       };
     case CreditProcessModalEnum.BORROW:
       return {
