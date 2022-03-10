@@ -13,6 +13,7 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useBalance } from "hooks/useBalance";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import {
@@ -50,6 +51,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
+  const { data: walletBalance, loading: loadingWalletBalance } =
+    useBalance(asset);
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -110,23 +113,26 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     ]
   );
 
+  const pureAssetLiquidity = useMemo(
+    () =>
+      convertUnits(convertUnits(liquidity, STANDARD_PRECISION), asset.decimals),
+    [asset.decimals, liquidity]
+  );
+
   const handleBorrow = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.BORROW,
-      maxAmount: BigNumber.min(
-        convertUnits(liquidity, STANDARD_PRECISION),
-        convertUnits(
-          maxCollateral.minus(outstandingBorrow),
-          COLLATERAL_PRECISION
-        )
-          .div(
-            convertUnits(
-              oraclePrice.price,
-              ORACLE_PRICE_PRECISION
-            ).multipliedBy(oraclePrice.decimals)
+      maxAmount: convertUnits(
+        maxCollateral.minus(outstandingBorrow),
+        COLLATERAL_PRECISION
+      )
+        .div(
+          convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
+            oraclePrice.decimals
           )
-          .multipliedBy(new BigNumber(10).pow(asset.decimals))
-      ),
+        )
+        .multipliedBy(new BigNumber(10).pow(asset.decimals)),
+      liquidity: pureAssetLiquidity,
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)
@@ -155,11 +161,11 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     });
   }, [
     setCreditProcessModalData,
-    liquidity,
     maxCollateral,
     outstandingBorrow,
     oraclePrice,
     asset,
+    pureAssetLiquidity,
     handleBorrowSubmit,
   ]);
 
@@ -214,12 +220,20 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     ]
   );
 
+  const pureWalletBalance = useMemo(
+    () => convertUnits(walletBalance ?? new BigNumber(0), asset.decimals),
+    [asset.decimals, walletBalance]
+  );
+
   const handleRepay = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.REPAY,
-      maxAmount: convertUnits(borrowed, STANDARD_PRECISION).lt(1)
-        ? new BigNumber(0)
-        : convertUnits(borrowed, STANDARD_PRECISION),
+      maxAmount: !loadingWalletBalance
+        ? convertUnits(borrowed, STANDARD_PRECISION).lt(1)
+          ? new BigNumber(0)
+          : convertUnits(borrowed, STANDARD_PRECISION)
+        : new BigNumber(0),
+      walletBalance: pureWalletBalance,
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)
@@ -249,7 +263,9 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     });
   }, [
     setCreditProcessModalData,
+    loadingWalletBalance,
     borrowed,
+    pureWalletBalance,
     asset,
     maxCollateral,
     outstandingBorrow,

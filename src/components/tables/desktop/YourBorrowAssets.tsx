@@ -66,8 +66,9 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
             <BalanceAmount
               asset={value}
               isMinified
-              preloaderTheme="secondary"
               tooltipTheme="secondary"
+              preloaderTheme="secondary"
+              preloaderClassName={s.balance}
             />
           ),
       },
