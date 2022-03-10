@@ -7,11 +7,9 @@ import { enterMarket, exitMarket } from "utils/dapp/methods";
 import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { getAssetName } from "utils/helpers/asset";
-import { useAssets } from "hooks/useAssets";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Switcher } from "components/ui/Switcher";
-import { useOraclePriceQuery } from "generated/graphql";
 import { useCollateralWarningMessage } from "hooks/useCollateralWarningMessage";
 
 type SwitcherProps = {
@@ -34,12 +32,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const [disabled, setDisabled] = useState(false);
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
-  const { data } = useAssets();
-  const { data: oraclePrice } = useOraclePriceQuery();
 
   const collateralWarningMessage = useCollateralWarningMessage({
-    data,
-    oraclePrice,
     yToken,
     isCollateral,
   });

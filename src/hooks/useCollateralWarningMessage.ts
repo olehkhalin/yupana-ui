@@ -1,28 +1,26 @@
 import { useMemo } from "react";
 import BigNumber from "bignumber.js";
 
-import { UseAssetsResponseData } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
 import {
   COLLATERAL_PRECISION,
   ORACLE_PRICE_PRECISION,
   STANDARD_PRECISION,
 } from "constants/defaults";
-import { OraclePriceQuery } from "generated/graphql";
+import { useOraclePriceQuery } from "generated/graphql";
 
+import { useAssets } from "./useAssets";
 import { useUserStats } from "./useUserStats";
 
 export const useCollateralWarningMessage = ({
-  data,
-  oraclePrice,
   yToken,
   isCollateral,
 }: {
-  data: UseAssetsResponseData;
-  oraclePrice: OraclePriceQuery | undefined;
   yToken: number;
   isCollateral: boolean;
 }) => {
+  const { data } = useAssets();
+  const { data: oraclePrice } = useOraclePriceQuery();
   const { data: userStats } = useUserStats();
 
   const userTotalBorrow = useMemo(
