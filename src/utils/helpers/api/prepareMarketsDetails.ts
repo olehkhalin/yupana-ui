@@ -65,7 +65,9 @@ export const prepareMarketsDetails = (
   const liquidationBonus = convertUnits(
     data!.globalFactors[0].liquidationIncentive,
     STANDARD_PRECISION
-  ).multipliedBy(1e2);
+  )
+    .minus(1)
+    .multipliedBy(100);
   const reserves = convertUnits(
     convertUnits(el.reserves, STANDARD_PRECISION),
     asset.decimals,
