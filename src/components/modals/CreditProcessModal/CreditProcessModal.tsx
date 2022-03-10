@@ -129,7 +129,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     () =>
       type === CreditProcessModalEnum.REPAY &&
       amount &&
-      amount.gt(walletBalance ?? new BigNumber(0))
+      amount.gt(walletBalance ?? 0)
         ? "Insufficient Wallet Balance"
         : undefined,
     [amount, walletBalance, type]
@@ -137,7 +137,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const checkValueInContract = useCallback(
     (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
-      const val = value ?? new BigNumber(0);
+      const val = value ?? 0;
       return type === modalType && amount && amount.gt(val)
         ? "Insufficient balance in contract"
         : undefined;
