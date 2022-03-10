@@ -3,6 +3,7 @@ import BigNumber from "bignumber.js";
 import cx from "classnames";
 
 import { STANDARD_PRECISION } from "constants/defaults";
+import { DOCS_LINKS } from "constants/docs";
 import { useWiderThanMdesktop } from "utils/helpers";
 import { useAccountPkh } from "utils/dapp";
 import { useAssets } from "hooks/useAssets";
@@ -84,7 +85,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
           title="Supply assets"
           link={{
             label: "docs: supplying assets",
-            link: "/",
+            link: DOCS_LINKS.supplyingAssets,
           }}
           className={cx(s.col, {
             [s.show]: isAssetSwitcherActive && !isWiderThanMdesktop,
@@ -97,7 +98,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
           title="Borrow assets"
           link={{
             label: "docs: borrowing assets",
-            link: "/",
+            link: DOCS_LINKS.borrowingAssets,
           }}
           theme="secondary"
           className={cx(s.col, {

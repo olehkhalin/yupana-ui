@@ -2,6 +2,7 @@ import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
+import { DOCS_LINKS } from "constants/docs";
 import { getPrettyPercent } from "utils/helpers/amount";
 import { getAssetName } from "utils/helpers/asset";
 import { AssetType } from "types/asset";
@@ -42,7 +43,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           title="Interest Rate Model"
           link={{
             label: "IRM in docs",
-            link: "/",
+            link: DOCS_LINKS.irm,
           }}
           theme="secondary"
           className={s.detailsTitle}
