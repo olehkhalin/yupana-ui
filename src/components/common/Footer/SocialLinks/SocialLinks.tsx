@@ -18,6 +18,7 @@ export const SocialLinks: FC<SocialLinksProps> = ({ className }) => (
         href={href}
         theme="clear"
         sizeT="small"
+        external
         className={s.link}
       >
         <Icon className={s.icon} />
