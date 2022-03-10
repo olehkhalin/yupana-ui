@@ -61,7 +61,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
-            value={getPrettyPercent(baseRatePerYear)}
+            value={<PrettyAmount amount={baseRatePerYear} size="extraSmall" />}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
             theme="secondary"
