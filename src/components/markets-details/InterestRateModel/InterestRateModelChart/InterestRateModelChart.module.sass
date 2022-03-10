@@ -1,0 +1,119 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  height: 300px
+  position: relative
+  width: 100%
+  padding-top: 5rem
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba($light-blue, .16) 100%)
+  border-bottom: .063rem solid rgba($white, .5)
+  &::after
+    content: ''
+    position: absolute
+    top: 0
+    right: 0
+    left: 0
+    height: .063rem
+    background-color: $light-blue
+    box-shadow: $blue-shadow-button
+
+.container
+  height: 100%
+  position: relative
+
+.staticWrapper
+  width: calc(100% - 10px)
+  position: absolute
+  top: 0
+  left: 5px
+  height: 1px
+
+.rate
+  position: absolute
+  display: flex
+  flex-direction: column
+  justify-content: center
+  top: 1.875rem
+  left: 0
+  transform: translateX(-50%)
+  text-align: center
+  pointer-events: none
+  &::after
+    content: ''
+    position: absolute
+    top: -1.813rem
+    left: 50%
+    transform: translateX(-50%)
+    height: .55rem
+    width: .55rem
+    background-color: rgba($white, .8)
+    border-radius: 50%
+    z-index: -1
+  &::before
+    content: ''
+    position: absolute
+    top: -1.313rem
+    left: 50%
+    transform: translateX(-50%)
+    width: .063rem
+    height: 3.5rem
+    background: linear-gradient(180deg, rgba(255,255,255,.75) 0%, rgba(255,255,255,0) 35%)
+
+.topSize
+  top: -3.75rem
+  &::after
+    top: 3.813rem
+  &::before
+    top: .313rem
+    transform: translateX(-50%) rotate(180deg)
+
+.ratePercent
+  position: relative
+  display: flex
+  flex-direction: column
+  align-items: center
+  margin-bottom: .25rem
+  font-size: .75rem
+  font-weight: 700
+
+.label
+  font-size: .75rem
+
+.rightOffset
+  right: 1.875rem
+.leftOffset
+  left: 1.875rem
+
+.tooltip
+  display: flex
+  flex-direction: column
+  width: 11.25rem
+  padding: .5rem
+  border-radius: .25rem
+  font-size: .75rem
+  background-color: rgba($graphite, .75)
+
+.tooltipRow
+  display: flex
+  align-items: center
+  justify-content: space-between
+  padding: .125rem .25rem
+  &:not(:last-child)
+    margin-bottom: .2rem
+  &.active
+    background-color: rgba($white, .2)
+    border-radius: .25rem
+
+.tooltipValue
+  font-size: .875rem
+  font-weight: 700
+
+@include media('>Mphone')
+  .ratePercent
+    font-size: .875rem
+
+@include media('>Mtablet')
+  .root
+    height: 100%
+    flex: 1
