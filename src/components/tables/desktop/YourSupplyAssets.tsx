@@ -53,7 +53,15 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         id: "wallet",
         accessor: "asset",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? "—" : <BalanceAmount asset={value} isPadding isMinified />,
+          loading ? (
+            "—"
+          ) : (
+            <BalanceAmount
+              asset={value}
+              isMinified
+              preloaderClassName={s.balance}
+            />
+          ),
       },
       {
         Header: "Collateral",
