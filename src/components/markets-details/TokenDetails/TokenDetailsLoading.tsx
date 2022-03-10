@@ -24,11 +24,11 @@ export const TokenDetailsLoading: FC<TokenDetailsLoadingProps> = ({
         <div className={s.token}>
           <AssetLogo sizeT="large" theme="tertiary" className={s.logo} />
 
-          <h1 className={s.name}>
+          <h1 className={cx(s.name, s.loadingContainer)}>
             <Preloader sizeT={iwWiderThanMphone ? "large" : "fluent"} />
           </h1>
         </div>
-        <div className={s.price}>
+        <div className={cx(s.price, s.loadingContainer)}>
           <Preloader
             theme="primary"
             sizeT={iwWiderThanMphone ? "large" : "fluent"}

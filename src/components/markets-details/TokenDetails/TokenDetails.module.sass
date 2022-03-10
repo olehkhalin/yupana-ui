@@ -18,10 +18,12 @@
   margin-right: 2rem
 
 .name, .price
-  height: 2rem
   text-shadow: $white-shadow
   font-size: 1.5rem
   font-weight: 700
+
+.loadingContainer
+  height: 2rem
 
 .name
   width: 100%
@@ -31,12 +33,16 @@
   margin-left: 5rem
   color: $white
 
+.priceNumber
+  path
+    fill: $white
+
 @include media('>Mphone')
   .tokenWrapper
     flex-direction: row
     align-items: center
     justify-content: space-between
-  .name, .price
+  .loadingContainer
     width: initial
     height: initial
   .name
@@ -46,6 +52,9 @@
     margin-left: 0
     color: $light-blue
     text-shadow: $blue-shadow-button
+  .priceNumber
+    path
+      fill: $light-blue
 
 @include media('>Lphone')
   .name, .price

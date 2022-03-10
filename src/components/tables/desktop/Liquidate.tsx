@@ -34,7 +34,11 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading, className }) => {
         accessor: "totalBorrowed",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <span className={s.yellow}>
-            {loading ? "—" : <PrettyAmount amount={value} isConvertable />}
+            {loading ? (
+              "—"
+            ) : (
+              <PrettyAmount amount={value} theme="secondary" isConvertable />
+            )}
           </span>
         ),
       },

@@ -68,6 +68,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({ data, loading }) => {
                 amount={el.price}
                 isConvertable
                 className={s.amount}
+                theme="secondary"
               />
             ),
           },
@@ -86,6 +87,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({ data, loading }) => {
                         true
                       )}
                       currency={getAssetName(el.asset)}
+                      theme="secondary"
                     />
                   )}
                 </div>
@@ -99,6 +101,8 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({ data, loading }) => {
                         el.asset.decimals
                       ).multipliedBy(el.price)}
                       isConvertable
+                      theme="secondary"
+                      size="extraSmall"
                     />
                   )}
                 </div>
@@ -120,6 +124,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({ data, loading }) => {
                         true
                       )}
                       currency={getAssetName(el.asset)}
+                      theme="secondary"
                     />
                   )}
                 </div>
@@ -133,6 +138,8 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({ data, loading }) => {
                         el.asset.decimals
                       ).multipliedBy(el.price)}
                       isConvertable
+                      theme="secondary"
+                      size="extraSmall"
                     />
                   )}
                 </div>

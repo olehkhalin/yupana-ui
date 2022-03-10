@@ -79,7 +79,8 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
                   el.exchangeRate
                 )}
                 isConvertable
-                className={cx(s.blue, s.withTezos)}
+                className={s.blue}
+                theme="primary"
               />
             ),
             rowClassName: s.blue,
@@ -113,6 +114,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
                   el.asset
                 )}
                 isConvertable
+                theme="secondary"
               />
             ),
             rowClassName: s.yellow,

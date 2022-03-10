@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useMemo, useState } from "react";
 import cx from "classnames";
 
 import { AssetType } from "types/asset";
@@ -35,16 +35,28 @@ export const AssetLogo: FC<AssetLogoProps> = ({
   className,
 }) => {
   const compoundClassName = cx(s.root, sizeClass[sizeT], className);
+  const [isLoadingFailed, setIsLoadingFailed] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  const image = useMemo(() => {
+    if (!isLoaded) {
+      return FallbackLogo;
+    }
+
+    return logo
+      ? !!getPrepareAssetLogoUrl(logo.thumbnail) && !isLoadingFailed
+        ? getPrepareAssetLogoUrl(logo.thumbnail)
+        : FallbackLogo
+      : FallbackLogo;
+  }, [isLoaded, isLoadingFailed, logo]);
 
   if (logo) {
     return (
       <img
-        src={
-          getPrepareAssetLogoUrl(logo.thumbnail)
-            ? getPrepareAssetLogoUrl(logo.thumbnail)
-            : FallbackLogo
-        }
+        src={image ?? FallbackLogo}
         alt={logo.name ?? "Symbol"}
+        onLoad={() => setIsLoaded(true)}
+        onError={() => setIsLoadingFailed(true)}
         className={compoundClassName}
       />
     );
