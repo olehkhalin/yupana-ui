@@ -51,7 +51,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         ? convertUnits(
             userStats.totalBorrowUsd,
             COLLATERAL_PRECISION
-          ).decimalPlaces(6)
+          ).decimalPlaces(2)
         : new BigNumber(0),
     [userStats]
   );
