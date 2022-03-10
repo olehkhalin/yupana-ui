@@ -86,6 +86,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
           link={{
             label: "docs: supplying assets",
             link: DOCS_LINKS.supplyingAssets,
+            external: true,
           }}
           className={cx(s.col, {
             [s.show]: isAssetSwitcherActive && !isWiderThanMdesktop,
@@ -99,6 +100,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
           link={{
             label: "docs: borrowing assets",
             link: DOCS_LINKS.borrowingAssets,
+            external: true,
           }}
           theme="secondary"
           className={cx(s.col, {

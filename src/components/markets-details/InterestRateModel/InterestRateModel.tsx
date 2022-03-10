@@ -44,6 +44,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           link={{
             label: "IRM in docs",
             link: DOCS_LINKS.irm,
+            external: true,
           }}
           theme="secondary"
           className={s.detailsTitle}

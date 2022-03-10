@@ -47,6 +47,7 @@ const LiquidationPositionsWrapper: FC<LiquidationPositionsWrapperProps> = ({
       link={{
         label: "Docs: Liquidations",
         link: DOCS_LINKS.liquidations,
+        external: true,
       }}
       head
     >
