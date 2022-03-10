@@ -33,6 +33,7 @@ type SupplyDropdownProps = {
   asset: AssetType;
   collateralFactor: BigNumber;
   supply: BigNumber;
+  totalLiquid: BigNumber;
   isCollateral: boolean;
 } & TableDropdownProps;
 
@@ -41,6 +42,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   asset,
   collateralFactor,
   supply: supplied,
+  totalLiquid,
   isCollateral,
   theme,
   className,
@@ -248,6 +250,12 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     const convertedSupplied = convertUnits(supplied, STANDARD_PRECISION);
 
+    const convertedTotalLiquid = convertUnits(totalLiquid, STANDARD_PRECISION);
+    const availableToWithdraw = convertUnits(
+      convertedTotalLiquid,
+      asset.decimals
+    );
+
     const maxAmount = isCollateral
       ? BigNumber.min(convertedSupplied, maxAmountInner)
       : new BigNumber(convertedSupplied);
@@ -256,6 +264,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       type: CreditProcessModalEnum.WITHDRAW,
       maxAmount: maxAmount.lt(1) ? new BigNumber(0) : maxAmount,
       asset: asset,
+      availableToWithdraw,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       dynamicBorrowLimitFunc: (input: BigNumber) => {
         if (maxAmount.eq(0)) {

@@ -52,6 +52,9 @@ type CreditProcessModalInnerProps = {
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
+  walletBalance?: BigNumber;
+  liquidity?: BigNumber;
+  availableToWithdraw?: BigNumber;
   onSubmit: any;
   oraclePrice: {
     price: BigNumber;
@@ -72,6 +75,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   title,
   balanceLabel,
   maxAmount,
+  walletBalance,
+  liquidity,
+  availableToWithdraw,
   onSubmit,
   oraclePrice,
 }) => {
@@ -132,12 +138,39 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const amountWarningMessage = useMemo(
     () =>
-      type === CreditProcessModalEnum.BORROW &&
-      amount &&
-      amount.div(convertUnits(maxAmount, asset.decimals, true)).gte(0.8)
+      type === CreditProcessModalEnum.BORROW && dynamicBorrowLimitUsed.gte(80)
         ? "Beware of the Liquidation Risk"
         : undefined,
-    [amount, asset.decimals, maxAmount, type]
+    [dynamicBorrowLimitUsed, type]
+  );
+
+  const amountGTBalance = useMemo(
+    () =>
+      type === CreditProcessModalEnum.REPAY &&
+      amount &&
+      amount.gt(walletBalance ?? 0)
+        ? "Insufficient Wallet Balance"
+        : undefined,
+    [amount, walletBalance, type]
+  );
+
+  const checkValueInContract = useCallback(
+    (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
+      const val = value ?? 0;
+      return type === modalType && amount && amount.gt(val)
+        ? "Insufficient balance in contract"
+        : undefined;
+    },
+    [amount, type]
+  );
+
+  const insufficientContractBalanceError = useMemo(
+    () =>
+      checkValueInContract(
+        CreditProcessModalEnum.WITHDRAW,
+        availableToWithdraw
+      ) || checkValueInContract(CreditProcessModalEnum.BORROW, liquidity),
+    [availableToWithdraw, checkValueInContract, liquidity]
   );
 
   const isCollateralExist = useMemo(
@@ -209,6 +242,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const isBorrowTheme = theme === "secondary";
 
+  const errorMessage = useMemo(
+    () =>
+      amountErrorMessage || amountGTBalance || insufficientContractBalanceError,
+    [amountErrorMessage, amountGTBalance, insufficientContractBalanceError]
+  );
+
   return (
     <Modal
       isOpen={isOpen}
@@ -254,9 +293,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               theme={theme}
               decimals={asset.decimals}
               error={
-                amountErrorMessage ||
-                amountWarningMessage ||
-                borrowWarningMessage
+                errorMessage || amountWarningMessage || borrowWarningMessage
               }
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
@@ -316,7 +353,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
           disabled={
-            !!amountErrorMessage ||
+            !!errorMessage ||
             !!borrowWarningMessage ||
             operationLoading ||
             maxAmount.eq(0)
@@ -339,7 +376,7 @@ const getModalLabels = (type: CreditProcessModalEnum) => {
     case CreditProcessModalEnum.WITHDRAW:
       return {
         title: "Withdraw",
-        balanceLabel: "Supply balance:",
+        balanceLabel: "Available to withdraw:",
       };
     case CreditProcessModalEnum.BORROW:
       return {
@@ -374,6 +411,9 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitUsedFunc,
     onSubmit,
     oraclePrice,
+    walletBalance,
+    liquidity,
+    availableToWithdraw,
   } = creditProcessModalData;
 
   return (
@@ -395,6 +435,9 @@ export const CreditProcessModal = () => {
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
+      walletBalance={walletBalance}
+      liquidity={liquidity}
+      availableToWithdraw={availableToWithdraw}
       {...getModalLabels(type)}
     />
   );

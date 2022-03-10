@@ -53,7 +53,15 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         id: "wallet",
         accessor: "asset",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? "—" : <BalanceAmount asset={value} isMinified />,
+          loading ? (
+            "—"
+          ) : (
+            <BalanceAmount
+              asset={value}
+              isMinified
+              preloaderClassName={s.balance}
+            />
+          ),
       },
       {
         Header: "Collateral",
@@ -99,6 +107,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           yToken,
           asset,
           supplyWithInterest,
+          totalLiquid,
           collateralFactor,
           isCollateral,
         },
@@ -109,6 +118,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         asset={asset}
         collateralFactor={collateralFactor}
         supply={supplyWithInterest}
+        totalLiquid={totalLiquid}
         isCollateral={isCollateral}
       />
     ),

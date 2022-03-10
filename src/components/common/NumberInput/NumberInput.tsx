@@ -158,6 +158,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 min={min?.toString()}
                 className={s.input}
                 onChange={handleChange}
+                autoComplete="off"
                 {...props}
               />
 
