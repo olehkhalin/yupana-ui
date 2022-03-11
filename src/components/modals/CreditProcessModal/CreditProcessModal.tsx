@@ -3,11 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import {
-  COLLATERAL_PRECISION,
-  ORACLE_PRICE_PRECISION,
-  STANDARD_PRECISION,
-} from "constants/defaults";
+import { ORACLE_PRICE_PRECISION } from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
@@ -23,6 +19,8 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useTransactions } from "hooks/useTransactions";
+import { PendingIcon } from "components/common/PendingIcon";
 import { Modal } from "components/ui/Modal";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
@@ -89,6 +87,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
   const [operationLoading, setOperationLoading] = useState(false);
+  const { isTransactionLoading } = useTransactions();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -304,10 +303,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             !!errorMessage ||
             !!borrowWarningMessage ||
             operationLoading ||
-            maxAmount.eq(0)
+            maxAmount.eq(0) ||
+            isTransactionLoading
           }
+          className={s.button}
         >
-          {operationLoading ? "Loading..." : title}
+          {operationLoading || isTransactionLoading ? (
+            <PendingIcon isTransparent />
+          ) : (
+            title
+          )}
         </Button>
       </form>
     </Modal>

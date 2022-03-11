@@ -203,6 +203,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
   return {
     addTransaction,
     allTransactions: sortedTransactions,
+    isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
     isTransactionsExist,
     lastTransactionStatus,
