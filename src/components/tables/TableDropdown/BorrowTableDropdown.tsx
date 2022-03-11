@@ -13,6 +13,7 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useBalance } from "hooks/useBalance";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import {
@@ -50,6 +51,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
+  const { data: walletBalance, loading: loadingWalletBalance } =
+    useBalance(asset);
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -70,10 +73,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
 
   const handleBorrowSubmit = useCallback(
     async (inputAmount: BigNumber) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Borrow...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -91,10 +90,16 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         status: Status.PENDING,
         timestamp: Date.now(),
       });
+      updateToast({
+        type: "info",
+        render: `Request for ${getAssetName(
+          asset
+        )} Borrow. You can follow your transaction in transaction history.`,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Borrow request was successful, please wait...",
+        render: `The ${getAssetName(asset)} Borrow request was successful!`,
       });
     },
     [
@@ -110,23 +115,26 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     ]
   );
 
+  const pureAssetLiquidity = useMemo(
+    () =>
+      convertUnits(convertUnits(liquidity, STANDARD_PRECISION), asset.decimals),
+    [asset.decimals, liquidity]
+  );
+
   const handleBorrow = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.BORROW,
-      maxAmount: BigNumber.min(
-        convertUnits(liquidity, STANDARD_PRECISION),
-        convertUnits(
-          maxCollateral.minus(outstandingBorrow),
-          COLLATERAL_PRECISION
-        )
-          .div(
-            convertUnits(
-              oraclePrice.price,
-              ORACLE_PRICE_PRECISION
-            ).multipliedBy(oraclePrice.decimals)
+      maxAmount: convertUnits(
+        maxCollateral.minus(outstandingBorrow),
+        COLLATERAL_PRECISION
+      )
+        .div(
+          convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
+            oraclePrice.decimals
           )
-          .multipliedBy(new BigNumber(10).pow(asset.decimals))
-      ),
+        )
+        .multipliedBy(new BigNumber(10).pow(asset.decimals)),
+      liquidity: pureAssetLiquidity,
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)
@@ -155,20 +163,16 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     });
   }, [
     setCreditProcessModalData,
-    liquidity,
     maxCollateral,
     outstandingBorrow,
     oraclePrice,
     asset,
+    pureAssetLiquidity,
     handleBorrowSubmit,
   ]);
 
   const handleRepaySubmit = useCallback(
     async (inputAmount: BigNumber, isMaxAmount?: boolean) => {
-      updateToast({
-        type: "info",
-        render: "Request for Asset Repay...",
-      });
       const params = {
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
@@ -195,10 +199,16 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         status: Status.PENDING,
         timestamp: Date.now(),
       });
+      updateToast({
+        type: "info",
+        render: `Request for ${getAssetName(
+          asset
+        )} Repay. You can follow your transaction in transaction history.`,
+      });
       await operation.confirmation(1);
       updateToast({
         type: "info",
-        render: "The Asset Repay request was successful, please wait...",
+        render: `The ${getAssetName(asset)} Repay request was successful!`,
       });
     },
     [
@@ -214,12 +224,20 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     ]
   );
 
+  const pureWalletBalance = useMemo(
+    () => convertUnits(walletBalance ?? new BigNumber(0), asset.decimals),
+    [asset.decimals, walletBalance]
+  );
+
   const handleRepay = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.REPAY,
-      maxAmount: convertUnits(borrowed, STANDARD_PRECISION).lt(1)
-        ? new BigNumber(0)
-        : convertUnits(borrowed, STANDARD_PRECISION),
+      maxAmount: !loadingWalletBalance
+        ? convertUnits(borrowed, STANDARD_PRECISION).lt(1)
+          ? new BigNumber(0)
+          : convertUnits(borrowed, STANDARD_PRECISION)
+        : new BigNumber(0),
+      walletBalance: pureWalletBalance,
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)
@@ -249,7 +267,9 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     });
   }, [
     setCreditProcessModalData,
+    loadingWalletBalance,
     borrowed,
+    pureWalletBalance,
     asset,
     maxCollateral,
     outstandingBorrow,

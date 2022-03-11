@@ -3,7 +3,11 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import { ORACLE_PRICE_PRECISION } from "constants/defaults";
+import {
+  COLLATERAL_PRECISION,
+  ORACLE_PRICE_PRECISION,
+  STANDARD_PRECISION,
+} from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
@@ -14,6 +18,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
@@ -46,6 +51,9 @@ type CreditProcessModalInnerProps = {
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
+  walletBalance?: BigNumber;
+  liquidity?: BigNumber;
+  availableToWithdraw?: BigNumber;
   onSubmit: any;
   oraclePrice: {
     price: BigNumber;
@@ -66,6 +74,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   title,
   balanceLabel,
   maxAmount,
+  walletBalance,
+  liquidity,
+  availableToWithdraw,
   onSubmit,
   oraclePrice,
 }) => {
@@ -113,13 +124,42 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const amountWarningMessage = useMemo(
     () =>
-      type === CreditProcessModalEnum.BORROW &&
-      amount &&
-      amount.div(convertUnits(maxAmount, asset.decimals, true)).gte(0.8)
+      type === CreditProcessModalEnum.BORROW && dynamicBorrowLimitUsed.gte(80)
         ? "Beware of the Liquidation Risk"
         : undefined,
-    [amount, asset.decimals, maxAmount, type]
+    [dynamicBorrowLimitUsed, type]
   );
+
+  const amountGTBalance = useMemo(
+    () =>
+      type === CreditProcessModalEnum.REPAY &&
+      amount &&
+      amount.gt(walletBalance ?? 0)
+        ? "Insufficient Wallet Balance"
+        : undefined,
+    [amount, walletBalance, type]
+  );
+
+  const checkValueInContract = useCallback(
+    (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
+      const val = value ?? 0;
+      return type === modalType && amount && amount.gt(val)
+        ? "Insufficient balance in contract"
+        : undefined;
+    },
+    [amount, type]
+  );
+
+  const insufficientContractBalanceError = useMemo(
+    () =>
+      checkValueInContract(
+        CreditProcessModalEnum.WITHDRAW,
+        availableToWithdraw
+      ) || checkValueInContract(CreditProcessModalEnum.BORROW, liquidity),
+    [availableToWithdraw, checkValueInContract, liquidity]
+  );
+
+  const borrowWarningMessage = useBorrowWarningMessage(asset, type);
 
   // Form submit
   const onSubmitInner = useCallback(
@@ -149,6 +189,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 
   const isBorrowTheme = theme === "secondary";
+
+  const errorMessage = useMemo(
+    () =>
+      amountErrorMessage || amountGTBalance || insufficientContractBalanceError,
+    [amountErrorMessage, amountGTBalance, insufficientContractBalanceError]
+  );
 
   return (
     <Modal
@@ -194,7 +240,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             <NumberInput
               theme={theme}
               decimals={asset.decimals}
-              error={amountErrorMessage || amountWarningMessage}
+              error={
+                errorMessage || amountWarningMessage || borrowWarningMessage
+              }
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
@@ -202,6 +250,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION
               ).multipliedBy(oraclePrice.decimals)}
+              disabled={!!borrowWarningMessage}
               {...field}
             />
           )}
@@ -251,7 +300,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           sizeT={isWiderThanMphone ? "large" : "medium"}
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
-          disabled={!!amountErrorMessage || operationLoading || maxAmount.eq(0)}
+          disabled={
+            !!errorMessage ||
+            !!borrowWarningMessage ||
+            operationLoading ||
+            maxAmount.eq(0)
+          }
         >
           {operationLoading ? "Loading..." : title}
         </Button>
@@ -270,7 +324,7 @@ const getModalLabels = (type: CreditProcessModalEnum) => {
     case CreditProcessModalEnum.WITHDRAW:
       return {
         title: "Withdraw",
-        balanceLabel: "Supply balance:",
+        balanceLabel: "Available to withdraw:",
       };
     case CreditProcessModalEnum.BORROW:
       return {
@@ -305,6 +359,9 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitUsedFunc,
     onSubmit,
     oraclePrice,
+    walletBalance,
+    liquidity,
+    availableToWithdraw,
   } = creditProcessModalData;
 
   return (
@@ -326,6 +383,9 @@ export const CreditProcessModal = () => {
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
+      walletBalance={walletBalance}
+      liquidity={liquidity}
+      availableToWithdraw={availableToWithdraw}
       {...getModalLabels(type)}
     />
   );
