@@ -7,7 +7,7 @@ import {
   TRANSACTIONS_LS_KEY,
   TZKT_API,
 } from "constants/defaults";
-import { useOnBlock, useTezos } from "utils/dapp";
+import { useAccountPkh, useOnBlock, useTezos } from "utils/dapp";
 
 export type Transaction = {
   type: string;
@@ -19,6 +19,10 @@ export type Transaction = {
   expired?: boolean;
 };
 
+export type AllTransactions = {
+  [key: string]: Transaction[];
+};
+
 export enum Status {
   PENDING = "Pending",
   APPLIED = "Applied",
@@ -27,80 +31,96 @@ export enum Status {
 
 export const [TransactionsProvider, useTransactions] = constate(() => {
   const tezos = useTezos();
+  const pkh = useAccountPkh()!;
 
-  // get transactions from LocalStorage
-  const transactionsFromLS: Transaction[] | null = useMemo(
+  const transactionsFromLS: AllTransactions | null = useMemo(
     () => JSON.parse(localStorage.getItem(TRANSACTIONS_LS_KEY) as string),
     []
   );
 
-  const [allTransactions, setAllTransactions] = useState<Transaction[] | null>(
-    transactionsFromLS
-  );
+  const [allTransactions, setAllTransactions] =
+    useState<AllTransactions | null>(transactionsFromLS);
   const [isTransactionCompleted, setIsTransactionCompleted] =
     useState<boolean>(false);
   const [lastTransactionStatus, setLastTransactionStatus] =
     useState<Status | null>(null);
 
-  // get prev state by 'pending' status
   const prevPendingState = useRef(lastTransactionStatus === Status.PENDING);
 
-  // add new transactions to array
   const addTransaction = useCallback(
     (transaction: Transaction) => {
-      if (allTransactions && allTransactions.length > 0) {
-        const currentTransaction = allTransactions.find(
+      if (
+        allTransactions &&
+        allTransactions[pkh] &&
+        allTransactions[pkh].length > 0
+      ) {
+        const currentTransaction = allTransactions[pkh].find(
           (el) => el.opHash === transaction.opHash
         );
 
         if (currentTransaction) {
-          const trsWithoutCurrent = allTransactions.filter(
+          const trsWithoutCurrent = allTransactions[pkh].filter(
             (el) => el.opHash !== currentTransaction.opHash
           );
 
           if (currentTransaction.expired) {
-            return setAllTransactions(trsWithoutCurrent);
+            return setAllTransactions((prev) => ({
+              ...prev,
+              [pkh]: trsWithoutCurrent,
+            }));
           }
 
-          return setAllTransactions([...trsWithoutCurrent, transaction]);
+          return setAllTransactions((prev) => ({
+            ...prev,
+            [pkh]: [...trsWithoutCurrent, transaction],
+          }));
         }
 
-        return setAllTransactions([...allTransactions, transaction]);
+        return setAllTransactions((prev) => ({
+          ...prev,
+          [pkh]: [...prev![pkh], transaction],
+        }));
       }
 
-      return setAllTransactions([transaction]);
+      return setAllTransactions((prev) => ({
+        ...prev,
+        [pkh]: [transaction],
+      }));
     },
-    [allTransactions]
+    [allTransactions, pkh]
   );
 
-  // compare arrays and update LocalStorage data
   useEffect(() => {
     if (
-      JSON.stringify(transactionsFromLS) !== JSON.stringify(allTransactions)
+      JSON.stringify(transactionsFromLS ? transactionsFromLS[pkh] : []) !==
+      JSON.stringify(allTransactions ? allTransactions[pkh] : [])
     ) {
       localStorage.setItem(
         TRANSACTIONS_LS_KEY,
         JSON.stringify(allTransactions)
       );
     }
-  }, [allTransactions, transactionsFromLS]);
+  }, [allTransactions, pkh, transactionsFromLS]);
 
-  // check if transactions exist
   const isTransactionsExist = useMemo(
-    (): boolean => !!(allTransactions && allTransactions.length > 0),
-    [allTransactions]
+    (): boolean =>
+      !!(
+        allTransactions &&
+        allTransactions[pkh] &&
+        allTransactions[pkh].length > 0
+      ),
+    [allTransactions, pkh]
   );
 
-  // new transaction on top
   const sortedTransactions = useMemo(
     () =>
       allTransactions &&
-      allTransactions.length &&
-      allTransactions.sort((a, b) => b.timestamp - a.timestamp),
-    [allTransactions]
+      allTransactions[pkh] &&
+      allTransactions[pkh].length &&
+      allTransactions[pkh].sort((a, b) => b.timestamp - a.timestamp),
+    [allTransactions, pkh]
   );
 
-  // get status of last transaction
   useEffect(() => {
     if (sortedTransactions && sortedTransactions.length) {
       const { status } = sortedTransactions[0];
@@ -129,12 +149,16 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
   }, [isTransactionCompleted]);
 
   const checkTransactions = useCallback(async () => {
-    const transactionsFromLS: Transaction[] | null = JSON.parse(
+    const transactionsFromLS: AllTransactions | null = JSON.parse(
       localStorage.getItem(TRANSACTIONS_LS_KEY) as string
     );
 
-    if (transactionsFromLS && transactionsFromLS.length > 0) {
-      const transactionsWithPending = transactionsFromLS.filter(
+    if (
+      transactionsFromLS &&
+      transactionsFromLS[pkh] &&
+      transactionsFromLS[pkh].length > 0
+    ) {
+      const transactionsWithPending = transactionsFromLS[pkh].filter(
         (transaction) => transaction.status === Status.PENDING
       );
 
@@ -170,7 +194,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
               (method) => method.status === "applied"
             );
 
-            // if has 'Applied' status then set status 'Applied'
             if (transactionIsApplied) {
               return addTransaction({
                 ...el,
@@ -178,7 +201,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
               });
             }
 
-            // if hasn't 'Applied' status then set status 'Reject'
             return addTransaction({
               ...el,
               status: Status.REJECT,
@@ -196,13 +218,14 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     }
 
     return undefined;
-  }, [addTransaction]);
+  }, [addTransaction, pkh]);
 
   useOnBlock(tezos, [checkTransactions]);
 
   return {
     addTransaction,
     allTransactions: sortedTransactions,
+    isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
     isTransactionsExist,
     lastTransactionStatus,
