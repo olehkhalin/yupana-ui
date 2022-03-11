@@ -1,8 +1,9 @@
 import React, { FC } from "react";
 import cx from "classnames";
 
-import s from "./Switcher.module.sass";
 import { PendingIcon } from "components/common/PendingIcon";
+
+import s from "./Switcher.module.sass";
 
 type SwitcherProps = {
   active: boolean;

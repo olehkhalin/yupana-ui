@@ -19,6 +19,11 @@ type SwitcherProps = {
   className?: string;
 };
 
+enum CollateralEnum {
+  DISABLED = "Disabled collateral",
+  ENABLE = "Enable collateral",
+}
+
 export const CollateralSwitcher: FC<SwitcherProps> = ({
   asset,
   yToken,
@@ -35,25 +40,24 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const { isTransactionLoading, lastTransaction } = useTransactions();
   const [disabled, setDisabled] = useState(false);
 
-  const isCurrentTransaction = useMemo(() => {
-    const lastTransactionName = lastTransaction?.name ?? getAssetName(asset);
-    return lastTransactionName === getAssetName(asset);
-  }, [asset, lastTransaction?.name]);
+  const loading = useMemo(() => {
+    const isCurrentTransaction = lastTransaction?.name === getAssetName(asset);
+    const correctType =
+      lastTransaction?.type === CollateralEnum.DISABLED ||
+      lastTransaction?.type === CollateralEnum.ENABLE;
 
-  const correctType = useMemo(
-    () =>
-      lastTransaction?.type === "Disabled collateral" ||
-      lastTransaction?.type === "Enable collateral",
-    [lastTransaction?.type]
-  );
-
-  const loading = useMemo(
-    () =>
+    return (
       isCurrentTransaction &&
       correctType &&
-      (loadingState || isTransactionLoading),
-    [correctType, isCurrentTransaction, isTransactionLoading, loadingState]
-  );
+      (loadingState || isTransactionLoading)
+    );
+  }, [
+    asset,
+    isTransactionLoading,
+    lastTransaction?.name,
+    lastTransaction?.type,
+    loadingState,
+  ]);
 
   const collateralWarningMessage = useCollateralWarningMessage(
     yToken,
