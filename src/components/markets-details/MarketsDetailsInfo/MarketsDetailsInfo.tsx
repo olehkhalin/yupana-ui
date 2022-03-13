@@ -162,9 +162,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text={`y${asset.symbol} Minted`}
-            value={
-              <PrettyAmount amount={minted} size="extraSmall" isConvertable />
-            }
+            value={<PrettyAmount amount={minted} size="extraSmall" />}
             icon={false}
             className={s.item}
           />

@@ -18,17 +18,27 @@ import s from "./InterestRateModel.module.sass";
 const { baseRatePerYear: baseRatePerYearPopup, kink: kinkPopup } =
   INTEREST_RATE_MODEL;
 
+export type ApyStats = {
+  x: number;
+  y: number;
+};
+
+type Series = {
+  label: string;
+  data: ApyStats[];
+};
+
 export type InterestRateModelBase = {
   currentUtilizationRate: BigNumber;
-  baseRatePerYear: BigNumber;
-  multiplierPerYear: BigNumber;
-  jumpMultiplierPerYear: BigNumber;
   kink: BigNumber;
-  reserveFactor: BigNumber;
+  chartData: Series[];
 };
 
 type InterestRateModelProps = InterestRateModelBase & {
   asset: AssetType;
+  baseRatePerYear: BigNumber;
+  multiplierPerYear: BigNumber;
+  jumpMultiplierPerYear: BigNumber;
   className?: string;
 };
 
@@ -39,7 +49,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
   multiplierPerYear,
   jumpMultiplierPerYear,
   kink,
-  reserveFactor,
+  chartData,
   className,
 }) => {
   return (
@@ -107,11 +117,8 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
       <div className={s.chartWrapper}>
         <InterestRateModelChart
           currentUtilizationRate={currentUtilizationRate}
-          baseRatePerYear={baseRatePerYear}
-          multiplierPerYear={multiplierPerYear}
-          jumpMultiplierPerYear={jumpMultiplierPerYear}
           kink={kink}
-          reserveFactor={reserveFactor}
+          chartData={chartData}
         />
       </div>
     </Section>

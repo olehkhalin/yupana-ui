@@ -88,7 +88,7 @@ const MarketsDetailsInner: FC<MarketsDetailsInnerProps> = ({
           preparedData.interestRateModel.jumpMultiplierPerYear
         }
         kink={preparedData.interestRateModel.kink}
-        reserveFactor={preparedData.marketDetails.reserveFactor}
+        chartData={preparedData.interestRateModel.chartData}
       />
     </>
   );

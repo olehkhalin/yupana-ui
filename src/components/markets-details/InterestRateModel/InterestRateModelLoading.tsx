@@ -1,9 +1,10 @@
 import React, { FC } from "react";
 import cx from "classnames";
 
+import { Preloader } from "components/ui/Preloader";
 import { Section } from "components/common/Section";
-import { Item } from "components/markets-details/Item";
 import { Heading } from "components/common/Heading";
+import { Item } from "components/markets-details/Item";
 import { INTEREST_RATE_MODEL } from "constants/popups/interest-rate-model";
 
 import s from "./InterestRateModel.module.sass";
@@ -67,7 +68,9 @@ export const InterestRateModelLoading: FC<InterestRateModelLoadingProps> = ({
         </div>
       </div>
 
-      <div className={s.graphWrapper} />
+      <div className={s.chartWrapper}>
+        <Preloader theme="primary" sizeT="fluent" />
+      </div>
     </Section>
   );
 };

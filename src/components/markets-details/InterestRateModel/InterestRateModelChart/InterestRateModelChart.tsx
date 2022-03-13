@@ -4,35 +4,12 @@ import { TooltipRendererProps } from "react-charts/types/components/TooltipRende
 import cx from "classnames";
 
 import { getPrettyPercent } from "utils/helpers/amount";
-import { InterestRateModelBase } from "components/markets-details/InterestRateModel";
+import {
+  ApyStats,
+  InterestRateModelBase,
+} from "components/markets-details/InterestRateModel";
 
-import { borrow, supply, utilizationRate } from "./temp-data";
 import s from "./InterestRateModelChart.module.sass";
-
-type ApyStats = {
-  x: number;
-  y: number;
-};
-
-type Series = {
-  label: string;
-  data: ApyStats[];
-};
-
-const data: Series[] = [
-  {
-    label: "Borrow APY",
-    data: borrow,
-  },
-  {
-    label: "Supply APY",
-    data: supply,
-  },
-  {
-    label: "Utilization rate",
-    data: utilizationRate,
-  },
-];
 
 const MAIN_COLORS = ["#FFB800", "#00CDEE", "#FFFFFF"];
 const colors = [MAIN_COLORS[0], MAIN_COLORS[1], "rgba(255, 255, 255, 0.5)"];
@@ -44,11 +21,8 @@ type InterestRateModelChartProps = InterestRateModelBase & {
 
 export const InterestRateModelChart: FC<InterestRateModelChartProps> = ({
   currentUtilizationRate,
-  baseRatePerYear,
-  multiplierPerYear,
-  jumpMultiplierPerYear,
   kink,
-  reserveFactor,
+  chartData,
   className,
 }) => {
   const staticChartValues = useMemo(
@@ -106,7 +80,7 @@ export const InterestRateModelChart: FC<InterestRateModelChartProps> = ({
       <div className={cx(s.container, className)}>
         <Chart
           options={{
-            data,
+            data: chartData,
             primaryAxis,
             secondaryAxes,
             getSeriesStyle: seriesStyles,
