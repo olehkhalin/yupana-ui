@@ -16,6 +16,8 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useTransactions } from "hooks/useTransactions";
+import { PendingIcon } from "components/common/PendingIcon";
 import { Modal } from "components/ui/Modal";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
@@ -83,6 +85,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
   const [operationLoading, setOperationLoading] = useState(false);
+  const { isTransactionLoading } = useTransactions();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -257,10 +260,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             disabled ||
             !!borrowWarningMessage ||
             operationLoading ||
-            maxAmount.eq(0)
+            maxAmount.eq(0) ||
+            isTransactionLoading
           }
+          className={s.button}
         >
-          {operationLoading ? "Loading..." : title}
+          {operationLoading || isTransactionLoading ? (
+            <PendingIcon isTransparent />
+          ) : (
+            title
+          )}
         </Button>
       </form>
     </Modal>

@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from "react";
+import React, { FC, useCallback, useMemo, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
 
@@ -19,6 +19,11 @@ type SwitcherProps = {
   className?: string;
 };
 
+enum CollateralEnum {
+  DISABLED = "Disabled collateral",
+  ENABLE = "Enable collateral",
+}
+
 export const CollateralSwitcher: FC<SwitcherProps> = ({
   asset,
   yToken,
@@ -29,9 +34,30 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
-  const [disabled, setDisabled] = useState(false);
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
+  const [loadingState, setLoadingState] = useState(false);
+  const { isTransactionLoading, lastTransaction } = useTransactions();
+  const [disabled, setDisabled] = useState(false);
+
+  const loading = useMemo(() => {
+    const isCurrentTransaction = lastTransaction?.name === getAssetName(asset);
+    const correctType =
+      lastTransaction?.type === CollateralEnum.DISABLED ||
+      lastTransaction?.type === CollateralEnum.ENABLE;
+
+    return (
+      isCurrentTransaction &&
+      correctType &&
+      (loadingState || isTransactionLoading)
+    );
+  }, [
+    asset,
+    isTransactionLoading,
+    lastTransaction?.name,
+    lastTransaction?.type,
+    loadingState,
+  ]);
 
   const collateralWarningMessage = useCollateralWarningMessage(
     yToken,
@@ -49,6 +75,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         }
 
         setDisabled(true);
+        setLoadingState(true);
         let operation: BatchWalletOperation;
         const params: {
           fabricaContractAddress: string;
@@ -98,6 +125,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         });
       } finally {
         setDisabled(false);
+        setLoadingState(false);
       }
     }
   }, [
@@ -119,7 +147,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
     <Switcher
       active={isCollateral}
       handleChange={handleChange}
-      disabled={disabled}
+      disabled={disabled || loadingState || isTransactionLoading}
+      loading={loadingState || loading}
       className={className}
     />
   );
