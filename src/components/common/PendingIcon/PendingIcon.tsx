@@ -6,17 +6,22 @@ import s from "./PendingIcon.module.sass";
 
 type PendingIconProps = {
   type?: string;
+  isTransparent?: boolean;
   className?: string;
 };
 
-export const PendingIcon: FC<PendingIconProps> = ({ type, className }) => {
+export const PendingIcon: FC<PendingIconProps> = ({
+  type,
+  isTransparent,
+  className,
+}) => {
   const isBlueTheme =
     type === TransactionType.SUPPLY || type === TransactionType.WITHDRAW;
   const isYellowTheme =
     type === TransactionType.BORROW || type === TransactionType.REPAY;
 
   return (
-    <div className={cx(s.root, className)}>
+    <div className={cx(s.root, { [s.transparent]: isTransparent }, className)}>
       <div
         className={cx(
           s.animation,
