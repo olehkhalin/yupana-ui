@@ -96,6 +96,37 @@ export const prepareMarketsDetails = (
     STANDARD_PRECISION
   ).multipliedBy(1e2);
 
+  const chartUtilizationRate = Array.from({ length: 101 }, (_, i) => ({
+    x: i,
+    y: 70,
+  }));
+  const chartSupply = el.possibleApys[0].supplyApys.map(
+    (apy: string, i: number) => ({
+      x: i,
+      y: +convertUnits(apy, STANDARD_PRECISION).multipliedBy(1e2),
+    })
+  );
+  const chartBorrow = el.possibleApys[0].borrowApys.map(
+    (apy: string, i: number) => ({
+      x: i,
+      y: +convertUnits(apy, STANDARD_PRECISION).multipliedBy(1e2),
+    })
+  );
+  const chartData = [
+    {
+      label: "Borrow APY",
+      data: chartBorrow,
+    },
+    {
+      label: "Supply APY",
+      data: chartSupply,
+    },
+    {
+      label: "Utilization rate",
+      data: chartUtilizationRate,
+    },
+  ];
+
   return {
     asset,
     price,
@@ -131,6 +162,7 @@ export const prepareMarketsDetails = (
       multiplierPerYear,
       jumpMultiplierPerYear,
       kink,
+      chartData,
     },
   };
 };

@@ -25,20 +25,9 @@
   &:not(:last-child)
     margin-bottom: 1.5rem
 
-.graphWrapper
+.chartWrapper
   position: relative
-  height: 25rem
-  background: linear-gradient(0deg, rgba(0, 0, 0, 0) 0%, rgba($light-blue, .16) 100%)
-  border-bottom: .063rem solid rgba($white, .5)
-  &::after
-    content: ''
-    position: absolute
-    top: 0
-    right: 0
-    left: 0
-    height: .063rem
-    background-color: $light-blue
-    box-shadow: $blue-shadow-button
+  height: 300px
 
 @include media('>Mphone')
   .graphWrapper
@@ -56,10 +45,9 @@
     justify-content: space-between
   .detailsTitle
     max-width: 17rem
-  .graphWrapper
+  .chartWrapper
     height: initial
-    justify-content: center
-    flex: 2.5
+    flex: 2
   .detailsWrapper
     width: 24rem
     margin-right: 4rem
