@@ -7,7 +7,7 @@ import {
   TRANSACTIONS_LS_KEY,
   TZKT_API,
 } from "constants/defaults";
-import { useOnBlock, useTezos } from "utils/dapp";
+import { useAccountPkh, useOnBlock, useTezos } from "utils/dapp";
 
 export type Transaction = {
   type: string;
@@ -27,25 +27,29 @@ export enum Status {
 
 export const [TransactionsProvider, useTransactions] = constate(() => {
   const tezos = useTezos();
+  const pkh = useAccountPkh();
 
-  // get transactions from LocalStorage
-  const transactionsFromLS: Transaction[] | null = useMemo(
-    () => JSON.parse(localStorage.getItem(TRANSACTIONS_LS_KEY) as string),
-    []
+  const lsKey = useMemo(() => `${TRANSACTIONS_LS_KEY}-${pkh}`, [pkh]);
+
+  const transactionsFromLS = useMemo(
+    () => JSON.parse(localStorage.getItem(lsKey) as string),
+    [lsKey]
   );
 
   const [allTransactions, setAllTransactions] = useState<Transaction[] | null>(
-    transactionsFromLS
+    transactionsFromLS ?? []
   );
   const [isTransactionCompleted, setIsTransactionCompleted] =
     useState<boolean>(false);
   const [lastTransactionStatus, setLastTransactionStatus] =
     useState<Status | null>(null);
 
-  // get prev state by 'pending' status
   const prevPendingState = useRef(lastTransactionStatus === Status.PENDING);
 
-  // add new transactions to array
+  useEffect(() => {
+    setAllTransactions(transactionsFromLS);
+  }, [transactionsFromLS]);
+
   const addTransaction = useCallback(
     (transaction: Transaction) => {
       if (allTransactions && allTransactions.length > 0) {
@@ -73,25 +77,21 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     [allTransactions]
   );
 
-  // compare arrays and update LocalStorage data
   useEffect(() => {
     if (
       JSON.stringify(transactionsFromLS) !== JSON.stringify(allTransactions)
     ) {
-      localStorage.setItem(
-        TRANSACTIONS_LS_KEY,
-        JSON.stringify(allTransactions)
-      );
+      if (allTransactions && allTransactions.length && pkh) {
+        localStorage.setItem(lsKey, JSON.stringify(allTransactions));
+      }
     }
-  }, [allTransactions, transactionsFromLS]);
+  }, [allTransactions, lsKey, pkh, transactionsFromLS]);
 
-  // check if transactions exist
   const isTransactionsExist = useMemo(
     (): boolean => !!(allTransactions && allTransactions.length > 0),
     [allTransactions]
   );
 
-  // new transaction on top
   const sortedTransactions = useMemo(
     () =>
       allTransactions &&
@@ -100,7 +100,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     [allTransactions]
   );
 
-  // get status of last transaction
   useEffect(() => {
     if (sortedTransactions && sortedTransactions.length) {
       const { status } = sortedTransactions[0];
@@ -130,7 +129,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
 
   const checkTransactions = useCallback(async () => {
     const transactionsFromLS: Transaction[] | null = JSON.parse(
-      localStorage.getItem(TRANSACTIONS_LS_KEY) as string
+      localStorage.getItem(lsKey) as string
     );
 
     if (transactionsFromLS && transactionsFromLS.length > 0) {
@@ -196,13 +195,14 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     }
 
     return undefined;
-  }, [addTransaction]);
+  }, [addTransaction, lsKey]);
 
   useOnBlock(tezos, [checkTransactions]);
 
   return {
     addTransaction,
     allTransactions: sortedTransactions,
+    isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
     isTransactionsExist,
     lastTransactionStatus,
