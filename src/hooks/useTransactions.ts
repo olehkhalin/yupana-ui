@@ -31,15 +31,18 @@ export enum Status {
 
 export const [TransactionsProvider, useTransactions] = constate(() => {
   const tezos = useTezos();
-  const pkh = useAccountPkh()!;
+  const pkh = useAccountPkh();
 
-  const transactionsFromLS: AllTransactions | null = useMemo(
-    () => JSON.parse(localStorage.getItem(TRANSACTIONS_LS_KEY) as string),
-    []
+  const lsKey = useMemo(() => `${TRANSACTIONS_LS_KEY}-${pkh}`, [pkh]);
+
+  const transactionsFromLS = useMemo(
+    () => JSON.parse(localStorage.getItem(lsKey) as string),
+    [lsKey]
   );
 
-  const [allTransactions, setAllTransactions] =
-    useState<AllTransactions | null>(transactionsFromLS);
+  const [allTransactions, setAllTransactions] = useState<Transaction[] | null>(
+    transactionsFromLS ?? []
+  );
   const [isTransactionCompleted, setIsTransactionCompleted] =
     useState<boolean>(false);
   const [lastTransactionStatus, setLastTransactionStatus] =
@@ -47,78 +50,59 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
 
   const prevPendingState = useRef(lastTransactionStatus === Status.PENDING);
 
+  useEffect(() => {
+    setAllTransactions(transactionsFromLS);
+  }, [transactionsFromLS]);
+
   const addTransaction = useCallback(
     (transaction: Transaction) => {
-      if (
-        allTransactions &&
-        allTransactions[pkh] &&
-        allTransactions[pkh].length > 0
-      ) {
-        const currentTransaction = allTransactions[pkh].find(
+      if (allTransactions && allTransactions && allTransactions.length > 0) {
+        const currentTransaction = allTransactions.find(
           (el) => el.opHash === transaction.opHash
         );
 
         if (currentTransaction) {
-          const trsWithoutCurrent = allTransactions[pkh].filter(
+          const trsWithoutCurrent = allTransactions.filter(
             (el) => el.opHash !== currentTransaction.opHash
           );
 
           if (currentTransaction.expired) {
-            return setAllTransactions((prev) => ({
-              ...prev,
-              [pkh]: trsWithoutCurrent,
-            }));
+            return setAllTransactions(trsWithoutCurrent);
           }
 
-          return setAllTransactions((prev) => ({
-            ...prev,
-            [pkh]: [...trsWithoutCurrent, transaction],
-          }));
+          return setAllTransactions([...trsWithoutCurrent, transaction]);
         }
 
-        return setAllTransactions((prev) => ({
-          ...prev,
-          [pkh]: [...prev![pkh], transaction],
-        }));
+        return setAllTransactions([...allTransactions, transaction]);
       }
 
-      return setAllTransactions((prev) => ({
-        ...prev,
-        [pkh]: [transaction],
-      }));
+      return setAllTransactions([transaction]);
     },
-    [allTransactions, pkh]
+    [allTransactions]
   );
 
   useEffect(() => {
     if (
-      JSON.stringify(transactionsFromLS ? transactionsFromLS[pkh] : []) !==
-      JSON.stringify(allTransactions ? allTransactions[pkh] : [])
+      JSON.stringify(transactionsFromLS) !== JSON.stringify(allTransactions)
     ) {
-      localStorage.setItem(
-        TRANSACTIONS_LS_KEY,
-        JSON.stringify(allTransactions)
-      );
+      if (allTransactions && allTransactions.length && pkh) {
+        localStorage.setItem(lsKey, JSON.stringify(allTransactions));
+      }
     }
-  }, [allTransactions, pkh, transactionsFromLS]);
+  }, [allTransactions, lsKey, pkh, transactionsFromLS]);
 
   const isTransactionsExist = useMemo(
     (): boolean =>
-      !!(
-        allTransactions &&
-        allTransactions[pkh] &&
-        allTransactions[pkh].length > 0
-      ),
-    [allTransactions, pkh]
+      !!(allTransactions && allTransactions && allTransactions.length > 0),
+    [allTransactions]
   );
 
   const sortedTransactions = useMemo(
     () =>
       allTransactions &&
-      allTransactions[pkh] &&
-      allTransactions[pkh].length &&
-      allTransactions[pkh].sort((a, b) => b.timestamp - a.timestamp),
-    [allTransactions, pkh]
+      allTransactions.length &&
+      allTransactions.sort((a, b) => b.timestamp - a.timestamp),
+    [allTransactions]
   );
 
   useEffect(() => {
@@ -149,16 +133,16 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
   }, [isTransactionCompleted]);
 
   const checkTransactions = useCallback(async () => {
-    const transactionsFromLS: AllTransactions | null = JSON.parse(
-      localStorage.getItem(TRANSACTIONS_LS_KEY) as string
+    const transactionsFromLS: Transaction[] | null = JSON.parse(
+      localStorage.getItem(lsKey) as string
     );
 
     if (
       transactionsFromLS &&
-      transactionsFromLS[pkh] &&
-      transactionsFromLS[pkh].length > 0
+      transactionsFromLS &&
+      transactionsFromLS.length > 0
     ) {
-      const transactionsWithPending = transactionsFromLS[pkh].filter(
+      const transactionsWithPending = transactionsFromLS.filter(
         (transaction) => transaction.status === Status.PENDING
       );
 
@@ -218,7 +202,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     }
 
     return undefined;
-  }, [addTransaction, pkh]);
+  }, [addTransaction, lsKey]);
 
   useOnBlock(tezos, [checkTransactions]);
 
