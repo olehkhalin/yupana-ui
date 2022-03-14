@@ -67,7 +67,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const handleChange = useCallback(async () => {
     if (collateralWarningMessage) {
       return updateToast({
-        type: "info",
+        type: "error",
         render: collateralWarningMessage,
       });
     }

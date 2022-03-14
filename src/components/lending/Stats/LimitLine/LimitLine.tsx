@@ -9,12 +9,14 @@ import { AttentionText, ModalContent } from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./LimitLine.module.sass";
+import { Preloader } from "../../../ui/Preloader";
 
 type LimitLineProps = {
   text: string;
   percent: BigNumber;
   value: BigNumber;
   theme: "primary" | "secondary";
+  loading: boolean;
   className?: string;
 } & ModalContent;
 
@@ -26,16 +28,22 @@ export const LimitLine: FC<LimitLineProps> = ({
   description,
   buttonText,
   theme,
+  loading,
   className,
 }) => {
+  const isInRisk = percent.decimalPlaces(2).gt(100);
+
   const [percentValue, setPercentValue] = useState<number>(0);
-  const timing = useMemo(() => ANIMATION_TIME + +percent / 100, [percent]);
+  const timing = useMemo(
+    () => ANIMATION_TIME + (isInRisk ? 100 : +percent) / 100,
+    [isInRisk, percent]
+  );
 
   useEffect(() => {
     if (percent) {
-      setPercentValue(+percent);
+      setPercentValue(isInRisk ? 100 : +percent);
     }
-  }, [percent]);
+  }, [isInRisk, percent]);
 
   return (
     <div className={cx(s.root, className)}>
@@ -45,14 +53,21 @@ export const LimitLine: FC<LimitLineProps> = ({
         </div>
 
         <div className={s.title}>
-          <AttentionText
-            text={text}
-            title={title}
-            description={description}
-            buttonText={buttonText}
-            theme={theme}
-            className={s.title}
-          />
+          {loading ? (
+            <Preloader
+              theme="secondary"
+              className={cx(s.preloader, s.textPreloader)}
+            />
+          ) : (
+            <AttentionText
+              text={text}
+              title={title}
+              description={description}
+              buttonText={buttonText}
+              theme={theme}
+              className={s.title}
+            />
+          )}
         </div>
 
         <div className={s.value}>
@@ -60,7 +75,11 @@ export const LimitLine: FC<LimitLineProps> = ({
         </div>
       </div>
 
-      <ProgressBar amount={percentValue} timing={timing} theme={theme} />
+      <ProgressBar
+        amount={percentValue}
+        timing={timing}
+        theme={isInRisk ? "warning" : theme}
+      />
     </div>
   );
 };
