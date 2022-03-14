@@ -65,15 +65,15 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   );
 
   const handleChange = useCallback(async () => {
+    if (collateralWarningMessage) {
+      return updateToast({
+        type: "info",
+        render: collateralWarningMessage,
+      });
+    }
+
     if (!disabled) {
       try {
-        if (collateralWarningMessage) {
-          return updateToast({
-            type: "info",
-            render: collateralWarningMessage,
-          });
-        }
-
         setDisabled(true);
         setLoadingState(true);
         let operation: BatchWalletOperation;
