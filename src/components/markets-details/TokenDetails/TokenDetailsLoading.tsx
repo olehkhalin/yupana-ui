@@ -36,7 +36,9 @@ export const TokenDetailsLoading: FC<TokenDetailsLoadingProps> = ({
         </div>
       </div>
 
-      <MarketsDetails loading />
+      <div className={s.tablePreloader}>
+        <Preloader />
+      </div>
     </Section>
   );
 };
