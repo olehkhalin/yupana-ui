@@ -12,18 +12,33 @@ import { Item } from "components/markets-details/Item";
 import { Heading } from "components/common/Heading";
 import { INTEREST_RATE_MODEL } from "constants/popups/interest-rate-model";
 
+import { InterestRateModelChart } from "./InterestRateModelChart";
 import s from "./InterestRateModel.module.sass";
 
 const { baseRatePerYear: baseRatePerYearPopup, kink: kinkPopup } =
   INTEREST_RATE_MODEL;
 
-type InterestRateModelProps = {
-  asset: AssetType;
+export type ApyStats = {
+  x: number;
+  y: number;
+};
+
+type Series = {
+  label: string;
+  data: ApyStats[];
+};
+
+export type InterestRateModelBase = {
   currentUtilizationRate: BigNumber;
+  kink: BigNumber;
+  chartData: Series[];
+};
+
+type InterestRateModelProps = InterestRateModelBase & {
+  asset: AssetType;
   baseRatePerYear: BigNumber;
   multiplierPerYear: BigNumber;
   jumpMultiplierPerYear: BigNumber;
-  kink: BigNumber;
   className?: string;
 };
 
@@ -34,6 +49,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
   multiplierPerYear,
   jumpMultiplierPerYear,
   kink,
+  chartData,
   className,
 }) => {
   return (
@@ -98,7 +114,13 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
         </div>
       </div>
 
-      <div className={s.graphWrapper} />
+      <div className={s.chartWrapper}>
+        <InterestRateModelChart
+          currentUtilizationRate={currentUtilizationRate}
+          kink={kink}
+          chartData={chartData}
+        />
+      </div>
     </Section>
   );
 };

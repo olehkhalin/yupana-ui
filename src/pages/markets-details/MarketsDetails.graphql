@@ -46,6 +46,10 @@ query MarketsDetails($yToken: Int!) {
       }
     }
     liquidationThreshold
+    possibleApys {
+      supplyApys
+      borrowApys
+    }
   }
   oraclePrice(where: {ytoken: {_eq: $yToken}}) {
     price

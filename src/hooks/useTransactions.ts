@@ -227,6 +227,9 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     allTransactions: sortedTransactions,
     isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
+    // TODO: Update with multi save transactions - allTransactions[pkh][0]
+    lastTransaction:
+      allTransactions && allTransactions.length ? allTransactions[0] : null,
     isTransactionsExist,
     lastTransactionStatus,
     isTransactionCompleted,

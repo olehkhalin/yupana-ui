@@ -125,6 +125,10 @@ export type Asset = {
   liquidatedAsset_aggregate: Liquidate_Tx_Aggregate;
   liquidationThreshold: Scalars['numeric'];
   /** An array relationship */
+  possibleApys: Array<Possible_Apys>;
+  /** An aggregate relationship */
+  possibleApys_aggregate: Possible_Apys_Aggregate;
+  /** An array relationship */
   prediction: Array<Asset_Prediction>;
   /** An aggregate relationship */
   prediction_aggregate: Asset_Prediction_Aggregate;
@@ -309,6 +313,26 @@ export type AssetLiquidatedAsset_AggregateArgs = {
 
 
 /** columns and relationships of "asset" */
+export type AssetPossibleApysArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+/** columns and relationships of "asset" */
+export type AssetPossibleApys_AggregateArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+/** columns and relationships of "asset" */
 export type AssetPredictionArgs = {
   distinct_on?: InputMaybe<Array<Asset_Prediction_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -475,6 +499,7 @@ export type Asset_Bool_Exp = {
   lastPrice?: InputMaybe<Numeric_Comparison_Exp>;
   liquidatedAsset?: InputMaybe<Liquidate_Tx_Bool_Exp>;
   liquidationThreshold?: InputMaybe<Numeric_Comparison_Exp>;
+  possibleApys?: InputMaybe<Possible_Apys_Bool_Exp>;
   prediction?: InputMaybe<Asset_Prediction_Bool_Exp>;
   rates?: InputMaybe<Rates_Bool_Exp>;
   reserveFactor?: InputMaybe<Numeric_Comparison_Exp>;
@@ -600,6 +625,7 @@ export type Asset_Order_By = {
   lastPrice?: InputMaybe<Order_By>;
   liquidatedAsset_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
+  possibleApys_aggregate?: InputMaybe<Possible_Apys_Aggregate_Order_By>;
   prediction_aggregate?: InputMaybe<Asset_Prediction_Aggregate_Order_By>;
   rates_aggregate?: InputMaybe<Rates_Aggregate_Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
@@ -3294,6 +3320,237 @@ export enum Order_By {
   DescNullsLast = 'desc_nulls_last'
 }
 
+/** columns and relationships of "possible_apys" */
+export type Possible_Apys = {
+  __typename?: 'possible_apys';
+  /** An object relationship */
+  asset: Asset;
+  assetId: Scalars['Int'];
+  borrowApys?: Maybe<Scalars['jsonb']>;
+  id: Scalars['Int'];
+  supplyApys?: Maybe<Scalars['jsonb']>;
+};
+
+
+/** columns and relationships of "possible_apys" */
+export type Possible_ApysBorrowApysArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+
+/** columns and relationships of "possible_apys" */
+export type Possible_ApysSupplyApysArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "possible_apys" */
+export type Possible_Apys_Aggregate = {
+  __typename?: 'possible_apys_aggregate';
+  aggregate?: Maybe<Possible_Apys_Aggregate_Fields>;
+  nodes: Array<Possible_Apys>;
+};
+
+/** aggregate fields of "possible_apys" */
+export type Possible_Apys_Aggregate_Fields = {
+  __typename?: 'possible_apys_aggregate_fields';
+  avg?: Maybe<Possible_Apys_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Possible_Apys_Max_Fields>;
+  min?: Maybe<Possible_Apys_Min_Fields>;
+  stddev?: Maybe<Possible_Apys_Stddev_Fields>;
+  stddev_pop?: Maybe<Possible_Apys_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Possible_Apys_Stddev_Samp_Fields>;
+  sum?: Maybe<Possible_Apys_Sum_Fields>;
+  var_pop?: Maybe<Possible_Apys_Var_Pop_Fields>;
+  var_samp?: Maybe<Possible_Apys_Var_Samp_Fields>;
+  variance?: Maybe<Possible_Apys_Variance_Fields>;
+};
+
+
+/** aggregate fields of "possible_apys" */
+export type Possible_Apys_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** order by aggregate values of table "possible_apys" */
+export type Possible_Apys_Aggregate_Order_By = {
+  avg?: InputMaybe<Possible_Apys_Avg_Order_By>;
+  count?: InputMaybe<Order_By>;
+  max?: InputMaybe<Possible_Apys_Max_Order_By>;
+  min?: InputMaybe<Possible_Apys_Min_Order_By>;
+  stddev?: InputMaybe<Possible_Apys_Stddev_Order_By>;
+  stddev_pop?: InputMaybe<Possible_Apys_Stddev_Pop_Order_By>;
+  stddev_samp?: InputMaybe<Possible_Apys_Stddev_Samp_Order_By>;
+  sum?: InputMaybe<Possible_Apys_Sum_Order_By>;
+  var_pop?: InputMaybe<Possible_Apys_Var_Pop_Order_By>;
+  var_samp?: InputMaybe<Possible_Apys_Var_Samp_Order_By>;
+  variance?: InputMaybe<Possible_Apys_Variance_Order_By>;
+};
+
+/** aggregate avg on columns */
+export type Possible_Apys_Avg_Fields = {
+  __typename?: 'possible_apys_avg_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by avg() on columns of table "possible_apys" */
+export type Possible_Apys_Avg_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** Boolean expression to filter rows from the table "possible_apys". All fields are combined with a logical 'AND'. */
+export type Possible_Apys_Bool_Exp = {
+  _and?: InputMaybe<Array<Possible_Apys_Bool_Exp>>;
+  _not?: InputMaybe<Possible_Apys_Bool_Exp>;
+  _or?: InputMaybe<Array<Possible_Apys_Bool_Exp>>;
+  asset?: InputMaybe<Asset_Bool_Exp>;
+  assetId?: InputMaybe<Int_Comparison_Exp>;
+  borrowApys?: InputMaybe<Jsonb_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  supplyApys?: InputMaybe<Jsonb_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Possible_Apys_Max_Fields = {
+  __typename?: 'possible_apys_max_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by max() on columns of table "possible_apys" */
+export type Possible_Apys_Max_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate min on columns */
+export type Possible_Apys_Min_Fields = {
+  __typename?: 'possible_apys_min_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by min() on columns of table "possible_apys" */
+export type Possible_Apys_Min_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** Ordering options when selecting data from "possible_apys". */
+export type Possible_Apys_Order_By = {
+  asset?: InputMaybe<Asset_Order_By>;
+  assetId?: InputMaybe<Order_By>;
+  borrowApys?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  supplyApys?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "possible_apys" */
+export enum Possible_Apys_Select_Column {
+  /** column name */
+  AssetId = 'assetId',
+  /** column name */
+  BorrowApys = 'borrowApys',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  SupplyApys = 'supplyApys'
+}
+
+/** aggregate stddev on columns */
+export type Possible_Apys_Stddev_Fields = {
+  __typename?: 'possible_apys_stddev_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev() on columns of table "possible_apys" */
+export type Possible_Apys_Stddev_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Possible_Apys_Stddev_Pop_Fields = {
+  __typename?: 'possible_apys_stddev_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_pop() on columns of table "possible_apys" */
+export type Possible_Apys_Stddev_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Possible_Apys_Stddev_Samp_Fields = {
+  __typename?: 'possible_apys_stddev_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by stddev_samp() on columns of table "possible_apys" */
+export type Possible_Apys_Stddev_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate sum on columns */
+export type Possible_Apys_Sum_Fields = {
+  __typename?: 'possible_apys_sum_fields';
+  assetId?: Maybe<Scalars['Int']>;
+  id?: Maybe<Scalars['Int']>;
+};
+
+/** order by sum() on columns of table "possible_apys" */
+export type Possible_Apys_Sum_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_pop on columns */
+export type Possible_Apys_Var_Pop_Fields = {
+  __typename?: 'possible_apys_var_pop_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_pop() on columns of table "possible_apys" */
+export type Possible_Apys_Var_Pop_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate var_samp on columns */
+export type Possible_Apys_Var_Samp_Fields = {
+  __typename?: 'possible_apys_var_samp_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by var_samp() on columns of table "possible_apys" */
+export type Possible_Apys_Var_Samp_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
+/** aggregate variance on columns */
+export type Possible_Apys_Variance_Fields = {
+  __typename?: 'possible_apys_variance_fields';
+  assetId?: Maybe<Scalars['Float']>;
+  id?: Maybe<Scalars['Float']>;
+};
+
+/** order by variance() on columns of table "possible_apys" */
+export type Possible_Apys_Variance_Order_By = {
+  assetId?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+};
+
 export type Query_Root = {
   __typename?: 'query_root';
   /** fetch data from the table: "asset" */
@@ -3378,6 +3635,12 @@ export type Query_Root = {
   oraclePriceAggregate: Oracle_Price_Aggregate;
   /** fetch data from the table: "oracle_price" using primary key columns */
   oraclePriceByPk?: Maybe<Oracle_Price>;
+  /** An array relationship */
+  possibleApys: Array<Possible_Apys>;
+  /** fetch aggregated fields from the table: "possible_apys" */
+  possibleApysAggregate: Possible_Apys_Aggregate;
+  /** fetch data from the table: "possible_apys" using primary key columns */
+  possibleApysByPk?: Maybe<Possible_Apys>;
   /** An array relationship */
   rates: Array<Rates>;
   /** An aggregate relationship */
@@ -3743,6 +4006,29 @@ export type Query_RootOraclePriceAggregateArgs = {
 
 export type Query_RootOraclePriceByPkArgs = {
   ytoken: Scalars['Int'];
+};
+
+
+export type Query_RootPossibleApysArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+export type Query_RootPossibleApysAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+export type Query_RootPossibleApysByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -4654,6 +4940,12 @@ export type Subscription_Root = {
   /** fetch data from the table: "oracle_price" using primary key columns */
   oraclePriceByPk?: Maybe<Oracle_Price>;
   /** An array relationship */
+  possibleApys: Array<Possible_Apys>;
+  /** fetch aggregated fields from the table: "possible_apys" */
+  possibleApysAggregate: Possible_Apys_Aggregate;
+  /** fetch data from the table: "possible_apys" using primary key columns */
+  possibleApysByPk?: Maybe<Possible_Apys>;
+  /** An array relationship */
   rates: Array<Rates>;
   /** An aggregate relationship */
   rates_aggregate: Rates_Aggregate;
@@ -5018,6 +5310,29 @@ export type Subscription_RootOraclePriceAggregateArgs = {
 
 export type Subscription_RootOraclePriceByPkArgs = {
   ytoken: Scalars['Int'];
+};
+
+
+export type Subscription_RootPossibleApysArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+export type Subscription_RootPossibleApysAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Possible_Apys_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Possible_Apys_Order_By>>;
+  where?: InputMaybe<Possible_Apys_Bool_Exp>;
+};
+
+
+export type Subscription_RootPossibleApysByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -7052,7 +7367,7 @@ export type MarketsDetailsQueryVariables = Exact<{
 }>;
 
 
-export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, liquidationThreshold: any, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined } }>, oraclePrice: Array<{ __typename?: 'oracle_price', price: any, decimals: any }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any }> };
+export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, liquidationThreshold: any, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, possibleApys: Array<{ __typename?: 'possible_apys', supplyApys?: any | null | undefined, borrowApys?: any | null | undefined }> }>, oraclePrice: Array<{ __typename?: 'oracle_price', price: any, decimals: any }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any }> };
 
 export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7298,6 +7613,10 @@ export const MarketsDetailsDocument = gql`
       }
     }
     liquidationThreshold
+    possibleApys {
+      supplyApys
+      borrowApys
+    }
   }
   oraclePrice(where: {ytoken: {_eq: $yToken}}) {
     price

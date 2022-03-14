@@ -1,6 +1,11 @@
 @import "styles/variables.sass"
 
 .root
+  display: flex
+  justify-content: space-between
+  align-items: center
+
+.button
   position: relative
   display: flex
   width: 3rem
@@ -31,5 +36,19 @@
     background-color: $light-yellow
     box-shadow: $light-yellow-shadow
 
+.loading
+  border-color: $grey
+  box-shadow: $grey-shadow
+  &::before
+    content: ''
+    background-color: $grey
+    box-shadow: $grey-shadow
+
 .disabled
   cursor: not-allowed
+
+.pendingIcon
+  position: relative
+  left: .25rem
+  display: flex
+  justify-content: center

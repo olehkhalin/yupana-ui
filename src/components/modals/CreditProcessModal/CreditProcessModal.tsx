@@ -3,26 +3,21 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import {
-  COLLATERAL_PRECISION,
-  ORACLE_PRICE_PRECISION,
-  STANDARD_PRECISION,
-} from "constants/defaults";
+import { ORACLE_PRICE_PRECISION } from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
 import { getPrettyPercent, convertUnits } from "utils/helpers/amount";
 import { useWiderThanMphone } from "utils/helpers";
-import {
-  assetAmountValidationFactory,
-  getAdvancedErrorMessage,
-} from "utils/validation";
+import { assetAmountValidationFactory } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
 import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useTransactions } from "hooks/useTransactions";
+import { PendingIcon } from "components/common/PendingIcon";
 import { Modal } from "components/ui/Modal";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
@@ -30,6 +25,7 @@ import { AssetLogo } from "components/common/AssetLogo";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./CreditProcessModal.module.sass";
+import { useErrorMessage } from "hooks/useErrorMessage";
 
 export type FormTypes = {
   amount: BigNumber;
@@ -89,6 +85,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
   const [operationLoading, setOperationLoading] = useState(false);
+  const { isTransactionLoading } = useTransactions();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -117,49 +114,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     [asset.decimals, maxAmount]
   );
 
-  const amountErrorMessage = useMemo(
-    () => getAdvancedErrorMessage(errors.amount),
-    [errors.amount]
-  );
-
-  const amountWarningMessage = useMemo(
-    () =>
-      type === CreditProcessModalEnum.BORROW && dynamicBorrowLimitUsed.gte(80)
-        ? "Beware of the Liquidation Risk"
-        : undefined,
-    [dynamicBorrowLimitUsed, type]
-  );
-
-  const amountGTBalance = useMemo(
-    () =>
-      type === CreditProcessModalEnum.REPAY &&
-      amount &&
-      amount.gt(walletBalance ?? 0)
-        ? "Insufficient Wallet Balance"
-        : undefined,
-    [amount, walletBalance, type]
-  );
-
-  const checkValueInContract = useCallback(
-    (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
-      const val = value ?? 0;
-      return type === modalType && amount && amount.gt(val)
-        ? "Insufficient balance in contract"
-        : undefined;
-    },
-    [amount, type]
-  );
-
-  const insufficientContractBalanceError = useMemo(
-    () =>
-      checkValueInContract(
-        CreditProcessModalEnum.WITHDRAW,
-        availableToWithdraw
-      ) || checkValueInContract(CreditProcessModalEnum.BORROW, liquidity),
-    [availableToWithdraw, checkValueInContract, liquidity]
-  );
-
   const borrowWarningMessage = useBorrowWarningMessage(asset, type);
+  const { errorMessage, disabled } = useErrorMessage({
+    errors,
+    type,
+    dynamicBorrowLimitUsed,
+    amount,
+    walletBalance,
+    availableToWithdraw,
+    liquidity,
+  });
 
   // Form submit
   const onSubmitInner = useCallback(
@@ -189,12 +153,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 
   const isBorrowTheme = theme === "secondary";
-
-  const errorMessage = useMemo(
-    () =>
-      amountErrorMessage || amountGTBalance || insufficientContractBalanceError,
-    [amountErrorMessage, amountGTBalance, insufficientContractBalanceError]
-  );
 
   return (
     <Modal
@@ -240,9 +198,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             <NumberInput
               theme={theme}
               decimals={asset.decimals}
-              error={
-                errorMessage || amountWarningMessage || borrowWarningMessage
-              }
+              error={errorMessage || borrowWarningMessage}
               className={s.input}
               maxValue={convertUnits(maxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
@@ -301,13 +257,19 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           actionT={isBorrowTheme ? "borrow" : "supply"}
           type="submit"
           disabled={
-            !!errorMessage ||
+            disabled ||
             !!borrowWarningMessage ||
             operationLoading ||
-            maxAmount.eq(0)
+            maxAmount.eq(0) ||
+            isTransactionLoading
           }
+          className={s.button}
         >
-          {operationLoading ? "Loading..." : title}
+          {operationLoading || isTransactionLoading ? (
+            <PendingIcon isTransparent />
+          ) : (
+            title
+          )}
         </Button>
       </form>
     </Modal>
