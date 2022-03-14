@@ -28,13 +28,21 @@ export const useErrorMessage = ({
     [errors.amount]
   );
 
-  const amountWarningMessage = useMemo(
-    () =>
-      type === CreditProcessModalEnum.BORROW && dynamicBorrowLimitUsed.gte(80)
-        ? "Beware of the Liquidation Risk"
-        : undefined,
-    [dynamicBorrowLimitUsed, type]
-  );
+  const amountWarningMessage = useMemo(() => {
+    if (
+      type === CreditProcessModalEnum.BORROW &&
+      dynamicBorrowLimitUsed.gte(100)
+    ) {
+      return "You are in the Liquidation Risk";
+    }
+    if (
+      type === CreditProcessModalEnum.BORROW &&
+      dynamicBorrowLimitUsed.gte(80)
+    ) {
+      return "Beware of the Liquidation Risk";
+    }
+    return undefined;
+  }, [dynamicBorrowLimitUsed, type]);
 
   const amountGTBalance = useMemo(
     () =>

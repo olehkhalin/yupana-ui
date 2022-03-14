@@ -13,6 +13,7 @@ type ProgressBarProps = {
 export const themeClass = {
   primary: s.primary,
   secondary: s.secondary,
+  warning: s.warning,
 };
 
 export const ProgressBar: FC<ProgressBarProps> = ({

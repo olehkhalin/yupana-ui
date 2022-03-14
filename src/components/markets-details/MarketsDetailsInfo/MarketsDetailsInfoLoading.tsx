@@ -53,7 +53,9 @@ export const MarketsDetailsInfoLoading: FC<MarketsDetailsInfoLoadingProps> = ({
   return (
     <Section className={cx(s.root, className)}>
       <div className={s.graphWrapper}>
-        <div className={s.pieGraph} />
+        <div className={cx(s.pieGraph, s.pieLoading)}>
+          <Preloader sizeT="fluent" theme="tertiary" />
+        </div>
 
         <div className={s.graphStats}>
           <div className={s.stat}>

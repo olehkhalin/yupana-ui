@@ -37,6 +37,10 @@
   path
     fill: $white
 
+.tablePreloader
+  width: 100%
+  height: 11.3rem
+
 @include media('>Mphone')
   .tokenWrapper
     flex-direction: row
@@ -59,6 +63,9 @@
 @include media('>Lphone')
   .name, .price
     font-size: 2rem
+  .tablePreloader
+    width: 100%
+    height: 6rem
 
 @include media('>Ltablet')
   .name

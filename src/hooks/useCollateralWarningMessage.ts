@@ -31,6 +31,10 @@ export const useCollateralWarningMessage = (
     [userStats]
   );
 
+  if (!isCollateral) {
+    return "";
+  }
+
   if (data && data.supplyAssets && data.supplyAssets.length) {
     const supplyWithCollateral = data.supplyAssets.filter(
       (el) => el.isCollateral
