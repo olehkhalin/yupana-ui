@@ -12,6 +12,7 @@ export type GlobalVariablesType = {
   outstandingBorrow: BigNumber;
   totalUsdSupply: BigNumber;
   totalUsdBorrowed: BigNumber;
+  isLoaded: boolean;
 };
 
 const globalVariablesInitial = {
@@ -20,6 +21,7 @@ const globalVariablesInitial = {
   outstandingBorrow: new BigNumber(0),
   totalUsdSupply: new BigNumber(0),
   totalUsdBorrowed: new BigNumber(0),
+  isLoaded: false,
 };
 
 export const globalVariablesVar = makeVar<GlobalVariablesType>(

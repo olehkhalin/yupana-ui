@@ -46,6 +46,7 @@ export const useInitialSetup = () => {
         outstandingBorrow,
         totalUsdSupply,
         totalUsdBorrowed,
+        isLoaded: true,
       });
     }
   });

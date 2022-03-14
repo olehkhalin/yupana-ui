@@ -29,8 +29,13 @@ type StatsProps = {
 };
 
 export const Stats: FC<StatsProps> = ({ className }) => {
-  const { maxCollateral, outstandingBorrow, liquidationCollateral } =
+  const { maxCollateral, outstandingBorrow, liquidationCollateral, isLoaded } =
     useReactiveVar(globalVariablesVar);
+
+  const liquidationPercent = prettyRatio(
+    liquidationCollateral,
+    outstandingBorrow
+  );
 
   return (
     <section className={className}>
@@ -42,15 +47,25 @@ export const Stats: FC<StatsProps> = ({ className }) => {
         text="Your Borrow Limit"
         description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
         theme="secondary"
+        loading={!isLoaded}
         className={s.limit}
       />
       <LimitLine
-        percent={prettyRatio(liquidationCollateral, outstandingBorrow)}
+        percent={liquidationPercent}
         value={convertUnits(liquidationCollateral, COLLATERAL_PRECISION)}
-        title="Your Liquidation Limit"
-        text="Your Liquidation Limit"
+        title={
+          liquidationPercent.gt(100)
+            ? "You are in the Liquidation Risk"
+            : "Your Liquidation Limit"
+        }
+        text={
+          liquidationPercent.gt(100)
+            ? "You are in the Liquidation Risk"
+            : "Your Liquidation Limit"
+        }
         description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
         theme="secondary"
+        loading={!isLoaded}
         className={s.limit}
       />
     </section>
