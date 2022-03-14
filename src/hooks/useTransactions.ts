@@ -19,10 +19,6 @@ export type Transaction = {
   expired?: boolean;
 };
 
-export type AllTransactions = {
-  [key: string]: Transaction[];
-};
-
 export enum Status {
   PENDING = "Pending",
   APPLIED = "Applied",
@@ -212,9 +208,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
     lastTransaction:
-      allTransactions && allTransactions[pkh] && allTransactions[pkh].length
-        ? allTransactions[pkh][0]
-        : null,
+      allTransactions && allTransactions.length ? allTransactions[0] : null,
     isTransactionsExist,
     lastTransactionStatus,
     isTransactionCompleted,
