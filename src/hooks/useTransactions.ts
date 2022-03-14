@@ -19,6 +19,10 @@ export type Transaction = {
   expired?: boolean;
 };
 
+export type AllTransactions = {
+  [key: string]: Transaction[];
+};
+
 export enum Status {
   PENDING = "Pending",
   APPLIED = "Applied",
@@ -52,7 +56,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
 
   const addTransaction = useCallback(
     (transaction: Transaction) => {
-      if (allTransactions && allTransactions.length > 0) {
+      if (allTransactions && allTransactions && allTransactions.length > 0) {
         const currentTransaction = allTransactions.find(
           (el) => el.opHash === transaction.opHash
         );
@@ -88,7 +92,8 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
   }, [allTransactions, lsKey, pkh, transactionsFromLS]);
 
   const isTransactionsExist = useMemo(
-    (): boolean => !!(allTransactions && allTransactions.length > 0),
+    (): boolean =>
+      !!(allTransactions && allTransactions && allTransactions.length > 0),
     [allTransactions]
   );
 
@@ -132,7 +137,11 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
       localStorage.getItem(lsKey) as string
     );
 
-    if (transactionsFromLS && transactionsFromLS.length > 0) {
+    if (
+      transactionsFromLS &&
+      transactionsFromLS &&
+      transactionsFromLS.length > 0
+    ) {
       const transactionsWithPending = transactionsFromLS.filter(
         (transaction) => transaction.status === Status.PENDING
       );
@@ -169,7 +178,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
               (method) => method.status === "applied"
             );
 
-            // if has 'Applied' status then set status 'Applied'
             if (transactionIsApplied) {
               return addTransaction({
                 ...el,
@@ -177,7 +185,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
               });
             }
 
-            // if hasn't 'Applied' status then set status 'Reject'
             return addTransaction({
               ...el,
               status: Status.REJECT,
