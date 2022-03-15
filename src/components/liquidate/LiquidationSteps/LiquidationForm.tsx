@@ -249,7 +249,7 @@ export const LiquidationForm: FC = () => {
             timestamp: Date.now(),
           });
           await operation.confirmation(1);
-          history.push(AppRoutes.LIQUIDATE);
+          window.location.replace(AppRoutes.LIQUIDATE);
           updateToast({
             type: "info",
             render: `The ${getAssetName(
@@ -273,7 +273,6 @@ export const LiquidationForm: FC = () => {
       borrowedYTokens,
       borrowerAddress,
       fabrica,
-      history,
       preparedData,
       priceFeedProxy,
       tezos,
