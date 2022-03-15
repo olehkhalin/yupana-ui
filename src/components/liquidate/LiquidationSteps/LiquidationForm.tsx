@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useReactiveVar } from "@apollo/client";
-import { useParams } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
@@ -26,6 +26,7 @@ import { PrettyAmount } from "components/common/PrettyAmount";
 import { FormTypes } from "components/modals/CreditProcessModal";
 
 import s from "./LiquidationSteps.module.sass";
+import { AppRoutes } from "routes/main-routes";
 
 export const LiquidationForm: FC = () => {
   // @ts-ignore
@@ -35,6 +36,7 @@ export const LiquidationForm: FC = () => {
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { addTransaction } = useTransactions();
+  const [redirect, setRedirect] = useState(false);
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -43,6 +45,17 @@ export const LiquidationForm: FC = () => {
 
   const { data: liquidateAllData } = useLiquidateDetails(borrowerAddress);
   const { liquidateData } = useLiquidateData();
+
+  const getRedirect = useCallback(
+    () => <Navigate to={AppRoutes.LIQUIDATE} />,
+    []
+  );
+
+  useEffect(() => {
+    if (redirect) {
+      getRedirect();
+    }
+  }, [getRedirect, redirect]);
 
   const preparedData = useMemo(() => {
     if (
@@ -246,6 +259,7 @@ export const LiquidationForm: FC = () => {
             timestamp: Date.now(),
           });
           await operation.confirmation(1);
+          setRedirect(true);
           updateToast({
             type: "info",
             render:
