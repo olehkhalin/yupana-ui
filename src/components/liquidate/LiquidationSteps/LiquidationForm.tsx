@@ -5,6 +5,7 @@ import { Navigate, useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
+import { AssetType } from "types/asset";
 import { liquidate } from "utils/dapp/methods/liquidate";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { getAssetName } from "utils/helpers/asset";
@@ -24,9 +25,10 @@ import { Heading } from "components/common/Heading";
 import { NumberInput } from "components/common/NumberInput";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { FormTypes } from "components/modals/CreditProcessModal";
+import { PendingIcon } from "components/common/PendingIcon";
+import { AppRoutes } from "routes/main-routes";
 
 import s from "./LiquidationSteps.module.sass";
-import { AppRoutes } from "routes/main-routes";
 
 export const LiquidationForm: FC = () => {
   // @ts-ignore
@@ -35,7 +37,7 @@ export const LiquidationForm: FC = () => {
   const { updateToast } = useUpdateToast();
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
-  const { addTransaction } = useTransactions();
+  const { addTransaction, isTransactionLoading } = useTransactions();
   const [redirect, setRedirect] = useState(false);
 
   const tezos = useTezos()!;
@@ -46,10 +48,10 @@ export const LiquidationForm: FC = () => {
   const { data: liquidateAllData } = useLiquidateDetails(borrowerAddress);
   const { liquidateData } = useLiquidateData();
 
-  const getRedirect = useCallback(
-    () => <Navigate to={AppRoutes.LIQUIDATE} />,
-    []
-  );
+  const getRedirect = useCallback(() => {
+    console.log("redirect");
+    return <Navigate to={AppRoutes.LIQUIDATE} />;
+  }, []);
 
   useEffect(() => {
     if (redirect) {
@@ -224,10 +226,6 @@ export const LiquidationForm: FC = () => {
       try {
         if (preparedData) {
           setOperationLoading(true);
-          updateToast({
-            type: "info",
-            render: "Request for Asset Liquidate...",
-          });
           const params = {
             fabricaContractAddress: fabrica,
             proxyContractAddress: priceFeedProxy,
@@ -245,8 +243,13 @@ export const LiquidationForm: FC = () => {
               -preparedData.borrowedAsset.decimals
             ),
           };
-
           const operation = await liquidate(tezos, accountPkh!, params);
+          updateToast({
+            type: "info",
+            render: `Request for ${getAssetName(
+              preparedData.borrowedAsset as unknown as AssetType
+            )} Liquidate. You can follow your transaction in transaction history.`,
+          });
           addTransaction({
             type: "Liquidation",
             amount: convertUnits(
@@ -262,8 +265,9 @@ export const LiquidationForm: FC = () => {
           setRedirect(true);
           updateToast({
             type: "info",
-            render:
-              "The Asset Liquidate request was successful, please wait...",
+            render: `The ${getAssetName(
+              preparedData.borrowedAsset as unknown as AssetType
+            )} Liquidate request was successful, please wait...`,
           });
         }
       } catch (e) {
@@ -339,10 +343,19 @@ export const LiquidationForm: FC = () => {
           />
           <Button
             type="submit"
-            disabled={!!amountErrorMessage || !preparedData || operationLoading}
+            disabled={
+              !!amountErrorMessage ||
+              !preparedData ||
+              operationLoading ||
+              isTransactionLoading
+            }
             className={cx(s.button, { [s.error]: amountErrorMessage })}
           >
-            {operationLoading ? "Loading..." : "Liquidate"}
+            {operationLoading || isTransactionLoading ? (
+              <PendingIcon isTransparent />
+            ) : (
+              "Liquidate"
+            )}
           </Button>
         </form>
 
