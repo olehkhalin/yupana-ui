@@ -63,6 +63,8 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
               asset.decimals,
               true
             )}
+            theme={theme}
+            tooltipTheme={theme}
             currency={asset.symbol}
             isMinified
             className={s.amount}
