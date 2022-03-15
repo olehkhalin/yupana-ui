@@ -6,6 +6,7 @@ import {
   LiquidationPositionsQuery,
   useLiquidationPositionsLazyQuery,
 } from "generated/graphql";
+import { useAccountPkh } from "utils/dapp";
 import { prepareLiquidationPositions } from "utils/helpers/api";
 import { Section } from "components/common/Section";
 import { LiquidationPositions as LiquidatationTable } from "components/tables/desktop/LiquidationPositions";
@@ -71,12 +72,14 @@ export const AllLiquidationPositions: FC<AllLiquidationPositionsProps> = ({
   className,
 }) => {
   const [offset, setOffset] = useState<number>(0);
+  const pkh = useAccountPkh();
 
   const [fetchBorrowersData, { data, error, loading }] =
     useLiquidationPositionsLazyQuery({
       variables: {
         limit: LIQUIDATION_POSITIONS_ITEMS_PER_PAGE,
         offset,
+        address: pkh ?? "",
       },
     });
 
@@ -85,9 +88,10 @@ export const AllLiquidationPositions: FC<AllLiquidationPositionsProps> = ({
       variables: {
         limit: LIQUIDATION_POSITIONS_ITEMS_PER_PAGE,
         offset,
+        address: pkh ?? "",
       },
     });
-  }, [fetchBorrowersData, offset]);
+  }, [fetchBorrowersData, offset, pkh]);
 
   if ((!data && !loading) || error) {
     return <></>;
