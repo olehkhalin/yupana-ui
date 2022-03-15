@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import { Cell } from "react-table";
 import cx from "classnames";
 
@@ -38,9 +39,12 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         Header: () => <span className={s.white}>Borrower address</span>,
         accessor: "borrowerAddress",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
-          <div className={cx(s.address, s.white, s.noShadow)}>
+          <NavLink
+            to={`${AppRoutes.LIQUIDATE}/${value}`}
+            className={cx(s.address, s.white, s.noShadow)}
+          >
             {loading ? "—" : shortize(value)}
-          </div>
+          </NavLink>
         ),
       },
       {
