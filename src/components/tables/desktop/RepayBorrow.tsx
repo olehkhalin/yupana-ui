@@ -73,7 +73,12 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
           loading ? (
             "—"
           ) : (
-            <PrettyAmount amount={value} theme="secondary" isConvertable />
+            <PrettyAmount
+              amount={value}
+              theme="secondary"
+              tooltipTheme="secondary"
+              isConvertable
+            />
           ),
       },
       {
@@ -100,6 +105,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                     value.asset.decimals,
                     true
                   )}
+                  tooltipTheme="secondary"
                   currency={getAssetName(value.asset)}
                 />
               )}
@@ -116,6 +122,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                   isConvertable
                   size="superExtraSmall"
                   theme="secondary"
+                  tooltipTheme="secondary"
                 />
               )}
             </div>
@@ -147,6 +154,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                     true
                   )}
                   currency={getAssetName(value.asset)}
+                  tooltipTheme="secondary"
                 />
               )}
             </div>
@@ -162,6 +170,7 @@ export const RepayBorrow: FC<RepayBorrowProps> = ({
                   isConvertable
                   size="superExtraSmall"
                   theme="secondary"
+                  tooltipTheme="secondary"
                 />
               )}
             </div>

@@ -1,7 +1,8 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
+import { createBrowserHistory } from "history";
 import { useReactiveVar } from "@apollo/client";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
@@ -38,7 +39,7 @@ export const LiquidationForm: FC = () => {
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { addTransaction, isTransactionLoading } = useTransactions();
-  const [redirect, setRedirect] = useState(false);
+  const history = createBrowserHistory();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -47,17 +48,6 @@ export const LiquidationForm: FC = () => {
 
   const { data: liquidateAllData } = useLiquidateDetails(borrowerAddress);
   const { liquidateData } = useLiquidateData();
-
-  const getRedirect = useCallback(() => {
-    console.log("redirect");
-    return <Navigate to={AppRoutes.LIQUIDATE} />;
-  }, []);
-
-  useEffect(() => {
-    if (redirect) {
-      getRedirect();
-    }
-  }, [getRedirect, redirect]);
 
   const preparedData = useMemo(() => {
     if (
@@ -252,17 +242,14 @@ export const LiquidationForm: FC = () => {
           });
           addTransaction({
             type: "Liquidation",
-            amount: convertUnits(
-              inputAmount,
-              preparedData.borrowedAsset.decimals
-            ),
+            amount: inputAmount,
             name: preparedData.borrowedAsset.name,
             opHash: operation.opHash,
             status: Status.PENDING,
             timestamp: Date.now(),
           });
           await operation.confirmation(1);
-          setRedirect(true);
+          history.push(AppRoutes.LIQUIDATE);
           updateToast({
             type: "info",
             render: `The ${getAssetName(
@@ -286,6 +273,7 @@ export const LiquidationForm: FC = () => {
       borrowedYTokens,
       borrowerAddress,
       fabrica,
+      history,
       preparedData,
       priceFeedProxy,
       tezos,
