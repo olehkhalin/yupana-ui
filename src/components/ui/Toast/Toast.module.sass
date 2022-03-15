@@ -2,7 +2,7 @@
 @import 'styles/breakpoints.scss'
 
 .toastBody
-  width: 24rem
+  width: 90%
   padding: 0
   word-break: break-word
   left: 50%
@@ -10,11 +10,15 @@
   top: 4rem
 
 .notification
-  padding: .75rem 2.5rem
+  padding: .75rem 1rem
   font-size: .875rem
   background-color: rgba($dark-blue, .9)
   border-radius: .25rem
   text-align: center
+  &:first-child
+    margin-top: .5rem
+  &:not(:last-child)
+    margin-bottom: .5rem
 
 .info
   color: $white
@@ -27,6 +31,10 @@
 .icon, .iconWrapper
   display: none
   margin-left: 1.375rem
+
+@include media('>phone')
+  .toastBody
+    width: 24rem
 
 @include media('>Mphone')
   .notification
