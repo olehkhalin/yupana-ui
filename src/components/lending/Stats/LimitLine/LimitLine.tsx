@@ -71,7 +71,7 @@ export const LimitLine: FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          <PrettyAmount amount={value} isConvertable />
+          <PrettyAmount amount={value} tooltipTheme={theme} isConvertable />
         </div>
       </div>
 

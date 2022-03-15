@@ -55,7 +55,12 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
             {loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={value} theme="secondary" isConvertable />
+              <PrettyAmount
+                amount={value}
+                theme="secondary"
+                tooltipTheme="secondary"
+                isConvertable
+              />
             )}
           </span>
         ),

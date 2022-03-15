@@ -24,7 +24,7 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading, className }) => {
         Header: () => <span className={s.white}>Borrower address</span>,
         accessor: "borrowerAddress",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
-          <div className={cx(s.address, s.white, s.noShadow)}>
+          <div className={cx(s.white, s.noShadow)}>
             {loading ? "—" : shortize(value)}
           </div>
         ),
@@ -37,7 +37,12 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading, className }) => {
             {loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={value} theme="secondary" isConvertable />
+              <PrettyAmount
+                amount={value}
+                tooltipTheme="secondary"
+                theme="secondary"
+                isConvertable
+              />
             )}
           </span>
         ),
