@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { createBrowserHistory } from "history";
 import { useReactiveVar } from "@apollo/client";
 import { useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
@@ -39,7 +38,6 @@ export const LiquidationForm: FC = () => {
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { addTransaction, isTransactionLoading } = useTransactions();
-  const history = createBrowserHistory();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
