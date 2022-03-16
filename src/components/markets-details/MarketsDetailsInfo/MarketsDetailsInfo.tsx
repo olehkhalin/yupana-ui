@@ -101,6 +101,8 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
               <PrettyAmount
                 amount={totalBorrow}
                 currency={getAssetName(asset)}
+                theme="secondary"
+                tooltipTheme="secondary"
               />
             </div>
             <div className={s.statValue}>
@@ -109,6 +111,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
                 isConvertable
                 size="medium"
                 theme="secondary"
+                tooltipTheme="secondary"
               />
             </div>
           </div>
