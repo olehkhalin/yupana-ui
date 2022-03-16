@@ -9,6 +9,7 @@ import { ToastProvider } from "hooks/useUpdateToast";
 import { CurrencyProvider } from "hooks/useCurrency";
 import { AssetsProvider } from "hooks/useAssets";
 import { RedirectProvider } from "hooks/useRedirect";
+import { ConnectWalletModalProvider } from "hooks/useConnectModal";
 
 export const BaseProvider: FC = ({ children }) => (
   <Router>
@@ -17,9 +18,11 @@ export const BaseProvider: FC = ({ children }) => (
         <ApolloProvider client={client}>
           <CurrencyProvider>
             <AssetsProvider>
-              <RedirectProvider>
-                <ToastProvider>{children}</ToastProvider>
-              </RedirectProvider>
+              <ConnectWalletModalProvider>
+                <RedirectProvider>
+                  <ToastProvider>{children}</ToastProvider>
+                </RedirectProvider>
+              </ConnectWalletModalProvider>
             </AssetsProvider>
           </CurrencyProvider>
         </ApolloProvider>

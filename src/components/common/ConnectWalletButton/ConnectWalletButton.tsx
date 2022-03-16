@@ -1,39 +1,46 @@
-import React, { useState, useCallback, FC } from "react";
+import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
 import { useWiderThanMphone } from "utils/helpers";
 import { shortize } from "utils/helpers";
 import { useReady, useAccountPkh } from "utils/dapp";
 import { useTransactions } from "hooks/useTransactions";
+import { useConnectWalletModal } from "hooks/useConnectModal";
 import { AccountModal } from "components/modals/AccountModal";
 import { ConnectWalletModal } from "components/modals/ConnectWalletModal";
-import { Button } from "components/ui/Button";
+import { Button, ButtonProps } from "components/ui/Button";
 
 import { TransactionsIcon } from "./TransactionsIcon";
 import s from "./ConnectWalletButton.module.sass";
 
 type ConnectWalletButtonProps = {
+  closeAnotherModal?: () => void;
   className?: string;
-};
+} & ButtonProps;
 
 export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
+  closeAnotherModal,
   className,
+  ...props
 }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const ready = useReady();
   const accountPkh = useAccountPkh();
   const { isTransactionsExist } = useTransactions();
+  const {
+    handleAccountModal,
+    accountModalIsOpen,
+    handleConnectModal,
+    connectModalIsOpen,
+  } = useConnectWalletModal();
 
-  const [accountModalIsOpen, setAccountModalIsOpen] = useState<boolean>(false);
-  const [connectModalIsOpen, setConnectModalIsOpen] = useState<boolean>(false);
-
-  const handleAccountModal = useCallback(() => {
-    setAccountModalIsOpen(!accountModalIsOpen);
-  }, [accountModalIsOpen]);
-
-  const handleConnectModal = useCallback(() => {
-    setConnectModalIsOpen(!connectModalIsOpen);
-  }, [connectModalIsOpen]);
+  const handleModal = useCallback(
+    (callback: () => void) => {
+      callback();
+      closeAnotherModal?.();
+    },
+    [closeAnotherModal]
+  );
 
   return (
     <>
@@ -43,7 +50,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
             sizeT="medium"
             theme="secondary"
             aria-label={accountPkh}
-            onClick={handleAccountModal}
+            onClick={() => handleModal(handleAccountModal)}
             className={cx(
               s.button,
               { [s.transactions]: isTransactionsExist },
@@ -66,8 +73,9 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           <Button
             sizeT="medium"
             theme="primary"
-            onClick={handleConnectModal}
+            onClick={() => handleModal(handleConnectModal)}
             className={cx(s.button, className)}
+            {...props}
           >
             Connect <span className={s.connectDesktop}>wallet</span>
           </Button>

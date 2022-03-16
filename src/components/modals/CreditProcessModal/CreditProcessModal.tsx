@@ -9,6 +9,7 @@ import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
 import { getPrettyPercent, convertUnits } from "utils/helpers/amount";
 import { useWiderThanMphone } from "utils/helpers";
+import { useAccountPkh } from "utils/dapp";
 import { assetAmountValidationFactory } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
@@ -16,8 +17,10 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
 import { PendingIcon } from "components/common/PendingIcon";
+import { ConnectWalletButton } from "components/common/ConnectWalletButton";
 import { Modal } from "components/ui/Modal";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
@@ -25,7 +28,6 @@ import { AssetLogo } from "components/common/AssetLogo";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./CreditProcessModal.module.sass";
-import { useErrorMessage } from "hooks/useErrorMessage";
 
 export type FormTypes = {
   amount: BigNumber;
@@ -86,6 +88,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
+  const pkh = useAccountPkh();
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -252,25 +255,32 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           </div>
         </div>
 
-        <Button
-          sizeT={isWiderThanMphone ? "large" : "medium"}
-          actionT={isBorrowTheme ? "borrow" : "supply"}
-          type="submit"
-          disabled={
-            disabled ||
-            !!borrowWarningMessage ||
-            operationLoading ||
-            maxAmount.eq(0) ||
-            isTransactionLoading
-          }
-          className={s.button}
-        >
-          {operationLoading || isTransactionLoading ? (
-            <PendingIcon isTransparent />
-          ) : (
-            title
-          )}
-        </Button>
+        {pkh ? (
+          <Button
+            sizeT={isWiderThanMphone ? "large" : "medium"}
+            actionT={isBorrowTheme ? "borrow" : "supply"}
+            type="submit"
+            disabled={
+              disabled ||
+              !!borrowWarningMessage ||
+              operationLoading ||
+              maxAmount.eq(0) ||
+              isTransactionLoading
+            }
+            className={s.button}
+          >
+            {operationLoading || isTransactionLoading ? (
+              <PendingIcon isTransparent />
+            ) : (
+              title
+            )}
+          </Button>
+        ) : (
+          <ConnectWalletButton
+            closeAnotherModal={onRequestClose}
+            actionT={isBorrowTheme ? "borrow" : "supply"}
+          />
+        )}
       </form>
     </Modal>
   );
