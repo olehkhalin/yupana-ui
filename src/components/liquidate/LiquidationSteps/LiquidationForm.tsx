@@ -19,6 +19,7 @@ import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useRedirect } from "hooks/useRedirect";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/common/Heading";
@@ -26,7 +27,6 @@ import { NumberInput } from "components/common/NumberInput";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { FormTypes } from "components/modals/CreditProcessModal";
 import { PendingIcon } from "components/common/PendingIcon";
-import { AppRoutes } from "routes/main-routes";
 
 import s from "./LiquidationSteps.module.sass";
 
@@ -247,7 +247,6 @@ export const LiquidationForm: FC = () => {
             timestamp: Date.now(),
           });
           await operation.confirmation(1);
-          window.location.replace(AppRoutes.LIQUIDATE);
           updateToast({
             type: "info",
             render: `The ${getAssetName(
