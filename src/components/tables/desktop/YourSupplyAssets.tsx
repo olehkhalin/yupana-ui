@@ -1,13 +1,15 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
+import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData, AssetType } from "types/asset";
+import { AssetsResponseData, AssetsResponseItem, AssetType } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { Table } from "components/ui/Table";
+import { PrettyAmount } from "components/common/PrettyAmount";
 import { AssetName } from "components/common/AssetName";
 import { CollateralSwitcher } from "components/common/CollateralSwitcher";
-import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
@@ -49,17 +51,20 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
               ),
       },
       {
-        Header: "Wallet",
-        id: "wallet",
-        accessor: "asset",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
+        Header: "Supplied",
+        id: "supply",
+        accessor: ({ supply, asset }: AssetsResponseItem) =>
           loading ? (
             "—"
           ) : (
-            <BalanceAmount
-              asset={value}
+            <PrettyAmount
+              amount={convertUnits(
+                convertUnits(supply, STANDARD_PRECISION) ?? new BigNumber(0),
+                asset.decimals,
+                true
+              )}
+              currency={getSliceAssetName(asset)}
               isMinified
-              preloaderClassName={s.balance}
             />
           ),
       },

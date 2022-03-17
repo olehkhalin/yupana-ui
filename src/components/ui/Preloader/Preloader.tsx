@@ -21,6 +21,7 @@ const themeClassPreloader = {
 };
 
 const sizeClass = {
+  xsmall: s.xsmall,
   small: s.small,
   medium: s.medium,
   large: s.large,
