@@ -3,7 +3,7 @@ import { Cell, Row } from "react-table";
 import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData, AssetsResponseItem, AssetType } from "types/asset";
+import { AssetsResponseData, AssetType } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { getSliceAssetName } from "utils/helpers/asset";
 import { Table } from "components/ui/Table";
@@ -53,17 +53,22 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
       {
         Header: "Supplied",
         id: "supply",
-        accessor: ({ supply, asset }: AssetsResponseItem) =>
+        accessor: (row: { asset: AssetType; supply: BigNumber }) => ({
+          asset: row.asset,
+          supply: row.supply,
+        }),
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading ? (
             "—"
           ) : (
             <PrettyAmount
               amount={convertUnits(
-                convertUnits(supply, STANDARD_PRECISION) ?? new BigNumber(0),
-                asset.decimals,
+                convertUnits(value.supply, STANDARD_PRECISION) ??
+                  new BigNumber(0),
+                value.asset.decimals,
                 true
               )}
-              currency={getSliceAssetName(asset)}
+              currency={getSliceAssetName(value.asset)}
               isMinified
             />
           ),
