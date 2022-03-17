@@ -71,7 +71,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
           />
         </div>
         <Button theme="clear" href={`/markets/${yToken}`} className={s.details}>
-          Markets details...
+          Market details...
         </Button>
       </div>
 
