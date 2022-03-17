@@ -18,15 +18,15 @@ export const BaseProvider: FC = ({ children }) => (
       <TransactionsProvider>
         <ApolloProvider client={client}>
           <CurrencyProvider>
-            <AssetsBalanceProvider>
-              <AssetsProvider>
+            <AssetsProvider>
+              <AssetsBalanceProvider>
                 <ConnectWalletModalProvider>
                   <RedirectProvider>
                     <ToastProvider>{children}</ToastProvider>
                   </RedirectProvider>
                 </ConnectWalletModalProvider>
-              </AssetsProvider>
-            </AssetsBalanceProvider>
+              </AssetsBalanceProvider>
+            </AssetsProvider>
           </CurrencyProvider>
         </ApolloProvider>
       </TransactionsProvider>

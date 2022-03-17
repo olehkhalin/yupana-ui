@@ -90,19 +90,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const pkh = useAccountPkh();
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
-  const { balance, balanceLoading } = useAssetsBalance();
+  const { getBalanceByCurrentAsset, balanceLoading } = useAssetsBalance();
 
-  const pureAssetBalance = useMemo(() => {
-    if (balance && balance.length) {
-      const currentAsset = balance.find(
-        (el) => getAssetName(el.asset) === getAssetName(asset)
-      );
-
-      return currentAsset ? currentAsset.balance : new BigNumber(0);
-    }
-
-    return new BigNumber(0);
-  }, [asset, balance]);
+  const pureAssetBalance = useMemo(
+    () => getBalanceByCurrentAsset(asset),
+    [asset, getBalanceByCurrentAsset]
+  );
 
   const pureMaxAmount = useMemo(() => {
     switch (type) {
