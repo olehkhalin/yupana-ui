@@ -1,12 +1,16 @@
-import React, { FC, useState } from "react";
+import React, { FC, useState, useCallback, useEffect } from "react";
 import BigNumber from "bignumber.js";
+import useSWR from "swr";
 import cx from "classnames";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { DOCS_LINKS } from "constants/docs";
+import { AssetType } from "types/asset";
+import { getUserBalance } from "utils/dapp/helpers";
 import { useWiderThanMdesktop } from "utils/helpers";
-import { useAccountPkh } from "utils/dapp";
+import { useAccountPkh, useTezos } from "utils/dapp";
 import { useAssets } from "hooks/useAssets";
+import { useAssetsBalance } from "hooks/useAssetsBalance";
 import { CreditProcessModalProvider } from "hooks/useCreditProcessModal";
 import { Section } from "components/common/Section";
 import { AssetsSwitcher } from "components/common/AssetsSwitcher";
@@ -26,10 +30,60 @@ type AssetsProps = {
 
 export const AllAssets: FC<AssetsProps> = ({ className }) => {
   const accountPkh = useAccountPkh();
+  const tezos = useTezos();
   const isWiderThanMdesktop = useWiderThanMdesktop();
   const [isAssetSwitcherActive, setIsAssetSwitcherActive] = useState(true);
+  const { updateAssetsBalance, setBalanceLoading } = useAssetsBalance();
 
   const { data, loading, error } = useAssets();
+
+  const getBalance = useCallback(
+    async (asset: AssetType) => {
+      let wallet = new BigNumber(0);
+      if (!!accountPkh && !!tezos) {
+        wallet =
+          (await getUserBalance(
+            tezos,
+            asset.contractAddress,
+            asset.tokenId,
+            accountPkh
+          )) ?? 0;
+      }
+      return wallet;
+    },
+    [accountPkh, tezos]
+  );
+
+  const getAssetsBalance = useCallback(() => {
+    return Promise.all(
+      data
+        ? data?.assets.map(async ({ asset }) => {
+            const balance = await getBalance(asset);
+            return {
+              asset: asset,
+              balance,
+            };
+          })
+        : []
+    );
+  }, [data, getBalance]);
+
+  const { data: balanceData, error: balanceError } = useSWR(
+    ["assets-balance", accountPkh, data],
+    getAssetsBalance
+  );
+
+  useEffect(() => {
+    if (balanceData && balanceData.length && !balanceError) {
+      updateAssetsBalance(balanceData);
+      setBalanceLoading(false);
+    } else if (
+      (balanceData === null || balanceData === undefined) &&
+      !balanceError
+    ) {
+      setBalanceLoading(true);
+    }
+  }, [balanceData, data, updateAssetsBalance, setBalanceLoading, balanceError]);
 
   if (error) {
     return <></>;

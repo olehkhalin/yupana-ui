@@ -19,9 +19,11 @@ import {
 } from "hooks/useCreditProcessModal";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
+import { useAssetsBalance } from "hooks/useAssetsBalance";
+import { Preloader } from "components/ui/Preloader";
+import { Modal } from "components/ui/Modal";
 import { PendingIcon } from "components/common/PendingIcon";
 import { ConnectWalletButton } from "components/common/ConnectWalletButton";
-import { Modal } from "components/ui/Modal";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
 import { AssetLogo } from "components/common/AssetLogo";
@@ -49,7 +51,6 @@ type CreditProcessModalInnerProps = {
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
-  walletBalance?: BigNumber;
   liquidity?: BigNumber;
   availableToWithdraw?: BigNumber;
   onSubmit: any;
@@ -72,7 +73,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   title,
   balanceLabel,
   maxAmount,
-  walletBalance,
   liquidity,
   availableToWithdraw,
   onSubmit,
@@ -86,9 +86,36 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(
     new BigNumber(0)
   );
+
+  const pkh = useAccountPkh();
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
-  const pkh = useAccountPkh();
+  const { balance, balanceLoading } = useAssetsBalance();
+
+  const pureAssetBalance = useMemo(() => {
+    if (balance && balance.length) {
+      const currentAsset = balance.find(
+        (el) => getAssetName(el.asset) === getAssetName(asset)
+      );
+
+      return currentAsset ? currentAsset.balance : new BigNumber(0);
+    }
+
+    return new BigNumber(0);
+  }, [asset, balance]);
+
+  const pureMaxAmount = useMemo(() => {
+    switch (type) {
+      case CreditProcessModalEnum.SUPPLY:
+        return pureAssetBalance;
+      default:
+        return maxAmount;
+    }
+  }, [maxAmount, pureAssetBalance, type]);
+
+  const balanceIsLoading = useMemo(() => {
+    return type === CreditProcessModalEnum.SUPPLY ? balanceLoading : false;
+  }, [balanceLoading, type]);
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -112,9 +139,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const validateAmount = useMemo(
     () =>
       assetAmountValidationFactory({
-        max: convertUnits(maxAmount, asset.decimals, true),
+        max: convertUnits(pureMaxAmount, asset.decimals, true),
       }),
-    [asset.decimals, maxAmount]
+    [asset.decimals, pureMaxAmount]
   );
 
   const borrowWarningMessage = useBorrowWarningMessage(asset, type);
@@ -123,7 +150,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     type,
     dynamicBorrowLimitUsed,
     amount,
-    walletBalance,
+    walletBalance: pureAssetBalance,
     availableToWithdraw,
     liquidity,
   });
@@ -136,7 +163,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
       );
 
       const isMaxAmount = mutezAmount.eq(
-        maxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
+        pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
       );
       try {
         setOperationLoading(true);
@@ -152,7 +179,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
         setOperationLoading(false);
       }
     },
-    [asset.decimals, maxAmount, onRequestClose, onSubmit, updateToast]
+    [asset.decimals, pureMaxAmount, onRequestClose, onSubmit, updateToast]
   );
 
   const isBorrowTheme = theme === "secondary";
@@ -184,11 +211,15 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           {balanceLabel}
 
           <div className={s.balance}>
-            <PrettyAmount
-              amount={convertUnits(maxAmount, asset.decimals, true)}
-              currency={getSliceAssetName(asset)}
-              tooltipTheme={theme}
-            />
+            {balanceIsLoading ? (
+              <Preloader theme={theme} className={s.balancePreloader} />
+            ) : (
+              <PrettyAmount
+                amount={convertUnits(pureMaxAmount, asset.decimals, true)}
+                currency={getSliceAssetName(asset)}
+                tooltipTheme={theme}
+              />
+            )}
           </div>
         </div>
 
@@ -203,7 +234,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               decimals={asset.decimals}
               error={errorMessage || borrowWarningMessage}
               className={s.input}
-              maxValue={convertUnits(maxAmount, asset.decimals, true)}
+              maxValue={convertUnits(pureMaxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
               exchangeRate={convertUnits(
                 oraclePrice.price,
@@ -264,7 +295,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               disabled ||
               !!borrowWarningMessage ||
               operationLoading ||
-              maxAmount.eq(0) ||
+              pureMaxAmount.eq(0) ||
               isTransactionLoading
             }
             className={s.button}
@@ -331,7 +362,6 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitUsedFunc,
     onSubmit,
     oraclePrice,
-    walletBalance,
     liquidity,
     availableToWithdraw,
   } = creditProcessModalData;
@@ -355,7 +385,6 @@ export const CreditProcessModal = () => {
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
-      walletBalance={walletBalance}
       liquidity={liquidity}
       availableToWithdraw={availableToWithdraw}
       {...getModalLabels(type)}
