@@ -51,8 +51,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { addTransaction } = useTransactions();
-  const { data: walletBalance, loading: loadingWalletBalance } =
-    useBalance(asset);
+  const { loading: loadingWalletBalance } = useBalance(asset);
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -227,11 +226,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     ]
   );
 
-  const pureWalletBalance = useMemo(
-    () => convertUnits(walletBalance ?? new BigNumber(0), asset.decimals),
-    [asset.decimals, walletBalance]
-  );
-
   const handleRepay = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.REPAY,
@@ -240,7 +234,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
           ? new BigNumber(0)
           : convertUnits(borrowed, STANDARD_PRECISION)
         : new BigNumber(0),
-      walletBalance: pureWalletBalance,
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       borrowLimitUsed: maxCollateral.eq(0)
@@ -272,7 +265,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     setCreditProcessModalData,
     loadingWalletBalance,
     borrowed,
-    pureWalletBalance,
     asset,
     maxCollateral,
     outstandingBorrow,

@@ -19,7 +19,7 @@ import {
 } from "hooks/useCreditProcessModal";
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
-import { useAssetsBalance } from "hooks/useAssetsBalance";
+import { useBalance } from "hooks/useBalance";
 import { Preloader } from "components/ui/Preloader";
 import { Modal } from "components/ui/Modal";
 import { PendingIcon } from "components/common/PendingIcon";
@@ -90,21 +90,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const pkh = useAccountPkh();
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
-  const { getBalanceByCurrentAsset, balanceLoading } = useAssetsBalance();
-
-  const pureAssetBalance = useMemo(
-    () => getBalanceByCurrentAsset(asset),
-    [asset, getBalanceByCurrentAsset]
-  );
+  const { data: balanceData, loading: balanceLoading } = useBalance(asset);
 
   const pureMaxAmount = useMemo(() => {
     switch (type) {
       case CreditProcessModalEnum.SUPPLY:
-        return pureAssetBalance;
+        return balanceData ?? new BigNumber(0);
       default:
-        return maxAmount;
+        return maxAmount ?? new BigNumber(0);
     }
-  }, [maxAmount, pureAssetBalance, type]);
+  }, [type, balanceData, maxAmount]);
 
   const balanceIsLoading = useMemo(() => {
     return type === CreditProcessModalEnum.SUPPLY ? balanceLoading : false;
@@ -143,7 +138,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     type,
     dynamicBorrowLimitUsed,
     amount,
-    walletBalance: pureAssetBalance,
+    walletBalance: balanceData,
     availableToWithdraw,
     liquidity,
   });
