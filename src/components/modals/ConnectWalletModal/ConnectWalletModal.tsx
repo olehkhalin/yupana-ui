@@ -1,8 +1,7 @@
 import React, { FC, useCallback } from "react";
 
-import { useConnectModalsState } from "hooks/useConnectModalsState";
+import { useConnectWalletModal } from "hooks/useConnectModal";
 import { useUpdateToast } from "hooks/useUpdateToast";
-import { ModalActions } from "types/modal";
 import {
   TEMPLE_WALLET_NOT_INSTALLED_MESSAGE,
   useConnectWithBeacon,
@@ -21,11 +20,12 @@ enum WalletType {
   TEMPLE = "temple",
 }
 
-export const ConnectWalletModal: FC<ModalActions> = ({
-  isOpen,
-  onRequestClose,
-}) => {
-  const { openInstallTempleWalletModal } = useConnectModalsState();
+export const ConnectWalletModal: FC = () => {
+  const {
+    connectModalIsOpen,
+    handleConnectModal,
+    handleInstallTempleWalletModal,
+  } = useConnectWalletModal();
   const connectWithBeacon = useConnectWithBeacon();
   const connectWithTemple = useConnectWithTemple();
   const { updateToast } = useUpdateToast();
@@ -35,16 +35,16 @@ export const ConnectWalletModal: FC<ModalActions> = ({
       try {
         if (walletType === WalletType.BEACON) {
           await connectWithBeacon(true);
-          onRequestClose();
+          handleConnectModal();
         } else {
           await connectWithTemple(true);
-          onRequestClose();
+          handleConnectModal();
         }
       } catch (e) {
         if (e instanceof Error) {
           if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
-            onRequestClose();
-            openInstallTempleWalletModal();
+            handleConnectModal();
+            handleInstallTempleWalletModal();
           } else {
             updateToast({
               type: "error",
@@ -66,14 +66,14 @@ export const ConnectWalletModal: FC<ModalActions> = ({
     [
       connectWithBeacon,
       connectWithTemple,
-      onRequestClose,
-      openInstallTempleWalletModal,
+      handleConnectModal,
+      handleInstallTempleWalletModal,
       updateToast,
     ]
   );
 
   return (
-    <Modal isOpen={isOpen} onRequestClose={onRequestClose}>
+    <Modal isOpen={connectModalIsOpen} onRequestClose={handleConnectModal}>
       <ModalHeader
         title="Connect to a wallet"
         description="Please select a wallet to connect to this dapp:"

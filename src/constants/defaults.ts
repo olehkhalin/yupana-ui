@@ -27,6 +27,8 @@ export const LIQUIDATION_POSITIONS_ITEMS_PER_PAGE = process.env
   .REACT_APP_LIQUIDATION_POSITIONS_ITEMS_PER_PAGE
   ? +process.env.REACT_APP_LIQUIDATION_POSITIONS_ITEMS_PER_PAGE
   : 10;
+export const TEMPLE_WALLET_LINK =
+  process.env.REACT_APP_TEMPLE_WALLET_LINK ?? "https://templewallet.com/";
 
 // Contract fallbacks
 export const YUPANA_CONTRACT_FALLBACK =
