@@ -56,6 +56,7 @@ export const Header: FC<HeaderProps> = ({ className }) => {
       <div className={cx(s.dropdown, s.mobile, { [s.active]: isOpenDropdown })}>
         <NavList
           itemClassName={s.navItem}
+          setIsOpenDropdown={setIsOpenDropdown}
           className={cx(s.navlist, s.desktop)}
         />
       </div>

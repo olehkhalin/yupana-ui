@@ -1,5 +1,5 @@
 import React, { FC, HTMLProps } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, NavLinkProps } from "react-router-dom";
 import cx from "classnames";
 
 import { ReactComponent as Arrow } from "svg/Arrow.svg";
@@ -87,6 +87,7 @@ export const Button: FC<ButtonProps> = ({
     }
     return (
       <NavLink
+        {...(props as NavLinkProps)}
         to={href}
         className={({ isActive }) =>
           cx(classNames, isActive && cx(s.active, activeClassName))
