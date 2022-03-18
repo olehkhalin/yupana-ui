@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
 import { PendingIcon } from "components/common/PendingIcon";
@@ -20,6 +20,14 @@ export const Switcher: FC<SwitcherProps> = ({
   loading,
   className,
 }) => {
+  const handleButtonChange = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      handleChange();
+    },
+    [handleChange]
+  );
+
   const compoundClassName = cx(
     s.button,
     { [s.active]: active },
@@ -32,7 +40,7 @@ export const Switcher: FC<SwitcherProps> = ({
     <div className={s.root}>
       <button
         type="button"
-        onClick={handleChange}
+        onClick={handleButtonChange}
         disabled={disabled}
         className={compoundClassName}
       ></button>

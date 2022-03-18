@@ -96,6 +96,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({ data, loading }) => {
         supply={supplyWithInterest}
         totalLiquid={totalLiquid}
         isCollateral={isCollateral}
+        isCommon
       />
     ),
     []

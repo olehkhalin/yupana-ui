@@ -33,6 +33,7 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
           amount={totalAmount}
           isConvertable
           theme={theme}
+          tooltipTheme={theme}
           size="large"
         />
       </div>
@@ -42,7 +43,12 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
           {isPrimaryTheme ? "24H Supply Volume" : "24H Borrow Volume"}
         </div>
         <div className={s.value}>
-          <PrettyAmount amount={volume24h} isConvertable size="small" />
+          <PrettyAmount
+            amount={volume24h}
+            tooltipTheme={theme}
+            isConvertable
+            size="small"
+          />
         </div>
       </div>
 

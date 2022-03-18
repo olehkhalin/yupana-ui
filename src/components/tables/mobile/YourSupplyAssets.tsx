@@ -1,12 +1,14 @@
 import React, { FC, useCallback, useMemo } from "react";
+import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { AssetName } from "components/common/AssetName";
 import { TableCard } from "components/common/TableCard";
-import { BalanceAmount } from "components/common/BalanceAmount";
 import { CollateralSwitcher } from "components/common/CollateralSwitcher";
+import { PrettyAmount } from "components/common/PrettyAmount";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Cards.module.sass";
@@ -48,11 +50,20 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
                 ),
           },
           {
-            title: "Wallet",
+            title: "Supplied",
             content: loading ? (
               "—"
             ) : (
-              <BalanceAmount sizeT="small" asset={el.asset} isMinified />
+              <PrettyAmount
+                amount={convertUnits(
+                  convertUnits(el.supply, STANDARD_PRECISION) ??
+                    new BigNumber(0),
+                  el.asset.decimals,
+                  true
+                )}
+                currency={getSliceAssetName(el.asset)}
+                isMinified
+              />
             ),
           },
           {

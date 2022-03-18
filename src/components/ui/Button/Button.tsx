@@ -10,7 +10,7 @@ export type HTMLButtonType =
   | HTMLProps<HTMLButtonElement>
   | HTMLProps<HTMLAnchorElement>;
 
-type ButtonProps = {
+export type ButtonProps = {
   theme?: keyof typeof themeClass;
   sizeT?: keyof typeof sizeClass;
   actionT?: "supply" | "borrow";

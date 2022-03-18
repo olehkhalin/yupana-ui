@@ -88,7 +88,12 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           <Item
             text="Multiplier per year"
             value={
-              <PrettyAmount amount={multiplierPerYear} size="extraSmall" />
+              <PrettyAmount
+                amount={multiplierPerYear}
+                size="extraSmall"
+                theme="secondary"
+                tooltipTheme="secondary"
+              />
             }
             theme="secondary"
             icon={false}
@@ -97,7 +102,12 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           <Item
             text="Jump multiplier per year"
             value={
-              <PrettyAmount amount={jumpMultiplierPerYear} size="extraSmall" />
+              <PrettyAmount
+                amount={jumpMultiplierPerYear}
+                size="extraSmall"
+                theme="secondary"
+                tooltipTheme="secondary"
+              />
             }
             theme="secondary"
             icon={false}

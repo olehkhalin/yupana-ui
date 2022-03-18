@@ -146,6 +146,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               isConvertable
               size="small"
               theme="secondary"
+              tooltipTheme="secondary"
               className={s.yellow}
             />
           ),

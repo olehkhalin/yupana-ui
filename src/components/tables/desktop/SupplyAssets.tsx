@@ -6,6 +6,7 @@ import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
+import { Tooltip } from "components/ui/Tooltip";
 import { AssetName } from "components/common/AssetName";
 import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
@@ -49,7 +50,11 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
               ),
       },
       {
-        Header: "Collateral Factor",
+        Header: () => (
+          <Tooltip content="Collateral Factor">
+            <>Coll. Fact.</>
+          </Tooltip>
+        ),
         accessor: "collateralFactor",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
@@ -100,6 +105,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
         supply={supplyWithInterest}
         totalLiquid={totalLiquid}
         isCollateral={isCollateral}
+        isCommon
       />
     ),
     []

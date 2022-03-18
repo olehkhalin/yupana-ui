@@ -1,9 +1,10 @@
-import React, { FC, useMemo } from "react";
-import { useParams } from "react-router-dom";
+import React, { FC, useMemo, useRef } from "react";
+import { Navigate, useParams } from "react-router-dom";
 
 import { AssetType } from "types/asset";
 import { LiquidateDetailsResponseData } from "types/liquidate-details";
 import { getAssetName } from "utils/helpers/asset";
+import { useRedirect } from "hooks/useRedirect";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { LiquidateDataProvider } from "hooks/useLiquidateData";
 import NotFound from "pages/not-found";
@@ -15,6 +16,7 @@ import {
   LiquidationStepSecond,
   LiquidationForm,
 } from "components/liquidate/LiquidationSteps";
+import { AppRoutes } from "routes/main-routes";
 
 import s from "./Liquidate.module.sass";
 
@@ -68,10 +70,15 @@ const LiquidateInner: FC<LiquidateInnerProps> = ({ data, loading }) => {
 export const Liquidate: FC = () => {
   // @ts-ignore
   const { borrowerAddress }: { borrowerAddress: string } = useParams();
+  const { redirect } = useRedirect();
 
   const { data, error, loading } = useLiquidateDetails(borrowerAddress);
 
-  if (!loading && error) {
+  if (redirect && error) {
+    return <Navigate to={AppRoutes.LIQUIDATE} />;
+  }
+
+  if (!loading && error && !redirect) {
     return <NotFound />;
   }
 
