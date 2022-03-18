@@ -1,21 +1,18 @@
 import React, { FC, useCallback, useMemo } from "react";
-import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
 import cx from "classnames";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData, AssetsResponseItem } from "types/asset";
-import { getSliceAssetName } from "utils/helpers/asset";
+import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
-import { PrettyAmount } from "components/common/PrettyAmount";
+import { Tooltip } from "components/ui/Tooltip";
 import { AssetName } from "components/common/AssetName";
+import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Tables.module.sass";
-import { Tooltip } from "components/ui/Tooltip";
-import { TextWithTooltip } from "components/common/TextWithTooltip";
 
 type SupplyAssetsProps = {
   data?: AssetsResponseData;
@@ -54,10 +51,9 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
       },
       {
         Header: () => (
-          <TextWithTooltip
-            text="Coll. Fact."
-            tooltipContent="Collateral Factor"
-          />
+          <Tooltip content="Collateral Factor">
+            <>Coll. Fact.</>
+          </Tooltip>
         ),
         accessor: "collateralFactor",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
@@ -68,22 +64,11 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
               ),
       },
       {
-        Header: "Supplied",
-        id: "supply",
-        accessor: ({ supply, asset }: AssetsResponseItem) =>
-          loading ? (
-            "—"
-          ) : (
-            <PrettyAmount
-              amount={convertUnits(
-                convertUnits(supply, STANDARD_PRECISION) ?? new BigNumber(0),
-                asset.decimals,
-                true
-              )}
-              currency={getSliceAssetName(asset)}
-              isMinified
-            />
-          ),
+        Header: "Wallet",
+        id: "wallet",
+        accessor: "asset",
+        Cell: ({ cell: { value } }: { cell: Cell }) =>
+          loading ? "—" : <BalanceAmount asset={value} isMinified />,
       },
       {
         Header: () => null,
@@ -120,6 +105,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
         supply={supplyWithInterest}
         totalLiquid={totalLiquid}
         isCollateral={isCollateral}
+        isCommon
       />
     ),
     []

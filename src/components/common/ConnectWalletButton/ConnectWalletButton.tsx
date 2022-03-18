@@ -8,6 +8,7 @@ import { useTransactions } from "hooks/useTransactions";
 import { useConnectWalletModal } from "hooks/useConnectModal";
 import { AccountModal } from "components/modals/AccountModal";
 import { ConnectWalletModal } from "components/modals/ConnectWalletModal";
+import { InstallWalletModal } from "components/modals/InstallWalletModal";
 import { Button, ButtonProps } from "components/ui/Button";
 
 import { TransactionsIcon } from "./TransactionsIcon";
@@ -27,12 +28,8 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   const ready = useReady();
   const accountPkh = useAccountPkh();
   const { isTransactionsExist } = useTransactions();
-  const {
-    handleAccountModal,
-    accountModalIsOpen,
-    handleConnectModal,
-    connectModalIsOpen,
-  } = useConnectWalletModal();
+  const { handleAccountModal, accountModalIsOpen, handleConnectModal } =
+    useConnectWalletModal();
 
   const handleModal = useCallback(
     (callback: () => void) => {
@@ -79,10 +76,8 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           >
             Connect <span className={s.connectDesktop}>wallet</span>
           </Button>
-          <ConnectWalletModal
-            isOpen={connectModalIsOpen}
-            onRequestClose={handleConnectModal}
-          />
+          <ConnectWalletModal />
+          <InstallWalletModal />
         </>
       )}
     </>

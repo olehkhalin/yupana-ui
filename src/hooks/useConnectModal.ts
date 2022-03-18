@@ -7,20 +7,28 @@ export const [ConnectWalletModalProvider, useConnectWalletModal] = constate(
       useState<boolean>(false);
     const [connectModalIsOpen, setConnectModalIsOpen] =
       useState<boolean>(false);
+    const [installTempleWalletModalOpen, setInstallTempleWalletModalOpen] =
+      useState(false);
 
     const handleAccountModal = useCallback(() => {
-      setAccountModalIsOpen(!accountModalIsOpen);
-    }, [accountModalIsOpen]);
+      setAccountModalIsOpen((prevState) => !prevState);
+    }, []);
 
     const handleConnectModal = useCallback(() => {
-      setConnectModalIsOpen(!connectModalIsOpen);
-    }, [connectModalIsOpen, setConnectModalIsOpen]);
+      setConnectModalIsOpen((prevState) => !prevState);
+    }, []);
+
+    const handleInstallTempleWalletModal = useCallback(() => {
+      setInstallTempleWalletModalOpen((prevState) => !prevState);
+    }, []);
 
     return {
       accountModalIsOpen,
       connectModalIsOpen,
+      installTempleWalletModalOpen,
       handleAccountModal,
       handleConnectModal,
+      handleInstallTempleWalletModal,
     };
   }
 );
