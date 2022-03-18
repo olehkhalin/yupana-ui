@@ -7350,6 +7350,7 @@ export type Withdraw_Tx_Variance_Order_By = {
 };
 
 export type LiquidationPositionsQueryVariables = Exact<{
+  address?: InputMaybe<Scalars['String']>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 }>;
@@ -7407,11 +7408,11 @@ export type UserSupplyAssetsQuery = { __typename?: 'query_root', userSupply: Arr
 
 
 export const LiquidationPositionsDocument = gql`
-    query LiquidationPositions($limit: Int, $offset: Int) {
+    query LiquidationPositions($address: String, $limit: Int, $offset: Int) {
   user(
     limit: $limit
     offset: $offset
-    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}}
+    where: {liquidationRatio: {_neq: "0", _lte: "1000000000000000000"}, address: {_neq: $address}}
   ) {
     address
     outstandingBorrow
@@ -7465,6 +7466,7 @@ export const LiquidationPositionsDocument = gql`
  * @example
  * const { data, loading, error } = useLiquidationPositionsQuery({
  *   variables: {
+ *      address: // value for 'address'
  *      limit: // value for 'limit'
  *      offset: // value for 'offset'
  *   },

@@ -4,14 +4,15 @@ import { useReactiveVar } from "@apollo/client";
 import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION } from "constants/defaults";
-import { AssetsResponseData } from "types/asset";
+import { AssetsResponseData, AssetsResponseItem } from "types/asset";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { globalVariablesVar } from "utils/cache";
 import { calculateAssetBorrowLimitPercent } from "utils/helpers/api";
 import { useOraclePriceQuery } from "generated/graphql";
 import { Table } from "components/ui/Table";
+import { PrettyAmount } from "components/common/PrettyAmount";
 import { AssetName } from "components/common/AssetName";
-import { BalanceAmount } from "components/common/BalanceAmount";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { BorrowTableDropdown } from "components/tables/TableDropdown";
 
@@ -56,19 +57,22 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
               ),
       },
       {
-        Header: "Wallet",
-        id: "wallet",
-        accessor: "asset",
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
+        Header: "Borrowed",
+        id: "borrow",
+        accessor: ({ borrow, asset }: AssetsResponseItem) =>
           loading ? (
             "—"
           ) : (
-            <BalanceAmount
-              asset={value}
+            <PrettyAmount
+              amount={convertUnits(
+                convertUnits(borrow, STANDARD_PRECISION) ?? new BigNumber(0),
+                asset.decimals,
+                true
+              )}
+              currency={getSliceAssetName(asset)}
               isMinified
+              theme="secondary"
               tooltipTheme="secondary"
-              preloaderTheme="secondary"
-              preloaderClassName={s.balance}
             />
           ),
       },

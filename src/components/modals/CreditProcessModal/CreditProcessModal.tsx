@@ -9,6 +9,7 @@ import { AssetType } from "types/asset";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
 import { getPrettyPercent, convertUnits } from "utils/helpers/amount";
 import { useWiderThanMphone } from "utils/helpers";
+import { useAccountPkh } from "utils/dapp";
 import { assetAmountValidationFactory } from "utils/validation";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
@@ -16,16 +17,19 @@ import {
   CreditProcessModalEnum,
   useCreditProcessModal,
 } from "hooks/useCreditProcessModal";
+import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
-import { PendingIcon } from "components/common/PendingIcon";
+import { useBalance } from "hooks/useBalance";
+import { Preloader } from "components/ui/Preloader";
 import { Modal } from "components/ui/Modal";
+import { PendingIcon } from "components/common/PendingIcon";
+import { ConnectWalletButton } from "components/common/ConnectWalletButton";
 import { NumberInput } from "components/common/NumberInput";
 import { Button } from "components/ui/Button";
 import { AssetLogo } from "components/common/AssetLogo";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./CreditProcessModal.module.sass";
-import { useErrorMessage } from "hooks/useErrorMessage";
 
 export type FormTypes = {
   amount: BigNumber;
@@ -47,7 +51,6 @@ type CreditProcessModalInnerProps = {
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
-  walletBalance?: BigNumber;
   liquidity?: BigNumber;
   availableToWithdraw?: BigNumber;
   onSubmit: any;
@@ -70,7 +73,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   title,
   balanceLabel,
   maxAmount,
-  walletBalance,
   liquidity,
   availableToWithdraw,
   onSubmit,
@@ -84,8 +86,24 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const [dynamicBorrowLimitUsed, setDynamicBorrowLimitUsed] = useState(
     new BigNumber(0)
   );
+
+  const pkh = useAccountPkh();
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
+  const { data: balanceData, loading: balanceLoading } = useBalance(asset);
+
+  const pureMaxAmount = useMemo(() => {
+    switch (type) {
+      case CreditProcessModalEnum.SUPPLY:
+        return balanceData ?? new BigNumber(0);
+      default:
+        return maxAmount ?? new BigNumber(0);
+    }
+  }, [type, balanceData, maxAmount]);
+
+  const balanceIsLoading = useMemo(() => {
+    return type === CreditProcessModalEnum.SUPPLY ? balanceLoading : false;
+  }, [balanceLoading, type]);
 
   const { handleSubmit, control, formState, watch, setFocus } =
     useForm<FormTypes>({
@@ -109,9 +127,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const validateAmount = useMemo(
     () =>
       assetAmountValidationFactory({
-        max: convertUnits(maxAmount, asset.decimals, true),
+        max: convertUnits(pureMaxAmount, asset.decimals, true),
       }),
-    [asset.decimals, maxAmount]
+    [asset.decimals, pureMaxAmount]
   );
 
   const borrowWarningMessage = useBorrowWarningMessage(asset, type);
@@ -120,7 +138,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     type,
     dynamicBorrowLimitUsed,
     amount,
-    walletBalance,
+    walletBalance: balanceData,
     availableToWithdraw,
     liquidity,
   });
@@ -133,7 +151,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
       );
 
       const isMaxAmount = mutezAmount.eq(
-        maxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
+        pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
       );
       try {
         setOperationLoading(true);
@@ -149,7 +167,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
         setOperationLoading(false);
       }
     },
-    [asset.decimals, maxAmount, onRequestClose, onSubmit, updateToast]
+    [asset.decimals, pureMaxAmount, onRequestClose, onSubmit, updateToast]
   );
 
   const isBorrowTheme = theme === "secondary";
@@ -181,11 +199,15 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           {balanceLabel}
 
           <div className={s.balance}>
-            <PrettyAmount
-              amount={convertUnits(maxAmount, asset.decimals, true)}
-              currency={getSliceAssetName(asset)}
-              tooltipTheme={theme}
-            />
+            {balanceIsLoading ? (
+              <Preloader theme={theme} className={s.balancePreloader} />
+            ) : (
+              <PrettyAmount
+                amount={convertUnits(pureMaxAmount, asset.decimals, true)}
+                currency={getSliceAssetName(asset)}
+                tooltipTheme={theme}
+              />
+            )}
           </div>
         </div>
 
@@ -200,7 +222,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               decimals={asset.decimals}
               error={errorMessage || borrowWarningMessage}
               className={s.input}
-              maxValue={convertUnits(maxAmount, asset.decimals, true)}
+              maxValue={convertUnits(pureMaxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
               exchangeRate={convertUnits(
                 oraclePrice.price,
@@ -252,25 +274,32 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
           </div>
         </div>
 
-        <Button
-          sizeT={isWiderThanMphone ? "large" : "medium"}
-          actionT={isBorrowTheme ? "borrow" : "supply"}
-          type="submit"
-          disabled={
-            disabled ||
-            !!borrowWarningMessage ||
-            operationLoading ||
-            maxAmount.eq(0) ||
-            isTransactionLoading
-          }
-          className={s.button}
-        >
-          {operationLoading || isTransactionLoading ? (
-            <PendingIcon isTransparent />
-          ) : (
-            title
-          )}
-        </Button>
+        {pkh ? (
+          <Button
+            sizeT={isWiderThanMphone ? "large" : "medium"}
+            actionT={isBorrowTheme ? "borrow" : "supply"}
+            type="submit"
+            disabled={
+              disabled ||
+              !!borrowWarningMessage ||
+              operationLoading ||
+              pureMaxAmount.eq(0) ||
+              isTransactionLoading
+            }
+            className={s.button}
+          >
+            {operationLoading || isTransactionLoading ? (
+              <PendingIcon isTransparent />
+            ) : (
+              title
+            )}
+          </Button>
+        ) : (
+          <ConnectWalletButton
+            closeAnotherModal={onRequestClose}
+            actionT={isBorrowTheme ? "borrow" : "supply"}
+          />
+        )}
       </form>
     </Modal>
   );
@@ -321,7 +350,6 @@ export const CreditProcessModal = () => {
     dynamicBorrowLimitUsedFunc,
     onSubmit,
     oraclePrice,
-    walletBalance,
     liquidity,
     availableToWithdraw,
   } = creditProcessModalData;
@@ -345,7 +373,6 @@ export const CreditProcessModal = () => {
       onRequestClose={handleModalClose}
       onSubmit={onSubmit}
       oraclePrice={oraclePrice}
-      walletBalance={walletBalance}
       liquidity={liquidity}
       availableToWithdraw={availableToWithdraw}
       {...getModalLabels(type)}

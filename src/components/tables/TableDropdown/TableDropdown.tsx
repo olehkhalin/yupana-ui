@@ -2,10 +2,10 @@ import React, { FC } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
-import { STANDARD_PRECISION } from "constants/defaults";
 import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
 import { Button } from "components/ui/Button";
+import { Preloader } from "components/ui/Preloader";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./TableDropdown.module.sass";
@@ -21,6 +21,7 @@ type TableDropdownInnerProps = {
   yToken: number;
   asset: AssetType;
   balanceAmount: BigNumber;
+  balanceLoading: boolean;
   balanceLabel: string;
   firstButtonLabel: string;
   handleFirstButtonClick?: () => void;
@@ -43,6 +44,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
   handleSecondButtonClick,
   asset,
   balanceAmount,
+  balanceLoading,
   className,
 }) => {
   const isSecondaryTheme = theme === "secondary";
@@ -57,19 +59,25 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
       <div className={s.content}>
         <div className={s.title}>
           {`${balanceLabel}:`}
-          <PrettyAmount
-            amount={convertUnits(
-              convertUnits(balanceAmount, STANDARD_PRECISION),
-              asset.decimals,
-              true
-            )}
-            currency={asset.symbol}
-            isMinified
-            className={s.amount}
-          />
+          {balanceLoading ? (
+            <Preloader
+              sizeT="xsmall"
+              theme={theme}
+              className={s.balancePreloader}
+            />
+          ) : (
+            <PrettyAmount
+              amount={convertUnits(balanceAmount, asset.decimals, true)}
+              theme={theme}
+              tooltipTheme={theme}
+              currency={asset.symbol}
+              isMinified
+              className={s.amount}
+            />
+          )}
         </div>
         <Button theme="clear" href={`/markets/${yToken}`} className={s.details}>
-          Markets details...
+          Market details...
         </Button>
       </div>
 

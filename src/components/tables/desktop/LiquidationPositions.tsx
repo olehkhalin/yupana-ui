@@ -1,4 +1,5 @@
 import React, { FC, useMemo } from "react";
+import { NavLink } from "react-router-dom";
 import { Cell } from "react-table";
 import cx from "classnames";
 
@@ -38,9 +39,12 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         Header: () => <span className={s.white}>Borrower address</span>,
         accessor: "borrowerAddress",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
-          <div className={cx(s.address, s.white, s.noShadow)}>
+          <NavLink
+            to={`${AppRoutes.LIQUIDATE}/${value}`}
+            className={cx(s.address, s.white, s.noShadow)}
+          >
             {loading ? "—" : shortize(value)}
-          </div>
+          </NavLink>
         ),
       },
       {
@@ -51,7 +55,12 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
             {loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={value} theme="secondary" isConvertable />
+              <PrettyAmount
+                amount={value}
+                theme="secondary"
+                tooltipTheme="secondary"
+                isConvertable
+              />
             )}
           </span>
         ),
@@ -123,7 +132,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
       emptyText="There is no positions for liquidation"
       isPaginated
       tableClassName={s.bigTableLiquidate}
-      rowClassName={s.liquidationRow}
+      rowClassName={cx(s.liquidationRow, { [s.white]: !(data && data.length) })}
       className={cx(s.bigTableWrapper, className)}
     />
   );

@@ -35,6 +35,7 @@ type SupplyDropdownProps = {
   supply: BigNumber;
   totalLiquid: BigNumber;
   isCollateral: boolean;
+  isCommon?: boolean;
 } & TableDropdownProps;
 
 export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
@@ -45,6 +46,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   totalLiquid,
   isCollateral,
   theme,
+  isCommon = false,
   className,
 }) => {
   const { setCreditProcessModalData } = useCreditProcessModal();
@@ -54,7 +56,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
-  const { data: walletData } = useBalance(asset);
+  const { data: balanceData, loading: balanceLoading } = useBalance(asset);
   const { addTransaction } = useTransactions();
 
   const tezos = useTezos()!;
@@ -131,7 +133,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   const handleSupply = useCallback(() => {
     setCreditProcessModalData({
       type: CreditProcessModalEnum.SUPPLY,
-      maxAmount: walletData ?? new BigNumber(0),
+      maxAmount: balanceData ?? new BigNumber(0),
       asset: asset,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
       dynamicBorrowLimitFunc: (input: BigNumber) =>
@@ -180,7 +182,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
     });
   }, [
     setCreditProcessModalData,
-    walletData,
+    balanceData,
     asset,
     maxCollateral,
     outstandingBorrow,
@@ -328,8 +330,13 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       asset={asset}
       theme={theme}
       className={className}
-      balanceLabel="Supply balance"
-      balanceAmount={supplied}
+      balanceLabel={isCommon ? "Supply balance" : "Wallet balance"}
+      balanceAmount={
+        isCommon
+          ? convertUnits(supplied, STANDARD_PRECISION)
+          : balanceData ?? new BigNumber(0)
+      }
+      balanceLoading={isCommon ? false : balanceLoading}
       firstButtonLabel="Supply"
       secondButtonLabel="Withdraw"
       handleFirstButtonClick={handleSupply}

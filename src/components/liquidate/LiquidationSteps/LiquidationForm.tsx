@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
+import { AssetType } from "types/asset";
 import { liquidate } from "utils/dapp/methods/liquidate";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { getAssetName } from "utils/helpers/asset";
@@ -18,12 +19,14 @@ import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
+import { useRedirect } from "hooks/useRedirect";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/common/Heading";
 import { NumberInput } from "components/common/NumberInput";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { FormTypes } from "components/modals/CreditProcessModal";
+import { PendingIcon } from "components/common/PendingIcon";
 
 import s from "./LiquidationSteps.module.sass";
 
@@ -34,7 +37,7 @@ export const LiquidationForm: FC = () => {
   const { updateToast } = useUpdateToast();
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
-  const { addTransaction } = useTransactions();
+  const { addTransaction, isTransactionLoading } = useTransactions();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh();
@@ -211,10 +214,6 @@ export const LiquidationForm: FC = () => {
       try {
         if (preparedData) {
           setOperationLoading(true);
-          updateToast({
-            type: "info",
-            render: "Request for Asset Liquidate...",
-          });
           const params = {
             fabricaContractAddress: fabrica,
             proxyContractAddress: priceFeedProxy,
@@ -232,14 +231,16 @@ export const LiquidationForm: FC = () => {
               -preparedData.borrowedAsset.decimals
             ),
           };
-
           const operation = await liquidate(tezos, accountPkh!, params);
+          updateToast({
+            type: "info",
+            render: `Request for ${getAssetName(
+              preparedData.borrowedAsset as unknown as AssetType
+            )} Liquidate. You can follow your transaction in transaction history.`,
+          });
           addTransaction({
             type: "Liquidation",
-            amount: convertUnits(
-              inputAmount,
-              preparedData.borrowedAsset.decimals
-            ),
+            amount: inputAmount,
             name: preparedData.borrowedAsset.name,
             opHash: operation.opHash,
             status: Status.PENDING,
@@ -248,8 +249,9 @@ export const LiquidationForm: FC = () => {
           await operation.confirmation(1);
           updateToast({
             type: "info",
-            render:
-              "The Asset Liquidate request was successful, please wait...",
+            render: `The ${getAssetName(
+              preparedData.borrowedAsset as unknown as AssetType
+            )} Liquidate request was successful, please wait...`,
           });
         }
       } catch (e) {
@@ -325,10 +327,19 @@ export const LiquidationForm: FC = () => {
           />
           <Button
             type="submit"
-            disabled={!!amountErrorMessage || !preparedData || operationLoading}
+            disabled={
+              !!amountErrorMessage ||
+              !preparedData ||
+              operationLoading ||
+              isTransactionLoading
+            }
             className={cx(s.button, { [s.error]: amountErrorMessage })}
           >
-            {operationLoading ? "Loading..." : "Liquidate"}
+            {operationLoading || isTransactionLoading ? (
+              <PendingIcon isTransparent />
+            ) : (
+              "Liquidate"
+            )}
           </Button>
         </form>
 

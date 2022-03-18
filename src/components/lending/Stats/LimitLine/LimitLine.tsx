@@ -31,7 +31,7 @@ export const LimitLine: FC<LimitLineProps> = ({
   loading,
   className,
 }) => {
-  const isInRisk = percent.decimalPlaces(2).gt(100);
+  const isInRisk = percent.gt(100);
 
   const [percentValue, setPercentValue] = useState<number>(0);
   const timing = useMemo(
@@ -71,7 +71,7 @@ export const LimitLine: FC<LimitLineProps> = ({
         </div>
 
         <div className={s.value}>
-          <PrettyAmount amount={value} isConvertable />
+          <PrettyAmount amount={value} tooltipTheme={theme} isConvertable />
         </div>
       </div>
 
