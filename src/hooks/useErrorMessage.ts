@@ -1,12 +1,16 @@
-import { useCallback, useMemo } from "react";
-import { FieldErrors } from "react-hook-form";
+import { useCallback, useEffect, useMemo } from "react";
+import { FieldErrors, UseFormClearErrors } from "react-hook-form";
 import BigNumber from "bignumber.js";
 
+import { AssetType } from "types/asset";
 import { getAdvancedErrorMessage } from "utils/validation";
+import { convertUnits } from "utils/helpers/amount";
+import { FormTypes } from "components/modals/CreditProcessModal";
 
 import { CreditProcessModalEnum } from "./useCreditProcessModal";
 
 export const useErrorMessage = ({
+  asset,
   errors,
   type,
   dynamicBorrowLimitUsed,
@@ -14,7 +18,9 @@ export const useErrorMessage = ({
   walletBalance,
   availableToWithdraw,
   liquidity,
+  clearErrors,
 }: {
+  asset: AssetType;
   errors: FieldErrors;
   type: CreditProcessModalEnum | undefined;
   dynamicBorrowLimitUsed: BigNumber;
@@ -22,6 +28,7 @@ export const useErrorMessage = ({
   walletBalance?: BigNumber;
   availableToWithdraw?: BigNumber;
   liquidity?: BigNumber;
+  clearErrors: UseFormClearErrors<FormTypes>;
 }) => {
   const amountErrorMessage = useMemo(
     () => getAdvancedErrorMessage(errors.amount),
@@ -72,6 +79,17 @@ export const useErrorMessage = ({
       ) || checkValueInContract(CreditProcessModalEnum.BORROW, liquidity),
     [availableToWithdraw, checkValueInContract, liquidity]
   );
+
+  useEffect(() => {
+    if (
+      amount &&
+      walletBalance &&
+      amount.lt(convertUnits(walletBalance, asset.decimals)) &&
+      type === CreditProcessModalEnum.SUPPLY
+    ) {
+      clearErrors("amount");
+    }
+  }, [amount, walletBalance, clearErrors, type, asset.decimals]);
 
   const errorMessage = useMemo(
     () =>
