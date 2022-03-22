@@ -105,7 +105,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     return type === CreditProcessModalEnum.SUPPLY ? balanceLoading : false;
   }, [balanceLoading, type]);
 
-  const { handleSubmit, control, formState, watch, setFocus } =
+  const { handleSubmit, control, formState, watch, setFocus, clearErrors } =
     useForm<FormTypes>({
       defaultValues: {
         amount: new BigNumber(0),
@@ -134,6 +134,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const borrowWarningMessage = useBorrowWarningMessage(asset, type);
   const { errorMessage, disabled } = useErrorMessage({
+    asset,
     errors,
     type,
     dynamicBorrowLimitUsed,
@@ -141,6 +142,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     walletBalance: balanceData,
     availableToWithdraw,
     liquidity,
+    clearErrors,
   });
 
   // Form submit

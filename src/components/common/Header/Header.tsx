@@ -1,12 +1,12 @@
 import React, { FC, useCallback, useState } from "react";
-import { Link } from "react-router-dom";
 import cx from "classnames";
 
-import { AppRoutes } from "routes/main-routes";
+import { Button } from "components/ui/Button";
 import { Container } from "components/common/Container";
 import { ConnectWalletButton } from "components/common/ConnectWalletButton";
 import { ReactComponent as Logo } from "svg/Logo.svg";
 import { ReactComponent as LogoMobile } from "svg/LogoMobile.svg";
+import { YUPANA_LANDING_LINK } from "constants/defaults";
 
 import { Burger } from "./Burger";
 import { NavList } from "./NavList";
@@ -29,10 +29,15 @@ export const Header: FC<HeaderProps> = ({ className }) => {
     <header className={cx(s.root, className)}>
       <div className={s.headerWrapper}>
         <Container className={s.container}>
-          <Link to={AppRoutes.LENDING} className={s.logotype}>
+          <Button
+            href={YUPANA_LANDING_LINK}
+            external
+            theme="clear"
+            className={s.logotype}
+          >
             <Logo className={cx(s.logo, s.logoDesktop)} />
             <LogoMobile className={cx(s.logo, s.logoMobile)} />
-          </Link>
+          </Button>
 
           <div className={s.content}>
             <NavList
@@ -56,6 +61,7 @@ export const Header: FC<HeaderProps> = ({ className }) => {
       <div className={cx(s.dropdown, s.mobile, { [s.active]: isOpenDropdown })}>
         <NavList
           itemClassName={s.navItem}
+          setIsOpenDropdown={setIsOpenDropdown}
           className={cx(s.navlist, s.desktop)}
         />
       </div>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import cx from "classnames";
 
 import { FOOTER_LIST } from "constants/footer-list";
+import { Button } from "components/ui/Button";
 import { Container } from "components/common/Container";
 
 import { SocialLinks } from "./SocialLinks";
@@ -19,17 +20,29 @@ export const Footer: FC<FooterProps> = ({ className }) => (
         <SocialLinks />
         <div className={s.links}>
           <div className={s.column}>
-            {FOOTER_LIST.slice(0, 3).map(({ id, text, to }) => (
-              <Link key={id} to={to} className={s.link}>
+            {FOOTER_LIST.slice(0, 3).map(({ id, text, to, external }) => (
+              <Button
+                key={id}
+                href={to}
+                external={external}
+                theme="clear"
+                className={s.link}
+              >
                 {text}
-              </Link>
+              </Button>
             ))}
           </div>
           <div className={s.column}>
-            {FOOTER_LIST.slice(3, 6).map(({ id, text, to }) => (
-              <Link key={id} to={to} className={s.link}>
+            {FOOTER_LIST.slice(3, 6).map(({ id, text, to, external }) => (
+              <Button
+                key={id}
+                href={to}
+                external={external}
+                theme="clear"
+                className={s.link}
+              >
                 {text}
-              </Link>
+              </Button>
             ))}
           </div>
         </div>
