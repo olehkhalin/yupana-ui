@@ -55,10 +55,10 @@ export const useErrorMessage = ({
     () =>
       type === CreditProcessModalEnum.REPAY &&
       amount &&
-      amount.gt(walletBalance ?? 0)
+      amount.gt(convertUnits(walletBalance ?? 0, asset.decimals))
         ? "Insufficient Wallet Balance"
         : undefined,
-    [amount, walletBalance, type]
+    [type, amount, walletBalance, asset.decimals]
   );
 
   const checkValueInContract = useCallback(
