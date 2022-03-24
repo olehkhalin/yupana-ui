@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, useState, useCallback } from "react";
 import { format } from "timeago.js";
 import cx from "classnames";
 
@@ -9,6 +9,8 @@ import { PendingIcon } from "components/common/PendingIcon";
 import { ReactComponent as Applied } from "svg/Applied.svg";
 import { ReactComponent as TransactionLink } from "svg/TransactionLink.svg";
 import { ReactComponent as Reject } from "svg/Reject.svg";
+import { ReactComponent as Trash } from "svg/Trash.svg";
+import { ReactComponent as Close } from "svg/Close.svg";
 
 import s from "./TransactionsHistory.module.sass";
 
@@ -61,14 +63,69 @@ export enum TransactionType {
 export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
   className,
 }) => {
-  const { allTransactions } = useTransactions();
+  const [isOpenInnerModal, setIsOpenInnerModal] = useState(false);
+  const { allTransactions, clearTransactions, isTransactionLoading } =
+    useTransactions();
+
+  const handleInnerModal = useCallback(() => {
+    setIsOpenInnerModal(!isOpenInnerModal);
+  }, [isOpenInnerModal]);
+
+  const handleClearTransactions = useCallback(() => {
+    clearTransactions();
+    handleInnerModal();
+  }, [clearTransactions, handleInnerModal]);
 
   return (
     <div className={cx(s.root, className)}>
-      <div className={s.title}>Recent transactions:</div>
+      <div className={s.head}>
+        <div className={s.title}>
+          {isOpenInnerModal ? "Clear the history?" : "Recent transactions:"}
+        </div>
+        {!isOpenInnerModal ? (
+          <Button
+            className={cx(s.clearHistoryIcon, {
+              [s.loading]: isTransactionLoading,
+            })}
+            theme="clear"
+            onClick={handleInnerModal}
+            disabled={isTransactionLoading}
+          >
+            <Trash className={cx(s.icon, s.trashIcon)} />
+          </Button>
+        ) : (
+          <Button
+            className={s.clearHistoryIcon}
+            theme="clear"
+            onClick={handleInnerModal}
+          >
+            <Close className={s.icon} />
+          </Button>
+        )}
+      </div>
 
-      <div className={s.wrapper}>
-        {allTransactions &&
+      <div className={cx(s.wrapper, { [s.innerModal]: isOpenInnerModal })}>
+        {isOpenInnerModal && (
+          <div className={s.modalInnerWrapper}>
+            <Button
+              sizeT="small"
+              onClick={handleInnerModal}
+              className={s.confirmationButton}
+            >
+              No
+            </Button>
+            <Button
+              sizeT="small"
+              onClick={handleClearTransactions}
+              className={s.confirmationButton}
+            >
+              Yes
+            </Button>
+          </div>
+        )}
+
+        {!isOpenInnerModal &&
+          allTransactions &&
           allTransactions.length > 0 &&
           allTransactions.map(
             ({ type, amount, name, opHash, status, timestamp }) => (

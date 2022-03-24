@@ -50,9 +50,14 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     setAllTransactions(transactionsFromLS);
   }, [transactionsFromLS]);
 
+  const clearTransactions = useCallback(() => {
+    setAllTransactions(null);
+    localStorage.setItem(lsKey, JSON.stringify(null));
+  }, [lsKey]);
+
   const addTransaction = useCallback(
     (transaction: Transaction) => {
-      if (allTransactions && allTransactions && allTransactions.length > 0) {
+      if (allTransactions && allTransactions.length > 0) {
         const currentTransaction = allTransactions.find(
           (el) => el.opHash === transaction.opHash
         );
@@ -77,6 +82,25 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     [allTransactions]
   );
 
+  const updateTransactionStatus = useCallback(
+    (currentTransaction: Transaction, transactions: Transaction[]) => {
+      const preparedTransaction = {
+        ...currentTransaction,
+        status: Status.APPLIED,
+      };
+
+      if (transactions && transactions.length) {
+        return setAllTransactions([
+          ...transactions,
+          { ...preparedTransaction },
+        ]);
+      }
+
+      return setAllTransactions([{ ...preparedTransaction }]);
+    },
+    []
+  );
+
   useEffect(() => {
     if (
       JSON.stringify(transactionsFromLS) !== JSON.stringify(allTransactions)
@@ -95,9 +119,9 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
 
   const sortedTransactions = useMemo(
     () =>
-      allTransactions &&
-      allTransactions.length &&
-      allTransactions.sort((a, b) => b.timestamp - a.timestamp),
+      allTransactions && allTransactions.length
+        ? allTransactions.sort((a, b) => b.timestamp - a.timestamp)
+        : [],
     [allTransactions]
   );
 
@@ -207,6 +231,8 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     allTransactions: sortedTransactions,
     isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
+    updateTransactionStatus,
+    clearTransactions,
     lastTransaction:
       allTransactions && allTransactions.length ? allTransactions[0] : null,
     isTransactionsExist,
