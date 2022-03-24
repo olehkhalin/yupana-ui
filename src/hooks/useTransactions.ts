@@ -50,6 +50,11 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     setAllTransactions(transactionsFromLS);
   }, [transactionsFromLS]);
 
+  const clearTransactions = useCallback(() => {
+    setAllTransactions(null);
+    localStorage.setItem(lsKey, JSON.stringify(null));
+  }, [lsKey]);
+
   const addTransaction = useCallback(
     (transaction: Transaction) => {
       if (allTransactions && allTransactions.length > 0) {
@@ -227,6 +232,7 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     isTransactionLoading: lastTransactionStatus === Status.PENDING,
     setAllTransactions,
     updateTransactionStatus,
+    clearTransactions,
     lastTransaction:
       allTransactions && allTransactions.length ? allTransactions[0] : null,
     isTransactionsExist,
