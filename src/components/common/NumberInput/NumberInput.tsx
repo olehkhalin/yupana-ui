@@ -32,7 +32,7 @@ type NumberInputProps = Omit<
   theme?: keyof typeof themeClasses;
   value?: BigNumber;
   maxValue?: BigNumber;
-  onChange?: (newValue: BigNumber) => void;
+  onChange?: (newValue?: BigNumber) => void;
   withSlider?: boolean;
   setFocus: () => void;
   exchangeRate?: BigNumber;
@@ -57,6 +57,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       onChange,
       withSlider = true,
       setFocus,
+      onFocus,
+      onBlur,
       exchangeRate = new BigNumber(1),
       className,
       ...props
@@ -67,7 +69,9 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       () => (value !== undefined ? value.toString() : ""),
       [value]
     );
+
     const [localValue, setLocalValue] = useState(valueStr);
+    const [focused, setFocused] = useState(false);
 
     const [valueInBaseCurrency, setValueInBaseCurrency] = useState(
       new BigNumber(0)
@@ -75,11 +79,13 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     // Reset values
     useEffect(() => {
-      setLocalValue(valueStr);
-      if (+valueStr === 0) {
-        setValueInBaseCurrency(new BigNumber(0));
+      if (!focused) {
+        setLocalValue(valueStr);
+        if (+valueStr === 0) {
+          setValueInBaseCurrency(new BigNumber(0));
+        }
       }
-    }, [valueStr]);
+    }, [focused, valueStr]);
 
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {
@@ -136,6 +142,22 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       setValueInBaseCurrency(convertValueToCurrency(val, exchangeRate));
     };
 
+    const handleFocus = useCallback(
+      (evt) => {
+        setFocused(true);
+        onFocus?.(evt);
+      },
+      [setFocused, onFocus]
+    );
+
+    const handleBlur = useCallback(
+      (evt) => {
+        setFocused(false);
+        onBlur?.(evt);
+      },
+      [setFocused, onBlur]
+    );
+
     return (
       <div className={cx(s.root, className)}>
         <div className={s.inputWrapper}>
@@ -159,6 +181,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                 className={s.input}
                 onChange={handleChange}
                 autoComplete="off"
+                onFocus={handleFocus}
+                onBlur={handleBlur}
                 {...props}
               />
 
@@ -196,7 +220,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         {withSlider && maxValue && (
           <Slider
             theme={theme}
-            value={localValue}
+            value={new BigNumber(localValue || 0).toFixed()}
             maxValue={maxValue}
             decimals={decimals}
             onChange={handleSliderChange}
