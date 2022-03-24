@@ -50,11 +50,6 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
     setAllTransactions(transactionsFromLS);
   }, [transactionsFromLS]);
 
-  const clearTransactions = useCallback(() => {
-    setAllTransactions(null);
-    localStorage.setItem(lsKey, JSON.stringify(null));
-  }, [lsKey]);
-
   const addTransaction = useCallback(
     (transaction: Transaction) => {
       if (allTransactions && allTransactions.length > 0) {
@@ -124,6 +119,25 @@ export const [TransactionsProvider, useTransactions] = constate(() => {
         : [],
     [allTransactions]
   );
+
+  const clearTransactions = useCallback(() => {
+    if (sortedTransactions && sortedTransactions.length) {
+      const lastTransaction = sortedTransactions[0];
+      const lastTransactionIsPending =
+        lastTransaction.status === Status.PENDING;
+
+      const updateTransactions = (transaction: Transaction | null) => {
+        const value = transaction ? [transaction] : transaction;
+        setAllTransactions(value);
+        localStorage.setItem(lsKey, JSON.stringify(value));
+      };
+
+      if (lastTransactionIsPending) {
+        return updateTransactions(lastTransaction);
+      }
+      return updateTransactions(null);
+    }
+  }, [lsKey, sortedTransactions]);
 
   useEffect(() => {
     if (sortedTransactions && sortedTransactions.length) {
