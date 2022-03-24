@@ -50,7 +50,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
-  const { addTransaction } = useTransactions();
+  const { addTransaction, updateTransactionStatus, allTransactions } =
+    useTransactions();
   const { data: balanceData, loading: balanceLoading } = useBalance(asset);
 
   const tezos = useTezos()!;
@@ -80,15 +81,18 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         amount: inputAmount,
       };
 
-      const operation = await borrow(tezos, accountPkh!, params);
-      addTransaction({
+      const prepareTransaction = {
         type: "Borrow",
         amount: convertUnits(inputAmount, asset.decimals),
         name: getAssetName(asset),
-        opHash: operation.opHash,
         status: Status.PENDING,
+        opHash: "",
         timestamp: Date.now(),
-      });
+      };
+
+      const operation = await borrow(tezos, accountPkh!, params);
+      prepareTransaction.opHash = operation.opHash;
+      addTransaction(prepareTransaction);
       updateToast({
         type: "info",
         render: `Request for ${getAssetName(
@@ -96,6 +100,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         )} Borrow. You can follow your transaction in transaction history.`,
       });
       await operation.confirmation(1);
+      updateTransactionStatus(prepareTransaction, allTransactions);
       updateToast({
         type: "info",
         render: `The ${getAssetName(asset)} Borrow request was successful!`,
@@ -104,12 +109,14 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     [
       accountPkh,
       addTransaction,
+      allTransactions,
       asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
       tezos,
       updateToast,
+      updateTransactionStatus,
       yToken,
     ]
   );
@@ -192,15 +199,18 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         isMaxAmount,
       };
 
-      const operation = await repay(tezos, accountPkh!, params);
-      addTransaction({
+      const prepareTransaction = {
         type: "Repay",
         amount: convertUnits(inputAmount, asset.decimals),
         name: getAssetName(asset),
-        opHash: operation.opHash,
         status: Status.PENDING,
+        opHash: "",
         timestamp: Date.now(),
-      });
+      };
+
+      const operation = await repay(tezos, accountPkh!, params);
+      prepareTransaction.opHash = operation.opHash;
+      addTransaction(prepareTransaction);
       updateToast({
         type: "info",
         render: `Request for ${getAssetName(
@@ -208,6 +218,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         )} Repay. You can follow your transaction in transaction history.`,
       });
       await operation.confirmation(1);
+      updateTransactionStatus(prepareTransaction, allTransactions);
       updateToast({
         type: "info",
         render: `The ${getAssetName(asset)} Repay request was successful!`,
@@ -216,12 +227,14 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     [
       accountPkh,
       addTransaction,
+      allTransactions,
       asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
       tezos,
       updateToast,
+      updateTransactionStatus,
       yToken,
     ]
   );
