@@ -57,7 +57,8 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { data: balanceData, loading: balanceLoading } = useBalance(asset);
-  const { addTransaction } = useTransactions();
+  const { addTransaction, updateTransactionStatus, allTransactions } =
+    useTransactions();
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
@@ -87,15 +88,18 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         tokenId: asset.tokenId,
       };
 
-      const operation = await supply(tezos, accountPkh, params);
-      addTransaction({
+      const prepareTransaction = {
         type: "Supply",
         amount: convertUnits(inputAmount, asset.decimals),
         name: getAssetName(asset),
-        opHash: operation.opHash,
         status: Status.PENDING,
+        opHash: "",
         timestamp: Date.now(),
-      });
+      };
+
+      const operation = await supply(tezos, accountPkh, params);
+      prepareTransaction.opHash = operation.opHash;
+      addTransaction(prepareTransaction);
       updateToast({
         type: "info",
         render: `Request for ${getAssetName(
@@ -103,7 +107,6 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         )} Supply. You can follow your transaction in transaction history.`,
       });
       await operation.confirmation(1);
-
       if (!isCollateral) {
         updateToast({
           type: "info",
@@ -112,6 +115,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
           )} now is disabled!`,
         });
       }
+      updateTransactionStatus(prepareTransaction, allTransactions);
       updateToast({
         type: "info",
         render: `The ${getAssetName(asset)} Supply request was successful!`,
@@ -120,12 +124,14 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
     [
       accountPkh,
       addTransaction,
+      allTransactions,
       asset,
       fabrica,
       isCollateral,
       priceFeedProxy,
       tezos,
       updateToast,
+      updateTransactionStatus,
       yToken,
     ]
   );
@@ -202,16 +208,18 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         isMaxAmount,
       };
 
-      const operation = await withdraw(tezos, accountPkh, params);
-
-      addTransaction({
+      const prepareTransaction = {
         type: "Withdraw",
         amount: convertUnits(inputAmount, asset.decimals),
         name: getAssetName(asset),
-        opHash: operation.opHash,
-        timestamp: Date.now(),
         status: Status.PENDING,
-      });
+        opHash: "",
+        timestamp: Date.now(),
+      };
+
+      const operation = await withdraw(tezos, accountPkh, params);
+      prepareTransaction.opHash = operation.opHash;
+      addTransaction(prepareTransaction);
       updateToast({
         type: "info",
         render: `Request for ${getAssetName(
@@ -219,6 +227,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         )} Withdraw. You can follow your transaction in transaction history.`,
       });
       await operation.confirmation(1);
+      updateTransactionStatus(prepareTransaction, allTransactions);
       updateToast({
         type: "info",
         render: `The ${getAssetName(asset)} Withdraw request was successful!`,
@@ -227,12 +236,14 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
     [
       accountPkh,
       addTransaction,
+      allTransactions,
       asset,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
       tezos,
       updateToast,
+      updateTransactionStatus,
       yToken,
     ]
   );

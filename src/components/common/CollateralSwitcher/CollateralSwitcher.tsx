@@ -35,7 +35,8 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
   const { updateToast } = useUpdateToast();
-  const { addTransaction } = useTransactions();
+  const { addTransaction, allTransactions, updateTransactionStatus } =
+    useTransactions();
   const [loadingState, setLoadingState] = useState(false);
   const { isTransactionLoading, lastTransaction } = useTransactions();
   const [disabled, setDisabled] = useState(false);
@@ -111,11 +112,12 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         });
 
         await operation.confirmation(1);
+        updateTransactionStatus(prepareTransaction, allTransactions);
         updateToast({
           type: "info",
           render: `The ${getAssetName(
             asset
-          )} collateral status changing request was successful, please wait...`,
+          )} collateral status changing request was successful.`,
         });
       } catch (e) {
         updateToast({
@@ -129,18 +131,20 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
       }
     }
   }, [
-    accountPkh,
-    addTransaction,
-    asset,
-    borrowedYTokens,
-    disabled,
-    fabrica,
-    isCollateral,
     collateralWarningMessage,
-    priceFeedProxy,
-    tezos,
+    disabled,
     updateToast,
+    fabrica,
+    priceFeedProxy,
     yToken,
+    isCollateral,
+    asset,
+    addTransaction,
+    updateTransactionStatus,
+    allTransactions,
+    tezos,
+    accountPkh,
+    borrowedYTokens,
   ]);
 
   return (
