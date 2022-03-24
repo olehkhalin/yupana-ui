@@ -4,16 +4,54 @@
 .root
   width: 100%
 
-.title
+.head
+  position: relative
+  display: flex
+  justify-content: center
+  align-items: center
+  width: 100%
   margin-bottom: 1.25rem
   padding-bottom: .5rem
-  font-size: .875rem
   border-bottom: .063rem solid rgba($white, .5)
 
+.title
+  font-size: .875rem
+
 .wrapper
+  position: relative
   max-height: 19.5rem
   overflow: hidden
   overflow-y: auto
+
+.modalInnerWrapper
+  display: flex
+  align-items: center
+  justify-content: center
+
+.clearHistoryIcon
+  position: absolute
+  right: 0
+  cursor: pointer
+
+.icon
+  width: 1rem
+  height: 1rem
+  path
+    transition: fill $animationTime
+  &:hover
+    > path
+      fill: $blue-neutral
+
+.loading
+  .trashIcon
+    path
+      fill: $grey
+    &:hover
+      fill: $grey
+
+.confirmationButton
+  &:not(:last-child)
+    margin-right: 1rem
 
 .transaction
   display: flex

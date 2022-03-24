@@ -136,11 +136,14 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       [decimals, exchangeRate, maxValue, onChange]
     );
 
-    const handleSliderChange = (val: BigNumber) => {
-      onChange?.(new BigNumber(val.toFixed(decimals)));
-      setLocalValue(val.toFixed(decimals));
-      setValueInBaseCurrency(convertValueToCurrency(val, exchangeRate));
-    };
+    const handleSliderChange = useCallback(
+      (val: BigNumber) => {
+        onChange?.(new BigNumber(val.toFixed(decimals)));
+        setLocalValue(val.toFixed(decimals));
+        setValueInBaseCurrency(convertValueToCurrency(val, exchangeRate));
+      },
+      [decimals, exchangeRate, onChange]
+    );
 
     const handleFocus = useCallback(
       (evt) => {
