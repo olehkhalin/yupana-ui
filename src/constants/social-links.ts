@@ -16,13 +16,12 @@ type SocialProps = {
 export const SOCIAL_LIST: SocialProps[] = [
   {
     id: 1,
-    href: "https://mobile.twitter.com/yupanafinance",
+    href: "https://twitter.com/YupanaFinance",
     Icon: Twitter,
   },
   {
     id: 2,
-    // TODO: Add later
-    href: "/",
+    href: "https://t.me/MadFishCommunity",
     Icon: Telegram,
   },
   {
