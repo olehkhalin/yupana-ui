@@ -102,7 +102,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
 
       <div className={cx(s.wrapper, { [s.innerModal]: isOpenInnerModal })}>
         {isOpenInnerModal && (
-          <div className={s.modalInnerWrapper}>
+          <>
             <Button
               sizeT="small"
               onClick={handleInnerModal}
@@ -117,7 +117,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
             >
               Yes
             </Button>
-          </div>
+          </>
         )}
 
         {!isOpenInnerModal &&
