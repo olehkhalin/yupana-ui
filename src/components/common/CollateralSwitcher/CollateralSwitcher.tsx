@@ -90,7 +90,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
         };
 
         const prepareTransaction = {
-          type: !isCollateral ? "Enable collateral" : "Disabled collateral",
+          type: !isCollateral ? "Enable collateral" : "Disable collateral",
           name: getAssetName(asset),
           status: Status.PENDING,
           timestamp: Date.now(),
