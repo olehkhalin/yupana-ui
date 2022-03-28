@@ -37,9 +37,12 @@ export const useWiderThanMdesktop = (): boolean =>
 
 export const useWiderThanCustomWidth = ({
   minWidth,
+  maxWidth,
 }: {
   minWidth: number;
+  maxWidth?: number;
 }): boolean =>
   useMediaQuery({
     minWidth,
+    maxWidth,
   });
