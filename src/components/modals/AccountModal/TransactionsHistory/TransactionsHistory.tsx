@@ -64,8 +64,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
   className,
 }) => {
   const [isOpenInnerModal, setIsOpenInnerModal] = useState(false);
-  const { allTransactions, clearTransactions, isTransactionLoading } =
-    useTransactions();
+  const { allTransactions, clearTransactions } = useTransactions();
 
   const handleInnerModal = useCallback(() => {
     setIsOpenInnerModal(!isOpenInnerModal);
@@ -84,12 +83,9 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
         </div>
         {!isOpenInnerModal ? (
           <Button
-            className={cx(s.clearHistoryIcon, {
-              [s.loading]: isTransactionLoading,
-            })}
+            className={cx(s.clearHistoryIcon)}
             theme="clear"
             onClick={handleInnerModal}
-            disabled={isTransactionLoading}
           >
             <Trash className={cx(s.icon, s.trashIcon)} />
           </Button>
@@ -106,7 +102,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
 
       <div className={cx(s.wrapper, { [s.innerModal]: isOpenInnerModal })}>
         {isOpenInnerModal && (
-          <div className={s.modalInnerWrapper}>
+          <>
             <Button
               sizeT="small"
               onClick={handleInnerModal}
@@ -121,7 +117,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
             >
               Yes
             </Button>
-          </div>
+          </>
         )}
 
         {!isOpenInnerModal &&
