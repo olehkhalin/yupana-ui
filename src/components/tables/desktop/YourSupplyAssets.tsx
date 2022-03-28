@@ -53,9 +53,12 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
       {
         Header: "Supplied",
         id: "supply",
-        accessor: (row: { asset: AssetType; supply: BigNumber }) => ({
+        accessor: (row: {
+          asset: AssetType;
+          supplyWithInterest: BigNumber;
+        }) => ({
           asset: row.asset,
-          supply: row.supply,
+          supply: row.supplyWithInterest,
         }),
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading ? (
