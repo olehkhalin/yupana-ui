@@ -5,11 +5,18 @@ import cx from "classnames";
 
 import { ANIMATION_TIME } from "constants/defaults";
 import { ProgressBar } from "components/ui/ProgressBar";
+import { Preloader } from "components/ui/Preloader";
 import { AttentionText, ModalContent } from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./LimitLine.module.sass";
-import { Preloader } from "../../../ui/Preloader";
+
+const preparePercent = (value: BigNumber) => {
+  if (value.gt(100)) {
+    return +value.decimalPlaces(2, BigNumber.ROUND_UP);
+  }
+  return +value.decimalPlaces(2, BigNumber.ROUND_DOWN);
+};
 
 type LimitLineProps = {
   text: string;
@@ -49,7 +56,13 @@ export const LimitLine: FC<LimitLineProps> = ({
     <div className={cx(s.root, className)}>
       <div className={s.content}>
         <div className={s.percent}>
-          <CountUp start={0} end={+percent} decimals={2} duration={timing} />%
+          <CountUp
+            start={0}
+            end={preparePercent(percent)}
+            decimals={2}
+            duration={timing}
+          />
+          %
         </div>
 
         <div className={s.title}>
