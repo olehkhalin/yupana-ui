@@ -149,6 +149,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
           loading={loading}
           key={item.key}
           data={item.data}
+          isSeparateContent
           href={item.href}
         />
       ))}

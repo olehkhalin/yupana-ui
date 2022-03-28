@@ -26,6 +26,7 @@ type TableCardProps = {
   theme?: keyof typeof themeClasses;
   yToken?: number;
   handleClick?: (props: number) => void;
+  isSeparateContent?: boolean;
   className?: string;
 };
 
@@ -44,6 +45,7 @@ export const TableCard: FC<TableCardProps> = ({
   theme = "primary",
   yToken,
   handleClick,
+  isSeparateContent = false,
   className,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
@@ -53,7 +55,12 @@ export const TableCard: FC<TableCardProps> = ({
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
-      className={cx(s.root, themeClasses[theme], className)}
+      className={cx(
+        s.root,
+        { [s.subRoot]: isSeparateContent },
+        themeClasses[theme],
+        className
+      )}
       onClick={() => {
         setIsOpened(!isOpened);
         if (yToken !== undefined && handleClick) {
