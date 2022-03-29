@@ -2,9 +2,13 @@
 @import 'styles/breakpoints.scss'
 
 .root
+  display: flex
+  flex-direction: column
+  align-items: flex-start
   margin-bottom: 0.5rem
 
 .innerModal
+  align-items: flex-start
   padding: .75rem 1.5rem
 
 .address
@@ -84,20 +88,8 @@
 .transactions
   margin-top: 1.5rem
 
-.root
-  display: flex
-  flex-direction: column
-  align-items: flex-start
-.innerModal
-  align-items: flex-start
-
 @include media('>Mphone')
-  .root
-    display: flex
-    flex-direction: column
-    align-items: flex-start
   .innerModal
-    align-items: flex-start
     padding: 2rem 3.5rem
   .address
     margin-bottom: 1.5rem
