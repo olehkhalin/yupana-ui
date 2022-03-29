@@ -12,12 +12,20 @@
   display: none
   flex-direction: column
   width: 100%
+  max-width: 18.125rem
+  margin: 0 auto
+  &:first-child
+    margin-bottom: 2rem
 
 .show
   display: flex
 
 .switcher
   margin: 0 auto 2rem
+
+@include media('>Lphone')
+  .col
+    max-width: initial
 
 @include media('>Mdesktop')
   .root
