@@ -95,7 +95,10 @@ export const TableCard: FC<TableCardProps> = ({
           </div>
         </>
       ))}
-      {isExpander && isOpened && renderRowSubComponent(subComponent)}
+      {isExpander &&
+        isOpened &&
+        renderRowSubComponent &&
+        renderRowSubComponent(subComponent)}
     </div>
   );
 };
