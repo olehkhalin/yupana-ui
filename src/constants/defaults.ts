@@ -59,3 +59,6 @@ export const TRANSACTION_LIFETIME = (process.env
 
 // Animation
 export const ANIMATION_TIME = 0.25;
+
+// Analytics
+export const ANALYTICS_WRITE_KEY = "7AYU9tIhkeyCPjgAtzynZgbrs2XHOrLs";
