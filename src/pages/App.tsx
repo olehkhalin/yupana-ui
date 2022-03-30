@@ -40,10 +40,7 @@ const App: FC = () => {
   }, [pathname]);
 
   useEffect(() => {
-    pageEvent(
-      pathname.split("/")[1].toUpperCase(),
-      AnalyticsEventCategory.OPEN_PAGE
-    );
+    pageEvent(pathname, AnalyticsEventCategory.LOAD_PAGE);
   }, [pageEvent, pathname]);
 
   if (location.pathname === "/") {

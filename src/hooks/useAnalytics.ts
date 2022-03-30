@@ -26,7 +26,7 @@ export const useAnalytics = () => {
   const trackEvent = useCallback(
     (
       event: string,
-      category: AnalyticsEventCategory = AnalyticsEventCategory.OPEN_PAGE,
+      category: AnalyticsEventCategory = AnalyticsEventCategory.LENDING,
       properties?: any
     ) => sendTrackEvent(userId, event, category, properties),
     [userId]

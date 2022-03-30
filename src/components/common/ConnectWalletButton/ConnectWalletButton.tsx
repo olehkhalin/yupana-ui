@@ -1,15 +1,17 @@
 import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
-import { useWiderThanMphone } from "utils/helpers";
-import { shortize } from "utils/helpers";
+import { events } from "constants/analytics";
+import { shortize, useWiderThanMphone } from "utils/helpers";
 import { useReady, useAccountPkh } from "utils/dapp";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useTransactions } from "hooks/useTransactions";
+import { useAnalytics } from "hooks/useAnalytics";
 import { useConnectWalletModal } from "hooks/useConnectModal";
+import { Button, ButtonProps } from "components/ui/Button";
 import { AccountModal } from "components/modals/AccountModal";
 import { ConnectWalletModal } from "components/modals/ConnectWalletModal";
 import { InstallWalletModal } from "components/modals/InstallWalletModal";
-import { Button, ButtonProps } from "components/ui/Button";
 
 import { TransactionsIcon } from "./TransactionsIcon";
 import s from "./ConnectWalletButton.module.sass";
@@ -30,6 +32,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   const { isTransactionsExist } = useTransactions();
   const { handleAccountModal, accountModalIsOpen, handleConnectModal } =
     useConnectWalletModal();
+  const { trackEvent } = useAnalytics();
 
   const handleModal = useCallback(
     (callback: () => void) => {
@@ -39,6 +42,22 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
     [closeAnotherModal]
   );
 
+  const onAccountModal = useCallback(() => {
+    handleModal(handleAccountModal);
+    trackEvent(
+      events.header.wallet.account_popup,
+      AnalyticsEventCategory.HEADER
+    );
+  }, [handleAccountModal, handleModal, trackEvent]);
+
+  const onConnectWalletModal = useCallback(() => {
+    handleModal(handleConnectModal);
+    trackEvent(
+      events.header.wallet.connect_wallet_popup,
+      AnalyticsEventCategory.HEADER
+    );
+  }, [handleConnectModal, handleModal, trackEvent]);
+
   return (
     <>
       {ready && accountPkh ? (
@@ -47,7 +66,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
             sizeT="medium"
             theme="secondary"
             aria-label={accountPkh}
-            onClick={() => handleModal(handleAccountModal)}
+            onClick={onAccountModal}
             className={cx(
               s.button,
               { [s.transactions]: isTransactionsExist },
@@ -70,7 +89,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
           <Button
             sizeT="medium"
             theme="primary"
-            onClick={() => handleModal(handleConnectModal)}
+            onClick={onConnectWalletModal}
             className={cx(s.button, className)}
             {...props}
           >

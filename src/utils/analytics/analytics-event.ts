@@ -2,13 +2,17 @@ import { Analytics, AnalyticsBrowser } from "@segment/analytics-next";
 import { ANALYTICS_WRITE_KEY } from "constants/defaults";
 
 export enum AnalyticsEventCategory {
-  SWITCHER = "SWITCHER",
-  LINK = "LINK",
-  BUTTON = "BUTTON",
-  SUBMIT_BUTTON = "SUBMIT_BUTTON",
-  OPEN_MODAL_BUTTON = "OPEN_MODAL_BUTTON",
-  OPEN_PAGE = "OPEN_PAGE",
-  OPEN_MODAL = "OPEN_MODAL",
+  LOAD_PAGE = "load_page",
+  HEADER = "header",
+  FOOTER = "footer",
+  ACCOUNT_POPUP = "account_popup",
+  CONNECT_WALLET_POPUP = "connect_wallet_popup",
+  INSTALL_WALLET = "install_wallet_popup",
+  LENDING = "lending",
+  MARKETS = "markets",
+  MARKETS_DETAILS = "markets_details",
+  LIQUIDATE = "liquidate",
+  LIQUIDATE_DETAILS = "liquidate_details",
 }
 
 let client: Analytics | undefined;
@@ -25,14 +29,14 @@ export const getClient = async () => {
 export const sendTrackEvent = async (
   userId: string,
   event: string,
-  category: AnalyticsEventCategory = AnalyticsEventCategory.OPEN_PAGE,
+  category: AnalyticsEventCategory = AnalyticsEventCategory.LENDING,
   properties?: any
 ) => {
   const analyticsClient = await getClient();
   analyticsClient.track({
     userId,
     type: "track",
-    event: `${category} ${event}`,
+    event: `${category}: ${event}`,
     timestamp: new Date(),
     properties: {
       ...properties,
@@ -54,6 +58,7 @@ export const sendPageEvent = async (
     name,
     timestamp: new Date(),
     category,
+    path: `${category}: ${name}`,
     properties: {
       ...additionalProperties,
     },
