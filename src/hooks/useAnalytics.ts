@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
 
 import {
@@ -7,34 +7,35 @@ import {
   sendTrackEvent,
 } from "utils/analytics/analytics-event";
 
-import { useLocalStorage } from "./useLocalStorage";
-
-interface AnalyticsStateInterface {
-  enabled?: boolean;
-  userId: string;
-}
+const USER_ID_KEY = "analytics-user-id";
 
 export const useAnalytics = () => {
-  const [analyticsState] = useLocalStorage<AnalyticsStateInterface>(
-    "analytics",
-    {
-      userId: nanoid(),
-    }
+  const analyticsUserId: string | null = useMemo(
+    () => JSON.parse(localStorage.getItem(USER_ID_KEY) as string),
+    []
   );
+
+  const [userId] = useState<string>(analyticsUserId ?? nanoid());
+
+  useEffect(() => {
+    if (!analyticsUserId) {
+      localStorage.setItem(USER_ID_KEY, JSON.stringify(userId));
+    }
+  }, [analyticsUserId, userId]);
 
   const trackEvent = useCallback(
     (
       event: string,
       category: AnalyticsEventCategory = AnalyticsEventCategory.OPEN_PAGE,
       properties?: any
-    ) => sendTrackEvent(analyticsState.userId, event, category, properties),
-    [analyticsState.userId]
+    ) => sendTrackEvent(userId, event, category, properties),
+    [userId]
   );
 
   const pageEvent = useCallback(
-    (path: string, search: string, additionalProperties = {}) =>
-      sendPageEvent(analyticsState.userId, path, search, additionalProperties),
-    [analyticsState.userId]
+    (name: string, category: string, additionalProperties = {}) =>
+      sendPageEvent(userId, name, category, additionalProperties),
+    [userId]
   );
 
   return {

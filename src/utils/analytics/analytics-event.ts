@@ -2,7 +2,11 @@ import { Analytics, AnalyticsBrowser } from "@segment/analytics-next";
 import { ANALYTICS_WRITE_KEY } from "constants/defaults";
 
 export enum AnalyticsEventCategory {
+  SWITCHER = "SWITCHER",
+  LINK = "LINK",
+  BUTTON = "BUTTON",
   SUBMIT_BUTTON = "SUBMIT_BUTTON",
+  OPEN_MODAL_BUTTON = "OPEN_MODAL_BUTTON",
   OPEN_PAGE = "OPEN_PAGE",
   OPEN_MODAL = "OPEN_MODAL",
 }
@@ -40,23 +44,17 @@ export const sendTrackEvent = async (
 
 export const sendPageEvent = async (
   userId: string,
-  path: string,
-  search: string,
+  name: string,
+  category: string,
   additionalProperties = {}
 ) => {
-  const url = `${path}${search}`;
-
   const analyticsClient = await getClient();
   analyticsClient.page({
     userId,
-    name: path,
+    name,
     timestamp: new Date(),
-    category: AnalyticsEventCategory.OPEN_PAGE,
+    category,
     properties: {
-      url,
-      path: search,
-      referrer: path,
-      category: AnalyticsEventCategory.OPEN_PAGE,
       ...additionalProperties,
     },
   });
