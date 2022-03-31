@@ -19,6 +19,7 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading }) => {
     () =>
       (data ?? [0]).map((el: any) => ({
         key: el.borrowerAddress ?? el,
+        asset: el.asset,
         data: [
           {
             title: "Total Borrow",

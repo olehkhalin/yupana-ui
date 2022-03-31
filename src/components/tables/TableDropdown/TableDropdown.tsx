@@ -1,9 +1,12 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
 import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
+import { getAssetName } from "utils/helpers/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Button } from "components/ui/Button";
 import { Preloader } from "components/ui/Preloader";
 import { PrettyAmount } from "components/common/PrettyAmount";
@@ -27,6 +30,7 @@ type TableDropdownInnerProps = {
   handleFirstButtonClick?: () => void;
   secondButtonLabel: string;
   handleSecondButtonClick?: () => void;
+  tableName: string;
 } & TableDropdownProps;
 
 const themeClasses = {
@@ -45,14 +49,52 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
   asset,
   balanceAmount,
   balanceLoading,
+  tableName,
   className,
 }) => {
+  const { trackEvent } = useAnalytics();
+
   const isSecondaryTheme = theme === "secondary";
 
-  const handleClick = (event: EventType, callback?: () => void) => {
+  const handleClick = (
+    event: EventType,
+    label: string,
+    callback?: () => void
+  ) => {
     event.stopPropagation();
     callback && callback();
+
+    if (label === "Supply") {
+      trackEvent(`Open Supply modal`, AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    } else if (label === "Withdraw") {
+      trackEvent(`Open Withdraw modal`, AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    } else if (label === "Borrow") {
+      trackEvent(`Open Borrow modal`, AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    } else if (label === "Repay") {
+      trackEvent(`Open Repay modal`, AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    }
   };
+
+  const handleMarketDetails = useCallback(() => {
+    if (tableName) {
+      trackEvent("Market details click", AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    }
+  }, [asset, tableName, trackEvent]);
 
   return (
     <div className={cx(s.root, themeClasses[theme], className)}>
@@ -76,7 +118,12 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
             />
           )}
         </div>
-        <Button theme="clear" href={`/markets/${yToken}`} className={s.details}>
+        <Button
+          theme="clear"
+          href={`/markets/${yToken}`}
+          onClick={() => handleMarketDetails()}
+          className={s.details}
+        >
           Market details...
         </Button>
       </div>
@@ -85,7 +132,9 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={(e: EventType) => handleClick(e, handleFirstButtonClick)}
+          onClick={(e: EventType) =>
+            handleClick(e, firstButtonLabel, handleFirstButtonClick)
+          }
           className={s.button}
         >
           {firstButtonLabel}
@@ -93,7 +142,9 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
         <Button
           sizeT="small"
           actionT={isSecondaryTheme ? "borrow" : "supply"}
-          onClick={(e: EventType) => handleClick(e, handleSecondButtonClick)}
+          onClick={(e: EventType) =>
+            handleClick(e, secondButtonLabel, handleSecondButtonClick)
+          }
           className={s.button}
         >
           {secondButtonLabel}

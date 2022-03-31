@@ -1,6 +1,10 @@
-import React, { FC, ReactElement, useState } from "react";
+import React, { FC, ReactElement, useState, useCallback } from "react";
 import cx from "classnames";
 
+import { AssetType } from "types/asset";
+import { getSliceAssetName } from "utils/helpers/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Preloader } from "components/ui/Preloader";
 import { Button } from "components/ui/Button";
 import { DropdownArrow } from "components/tables/DropdownArrow";
@@ -19,6 +23,8 @@ type DataType = {
 
 type TableCardProps = {
   data: DataType;
+  asset?: AssetType;
+  tableName?: string;
   loading?: boolean;
   subComponent?: any;
   renderRowSubComponent?: (props: any) => void;
@@ -37,6 +43,8 @@ const themeClasses = {
 
 export const TableCard: FC<TableCardProps> = ({
   data,
+  asset,
+  tableName,
   loading,
   subComponent,
   renderRowSubComponent,
@@ -47,19 +55,29 @@ export const TableCard: FC<TableCardProps> = ({
   className,
 }) => {
   const [isOpened, setIsOpened] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   const isExpander = !!subComponent && !!renderRowSubComponent;
+
+  const handleCardClick = useCallback(() => {
+    setIsOpened(!isOpened);
+    if (yToken !== undefined && handleClick) {
+      handleClick(yToken);
+    }
+
+    if (asset && !isOpened) {
+      trackEvent(`Card click`, AnalyticsEventCategory.LENDING, {
+        table_name: tableName,
+        asset: getSliceAssetName(asset),
+      });
+    }
+  }, [asset, handleClick, isOpened, tableName, trackEvent, yToken]);
 
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
       className={cx(s.root, themeClasses[theme], className)}
-      onClick={() => {
-        setIsOpened(!isOpened);
-        if (yToken !== undefined && handleClick) {
-          handleClick(yToken);
-        }
-      }}
+      onClick={handleCardClick}
     >
       {loading && <Preloader theme={theme} className={s.preloader} />}
       {isExpander && (

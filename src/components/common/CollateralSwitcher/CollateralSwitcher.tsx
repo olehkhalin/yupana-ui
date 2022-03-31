@@ -6,11 +6,13 @@ import { AssetType } from "types/asset";
 import { enterMarket, exitMarket } from "utils/dapp/methods";
 import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { getAssetName } from "utils/helpers/asset";
+import { useCollateralWarningMessage } from "hooks/useCollateralWarningMessage";
+import { useAnalytics } from "hooks/useAnalytics";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Switcher } from "components/ui/Switcher";
-import { useCollateralWarningMessage } from "hooks/useCollateralWarningMessage";
 
 type SwitcherProps = {
   asset: AssetType;
@@ -40,6 +42,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
   const [loadingState, setLoadingState] = useState(false);
   const { isTransactionLoading, lastTransaction } = useTransactions();
   const [disabled, setDisabled] = useState(false);
+  const { trackEvent } = useAnalytics();
 
   const loading = useMemo(() => {
     const isCurrentTransaction = lastTransaction?.name === getAssetName(asset);
@@ -111,6 +114,15 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           )} collateral status. You can follow your transaction in transaction history.`,
         });
 
+        trackEvent(
+          !isCollateral ? "Enable collateral" : "Disable collateral",
+          AnalyticsEventCategory.LENDING,
+          {
+            asset: getAssetName(asset),
+            table: "Your supply assets",
+          }
+        );
+
         await operation.confirmation(1);
         updateTransactionStatus(prepareTransaction, allTransactions);
         updateToast({
@@ -140,6 +152,7 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
     isCollateral,
     asset,
     addTransaction,
+    trackEvent,
     updateTransactionStatus,
     allTransactions,
     tezos,

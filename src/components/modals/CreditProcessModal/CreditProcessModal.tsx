@@ -6,11 +6,13 @@ import cx from "classnames";
 import { ORACLE_PRICE_PRECISION } from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { getSliceAssetName, getAssetName } from "utils/helpers/asset";
 import { getPrettyPercent, convertUnits } from "utils/helpers/amount";
 import { useWiderThanMphone } from "utils/helpers";
 import { useAccountPkh } from "utils/dapp";
 import { assetAmountValidationFactory } from "utils/validation";
+import { useAnalytics } from "hooks/useAnalytics";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBorrowWarningMessage } from "hooks/useBorrowWarningMessage";
 import {
@@ -20,6 +22,7 @@ import {
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
 import { useBalance } from "hooks/useBalance";
+import { events } from "constants/analytics";
 import { Preloader } from "components/ui/Preloader";
 import { Modal } from "components/ui/Modal";
 import { PendingIcon } from "components/common/PendingIcon";
@@ -87,10 +90,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     new BigNumber(0)
   );
 
+  const { trackEvent } = useAnalytics();
   const pkh = useAccountPkh();
   const [operationLoading, setOperationLoading] = useState(false);
   const { isTransactionLoading } = useTransactions();
   const { data: balanceData, loading: balanceLoading } = useBalance(asset);
+  const [percentValue, setPercentValue] = useState(0);
 
   const pureMaxAmount = useMemo(() => {
     switch (type) {
@@ -158,6 +163,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
       try {
         setOperationLoading(true);
         await onSubmit(mutezAmount, isMaxAmount);
+        trackEvent(
+          events.credit_process_modal.submit,
+          AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
+          {
+            submit_amount: +inputData,
+            asset: getAssetName(asset),
+            modal_name: type,
+            slider_percent: +percentValue.toFixed(2),
+          }
+        );
         onRequestClose();
       } catch (e) {
         updateToast({
@@ -169,7 +184,16 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
         setOperationLoading(false);
       }
     },
-    [asset.decimals, pureMaxAmount, onRequestClose, onSubmit, updateToast]
+    [
+      asset,
+      pureMaxAmount,
+      onSubmit,
+      trackEvent,
+      type,
+      onRequestClose,
+      updateToast,
+      percentValue,
+    ]
   );
 
   const isBorrowTheme = theme === "secondary";
@@ -226,6 +250,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               className={s.input}
               maxValue={convertUnits(pureMaxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
+              modalType={title as CreditProcessModalEnum}
+              asset={asset}
+              setPercentValue={setPercentValue}
               exchangeRate={convertUnits(
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION

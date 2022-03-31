@@ -1,6 +1,9 @@
-import React, { FC } from "react";
+import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { events } from "constants/analytics";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Button } from "components/ui/Button";
 
 import s from "./Heading.module.sass";
@@ -10,6 +13,7 @@ export type HeadingProps = {
   link?: {
     label: string;
     link: string;
+    name?: string;
     external?: boolean;
   };
   head?: boolean;
@@ -30,6 +34,15 @@ export const Heading: FC<HeadingProps> = ({
   theme = "primary",
   className,
 }) => {
+  const { trackEvent } = useAnalytics();
+
+  const handleLink = useCallback(() => {
+    if (link && link.name) {
+      const docs = events.lending.docs as any;
+      trackEvent(docs[link.name], AnalyticsEventCategory.LENDING);
+    }
+  }, [link, trackEvent]);
+
   const compoundClassNames = cx(
     s.root,
     { [s.withLink]: !!link },
@@ -52,6 +65,7 @@ export const Heading: FC<HeadingProps> = ({
           className={s.link}
           theme="light"
           sizeT="small"
+          onClick={handleLink}
           withArrow
         >
           {link.label}

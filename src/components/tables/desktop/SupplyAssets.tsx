@@ -16,12 +16,14 @@ import s from "./Tables.module.sass";
 
 type SupplyAssetsProps = {
   data?: AssetsResponseData;
+  tableName: string;
   loading?: boolean;
   className?: string;
 };
 
 export const SupplyAssets: FC<SupplyAssetsProps> = ({
   data,
+  tableName,
   loading,
   className,
 }) => {
@@ -73,17 +75,21 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
       {
         Header: () => null,
         id: "expander",
-        Cell: ({ row }: { row: Row }) => (
-          <DropdownArrow
-            active={row.isExpanded}
-            className={s.icon}
-            loading={loading}
-            {...row.getToggleRowExpandedProps()}
-          />
-        ),
+        Cell: ({ row }: { row: Row }) => {
+          return (
+            <DropdownArrow
+              active={row.isExpanded}
+              asset={(row.original as any).asset}
+              tableName={tableName}
+              className={s.icon}
+              loading={loading}
+              {...row.getToggleRowExpandedProps()}
+            />
+          );
+        },
       },
     ],
-    [loading]
+    [loading, tableName]
   );
   const renderRowSubComponent = useCallback(
     ({
@@ -106,9 +112,10 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
         totalLiquid={totalLiquid}
         isCollateral={isCollateral}
         isCommon
+        tableName={tableName}
       />
     ),
-    []
+    [tableName]
   );
 
   return (

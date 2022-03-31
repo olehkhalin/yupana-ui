@@ -15,17 +15,20 @@ import s from "./Cards.module.sass";
 
 type YourSupplyAssetsProps = {
   data?: AssetsResponseData;
+  tableName: string;
   loading?: boolean;
 };
 
 export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
   data,
+  tableName,
   loading,
 }) => {
   const preparedData = useMemo(
     () =>
       (data ?? [0, 1, 2]).map((el: any) => ({
         key: el.yToken ?? el,
+        asset: el.asset,
         data: [
           {
             title: "Asset",
@@ -107,9 +110,10 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         supply={supplyWithInterest}
         totalLiquid={totalLiquid}
         isCollateral={isCollateral}
+        tableName={tableName}
       />
     ),
-    []
+    [tableName]
   );
 
   return (
@@ -119,8 +123,10 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           loading={loading}
           key={item.key}
           data={item.data}
+          asset={item.asset}
           subComponent={item.subComponent}
           renderRowSubComponent={renderRowSubComponent}
+          tableName={tableName}
         />
       ))}
     </>

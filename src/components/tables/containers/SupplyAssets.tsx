@@ -20,9 +20,20 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
 
   if (isWiderThanLphone) {
     return (
-      <SupplyAssetsTable data={data} loading={loading} className={className} />
+      <SupplyAssetsTable
+        tableName="Supply assets"
+        data={data}
+        loading={loading}
+        className={className}
+      />
     );
   }
 
-  return <SupplyAssetsCards data={data} loading={loading} />;
+  return (
+    <SupplyAssetsCards
+      tableName="Supply assets"
+      data={data}
+      loading={loading}
+    />
+  );
 };

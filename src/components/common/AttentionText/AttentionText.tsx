@@ -1,6 +1,9 @@
 import React, { useState, useCallback, FC } from "react";
 import cx from "classnames";
 
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { events } from "constants/analytics";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Button } from "components/ui/Button";
 import { InformationModal } from "components/modals/InformationModal";
 import { ReactComponent as Attention } from "svg/Attention.svg";
@@ -17,6 +20,7 @@ export type AttentionTextProps = {
   text: string;
   theme?: keyof typeof themeClasses;
   icon?: boolean;
+  name?: string;
   className?: string;
 } & ModalContent;
 
@@ -32,11 +36,19 @@ export const AttentionText: FC<AttentionTextProps> = ({
   buttonText,
   theme = "primary",
   icon = true,
+  name,
   className,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { trackEvent } = useAnalytics();
 
-  const handleModal = useCallback(() => setIsOpen(!isOpen), [isOpen]);
+  const handleModal = useCallback(() => {
+    const tooltips = events.tooltips as any;
+    if (name && !isOpen) {
+      trackEvent(tooltips[name], AnalyticsEventCategory.STATS);
+    }
+    setIsOpen(!isOpen);
+  }, [isOpen, name, trackEvent]);
 
   return (
     <div className={cx(s.root, themeClasses[theme], className)}>

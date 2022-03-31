@@ -1,7 +1,12 @@
-import React, { ChangeEvent, FC, HTMLProps } from "react";
+import React, { ChangeEvent, FC, HTMLProps, useEffect } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
+import { AssetType } from "types/asset";
+import { getAssetName } from "utils/helpers/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { useAnalytics } from "hooks/useAnalytics";
+import { events } from "constants/analytics";
 import { SLIDER_PERCENTS } from "constants/slider";
 import { Button } from "components/ui/Button";
 
@@ -17,6 +22,9 @@ type SliderProps = Omit<
   maxValue: BigNumber;
   className?: string;
   onChange: (newValue: BigNumber) => void;
+  setPercentValue?: (percent: number) => void;
+  asset?: AssetType;
+  modalType?: string;
 };
 
 const themeClasses = {
@@ -31,10 +39,19 @@ export const Slider: FC<SliderProps> = ({
   maxValue,
   className,
   onChange,
+  setPercentValue,
+  asset,
+  modalType,
   ...props
 }) => {
+  const { trackEvent } = useAnalytics();
+
   const percent = maxValue.eq(0) ? 0 : (+value / +maxValue) * 100;
   const finalPercent = percent > 100 ? 100 : percent;
+
+  useEffect(() => {
+    setPercentValue?.(finalPercent);
+  }, [finalPercent, setPercentValue]);
 
   const handleClickByPercentButton = (newPercent: number) => {
     if (!maxValue.eq(0)) {
@@ -42,6 +59,18 @@ export const Slider: FC<SliderProps> = ({
         maxValue ? maxValue.multipliedBy(newPercent).div(1e2) : 0
       );
       onChange(numVal);
+    }
+
+    if (asset && modalType) {
+      const values = events.credit_process_modal.slider as any;
+      trackEvent(
+        values[newPercent],
+        AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
+        {
+          asset: getAssetName(asset),
+          modal_name: modalType,
+        }
+      );
     }
   };
 

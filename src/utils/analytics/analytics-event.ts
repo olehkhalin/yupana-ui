@@ -8,11 +8,13 @@ export enum AnalyticsEventCategory {
   ACCOUNT_POPUP = "account_popup",
   CONNECT_WALLET_POPUP = "connect_wallet_popup",
   INSTALL_WALLET = "install_wallet_popup",
+  STATS = "stats",
   LENDING = "lending",
   MARKETS = "markets",
   MARKETS_DETAILS = "markets_details",
   LIQUIDATE = "liquidate",
   LIQUIDATE_DETAILS = "liquidate_details",
+  CREDIT_PROCESS_MODAL = "credit_process_modal",
 }
 
 let client: Analytics | undefined;

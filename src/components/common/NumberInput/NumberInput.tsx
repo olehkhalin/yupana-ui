@@ -10,6 +10,12 @@ import React, {
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
+import { AssetType } from "types/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { getAssetName } from "utils/helpers/asset";
+import { events } from "constants/analytics";
+import { useAnalytics } from "hooks/useAnalytics";
+import { CreditProcessModalEnum } from "hooks/useCreditProcessModal";
 import { Button } from "components/ui/Button";
 import { Slider } from "components/ui/Slider";
 import { PrettyAmount } from "components/common/PrettyAmount";
@@ -35,7 +41,10 @@ type NumberInputProps = Omit<
   onChange?: (newValue?: BigNumber) => void;
   withSlider?: boolean;
   setFocus: () => void;
+  setPercentValue: (percent: number) => void;
   exchangeRate?: BigNumber;
+  modalType?: CreditProcessModalEnum;
+  asset?: AssetType;
   className?: string;
 };
 
@@ -59,7 +68,10 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       setFocus,
       onFocus,
       onBlur,
+      setPercentValue,
       exchangeRate = new BigNumber(1),
+      modalType,
+      asset,
       className,
       ...props
     },
@@ -72,6 +84,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     const [localValue, setLocalValue] = useState(valueStr);
     const [focused, setFocused] = useState(false);
+    const { trackEvent } = useAnalytics();
 
     const [valueInBaseCurrency, setValueInBaseCurrency] = useState(
       new BigNumber(0)
@@ -85,7 +98,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           setValueInBaseCurrency(new BigNumber(0));
         }
       }
-    }, [focused, valueStr]);
+    }, [asset, focused, modalType, trackEvent, valueStr]);
 
     const handleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {
@@ -132,8 +145,20 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
         setValueInBaseCurrency(
           convertValueToCurrency(maxValue ?? new BigNumber(0), exchangeRate)
         );
+
+        if (modalType && asset) {
+          trackEvent(
+            events.credit_process_modal.input.max_value,
+            AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
+            {
+              max_value: maxValue ?? new BigNumber(0),
+              modal_name: modalType,
+              asset: getAssetName(asset),
+            }
+          );
+        }
       },
-      [decimals, exchangeRate, maxValue, onChange]
+      [asset, decimals, exchangeRate, maxValue, modalType, onChange, trackEvent]
     );
 
     const handleSliderChange = useCallback(
@@ -227,6 +252,9 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             maxValue={maxValue}
             decimals={decimals}
             onChange={handleSliderChange}
+            setPercentValue={setPercentValue}
+            asset={asset}
+            modalType={modalType}
             className={cx(s.slider, themeClasses[theme])}
           />
         )}

@@ -45,6 +45,7 @@ export const Stats: FC<StatsProps> = ({ className }) => {
         value={convertUnits(maxCollateral, COLLATERAL_PRECISION)}
         title="Your Borrow Limit"
         text="Your Borrow Limit"
+        name="your_borrow_limit"
         description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
         theme="secondary"
         loading={!isLoaded}
@@ -63,6 +64,7 @@ export const Stats: FC<StatsProps> = ({ className }) => {
             ? "You are in the Liquidation Risk"
             : "Your Liquidation Limit"
         }
+        name="your_liquidation_limit"
         description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
         theme="secondary"
         loading={!isLoaded}

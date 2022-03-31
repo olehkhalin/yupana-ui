@@ -24,6 +24,7 @@ type LimitLineProps = {
   value: BigNumber;
   theme: "primary" | "secondary";
   loading: boolean;
+  name: string;
   className?: string;
 } & ModalContent;
 
@@ -36,6 +37,7 @@ export const LimitLine: FC<LimitLineProps> = ({
   buttonText,
   theme,
   loading,
+  name,
   className,
 }) => {
   const isInRisk = percent.gt(100);
@@ -78,6 +80,7 @@ export const LimitLine: FC<LimitLineProps> = ({
               description={description}
               buttonText={buttonText}
               theme={theme}
+              name={name}
               className={s.title}
             />
           )}
