@@ -3,9 +3,13 @@ import BigNumber from "bignumber.js";
 import { Cell } from "react-table";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { getAssetName } from "utils/helpers/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { useAnalytics } from "hooks/useAnalytics";
 import { useOraclePriceQuery } from "generated/graphql";
 import { Table } from "components/ui/Table";
 import { Button } from "components/ui/Button";
@@ -23,6 +27,16 @@ type MarketsProps = {
 
 export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
+  const { trackEvent } = useAnalytics();
+
+  const handleEventTrack = useCallback(
+    (asset: AssetType) => {
+      trackEvent(events.markets.details, AnalyticsEventCategory.MARKETS, {
+        asset: getAssetName(asset),
+      });
+    },
+    [trackEvent]
+  );
 
   const calculateUsdTotals = useCallback(
     (
@@ -66,6 +80,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
             loading={loading}
             href={`${AppRoutes.MARKETS}/${value.yToken}`}
             theme="tertiary"
+            onClick={() => handleEventTrack(value.asset)}
           />
         ),
       },
@@ -173,20 +188,27 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
       },
       {
         Header: () => null,
-        accessor: "yToken",
-        Cell: ({ cell: { value } }: { cell: Cell }) => (
-          <Button
-            theme="light"
-            href={`${AppRoutes.MARKETS}/${value}`}
-            className={s.link}
-            disabled={loading}
-          >
-            Details
-          </Button>
-        ),
+        id: "yToken",
+        accessor: (row: { asset: AssetType; yToken: number }) => ({
+          asset: row.asset,
+          yToken: row.yToken,
+        }),
+        Cell: ({ cell: { value } }: { cell: Cell }) => {
+          return (
+            <Button
+              theme="light"
+              href={`${AppRoutes.MARKETS}/${value.yToken}`}
+              className={s.link}
+              onClick={() => handleEventTrack(value.asset)}
+              disabled={loading}
+            >
+              Details
+            </Button>
+          );
+        },
       },
     ],
-    [calculateUsdTotals, loading]
+    [calculateUsdTotals, handleEventTrack, loading]
   );
 
   return (

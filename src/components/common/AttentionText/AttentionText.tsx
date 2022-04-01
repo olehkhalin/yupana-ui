@@ -43,9 +43,9 @@ export const AttentionText: FC<AttentionTextProps> = ({
   const { trackEvent } = useAnalytics();
 
   const handleModal = useCallback(() => {
-    const tooltips = events.tooltips as any;
     if (name && !isOpen) {
-      trackEvent(tooltips[name], AnalyticsEventCategory.STATS);
+      const tooltips = events.tooltips as any;
+      trackEvent(tooltips[name], AnalyticsEventCategory.MODAL_TOOLTIPS);
     }
     setIsOpen(!isOpen);
   }, [isOpen, name, trackEvent]);

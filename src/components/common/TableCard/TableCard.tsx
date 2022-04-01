@@ -1,8 +1,9 @@
 import React, { FC, ReactElement, useState, useCallback } from "react";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
-import { getSliceAssetName } from "utils/helpers/asset";
+import { getAssetName, getSliceAssetName } from "utils/helpers/asset";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useAnalytics } from "hooks/useAnalytics";
 import { Preloader } from "components/ui/Preloader";
@@ -73,6 +74,14 @@ export const TableCard: FC<TableCardProps> = ({
     }
   }, [asset, handleClick, isOpened, tableName, trackEvent, yToken]);
 
+  const handleDetailsTrack = useCallback(() => {
+    if (asset) {
+      trackEvent(events.markets.details, AnalyticsEventCategory.MARKETS, {
+        asset: getAssetName(asset),
+      });
+    }
+  }, [asset, trackEvent]);
+
   return (
     // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
     <div
@@ -95,6 +104,7 @@ export const TableCard: FC<TableCardProps> = ({
           sizeT="small"
           theme="light"
           disabled={loading}
+          onClick={handleDetailsTrack}
           className={s.link}
         >
           Details

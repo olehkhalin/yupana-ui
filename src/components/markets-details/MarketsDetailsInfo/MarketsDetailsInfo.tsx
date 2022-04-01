@@ -123,6 +123,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
         <div className={s.list}>
           <Item
             text="Utilisation rate"
+            name="utilization_rate"
             value={getPrettyPercent(utilisationRate)}
             title={utilizationRate.title}
             description={utilizationRate.description}
@@ -130,6 +131,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text="Collateral Factor"
+            name="collateral_factor"
             value={getPrettyPercent(collateralFactor)}
             title={collateralFactorPopup.title}
             description={collateralFactorPopup.description}
@@ -137,6 +139,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text="Liquidation threshold"
+            name="liquidation_threshold"
             value={getPrettyPercent(liquidationThreshold)}
             title={liquidationThresholdPopup.title}
             description={liquidationThresholdPopup.description}
@@ -144,6 +147,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text="Liquidation bonus"
+            name="liquidation_bonus"
             value={getPrettyPercent(liquidationBonus)}
             title={liquidationBonusPopup.title}
             description={liquidationBonusPopup.description}
@@ -171,6 +175,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
           />
           <Item
             text="Exchange Rate"
+            name="exchange_rate"
             value={`${getPrettyAmount({
               value: exchangeRate,
               currency: `y${asset.symbol}`,

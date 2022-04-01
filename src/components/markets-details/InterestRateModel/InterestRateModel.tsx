@@ -60,6 +60,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           link={{
             label: "IRM in docs",
             link: DOCS_LINKS.irm,
+            name: "irm",
             external: true,
           }}
           theme="secondary"
@@ -79,6 +80,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
+            name="base_rate_per_year"
             value={<PrettyAmount amount={baseRatePerYear} size="extraSmall" />}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
@@ -115,6 +117,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Kink"
+            name="kink"
             value={getPrettyPercent(kink)}
             title={kinkPopup.title}
             description={kinkPopup.description}

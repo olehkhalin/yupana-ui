@@ -9,6 +9,7 @@ export enum AnalyticsEventCategory {
   CONNECT_WALLET_POPUP = "connect_wallet_popup",
   INSTALL_WALLET = "install_wallet_popup",
   STATS = "stats",
+  MODAL_TOOLTIPS = "modal_tooltips",
   LENDING = "lending",
   MARKETS = "markets",
   MARKETS_DETAILS = "markets_details",

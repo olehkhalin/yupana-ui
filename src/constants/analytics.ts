@@ -50,11 +50,19 @@ export const events = {
     docs: {
       supplying: "DOCS Supplying assets link click",
       borrowing: "DOCS Borrowing assets link click",
+      irm: "DOCS Interest Rate Model link click",
     },
   },
   tooltips: {
-    your_borrow_limit: "Open tooltip 'Your borrow limit'",
-    your_liquidation_limit: "Open tooltip 'Your liquidation limit'",
+    your_borrow_limit: "Click tooltip 'Your borrow limit'",
+    your_liquidation_limit: "Click tooltip 'Your liquidation limit'",
+    utilization_rate: "Click tooltip 'Utilization rate'",
+    collateral_factor: "Click tooltip 'Collateral factor'",
+    liquidation_threshold: "Click tooltip 'Liquidation threshold'",
+    liquidation_bonus: "Click tooltip 'Liquidation bonus'",
+    exchange_rate: "Click tooltip 'Exchange rate'",
+    base_rate_per_year: "Click tooltip 'Base rate per year'",
+    kink: "Click tooltip 'Kink'",
   },
   credit_process_modal: {
     input: {
@@ -69,5 +77,8 @@ export const events = {
       100: "Slider click 100%",
     },
     submit: "Submit value",
+  },
+  markets: {
+    details: "Click market details of asset",
   },
 };

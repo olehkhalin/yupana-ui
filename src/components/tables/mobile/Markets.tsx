@@ -1,15 +1,18 @@
 import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
-import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from "constants/defaults";
-import { AppRoutes } from "routes/main-routes";
-import { useOraclePriceQuery } from "generated/graphql";
 import { AssetsResponseData, AssetType } from "types/asset";
+import { getAssetName } from "utils/helpers/asset";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
+import { useAnalytics } from "hooks/useAnalytics";
 import { AssetName } from "components/common/AssetName";
 import { TableCard } from "components/common/TableCard";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { AppRoutes } from "routes/main-routes";
+import { useOraclePriceQuery } from "generated/graphql";
 
 import s from "./Cards.module.sass";
 
@@ -20,6 +23,16 @@ type MarketsProps = {
 
 export const Markets: FC<MarketsProps> = ({ data, loading }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
+  const { trackEvent } = useAnalytics();
+
+  const handleEventTrack = useCallback(
+    (asset: AssetType) => {
+      trackEvent(events.markets.details, AnalyticsEventCategory.MARKETS, {
+        asset: getAssetName(asset),
+      });
+    },
+    [trackEvent]
+  );
 
   const calculateUsdTotals = useCallback(
     (
@@ -53,6 +66,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
       (data ?? [0, 1, 2]).map((el: any) => ({
         key: el.yToken ?? el,
         href: `${AppRoutes.MARKETS}/${el.yToken}`,
+        asset: el.asset,
         data: [
           {
             title: "Market",
@@ -62,6 +76,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
                 loading={loading}
                 href={`${AppRoutes.MARKETS}/${el.yToken}`}
                 theme="tertiary"
+                onClick={() => handleEventTrack(el.asset)}
               />
             ),
             isLogo: true,
@@ -138,7 +153,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
           },
         ],
       })),
-    [calculateUsdTotals, data, loading]
+    [calculateUsdTotals, data, handleEventTrack, loading]
   );
 
   return (
@@ -150,6 +165,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
           key={item.key}
           data={item.data}
           href={item.href}
+          asset={item.asset}
         />
       ))}
     </>
