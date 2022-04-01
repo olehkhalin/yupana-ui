@@ -3,7 +3,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 
 import { EXPLORER_URL } from "constants/defaults";
-import { shortize } from "utils/helpers";
 import { useWiderThanMphone } from "utils/helpers";
 import { useDisconnect } from "utils/dapp";
 import { ModalActions } from "types/modal";
@@ -70,17 +69,12 @@ export const AccountModal: FC<AccountModalProps> = ({
       onRequestClose={onRequestClose}
       innerClassName={s.innerModal}
     >
-      <Button theme="clear" onClick={handleLogout} className={s.logout}>
-        log out
-      </Button>
       <ModalHeader
         title="Account"
         description="Connected wallet address:"
         className={s.root}
       />
-      <div className={s.address}>
-        {isWiderThanMphone ? address : shortize(address)}
-      </div>
+      <div className={s.address}>{address}</div>
       <div className={s.options}>
         <Button
           theme="clear"
@@ -102,6 +96,9 @@ export const AccountModal: FC<AccountModalProps> = ({
           </Button>
         </CopyToClipboard>
       </div>
+      <Button theme="clear" onClick={handleLogout} className={s.logout}>
+        log out
+      </Button>
       {isTransactionsExist && (
         <TransactionsHistory className={s.transactions} />
       )}
