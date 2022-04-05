@@ -61,12 +61,6 @@ export const ConnectWalletModal: FC = () => {
           if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
             handleConnectModal();
             handleInstallTempleWalletModal();
-
-            // Analytics track
-            trackEvent(
-              events.install_wallet,
-              AnalyticsEventCategory.INSTALL_WALLET
-            );
           } else {
             updateToast({
               type: "error",
