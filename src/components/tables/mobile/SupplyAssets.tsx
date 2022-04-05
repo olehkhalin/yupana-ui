@@ -116,6 +116,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
           loading={loading}
           key={item.key}
           tableName={tableName}
+          tableKey="supply"
           data={item.data}
           asset={item.asset}
           subComponent={item.subComponent}

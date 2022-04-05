@@ -112,6 +112,7 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
           subComponent={item.subComponent}
           renderRowSubComponent={renderRowSubComponent}
           tableName={tableName}
+          tableKey="borrow"
         />
       ))}
     </>

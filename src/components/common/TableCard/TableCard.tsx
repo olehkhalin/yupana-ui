@@ -3,7 +3,8 @@ import cx from "classnames";
 
 import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
-import { getAssetName, getSliceAssetName } from "utils/helpers/asset";
+import { TableNameType } from "types/analytics";
+import { getAssetName } from "utils/helpers/asset";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useAnalytics } from "hooks/useAnalytics";
 import { Preloader } from "components/ui/Preloader";
@@ -70,12 +71,16 @@ export const TableCard: FC<TableCardProps> = ({
 
     // Analytics track
     if (asset && !isOpened && tableName) {
-      trackEvent(`Card click`, AnalyticsEventCategory.LENDING, {
-        table_name: tableName,
-        asset: getSliceAssetName(asset),
-      });
+      trackEvent(
+        events.lending.click_arrow[tableKey as TableNameType],
+        AnalyticsEventCategory.LENDING,
+        {
+          table_name: tableName,
+          asset: getAssetName(asset),
+        }
+      );
     }
-  }, [asset, handleClick, isOpened, tableName, trackEvent, yToken]);
+  }, [asset, handleClick, isOpened, tableKey, tableName, trackEvent, yToken]);
 
   // Analytics track
   const handleDetailsTrack = useCallback(() => {

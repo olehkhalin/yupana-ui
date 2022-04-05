@@ -127,6 +127,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           subComponent={item.subComponent}
           renderRowSubComponent={renderRowSubComponent}
           tableName={tableName}
+          tableKey="your_supply"
         />
       ))}
     </>
