@@ -32,7 +32,7 @@ export const ConnectWalletButton: FC<ConnectWalletButtonProps> = ({
   const { isTransactionsExist } = useTransactions();
   const { handleAccountModal, accountModalIsOpen, handleConnectModal } =
     useConnectWalletModal();
-  const { trackEvent } = useAnalytics();
+  const { trackEvent } = useAnalytics(true);
 
   const handleModal = useCallback(
     (callback: () => void) => {

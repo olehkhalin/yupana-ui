@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
+import { FooterSocialsType } from "types/analytics";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { SOCIAL_LIST } from "constants/social-links";
 import { events } from "constants/analytics";
@@ -14,12 +15,15 @@ type SocialLinksProps = {
 };
 
 export const SocialLinks: FC<SocialLinksProps> = ({ className }) => {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent } = useAnalytics(true);
 
+  // Analytics track
   const handleTrackLink = useCallback(
     (name: string) => {
-      const socials = events.footer.socials as any;
-      trackEvent(socials[name], AnalyticsEventCategory.FOOTER);
+      trackEvent(
+        events.footer.socials[name as FooterSocialsType],
+        AnalyticsEventCategory.FOOTER
+      );
     },
     [trackEvent]
   );

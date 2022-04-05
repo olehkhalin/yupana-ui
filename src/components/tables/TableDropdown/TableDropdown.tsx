@@ -2,6 +2,7 @@ import React, { FC, useCallback } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
+import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
 import { getAssetName } from "utils/helpers/asset";
@@ -38,6 +39,19 @@ const themeClasses = {
   secondary: s.secondary,
 };
 
+export enum TableNameEnum {
+  SUPPLY = "supply",
+  BORROW = "borrow",
+  YOUR_SUPPLY = "your_supply",
+  YOUR_BORROW = "your_borrow",
+}
+enum ActionButton {
+  SUPPLY_BUTTON = "supply_button",
+  BORROW_BUTTON = "borrow_button",
+  WITHDRAW_BUTTON = "withdraw_button",
+  REPAY_BUTTON = "repay_button",
+}
+
 export const TableDropdown: FC<TableDropdownInnerProps> = ({
   yToken,
   theme = "primary",
@@ -64,35 +78,36 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
     event.stopPropagation();
     callback && callback();
 
+    // Analytics track
+    const sendEvent = (table: TableNameEnum, button: ActionButton) => {
+      const open_modal = events.lending.open_modal as any;
+      trackEvent(open_modal[table][button], AnalyticsEventCategory.LENDING, {
+        asset: getAssetName(asset),
+        table_name: tableName,
+      });
+    };
     if (label === "Supply") {
-      trackEvent(`Open Supply modal`, AnalyticsEventCategory.LENDING, {
-        asset: getAssetName(asset),
-        table_name: tableName,
-      });
+      sendEvent(tableName as TableNameEnum, ActionButton.SUPPLY_BUTTON);
     } else if (label === "Withdraw") {
-      trackEvent(`Open Withdraw modal`, AnalyticsEventCategory.LENDING, {
-        asset: getAssetName(asset),
-        table_name: tableName,
-      });
+      sendEvent(tableName as TableNameEnum, ActionButton.WITHDRAW_BUTTON);
     } else if (label === "Borrow") {
-      trackEvent(`Open Borrow modal`, AnalyticsEventCategory.LENDING, {
-        asset: getAssetName(asset),
-        table_name: tableName,
-      });
+      sendEvent(tableName as TableNameEnum, ActionButton.BORROW_BUTTON);
     } else if (label === "Repay") {
-      trackEvent(`Open Repay modal`, AnalyticsEventCategory.LENDING, {
-        asset: getAssetName(asset),
-        table_name: tableName,
-      });
+      sendEvent(tableName as TableNameEnum, ActionButton.REPAY_BUTTON);
     }
   };
 
+  // Analytics track
   const handleMarketDetails = useCallback(() => {
     if (tableName) {
-      trackEvent("Market details click", AnalyticsEventCategory.LENDING, {
-        asset: getAssetName(asset),
-        table_name: tableName,
-      });
+      trackEvent(
+        events.lending.market_details,
+        AnalyticsEventCategory.LENDING,
+        {
+          asset: getAssetName(asset),
+          table_name: tableName,
+        }
+      );
     }
   }, [asset, tableName, trackEvent]);
 

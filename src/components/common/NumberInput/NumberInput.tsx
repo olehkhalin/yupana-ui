@@ -146,13 +146,15 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           convertValueToCurrency(maxValue ?? new BigNumber(0), exchangeRate)
         );
 
+        // Analytics track
         if (modalType && asset) {
           trackEvent(
             events.credit_process_modal.input.max_value,
-            AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
+            events.credit_process_modal.name[
+              modalType
+            ] as AnalyticsEventCategory,
             {
               max_value: maxValue ?? new BigNumber(0),
-              modal_name: modalType,
               asset: getAssetName(asset),
             }
           );
@@ -174,8 +176,21 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       (evt) => {
         setFocused(true);
         onFocus?.(evt);
+
+        // Analytics track
+        if (modalType && asset) {
+          trackEvent(
+            events.credit_process_modal.input.focus,
+            events.credit_process_modal.name[
+              modalType
+            ] as AnalyticsEventCategory,
+            {
+              asset: getAssetName(asset),
+            }
+          );
+        }
       },
-      [setFocused, onFocus]
+      [onFocus, modalType, asset, trackEvent]
     );
 
     const handleBlur = useCallback(

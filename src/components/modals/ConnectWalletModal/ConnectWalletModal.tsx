@@ -10,7 +10,7 @@ import { events } from "constants/analytics";
 import { useConnectWalletModal } from "hooks/useConnectModal";
 import { useAnalytics } from "hooks/useAnalytics";
 import { useUpdateToast } from "hooks/useUpdateToast";
-import { Modal } from "components/ui/Modal";
+import { Modal, ModalType } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
 import { ReactComponent as TempleWallet } from "svg/TempleWallet.svg";
@@ -40,6 +40,8 @@ export const ConnectWalletModal: FC = () => {
         if (walletType === WalletType.BEACON) {
           await connectWithBeacon(true);
           handleConnectModal();
+
+          // Analytics track
           trackEvent(
             events.connect_wallet.beacon,
             AnalyticsEventCategory.CONNECT_WALLET_POPUP
@@ -47,6 +49,8 @@ export const ConnectWalletModal: FC = () => {
         } else {
           await connectWithTemple(true);
           handleConnectModal();
+
+          // Analytics track
           trackEvent(
             events.connect_wallet.temple,
             AnalyticsEventCategory.CONNECT_WALLET_POPUP
@@ -57,6 +61,8 @@ export const ConnectWalletModal: FC = () => {
           if (e.message === TEMPLE_WALLET_NOT_INSTALLED_MESSAGE) {
             handleConnectModal();
             handleInstallTempleWalletModal();
+
+            // Analytics track
             trackEvent(
               events.install_wallet,
               AnalyticsEventCategory.INSTALL_WALLET
@@ -91,7 +97,7 @@ export const ConnectWalletModal: FC = () => {
 
   return (
     <Modal
-      trackModalClosing
+      type={ModalType.CONNECT_WALLET}
       isOpen={connectModalIsOpen}
       onRequestClose={handleConnectModal}
     >

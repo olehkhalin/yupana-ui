@@ -107,6 +107,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           <DropdownArrow
             active={row.isExpanded}
             tableName={tableName}
+            tableKey="your_supply"
             asset={(row.original as any).asset}
             className={s.icon}
             loading={loading}

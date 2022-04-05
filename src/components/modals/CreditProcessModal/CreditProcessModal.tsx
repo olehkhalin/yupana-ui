@@ -24,7 +24,7 @@ import { useTransactions } from "hooks/useTransactions";
 import { useBalance } from "hooks/useBalance";
 import { events } from "constants/analytics";
 import { Preloader } from "components/ui/Preloader";
-import { Modal } from "components/ui/Modal";
+import { Modal, ModalType } from "components/ui/Modal";
 import { PendingIcon } from "components/common/PendingIcon";
 import { ConnectWalletButton } from "components/common/ConnectWalletButton";
 import { NumberInput } from "components/common/NumberInput";
@@ -44,7 +44,7 @@ const themeClasses = {
 };
 
 type CreditProcessModalInnerProps = {
-  type?: CreditProcessModalEnum;
+  type: CreditProcessModalEnum;
   theme?: keyof typeof themeClasses;
   asset: AssetType;
   borrowLimit: BigNumber;
@@ -163,16 +163,19 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
       try {
         setOperationLoading(true);
         await onSubmit(mutezAmount, isMaxAmount);
-        trackEvent(
-          events.credit_process_modal.submit,
-          AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
-          {
-            submit_amount: +inputData,
-            asset: getAssetName(asset),
-            modal_name: type,
-            slider_percent: +percentValue.toFixed(2),
-          }
-        );
+
+        // Analytics track
+        if (type) {
+          trackEvent(
+            events.credit_process_modal.submit,
+            events.credit_process_modal.name[type] as AnalyticsEventCategory,
+            {
+              submit_amount: +inputData,
+              asset: getAssetName(asset),
+              slider_percent: +percentValue.toFixed(2),
+            }
+          );
+        }
         onRequestClose();
       } catch (e) {
         updateToast({
@@ -200,6 +203,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   return (
     <Modal
+      type={events.credit_process_modal.name[type] as unknown as ModalType}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.inner}
@@ -250,7 +254,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               className={s.input}
               maxValue={convertUnits(pureMaxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
-              modalType={title as CreditProcessModalEnum}
+              modalType={title.toLowerCase() as CreditProcessModalEnum}
               asset={asset}
               setPercentValue={setPercentValue}
               exchangeRate={convertUnits(

@@ -3,9 +3,11 @@ import cx from "classnames";
 import BigNumber from "bignumber.js";
 
 import { AssetType } from "types/asset";
+import { SliderPercentButtonType } from "types/analytics";
 import { getAssetName } from "utils/helpers/asset";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useAnalytics } from "hooks/useAnalytics";
+import { CreditProcessModalEnum } from "hooks/useCreditProcessModal";
 import { events } from "constants/analytics";
 import { SLIDER_PERCENTS } from "constants/slider";
 import { Button } from "components/ui/Button";
@@ -24,7 +26,7 @@ type SliderProps = Omit<
   onChange: (newValue: BigNumber) => void;
   setPercentValue?: (percent: number) => void;
   asset?: AssetType;
-  modalType?: string;
+  modalType?: CreditProcessModalEnum;
 };
 
 const themeClasses = {
@@ -61,14 +63,15 @@ export const Slider: FC<SliderProps> = ({
       onChange(numVal);
     }
 
+    // Analytics track
     if (asset && modalType) {
-      const values = events.credit_process_modal.slider as any;
       trackEvent(
-        values[newPercent],
-        AnalyticsEventCategory.CREDIT_PROCESS_MODAL,
+        events.credit_process_modal.slider[
+          newPercent as SliderPercentButtonType
+        ],
+        events.credit_process_modal.name[modalType] as AnalyticsEventCategory,
         {
           asset: getAssetName(asset),
-          modal_name: modalType,
         }
       );
     }

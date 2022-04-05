@@ -88,6 +88,7 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
           <DropdownArrow
             theme="secondary"
             tableName={tableName}
+            tableKey="borrow"
             asset={(row.original as any).asset}
             active={row.isExpanded}
             className={s.icon}

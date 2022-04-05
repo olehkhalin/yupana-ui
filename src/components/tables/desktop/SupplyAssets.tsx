@@ -81,6 +81,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
               active={row.isExpanded}
               asset={(row.original as any).asset}
               tableName={tableName}
+              tableKey="supply"
               className={s.icon}
               loading={loading}
               {...row.getToggleRowExpandedProps()}

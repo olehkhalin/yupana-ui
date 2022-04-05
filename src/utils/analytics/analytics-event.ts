@@ -1,21 +1,25 @@
 import { Analytics, AnalyticsBrowser } from "@segment/analytics-next";
+import BigNumber from "bignumber.js";
 import { ANALYTICS_WRITE_KEY } from "constants/defaults";
 
 export enum AnalyticsEventCategory {
-  LOAD_PAGE = "load_page",
-  HEADER = "header",
-  FOOTER = "footer",
-  ACCOUNT_POPUP = "account_popup",
-  CONNECT_WALLET_POPUP = "connect_wallet_popup",
-  INSTALL_WALLET = "install_wallet_popup",
+  LOAD_PAGE = "Load_Page",
+  HEADER = "Header",
+  FOOTER = "Footer",
+  ACCOUNT_POPUP = "Account_pop-up",
+  CONNECT_WALLET_POPUP = "Connect_to_a_wallet_pop-up",
+  INSTALL_WALLET = "Install_wallet_popup",
   STATS = "stats",
   MODAL_TOOLTIPS = "modal_tooltips",
-  LENDING = "lending",
-  MARKETS = "markets",
-  MARKETS_DETAILS = "markets_details",
-  LIQUIDATE = "liquidate",
-  LIQUIDATE_DETAILS = "liquidate_details",
-  CREDIT_PROCESS_MODAL = "credit_process_modal",
+  LENDING = "Lending",
+  MARKETS = "Markets",
+  MARKETS_DETAILS = "Markets_details",
+  LIQUIDATE = "Liquidate",
+  LIQUIDATE_DETAILS = "Liquidate_details",
+  SUPPLY = "Supply",
+  BORROW = "Borrow",
+  WITHDRAW = "Withdraw",
+  REPAY = "Repay",
 }
 
 let client: Analytics | undefined;
@@ -33,13 +37,13 @@ export const sendTrackEvent = async (
   userId: string,
   event: string,
   category: AnalyticsEventCategory = AnalyticsEventCategory.LENDING,
-  properties?: any
+  properties?: { [key: string]: number | BigNumber | string }
 ) => {
   const analyticsClient = await getClient();
   analyticsClient.track({
     userId,
     type: "track",
-    event: `${category}: ${event}`,
+    event: `${category}/${event}`,
     timestamp: new Date(),
     properties: {
       ...properties,
@@ -53,7 +57,7 @@ export const sendPageEvent = async (
   userId: string,
   name: string,
   category: string,
-  additionalProperties = {}
+  properties?: { [key: string]: number | BigNumber | string }
 ) => {
   const analyticsClient = await getClient();
   analyticsClient.page({
@@ -61,9 +65,9 @@ export const sendPageEvent = async (
     name,
     timestamp: new Date(),
     category,
-    path: `${category}: ${name}`,
+    path: `${category}/${name}`,
     properties: {
-      ...additionalProperties,
+      ...properties,
     },
   });
 };

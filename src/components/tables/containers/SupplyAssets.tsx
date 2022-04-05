@@ -21,7 +21,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
   if (isWiderThanLphone) {
     return (
       <SupplyAssetsTable
-        tableName="Supply assets"
+        tableName="supply"
         data={data}
         loading={loading}
         className={className}
@@ -29,11 +29,5 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
     );
   }
 
-  return (
-    <SupplyAssetsCards
-      tableName="Supply assets"
-      data={data}
-      loading={loading}
-    />
-  );
+  return <SupplyAssetsCards tableName="supply" data={data} loading={loading} />;
 };

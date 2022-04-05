@@ -1,7 +1,9 @@
 import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
+import { TableNameType } from "types/analytics";
 import { getAssetName } from "utils/helpers/asset";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useAnalytics } from "hooks/useAnalytics";
@@ -14,6 +16,7 @@ type DropdownArrowProps = {
   active?: boolean;
   theme?: keyof typeof themeClasses;
   tableName?: string;
+  tableKey?: string;
   asset?: AssetType;
   loading?: boolean;
   onClick?: () => void;
@@ -29,6 +32,7 @@ export const DropdownArrow: FC<DropdownArrowProps> = ({
   active,
   theme = "primary",
   tableName,
+  tableKey,
   asset,
   loading,
   onClick,
@@ -40,13 +44,18 @@ export const DropdownArrow: FC<DropdownArrowProps> = ({
   const handleClick = useCallback(() => {
     onClick && onClick();
 
-    if (asset && tableName && !active) {
-      trackEvent(`Arrow click`, AnalyticsEventCategory.LENDING, {
-        table_name: tableName,
-        asset: getAssetName(asset),
-      });
+    // Analytics track
+    if (asset && tableName && tableKey && !active) {
+      trackEvent(
+        events.lending.click_arrow[tableKey as TableNameType],
+        AnalyticsEventCategory.LENDING,
+        {
+          table_name: tableName,
+          asset: getAssetName(asset),
+        }
+      );
     }
-  }, [active, asset, tableName, onClick, trackEvent]);
+  }, [onClick, asset, tableName, active, trackEvent, tableKey]);
 
   const compoundClassNames = cx(
     s.root,

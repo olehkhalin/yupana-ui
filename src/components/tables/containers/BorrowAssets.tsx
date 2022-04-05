@@ -21,7 +21,7 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
   if (isWiderThanLphone) {
     return (
       <BorrowAssetsTable
-        tableName="Borrow assets"
+        tableName="borrow"
         data={data}
         loading={loading}
         className={className}
@@ -29,11 +29,5 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
     );
   }
 
-  return (
-    <BorrowAssetsCards
-      tableName="Borrow assets"
-      data={data}
-      loading={loading}
-    />
-  );
+  return <BorrowAssetsCards tableName="borrow" data={data} loading={loading} />;
 };

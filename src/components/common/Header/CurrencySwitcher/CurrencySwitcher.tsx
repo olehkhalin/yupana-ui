@@ -17,19 +17,25 @@ type CurrencySwitcherProps = {
 export const CurrencySwitcher: FC<CurrencySwitcherProps> = ({ className }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const { currency, setCurrency } = useCurrency();
-  const { trackEvent } = useAnalytics();
+  const { trackEvent } = useAnalytics(true);
 
   const handleSwitchCurrency = (value: CurrencyEnum) => {
-    trackEvent(events.header.currency[value], AnalyticsEventCategory.HEADER);
     setCurrency(value);
+
+    // Analytics track
+    trackEvent(events.header.currency[value], AnalyticsEventCategory.HEADER);
   };
 
   const handleSwitchCurrencyMobile = (arg: boolean) => {
     if (arg) {
       setCurrency(CurrencyEnum.XTZ);
+
+      // Analytics track
       trackEvent(events.header.currency.xtz, AnalyticsEventCategory.HEADER);
     } else {
       setCurrency(CurrencyEnum.USD);
+
+      // Analytics track
       trackEvent(events.header.currency.usd, AnalyticsEventCategory.HEADER);
     }
   };

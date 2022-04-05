@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
+import { FooterLinksType } from "types/analytics";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { FOOTER_LIST } from "constants/footer-list";
 import { events } from "constants/analytics";
@@ -16,12 +17,15 @@ type FooterProps = {
 };
 
 export const Footer: FC<FooterProps> = ({ className }) => {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent } = useAnalytics(true);
 
+  // Analytics track
   const handleTrackLink = useCallback(
     (name: string) => {
-      const links = events.footer.links as any;
-      trackEvent(links[name], AnalyticsEventCategory.FOOTER);
+      trackEvent(
+        events.footer.links[name as FooterLinksType],
+        AnalyticsEventCategory.FOOTER
+      );
     },
     [trackEvent]
   );

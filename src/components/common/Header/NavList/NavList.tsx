@@ -1,13 +1,15 @@
 import React, { FC, useCallback } from "react";
+
 import cx from "classnames";
 
+import { events } from "constants/analytics";
+import { HeaderNavType } from "types/analytics";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { useAnalytics } from "hooks/useAnalytics";
 import { NAVBAR_LIST } from "constants/navl-list";
 import { Button } from "components/ui/Button";
 
 import s from "./NavList.module.sass";
-import { useAnalytics } from "hooks/useAnalytics";
-import { events } from "constants/analytics";
 
 type NavListProps = {
   itemClassName?: string;
@@ -20,13 +22,17 @@ export const NavList: FC<NavListProps> = ({
   setIsOpenDropdown,
   className,
 }) => {
-  const { trackEvent } = useAnalytics();
+  const { trackEvent } = useAnalytics(true);
 
   const handleLink = useCallback(
     (item: string) => {
-      const links = events.header.links as any;
-      trackEvent(links[item], AnalyticsEventCategory.HEADER);
       setIsOpenDropdown?.(false);
+
+      // Analytics track
+      trackEvent(
+        events.header.links[item as HeaderNavType],
+        AnalyticsEventCategory.HEADER
+      );
     },
     [setIsOpenDropdown, trackEvent]
   );

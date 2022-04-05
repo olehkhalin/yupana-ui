@@ -1,6 +1,7 @@
 import React, { FC, useCallback } from "react";
 import cx from "classnames";
 
+import { DocsType } from "types/analytics";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { events } from "constants/analytics";
 import { useAnalytics } from "hooks/useAnalytics";
@@ -36,10 +37,13 @@ export const Heading: FC<HeadingProps> = ({
 }) => {
   const { trackEvent } = useAnalytics();
 
+  // Analytics track
   const handleLink = useCallback(() => {
     if (link && link.name) {
-      const docs = events.lending.docs as any;
-      trackEvent(docs[link.name], AnalyticsEventCategory.LENDING);
+      trackEvent(
+        events.docs[link.name as DocsType],
+        AnalyticsEventCategory.LENDING
+      );
     }
   }, [link, trackEvent]);
 

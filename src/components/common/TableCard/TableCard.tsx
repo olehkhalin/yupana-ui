@@ -26,6 +26,7 @@ type TableCardProps = {
   data: DataType;
   asset?: AssetType;
   tableName?: string;
+  tableKey?: string;
   loading?: boolean;
   subComponent?: any;
   renderRowSubComponent?: (props: any) => void;
@@ -46,6 +47,7 @@ export const TableCard: FC<TableCardProps> = ({
   data,
   asset,
   tableName,
+  tableKey,
   loading,
   subComponent,
   renderRowSubComponent,
@@ -66,7 +68,8 @@ export const TableCard: FC<TableCardProps> = ({
       handleClick(yToken);
     }
 
-    if (asset && !isOpened) {
+    // Analytics track
+    if (asset && !isOpened && tableName) {
       trackEvent(`Card click`, AnalyticsEventCategory.LENDING, {
         table_name: tableName,
         asset: getSliceAssetName(asset),
@@ -74,6 +77,7 @@ export const TableCard: FC<TableCardProps> = ({
     }
   }, [asset, handleClick, isOpened, tableName, trackEvent, yToken]);
 
+  // Analytics track
   const handleDetailsTrack = useCallback(() => {
     if (asset) {
       trackEvent(events.markets.details, AnalyticsEventCategory.MARKETS, {
@@ -95,6 +99,7 @@ export const TableCard: FC<TableCardProps> = ({
           active={isOpened}
           loading={loading}
           disabled={loading}
+          tableKey={tableKey}
           className={s.arrow}
         />
       )}

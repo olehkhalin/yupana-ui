@@ -3,21 +3,17 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import animateScrollTo from "animated-scroll-to";
 
 import { client } from "utils/client";
-import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useOnBlock, useTezos } from "utils/dapp";
 import { components } from "routes/components";
 import { AppRoutes } from "routes/main-routes";
 import { useInitialSetup } from "hooks/useInitialSetup";
 import { useMatchMutate } from "hooks/useMatchMutate";
 import NotFound from "pages/not-found";
-import { useAnalytics } from "hooks/useAnalytics";
 
 const App: FC = () => {
-  const location = useLocation();
   const { pathname } = useLocation();
   const tezos = useTezos();
   const matchMutate = useMatchMutate();
-  const { pageEvent } = useAnalytics();
 
   useInitialSetup();
 
@@ -39,11 +35,12 @@ const App: FC = () => {
     });
   }, [pathname]);
 
-  useEffect(() => {
-    pageEvent(pathname, AnalyticsEventCategory.LOAD_PAGE);
-  }, [pageEvent, pathname]);
+  // TODO: Research
+  // useEffect(() => {
+  //   pageEvent(pathname, AnalyticsEventCategory.LOAD_PAGE);
+  // }, [pageEvent, pathname]);
 
-  if (location.pathname === "/") {
+  if (pathname === "/") {
     return <Navigate to={AppRoutes.LENDING} />;
   }
 

@@ -2,13 +2,14 @@ import React, { useState, useCallback, FC } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { EXPLORER_URL } from "constants/defaults";
-import { useWiderThanMphone } from "utils/helpers";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useDisconnect } from "utils/dapp";
 import { ModalActions } from "types/modal";
 import { useAnalytics } from "hooks/useAnalytics";
 import { useTransactions } from "hooks/useTransactions";
-import { Modal } from "components/ui/Modal";
+import { Modal, ModalType } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
 import { ReactComponent as IconCopy } from "svg/IconCopy.svg";
@@ -17,8 +18,6 @@ import { ReactComponent as Success } from "svg/Success.svg";
 
 import { TransactionsHistory } from "./TransactionsHistory";
 import s from "./AccountModal.module.sass";
-import { events } from "constants/analytics";
-import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 
 type AccountModalProps = {
   address: string;
@@ -30,7 +29,6 @@ export const AccountModal: FC<AccountModalProps> = ({
   onRequestClose,
 }) => {
   const disconnect = useDisconnect();
-  const isWiderThanMphone = useWiderThanMphone();
   const [success, setSuccess] = useState<boolean>(false);
   const { isTransactionsExist } = useTransactions();
   const { trackEvent } = useAnalytics();
@@ -40,6 +38,7 @@ export const AccountModal: FC<AccountModalProps> = ({
       setSuccess(true);
       setTimeout(() => setSuccess(false), 2000);
 
+      // Analytics track
       trackEvent(
         events.account_popup.copy_address,
         AnalyticsEventCategory.ACCOUNT_POPUP
@@ -47,6 +46,7 @@ export const AccountModal: FC<AccountModalProps> = ({
     }
   };
 
+  // Analytics track
   const goToExplorer = useCallback(() => {
     trackEvent(
       events.account_popup.explorer,
@@ -57,6 +57,8 @@ export const AccountModal: FC<AccountModalProps> = ({
   const handleLogout = useCallback(() => {
     disconnect();
     onRequestClose();
+
+    // Analytics track
     trackEvent(
       events.account_popup.logout,
       AnalyticsEventCategory.ACCOUNT_POPUP
@@ -65,6 +67,7 @@ export const AccountModal: FC<AccountModalProps> = ({
 
   return (
     <Modal
+      type={ModalType.ACCOUNT}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.innerModal}

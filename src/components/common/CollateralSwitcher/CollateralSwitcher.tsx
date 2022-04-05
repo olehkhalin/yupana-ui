@@ -2,6 +2,7 @@ import React, { FC, useCallback, useMemo, useState } from "react";
 import { useReactiveVar } from "@apollo/client";
 import { BatchWalletOperation } from "@taquito/taquito/dist/types/wallet/batch-operation";
 
+import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
 import { enterMarket, exitMarket } from "utils/dapp/methods";
 import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
@@ -114,12 +115,15 @@ export const CollateralSwitcher: FC<SwitcherProps> = ({
           )} collateral status. You can follow your transaction in transaction history.`,
         });
 
+        // Analytics track
         trackEvent(
-          !isCollateral ? "Enable collateral" : "Disable collateral",
+          !isCollateral
+            ? events.lending.collateral.enable
+            : events.lending.collateral.disable,
           AnalyticsEventCategory.LENDING,
           {
             asset: getAssetName(asset),
-            table: "Your supply assets",
+            table: "your_supply",
           }
         );
 

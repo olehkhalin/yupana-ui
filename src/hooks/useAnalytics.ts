@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { nanoid } from "nanoid";
+import BigNumber from "bignumber.js";
 
 import {
   AnalyticsEventCategory,
@@ -9,7 +10,7 @@ import {
 
 const USER_ID_KEY = "analytics-user-id";
 
-export const useAnalytics = () => {
+export const useAnalytics = (referer?: boolean) => {
   const analyticsUserId: string | null = useMemo(
     () => JSON.parse(localStorage.getItem(USER_ID_KEY) as string),
     []
@@ -27,15 +28,34 @@ export const useAnalytics = () => {
     (
       event: string,
       category: AnalyticsEventCategory = AnalyticsEventCategory.LENDING,
-      properties?: any
-    ) => sendTrackEvent(userId, event, category, properties),
-    [userId]
+      properties?: { [key: string]: string | number | BigNumber }
+    ) => {
+      if (referer) {
+        return sendTrackEvent(userId, event, category, {
+          ...properties,
+          referer: window.location.href,
+        });
+      }
+      return sendTrackEvent(userId, event, category, properties);
+    },
+    [referer, userId]
   );
 
   const pageEvent = useCallback(
-    (name: string, category: string, additionalProperties = {}) =>
-      sendPageEvent(userId, name, category, additionalProperties),
-    [userId]
+    (
+      name: string,
+      category: string,
+      properties?: { [key: string]: string | number | BigNumber }
+    ) => {
+      if (referer) {
+        return sendPageEvent(userId, name, category, {
+          ...properties,
+          referer: window.location.href,
+        });
+      }
+      return sendPageEvent(userId, name, category, properties);
+    },
+    [referer, userId]
   );
 
   return {

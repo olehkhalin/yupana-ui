@@ -54,6 +54,7 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading }) => {
             title: (
               <AttentionText
                 text="Health factor"
+                name="health_factor"
                 title="Health factor"
                 description="The health factor represents the safety of your loan derived from the proportion of collateral versus amount borrowed. Keep it above 1 to avoid liquidation."
                 theme="secondary"
