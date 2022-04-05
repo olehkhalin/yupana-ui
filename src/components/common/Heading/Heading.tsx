@@ -15,6 +15,7 @@ export type HeadingProps = {
     label: string;
     link: string;
     name?: string;
+    category?: AnalyticsEventCategory;
     external?: boolean;
   };
   head?: boolean;
@@ -42,7 +43,7 @@ export const Heading: FC<HeadingProps> = ({
     if (link && link.name) {
       trackEvent(
         events.docs[link.name as DocsType],
-        AnalyticsEventCategory.LENDING
+        link.category ?? AnalyticsEventCategory.LENDING
       );
     }
   }, [link, trackEvent]);

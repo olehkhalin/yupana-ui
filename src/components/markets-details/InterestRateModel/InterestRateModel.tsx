@@ -4,6 +4,7 @@ import BigNumber from "bignumber.js";
 
 import { DOCS_LINKS } from "constants/docs";
 import { getPrettyPercent } from "utils/helpers/amount";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { getAssetName } from "utils/helpers/asset";
 import { AssetType } from "types/asset";
 import { PrettyAmount } from "components/common/PrettyAmount";
@@ -61,6 +62,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
             label: "IRM in docs",
             link: DOCS_LINKS.irm,
             name: "irm",
+            category: AnalyticsEventCategory.MARKETS,
             external: true,
           }}
           theme="secondary"

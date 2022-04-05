@@ -50,19 +50,19 @@ export const events = {
   docs: {
     supplying: "CLICK_DOCS_SUPPLYING_ASSETS_BUTTON",
     borrowing: "CLICK_DOCS_BORROWING_ASSETS_BUTTON",
-    irm: "DOCS Interest Rate Model link click",
+    irm: "CLICK_IRM_IN_DOCS_BUTTON",
   },
   tooltips: {
     your_borrow_limit: "CALLING_YOUR_BORROW_LIMIT_POP_UP",
     your_liquidation_limit: "CALLING_YOUR_LIQUIDATION_LIMIT_POP_UP",
-    utilization_rate: "Click tooltip 'Utilization rate'",
-    collateral_factor: "Click tooltip 'Collateral factor'",
-    liquidation_threshold: "Click tooltip 'Liquidation threshold'",
-    liquidation_bonus: "Click tooltip 'Liquidation bonus'",
-    exchange_rate: "Click tooltip 'Exchange rate'",
-    base_rate_per_year: "Click tooltip 'Base rate per year'",
-    kink: "Click tooltip 'Kink'",
-    health_factor: "Click tooltip 'Health factor'",
+    utilization_rate: "CALLING_UTILISATION_RATE_POP_UP",
+    collateral_factor: "CALLING_COLLATERAL_FACTOR_POP_UP",
+    liquidation_threshold: "CALLING_LIQUIDATION_THRESHOLD_POP_UP",
+    liquidation_bonus: "CALLING_LIQUIDATION_BONUS_POP_UP",
+    exchange_rate: "CALLING_EXCHANGE_RATE_POP_UP",
+    base_rate_per_year: "CALLING_BASE_RATE_PER_YEAR_POP_UP",
+    kink: "CALLING_KINK_POP_UP",
+    health_factor: "CALLING_HEALTH_FACTOR_POP_UP",
   },
   credit_process_modal: {
     name: {
@@ -117,9 +117,9 @@ export const events = {
     },
   },
   markets: {
-    details: "Click market details of asset",
+    details: "CLICK_DETAILS_BUTTON",
   },
   liquidate: {
-    details: "Click liquidate details of borrower",
+    details: "CLICK_DETAILS_BUTTON",
   },
 };

@@ -13,9 +13,7 @@ import s from "./AttentionText.module.sass";
 
 export enum TooltipCategoryEnum {
   LENDING = AnalyticsEventCategory.LENDING,
-  MARKETS_DETAILS = AnalyticsEventCategory.MARKETS_DETAILS,
   LIQUIDATE = AnalyticsEventCategory.LIQUIDATE,
-  LIQUIDATE_DETAILS = AnalyticsEventCategory.LIQUIDATE_DETAILS,
 }
 
 export type ModalContent = {

@@ -13,7 +13,10 @@ import { LiquidationPositionsType } from "utils/helpers/api";
 import { useAnalytics } from "hooks/useAnalytics";
 import { Table } from "components/ui/Table";
 import { Button } from "components/ui/Button";
-import { AttentionText } from "components/common/AttentionText";
+import {
+  AttentionText,
+  TooltipCategoryEnum,
+} from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { AppRoutes } from "routes/main-routes";
 
@@ -87,6 +90,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
             text="Health factor"
             name="health_factor"
             theme="secondary"
+            category={TooltipCategoryEnum.LIQUIDATE}
             title={LIQUIDATABLE_POSITIONS.healthFactor.title}
             description={LIQUIDATABLE_POSITIONS.healthFactor.description}
           />

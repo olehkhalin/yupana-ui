@@ -29,6 +29,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
   const { trackEvent } = useAnalytics();
 
+  // Analytics track
   const handleEventTrack = useCallback(
     (asset: AssetType) => {
       trackEvent(events.markets.details, AnalyticsEventCategory.MARKETS, {

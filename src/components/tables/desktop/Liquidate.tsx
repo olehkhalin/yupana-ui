@@ -5,7 +5,10 @@ import cx from "classnames";
 import { shortize } from "utils/helpers/asset";
 import { getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
-import { AttentionText } from "components/common/AttentionText";
+import {
+  AttentionText,
+  TooltipCategoryEnum,
+} from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { LiquidateData } from "components/tables/containers";
 
@@ -54,6 +57,7 @@ export const Liquidate: FC<LiquidateProps> = ({ data, loading, className }) => {
               text="Health factor"
               name="health_factor"
               title="Health factor"
+              category={TooltipCategoryEnum.LIQUIDATE}
               description="The health factor represents the safety of your loan derived from the proportion of collateral versus amount borrowed. Keep it above 1 to avoid liquidation."
               theme="secondary"
             />

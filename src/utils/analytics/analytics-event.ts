@@ -1,16 +1,14 @@
 import { Analytics, AnalyticsBrowser } from "@segment/analytics-next";
 import BigNumber from "bignumber.js";
+
 import { ANALYTICS_WRITE_KEY } from "constants/defaults";
 
 export enum AnalyticsEventCategory {
-  LOAD_PAGE = "Load_Page",
   HEADER = "Header",
   FOOTER = "Footer",
   ACCOUNT_POPUP = "Account_pop-up",
   CONNECT_WALLET_POPUP = "Connect_to_a_wallet_pop-up",
   INSTALL_WALLET = "Install_wallet_popup",
-  STATS = "stats",
-  MODAL_TOOLTIPS = "modal_tooltips",
   LENDING = "Lending",
   MARKETS = "Markets",
   MARKETS_DETAILS = "Markets_details",
