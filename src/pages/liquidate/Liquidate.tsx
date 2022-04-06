@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useRef } from "react";
+import React, { FC, useMemo } from "react";
 import { Navigate, useParams } from "react-router-dom";
 
 import { AssetType } from "types/asset";
