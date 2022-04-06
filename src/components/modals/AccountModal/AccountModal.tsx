@@ -3,7 +3,6 @@ import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 
 import { EXPLORER_URL } from "constants/defaults";
-import { useWiderThanMphone } from "utils/helpers";
 import { useDisconnect } from "utils/dapp";
 import { ModalActions } from "types/modal";
 import { useTransactions } from "hooks/useTransactions";
@@ -27,7 +26,6 @@ export const AccountModal: FC<AccountModalProps> = ({
   onRequestClose,
 }) => {
   const disconnect = useDisconnect();
-  const isWiderThanMphone = useWiderThanMphone();
   const [success, setSuccess] = useState<boolean>(false);
   const { isTransactionsExist } = useTransactions();
 

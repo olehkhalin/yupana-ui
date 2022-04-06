@@ -1,6 +1,5 @@
 import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
-import cx from "classnames";
 
 import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from "constants/defaults";
 import { AppRoutes } from "routes/main-routes";

@@ -1,5 +1,4 @@
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
 import cx from "classnames";
 
 import { FOOTER_LIST } from "constants/footer-list";
