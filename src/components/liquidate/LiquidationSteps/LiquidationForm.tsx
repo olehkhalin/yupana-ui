@@ -19,7 +19,6 @@ import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
-import { useRedirect } from "hooks/useRedirect";
 import { Status, useTransactions } from "hooks/useTransactions";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/common/Heading";

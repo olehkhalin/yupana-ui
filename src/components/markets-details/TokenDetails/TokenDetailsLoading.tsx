@@ -5,7 +5,6 @@ import { useWiderThanMphone } from "utils/helpers";
 import { Preloader } from "components/ui/Preloader";
 import { Section } from "components/common/Section";
 import { AssetLogo } from "components/common/AssetLogo";
-import { MarketsDetails } from "components/tables/containers";
 
 import s from "./TokenDetails.module.sass";
 
