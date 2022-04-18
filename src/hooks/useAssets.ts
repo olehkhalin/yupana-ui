@@ -1,8 +1,12 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import constate from "constate";
+import useSWR from "swr";
 
-import { STANDARD_PRECISION } from "constants/defaults";
+import {
+  REACT_APP_TOKENS_METADATA_API_URL,
+  STANDARD_PRECISION,
+} from "constants/defaults";
 import {
   useAllAssetsQuery,
   useUserBorrowAssetsLazyQuery,
@@ -57,11 +61,52 @@ export const [AssetsProvider, useAssets] = constate(() => {
     }
   }, [accountPkh, fetchBorrowAssets, fetchSupplyAssets]);
 
-  if (!assets) {
+  const assetsString = useMemo(
+    () =>
+      assets
+        ? JSON.stringify(
+            assets.asset.map(
+              (ass) =>
+                `${ass.contractAddress}${ass.isFa2 ? `_${ass.tokenId}` : "_0"}`
+            )
+          )
+        : null,
+    [assets]
+  );
+
+  const fetchAssetsMetadata = useCallback(async () => {
+    if (assetsString) {
+      const response = await fetch(REACT_APP_TOKENS_METADATA_API_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: assetsString,
+      });
+      return await response.json();
+    }
+
+    return undefined;
+  }, [assetsString]);
+
+  const { data: allAssetsMetadata, error: allAssetsMetadataError } = useSWR(
+    ["all-assets-metadata", assetsString],
+    fetchAssetsMetadata
+  );
+
+  if (!assets || !allAssetsMetadata) {
     return {
       data: null,
-      loading: assetsLoading || supplyAssetsLoading || borrowAssetsLoading,
-      error: !!assetsError || !!supplyAssetsError || !!borrowAssetsError,
+      loading:
+        assetsLoading ||
+        supplyAssetsLoading ||
+        borrowAssetsLoading ||
+        (!allAssetsMetadata && !allAssetsMetadataError),
+      error:
+        !!assetsError ||
+        !!supplyAssetsError ||
+        !!borrowAssetsError ||
+        !!allAssetsMetadataError,
     };
   }
 
@@ -115,7 +160,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
 
   borrowedYTokensVar(borrowedYTokens);
 
-  const finalAssets = assets.asset.map((asset) => {
+  const finalAssets = assets.asset.map((asset, i) => {
     const borrowAsset = preparedBorrowAssets.find(
       ({ assetId }) => assetId === asset.ytoken
     );
@@ -160,10 +205,10 @@ export const [AssetsProvider, useAssets] = constate(() => {
         contractAddress: asset.contractAddress,
         isFa2: asset.isFa2,
         tokenId: asset.isFa2 ? asset.tokenId : undefined,
-        decimals: asset.tokens[0].decimals,
-        name: asset.tokens[0].name,
-        symbol: asset.tokens[0].symbol,
-        thumbnail: asset.tokens[0].thumbnail,
+        decimals: allAssetsMetadata[i].decimals,
+        name: allAssetsMetadata[i].name,
+        symbol: allAssetsMetadata[i].symbol,
+        thumbnail: allAssetsMetadata[i].thumbnailUri,
       },
       collateralFactor: new BigNumber(asset.collateralFactor),
       interestUpdateTime: asset.interestUpdateTime,

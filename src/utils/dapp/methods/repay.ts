@@ -16,9 +16,11 @@ export const repay = async (
   const { fabricaContractAddress, yToken, amount, isMaxAmount } = params;
 
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
+  const deadline = new Date().getTime() + 60 * 60 * 24 * 1000;
   const mainMethod = fabricaContract.methods.repay(
     yToken,
-    isMaxAmount ? new BigNumber(0) : amount
+    isMaxAmount ? new BigNumber(0) : amount,
+    deadline
   );
 
   const batch = tezos.wallet.batch([]);
