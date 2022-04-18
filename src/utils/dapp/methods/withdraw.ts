@@ -18,7 +18,8 @@ export const withdraw = async (
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
   const mainMethod = fabricaContract.methods.redeem(
     yToken,
-    isMaxAmount ? new BigNumber(0) : amount
+    isMaxAmount ? new BigNumber(0) : amount,
+    new BigNumber(1)
   );
 
   const batch = tezos.wallet.batch([]);
