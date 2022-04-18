@@ -13,7 +13,10 @@ export const borrow = async (
   const { fabricaContractAddress, yToken, amount } = params;
 
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
-  const deadline = new Date().getTime() + 60 * 60 * 24 * 1000;
+  const deadline = (
+    (new Date().getTime() + 60 * 60 * 24 * 1000) /
+    1000
+  ).toFixed();
   const mainMethod = fabricaContract.methods.borrow(yToken, amount, deadline);
 
   const batch = tezos.wallet.batch([]);
