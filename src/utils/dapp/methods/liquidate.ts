@@ -30,11 +30,18 @@ export const liquidate = async (
   } = params;
 
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
+
+  const deadline = (
+    (new Date().getTime() + 60 * 60 * 24 * 1000) /
+    1000
+  ).toFixed();
   const mainMethod = fabricaContract.methods.liquidate(
     borrowToken,
     collateralToken,
     borrower,
-    amount
+    amount,
+    new BigNumber(1),
+    deadline
   );
 
   const batch = tezos.wallet.batch([]);
