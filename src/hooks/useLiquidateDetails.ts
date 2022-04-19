@@ -9,46 +9,18 @@ import {
 import { LiquidateDetailsResponse } from "types/liquidate-details";
 import { convertUnits } from "utils/helpers/amount";
 
-const prepareAsset = (
-  asset: {
-    __typename?: "asset";
-    ytoken: number;
-    contractAddress: string;
-    isFa2: boolean;
-    tokenId: number;
-    tokens: Array<{
-      __typename?: "token";
-      name?: string | null | undefined;
-      symbol?: string | null | undefined;
-      thumbnail?: string | null | undefined;
-      decimals: number;
-    }>;
-  },
-  oraclePrices: OraclePriceQuery
-) => {
-  const assetInner = {
-    contractAddress: asset.contractAddress,
-    isFa2: asset.isFa2,
-    tokenId: asset.isFa2 ? asset.tokenId : undefined,
-    decimals: asset.tokens[0].decimals,
-    name: asset.tokens[0].name,
-    symbol: asset.tokens[0].symbol,
-    thumbnail: asset.tokens[0].thumbnail,
-  };
+import { useAssetsMetadata } from "./useAssetsMetadata";
+
+const preparePrice = (yToken: number, oraclePrices: OraclePriceQuery) => {
   const lastPrice = oraclePrices.oraclePrice.find(
-    ({ ytoken }) => ytoken === asset.ytoken
+    ({ ytoken }) => ytoken === yToken
   ) ?? {
     price: 0,
     decimals: 0,
   };
-  const price = convertUnits(
-    lastPrice.price,
-    ORACLE_PRICE_PRECISION
-  ).multipliedBy(lastPrice.decimals);
-  return {
-    asset: assetInner,
-    price,
-  };
+  return convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
+    lastPrice.decimals
+  );
 };
 
 export const useLiquidateDetails = (
@@ -65,16 +37,24 @@ export const useLiquidateDetails = (
   });
 
   const {
+    data: assetsMetadata,
+    loading: assetsMetadataLoading,
+    error: assetsMetadataError,
+  } = useAssetsMetadata();
+
+  const {
     data: oraclePrices,
     loading: oraclePricesLoading,
     error: oraclePricesError,
   } = useOraclePriceQuery();
 
-  if (!liquidateInfo || !oraclePrices) {
+  if (!liquidateInfo || !oraclePrices || !assetsMetadata) {
     return {
       data: null,
-      loading: liquidateInfoLoading || oraclePricesLoading,
-      error: !!liquidateInfoError || !!oraclePricesError,
+      loading:
+        liquidateInfoLoading || oraclePricesLoading || assetsMetadataLoading,
+      error:
+        !!liquidateInfoError || !!oraclePricesError || !!assetsMetadataError,
     };
   }
 
@@ -108,12 +88,16 @@ export const useLiquidateDetails = (
 
   const preparedBorrowedAssets = user.borrowedAssets.map(
     ({ asset, borrow }) => {
-      const { asset: assetInner, price } = prepareAsset(asset, oraclePrices);
+      const metadata = assetsMetadata.find(
+        ({ contractAddress }) => contractAddress === asset.contractAddress
+      )!;
+
+      const price = preparePrice(asset.ytoken, oraclePrices);
 
       totalBorrowUsd = totalBorrowUsd.plus(
         convertUnits(
           convertUnits(borrow, STANDARD_PRECISION),
-          assetInner.decimals
+          metadata.decimals
         ).multipliedBy(price)
       );
 
@@ -122,7 +106,7 @@ export const useLiquidateDetails = (
 
       return {
         yToken: asset.ytoken,
-        asset: assetInner,
+        asset: metadata,
         price,
         amountOfBorrowed,
         maxLiquidate,
@@ -132,11 +116,16 @@ export const useLiquidateDetails = (
 
   const preparedColateralAssets = user.collateralAssets.map(
     ({ asset, supply }) => {
-      const { asset: assetInner, price } = prepareAsset(asset, oraclePrices);
+      const metadata = assetsMetadata.find(
+        ({ contractAddress }) => contractAddress === asset.contractAddress
+      )!;
+
+      const price = preparePrice(asset.ytoken, oraclePrices);
       const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION);
+
       return {
         yToken: asset.ytoken,
-        asset: assetInner,
+        asset: metadata,
         price,
         amountOfSupplied,
       };

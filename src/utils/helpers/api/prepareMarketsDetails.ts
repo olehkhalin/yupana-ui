@@ -3,14 +3,21 @@ import BigNumber from "bignumber.js";
 import { ORACLE_PRICE_PRECISION, STANDARD_PRECISION } from "constants/defaults";
 import { MarketsDetailsQuery } from "generated/graphql";
 import { convertUnits } from "utils/helpers/amount";
+import { AssetType } from "../../../types/asset";
 
 export const prepareMarketsDetails = (
   data: MarketsDetailsQuery,
+  assetsMetadata: AssetType[],
   exchangeRate: BigNumber
 ) => {
   // Token details
   const el = data.asset[0];
-  const asset = {
+
+  const asset = assetsMetadata.find(
+    ({ contractAddress }) => contractAddress === el.contractAddress
+  )!;
+
+  const yAsset = {
     contractAddress: el.contractAddress,
     isFa2: el.isFa2,
     tokenId: el.tokenId,
@@ -129,6 +136,7 @@ export const prepareMarketsDetails = (
 
   return {
     asset,
+    yAsset,
     price,
     tokenDetails: [
       {
