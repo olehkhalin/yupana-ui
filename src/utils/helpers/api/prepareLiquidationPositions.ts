@@ -1,6 +1,7 @@
 import BigNumber from "bignumber.js";
 
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from "constants/defaults";
+import { AssetType } from "types/asset";
 import { LiquidationPositionsQuery } from "generated/graphql";
 import { getAssetName } from "utils/helpers/asset";
 import { convertUnits } from "utils/helpers/amount";
@@ -14,35 +15,46 @@ export type LiquidationPositionsType = {
 };
 
 export const prepareLiquidationPositions = (
-  data: LiquidationPositionsQuery
+  data: LiquidationPositionsQuery,
+  assetsMetadata: AssetType[]
 ) => {
   return data.user.map((el) => {
     const borrowedAssetsNames =
       el.borrowedAssets.length !== 0
-        ? el.borrowedAssets.map((asset) =>
-            getAssetName({
-              name: asset.asset.tokens[0].name,
-              symbol: asset.asset.tokens[0].symbol,
-              contractAddress: asset.asset.contractAddress,
-              isFa2: asset.asset.isFa2,
-              tokenId: asset.asset.tokenId,
-              decimals: asset.asset.tokens[0].decimals,
-            })
-          )
+        ? el.borrowedAssets.map((asset) => {
+            const metadata = assetsMetadata.find(
+              ({ contractAddress }) =>
+                contractAddress === asset.asset.contractAddress
+            )!;
+
+            return getAssetName({
+              name: metadata.name,
+              symbol: metadata.symbol,
+              contractAddress: metadata.contractAddress,
+              isFa2: metadata.isFa2,
+              tokenId: metadata.tokenId,
+              decimals: metadata.decimals,
+            });
+          })
         : undefined;
 
     const collateralAssetsNames =
       el.collateralAssets.length !== 0
-        ? el.collateralAssets.map((asset) =>
-            getAssetName({
-              name: asset.asset.tokens[0].name,
-              symbol: asset.asset.tokens[0].symbol,
-              contractAddress: asset.asset.contractAddress,
-              isFa2: asset.asset.isFa2,
-              tokenId: asset.asset.tokenId,
-              decimals: asset.asset.tokens[0].decimals,
-            })
-          )
+        ? el.collateralAssets.map((asset) => {
+            const metadata = assetsMetadata.find(
+              ({ contractAddress }) =>
+                contractAddress === asset.asset.contractAddress
+            )!;
+
+            return getAssetName({
+              name: metadata.name,
+              symbol: metadata.symbol,
+              contractAddress: metadata.contractAddress,
+              isFa2: metadata.isFa2,
+              tokenId: metadata.tokenId,
+              decimals: metadata.decimals,
+            });
+          })
         : undefined;
 
     return {

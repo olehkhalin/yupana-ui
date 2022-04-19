@@ -39,7 +39,7 @@ const ItemsArray = [
   },
   { text: "Reserves" },
   { text: "Reserve Factor" },
-  { text: "yToken Minted" },
+  { text: "y-Token Minted" },
   { text: "Exchange Rate" },
 ];
 

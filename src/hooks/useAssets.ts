@@ -1,12 +1,8 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import BigNumber from "bignumber.js";
 import constate from "constate";
-import useSWR from "swr";
 
-import {
-  REACT_APP_TOKENS_METADATA_API_URL,
-  STANDARD_PRECISION,
-} from "constants/defaults";
+import { STANDARD_PRECISION } from "constants/defaults";
 import {
   useAllAssetsQuery,
   useUserBorrowAssetsLazyQuery,
@@ -15,6 +11,8 @@ import {
 import { UseAssetsResponse } from "types/asset";
 import { useAccountPkh } from "utils/dapp";
 import { BorrowedYTokensType, borrowedYTokensVar } from "utils/cache";
+
+import { useAssetsMetadata } from "./useAssetsMetadata";
 
 const returnZeroIfNotExist = (element: any, key: string) =>
   element ? element[key] : new BigNumber(0);
@@ -61,38 +59,11 @@ export const [AssetsProvider, useAssets] = constate(() => {
     }
   }, [accountPkh, fetchBorrowAssets, fetchSupplyAssets]);
 
-  const assetsString = useMemo(
-    () =>
-      assets
-        ? JSON.stringify(
-            assets.asset.map(
-              (ass) =>
-                `${ass.contractAddress}${ass.isFa2 ? `_${ass.tokenId}` : "_0"}`
-            )
-          )
-        : null,
-    [assets]
-  );
-
-  const fetchAssetsMetadata = useCallback(async () => {
-    if (assetsString) {
-      const response = await fetch(REACT_APP_TOKENS_METADATA_API_URL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: assetsString,
-      });
-      return await response.json();
-    }
-
-    return undefined;
-  }, [assetsString]);
-
-  const { data: allAssetsMetadata, error: allAssetsMetadataError } = useSWR(
-    ["all-assets-metadata", assetsString],
-    fetchAssetsMetadata
-  );
+  const {
+    data: allAssetsMetadata,
+    loading: allAssetsMetadataLoading,
+    error: allAssetsMetadataError,
+  } = useAssetsMetadata();
 
   if (!assets || !allAssetsMetadata) {
     return {
@@ -101,7 +72,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
         assetsLoading ||
         supplyAssetsLoading ||
         borrowAssetsLoading ||
-        (!allAssetsMetadata && !allAssetsMetadataError),
+        allAssetsMetadataLoading,
       error:
         !!assetsError ||
         !!supplyAssetsError ||
@@ -160,7 +131,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
 
   borrowedYTokensVar(borrowedYTokens);
 
-  const finalAssets = assets.asset.map((asset, i) => {
+  const finalAssets = assets.asset.map((asset) => {
     const borrowAsset = preparedBorrowAssets.find(
       ({ assetId }) => assetId === asset.ytoken
     );
@@ -199,16 +170,20 @@ export const [AssetsProvider, useAssets] = constate(() => {
       ? supplyAsset.supply.multipliedBy(predictedExchangeRate)
       : new BigNumber(0);
 
+    const metadata = allAssetsMetadata.find(
+      ({ contractAddress }) => contractAddress === asset.contractAddress
+    )!;
+
     return {
       yToken: asset.ytoken,
       asset: {
         contractAddress: asset.contractAddress,
         isFa2: asset.isFa2,
         tokenId: asset.isFa2 ? asset.tokenId : undefined,
-        decimals: allAssetsMetadata[i].decimals,
-        name: allAssetsMetadata[i].name,
-        symbol: allAssetsMetadata[i].symbol,
-        thumbnail: allAssetsMetadata[i].thumbnailUri,
+        decimals: metadata.decimals,
+        name: metadata.name,
+        symbol: metadata.symbol,
+        thumbnail: metadata.thumbnail,
       },
       collateralFactor: new BigNumber(asset.collateralFactor),
       interestUpdateTime: asset.interestUpdateTime,
