@@ -9,17 +9,17 @@ type NavBarListProps = {
 export const NAVBAR_LIST: NavBarListProps[] = [
   {
     id: 1,
-    item: "Lending",
+    item: "lending",
     href: AppRoutes.LENDING,
   },
   {
     id: 2,
-    item: "Markets",
+    item: "markets",
     href: AppRoutes.MARKETS,
   },
   {
     id: 3,
-    item: "Liquidate",
+    item: "liquidate",
     href: AppRoutes.LIQUIDATE,
   },
 ];

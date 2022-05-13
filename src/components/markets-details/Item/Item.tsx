@@ -11,6 +11,7 @@ import s from "./Item.module.sass";
 
 type ItemProps = {
   value: string | number | JSX.Element;
+  name?: string;
   loading?: boolean;
 } & AttentionTextProps;
 

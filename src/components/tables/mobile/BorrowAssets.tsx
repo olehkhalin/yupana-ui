@@ -13,14 +13,20 @@ import s from "./Cards.module.sass";
 
 type BorrowAssetsProps = {
   data?: AssetsResponseData;
+  tableName: string;
   loading?: boolean;
 };
 
-export const BorrowAssets: FC<BorrowAssetsProps> = ({ data, loading }) => {
+export const BorrowAssets: FC<BorrowAssetsProps> = ({
+  data,
+  tableName,
+  loading,
+}) => {
   const preparedData = useMemo(
     () =>
       (data ?? [0, 1, 2]).map((el: any) => ({
         key: el.yToken ?? el,
+        asset: el.asset,
         data: [
           {
             title: "Asset",
@@ -88,9 +94,10 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({ data, loading }) => {
         asset={asset}
         borrow={borrowWithInterest}
         liquidity={totalLiquid}
+        tableName={tableName}
       />
     ),
-    []
+    [tableName]
   );
 
   return (
@@ -101,8 +108,11 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({ data, loading }) => {
           loading={loading}
           key={item.key}
           data={item.data}
+          asset={item.asset}
           subComponent={item.subComponent}
           renderRowSubComponent={renderRowSubComponent}
+          tableName={tableName}
+          tableKey="borrow"
         />
       ))}
     </>

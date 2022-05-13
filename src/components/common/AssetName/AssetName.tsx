@@ -3,7 +3,7 @@ import cx from "classnames";
 
 import { AssetType } from "types/asset";
 import { getAssetName, getSlice } from "utils/helpers/asset";
-import { Button } from "components/ui/Button";
+import { Button, HTMLButtonType } from "components/ui/Button";
 import { Tooltip } from "components/ui/Tooltip";
 import { AssetLogo, AssetLogoThemes } from "components/common/AssetLogo";
 
@@ -18,7 +18,7 @@ type AssetNameProps = {
   active?: boolean;
   loading?: boolean;
   className?: string;
-};
+} & HTMLButtonType;
 
 export const AssetName: FC<AssetNameProps> = ({
   theme,

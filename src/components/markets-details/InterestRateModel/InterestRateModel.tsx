@@ -4,6 +4,7 @@ import BigNumber from "bignumber.js";
 
 import { DOCS_LINKS } from "constants/docs";
 import { getPrettyPercent } from "utils/helpers/amount";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { getAssetName } from "utils/helpers/asset";
 import { AssetType } from "types/asset";
 import { PrettyAmount } from "components/common/PrettyAmount";
@@ -60,6 +61,8 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           link={{
             label: "IRM in docs",
             link: DOCS_LINKS.irm,
+            name: "irm",
+            category: AnalyticsEventCategory.MARKETS,
             external: true,
           }}
           theme="secondary"
@@ -79,6 +82,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Base rate per year"
+            name="base_rate_per_year"
             value={<PrettyAmount amount={baseRatePerYear} size="extraSmall" />}
             title={baseRatePerYearPopup.title}
             description={baseRatePerYearPopup.description}
@@ -115,6 +119,7 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Kink"
+            name="kink"
             value={getPrettyPercent(kink)}
             title={kinkPopup.title}
             description={kinkPopup.description}

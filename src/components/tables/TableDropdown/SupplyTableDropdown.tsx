@@ -36,6 +36,7 @@ type SupplyDropdownProps = {
   totalLiquid: BigNumber;
   isCollateral: boolean;
   isCommon?: boolean;
+  tableName: string;
 } & TableDropdownProps;
 
 export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
@@ -47,6 +48,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   isCollateral,
   theme,
   isCommon = false,
+  tableName,
   className,
 }) => {
   const { setCreditProcessModalData } = useCreditProcessModal();
@@ -342,6 +344,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       theme={theme}
       className={className}
       balanceLabel={isCommon ? "Supply balance" : "Wallet balance"}
+      tableName={tableName}
       balanceAmount={
         isCommon
           ? convertUnits(supplied, STANDARD_PRECISION)

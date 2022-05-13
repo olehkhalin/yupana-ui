@@ -46,7 +46,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
       )}
 
       {accountPkh && (
-        <div className={cx(s.root, className)}>
+        <section className={cx(s.root, className)}>
           <Section
             title="Your supply assets"
             className={cx(s.col, {
@@ -77,15 +77,16 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
               loading={loading}
             />
           </Section>
-        </div>
+        </section>
       )}
 
-      <div className={cx(s.root, className)}>
+      <section className={cx(s.root, className)}>
         <Section
           title="Supply assets"
           link={{
             label: "docs: supplying assets",
             link: DOCS_LINKS.supplyingAssets,
+            name: "supplying",
             external: true,
           }}
           className={cx(s.col, {
@@ -100,6 +101,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
           link={{
             label: "docs: borrowing assets",
             link: DOCS_LINKS.borrowingAssets,
+            name: "borrowing",
             external: true,
           }}
           theme="secondary"
@@ -109,7 +111,7 @@ export const AllAssets: FC<AssetsProps> = ({ className }) => {
         >
           <BorrowAssets data={data?.assets} loading={loading} />
         </Section>
-      </div>
+      </section>
       <CreditProcessModal />
     </CreditProcessModalProvider>
   );

@@ -2,11 +2,14 @@ import React, { useState, useCallback, FC } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { EXPLORER_URL } from "constants/defaults";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useDisconnect } from "utils/dapp";
 import { ModalActions } from "types/modal";
+import { useAnalytics } from "hooks/useAnalytics";
 import { useTransactions } from "hooks/useTransactions";
-import { Modal } from "components/ui/Modal";
+import { Modal, ModalType } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
 import { ReactComponent as IconCopy } from "svg/IconCopy.svg";
@@ -28,22 +31,43 @@ export const AccountModal: FC<AccountModalProps> = ({
   const disconnect = useDisconnect();
   const [success, setSuccess] = useState<boolean>(false);
   const { isTransactionsExist } = useTransactions();
+  const { trackEvent } = useAnalytics();
 
   const handleSetSuccessOfCopy = () => {
     if (!success) {
       setSuccess(true);
-
       setTimeout(() => setSuccess(false), 2000);
+
+      // Analytics track
+      trackEvent(
+        events.account_popup.copy_address,
+        AnalyticsEventCategory.ACCOUNT_POPUP
+      );
     }
   };
+
+  // Analytics track
+  const goToExplorer = useCallback(() => {
+    trackEvent(
+      events.account_popup.explorer,
+      AnalyticsEventCategory.ACCOUNT_POPUP
+    );
+  }, [trackEvent]);
 
   const handleLogout = useCallback(() => {
     disconnect();
     onRequestClose();
-  }, [disconnect, onRequestClose]);
+
+    // Analytics track
+    trackEvent(
+      events.account_popup.logout,
+      AnalyticsEventCategory.ACCOUNT_POPUP
+    );
+  }, [disconnect, onRequestClose, trackEvent]);
 
   return (
     <Modal
+      type={ModalType.ACCOUNT}
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       innerClassName={s.innerModal}
@@ -58,6 +82,7 @@ export const AccountModal: FC<AccountModalProps> = ({
         <Button
           theme="clear"
           href={`${EXPLORER_URL}/${address}`}
+          onClick={goToExplorer}
           external
           className={s.button}
         >

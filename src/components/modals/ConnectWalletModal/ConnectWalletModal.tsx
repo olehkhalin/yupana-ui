@@ -1,13 +1,16 @@
 import React, { FC, useCallback } from "react";
 
-import { useConnectWalletModal } from "hooks/useConnectModal";
-import { useUpdateToast } from "hooks/useUpdateToast";
 import {
   TEMPLE_WALLET_NOT_INSTALLED_MESSAGE,
   useConnectWithBeacon,
   useConnectWithTemple,
 } from "utils/dapp";
-import { Modal } from "components/ui/Modal";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { events } from "constants/analytics";
+import { useConnectWalletModal } from "hooks/useConnectModal";
+import { useAnalytics } from "hooks/useAnalytics";
+import { useUpdateToast } from "hooks/useUpdateToast";
+import { Modal, ModalType } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
 import { ModalHeader } from "components/ui/Modal/ModalHeader";
 import { ReactComponent as TempleWallet } from "svg/TempleWallet.svg";
@@ -29,6 +32,7 @@ export const ConnectWalletModal: FC = () => {
   const connectWithBeacon = useConnectWithBeacon();
   const connectWithTemple = useConnectWithTemple();
   const { updateToast } = useUpdateToast();
+  const { trackEvent } = useAnalytics();
 
   const handleConnectClick = useCallback(
     async (walletType: WalletType) => {
@@ -36,9 +40,21 @@ export const ConnectWalletModal: FC = () => {
         if (walletType === WalletType.BEACON) {
           await connectWithBeacon(true);
           handleConnectModal();
+
+          // Analytics track
+          trackEvent(
+            events.connect_wallet.beacon,
+            AnalyticsEventCategory.CONNECT_WALLET_POPUP
+          );
         } else {
           await connectWithTemple(true);
           handleConnectModal();
+
+          // Analytics track
+          trackEvent(
+            events.connect_wallet.temple,
+            AnalyticsEventCategory.CONNECT_WALLET_POPUP
+          );
         }
       } catch (e) {
         if (e instanceof Error) {
@@ -68,12 +84,17 @@ export const ConnectWalletModal: FC = () => {
       connectWithTemple,
       handleConnectModal,
       handleInstallTempleWalletModal,
+      trackEvent,
       updateToast,
     ]
   );
 
   return (
-    <Modal isOpen={connectModalIsOpen} onRequestClose={handleConnectModal}>
+    <Modal
+      type={ModalType.CONNECT_WALLET}
+      isOpen={connectModalIsOpen}
+      onRequestClose={handleConnectModal}
+    >
       <ModalHeader
         title="Connect to a wallet"
         description="Please select a wallet to connect to this dapp:"
