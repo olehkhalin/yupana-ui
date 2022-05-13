@@ -6,6 +6,7 @@ import {
   LiquidationPositionsQuery,
   useLiquidationPositionsLazyQuery,
 } from "generated/graphql";
+import { useAssetsMetadata } from "hooks/useAssetsMetadata";
 import { useAccountPkh } from "utils/dapp";
 import { prepareLiquidationPositions } from "utils/helpers/api";
 import { Section } from "components/common/Section";
@@ -24,22 +25,24 @@ const LiquidationPositionsWrapper: FC<LiquidationPositionsWrapperProps> = ({
   loading,
   className,
 }) => {
+  const { data: assetsMetadata, loading: assetsLoading } = useAssetsMetadata();
+
   const borrowersCount = useMemo(
     () => data?.userAggregate.aggregate?.count ?? 1,
     [data?.userAggregate.aggregate?.count]
   );
 
   const preparedData = useMemo(() => {
-    if (!data && !loading) {
+    if ((!data && !loading) || (!assetsMetadata && !assetsLoading)) {
       return [];
     }
 
-    if (loading || !data) {
+    if (loading || !data || !assetsMetadata || assetsLoading) {
       return undefined;
     }
 
-    return prepareLiquidationPositions(data);
-  }, [data, loading]);
+    return prepareLiquidationPositions(data, assetsMetadata);
+  }, [assetsLoading, assetsMetadata, data, loading]);
 
   return (
     <Section

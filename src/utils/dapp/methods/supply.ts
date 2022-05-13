@@ -1,4 +1,5 @@
 import { TezosToolkit } from "@taquito/taquito";
+import BigNumber from "bignumber.js";
 
 import { batchify } from "utils/dapp/helpers";
 
@@ -14,7 +15,11 @@ export const supply = async (
   const { fabricaContractAddress, yToken, amount } = params;
 
   const fabricaContract = await tezos.wallet.at(fabricaContractAddress);
-  const mainMethod = fabricaContract.methods.mint(yToken, amount);
+  const mainMethod = fabricaContract.methods.mint(
+    yToken,
+    amount,
+    new BigNumber(1)
+  );
 
   const batch = tezos.wallet.batch([]);
 

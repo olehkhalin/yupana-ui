@@ -12,6 +12,8 @@ import { UseAssetsResponse } from "types/asset";
 import { useAccountPkh } from "utils/dapp";
 import { BorrowedYTokensType, borrowedYTokensVar } from "utils/cache";
 
+import { useAssetsMetadata } from "./useAssetsMetadata";
+
 const returnZeroIfNotExist = (element: any, key: string) =>
   element ? element[key] : new BigNumber(0);
 
@@ -57,11 +59,25 @@ export const [AssetsProvider, useAssets] = constate(() => {
     }
   }, [accountPkh, fetchBorrowAssets, fetchSupplyAssets]);
 
-  if (!assets) {
+  const {
+    data: allAssetsMetadata,
+    loading: allAssetsMetadataLoading,
+    error: allAssetsMetadataError,
+  } = useAssetsMetadata();
+
+  if (!assets || !allAssetsMetadata) {
     return {
       data: null,
-      loading: assetsLoading || supplyAssetsLoading || borrowAssetsLoading,
-      error: !!assetsError || !!supplyAssetsError || !!borrowAssetsError,
+      loading:
+        assetsLoading ||
+        supplyAssetsLoading ||
+        borrowAssetsLoading ||
+        allAssetsMetadataLoading,
+      error:
+        !!assetsError ||
+        !!supplyAssetsError ||
+        !!borrowAssetsError ||
+        !!allAssetsMetadataError,
     };
   }
 
@@ -154,16 +170,20 @@ export const [AssetsProvider, useAssets] = constate(() => {
       ? supplyAsset.supply.multipliedBy(predictedExchangeRate)
       : new BigNumber(0);
 
+    const metadata = allAssetsMetadata.find(
+      ({ contractAddress }) => contractAddress === asset.contractAddress
+    )!;
+
     return {
       yToken: asset.ytoken,
       asset: {
         contractAddress: asset.contractAddress,
         isFa2: asset.isFa2,
         tokenId: asset.isFa2 ? asset.tokenId : undefined,
-        decimals: asset.tokens[0].decimals,
-        name: asset.tokens[0].name,
-        symbol: asset.tokens[0].symbol,
-        thumbnail: asset.tokens[0].thumbnail,
+        decimals: metadata.decimals,
+        name: metadata.name,
+        symbol: metadata.symbol,
+        thumbnail: metadata.thumbnail,
       },
       collateralFactor: new BigNumber(asset.collateralFactor),
       interestUpdateTime: asset.interestUpdateTime,
