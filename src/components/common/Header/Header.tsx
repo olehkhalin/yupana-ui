@@ -1,6 +1,9 @@
 import React, { FC, useCallback, useState } from "react";
 import cx from "classnames";
 
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
+import { events } from "constants/analytics";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Button } from "components/ui/Button";
 import { Container } from "components/common/Container";
 import { ConnectWalletButton } from "components/common/ConnectWalletButton";
@@ -19,11 +22,16 @@ type HeaderProps = {
 
 export const Header: FC<HeaderProps> = ({ className }) => {
   const [isOpenDropdown, setIsOpenDropdown] = useState<boolean>(false);
+  const { trackEvent } = useAnalytics();
 
   const handleSwitchDropdown = useCallback(
     () => setIsOpenDropdown(!isOpenDropdown),
     [isOpenDropdown]
   );
+
+  const handleLogotype = useCallback(() => {
+    trackEvent(events.header.links.logotype, AnalyticsEventCategory.HEADER);
+  }, [trackEvent]);
 
   return (
     <header className={cx(s.root, className)}>
@@ -31,6 +39,7 @@ export const Header: FC<HeaderProps> = ({ className }) => {
         <Container className={s.container}>
           <Button
             href={YUPANA_LANDING_LINK}
+            onClick={handleLogotype}
             external
             theme="clear"
             className={s.logotype}

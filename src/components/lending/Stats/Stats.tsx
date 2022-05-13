@@ -5,6 +5,7 @@ import BigNumber from "bignumber.js";
 import { COLLATERAL_PRECISION, STANDARD_PRECISION } from "constants/defaults";
 import { globalVariablesVar } from "utils/cache";
 import { convertUnits } from "utils/helpers/amount";
+import { TooltipCategoryEnum } from "components/common/AttentionText";
 
 import { UserStats } from "./UserStats";
 import { LimitLine } from "./LimitLine";
@@ -45,6 +46,8 @@ export const Stats: FC<StatsProps> = ({ className }) => {
         value={convertUnits(maxCollateral, COLLATERAL_PRECISION)}
         title="Your Borrow Limit"
         text="Your Borrow Limit"
+        name="your_borrow_limit"
+        category={TooltipCategoryEnum.LENDING}
         description="A maximum loan amount, or loan limit, describes the total amount of money that an applicant is authorized to borrow."
         theme="secondary"
         loading={!isLoaded}
@@ -63,6 +66,8 @@ export const Stats: FC<StatsProps> = ({ className }) => {
             ? "You are in the Liquidation Risk"
             : "Your Liquidation Limit"
         }
+        name="your_liquidation_limit"
+        category={TooltipCategoryEnum.LENDING}
         description="The maximum loan amount, or credit limit, describes the total amount of money after which the borrower will be liquidated."
         theme="secondary"
         loading={!isLoaded}

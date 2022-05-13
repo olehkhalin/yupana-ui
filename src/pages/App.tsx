@@ -11,7 +11,6 @@ import { useMatchMutate } from "hooks/useMatchMutate";
 import NotFound from "pages/not-found";
 
 const App: FC = () => {
-  const location = useLocation();
   const { pathname } = useLocation();
   const tezos = useTezos();
   const matchMutate = useMatchMutate();
@@ -36,7 +35,12 @@ const App: FC = () => {
     });
   }, [pathname]);
 
-  if (location.pathname === "/") {
+  // TODO: Research
+  // useEffect(() => {
+  //   pageEvent(pathname, AnalyticsEventCategory.LOAD_PAGE);
+  // }, [pageEvent, pathname]);
+
+  if (pathname === "/") {
     return <Navigate to={AppRoutes.LENDING} />;
   }
 

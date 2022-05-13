@@ -11,6 +11,7 @@ type SocialProps = {
   id: number;
   href: string;
   Icon: FC<{ className?: string }>;
+  name: string;
 };
 
 export const SOCIAL_LIST: SocialProps[] = [
@@ -18,30 +19,36 @@ export const SOCIAL_LIST: SocialProps[] = [
     id: 1,
     href: "https://twitter.com/YupanaFinance",
     Icon: Twitter,
+    name: "twitter",
   },
   {
     id: 2,
     href: "https://t.me/MadFishCommunity",
     Icon: Telegram,
+    name: "telegram",
   },
   {
     id: 3,
     href: "https://www.reddit.com/r/MadFishCommunity",
     Icon: Reddit,
+    name: "reddit",
   },
   {
     id: 4,
     href: "https://discord.com/invite/qFRZ8kVzkv",
     Icon: Discord,
+    name: "discord",
   },
   {
     id: 5,
     href: "https://github.com/quipucords/yupana",
     Icon: Github,
+    name: "github",
   },
   {
     id: 6,
     href: "https://yupana-finance.gitbook.io/yupana-document-portal/introduction/what-is-yupana.finance",
     Icon: Doc,
+    name: "docs",
   },
 ];

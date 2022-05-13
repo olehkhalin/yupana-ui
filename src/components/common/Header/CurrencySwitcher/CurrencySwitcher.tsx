@@ -1,7 +1,10 @@
 import React, { FC } from "react";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { useWiderThanMphone } from "utils/helpers";
+import { useAnalytics } from "hooks/useAnalytics";
 import { CurrencyEnum, useCurrency } from "hooks/useCurrency";
 import { Button } from "components/ui/Button";
 
@@ -14,16 +17,26 @@ type CurrencySwitcherProps = {
 export const CurrencySwitcher: FC<CurrencySwitcherProps> = ({ className }) => {
   const isWiderThanMphone = useWiderThanMphone();
   const { currency, setCurrency } = useCurrency();
+  const { trackEvent } = useAnalytics(true);
 
   const handleSwitchCurrency = (value: CurrencyEnum) => {
     setCurrency(value);
+
+    // Analytics track
+    trackEvent(events.header.currency[value], AnalyticsEventCategory.HEADER);
   };
 
   const handleSwitchCurrencyMobile = (arg: boolean) => {
     if (arg) {
       setCurrency(CurrencyEnum.XTZ);
+
+      // Analytics track
+      trackEvent(events.header.currency.xtz, AnalyticsEventCategory.HEADER);
     } else {
       setCurrency(CurrencyEnum.USD);
+
+      // Analytics track
+      trackEvent(events.header.currency.usd, AnalyticsEventCategory.HEADER);
     }
   };
 

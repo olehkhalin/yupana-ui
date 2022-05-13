@@ -33,6 +33,7 @@ type BorrowDropdownProps = {
   asset: AssetType;
   borrow: BigNumber;
   liquidity: BigNumber;
+  tableName: string;
 } & TableDropdownProps;
 
 export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
@@ -41,6 +42,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   borrow: borrowed,
   liquidity,
   theme,
+  tableName,
   className,
 }) => {
   const { setCreditProcessModalData } = useCreditProcessModal();
@@ -294,6 +296,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       balanceLabel="Wallet balance"
       balanceAmount={balanceData ?? new BigNumber(0)}
       balanceLoading={balanceLoading}
+      tableName={tableName}
       firstButtonLabel="Borrow"
       handleFirstButtonClick={handleBorrow}
       secondButtonLabel="Repay"

@@ -2,8 +2,11 @@ import React, { FC, useState, useCallback } from "react";
 import { format } from "timeago.js";
 import cx from "classnames";
 
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { Status, useTransactions } from "hooks/useTransactions";
+import { useAnalytics } from "hooks/useAnalytics";
 import { TZKT } from "constants/defaults";
+import { events } from "constants/analytics";
 import { Button } from "components/ui/Button";
 import { PendingIcon } from "components/common/PendingIcon";
 import { ReactComponent as Applied } from "svg/Applied.svg";
@@ -65,6 +68,7 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
 }) => {
   const [isOpenInnerModal, setIsOpenInnerModal] = useState(false);
   const { allTransactions, clearTransactions } = useTransactions();
+  const { trackEvent } = useAnalytics();
 
   const handleInnerModal = useCallback(() => {
     setIsOpenInnerModal(!isOpenInnerModal);
@@ -73,7 +77,11 @@ export const TransactionsHistory: FC<TransactionsHistoryProps> = ({
   const handleClearTransactions = useCallback(() => {
     clearTransactions();
     handleInnerModal();
-  }, [clearTransactions, handleInnerModal]);
+    trackEvent(
+      events.account_popup.clear_transactions,
+      AnalyticsEventCategory.ACCOUNT_POPUP
+    );
+  }, [clearTransactions, handleInnerModal, trackEvent]);
 
   return (
     <div className={cx(s.root, className)}>

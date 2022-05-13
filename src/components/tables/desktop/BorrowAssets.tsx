@@ -16,12 +16,14 @@ import s from "./Tables.module.sass";
 
 type BorrowAssetsProps = {
   data?: AssetsResponseData;
+  tableName: string;
   loading?: boolean;
   className?: string;
 };
 
 export const BorrowAssets: FC<BorrowAssetsProps> = ({
   data,
+  tableName,
   loading,
   className,
 }) => {
@@ -85,6 +87,9 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
         Cell: ({ row }: { row: Row }) => (
           <DropdownArrow
             theme="secondary"
+            tableName={tableName}
+            tableKey="borrow"
+            asset={(row.original as any).asset}
             active={row.isExpanded}
             className={s.icon}
             loading={loading}
@@ -93,7 +98,7 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
         ),
       },
     ],
-    [loading]
+    [loading, tableName]
   );
   const renderRowSubComponent = useCallback(
     ({
@@ -107,9 +112,10 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
         asset={asset}
         borrow={borrowWithInterest}
         liquidity={totalLiquid}
+        tableName={tableName}
       />
     ),
-    []
+    [tableName]
   );
 
   return (

@@ -1,18 +1,24 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useCallback } from "react";
 import { NavLink } from "react-router-dom";
 import { Cell } from "react-table";
 import cx from "classnames";
 
+import { events } from "constants/analytics";
 import { LIQUIDATION_POSITIONS_ITEMS_PER_PAGE } from "constants/defaults";
 import { LIQUIDATABLE_POSITIONS } from "constants/popups/liquidatable-positions";
-import { AppRoutes } from "routes/main-routes";
+import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
 import { getPrettyPercent } from "utils/helpers/amount";
 import { shortize } from "utils/helpers/asset";
 import { LiquidationPositionsType } from "utils/helpers/api";
+import { useAnalytics } from "hooks/useAnalytics";
 import { Table } from "components/ui/Table";
 import { Button } from "components/ui/Button";
-import { AttentionText } from "components/common/AttentionText";
+import {
+  AttentionText,
+  TooltipCategoryEnum,
+} from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { AppRoutes } from "routes/main-routes";
 
 import s from "./Tables.module.sass";
 
@@ -33,6 +39,18 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
   pageSize,
   className,
 }) => {
+  const { trackEvent } = useAnalytics();
+
+  // Analytics track
+  const handleDetailsTrack = useCallback(
+    (borrower: string) => {
+      trackEvent(events.liquidate.details, AnalyticsEventCategory.LIQUIDATE, {
+        borrower_address: borrower,
+      });
+    },
+    [trackEvent]
+  );
+
   const columns = useMemo(
     () => [
       {
@@ -41,6 +59,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <NavLink
             to={`${AppRoutes.LIQUIDATE}/${value}`}
+            onClick={() => handleDetailsTrack(value)}
             className={cx(s.address, s.white, s.noShadow)}
           >
             {loading || !value ? "—" : shortize(value)}
@@ -69,7 +88,9 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         Header: () => (
           <AttentionText
             text="Health factor"
+            name="health_factor"
             theme="secondary"
+            category={TooltipCategoryEnum.LIQUIDATE}
             title={LIQUIDATABLE_POSITIONS.healthFactor.title}
             description={LIQUIDATABLE_POSITIONS.healthFactor.description}
           />
@@ -107,15 +128,16 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
           <Button
             theme="light"
             href={`${AppRoutes.LIQUIDATE}/${value}`}
-            className={s.link}
             disabled={loading}
+            onClick={() => handleDetailsTrack(value)}
+            className={s.link}
           >
             Liquidate
           </Button>
         ),
       },
     ],
-    [loading]
+    [handleDetailsTrack, loading]
   );
 
   return (

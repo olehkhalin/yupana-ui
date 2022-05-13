@@ -16,11 +16,13 @@ import s from "./Cards.module.sass";
 
 type YourBorrowAssetsProps = {
   data?: AssetsResponseData;
+  tableName: string;
   loading?: boolean;
 };
 
 export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
   data,
+  tableName,
   loading,
 }) => {
   const { data: oraclePrices } = useOraclePriceQuery();
@@ -30,6 +32,7 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
     () =>
       (data ?? [0, 1, 2]).map((el: any) => ({
         key: el.yToken ?? el,
+        asset: el.asset,
         data: [
           {
             title: "Asset",
@@ -109,9 +112,10 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
         asset={asset}
         borrow={borrowWithInterest}
         liquidity={totalLiquid}
+        tableName={tableName}
       />
     ),
-    []
+    [tableName]
   );
 
   return (
@@ -122,8 +126,11 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
           loading={loading}
           key={item.key}
           data={item.data}
+          asset={item.asset}
           subComponent={item.subComponent}
           renderRowSubComponent={renderRowSubComponent}
+          tableName={tableName}
+          tableKey="your_borrow"
         />
       ))}
     </>

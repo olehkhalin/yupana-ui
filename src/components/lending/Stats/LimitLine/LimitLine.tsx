@@ -6,7 +6,11 @@ import cx from "classnames";
 import { ANIMATION_TIME } from "constants/defaults";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Preloader } from "components/ui/Preloader";
-import { AttentionText, ModalContent } from "components/common/AttentionText";
+import {
+  AttentionText,
+  ModalContent,
+  TooltipCategoryEnum,
+} from "components/common/AttentionText";
 import { PrettyAmount } from "components/common/PrettyAmount";
 
 import s from "./LimitLine.module.sass";
@@ -24,6 +28,8 @@ type LimitLineProps = {
   value: BigNumber;
   theme: "primary" | "secondary";
   loading: boolean;
+  name: string;
+  category: TooltipCategoryEnum;
   className?: string;
 } & ModalContent;
 
@@ -36,6 +42,8 @@ export const LimitLine: FC<LimitLineProps> = ({
   buttonText,
   theme,
   loading,
+  name,
+  category,
   className,
 }) => {
   const isInRisk = percent.gt(100);
@@ -78,6 +86,8 @@ export const LimitLine: FC<LimitLineProps> = ({
               description={description}
               buttonText={buttonText}
               theme={theme}
+              name={name}
+              category={category}
               className={s.title}
             />
           )}
