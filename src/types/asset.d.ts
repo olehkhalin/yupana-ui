@@ -50,3 +50,9 @@ export type UseAssetsResponse = {
   loading: boolean;
   error: boolean;
 };
+
+export type UseAssetsMetadataResponse = {
+  data: AssetType[];
+  loading: boolean;
+  error: boolean;
+};

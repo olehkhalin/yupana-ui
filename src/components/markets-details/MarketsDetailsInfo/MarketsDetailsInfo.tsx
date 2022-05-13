@@ -24,6 +24,7 @@ const {
 
 type MarketsDetailsInfoProps = {
   asset: AssetType;
+  yAsset: AssetType;
   price: BigNumber;
   availableLiquidity: BigNumber;
   totalBorrow: BigNumber;
@@ -40,6 +41,7 @@ type MarketsDetailsInfoProps = {
 
 export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
   asset,
+  yAsset,
   price,
   availableLiquidity,
   totalBorrow,
@@ -168,7 +170,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
             className={s.item}
           />
           <Item
-            text={`y${asset.symbol} Minted`}
+            text={`${yAsset.symbol} Minted`}
             value={<PrettyAmount amount={minted} size="extraSmall" />}
             icon={false}
             className={s.item}
@@ -178,12 +180,12 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
             name="exchange_rate"
             value={`${getPrettyAmount({
               value: exchangeRate,
-              currency: `y${asset.symbol}`,
+              currency: `${yAsset.symbol}`,
             })}`}
             title={exchangeRatePopup.title}
             description={`1 ${getAssetName(asset)} = ${getPrettyAmount({
               value: exchangeRate,
-              currency: `y${asset.symbol}`,
+              currency: `${yAsset.symbol}`,
             })}`}
             className={s.item}
           />

@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 
 import { useAssets } from "hooks/useAssets";
+import { useAssetsMetadata } from "hooks/useAssetsMetadata";
 import { MarketsDetailsQuery, useMarketsDetailsQuery } from "generated/graphql";
 import { prepareMarketsDetails } from "utils/helpers/api";
 import BaseLayout from "layouts/BaseLayout";
@@ -33,17 +34,21 @@ const MarketsDetailsInner: FC<MarketsDetailsInnerProps> = ({
   exchangeRate,
   loading,
 }) => {
+  const { data: assetsMetadata, loading: assetsLoading } = useAssetsMetadata();
+
   const preparedData = useMemo(() => {
     if (
       loading ||
+      assetsLoading ||
       !(data && data.asset && data.asset.length !== 0) ||
+      !assetsMetadata ||
       !exchangeRate
     ) {
       return "loading";
     }
 
-    return prepareMarketsDetails(data, exchangeRate);
-  }, [data, exchangeRate, loading]);
+    return prepareMarketsDetails(data, assetsMetadata, exchangeRate);
+  }, [assetsLoading, assetsMetadata, data, exchangeRate, loading]);
 
   if (preparedData === "loading") {
     return (
@@ -65,6 +70,7 @@ const MarketsDetailsInner: FC<MarketsDetailsInnerProps> = ({
       />
       <MarketsDetailsInfo
         asset={preparedData.asset}
+        yAsset={preparedData.yAsset}
         price={preparedData.price}
         availableLiquidity={preparedData.marketDetails.availableLiquidity}
         totalBorrow={preparedData.marketDetails.totalBorrow}

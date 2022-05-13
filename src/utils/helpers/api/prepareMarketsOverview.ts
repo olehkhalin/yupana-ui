@@ -1,11 +1,13 @@
 import BigNumber from "bignumber.js";
 
 import { COLLATERAL_PRECISION } from "constants/defaults";
+import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
 import { MarketOverviewQuery } from "generated/graphql";
 
 export const prepareMarketsOverview = (
   data: MarketOverviewQuery,
+  assetsMetadata: AssetType[],
   isSupply = true
 ) => {
   const totalAmount = convertUnits(
@@ -28,14 +30,17 @@ export const prepareMarketsOverview = (
       : new BigNumber(0);
 
   const assets = data[isSupply ? "supplyAssets" : "borrowAssets"].map((el) => {
+    const metadata = assetsMetadata.find(
+      ({ contractAddress }) => contractAddress === el.contractAddress
+    )!;
     const asset = {
       contractAddress: el.contractAddress,
       isFa2: el.isFa2,
       tokenId: el.tokenId,
-      decimals: el.tokens[0].decimals,
-      name: el.tokens[0].name,
-      symbol: el.tokens[0].symbol,
-      thumbnail: el.tokens[0].thumbnail,
+      decimals: metadata.decimals,
+      name: metadata.name,
+      symbol: metadata.symbol,
+      thumbnail: metadata.thumbnail,
     };
     const assetVolume24h = convertUnits(
       // @ts-ignore

@@ -2,6 +2,7 @@ import React, { FC, useMemo } from "react";
 import { useReactiveVar } from "@apollo/client";
 import cx from "classnames";
 
+import { useAssetsMetadata } from "hooks/useAssetsMetadata";
 import { prepareMarketsOverview } from "utils/helpers/api";
 import { globalVariablesVar } from "utils/cache";
 import { MarketOverviewQuery, useMarketOverviewQuery } from "generated/graphql";
@@ -21,18 +22,20 @@ type MarketsCardsInnerProps = {
 const MarketsCardsInner: FC<MarketsCardsInnerProps> = ({ data, loading }) => {
   const { totalUsdSupply, totalUsdBorrowed } =
     useReactiveVar(globalVariablesVar);
+  const { data: assetsMetadata, loading: assetsLoading } = useAssetsMetadata();
+
   const preparedData = useMemo(() => {
-    if (data) {
+    if (data && assetsMetadata) {
       return {
-        supply: prepareMarketsOverview(data),
-        borrow: prepareMarketsOverview(data, false),
+        supply: prepareMarketsOverview(data, assetsMetadata),
+        borrow: prepareMarketsOverview(data, assetsMetadata, false),
       };
     }
     return undefined;
-  }, [data]);
+  }, [data, assetsMetadata]);
 
   if (!preparedData) {
-    if (loading) {
+    if (loading || assetsLoading) {
       return (
         <>
           <MarketsCardLoading className={s.card} />

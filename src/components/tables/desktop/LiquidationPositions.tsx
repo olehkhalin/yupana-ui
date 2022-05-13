@@ -62,7 +62,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
             onClick={() => handleDetailsTrack(value)}
             className={cx(s.address, s.white, s.noShadow)}
           >
-            {loading ? "—" : shortize(value)}
+            {loading || !value ? "—" : shortize(value)}
           </NavLink>
         ),
       },
@@ -71,7 +71,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         accessor: "totalBorrowed",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <span className={s.yellow}>
-            {loading ? (
+            {loading || !value ? (
               "—"
             ) : (
               <PrettyAmount
@@ -98,7 +98,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         accessor: "healthFactor",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
           <span className={s.yellow}>
-            {loading ? "—" : getPrettyPercent(value)}
+            {loading || !value ? "—" : getPrettyPercent(value)}
           </span>
         ),
       },
