@@ -1,8 +1,7 @@
-import { TezosToolkit } from "@taquito/taquito";
+import { ChainIds, TezosToolkit } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 
-import { LAMBDA_CONTRACT_ADDRESS } from "constants/defaults";
-import { loadContractForCallLambdaView } from "./loadContractForCallLambdaView";
+import { loadContract } from "./loadContract";
 
 export const getUserBalance = async (
   tezos: TezosToolkit,
@@ -12,15 +11,13 @@ export const getUserBalance = async (
   shouldThrowException?: boolean
 ): Promise<BigNumber> => {
   try {
-    const contract = await loadContractForCallLambdaView(
-      tezos,
-      contractAddress
-    );
+    const contract = await loadContract(tezos, contractAddress);
+    const chainId = await tezos.rpc.getChainId();
 
     if (tokenId === undefined) {
       const value = await contract.views
         .getBalance(accountPkh)
-        .read(LAMBDA_CONTRACT_ADDRESS);
+        .read(chainId as ChainIds);
       if (!(value instanceof BigNumber) || !value.isFinite()) {
         return new BigNumber(0);
       }
@@ -29,7 +26,7 @@ export const getUserBalance = async (
 
     const response = await contract.views
       .balance_of([{ owner: accountPkh, token_id: tokenId }])
-      .read(LAMBDA_CONTRACT_ADDRESS);
+      .read(chainId as ChainIds);
 
     return response[0].balance ?? new BigNumber(0);
   } catch (e) {
