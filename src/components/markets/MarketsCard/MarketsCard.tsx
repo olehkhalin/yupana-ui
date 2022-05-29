@@ -34,6 +34,7 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
           isConvertable
           theme={theme}
           tooltipTheme={theme}
+          withLight
           size="large"
         />
       </div>
@@ -47,6 +48,7 @@ export const MarketsCard: FC<MarketsCardWithDataProps> = ({
             amount={volume24h}
             tooltipTheme={theme}
             isConvertable
+            withLight
             size="small"
           />
         </div>

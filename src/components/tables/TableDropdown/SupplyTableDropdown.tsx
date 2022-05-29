@@ -148,10 +148,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         convertUnits(maxCollateral, COLLATERAL_PRECISION).plus(
           input
             .multipliedBy(
-              convertUnits(
-                oraclePrice.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)
+              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
             )
             .multipliedBy(convertUnits(collateralFactor, STANDARD_PRECISION))
         ),
@@ -172,10 +169,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
             convertUnits(maxCollateral, COLLATERAL_PRECISION).plus(
               input
                 .multipliedBy(
-                  convertUnits(
-                    oraclePrice.price,
-                    ORACLE_PRICE_PRECISION
-                  ).multipliedBy(oraclePrice.decimals)
+                  convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
                 )
                 .multipliedBy(
                   convertUnits(collateralFactor, STANDARD_PRECISION)
@@ -255,11 +249,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       maxCollateral.minus(outstandingBorrow),
       COLLATERAL_PRECISION
     )
-      .div(
-        convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
-          oraclePrice.decimals
-        )
-      )
+      .div(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
       .div(convertUnits(collateralFactor, STANDARD_PRECISION))
       .multipliedBy(new BigNumber(10).pow(asset.decimals));
 
@@ -293,10 +283,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         return convertUnits(maxCollateral, COLLATERAL_PRECISION).minus(
           input
             .multipliedBy(
-              convertUnits(
-                oraclePrice.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)
+              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
             )
             .multipliedBy(convertUnits(collateralFactor, STANDARD_PRECISION))
         );
@@ -318,10 +305,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
             convertUnits(maxCollateral, COLLATERAL_PRECISION).minus(
               input
                 .multipliedBy(
-                  convertUnits(
-                    oraclePrice.price,
-                    ORACLE_PRICE_PRECISION
-                  ).multipliedBy(oraclePrice.decimals)
+                  convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
                 )
                 .multipliedBy(
                   convertUnits(collateralFactor, STANDARD_PRECISION)

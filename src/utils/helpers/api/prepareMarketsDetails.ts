@@ -5,6 +5,9 @@ import { MarketsDetailsQuery } from "generated/graphql";
 import { convertUnits } from "utils/helpers/amount";
 import { AssetType } from "../../../types/asset";
 
+const convertFromSecsToYear = (amount: BigNumber.Value) =>
+  new BigNumber(amount).multipliedBy(60 * 60 * 24 * 365);
+
 export const prepareMarketsDetails = (
   data: MarketsDetailsQuery,
   assetsMetadata: AssetType[],
@@ -26,10 +29,7 @@ export const prepareMarketsDetails = (
     symbol: el.tokens[0].symbol,
     thumbnail: el.tokens[0].thumbnail,
   };
-  const price = convertUnits(
-    data.oraclePrice[0].price,
-    ORACLE_PRICE_PRECISION
-  ).multipliedBy(data.oraclePrice[0].decimals);
+  const price = convertUnits(data.oraclePrice[0].price, ORACLE_PRICE_PRECISION);
   const totalSupply = convertUnits(
     convertUnits(el.totalSupply, STANDARD_PRECISION).multipliedBy(exchangeRate),
     asset.decimals,
@@ -87,15 +87,15 @@ export const prepareMarketsDetails = (
 
   // Interest rate model
   const baseRatePerYear = convertUnits(
-    el.interestModel.rate,
+    convertFromSecsToYear(el.interestModel.rate),
     STANDARD_PRECISION
   ).multipliedBy(1e2);
   const multiplierPerYear = convertUnits(
-    el.interestModel.multiplier,
+    convertFromSecsToYear(el.interestModel.multiplier),
     STANDARD_PRECISION
   );
   const jumpMultiplierPerYear = convertUnits(
-    el.interestModel.jumpMultiplier,
+    convertFromSecsToYear(el.interestModel.jumpMultiplier),
     STANDARD_PRECISION
   );
   const kink = convertUnits(

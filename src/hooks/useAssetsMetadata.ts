@@ -35,16 +35,17 @@ export const [AssetsMetadataProvider, useAssetsMetadata] = constate(() => {
         },
         body: assetsString,
       });
+
       const res = await response.json();
 
       return assets?.asset.map((asset, i) => ({
         contractAddress: asset.contractAddress,
         isFa2: asset.isFa2,
         tokenId: asset.isFa2 ? asset.tokenId : undefined,
-        decimals: res[i].decimals,
-        name: res[i].name,
-        symbol: res[i].symbol,
-        thumbnail: res[i].thumbnailUri,
+        decimals: res[i] ? res[i].decimals : asset.tokens[0].decimals,
+        name: res[i] ? res[i].name : asset.tokens[0].name,
+        symbol: res[i] ? res[i].symbol : asset.tokens[0].symbol,
+        thumbnail: res[i] ? res[i].thumbnailUri : asset.tokens[0].thumbnail,
       }));
     }
 

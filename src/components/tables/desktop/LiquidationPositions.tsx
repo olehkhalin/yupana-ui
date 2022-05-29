@@ -78,6 +78,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
                 amount={value}
                 theme="secondary"
                 tooltipTheme="secondary"
+                withLight
                 isConvertable
               />
             )}

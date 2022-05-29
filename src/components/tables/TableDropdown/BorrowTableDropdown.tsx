@@ -138,12 +138,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
             maxCollateral.minus(outstandingBorrow),
             COLLATERAL_PRECISION
           )
-            .div(
-              convertUnits(
-                oraclePrice.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)
-            )
+            .div(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
             .multipliedBy(new BigNumber(10).pow(asset.decimals)),
       liquidity: pureAssetLiquidity,
       asset: asset,
@@ -159,10 +154,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         return convertUnits(outstandingBorrow, COLLATERAL_PRECISION)
           .plus(
             input.multipliedBy(
-              convertUnits(
-                oraclePrice.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)
+              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
             )
           )
           .div(convertUnits(maxCollateral, COLLATERAL_PRECISION))
@@ -195,7 +187,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
               )
             )
           : inputAmount,
-        otherYTokens: borrowedYTokens,
+        otherYTokens: borrowedYTokens, // only borrowed tokens
         tokenContract: asset.contractAddress,
         tokenId: asset.tokenId,
         isMaxAmount,
@@ -262,10 +254,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         return convertUnits(outstandingBorrow, COLLATERAL_PRECISION)
           .minus(
             input.multipliedBy(
-              convertUnits(
-                oraclePrice.price,
-                ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)
+              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
             )
           )
           .div(convertUnits(maxCollateral, COLLATERAL_PRECISION))

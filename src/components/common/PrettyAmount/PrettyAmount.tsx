@@ -20,6 +20,7 @@ export type PrettyAmountProps = {
   tooltipTheme?: TooltipTheme;
   theme?: keyof typeof themeClass;
   size?: keyof typeof sizeClass;
+  withLight?: boolean;
 };
 
 export const PrettyAmount: FC<PrettyAmountProps> = ({
@@ -32,6 +33,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
   tooltipTheme,
   theme,
   size,
+  withLight = false,
 }) => {
   const { currency: convertableCurrency, convertPriceByBasicCurrency } =
     useCurrency();
@@ -117,6 +119,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
             <CustomTezosLogo
               theme={theme}
               size={size}
+              withLight={withLight}
               className={tezosClassName}
             />
           )}
@@ -133,7 +136,12 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
         dec: isMinified ? 3 : undefined,
       })}
       {isTezosCurrency && (
-        <CustomTezosLogo theme={theme} size={size} className={tezosClassName} />
+        <CustomTezosLogo
+          theme={theme}
+          size={size}
+          withLight={withLight}
+          className={tezosClassName}
+        />
       )}
     </span>
   );

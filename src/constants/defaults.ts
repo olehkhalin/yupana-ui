@@ -34,8 +34,8 @@ export const ORACLE_PRICES_CONTRACT_FALLBACK =
 
 // Precisions
 export const STANDARD_PRECISION = 18;
-export const COLLATERAL_PRECISION = 42;
-export const ORACLE_PRICE_PRECISION = 24;
+export const COLLATERAL_PRECISION = 54;
+export const ORACLE_PRICE_PRECISION = 36;
 
 // Logo url
 export const CLOUDFLARE_IPFS = "https://cloudflare-ipfs.com/ipfs";

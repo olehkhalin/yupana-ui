@@ -32,30 +32,50 @@
   height: .875rem
   margin-left: .125rem
   margin-top: .0625rem
+  &.withLight
+    width: 1.025rem
+    height: 1.025rem
+    margin: -.0125rem -.075rem -.075rem .05rem
 
 .small
   width: 1rem
   height: 1rem
   margin-left: .125rem
   margin-top: .0625rem
+  &.withLight
+    width: 1.15rem
+    height: 1.15rem
+    margin: -.0125rem -.075rem -.075rem .05rem
 
 .medium
   width: 1rem
   height: 1rem
   margin-left: .125rem
   margin-top: .0625rem
+  &.withLight
+    width: 1.15rem
+    height: 1.15rem
+    margin: -.0125rem -.075rem -.075rem .05rem
 
 .large
   width: 1.5rem
   height: 1.5rem
   margin-left: .25rem
   margin-top: .125rem
+  &.withLight
+    width: 1.7rem
+    height: 1.7rem
+    margin: .025rem -.1rem -.1rem .15rem
 
 .extraLarge
   width: 1.5rem
   height: 1.5rem
   margin-left: .25rem
   margin-top: .125rem
+  &.withLight
+    width: 1.7rem
+    height: 1.7rem
+    margin: .025rem -.1rem -.1rem .15rem
 
 @include media('>Mphone')
   .large
@@ -63,9 +83,17 @@
     height: 2rem
     margin-left: .375rem
     margin-top: .25rem
+    &.withLight
+      width: 2.2rem
+      height: 2.2rem
+      margin: .15rem -.1rem -.1rem .275rem
   .extraSmall
     width: 1rem
     height: 1rem
+    &.withLight
+      width: 1.15rem
+      height: 1.15rem
+      margin: -.0125rem -.075rem -.075rem .05rem
 
 @include media('>Lphone')
   .medium
@@ -73,11 +101,19 @@
     height: 1.5rem
     margin-left: .25rem
     margin-top: .125rem
+    &.withLight
+      width: 1.7rem
+      height: 1.7rem
+      margin: .025rem -.1rem -.1rem .15rem
   .extraLarge
     width: 2rem
     height: 2rem
     margin-left: .375rem
     margin-top: .25rem
+    &.withLight
+      width: 2.2rem
+      height: 2.2rem
+      margin: .15rem -.1rem -.1rem .275rem
 
 @include media('>Ltablet')
   .extraLarge
@@ -85,3 +121,7 @@
     height: 3rem
     margin-left: .5rem
     margin-top: .375rem
+    &.withLight
+      width: 3.4rem
+      height: 3.4rem
+      margin: .175em -.2rem -.2rem .3rem
