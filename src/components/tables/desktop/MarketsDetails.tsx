@@ -30,7 +30,12 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({
             {loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={value} theme="primary" isConvertable />
+              <PrettyAmount
+                amount={value}
+                theme="primary"
+                withLight
+                isConvertable
+              />
             )}
           </span>
         ),
@@ -59,7 +64,12 @@ export const MarketsDetails: FC<MarketsDetailsProps> = ({
             {loading ? (
               "—"
             ) : (
-              <PrettyAmount amount={value} theme="secondary" isConvertable />
+              <PrettyAmount
+                amount={value}
+                theme="secondary"
+                withLight
+                isConvertable
+              />
             )}
           </span>
         ),

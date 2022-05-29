@@ -54,9 +54,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
       return convertUnits(
         convertUnits(total.multipliedBy(exchangeRate ?? 1), STANDARD_PRECISION),
         asset.decimals
-      )
-        .multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
-        .multipliedBy(oraclePrice.decimals);
+      ).multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION));
     },
     [oraclePrices]
   );

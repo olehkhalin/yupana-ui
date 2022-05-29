@@ -32,6 +32,7 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
               amount={convertUnits(data.totalSupplyUsd, COLLATERAL_PRECISION)}
               isConvertable
               theme="primary"
+              withLight
               tezosClassName={s.valueBalance}
             />
           )}
@@ -62,6 +63,7 @@ export const UserStats: FC<UserStatsProps> = ({ className }) => {
               isConvertable
               theme="secondary"
               tooltipTheme="secondary"
+              withLight
               tezosClassName={s.valueBalance}
             />
           )}

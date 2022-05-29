@@ -17,11 +17,7 @@ export const calculateAssetBorrowLimitPercent = (
 ) => {
   const borrowInUsd = convertUnits(borrow, STANDARD_PRECISION)
     .div(oraclePrice.decimals)
-    .multipliedBy(
-      convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
-        oraclePrice.decimals
-      )
-    );
+    .multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION));
   const maxC = convertUnits(maxCollateral, COLLATERAL_PRECISION);
   return getPrettyPercent(borrowInUsd.div(maxC).multipliedBy(1e2));
 };

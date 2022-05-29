@@ -36,18 +36,14 @@ export const calculateUsdTotal = (
           asset.exchangeRate
         ),
         asset.asset.decimals
-      )
-        .multipliedBy(convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION))
-        .multipliedBy(lastPrice.decimals)
+      ).multipliedBy(convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION))
     );
 
     totalUsdBorrowed = totalUsdBorrowed.plus(
       convertUnits(
         convertUnits(asset.totalBorrowed, STANDARD_PRECISION),
         asset.asset.decimals
-      )
-        .multipliedBy(convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION))
-        .multipliedBy(lastPrice.decimals)
+      ).multipliedBy(convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION))
     );
   });
 

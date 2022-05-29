@@ -59,9 +59,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
       return convertUnits(
         convertUnits(total.multipliedBy(exchangeRate ?? 1), STANDARD_PRECISION),
         asset.decimals
-      )
-        .multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
-        .multipliedBy(oraclePrice.decimals);
+      ).multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION));
     },
     [oraclePrices]
   );
@@ -113,6 +111,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               isConvertable
               size="small"
               theme="primary"
+              withLight
               className={s.blue}
             />
           ),
@@ -163,6 +162,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
               size="small"
               theme="secondary"
               tooltipTheme="secondary"
+              withLight
               className={s.yellow}
             />
           ),

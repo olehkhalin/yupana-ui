@@ -18,9 +18,7 @@ const preparePrice = (yToken: number, oraclePrices: OraclePriceQuery) => {
     price: 0,
     decimals: 0,
   };
-  return convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
-    lastPrice.decimals
-  );
+  return convertUnits(lastPrice.price, ORACLE_PRICE_PRECISION);
 };
 
 export const useLiquidateDetails = (
