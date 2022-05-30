@@ -260,7 +260,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               exchangeRate={convertUnits(
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION
-              ).multipliedBy(oraclePrice.decimals)}
+              )}
               disabled={!!borrowWarningMessage}
               {...field}
             />

@@ -39,7 +39,7 @@ export const useUserStats = () => {
     );
     if (lastPrice) {
       if (
-        asset.supplyWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION))
+        asset.supplyWithInterest.gte(new BigNumber(10).pow(STANDARD_PRECISION)) // supplyWithInterest >= 1e18
       ) {
         supplyUsdAmount = asset.supplyWithInterest.multipliedBy(
           lastPrice.price

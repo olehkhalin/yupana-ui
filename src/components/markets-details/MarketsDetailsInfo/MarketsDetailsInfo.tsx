@@ -92,6 +92,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
                 isConvertable
                 size="medium"
                 theme="primary"
+                withLight
               />
             </div>
           </div>
@@ -114,6 +115,7 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
                 size="medium"
                 theme="secondary"
                 tooltipTheme="secondary"
+                withLight
               />
             </div>
           </div>

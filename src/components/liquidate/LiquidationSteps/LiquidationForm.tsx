@@ -216,10 +216,7 @@ export const LiquidationForm: FC = () => {
           const params = {
             fabricaContractAddress: fabrica,
             proxyContractAddress: priceFeedProxy,
-            otherYTokens: [
-              ...borrowedYTokens,
-              preparedData.collateralAsset.yToken,
-            ],
+            otherYTokens: borrowedYTokens,
             borrowToken: preparedData.borrowedAsset.yToken,
             collateralToken: preparedData.collateralAsset.yToken,
             tokenContract: preparedData.borrowedAsset.address,

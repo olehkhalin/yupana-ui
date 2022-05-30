@@ -66,8 +66,8 @@ export const [CurrencyProvider, useCurrency] = constate(() => {
 
   const convertPriceByBasicCurrency = (number: BigNumber) =>
     currencyState === CurrencyEnum.XTZ
-      ? number.div(tezosPrice).decimalPlaces(6, BigNumber.ROUND_DOWN)
-      : number.decimalPlaces(2, BigNumber.ROUND_DOWN);
+      ? number.decimalPlaces(6, BigNumber.ROUND_DOWN)
+      : number.multipliedBy(tezosPrice).decimalPlaces(2, BigNumber.ROUND_DOWN);
 
   return {
     currency: currencyState,

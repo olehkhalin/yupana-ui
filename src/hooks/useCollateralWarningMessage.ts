@@ -70,11 +70,7 @@ export const useCollateralWarningMessage = (
           convertUnits(currentAsset.supply, STANDARD_PRECISION),
           currentAsset.asset.decimals
         )
-          .multipliedBy(
-            convertUnits(oracleData.price, ORACLE_PRICE_PRECISION).multipliedBy(
-              oracleData.decimals
-            )
-          )
+          .multipliedBy(convertUnits(oracleData.price, ORACLE_PRICE_PRECISION))
           .multipliedBy(
             convertUnits(currentAsset.collateralFactor, STANDARD_PRECISION)
           );

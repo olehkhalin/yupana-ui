@@ -81,22 +81,32 @@ export const [AssetsProvider, useAssets] = constate(() => {
     };
   }
 
-  const preparedSupplyAssets = supplyAssets
-    ? supplyAssets.userSupply.map((asset) => ({
-        assetId: asset.assetId,
-        supply: new BigNumber(asset.supply),
-        isCollateral: asset.entered,
-      }))
-    : [];
-
   const borrowedYTokens: BorrowedYTokensType = [];
+
+  const preparedSupplyAssets = supplyAssets
+    ? supplyAssets.userSupply.map((asset) => {
+        if (
+          new BigNumber(asset.supply).gte(
+            new BigNumber(10).pow(STANDARD_PRECISION)
+          )
+        ) {
+          borrowedYTokens.push(asset.assetId);
+        }
+        return {
+          assetId: asset.assetId,
+          supply: new BigNumber(asset.supply),
+          isCollateral: asset.entered,
+        };
+      })
+    : [];
 
   const preparedBorrowAssets = borrowAssets
     ? borrowAssets.userBorrow.map((asset) => {
         if (
           new BigNumber(asset.borrow).gte(
             new BigNumber(10).pow(STANDARD_PRECISION)
-          )
+          ) &&
+          !borrowedYTokens.find((el) => el === asset.assetId)
         ) {
           borrowedYTokens.push(asset.assetId);
         }

@@ -1,5 +1,7 @@
 import BigNumber from "bignumber.js";
 
+BigNumber.set({ EXPONENTIAL_AT: 38 });
+
 const checkIfObjectsKey = (key: string) =>
   key === "K" || key === "M" || key === "B" || key === "T";
 
