@@ -106,7 +106,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
           new BigNumber(asset.borrow).gte(
             new BigNumber(10).pow(STANDARD_PRECISION)
           ) &&
-          !borrowedYTokens.find((el) => el === asset.assetId)
+          borrowedYTokens.find((el) => el === asset.assetId) === undefined
         ) {
           borrowedYTokens.push(asset.assetId);
         }
