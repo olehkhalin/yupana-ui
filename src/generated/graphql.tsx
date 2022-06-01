@@ -3155,8 +3155,8 @@ export type Numeric_Comparison_Exp = {
 /** columns and relationships of "oracle_price" */
 export type Oracle_Price = {
   __typename?: 'oracle_price';
-  decimals: Scalars['numeric'];
   name: Scalars['String'];
+  precision: Scalars['numeric'];
   price: Scalars['numeric'];
   ytoken: Scalars['Int'];
 };
@@ -3194,7 +3194,7 @@ export type Oracle_Price_Aggregate_FieldsCountArgs = {
 /** aggregate avg on columns */
 export type Oracle_Price_Avg_Fields = {
   __typename?: 'oracle_price_avg_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3204,8 +3204,8 @@ export type Oracle_Price_Bool_Exp = {
   _and?: InputMaybe<Array<Oracle_Price_Bool_Exp>>;
   _not?: InputMaybe<Oracle_Price_Bool_Exp>;
   _or?: InputMaybe<Array<Oracle_Price_Bool_Exp>>;
-  decimals?: InputMaybe<Numeric_Comparison_Exp>;
   name?: InputMaybe<String_Comparison_Exp>;
+  precision?: InputMaybe<Numeric_Comparison_Exp>;
   price?: InputMaybe<Numeric_Comparison_Exp>;
   ytoken?: InputMaybe<Int_Comparison_Exp>;
 };
@@ -3213,8 +3213,8 @@ export type Oracle_Price_Bool_Exp = {
 /** aggregate max on columns */
 export type Oracle_Price_Max_Fields = {
   __typename?: 'oracle_price_max_fields';
-  decimals?: Maybe<Scalars['numeric']>;
   name?: Maybe<Scalars['String']>;
+  precision?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
@@ -3222,16 +3222,16 @@ export type Oracle_Price_Max_Fields = {
 /** aggregate min on columns */
 export type Oracle_Price_Min_Fields = {
   __typename?: 'oracle_price_min_fields';
-  decimals?: Maybe<Scalars['numeric']>;
   name?: Maybe<Scalars['String']>;
+  precision?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
 
 /** Ordering options when selecting data from "oracle_price". */
 export type Oracle_Price_Order_By = {
-  decimals?: InputMaybe<Order_By>;
   name?: InputMaybe<Order_By>;
+  precision?: InputMaybe<Order_By>;
   price?: InputMaybe<Order_By>;
   ytoken?: InputMaybe<Order_By>;
 };
@@ -3239,9 +3239,9 @@ export type Oracle_Price_Order_By = {
 /** select columns of table "oracle_price" */
 export enum Oracle_Price_Select_Column {
   /** column name */
-  Decimals = 'decimals',
-  /** column name */
   Name = 'name',
+  /** column name */
+  Precision = 'precision',
   /** column name */
   Price = 'price',
   /** column name */
@@ -3251,7 +3251,7 @@ export enum Oracle_Price_Select_Column {
 /** aggregate stddev on columns */
 export type Oracle_Price_Stddev_Fields = {
   __typename?: 'oracle_price_stddev_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3259,7 +3259,7 @@ export type Oracle_Price_Stddev_Fields = {
 /** aggregate stddev_pop on columns */
 export type Oracle_Price_Stddev_Pop_Fields = {
   __typename?: 'oracle_price_stddev_pop_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3267,7 +3267,7 @@ export type Oracle_Price_Stddev_Pop_Fields = {
 /** aggregate stddev_samp on columns */
 export type Oracle_Price_Stddev_Samp_Fields = {
   __typename?: 'oracle_price_stddev_samp_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3275,7 +3275,7 @@ export type Oracle_Price_Stddev_Samp_Fields = {
 /** aggregate sum on columns */
 export type Oracle_Price_Sum_Fields = {
   __typename?: 'oracle_price_sum_fields';
-  decimals?: Maybe<Scalars['numeric']>;
+  precision?: Maybe<Scalars['numeric']>;
   price?: Maybe<Scalars['numeric']>;
   ytoken?: Maybe<Scalars['Int']>;
 };
@@ -3283,7 +3283,7 @@ export type Oracle_Price_Sum_Fields = {
 /** aggregate var_pop on columns */
 export type Oracle_Price_Var_Pop_Fields = {
   __typename?: 'oracle_price_var_pop_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3291,7 +3291,7 @@ export type Oracle_Price_Var_Pop_Fields = {
 /** aggregate var_samp on columns */
 export type Oracle_Price_Var_Samp_Fields = {
   __typename?: 'oracle_price_var_samp_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -3299,7 +3299,7 @@ export type Oracle_Price_Var_Samp_Fields = {
 /** aggregate variance on columns */
 export type Oracle_Price_Variance_Fields = {
   __typename?: 'oracle_price_variance_fields';
-  decimals?: Maybe<Scalars['Float']>;
+  precision?: Maybe<Scalars['Float']>;
   price?: Maybe<Scalars['Float']>;
   ytoken?: Maybe<Scalars['Float']>;
 };
@@ -6092,8 +6092,8 @@ export type User = {
   maxCollateral: Scalars['numeric'];
   netApy: Scalars['numeric'];
   outstandingBorrow: Scalars['numeric'];
-  totalBorrowUsd: Scalars['numeric'];
-  totalSupplyUsd: Scalars['numeric'];
+  totalBorrowXtz: Scalars['numeric'];
+  totalSupplyXtz: Scalars['numeric'];
   /** An array relationship */
   userBorrow: Array<User_Borrow>;
   /** An array relationship */
@@ -6319,8 +6319,8 @@ export type User_Avg_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** Boolean expression to filter rows from the table "user". All fields are combined with a logical 'AND'. */
@@ -6337,8 +6337,8 @@ export type User_Bool_Exp = {
   maxCollateral?: InputMaybe<Numeric_Comparison_Exp>;
   netApy?: InputMaybe<Numeric_Comparison_Exp>;
   outstandingBorrow?: InputMaybe<Numeric_Comparison_Exp>;
-  totalBorrowUsd?: InputMaybe<Numeric_Comparison_Exp>;
-  totalSupplyUsd?: InputMaybe<Numeric_Comparison_Exp>;
+  totalBorrowXtz?: InputMaybe<Numeric_Comparison_Exp>;
+  totalSupplyXtz?: InputMaybe<Numeric_Comparison_Exp>;
   userBorrow?: InputMaybe<User_Borrow_Bool_Exp>;
   userBorrowTx?: InputMaybe<Borrow_Tx_Bool_Exp>;
   userRepayTx?: InputMaybe<Repay_Tx_Bool_Exp>;
@@ -6664,8 +6664,8 @@ export type User_Max_Fields = {
   maxCollateral?: Maybe<Scalars['numeric']>;
   netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
-  totalBorrowUsd?: Maybe<Scalars['numeric']>;
-  totalSupplyUsd?: Maybe<Scalars['numeric']>;
+  totalBorrowXtz?: Maybe<Scalars['numeric']>;
+  totalSupplyXtz?: Maybe<Scalars['numeric']>;
 };
 
 /** aggregate min on columns */
@@ -6678,8 +6678,8 @@ export type User_Min_Fields = {
   maxCollateral?: Maybe<Scalars['numeric']>;
   netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
-  totalBorrowUsd?: Maybe<Scalars['numeric']>;
-  totalSupplyUsd?: Maybe<Scalars['numeric']>;
+  totalBorrowXtz?: Maybe<Scalars['numeric']>;
+  totalSupplyXtz?: Maybe<Scalars['numeric']>;
 };
 
 /** Ordering options when selecting data from "user". */
@@ -6693,8 +6693,8 @@ export type User_Order_By = {
   maxCollateral?: InputMaybe<Order_By>;
   netApy?: InputMaybe<Order_By>;
   outstandingBorrow?: InputMaybe<Order_By>;
-  totalBorrowUsd?: InputMaybe<Order_By>;
-  totalSupplyUsd?: InputMaybe<Order_By>;
+  totalBorrowXtz?: InputMaybe<Order_By>;
+  totalSupplyXtz?: InputMaybe<Order_By>;
   userBorrowTx_aggregate?: InputMaybe<Borrow_Tx_Aggregate_Order_By>;
   userBorrow_aggregate?: InputMaybe<User_Borrow_Aggregate_Order_By>;
   userRepayTx_aggregate?: InputMaybe<Repay_Tx_Aggregate_Order_By>;
@@ -6720,9 +6720,9 @@ export enum User_Select_Column {
   /** column name */
   OutstandingBorrow = 'outstandingBorrow',
   /** column name */
-  TotalBorrowUsd = 'totalBorrowUsd',
+  TotalBorrowXtz = 'totalBorrowXtz',
   /** column name */
-  TotalSupplyUsd = 'totalSupplyUsd'
+  TotalSupplyXtz = 'totalSupplyXtz'
 }
 
 /** aggregate stddev on columns */
@@ -6734,8 +6734,8 @@ export type User_Stddev_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_pop on columns */
@@ -6747,8 +6747,8 @@ export type User_Stddev_Pop_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate stddev_samp on columns */
@@ -6760,8 +6760,8 @@ export type User_Stddev_Samp_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate sum on columns */
@@ -6773,8 +6773,8 @@ export type User_Sum_Fields = {
   maxCollateral?: Maybe<Scalars['numeric']>;
   netApy?: Maybe<Scalars['numeric']>;
   outstandingBorrow?: Maybe<Scalars['numeric']>;
-  totalBorrowUsd?: Maybe<Scalars['numeric']>;
-  totalSupplyUsd?: Maybe<Scalars['numeric']>;
+  totalBorrowXtz?: Maybe<Scalars['numeric']>;
+  totalSupplyXtz?: Maybe<Scalars['numeric']>;
 };
 
 /** columns and relationships of "user_supply" */
@@ -7038,8 +7038,8 @@ export type User_Var_Pop_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate var_samp on columns */
@@ -7051,8 +7051,8 @@ export type User_Var_Samp_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** aggregate variance on columns */
@@ -7064,8 +7064,8 @@ export type User_Variance_Fields = {
   maxCollateral?: Maybe<Scalars['Float']>;
   netApy?: Maybe<Scalars['Float']>;
   outstandingBorrow?: Maybe<Scalars['Float']>;
-  totalBorrowUsd?: Maybe<Scalars['Float']>;
-  totalSupplyUsd?: Maybe<Scalars['Float']>;
+  totalBorrowXtz?: Maybe<Scalars['Float']>;
+  totalSupplyXtz?: Maybe<Scalars['Float']>;
 };
 
 /** columns and relationships of "withdraw_tx" */
@@ -7356,24 +7356,24 @@ export type LiquidationPositionsQueryVariables = Exact<{
 }>;
 
 
-export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, userAggregate: { __typename?: 'user_aggregate', aggregate?: { __typename?: 'user_aggregate_fields', count: number } | null | undefined } };
+export type LiquidationPositionsQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, outstandingBorrow: any, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', asset: { __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }> }>, userAggregate: { __typename?: 'user_aggregate', aggregate?: { __typename?: 'user_aggregate_fields', count: number } | null } };
 
 export type MarketOverviewQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', usdSupply?: any | null | undefined, usdBorrow?: any | null | undefined } | null | undefined } | null | undefined }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdBorrow: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> }> };
+export type MarketOverviewQuery = { __typename?: 'query_root', assetAggregate: { __typename?: 'asset_aggregate', aggregate?: { __typename?: 'asset_aggregate_fields', sum?: { __typename?: 'asset_sum_fields', usdSupply?: any | null, usdBorrow?: any | null } | null } | null }, dailyStats: Array<{ __typename?: 'daily_stats', supplyVolume: any, borrowVolume: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null }, borowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null }, supplyAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdSupply: any, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> }>, borrowAssets: Array<{ __typename?: 'asset', contractAddress: string, isFa2: boolean, tokenId: number, usdBorrow: any, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> }> };
 
 export type MarketsDetailsQueryVariables = Exact<{
   yToken: Scalars['Int'];
 }>;
 
 
-export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, liquidationThreshold: any, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, possibleApys: Array<{ __typename?: 'possible_apys', supplyApys?: any | null | undefined, borrowApys?: any | null | undefined }> }>, oraclePrice: Array<{ __typename?: 'oracle_price', price: any, decimals: any }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any }> };
+export type MarketsDetailsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, liquidationThreshold: any, totalSupply: any, totalBorrowed: any, totalLiquid: any, collateralFactor: any, reserves: any, reserveFactor: any, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, utilization_rate: any, exchange_rate: any }>, interestModel: { __typename?: 'interest_model', rate: any, multiplier: any, jumpMultiplier: any, kink: any }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null }, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null }, possibleApys: Array<{ __typename?: 'possible_apys', supplyApys?: any | null, borrowApys?: any | null }> }>, oraclePrice: Array<{ __typename?: 'oracle_price', price: any, precision: any }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any }> };
 
 export type AllAssetsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, reserveFactor: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null | undefined, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, decimals: number, thumbnail?: string | null | undefined }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null | undefined }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null | undefined } }> };
+export type AllAssetsQuery = { __typename?: 'query_root', asset: Array<{ __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, totalLiquid: any, totalSupply: any, totalBorrowed: any, reserves: any, reserveFactor: any, collateralFactor: any, liquidationThreshold: any, interestUpdateTime?: any | null, borrowIndex: any, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, decimals: number, thumbnail?: string | null }>, rates: Array<{ __typename?: 'rates', supply_apy: any, borrow_apy: any, borrow_rate: any, utilization_rate: any }>, suppliersCount: { __typename?: 'user_supply_aggregate', aggregate?: { __typename?: 'user_supply_aggregate_fields', count: number } | null }, borrowersCount: { __typename?: 'user_borrow_aggregate', aggregate?: { __typename?: 'user_borrow_aggregate_fields', count: number } | null } }> };
 
 export type GlobalFactorsQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7385,12 +7385,12 @@ export type LiquidateQueryVariables = Exact<{
 }>;
 
 
-export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null | undefined, symbol?: string | null | undefined, thumbnail?: string | null | undefined, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
+export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
 
 export type OraclePriceQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type OraclePriceQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', ytoken: number, price: any, decimals: any }> };
+export type OraclePriceQuery = { __typename?: 'query_root', oraclePrice: Array<{ __typename?: 'oracle_price', ytoken: number, price: any, precision: any }> };
 
 export type UserBorrowAssetsQueryVariables = Exact<{
   account?: InputMaybe<Scalars['String']>;
@@ -7622,7 +7622,7 @@ export const MarketsDetailsDocument = gql`
   }
   oraclePrice(where: {ytoken: {_eq: $yToken}}) {
     price
-    decimals
+    precision
   }
   globalFactors {
     liquidationIncentive
@@ -7843,7 +7843,7 @@ export const OraclePriceDocument = gql`
   oraclePrice {
     ytoken
     price
-    decimals
+    precision
   }
 }
     `;

@@ -91,28 +91,14 @@ export const InterestRateModel: FC<InterestRateModelProps> = ({
           />
           <Item
             text="Multiplier per year"
-            value={
-              <PrettyAmount
-                amount={multiplierPerYear}
-                size="extraSmall"
-                theme="secondary"
-                tooltipTheme="secondary"
-              />
-            }
+            value={getPrettyPercent(multiplierPerYear.multipliedBy(1e2))}
             theme="secondary"
             icon={false}
             className={s.item}
           />
           <Item
             text="Jump multiplier per year"
-            value={
-              <PrettyAmount
-                amount={jumpMultiplierPerYear}
-                size="extraSmall"
-                theme="secondary"
-                tooltipTheme="secondary"
-              />
-            }
+            value={getPrettyPercent(jumpMultiplierPerYear.multipliedBy(1e2))}
             theme="secondary"
             icon={false}
             className={s.item}

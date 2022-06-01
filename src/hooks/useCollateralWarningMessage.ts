@@ -63,14 +63,18 @@ export const useCollateralWarningMessage = (
           (asset) => asset.ytoken === currentAsset.yToken
         ) ?? {
           price: new BigNumber(0),
-          decimals: 1000000,
+          precision: 0,
         };
 
         const price = convertUnits(
           convertUnits(currentAsset.supply, STANDARD_PRECISION),
           currentAsset.asset.decimals
         )
-          .multipliedBy(convertUnits(oracleData.price, ORACLE_PRICE_PRECISION))
+          .multipliedBy(
+            convertUnits(oracleData.price, ORACLE_PRICE_PRECISION).multipliedBy(
+              oracleData.precision
+            )
+          )
           .multipliedBy(
             convertUnits(currentAsset.collateralFactor, STANDARD_PRECISION)
           );

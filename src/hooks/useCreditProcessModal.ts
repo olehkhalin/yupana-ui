@@ -26,7 +26,7 @@ type CreditProcessModalProps =
       onSubmit: any;
       oraclePrice: {
         price: BigNumber;
-        decimals: number;
+        precision: number;
       };
     } & Pick<ModalActions, "isOpen">)
   | null;
