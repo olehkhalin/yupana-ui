@@ -72,6 +72,9 @@ export const Button: FC<ButtonProps> = ({
   );
 
   if (href) {
+    if (props.disabled) {
+      return <span className={classNames}>{inner}</span>;
+    }
     if (external) {
       return (
         <a
