@@ -24851,22 +24851,6 @@
         "description": "columns and relationships of \"oracle_price\"",
         "fields": [
           {
-            "name": "decimals",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "numeric",
-                "ofType": null
-              }
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "name",
             "description": null,
             "args": [],
@@ -24876,6 +24860,22 @@
               "ofType": {
                 "kind": "SCALAR",
                 "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "precision",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "numeric",
                 "ofType": null
               }
             },
@@ -25153,7 +25153,7 @@
         "description": "aggregate avg on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25253,11 +25253,11 @@
             "deprecationReason": null
           },
           {
-            "name": "decimals",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "numeric_comparison_exp",
+              "name": "String_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -25265,11 +25265,11 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "precision",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
-              "name": "String_comparison_exp",
+              "name": "numeric_comparison_exp",
               "ofType": null
             },
             "defaultValue": null,
@@ -25311,24 +25311,24 @@
         "description": "aggregate max on columns",
         "fields": [
           {
-            "name": "decimals",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "name",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "precision",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -25370,24 +25370,24 @@
         "description": "aggregate min on columns",
         "fields": [
           {
-            "name": "decimals",
-            "description": null,
-            "args": [],
-            "type": {
-              "kind": "SCALAR",
-              "name": "numeric",
-              "ofType": null
-            },
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "name",
             "description": null,
             "args": [],
             "type": {
               "kind": "SCALAR",
               "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
+            "name": "precision",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "numeric",
               "ofType": null
             },
             "isDeprecated": false,
@@ -25430,7 +25430,7 @@
         "fields": null,
         "inputFields": [
           {
-            "name": "decimals",
+            "name": "name",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -25442,7 +25442,7 @@
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "precision",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -25491,13 +25491,13 @@
         "interfaces": null,
         "enumValues": [
           {
-            "name": "decimals",
+            "name": "name",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "name",
+            "name": "precision",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -25523,7 +25523,7 @@
         "description": "aggregate stddev on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25570,7 +25570,7 @@
         "description": "aggregate stddev_pop on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25617,7 +25617,7 @@
         "description": "aggregate stddev_samp on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25664,7 +25664,7 @@
         "description": "aggregate sum on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25711,7 +25711,7 @@
         "description": "aggregate var_pop on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25758,7 +25758,7 @@
         "description": "aggregate var_samp on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -25805,7 +25805,7 @@
         "description": "aggregate variance on columns",
         "fields": [
           {
-            "name": "decimals",
+            "name": "precision",
             "description": null,
             "args": [],
             "type": {
@@ -47230,7 +47230,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -47246,7 +47246,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -48736,7 +48736,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -48748,7 +48748,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -48932,7 +48932,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -48944,7 +48944,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "type": {
               "kind": "INPUT_OBJECT",
@@ -51434,7 +51434,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -51446,7 +51446,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -51553,7 +51553,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -51565,7 +51565,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -51697,7 +51697,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -51709,7 +51709,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "type": {
               "kind": "ENUM",
@@ -51848,13 +51848,13 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": "column name",
             "isDeprecated": false,
             "deprecationReason": null
@@ -51940,7 +51940,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -51952,7 +51952,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52047,7 +52047,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52059,7 +52059,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52154,7 +52154,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52166,7 +52166,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52261,7 +52261,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -52273,7 +52273,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54132,7 +54132,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54144,7 +54144,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54239,7 +54239,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54251,7 +54251,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54346,7 +54346,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalBorrowUsd",
+            "name": "totalBorrowXtz",
             "description": null,
             "args": [],
             "type": {
@@ -54358,7 +54358,7 @@
             "deprecationReason": null
           },
           {
-            "name": "totalSupplyUsd",
+            "name": "totalSupplyXtz",
             "description": null,
             "args": [],
             "type": {

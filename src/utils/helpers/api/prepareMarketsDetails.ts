@@ -29,7 +29,10 @@ export const prepareMarketsDetails = (
     symbol: el.tokens[0].symbol,
     thumbnail: el.tokens[0].thumbnail,
   };
-  const price = convertUnits(data.oraclePrice[0].price, ORACLE_PRICE_PRECISION);
+  const price = convertUnits(
+    data.oraclePrice[0].price,
+    ORACLE_PRICE_PRECISION
+  ).multipliedBy(data.oraclePrice[0].precision);
   const totalSupply = convertUnits(
     convertUnits(el.totalSupply, STANDARD_PRECISION).multipliedBy(exchangeRate),
     asset.decimals,
