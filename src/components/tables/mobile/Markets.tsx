@@ -44,17 +44,21 @@ export const Markets: FC<MarketsProps> = ({ data, loading }) => {
       const oraclePrice = oraclePrices
         ? oraclePrices.oraclePrice.find(({ ytoken }) => ytoken === yToken) ?? {
             price: new BigNumber(0),
-            decimals: 0,
+            precision: 0,
           }
         : {
             price: new BigNumber(0),
-            decimals: 0,
+            precision: 0,
           };
 
       return convertUnits(
         convertUnits(total.multipliedBy(exchangeRate ?? 1), STANDARD_PRECISION),
         asset.decimals
-      ).multipliedBy(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION));
+      ).multipliedBy(
+        convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
+          oraclePrice.precision
+        )
+      );
     },
     [oraclePrices]
   );

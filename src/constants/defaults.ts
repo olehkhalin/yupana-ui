@@ -25,6 +25,8 @@ export const LIQUIDATION_POSITIONS_ITEMS_PER_PAGE = process.env
 export const TEMPLE_WALLET_LINK =
   process.env.REACT_APP_TEMPLE_WALLET_LINK ?? "https://templewallet.com/";
 export const YUPANA_LANDING_LINK = "https://yupanafinance.gatsbyjs.io/";
+export const WTEZ_CONTRACT =
+  process.env.REACT_APP_WTEZ_CONTRACT ?? "KT1Bun2mqJviJcxTCfBMBKqeAcvQBVrBCTo4";
 
 // Contract fallbacks
 export const YUPANA_CONTRACT_FALLBACK =

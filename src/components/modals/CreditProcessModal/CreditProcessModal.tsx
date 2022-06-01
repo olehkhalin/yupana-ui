@@ -59,7 +59,7 @@ type CreditProcessModalInnerProps = {
   onSubmit: any;
   oraclePrice: {
     price: BigNumber;
-    decimals: number;
+    precision: number;
   };
 } & Pick<ModalActions, "isOpen" | "onRequestClose">;
 
@@ -260,7 +260,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               exchangeRate={convertUnits(
                 oraclePrice.price,
                 ORACLE_PRICE_PRECISION
-              )}
+              ).multipliedBy(oraclePrice.precision)}
               disabled={!!borrowWarningMessage}
               {...field}
             />

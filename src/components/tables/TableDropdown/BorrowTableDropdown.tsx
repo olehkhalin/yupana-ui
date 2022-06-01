@@ -64,11 +64,11 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       oraclePrices
         ? oraclePrices.oraclePrice.find(({ ytoken }) => ytoken === yToken) ?? {
             price: new BigNumber(0),
-            decimals: 0,
+            precision: 0,
           }
         : {
             price: new BigNumber(0),
-            decimals: 0,
+            precision: 0,
           },
     [oraclePrices, yToken]
   );
@@ -138,7 +138,12 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
             maxCollateral.minus(outstandingBorrow),
             COLLATERAL_PRECISION
           )
-            .div(convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION))
+            .div(
+              convertUnits(
+                oraclePrice.price,
+                ORACLE_PRICE_PRECISION
+              ).multipliedBy(oraclePrice.precision)
+            )
             .multipliedBy(new BigNumber(10).pow(asset.decimals)),
       liquidity: pureAssetLiquidity,
       asset: asset,
@@ -154,7 +159,10 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         return convertUnits(outstandingBorrow, COLLATERAL_PRECISION)
           .plus(
             input.multipliedBy(
-              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+              convertUnits(
+                oraclePrice.price,
+                ORACLE_PRICE_PRECISION
+              ).multipliedBy(oraclePrice.precision)
             )
           )
           .div(convertUnits(maxCollateral, COLLATERAL_PRECISION))
@@ -254,7 +262,10 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         return convertUnits(outstandingBorrow, COLLATERAL_PRECISION)
           .minus(
             input.multipliedBy(
-              convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION)
+              convertUnits(
+                oraclePrice.price,
+                ORACLE_PRICE_PRECISION
+              ).multipliedBy(oraclePrice.precision)
             )
           )
           .div(convertUnits(maxCollateral, COLLATERAL_PRECISION))

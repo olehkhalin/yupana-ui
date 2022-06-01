@@ -53,7 +53,7 @@ query MarketsDetails($yToken: Int!) {
   }
   oraclePrice(where: {ytoken: {_eq: $yToken}}) {
     price
-    decimals
+    precision
   }
   globalFactors {
     liquidationIncentive
