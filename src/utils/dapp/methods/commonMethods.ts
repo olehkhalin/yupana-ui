@@ -67,9 +67,9 @@ export const commonMethods = async (
 
   let methods: ContractMethod<Wallet>[] = [];
 
-  const finalGetPriceArray = [yToken];
+  const finalGetPriceArray = [...yToken];
   if (preparedOtherYTokens && preparedOtherYTokens.length > 0) {
-    finalGetPriceArray.push(preparedOtherYTokens);
+    finalGetPriceArray.push(...preparedOtherYTokens);
   }
   const getPriceMethod = proxyContract.methods.getPrice(finalGetPriceArray);
   const updateInterestMethod = fabricaContract.methods.updateInterest(yToken);
