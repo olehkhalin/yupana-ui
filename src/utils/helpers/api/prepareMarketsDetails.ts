@@ -17,7 +17,9 @@ export const prepareMarketsDetails = (
   const el = data.asset[0];
 
   const asset = assetsMetadata.find(
-    ({ contractAddress }) => contractAddress === el.contractAddress
+    ({ contractAddress, tokenId }) =>
+      contractAddress === el.contractAddress &&
+      (el.isFa2 ? tokenId === el.tokenId : true)
   )!;
 
   const yAsset = {

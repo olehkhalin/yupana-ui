@@ -181,7 +181,9 @@ export const [AssetsProvider, useAssets] = constate(() => {
       : new BigNumber(0);
 
     const metadata = allAssetsMetadata.find(
-      ({ contractAddress }) => contractAddress === asset.contractAddress
+      ({ contractAddress, tokenId }) =>
+        contractAddress === asset.contractAddress &&
+        (asset.isFa2 ? tokenId === asset.tokenId : true)
     )!;
 
     return {
