@@ -1,4 +1,4 @@
-import React, { useState, useCallback, FC } from "react";
+import React, { useState, useCallback, FC, ReactNode } from "react";
 import cx from "classnames";
 
 import { TooltipsKeyType } from "types/analytics";
@@ -23,12 +23,13 @@ export type ModalContent = {
 };
 
 export type AttentionTextProps = {
-  text: string;
+  text: ReactNode;
   theme?: keyof typeof themeClasses;
   icon?: boolean;
   name?: string;
   category?: TooltipCategoryEnum;
   className?: string;
+  attentionSize?: "small" | "large";
 } & ModalContent;
 
 export const themeClasses = {
@@ -46,6 +47,7 @@ export const AttentionText: FC<AttentionTextProps> = ({
   name,
   category,
   className,
+  attentionSize = "large",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { trackEvent } = useAnalytics();
@@ -67,7 +69,13 @@ export const AttentionText: FC<AttentionTextProps> = ({
       {text}
       {icon && title && description && (
         <>
-          <Button theme="clear" onClick={handleModal} className={s.attention}>
+          <Button
+            theme="clear"
+            onClick={handleModal}
+            className={cx(s.attention, {
+              [s.attentionIconSmall]: attentionSize === "small",
+            })}
+          >
             <Attention className={s.attentionIcon} />
           </Button>
           <InformationModal

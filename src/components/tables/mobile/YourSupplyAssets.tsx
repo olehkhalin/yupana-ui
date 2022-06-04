@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 
-import { STANDARD_PRECISION } from "constants/defaults";
+import { STANDARD_PRECISION, WTEZ_CONTRACT } from "constants/defaults";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { getSliceAssetName } from "utils/helpers/asset";
@@ -9,6 +9,7 @@ import { AssetName } from "components/common/AssetName";
 import { TableCard } from "components/common/TableCard";
 import { CollateralSwitcher } from "components/common/CollateralSwitcher";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { AttentionText } from "components/common/AttentionText";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Cards.module.sass";
@@ -32,13 +33,27 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
         data: [
           {
             title: "Asset",
-            content: (
-              <AssetName
-                asset={loading ? undefined : el.asset}
-                theme="primary"
-                logoClassName={s.logo}
-              />
-            ),
+            content:
+              !loading && el.asset.contractAddress === WTEZ_CONTRACT ? (
+                <AttentionText
+                  text={
+                    <AssetName
+                      asset={loading ? undefined : el.asset}
+                      theme="primary"
+                      logoClassName={s.logo}
+                    />
+                  }
+                  title="Wrapped XTZ"
+                  description="Yupana.Finance lending protocol only works with FA1.2 and FA2 tokens. However, the protocol team developed the 1:1 Wrapped Tezos FA2 token. So you transfer XTZ to the protocol and the protocol automatically wraps your XTZ in Wrapped Tezos FA2 token and Supply it in the protocol. Withdraw, Borrow, and Repay occur in the same way. The user doesn't work directly with the wrap, Yupana does all the magic herself."
+                  attentionSize="small"
+                />
+              ) : (
+                <AssetName
+                  asset={loading ? undefined : el.asset}
+                  theme="primary"
+                  logoClassName={s.logo}
+                />
+              ),
             isLogo: true,
           },
           {
