@@ -13145,6 +13145,14 @@ react-charts@3.0.0-beta.35:
     d3-time "^2.1.1"
     ts-toolbelt "^9.6.0"
 
+react-cookie-consent@7.4.1:
+  version "7.4.1"
+  resolved "https://registry.yarnpkg.com/react-cookie-consent/-/react-cookie-consent-7.4.1.tgz#ce528eff28ef9b3742841496ffc1d6c092d05d29"
+  integrity sha512-SGerGIHuNkFh/eJk1ulNb4Kb/EL21UTFrAf+gCtvVE5+JkdNCeyC89Oq9X17YjvLxH7E35W4DY+nxPE5n2RxPQ==
+  dependencies:
+    js-cookie "^2.2.1"
+    prop-types "^15.7.2"
+
 react-copy-to-clipboard@5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/react-copy-to-clipboard/-/react-copy-to-clipboard-5.1.0.tgz#09aae5ec4c62750ccb2e6421a58725eabc41255c"

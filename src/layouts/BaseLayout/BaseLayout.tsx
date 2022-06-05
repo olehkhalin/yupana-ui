@@ -5,6 +5,7 @@ import { Toast } from "components/ui/Toast";
 import { Header } from "components/common/Header";
 import { Container } from "components/common/Container";
 import { Footer } from "components/common/Footer";
+import { CookieConsent } from "components/common/CookieConsent";
 
 import s from "./BaseLayout.module.sass";
 
@@ -25,5 +26,6 @@ export const BaseLayout: FC<BaseLayoutProps> = ({
       <Toast />
     </Container>
     <Footer />
+    <CookieConsent />
   </>
 );
