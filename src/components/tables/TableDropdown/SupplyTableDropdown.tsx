@@ -355,6 +355,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       secondButtonLabel="Withdraw"
       handleFirstButtonClick={handleSupply}
       handleSecondButtonClick={handleWithdraw}
+      withTez={!isCommon}
     />
   );
 };

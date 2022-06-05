@@ -87,7 +87,7 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
         id: "wallet",
         accessor: "asset",
         Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? "—" : <BalanceAmount asset={value} isMinified />,
+          loading ? "—" : <BalanceAmount asset={value} isMinified withTez />,
       },
       {
         Header: () => null,

@@ -1,16 +1,18 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { useReactiveVar } from "@apollo/client";
+import BigNumber from "bignumber.js";
 
 import { STANDARD_PRECISION, WTEZ_CONTRACT } from "constants/defaults";
 import { useOraclePriceQuery } from "generated/graphql";
 import { AssetsResponseData } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { calculateAssetBorrowLimitPercent } from "utils/helpers/api";
+import { getSliceAssetName } from "utils/helpers/asset";
 import { globalVariablesVar } from "utils/cache";
 import { AssetName } from "components/common/AssetName";
 import { TableCard } from "components/common/TableCard";
-import { BalanceAmount } from "components/common/BalanceAmount";
 import { AttentionText } from "components/common/AttentionText";
+import { PrettyAmount } from "components/common/PrettyAmount";
 import { BorrowTableDropdown } from "components/tables/TableDropdown";
 
 import s from "./Cards.module.sass";
@@ -73,16 +75,21 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
                 ),
           },
           {
-            title: "Wallet",
+            title: "Borrowed",
             content: loading ? (
               "—"
             ) : (
-              <BalanceAmount
-                asset={el.asset}
+              <PrettyAmount
+                amount={convertUnits(
+                  convertUnits(el.borrow, STANDARD_PRECISION) ??
+                    new BigNumber(0),
+                  el.asset.decimals,
+                  true
+                )}
+                currency={getSliceAssetName(el.asset)}
                 isMinified
-                preloaderTheme="secondary"
+                theme="secondary"
                 tooltipTheme="secondary"
-                sizeT="small"
               />
             ),
           },
