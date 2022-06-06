@@ -32,6 +32,7 @@ type TableDropdownInnerProps = {
   secondButtonLabel: string;
   handleSecondButtonClick?: () => void;
   tableName: string;
+  withTez?: boolean;
 } & TableDropdownProps;
 
 const themeClasses = {
@@ -64,6 +65,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
   balanceAmount,
   balanceLoading,
   tableName,
+  withTez = false,
   className,
 }) => {
   const { trackEvent } = useAnalytics();
@@ -127,7 +129,7 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
               amount={convertUnits(balanceAmount, asset.decimals, true)}
               theme={theme}
               tooltipTheme={theme}
-              currency={asset.symbol}
+              currency={withTez ? "TEZ" : asset.symbol}
               isMinified
               className={s.amount}
             />

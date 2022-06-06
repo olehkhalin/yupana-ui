@@ -5,7 +5,7 @@ import s from "./ModalHeader.module.sass";
 
 type ModalHeaderProps = {
   title: string;
-  description: string;
+  description?: string;
   className?: string;
 };
 
@@ -16,6 +16,6 @@ export const ModalHeader: FC<ModalHeaderProps> = ({
 }) => (
   <div className={cx(s.root, className)}>
     <h2 className={s.title}>{title}</h2>
-    <div className={s.description}>{description}</div>
+    {description && <div className={s.description}>{description}</div>}
   </div>
 );

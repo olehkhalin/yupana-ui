@@ -3,11 +3,15 @@
 
 .root
   margin-bottom: 1rem
+  text-align: left
+
+.inner
+  padding-left: 1rem
+  padding-right: 1rem
 
 .wallets
   display: flex
   align-items: center
-  flex-direction: column
 
 .icon
   margin-right: .5rem
@@ -17,21 +21,103 @@
   align-items: center
   color: $blue-neutral
   transition: $animationTime
+  &:not(:disabled)
+    &:hover
+      color: $light-yellow
+    &:active
+      color: $white
+  &:not(:last-child)
+    margin-right: .5rem
+
+.link
+  color: $blue-neutral
+  text-decoration: underline
+  transition: color $animationTime, text-shadow $animationTime
   &:hover
-    color: $light-yellow
+    text-shadow: $blue-shadow-button
   &:active
     color: $white
-  &:not(:last-child)
-    margin-bottom: 0
+    text-shadow: none
+
+.item
+  display: flex
+  flex-direction: column
+  width: 100%
+
+.firstItem
+  margin-bottom: 2rem
+
+.title
+  display: flex
+  margin-bottom: 1rem
+
+.titleContent
+  margin-top: -.125rem
+  text-align: left
+
+.itemIcon
+  width: 1rem
+  min-width: 1rem
+  height: 1rem
+  margin-right: .75rem
+
+.agreement
+  display: flex
+  align-items: center
+  color: $blue-neutral
+  font-weight: bold
+  margin-left: auto
+  margin-right: auto
+  font-size: .875rem
+  &:hover
+    .checkbox
+      box-shadow: $blue-shadow-button
+      opacity: 1
+
+.checkbox
+  width: 1.5rem
+  height: 1.5rem
+  border: 1px solid $light-blue
+  border-radius: 4px
+  opacity: .5
+  display: flex
+  justify-content: center
+  align-items: center
+  transition: opacity $animationTime, box-shadow $animationTime
+  margin-right: .75rem
+
+.checkboxInner
+  width: 1.125rem
+  height: 1.125rem
+  background: $light-blue
+  box-shadow: $blue-shadow-button
+  border-radius: 2px
+  opacity: 0
+  transition: opacity $animationTime
+
+.checkboxActive
+  opacity: 1
+  box-shadow: $blue-shadow-button
+  .checkboxInner
+    opacity: 1
+
 
 @include media('>Mphone')
   .root
-    margin-bottom: 2rem
+    margin-bottom: .5rem
   .wallets
     justify-content: center
     align-items: start
-    flex-direction: row
   .button
     &:not(:last-child)
       margin-right: 2rem
       margin-bottom: -.5rem
+  .title
+    margin-bottom: 2rem
+  .inner
+    padding: 2rem 3.5rem
+  .agreementWrapper
+    display: flex
+    align-items: center
+  .agreement
+    min-width: 19rem

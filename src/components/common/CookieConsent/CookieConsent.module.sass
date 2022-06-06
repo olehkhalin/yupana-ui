@@ -1,0 +1,41 @@
+@import 'styles/variables.sass'
+@import 'styles/breakpoints.scss'
+
+.root
+  background-color: #061F37 !important
+  font-size: .75rem !important
+  padding-top: .5rem
+  padding-bottom: 1rem
+  position: relative
+
+.content
+  width: 100% !important
+  max-width: 82rem !important
+  margin: 0 auto !important
+  padding: 0 3rem 0 1rem !important
+
+.button
+  position: absolute !important
+  top: .5rem !important
+  right: 1rem !important
+  padding: 0.5rem !important
+  margin: 0 !important
+  background: none !important
+
+.closeIcon
+  width: .75rem
+  height: auto
+
+@include media('>Mphone')
+  .root
+    font-size: .875rem !important
+    line-height: 1.2 !important
+    padding-top: 1.25rem !important
+    padding-bottom: 1.25rem !important
+  .button
+    padding: 0 !important
+    top: 50% !important
+    transform: translateY(-50%)
+  .closeIcon
+    width: 1.125rem
+    height: auto

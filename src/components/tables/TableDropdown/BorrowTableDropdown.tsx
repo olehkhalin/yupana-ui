@@ -301,6 +301,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       handleFirstButtonClick={handleBorrow}
       secondButtonLabel="Repay"
       handleSecondButtonClick={handleRepay}
+      withTez
     />
   );
 };
