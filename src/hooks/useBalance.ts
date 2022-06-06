@@ -6,12 +6,12 @@ import { WTEZ_CONTRACT } from "constants/defaults";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { getUserBalance } from "utils/dapp/helpers";
 
-export const useBalance = (asset: AssetType) => {
+export const useBalance = (asset?: AssetType) => {
   const tezos = useTezos();
   const accountPkh = useAccountPkh();
   const getWalletData = async () => {
     let wallet = new BigNumber(0);
-    if (!!accountPkh && !!tezos) {
+    if (!!accountPkh && !!tezos && !!asset) {
       wallet =
         asset.contractAddress === WTEZ_CONTRACT
           ? (await tezos.tz.getBalance(accountPkh)) ?? 0
@@ -25,7 +25,12 @@ export const useBalance = (asset: AssetType) => {
     return wallet;
   };
   const { data: assetWalletAmount, error: assetWalletAmountError } = useSWR(
-    ["asset-wallet-amount", accountPkh, asset.contractAddress, asset.tokenId],
+    [
+      "asset-wallet-amount",
+      accountPkh,
+      asset ? asset.contractAddress : "contractAddress",
+      asset ? asset.tokenId : "tokenId",
+    ],
     getWalletData
   );
 
