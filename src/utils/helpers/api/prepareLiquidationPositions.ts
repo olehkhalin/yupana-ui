@@ -23,8 +23,9 @@ export const prepareLiquidationPositions = (
       el.borrowedAssets.length !== 0
         ? el.borrowedAssets.map((asset) => {
             const metadata = assetsMetadata.find(
-              ({ contractAddress }) =>
-                contractAddress === asset.asset.contractAddress
+              ({ contractAddress, tokenId }) =>
+                contractAddress === asset.asset.contractAddress &&
+                (asset.asset.isFa2 ? tokenId === asset.asset.tokenId : true)
             )!;
 
             return getAssetName({
@@ -42,8 +43,9 @@ export const prepareLiquidationPositions = (
       el.collateralAssets.length !== 0
         ? el.collateralAssets.map((asset) => {
             const metadata = assetsMetadata.find(
-              ({ contractAddress }) =>
-                contractAddress === asset.asset.contractAddress
+              ({ contractAddress, tokenId }) =>
+                contractAddress === asset.asset.contractAddress &&
+                (asset.asset.isFa2 ? tokenId === asset.asset.tokenId : true)
             )!;
 
             return getAssetName({

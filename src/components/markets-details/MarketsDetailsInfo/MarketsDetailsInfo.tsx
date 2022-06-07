@@ -181,12 +181,12 @@ export const MarketsDetailsInfo: FC<MarketsDetailsInfoProps> = ({
             text="Exchange Rate"
             name="exchange_rate"
             value={`${getPrettyAmount({
-              value: exchangeRate,
+              value: new BigNumber(1).div(exchangeRate),
               currency: `${yAsset.symbol}`,
             })}`}
             title={exchangeRatePopup.title}
             description={`1 ${getAssetName(asset)} = ${getPrettyAmount({
-              value: exchangeRate,
+              value: new BigNumber(1).div(exchangeRate),
               currency: `${yAsset.symbol}`,
             })}`}
             className={s.item}

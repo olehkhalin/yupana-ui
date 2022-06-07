@@ -32,7 +32,9 @@ export const prepareMarketsOverview = (
   const assets = data[isSupply ? "supplyAssets" : "borrowAssets"]
     .map((el) => {
       const metadata = assetsMetadata.find(
-        ({ contractAddress }) => contractAddress === el.contractAddress
+        ({ contractAddress, tokenId }) =>
+          contractAddress === el.contractAddress &&
+          (el.isFa2 ? tokenId === el.tokenId : true)
       )!;
       const asset = {
         contractAddress: el.contractAddress,

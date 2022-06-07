@@ -85,13 +85,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
 
   const preparedSupplyAssets = supplyAssets
     ? supplyAssets.userSupply.map((asset) => {
-        if (
-          new BigNumber(asset.supply).gte(
-            new BigNumber(10).pow(STANDARD_PRECISION)
-          )
-        ) {
-          borrowedYTokens.push(asset.assetId);
-        }
+        borrowedYTokens.push(asset.assetId);
         return {
           assetId: asset.assetId,
           supply: new BigNumber(asset.supply),
@@ -102,12 +96,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
 
   const preparedBorrowAssets = borrowAssets
     ? borrowAssets.userBorrow.map((asset) => {
-        if (
-          new BigNumber(asset.borrow).gte(
-            new BigNumber(10).pow(STANDARD_PRECISION)
-          ) &&
-          borrowedYTokens.find((el) => el === asset.assetId) === undefined
-        ) {
+        if (borrowedYTokens.find((el) => el === asset.assetId) === undefined) {
           borrowedYTokens.push(asset.assetId);
         }
         const assetInfo = assets.asset.find(
@@ -181,7 +170,9 @@ export const [AssetsProvider, useAssets] = constate(() => {
       : new BigNumber(0);
 
     const metadata = allAssetsMetadata.find(
-      ({ contractAddress }) => contractAddress === asset.contractAddress
+      ({ contractAddress, tokenId }) =>
+        contractAddress === asset.contractAddress &&
+        (asset.isFa2 ? tokenId === asset.tokenId : true)
     )!;
 
     return {

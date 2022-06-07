@@ -2,13 +2,14 @@ import React, { FC, useCallback, useMemo } from "react";
 import BigNumber from "bignumber.js";
 import { Cell, Row } from "react-table";
 
-import { STANDARD_PRECISION } from "constants/defaults";
+import { STANDARD_PRECISION, WTEZ_CONTRACT } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
 import { getSliceAssetName } from "utils/helpers/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { Table } from "components/ui/Table";
 import { AssetName } from "components/common/AssetName";
 import { PrettyAmount } from "components/common/PrettyAmount";
+import { AttentionText } from "components/common/AttentionText";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { BorrowTableDropdown } from "components/tables/TableDropdown";
 
@@ -32,14 +33,30 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
       {
         Header: "Asset",
         accessor: "asset",
-        Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) => (
-          <AssetName
-            theme="secondary"
-            asset={loading ? undefined : { ...value }}
-            loading={loading}
-            {...row.getToggleRowExpandedProps()}
-          />
-        ),
+        Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) =>
+          !loading && value.contractAddress === WTEZ_CONTRACT ? (
+            <AttentionText
+              text={
+                <AssetName
+                  theme="secondary"
+                  asset={loading ? undefined : { ...value }}
+                  loading={loading}
+                  {...row.getToggleRowExpandedProps()}
+                />
+              }
+              title="Wrapped XTZ"
+              description="Yupana.Finance lending protocol only works with FA1.2 and FA2 tokens. However, the protocol team developed the 1:1 Wrapped Tezos FA2 token. So you transfer XTZ to the protocol and the protocol automatically wraps your XTZ in Wrapped Tezos FA2 token and Supply it in the protocol. Withdraw, Borrow, and Repay occur in the same way. The user doesn't work directly with the wrap, Yupana does all the magic herself."
+              theme="secondary"
+              attentionSize="small"
+            />
+          ) : (
+            <AssetName
+              theme="secondary"
+              asset={loading ? undefined : { ...value }}
+              loading={loading}
+              {...row.getToggleRowExpandedProps()}
+            />
+          ),
       },
       {
         Header: "Borrow APY",
@@ -57,7 +74,9 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading
             ? "—"
-            : getPrettyPercent(convertUnits(value, STANDARD_PRECISION)),
+            : getPrettyPercent(
+                convertUnits(value, STANDARD_PRECISION).multipliedBy(1e2)
+              ),
       },
       {
         Header: "Liquidity",

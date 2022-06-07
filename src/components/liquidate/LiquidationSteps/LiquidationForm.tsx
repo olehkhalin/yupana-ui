@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
+import { WTEZ_CONTRACT } from "constants/defaults";
 import { AssetType } from "types/asset";
 import { liquidate } from "utils/dapp/methods/liquidate";
 import { useAccountPkh, useTezos } from "utils/dapp";
@@ -20,12 +21,14 @@ import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { Status, useTransactions } from "hooks/useTransactions";
+import { useBalance } from "hooks/useBalance";
 import { Button } from "components/ui/Button";
 import { Heading } from "components/common/Heading";
 import { NumberInput } from "components/common/NumberInput";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { FormTypes } from "components/modals/CreditProcessModal";
 import { PendingIcon } from "components/common/PendingIcon";
+import { ConnectWalletButton } from "components/common/ConnectWalletButton";
 
 import s from "./LiquidationSteps.module.sass";
 
@@ -115,10 +118,13 @@ export const LiquidationForm: FC = () => {
     };
 
     return {
+      pureBorrowedAsset: borrowedAssetObject.asset,
       borrowedAsset,
       collateralAsset,
     };
   }, [liquidateData]);
+
+  const { data: balanceData } = useBalance(preparedData?.pureBorrowedAsset);
 
   const { handleSubmit, control, formState, watch, setFocus, setValue } =
     useForm<FormTypes>({
@@ -203,8 +209,14 @@ export const LiquidationForm: FC = () => {
         max: preparedData
           ? preparedData.borrowedAsset.maxAmount
           : new BigNumber(0),
+        maxBalance: convertUnits(
+          balanceData ?? new BigNumber(0),
+          preparedData?.pureBorrowedAsset.decimals,
+          true
+        ).toString(),
+        customMaxMessage: "Amount is bigger then max liquidate amount",
       }),
-    [preparedData]
+    [balanceData, preparedData]
   );
 
   // Submit form
@@ -291,7 +303,11 @@ export const LiquidationForm: FC = () => {
       <Heading
         title={
           preparedData
-            ? `Amount to close in ${preparedData.borrowedAsset.name}:`
+            ? `Amount to close in ${
+                preparedData.borrowedAsset.address === WTEZ_CONTRACT
+                  ? "TEZ"
+                  : preparedData.borrowedAsset.name
+              }:`
             : "Complete all the previous steps first:"
         }
         className={s.heading}
@@ -321,22 +337,26 @@ export const LiquidationForm: FC = () => {
               />
             )}
           />
-          <Button
-            type="submit"
-            disabled={
-              !!amountErrorMessage ||
-              !preparedData ||
-              operationLoading ||
-              isTransactionLoading
-            }
-            className={cx(s.button, { [s.error]: amountErrorMessage })}
-          >
-            {operationLoading || isTransactionLoading ? (
-              <PendingIcon isTransparent />
-            ) : (
-              "Liquidate"
-            )}
-          </Button>
+          {accountPkh ? (
+            <Button
+              type="submit"
+              disabled={
+                !!amountErrorMessage ||
+                !preparedData ||
+                operationLoading ||
+                isTransactionLoading
+              }
+              className={cx(s.button, { [s.error]: amountErrorMessage })}
+            >
+              {operationLoading || isTransactionLoading ? (
+                <PendingIcon isTransparent />
+              ) : (
+                "Liquidate"
+              )}
+            </Button>
+          ) : (
+            <ConnectWalletButton actionT="supply" />
+          )}
         </form>
 
         <div className={s.recieveInfo}>

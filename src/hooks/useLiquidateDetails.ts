@@ -89,7 +89,9 @@ export const useLiquidateDetails = (
   const preparedBorrowedAssets = user.borrowedAssets.map(
     ({ asset, borrow }) => {
       const metadata = assetsMetadata.find(
-        ({ contractAddress }) => contractAddress === asset.contractAddress
+        ({ contractAddress, tokenId }) =>
+          contractAddress === asset.contractAddress &&
+          (asset.isFa2 ? tokenId === asset.tokenId : true)
       )!;
 
       const price = preparePrice(asset.ytoken, oraclePrices);
@@ -117,7 +119,9 @@ export const useLiquidateDetails = (
   const preparedColateralAssets = user.collateralAssets.map(
     ({ asset, supply }) => {
       const metadata = assetsMetadata.find(
-        ({ contractAddress }) => contractAddress === asset.contractAddress
+        ({ contractAddress, tokenId }) =>
+          contractAddress === asset.contractAddress &&
+          (asset.isFa2 ? tokenId === asset.tokenId : true)
       )!;
 
       const price = preparePrice(asset.ytoken, oraclePrices);

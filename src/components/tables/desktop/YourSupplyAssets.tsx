@@ -2,7 +2,7 @@ import React, { FC, useCallback, useMemo } from "react";
 import { Cell, Row } from "react-table";
 import BigNumber from "bignumber.js";
 
-import { STANDARD_PRECISION } from "constants/defaults";
+import { STANDARD_PRECISION, WTEZ_CONTRACT } from "constants/defaults";
 import { AssetsResponseData, AssetType } from "types/asset";
 import { convertUnits, getPrettyPercent } from "utils/helpers/amount";
 import { getSliceAssetName } from "utils/helpers/asset";
@@ -10,6 +10,7 @@ import { Table } from "components/ui/Table";
 import { PrettyAmount } from "components/common/PrettyAmount";
 import { AssetName } from "components/common/AssetName";
 import { CollateralSwitcher } from "components/common/CollateralSwitcher";
+import { AttentionText } from "components/common/AttentionText";
 import { DropdownArrow } from "components/tables/DropdownArrow";
 import { SupplyTableDropdown } from "components/tables/TableDropdown";
 
@@ -33,14 +34,29 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
       {
         Header: "Asset",
         accessor: "asset",
-        Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) => (
-          <AssetName
-            theme="primary"
-            asset={loading ? undefined : { ...value }}
-            loading={loading}
-            {...row.getToggleRowExpandedProps()}
-          />
-        ),
+        Cell: ({ cell: { value }, row }: { cell: Cell; row: Row }) =>
+          !loading && value.contractAddress === WTEZ_CONTRACT ? (
+            <AttentionText
+              text={
+                <AssetName
+                  theme="primary"
+                  asset={loading ? undefined : { ...value }}
+                  loading={loading}
+                  {...row.getToggleRowExpandedProps()}
+                />
+              }
+              title="Wrapped XTZ"
+              description="Yupana.Finance lending protocol only works with FA1.2 and FA2 tokens. However, the protocol team developed the 1:1 Wrapped Tezos FA2 token. So you transfer XTZ to the protocol and the protocol automatically wraps your XTZ in Wrapped Tezos FA2 token and Supply it in the protocol. Withdraw, Borrow, and Repay occur in the same way. The user doesn't work directly with the wrap, Yupana does all the magic herself."
+              attentionSize="small"
+            />
+          ) : (
+            <AssetName
+              theme="primary"
+              asset={loading ? undefined : { ...value }}
+              loading={loading}
+              {...row.getToggleRowExpandedProps()}
+            />
+          ),
       },
       {
         Header: "Supply APY",
