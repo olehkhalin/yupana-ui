@@ -78,13 +78,14 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
       {
         Header: "Borrowed",
         id: "borrow",
-        accessor: ({ borrow, asset }: AssetsResponseItem) =>
+        accessor: ({ borrowWithInterest, asset }: AssetsResponseItem) =>
           loading ? (
             "—"
           ) : (
             <PrettyAmount
               amount={convertUnits(
-                convertUnits(borrow, STANDARD_PRECISION) ?? new BigNumber(0),
+                convertUnits(borrowWithInterest, STANDARD_PRECISION) ??
+                  new BigNumber(0),
                 asset.decimals,
                 true
               )}
