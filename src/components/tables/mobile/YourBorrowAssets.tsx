@@ -81,7 +81,7 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
             ) : (
               <PrettyAmount
                 amount={convertUnits(
-                  convertUnits(el.borrow, STANDARD_PRECISION) ??
+                  convertUnits(el.borrowWithInterest, STANDARD_PRECISION) ??
                     new BigNumber(0),
                   el.asset.decimals,
                   true

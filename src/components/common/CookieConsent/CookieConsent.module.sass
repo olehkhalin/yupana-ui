@@ -26,6 +26,16 @@
   width: .75rem
   height: auto
 
+.link
+  color: $blue-neutral
+  text-decoration: underline
+  transition: color $animationTime, text-shadow $animationTime
+  &:hover
+    text-shadow: $blue-shadow-button
+  &:active
+    color: $white
+    text-shadow: none
+
 @include media('>Mphone')
   .root
     font-size: .875rem !important
