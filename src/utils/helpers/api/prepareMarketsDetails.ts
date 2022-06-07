@@ -108,10 +108,6 @@ export const prepareMarketsDetails = (
     STANDARD_PRECISION
   ).multipliedBy(1e2);
 
-  const chartUtilizationRate = Array.from({ length: 101 }, (_, i) => ({
-    x: i,
-    y: 70,
-  }));
   const chartSupply = el.possibleApys[0].supplyApys.map(
     (apy: string, i: number) => ({
       x: i,
@@ -124,6 +120,24 @@ export const prepareMarketsDetails = (
       y: +convertUnits(apy, STANDARD_PRECISION).multipliedBy(1e2),
     })
   );
+
+  const maxFromData = Math.max(
+    chartSupply[chartSupply.length - 1].y,
+    chartBorrow[chartBorrow.length - 1].y
+  );
+
+  const finalUtilRate =
+    maxFromData > 70
+      ? maxFromData > 100
+        ? +(maxFromData / 1e2).toFixed(0) * 100 + 100
+        : 100
+      : 70;
+
+  const chartUtilizationRate = Array.from({ length: 101 }, (_, i) => ({
+    x: i,
+    y: finalUtilRate,
+  }));
+
   const chartData = [
     {
       label: "Borrow APY",
@@ -138,6 +152,8 @@ export const prepareMarketsDetails = (
       data: chartUtilizationRate,
     },
   ];
+
+  console.log("chartData", chartData);
 
   return {
     asset,

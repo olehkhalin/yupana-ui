@@ -1,4 +1,5 @@
 import React, { FC, ReactNode, useCallback, useState } from "react";
+import classNames from "classnames";
 
 import {
   TEMPLE_WALLET_NOT_INSTALLED_MESSAGE,
@@ -19,7 +20,6 @@ import { ReactComponent as ConnectTerms } from "svg/ConnectTerms.svg";
 import { ReactComponent as ConnectWallet } from "svg/ConnectWallet.svg";
 
 import s from "./ConnectWalletModal.module.sass";
-import classNames from "classnames";
 
 enum WalletType {
   BEACON = "beacon",

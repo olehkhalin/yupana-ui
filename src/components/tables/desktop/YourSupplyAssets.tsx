@@ -100,14 +100,18 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           asset: AssetType;
           isCollateral: boolean;
           yToken: number;
+          collateralFactor: BigNumber;
         }) => ({
           asset: row.asset,
           yToken: row.yToken,
           isCollateral: row.isCollateral,
+          collateralFactor: row.collateralFactor,
         }),
         Cell: ({ cell: { value } }: { cell: Cell }) =>
           loading ? (
             "—"
+          ) : value.collateralFactor.eq(0) ? (
+            ""
           ) : (
             <CollateralSwitcher
               asset={value.asset}

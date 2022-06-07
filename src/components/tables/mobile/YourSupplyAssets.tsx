@@ -88,6 +88,8 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
             title: "Collateral",
             content: loading ? (
               "—"
+            ) : el.collateralFactor.eq(0) ? (
+              ""
             ) : (
               <CollateralSwitcher
                 asset={el.asset}
