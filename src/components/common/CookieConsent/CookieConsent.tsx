@@ -20,7 +20,7 @@ export const CookieConsent: FC = () => (
     By continuing to use this website you consent to use of third-party
     analytics cookies. You can learn more about cookies on this Website in our{" "}
     <a
-      href="https://yupana-finance.gitbook.io/yupana-document-portal/agreements/terms-of-use"
+      href="https://yupana-finance.gitbook.io/yupana-document-portal/agreements/cookie-policy"
       target="_blank"
       rel="noreferrer noopener"
       className={s.link}
