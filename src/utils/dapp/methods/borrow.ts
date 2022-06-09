@@ -1,9 +1,10 @@
-import { TezosToolkit } from "@taquito/taquito";
+import { ContractMethod, TezosToolkit, Wallet } from "@taquito/taquito";
 
+import { WTEZ_CONTRACT } from "constants/defaults";
 import { batchify } from "utils/dapp/helpers";
 import { commonMethods, CommonParams } from "./commonMethods";
 
-type BorrowParams = Omit<CommonParams, "tokenContract" | "tokenId">;
+type BorrowParams = Omit<CommonParams, "tokenId">;
 
 export const borrow = async (
   tezos: TezosToolkit,
@@ -28,9 +29,19 @@ export const borrow = async (
     method: mainMethod,
   });
 
+  const postMethods: ContractMethod<Wallet>[] = [];
+  if (params.tokenContract === WTEZ_CONTRACT) {
+    const wtezContract = await tezos.wallet.at(WTEZ_CONTRACT);
+    postMethods.push(
+      wtezContract.methods.burn(accountPkh, accountPkh, params.amount)
+    );
+  }
+
   batchify(
     batch,
-    methods.map((method) => method.toTransferParams({ storageLimit: 460 }))
+    [...methods, ...postMethods].map((method) =>
+      method.toTransferParams({ storageLimit: 460 })
+    )
   );
 
   return batch.send();

@@ -32,6 +32,7 @@ type BorrowDropdownProps = {
   yToken: number;
   asset: AssetType;
   borrow: BigNumber;
+  borrowInterestReserves: BigNumber;
   liquidity: BigNumber;
   tableName: string;
 } & TableDropdownProps;
@@ -40,6 +41,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   yToken,
   asset,
   borrow: borrowed,
+  borrowInterestReserves,
   liquidity,
   theme,
   tableName,
@@ -79,6 +81,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken],
+        tokenContract: asset.contractAddress,
         otherYTokens: borrowedYTokens,
         amount: inputAmount,
       };
@@ -189,11 +192,9 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken!],
         amount: isMaxAmount
-          ? inputAmount.plus(
-              new BigNumber(1).multipliedBy(
-                new BigNumber(10).pow(asset?.decimals ?? 0)
-              )
-            )
+          ? inputAmount
+              .multipliedBy(borrowInterestReserves)
+              .decimalPlaces(0, BigNumber.ROUND_UP)
           : inputAmount,
         otherYTokens: borrowedYTokens, // only borrowed tokens
         tokenContract: asset.contractAddress,
@@ -231,6 +232,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       addTransaction,
       allTransactions,
       asset,
+      borrowInterestReserves,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,

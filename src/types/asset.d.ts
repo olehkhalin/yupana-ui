@@ -30,6 +30,7 @@ export type AssetsResponseItem = {
   borrow: BigNumber;
   borrowIndex: BigNumber;
   borrowWithInterest: BigNumber;
+  borrowInterestReserves: BigNumber;
   supply: BigNumber;
   supplyWithInterest: BigNumber;
   isCollateral: boolean;

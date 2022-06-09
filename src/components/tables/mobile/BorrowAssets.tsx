@@ -96,6 +96,7 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
           yToken: el.yToken,
           asset: el.asset,
           borrowWithInterest: el.borrowWithInterest,
+          borrowInterestReserves: el.borrowInterestReserves,
           totalLiquid: el.totalLiquid,
         },
       })),
@@ -103,12 +104,19 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
   );
 
   const renderRowSubComponent = useCallback(
-    ({ yToken, asset, borrowWithInterest, totalLiquid }) => (
+    ({
+      yToken,
+      asset,
+      borrowWithInterest,
+      borrowInterestReserves,
+      totalLiquid,
+    }) => (
       <BorrowTableDropdown
         theme="secondary"
         yToken={yToken}
         asset={asset}
         borrow={borrowWithInterest}
+        borrowInterestReserves={borrowInterestReserves}
         liquidity={totalLiquid}
         tableName={tableName}
       />

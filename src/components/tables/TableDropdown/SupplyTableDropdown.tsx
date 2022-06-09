@@ -206,6 +206,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken],
         otherYTokens: borrowedYTokens,
+        tokenContract: asset.contractAddress,
         amount: inputAmount,
         isMaxAmount,
       };

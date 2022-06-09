@@ -153,8 +153,6 @@ export const prepareMarketsDetails = (
     },
   ];
 
-  console.log("chartData", chartData);
-
   return {
     asset,
     yAsset,
