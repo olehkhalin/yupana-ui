@@ -115,6 +115,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
           .multipliedBy(asset.borrowIndex)
           .div(new BigNumber(10).pow(STANDARD_PRECISION))
           .plus(asset.borrowIndex);
+        const borrowInterestReserves = borrowIndex.div(asset.borrowIndex);
         const borrowWithInterest = new BigNumber(asset.borrow)
           .multipliedBy(borrowIndex)
           .div(asset.borrowIndex);
@@ -124,6 +125,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
           borrow: new BigNumber(asset.borrow),
           borrowIndex: new BigNumber(asset.borrowIndex),
           borrowWithInterest,
+          borrowInterestReserves,
         };
       })
     : [];
@@ -206,6 +208,9 @@ export const [AssetsProvider, useAssets] = constate(() => {
         borrowAsset,
         "borrowWithInterest"
       ),
+      borrowInterestReserves: borrowAsset?.borrowInterestReserves
+        ? borrowAsset.borrowInterestReserves.minus(1).multipliedBy(10).plus(1)
+        : 1,
       supply: returnZeroIfNotExist(supplyAsset, "supply"),
       supplyWithInterest,
       isCollateral: supplyAsset ? supplyAsset.isCollateral : false,

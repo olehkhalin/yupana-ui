@@ -1,10 +1,11 @@
-import { TezosToolkit } from "@taquito/taquito";
+import { ContractMethod, TezosToolkit, Wallet } from "@taquito/taquito";
 import BigNumber from "bignumber.js";
 
+import { WTEZ_CONTRACT } from "constants/defaults";
 import { batchify } from "utils/dapp/helpers";
 import { commonMethods, CommonParams } from "./commonMethods";
 
-type WithdrawParams = Omit<CommonParams, "tokenContract" | "tokenId"> & {
+type WithdrawParams = Omit<CommonParams, "tokenId"> & {
   isMaxAmount?: boolean;
 };
 
@@ -22,6 +23,18 @@ export const withdraw = async (
     new BigNumber(1)
   );
 
+  const postMethods: ContractMethod<Wallet>[] = [];
+  if (params.tokenContract === WTEZ_CONTRACT) {
+    const wtezContract = await tezos.wallet.at(WTEZ_CONTRACT);
+    postMethods.push(
+      wtezContract.methods.burn(
+        accountPkh,
+        accountPkh,
+        isMaxAmount ? new BigNumber(0) : params.amount
+      )
+    );
+  }
+
   const batch = tezos.wallet.batch([]);
 
   const methods = await commonMethods(tezos, accountPkh, {
@@ -33,7 +46,9 @@ export const withdraw = async (
 
   batchify(
     batch,
-    methods.map((method) => method.toTransferParams({ storageLimit: 460 }))
+    [...methods, ...postMethods].map((method) =>
+      method.toTransferParams({ storageLimit: 460 })
+    )
   );
 
   return batch.send();
