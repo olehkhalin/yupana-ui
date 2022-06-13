@@ -2,6 +2,7 @@ import React, { FC, useCallback } from "react";
 import cx from "classnames";
 import BigNumber from "bignumber.js";
 
+import { WTEZ_CONTRACT } from "constants/defaults";
 import { events } from "constants/analytics";
 import { AssetType } from "types/asset";
 import { convertUnits } from "utils/helpers/amount";
@@ -32,7 +33,6 @@ type TableDropdownInnerProps = {
   secondButtonLabel: string;
   handleSecondButtonClick?: () => void;
   tableName: string;
-  withTez?: boolean;
 } & TableDropdownProps;
 
 const themeClasses = {
@@ -65,7 +65,6 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
   balanceAmount,
   balanceLoading,
   tableName,
-  withTez = false,
   className,
 }) => {
   const { trackEvent } = useAnalytics();
@@ -129,7 +128,9 @@ export const TableDropdown: FC<TableDropdownInnerProps> = ({
               amount={convertUnits(balanceAmount, asset.decimals, true)}
               theme={theme}
               tooltipTheme={theme}
-              currency={withTez ? "TEZ" : asset.symbol}
+              currency={
+                asset.contractAddress === WTEZ_CONTRACT ? "TEZ" : asset.symbol
+              }
               isMinified
               className={s.amount}
             />

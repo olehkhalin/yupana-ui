@@ -85,7 +85,6 @@ export const SupplyAssets: FC<SupplyAssetsProps> = ({
                 asset={el.asset}
                 isMinified
                 preloaderClassName={s.balance}
-                withTez
               />
             ),
           },

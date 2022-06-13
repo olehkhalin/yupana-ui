@@ -3,7 +3,7 @@ import { Controller, useForm } from "react-hook-form";
 import BigNumber from "bignumber.js";
 import cx from "classnames";
 
-import { ORACLE_PRICE_PRECISION, WTEZ_CONTRACT } from "constants/defaults";
+import { ORACLE_PRICE_PRECISION } from "constants/defaults";
 import { ModalActions } from "types/modal";
 import { AssetType } from "types/asset";
 import { AnalyticsEventCategory } from "utils/analytics/analytics-event";
@@ -201,14 +201,6 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const isBorrowTheme = theme === "secondary";
 
-  const isShowTez = useMemo(
-    () =>
-      (type === CreditProcessModalEnum.SUPPLY ||
-        type === CreditProcessModalEnum.REPAY) &&
-      asset.contractAddress === WTEZ_CONTRACT,
-    [asset.contractAddress, type]
-  );
-
   return (
     <Modal
       type={events.credit_process_modal.name[type] as unknown as ModalType}
@@ -242,7 +234,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
             ) : (
               <PrettyAmount
                 amount={convertUnits(pureMaxAmount, asset.decimals, true)}
-                currency={isShowTez ? "TEZ" : getSliceAssetName(asset)}
+                currency={getSliceAssetName(asset)}
                 tooltipTheme={theme}
               />
             )}
@@ -346,35 +338,27 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   );
 };
 
-const getModalLabels = (type: CreditProcessModalEnum, isWtez = false) => {
+const getModalLabels = (type: CreditProcessModalEnum) => {
   switch (type) {
     case CreditProcessModalEnum.SUPPLY:
       return {
         title: "Supply",
-        balanceLabel: isWtez
-          ? "Available to wrap and supply:"
-          : "Available to supply:",
+        balanceLabel: "Available to supply:",
       };
     case CreditProcessModalEnum.WITHDRAW:
       return {
         title: "Withdraw",
-        balanceLabel: isWtez
-          ? "Available to withdrawal and unwrapping:"
-          : "Available for withdrawal:",
+        balanceLabel: "Available for withdrawal:",
       };
     case CreditProcessModalEnum.BORROW:
       return {
         title: "Borrow",
-        balanceLabel: isWtez
-          ? "Available to borrow and unwrap"
-          : "Available to borrow:",
+        balanceLabel: "Available to borrow:",
       };
     default:
       return {
         title: "Repay",
-        balanceLabel: isWtez
-          ? "Available for wrapping and repayment:"
-          : "Available for repayment:",
+        balanceLabel: "Available for repayment:",
       };
   }
 };
@@ -424,7 +408,7 @@ export const CreditProcessModal = () => {
       oraclePrice={oraclePrice}
       liquidity={liquidity}
       availableToWithdraw={availableToWithdraw}
-      {...getModalLabels(type, asset.contractAddress === WTEZ_CONTRACT)}
+      {...getModalLabels(type)}
     />
   );
 };
