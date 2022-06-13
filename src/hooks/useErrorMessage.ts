@@ -61,6 +61,12 @@ export const useErrorMessage = ({
     [type, amount, walletBalance, asset.decimals]
   );
 
+  const amountGTTenMill = useMemo(() => {
+    return type === CreditProcessModalEnum.SUPPLY && amount && amount.gt(10e6)
+      ? "Max amount to supply is 10M"
+      : undefined;
+  }, [type, amount]);
+
   const checkValueInContract = useCallback(
     (modalType: CreditProcessModalEnum, value: BigNumber | undefined) => {
       const val = value ?? 0;
@@ -93,8 +99,16 @@ export const useErrorMessage = ({
 
   const errorMessage = useMemo(
     () =>
-      amountErrorMessage || amountGTBalance || insufficientContractBalanceError,
-    [amountErrorMessage, amountGTBalance, insufficientContractBalanceError]
+      amountErrorMessage ||
+      amountGTBalance ||
+      insufficientContractBalanceError ||
+      amountGTTenMill,
+    [
+      amountErrorMessage,
+      amountGTBalance,
+      amountGTTenMill,
+      insufficientContractBalanceError,
+    ]
   );
 
   return {
