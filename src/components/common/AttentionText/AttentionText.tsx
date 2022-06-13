@@ -18,7 +18,7 @@ export enum TooltipCategoryEnum {
 
 export type ModalContent = {
   title?: string;
-  description?: string;
+  description?: ReactNode;
   buttonText?: string;
 };
 

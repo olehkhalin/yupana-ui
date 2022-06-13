@@ -69,15 +69,16 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
     isConvertable && convertableCurrency === CurrencyEnum.XTZ;
 
   if (isShownSimpleTooltip || isShownDecTooltip) {
-    let tooltipAmount = "";
+    let tooltipAmount = <></>;
 
-    let childrenAmount = "";
+    let childrenAmount = <></>;
 
     if (isShownSimpleTooltip) {
       tooltipAmount = getPrettyAmount({
         value: convertedAmount,
         currency: finalCurrency,
         dec: 1e24,
+        isMinified: false,
       });
 
       childrenAmount = getPrettyAmount({
@@ -91,6 +92,7 @@ export const PrettyAmount: FC<PrettyAmountProps> = ({
       tooltipAmount = getPrettyAmount({
         value: convertedAmount,
         currency: finalCurrency,
+        isMinified: false,
       });
 
       childrenAmount = getPrettyAmount({
