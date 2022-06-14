@@ -1,5 +1,6 @@
 import { AssetType } from "types/asset";
 
+import { WTEZ_CONTRACT } from "constants/defaults";
 import { shortize } from "./getShortize";
 
 export const getAssetName = (
@@ -8,18 +9,22 @@ export const getAssetName = (
   firstName?: boolean
 ): string => {
   if (name && symbol && fullName) {
+    if (contractAddress === WTEZ_CONTRACT) {
+      return "Tezos (TEZ)";
+    }
     if (name) {
       return `${name} (${symbol})`;
-    } else {
-      return symbol;
     }
+    return symbol;
   }
-  return (
-    (firstName ? name : symbol) ||
-    (firstName ? symbol : name) ||
-    (`${
-      contractAddress !== "tez" ? shortize(contractAddress) : contractAddress
-    }${tokenId ? `_${tokenId}` : ""}` ??
-      "Asset")
-  );
+  return contractAddress === WTEZ_CONTRACT
+    ? "TEZ"
+    : (firstName ? name : symbol) ||
+        (firstName ? symbol : name) ||
+        (`${
+          contractAddress !== "tez"
+            ? shortize(contractAddress)
+            : contractAddress
+        }${tokenId ? `_${tokenId}` : ""}` ??
+          "Asset");
 };
