@@ -201,11 +201,23 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
 
   const isBorrowTheme = theme === "secondary";
 
+  const handleModalRequestClose = useCallback(() => {
+    trackEvent(
+      events.credit_process_modal.close_popup_type[type],
+      events.credit_process_modal.name[type] as AnalyticsEventCategory,
+      {
+        asset: getAssetName(asset),
+      }
+    );
+
+    onRequestClose();
+  }, [asset, onRequestClose, trackEvent, type]);
+
   return (
     <Modal
       type={events.credit_process_modal.name[type] as unknown as ModalType}
       isOpen={isOpen}
-      onRequestClose={onRequestClose}
+      onRequestClose={handleModalRequestClose}
       innerClassName={s.inner}
       theme={theme}
       className={cx(s.root, { [s.borrow]: isBorrowTheme })}
