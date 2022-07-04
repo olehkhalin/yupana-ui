@@ -107,7 +107,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
         Header: () => <span className={s.yellow}>Borrowed asset</span>,
         accessor: "borrowedAssetsNames",
         Cell: ({ cell: { value } }: { cell: Cell }) => (
-          <span className={s.yellow}>
+          <span className={cx(s.yellow, s.borrowedAssets)}>
             {loading || !value ? "—" : value.join(", ")}
           </span>
         ),
