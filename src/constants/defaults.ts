@@ -5,7 +5,8 @@ export type NetworkType =
   | "florencenet"
   | "granadanet"
   | "sandbox"
-  | "hangzhounet";
+  | "hangzhounet"
+  | "ithaca";
 export const APP_NAME = process.env.REACT_APP_NAME!;
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const LAST_USED_ACCOUNT_KEY = "lastUsedAccount";
