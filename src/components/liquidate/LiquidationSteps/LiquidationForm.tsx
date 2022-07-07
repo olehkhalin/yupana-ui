@@ -16,7 +16,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useWiderThanMphone } from "utils/helpers";
-import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
+import { contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
@@ -38,7 +38,6 @@ export const LiquidationForm: FC = () => {
   const isWiderThanMphone = useWiderThanMphone();
   const { updateToast } = useUpdateToast();
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
-  const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { addTransaction, isTransactionLoading } = useTransactions();
 
   const tezos = useTezos()!;
@@ -219,6 +218,23 @@ export const LiquidationForm: FC = () => {
     [balanceData, preparedData]
   );
 
+  const otherYTokens = useMemo(() => {
+    if (!liquidateAllData) {
+      return [];
+    }
+    const finalArr = liquidateAllData.borrowedAssets.map(
+      ({ yToken }) => yToken
+    );
+
+    liquidateAllData.collateralAssets.forEach(({ yToken }) => {
+      if (finalArr.indexOf(yToken) === -1) {
+        finalArr.push(yToken);
+      }
+    });
+
+    return finalArr;
+  }, [liquidateAllData]);
+
   // Submit form
   const onSubmit = useCallback(
     async ({ amount: inputAmount }: FormTypes) => {
@@ -228,7 +244,7 @@ export const LiquidationForm: FC = () => {
           const params = {
             fabricaContractAddress: fabrica,
             proxyContractAddress: priceFeedProxy,
-            otherYTokens: borrowedYTokens,
+            otherYTokens,
             borrowToken: preparedData.borrowedAsset.yToken,
             collateralToken: preparedData.collateralAsset.yToken,
             tokenContract: preparedData.borrowedAsset.address,
@@ -275,13 +291,13 @@ export const LiquidationForm: FC = () => {
     [
       accountPkh,
       addTransaction,
-      borrowedYTokens,
       borrowerAddress,
       fabrica,
       preparedData,
       priceFeedProxy,
       tezos,
       updateToast,
+      otherYTokens,
     ]
   );
 
