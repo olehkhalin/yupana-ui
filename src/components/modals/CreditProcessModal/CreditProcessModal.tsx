@@ -50,7 +50,10 @@ type CreditProcessModalInnerProps = {
   borrowLimit: BigNumber;
   borrowLimitUsed: BigNumber;
   dynamicBorrowLimitFunc?: (input: BigNumber) => BigNumber;
-  dynamicBorrowLimitUsedFunc: (input: BigNumber) => BigNumber;
+  dynamicBorrowLimitUsedFunc: (
+    input: BigNumber,
+    isMaxAmount?: boolean
+  ) => BigNumber;
   title: string;
   balanceLabel: string;
   maxAmount: BigNumber;
@@ -126,8 +129,28 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     if (dynamicBorrowLimitFunc) {
       setDynamicBorrowLimit(dynamicBorrowLimitFunc(amount));
     }
-    setDynamicBorrowLimitUsed(dynamicBorrowLimitUsedFunc(amount));
-  }, [amount, dynamicBorrowLimitFunc, dynamicBorrowLimitUsedFunc]);
+
+    const mutezAmount = new BigNumber(+convertUnits(amount, -asset.decimals));
+    const isMaxAmount =
+      mutezAmount.eq(pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)) ||
+      new BigNumber(+mutezAmount).eq(
+        new BigNumber(+pureMaxAmount).decimalPlaces(0, BigNumber.ROUND_DOWN)
+      );
+
+    setDynamicBorrowLimitUsed(
+      dynamicBorrowLimitUsedFunc(
+        amount,
+        type === CreditProcessModalEnum.REPAY ? isMaxAmount : undefined
+      )
+    );
+  }, [
+    amount,
+    asset.decimals,
+    dynamicBorrowLimitFunc,
+    dynamicBorrowLimitUsedFunc,
+    pureMaxAmount,
+    type,
+  ]);
 
   const validateAmount = useMemo(
     () =>
@@ -154,12 +177,15 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
       const mutezAmount = new BigNumber(
-        convertUnits(inputData, -asset.decimals)
+        +convertUnits(inputData, -asset.decimals)
       );
 
-      const isMaxAmount = mutezAmount.eq(
-        pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
-      );
+      const isMaxAmount =
+        mutezAmount.eq(pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)) ||
+        new BigNumber(+mutezAmount).eq(
+          new BigNumber(+pureMaxAmount).decimalPlaces(0, BigNumber.ROUND_DOWN)
+        );
+
       try {
         setOperationLoading(true);
         await onSubmit(mutezAmount, isMaxAmount);

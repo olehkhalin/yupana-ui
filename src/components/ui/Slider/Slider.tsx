@@ -79,7 +79,12 @@ export const Slider: FC<SliderProps> = ({
 
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (!maxValue.eq(0)) {
-      onChange(new BigNumber(event.target.value));
+      onChange(
+        new BigNumber(event.target.value)
+          .multipliedBy(maxValue)
+          .div(100)
+          .decimalPlaces(decimals, BigNumber.ROUND_DOWN)
+      );
     }
   };
 
@@ -90,10 +95,14 @@ export const Slider: FC<SliderProps> = ({
       </div>
       <input
         type="range"
-        step={1 / 10 ** decimals}
-        value={value || 0}
+        step={0.01}
+        value={
+          value
+            ? new BigNumber(value).multipliedBy(100).div(maxValue).toFixed(2)
+            : 0
+        }
         className={cx(s.slider, themeClasses[theme], className)}
-        max={+(maxValue ?? 1)}
+        max={100}
         onChange={handleInputChange}
         {...props}
       />

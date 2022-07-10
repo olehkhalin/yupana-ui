@@ -10,7 +10,12 @@ import {
 } from "generated/graphql";
 import { UseAssetsResponse } from "types/asset";
 import { useAccountPkh } from "utils/dapp";
-import { BorrowedYTokensType, borrowedYTokensVar } from "utils/cache";
+import { convertUnits } from "utils/helpers/amount";
+import {
+  BorrowedYTokensType,
+  borrowedYTokensVar,
+  trulyBorrowedYTokensVar,
+} from "utils/cache";
 
 import { useAssetsMetadata } from "./useAssetsMetadata";
 
@@ -82,6 +87,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
   }
 
   const borrowedYTokens: BorrowedYTokensType = [];
+  const trulyBorrowedYTokens: BorrowedYTokensType = [];
 
   const preparedSupplyAssets = supplyAssets
     ? supplyAssets.userSupply.map((asset) => {
@@ -96,6 +102,9 @@ export const [AssetsProvider, useAssets] = constate(() => {
 
   const preparedBorrowAssets = borrowAssets
     ? borrowAssets.userBorrow.map((asset) => {
+        if (convertUnits(asset.borrow, STANDARD_PRECISION).gt(1)) {
+          trulyBorrowedYTokens.push(asset.assetId);
+        }
         if (borrowedYTokens.find((el) => el === asset.assetId) === undefined) {
           borrowedYTokens.push(asset.assetId);
         }
@@ -145,6 +154,7 @@ export const [AssetsProvider, useAssets] = constate(() => {
     : [];
 
   borrowedYTokensVar(borrowedYTokens);
+  trulyBorrowedYTokensVar(trulyBorrowedYTokens);
 
   const finalAssets = assets.asset.map((asset) => {
     const borrowAsset = preparedBorrowAssets.find(

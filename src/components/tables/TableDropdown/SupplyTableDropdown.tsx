@@ -328,7 +328,8 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     setCreditProcessModalData({
       type: CreditProcessModalEnum.WITHDRAW,
-      maxAmount: maxAmount.lt(1) ? new BigNumber(0) : maxAmount,
+      maxAmount: maxAmount.lt(2) ? new BigNumber(0) : maxAmount.minus(1), // For that cases when
+      // there are any amount in borrow and user is going to withdraw max amount
       asset: asset,
       availableToWithdraw,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),

@@ -82,9 +82,10 @@ export const LiquidationForm: FC = () => {
 
     let maxAmount: BigNumber;
     if (
-      maxLiquidateUsd <
-      amountOfSuppliedUsd.plus(
-        amountOfSuppliedUsd.multipliedBy(new BigNumber(1).minus(liquidBonus))
+      maxLiquidateUsd.lt(
+        amountOfSuppliedUsd.plus(
+          amountOfSuppliedUsd.multipliedBy(liquidBonus.minus(1))
+        )
       )
     ) {
       maxAmount = convertUnits(
@@ -92,8 +93,8 @@ export const LiquidationForm: FC = () => {
         -borrowedAssetObject.asset.decimals
       );
     } else {
-      maxAmount = collateralAssetObject.amountOfSupplied.div(
-        liquidBonus.minus(1).plus(1)
+      maxAmount = amountOfSuppliedUsd.minus(
+        amountOfSuppliedUsd.div(liquidBonus).multipliedBy(liquidBonus.minus(1))
       );
     }
 
