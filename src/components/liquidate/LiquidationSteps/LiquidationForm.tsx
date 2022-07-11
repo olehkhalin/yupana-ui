@@ -92,15 +92,25 @@ export const LiquidationForm: FC = () => {
         )
       )
     ) {
-      maxAmount = maxLiquidateUsd.div(borrowedAssetObject.price);
+      maxAmount = maxLiquidateUsd
+        .div(borrowedAssetObject.price)
+        .decimalPlaces(
+          borrowedAssetObject.asset.decimals,
+          BigNumber.ROUND_DOWN
+        );
     } else {
-      maxAmount = amountOfSuppliedUsd.minus(
-        amountOfSuppliedUsd
-          .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
-          .multipliedBy(
-            liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
-          )
-      );
+      maxAmount = amountOfSuppliedUsd
+        .minus(
+          amountOfSuppliedUsd
+            .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
+            .multipliedBy(
+              liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
+            )
+        )
+        .decimalPlaces(
+          borrowedAssetObject.asset.decimals,
+          BigNumber.ROUND_DOWN
+        );
     }
 
     const borrowedAsset = {
