@@ -134,7 +134,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           if (new BigNumber(maxValue.toFixed(decimals)).eq(0)) {
             maxValueToDisplay = "0";
           } else {
-            maxValueToDisplay = new BigNumber(+maxValue).toFixed(decimals);
+            maxValueToDisplay = maxValue.toFixed(decimals);
           }
         }
 
@@ -165,8 +165,8 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
 
     const handleSliderChange = useCallback(
       (val: BigNumber) => {
-        onChange?.(new BigNumber(new BigNumber(+val).toFixed(decimals)));
-        setLocalValue(new BigNumber(+val).toFixed(decimals));
+        onChange?.(new BigNumber(val.toFixed(decimals)));
+        setLocalValue(val.toFixed(decimals));
         setValueInBaseCurrency(convertValueToCurrency(val, exchangeRate));
       },
       [decimals, exchangeRate, onChange]

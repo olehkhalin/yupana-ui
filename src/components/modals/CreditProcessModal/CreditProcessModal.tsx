@@ -131,11 +131,9 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     }
 
     const mutezAmount = new BigNumber(+convertUnits(amount, -asset.decimals));
-    const isMaxAmount =
-      mutezAmount.eq(pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)) ||
-      new BigNumber(+mutezAmount).eq(
-        new BigNumber(+pureMaxAmount).decimalPlaces(0, BigNumber.ROUND_DOWN)
-      );
+    const isMaxAmount = mutezAmount.eq(
+      pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
+    );
 
     setDynamicBorrowLimitUsed(
       dynamicBorrowLimitUsedFunc(
@@ -177,14 +175,12 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   const onSubmitInner = useCallback(
     async ({ amount: inputData }: FormTypes) => {
       const mutezAmount = new BigNumber(
-        +convertUnits(inputData, -asset.decimals)
+        convertUnits(inputData, -asset.decimals)
       );
 
-      const isMaxAmount =
-        mutezAmount.eq(pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)) ||
-        new BigNumber(+mutezAmount).eq(
-          new BigNumber(+pureMaxAmount).decimalPlaces(0, BigNumber.ROUND_DOWN)
-        );
+      const isMaxAmount = mutezAmount.eq(
+        pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
+      );
 
       try {
         setOperationLoading(true);
