@@ -126,12 +126,17 @@ export const useLiquidateDetails = (
 
       const price = preparePrice(asset.ytoken, oraclePrices);
       const amountOfSupplied = convertUnits(supply, STANDARD_PRECISION);
+      const liquidReserveRate = convertUnits(
+        asset.liquidReserveRate,
+        STANDARD_PRECISION
+      );
 
       return {
         yToken: asset.ytoken,
         asset: metadata,
         price,
         amountOfSupplied,
+        liquidReserveRate,
       };
     }
   );

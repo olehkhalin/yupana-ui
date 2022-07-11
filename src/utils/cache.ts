@@ -50,6 +50,10 @@ export const borrowedYTokensVar = makeVar<BorrowedYTokensType>(
   borrowedYTokensInitial
 );
 
+export const trulyBorrowedYTokensVar = makeVar<BorrowedYTokensType>(
+  borrowedYTokensInitial
+);
+
 export const cache = new InMemoryCache({
   typePolicies: {
     Query: {
@@ -67,6 +71,11 @@ export const cache = new InMemoryCache({
         borrowedYTokens: {
           read() {
             return borrowedYTokensVar();
+          },
+        },
+        trulyBorrowedYTokens: {
+          read() {
+            return trulyBorrowedYTokensVar();
           },
         },
       },

@@ -55,12 +55,8 @@ export const [CurrencyProvider, useCurrency] = constate(() => {
   useOnBlock(tezos, [mutate]);
 
   useEffect(() => {
-    if (
-      allTezosData &&
-      allTezosData.value &&
-      allTezosData.value.computedPrice
-    ) {
-      setTezosPrice(new BigNumber(allTezosData.value.computedPrice).div(1e6));
+    if (allTezosData && allTezosData.usd) {
+      setTezosPrice(new BigNumber(allTezosData.usd));
     }
   }, [allTezosData]);
 

@@ -20,6 +20,7 @@ import {
   borrowedYTokensVar,
   contractAddressesVar,
   globalVariablesVar,
+  trulyBorrowedYTokensVar,
 } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { borrow, repay } from "utils/dapp/methods";
@@ -52,6 +53,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const { maxCollateral, outstandingBorrow } =
     useReactiveVar(globalVariablesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
+  const trulyBorrowedYTokens = useReactiveVar(trulyBorrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { addTransaction, updateTransactionStatus, allTransactions } =
@@ -256,7 +258,14 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
         : outstandingBorrow.div(maxCollateral).multipliedBy(1e2),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+      dynamicBorrowLimitUsedFunc: (input: BigNumber, isMaxAmount?: boolean) => {
+        if (
+          isMaxAmount &&
+          trulyBorrowedYTokens.filter((yTok) => yTok !== yToken).length === 0
+        ) {
+          return new BigNumber(0);
+        }
+
         if (maxCollateral.eq(0)) {
           return new BigNumber(0);
         }
@@ -287,6 +296,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     outstandingBorrow,
     oraclePrice,
     handleRepaySubmit,
+    trulyBorrowedYTokens,
+    yToken,
   ]);
 
   return (

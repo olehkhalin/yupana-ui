@@ -119,6 +119,7 @@ export type Asset = {
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   isFa2: Scalars['Boolean'];
   lastPrice: Scalars['numeric'];
+  liquidReserveRate: Scalars['numeric'];
   /** An array relationship */
   liquidatedAsset: Array<Liquidate_Tx>;
   /** An aggregate relationship */
@@ -444,6 +445,7 @@ export type Asset_Avg_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -463,6 +465,7 @@ export type Asset_Avg_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -497,6 +500,7 @@ export type Asset_Bool_Exp = {
   interestUpdateTime?: InputMaybe<Timestamptz_Comparison_Exp>;
   isFa2?: InputMaybe<Boolean_Comparison_Exp>;
   lastPrice?: InputMaybe<Numeric_Comparison_Exp>;
+  liquidReserveRate?: InputMaybe<Numeric_Comparison_Exp>;
   liquidatedAsset?: InputMaybe<Liquidate_Tx_Bool_Exp>;
   liquidationThreshold?: InputMaybe<Numeric_Comparison_Exp>;
   possibleApys?: InputMaybe<Possible_Apys_Bool_Exp>;
@@ -525,6 +529,7 @@ export type Asset_Max_Fields = {
   interestModelId?: Maybe<Scalars['String']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
+  liquidReserveRate?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
   reserves?: Maybe<Scalars['numeric']>;
@@ -547,6 +552,7 @@ export type Asset_Max_Order_By = {
   interestModelId?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -570,6 +576,7 @@ export type Asset_Min_Fields = {
   interestModelId?: Maybe<Scalars['String']>;
   interestUpdateTime?: Maybe<Scalars['timestamptz']>;
   lastPrice?: Maybe<Scalars['numeric']>;
+  liquidReserveRate?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
   reserves?: Maybe<Scalars['numeric']>;
@@ -592,6 +599,7 @@ export type Asset_Min_Order_By = {
   interestModelId?: InputMaybe<Order_By>;
   interestUpdateTime?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -623,6 +631,7 @@ export type Asset_Order_By = {
   interestUpdateTime?: InputMaybe<Order_By>;
   isFa2?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidatedAsset_aggregate?: InputMaybe<Liquidate_Tx_Aggregate_Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   possibleApys_aggregate?: InputMaybe<Possible_Apys_Aggregate_Order_By>;
@@ -904,6 +913,8 @@ export enum Asset_Select_Column {
   /** column name */
   LastPrice = 'lastPrice',
   /** column name */
+  LiquidReserveRate = 'liquidReserveRate',
+  /** column name */
   LiquidationThreshold = 'liquidationThreshold',
   /** column name */
   ReserveFactor = 'reserveFactor',
@@ -933,6 +944,7 @@ export type Asset_Stddev_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -952,6 +964,7 @@ export type Asset_Stddev_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -972,6 +985,7 @@ export type Asset_Stddev_Pop_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -991,6 +1005,7 @@ export type Asset_Stddev_Pop_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1011,6 +1026,7 @@ export type Asset_Stddev_Samp_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -1030,6 +1046,7 @@ export type Asset_Stddev_Samp_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1050,6 +1067,7 @@ export type Asset_Sum_Fields = {
   dailyBorrow?: Maybe<Scalars['numeric']>;
   dailySupply?: Maybe<Scalars['numeric']>;
   lastPrice?: Maybe<Scalars['numeric']>;
+  liquidReserveRate?: Maybe<Scalars['numeric']>;
   liquidationThreshold?: Maybe<Scalars['numeric']>;
   reserveFactor?: Maybe<Scalars['numeric']>;
   reserves?: Maybe<Scalars['numeric']>;
@@ -1069,6 +1087,7 @@ export type Asset_Sum_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1089,6 +1108,7 @@ export type Asset_Var_Pop_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -1108,6 +1128,7 @@ export type Asset_Var_Pop_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1128,6 +1149,7 @@ export type Asset_Var_Samp_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -1147,6 +1169,7 @@ export type Asset_Var_Samp_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1167,6 +1190,7 @@ export type Asset_Variance_Fields = {
   dailyBorrow?: Maybe<Scalars['Float']>;
   dailySupply?: Maybe<Scalars['Float']>;
   lastPrice?: Maybe<Scalars['Float']>;
+  liquidReserveRate?: Maybe<Scalars['Float']>;
   liquidationThreshold?: Maybe<Scalars['Float']>;
   reserveFactor?: Maybe<Scalars['Float']>;
   reserves?: Maybe<Scalars['Float']>;
@@ -1186,6 +1210,7 @@ export type Asset_Variance_Order_By = {
   dailyBorrow?: InputMaybe<Order_By>;
   dailySupply?: InputMaybe<Order_By>;
   lastPrice?: InputMaybe<Order_By>;
+  liquidReserveRate?: InputMaybe<Order_By>;
   liquidationThreshold?: InputMaybe<Order_By>;
   reserveFactor?: InputMaybe<Order_By>;
   reserves?: InputMaybe<Order_By>;
@@ -1946,6 +1971,175 @@ export type Dipdup_Contract_Max_Fields = {
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
+/** columns and relationships of "dipdup_contract_metadata" */
+export type Dipdup_Contract_Metadata = {
+  __typename?: 'dipdup_contract_metadata';
+  contract: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  metadata: Scalars['jsonb'];
+  network: Scalars['String'];
+  updateId: Scalars['Int'];
+  updatedAt: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "dipdup_contract_metadata" */
+export type Dipdup_Contract_MetadataMetadataArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "dipdup_contract_metadata" */
+export type Dipdup_Contract_Metadata_Aggregate = {
+  __typename?: 'dipdup_contract_metadata_aggregate';
+  aggregate?: Maybe<Dipdup_Contract_Metadata_Aggregate_Fields>;
+  nodes: Array<Dipdup_Contract_Metadata>;
+};
+
+/** aggregate fields of "dipdup_contract_metadata" */
+export type Dipdup_Contract_Metadata_Aggregate_Fields = {
+  __typename?: 'dipdup_contract_metadata_aggregate_fields';
+  avg?: Maybe<Dipdup_Contract_Metadata_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Dipdup_Contract_Metadata_Max_Fields>;
+  min?: Maybe<Dipdup_Contract_Metadata_Min_Fields>;
+  stddev?: Maybe<Dipdup_Contract_Metadata_Stddev_Fields>;
+  stddev_pop?: Maybe<Dipdup_Contract_Metadata_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Dipdup_Contract_Metadata_Stddev_Samp_Fields>;
+  sum?: Maybe<Dipdup_Contract_Metadata_Sum_Fields>;
+  var_pop?: Maybe<Dipdup_Contract_Metadata_Var_Pop_Fields>;
+  var_samp?: Maybe<Dipdup_Contract_Metadata_Var_Samp_Fields>;
+  variance?: Maybe<Dipdup_Contract_Metadata_Variance_Fields>;
+};
+
+
+/** aggregate fields of "dipdup_contract_metadata" */
+export type Dipdup_Contract_Metadata_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Dipdup_Contract_Metadata_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Dipdup_Contract_Metadata_Avg_Fields = {
+  __typename?: 'dipdup_contract_metadata_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "dipdup_contract_metadata". All fields are combined with a logical 'AND'. */
+export type Dipdup_Contract_Metadata_Bool_Exp = {
+  _and?: InputMaybe<Array<Dipdup_Contract_Metadata_Bool_Exp>>;
+  _not?: InputMaybe<Dipdup_Contract_Metadata_Bool_Exp>;
+  _or?: InputMaybe<Array<Dipdup_Contract_Metadata_Bool_Exp>>;
+  contract?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  metadata?: InputMaybe<Jsonb_Comparison_Exp>;
+  network?: InputMaybe<String_Comparison_Exp>;
+  updateId?: InputMaybe<Int_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Dipdup_Contract_Metadata_Max_Fields = {
+  __typename?: 'dipdup_contract_metadata_max_fields';
+  contract?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  network?: Maybe<Scalars['String']>;
+  updateId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Dipdup_Contract_Metadata_Min_Fields = {
+  __typename?: 'dipdup_contract_metadata_min_fields';
+  contract?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  network?: Maybe<Scalars['String']>;
+  updateId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** Ordering options when selecting data from "dipdup_contract_metadata". */
+export type Dipdup_Contract_Metadata_Order_By = {
+  contract?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  metadata?: InputMaybe<Order_By>;
+  network?: InputMaybe<Order_By>;
+  updateId?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "dipdup_contract_metadata" */
+export enum Dipdup_Contract_Metadata_Select_Column {
+  /** column name */
+  Contract = 'contract',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Metadata = 'metadata',
+  /** column name */
+  Network = 'network',
+  /** column name */
+  UpdateId = 'updateId',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** aggregate stddev on columns */
+export type Dipdup_Contract_Metadata_Stddev_Fields = {
+  __typename?: 'dipdup_contract_metadata_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Dipdup_Contract_Metadata_Stddev_Pop_Fields = {
+  __typename?: 'dipdup_contract_metadata_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Dipdup_Contract_Metadata_Stddev_Samp_Fields = {
+  __typename?: 'dipdup_contract_metadata_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Dipdup_Contract_Metadata_Sum_Fields = {
+  __typename?: 'dipdup_contract_metadata_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  updateId?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate var_pop on columns */
+export type Dipdup_Contract_Metadata_Var_Pop_Fields = {
+  __typename?: 'dipdup_contract_metadata_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Dipdup_Contract_Metadata_Var_Samp_Fields = {
+  __typename?: 'dipdup_contract_metadata_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Dipdup_Contract_Metadata_Variance_Fields = {
+  __typename?: 'dipdup_contract_metadata_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
 /** aggregate min on columns */
 export type Dipdup_Contract_Min_Fields = {
   __typename?: 'dipdup_contract_min_fields';
@@ -2206,7 +2400,7 @@ export type Dipdup_Index = {
   status: Scalars['String'];
   template?: Maybe<Scalars['String']>;
   templateValues?: Maybe<Scalars['jsonb']>;
-  /** operation: operation\nbig_map: big_map\nhead: head */
+  /** operation: operation\nbig_map: big_map\nhead: head\ntoken_transfer: token_transfer */
   type: Scalars['String'];
   updatedAt: Scalars['timestamptz'];
 };
@@ -2279,7 +2473,7 @@ export type Dipdup_Index_Max_Fields = {
   /** NEW: NEW\nSYNCING: SYNCING\nREALTIME: REALTIME\nROLLBACK: ROLLBACK\nONESHOT: ONESHOT */
   status?: Maybe<Scalars['String']>;
   template?: Maybe<Scalars['String']>;
-  /** operation: operation\nbig_map: big_map\nhead: head */
+  /** operation: operation\nbig_map: big_map\nhead: head\ntoken_transfer: token_transfer */
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -2294,7 +2488,7 @@ export type Dipdup_Index_Min_Fields = {
   /** NEW: NEW\nSYNCING: SYNCING\nREALTIME: REALTIME\nROLLBACK: ROLLBACK\nONESHOT: ONESHOT */
   status?: Maybe<Scalars['String']>;
   template?: Maybe<Scalars['String']>;
-  /** operation: operation\nbig_map: big_map\nhead: head */
+  /** operation: operation\nbig_map: big_map\nhead: head\ntoken_transfer: token_transfer */
   type?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -2382,7 +2576,7 @@ export type Dipdup_Schema = {
   createdAt: Scalars['timestamptz'];
   hash: Scalars['String'];
   name: Scalars['String'];
-  /** MANUAL: triggered manually from callback\nMIGRATION: applied migration requires reindexing\nROLLBACK: reorg message received and can't be processed\nCONFIG_HASH_MISMATCH: index config has been modified\nSCHEMA_HASH_MISMATCH: database schema has been modified\nBLOCK_HASH_MISMATCH: block hash mismatch, missed rollback when DipDup was stopped\nMISSING_INDEX_TEMPLATE: index template is missing, can't restore index state */
+  /** manual: manual\nmigration: migration\nrollback: rollback\nconfig_modified: config_modified\nschema_modified: schema_modified */
   reindex?: Maybe<Scalars['String']>;
   updatedAt: Scalars['timestamptz'];
 };
@@ -2427,7 +2621,7 @@ export type Dipdup_Schema_Max_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   hash?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  /** MANUAL: triggered manually from callback\nMIGRATION: applied migration requires reindexing\nROLLBACK: reorg message received and can't be processed\nCONFIG_HASH_MISMATCH: index config has been modified\nSCHEMA_HASH_MISMATCH: database schema has been modified\nBLOCK_HASH_MISMATCH: block hash mismatch, missed rollback when DipDup was stopped\nMISSING_INDEX_TEMPLATE: index template is missing, can't restore index state */
+  /** manual: manual\nmigration: migration\nrollback: rollback\nconfig_modified: config_modified\nschema_modified: schema_modified */
   reindex?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -2438,7 +2632,7 @@ export type Dipdup_Schema_Min_Fields = {
   createdAt?: Maybe<Scalars['timestamptz']>;
   hash?: Maybe<Scalars['String']>;
   name?: Maybe<Scalars['String']>;
-  /** MANUAL: triggered manually from callback\nMIGRATION: applied migration requires reindexing\nROLLBACK: reorg message received and can't be processed\nCONFIG_HASH_MISMATCH: index config has been modified\nSCHEMA_HASH_MISMATCH: database schema has been modified\nBLOCK_HASH_MISMATCH: block hash mismatch, missed rollback when DipDup was stopped\nMISSING_INDEX_TEMPLATE: index template is missing, can't restore index state */
+  /** manual: manual\nmigration: migration\nrollback: rollback\nconfig_modified: config_modified\nschema_modified: schema_modified */
   reindex?: Maybe<Scalars['String']>;
   updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -2465,6 +2659,182 @@ export enum Dipdup_Schema_Select_Column {
   /** column name */
   UpdatedAt = 'updatedAt'
 }
+
+/** columns and relationships of "dipdup_token_metadata" */
+export type Dipdup_Token_Metadata = {
+  __typename?: 'dipdup_token_metadata';
+  contract: Scalars['String'];
+  createdAt: Scalars['timestamptz'];
+  id: Scalars['Int'];
+  metadata: Scalars['jsonb'];
+  network: Scalars['String'];
+  tokenId: Scalars['String'];
+  updateId: Scalars['Int'];
+  updatedAt: Scalars['timestamptz'];
+};
+
+
+/** columns and relationships of "dipdup_token_metadata" */
+export type Dipdup_Token_MetadataMetadataArgs = {
+  path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "dipdup_token_metadata" */
+export type Dipdup_Token_Metadata_Aggregate = {
+  __typename?: 'dipdup_token_metadata_aggregate';
+  aggregate?: Maybe<Dipdup_Token_Metadata_Aggregate_Fields>;
+  nodes: Array<Dipdup_Token_Metadata>;
+};
+
+/** aggregate fields of "dipdup_token_metadata" */
+export type Dipdup_Token_Metadata_Aggregate_Fields = {
+  __typename?: 'dipdup_token_metadata_aggregate_fields';
+  avg?: Maybe<Dipdup_Token_Metadata_Avg_Fields>;
+  count: Scalars['Int'];
+  max?: Maybe<Dipdup_Token_Metadata_Max_Fields>;
+  min?: Maybe<Dipdup_Token_Metadata_Min_Fields>;
+  stddev?: Maybe<Dipdup_Token_Metadata_Stddev_Fields>;
+  stddev_pop?: Maybe<Dipdup_Token_Metadata_Stddev_Pop_Fields>;
+  stddev_samp?: Maybe<Dipdup_Token_Metadata_Stddev_Samp_Fields>;
+  sum?: Maybe<Dipdup_Token_Metadata_Sum_Fields>;
+  var_pop?: Maybe<Dipdup_Token_Metadata_Var_Pop_Fields>;
+  var_samp?: Maybe<Dipdup_Token_Metadata_Var_Samp_Fields>;
+  variance?: Maybe<Dipdup_Token_Metadata_Variance_Fields>;
+};
+
+
+/** aggregate fields of "dipdup_token_metadata" */
+export type Dipdup_Token_Metadata_Aggregate_FieldsCountArgs = {
+  columns?: InputMaybe<Array<Dipdup_Token_Metadata_Select_Column>>;
+  distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type Dipdup_Token_Metadata_Avg_Fields = {
+  __typename?: 'dipdup_token_metadata_avg_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "dipdup_token_metadata". All fields are combined with a logical 'AND'. */
+export type Dipdup_Token_Metadata_Bool_Exp = {
+  _and?: InputMaybe<Array<Dipdup_Token_Metadata_Bool_Exp>>;
+  _not?: InputMaybe<Dipdup_Token_Metadata_Bool_Exp>;
+  _or?: InputMaybe<Array<Dipdup_Token_Metadata_Bool_Exp>>;
+  contract?: InputMaybe<String_Comparison_Exp>;
+  createdAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+  id?: InputMaybe<Int_Comparison_Exp>;
+  metadata?: InputMaybe<Jsonb_Comparison_Exp>;
+  network?: InputMaybe<String_Comparison_Exp>;
+  tokenId?: InputMaybe<String_Comparison_Exp>;
+  updateId?: InputMaybe<Int_Comparison_Exp>;
+  updatedAt?: InputMaybe<Timestamptz_Comparison_Exp>;
+};
+
+/** aggregate max on columns */
+export type Dipdup_Token_Metadata_Max_Fields = {
+  __typename?: 'dipdup_token_metadata_max_fields';
+  contract?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  network?: Maybe<Scalars['String']>;
+  tokenId?: Maybe<Scalars['String']>;
+  updateId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** aggregate min on columns */
+export type Dipdup_Token_Metadata_Min_Fields = {
+  __typename?: 'dipdup_token_metadata_min_fields';
+  contract?: Maybe<Scalars['String']>;
+  createdAt?: Maybe<Scalars['timestamptz']>;
+  id?: Maybe<Scalars['Int']>;
+  network?: Maybe<Scalars['String']>;
+  tokenId?: Maybe<Scalars['String']>;
+  updateId?: Maybe<Scalars['Int']>;
+  updatedAt?: Maybe<Scalars['timestamptz']>;
+};
+
+/** Ordering options when selecting data from "dipdup_token_metadata". */
+export type Dipdup_Token_Metadata_Order_By = {
+  contract?: InputMaybe<Order_By>;
+  createdAt?: InputMaybe<Order_By>;
+  id?: InputMaybe<Order_By>;
+  metadata?: InputMaybe<Order_By>;
+  network?: InputMaybe<Order_By>;
+  tokenId?: InputMaybe<Order_By>;
+  updateId?: InputMaybe<Order_By>;
+  updatedAt?: InputMaybe<Order_By>;
+};
+
+/** select columns of table "dipdup_token_metadata" */
+export enum Dipdup_Token_Metadata_Select_Column {
+  /** column name */
+  Contract = 'contract',
+  /** column name */
+  CreatedAt = 'createdAt',
+  /** column name */
+  Id = 'id',
+  /** column name */
+  Metadata = 'metadata',
+  /** column name */
+  Network = 'network',
+  /** column name */
+  TokenId = 'tokenId',
+  /** column name */
+  UpdateId = 'updateId',
+  /** column name */
+  UpdatedAt = 'updatedAt'
+}
+
+/** aggregate stddev on columns */
+export type Dipdup_Token_Metadata_Stddev_Fields = {
+  __typename?: 'dipdup_token_metadata_stddev_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type Dipdup_Token_Metadata_Stddev_Pop_Fields = {
+  __typename?: 'dipdup_token_metadata_stddev_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type Dipdup_Token_Metadata_Stddev_Samp_Fields = {
+  __typename?: 'dipdup_token_metadata_stddev_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate sum on columns */
+export type Dipdup_Token_Metadata_Sum_Fields = {
+  __typename?: 'dipdup_token_metadata_sum_fields';
+  id?: Maybe<Scalars['Int']>;
+  updateId?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate var_pop on columns */
+export type Dipdup_Token_Metadata_Var_Pop_Fields = {
+  __typename?: 'dipdup_token_metadata_var_pop_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type Dipdup_Token_Metadata_Var_Samp_Fields = {
+  __typename?: 'dipdup_token_metadata_var_samp_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type Dipdup_Token_Metadata_Variance_Fields = {
+  __typename?: 'dipdup_token_metadata_variance_fields';
+  id?: Maybe<Scalars['Float']>;
+  updateId?: Maybe<Scalars['Float']>;
+};
 
 /** columns and relationships of "global_factors" */
 export type Global_Factors = {
@@ -3589,6 +3959,12 @@ export type Query_Root = {
   dipdupContractAggregate: Dipdup_Contract_Aggregate;
   /** fetch data from the table: "dipdup_contract" using primary key columns */
   dipdupContractByPk?: Maybe<Dipdup_Contract>;
+  /** fetch data from the table: "dipdup_contract_metadata" */
+  dipdupContractMetadata: Array<Dipdup_Contract_Metadata>;
+  /** fetch aggregated fields from the table: "dipdup_contract_metadata" */
+  dipdupContractMetadataAggregate: Dipdup_Contract_Metadata_Aggregate;
+  /** fetch data from the table: "dipdup_contract_metadata" using primary key columns */
+  dipdupContractMetadataByPk?: Maybe<Dipdup_Contract_Metadata>;
   /** fetch data from the table: "dipdup_head" */
   dipdupHead: Array<Dipdup_Head>;
   /** fetch aggregated fields from the table: "dipdup_head" */
@@ -3611,6 +3987,12 @@ export type Query_Root = {
   dipdupSchemaAggregate: Dipdup_Schema_Aggregate;
   /** fetch data from the table: "dipdup_schema" using primary key columns */
   dipdupSchemaByPk?: Maybe<Dipdup_Schema>;
+  /** fetch data from the table: "dipdup_token_metadata" */
+  dipdupTokenMetadata: Array<Dipdup_Token_Metadata>;
+  /** fetch aggregated fields from the table: "dipdup_token_metadata" */
+  dipdupTokenMetadataAggregate: Dipdup_Token_Metadata_Aggregate;
+  /** fetch data from the table: "dipdup_token_metadata" using primary key columns */
+  dipdupTokenMetadataByPk?: Maybe<Dipdup_Token_Metadata>;
   /** fetch data from the table: "global_factors" */
   globalFactors: Array<Global_Factors>;
   /** fetch aggregated fields from the table: "global_factors" */
@@ -3830,6 +4212,29 @@ export type Query_RootDipdupContractByPkArgs = {
 };
 
 
+export type Query_RootDipdupContractMetadataArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Contract_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Contract_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Contract_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootDipdupContractMetadataAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Contract_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Contract_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Contract_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootDipdupContractMetadataByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Query_RootDipdupHeadArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -3914,6 +4319,29 @@ export type Query_RootDipdupSchemaAggregateArgs = {
 
 export type Query_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
+};
+
+
+export type Query_RootDipdupTokenMetadataArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Token_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Token_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Token_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootDipdupTokenMetadataAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Token_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Token_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Token_Metadata_Bool_Exp>;
+};
+
+
+export type Query_RootDipdupTokenMetadataByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -4893,6 +5321,12 @@ export type Subscription_Root = {
   dipdupContractAggregate: Dipdup_Contract_Aggregate;
   /** fetch data from the table: "dipdup_contract" using primary key columns */
   dipdupContractByPk?: Maybe<Dipdup_Contract>;
+  /** fetch data from the table: "dipdup_contract_metadata" */
+  dipdupContractMetadata: Array<Dipdup_Contract_Metadata>;
+  /** fetch aggregated fields from the table: "dipdup_contract_metadata" */
+  dipdupContractMetadataAggregate: Dipdup_Contract_Metadata_Aggregate;
+  /** fetch data from the table: "dipdup_contract_metadata" using primary key columns */
+  dipdupContractMetadataByPk?: Maybe<Dipdup_Contract_Metadata>;
   /** fetch data from the table: "dipdup_head" */
   dipdupHead: Array<Dipdup_Head>;
   /** fetch aggregated fields from the table: "dipdup_head" */
@@ -4915,6 +5349,12 @@ export type Subscription_Root = {
   dipdupSchemaAggregate: Dipdup_Schema_Aggregate;
   /** fetch data from the table: "dipdup_schema" using primary key columns */
   dipdupSchemaByPk?: Maybe<Dipdup_Schema>;
+  /** fetch data from the table: "dipdup_token_metadata" */
+  dipdupTokenMetadata: Array<Dipdup_Token_Metadata>;
+  /** fetch aggregated fields from the table: "dipdup_token_metadata" */
+  dipdupTokenMetadataAggregate: Dipdup_Token_Metadata_Aggregate;
+  /** fetch data from the table: "dipdup_token_metadata" using primary key columns */
+  dipdupTokenMetadataByPk?: Maybe<Dipdup_Token_Metadata>;
   /** fetch data from the table: "global_factors" */
   globalFactors: Array<Global_Factors>;
   /** fetch aggregated fields from the table: "global_factors" */
@@ -5134,6 +5574,29 @@ export type Subscription_RootDipdupContractByPkArgs = {
 };
 
 
+export type Subscription_RootDipdupContractMetadataArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Contract_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Contract_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Contract_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootDipdupContractMetadataAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Contract_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Contract_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Contract_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootDipdupContractMetadataByPkArgs = {
+  id: Scalars['Int'];
+};
+
+
 export type Subscription_RootDipdupHeadArgs = {
   distinct_on?: InputMaybe<Array<Dipdup_Head_Select_Column>>;
   limit?: InputMaybe<Scalars['Int']>;
@@ -5218,6 +5681,29 @@ export type Subscription_RootDipdupSchemaAggregateArgs = {
 
 export type Subscription_RootDipdupSchemaByPkArgs = {
   name: Scalars['String'];
+};
+
+
+export type Subscription_RootDipdupTokenMetadataArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Token_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Token_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Token_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootDipdupTokenMetadataAggregateArgs = {
+  distinct_on?: InputMaybe<Array<Dipdup_Token_Metadata_Select_Column>>;
+  limit?: InputMaybe<Scalars['Int']>;
+  offset?: InputMaybe<Scalars['Int']>;
+  order_by?: InputMaybe<Array<Dipdup_Token_Metadata_Order_By>>;
+  where?: InputMaybe<Dipdup_Token_Metadata_Bool_Exp>;
+};
+
+
+export type Subscription_RootDipdupTokenMetadataByPkArgs = {
+  id: Scalars['Int'];
 };
 
 
@@ -7385,7 +7871,7 @@ export type LiquidateQueryVariables = Exact<{
 }>;
 
 
-export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
+export type LiquidateQuery = { __typename?: 'query_root', user: Array<{ __typename?: 'user', address: string, liquidationRatio: any, borrowedAssets: Array<{ __typename?: 'user_borrow', borrow: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }>, collateralAssets: Array<{ __typename?: 'user_supply', supply: any, asset: { __typename?: 'asset', ytoken: number, contractAddress: string, isFa2: boolean, tokenId: number, liquidReserveRate: any, tokens: Array<{ __typename?: 'token', name?: string | null, symbol?: string | null, thumbnail?: string | null, decimals: number }> } }> }>, globalFactors: Array<{ __typename?: 'global_factors', liquidationIncentive: any, closeFactor: any }> };
 
 export type OraclePriceQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -7800,6 +8286,7 @@ export const LiquidateDocument = gql`
           thumbnail
           decimals
         }
+        liquidReserveRate
       }
       supply
     }
