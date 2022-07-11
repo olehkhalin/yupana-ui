@@ -82,19 +82,24 @@ export const LiquidationForm: FC = () => {
 
     let maxAmount: BigNumber;
     if (
-      maxLiquidateUsd.lt(
-        amountOfSuppliedUsd.plus(
-          amountOfSuppliedUsd.multipliedBy(liquidBonus.minus(1))
+      maxLiquidateUsd.lte(
+        amountOfSuppliedUsd.minus(
+          amountOfSuppliedUsd
+            .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
+            .multipliedBy(
+              liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
+            )
         )
       )
     ) {
-      maxAmount = convertUnits(
-        maxLiquidateUsd.div(borrowedAssetObject.price),
-        -borrowedAssetObject.asset.decimals
-      );
+      maxAmount = maxLiquidateUsd.div(borrowedAssetObject.price);
     } else {
       maxAmount = amountOfSuppliedUsd.minus(
-        amountOfSuppliedUsd.div(liquidBonus).multipliedBy(liquidBonus.minus(1))
+        amountOfSuppliedUsd
+          .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
+          .multipliedBy(
+            liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
+          )
       );
     }
 
@@ -105,11 +110,7 @@ export const LiquidationForm: FC = () => {
       address: borrowedAssetObject.asset.contractAddress,
       tokenId: borrowedAssetObject.asset.tokenId,
       price: borrowedAssetObject.price,
-      maxAmount: convertUnits(
-        maxAmount,
-        borrowedAssetObject.asset.decimals,
-        true
-      ),
+      maxAmount,
     };
     const collateralAsset = {
       yToken: collateralAssetObject.yToken,

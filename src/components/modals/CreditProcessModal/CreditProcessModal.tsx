@@ -130,7 +130,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
       setDynamicBorrowLimit(dynamicBorrowLimitFunc(amount));
     }
 
-    const mutezAmount = new BigNumber(+convertUnits(amount, -asset.decimals));
+    const mutezAmount = new BigNumber(convertUnits(amount, -asset.decimals));
     const isMaxAmount = mutezAmount.eq(
       pureMaxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
     );
