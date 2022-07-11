@@ -19,17 +19,17 @@
   border-bottom: 1px solid $light-yellow
 
 .borrowRow
-  grid-template-columns: 1.25fr repeat(1, 1fr) 1.5fr 1fr .5fr
+  grid-template-columns: 1.25fr repeat(1, 1fr) 1.2fr 1.3fr .5fr
 
 .supplyRow
-  grid-template-columns: 1.25fr 1.25fr 1.25fr 1.5fr .5fr
+  grid-template-columns: 1.25fr 1.25fr 1.1fr 1.65fr .5fr
 
 .supplyRow, .borrowRow
   td:nth-last-child(2)
     white-space: nowrap
 
 .ownAssetsRow
-  grid-template-columns: 1fr 1fr 1.25fr .75fr .5fr
+  grid-template-columns: 1fr .8fr 1.45fr .75fr .5fr
 
 .bigTableWrapper
   overflow: hidden
@@ -51,6 +51,9 @@
 
 .liquidationRow
   grid-template-columns: 1fr repeat(2, .75fr) repeat(2, .75fr) .5fr
+
+.borrowedAssets
+  padding-right: .75rem
 
 .liquidateRow
   grid-template-columns: repeat(5, 1fr)

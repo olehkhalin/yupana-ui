@@ -67,7 +67,7 @@ export const useCollateralWarningMessage = (
         };
 
         const price = convertUnits(
-          convertUnits(currentAsset.supply, STANDARD_PRECISION),
+          convertUnits(currentAsset.supplyWithInterest, STANDARD_PRECISION),
           currentAsset.asset.decimals
         )
           .multipliedBy(

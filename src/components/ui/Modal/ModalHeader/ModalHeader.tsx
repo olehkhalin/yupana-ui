@@ -1,11 +1,11 @@
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 import cx from "classnames";
 
 import s from "./ModalHeader.module.sass";
 
 type ModalHeaderProps = {
   title: string;
-  description?: string;
+  description?: ReactNode;
   className?: string;
 };
 

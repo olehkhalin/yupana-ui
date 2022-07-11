@@ -15,6 +15,7 @@ export type LiquidateDetailsCollateralAssets = {
   asset: AssetType;
   price: BigNumber;
   amountOfSupplied: BigNumber;
+  liquidReserveRate: BigNumber;
 }[];
 
 export type LiquidateDetailsResponseData = {

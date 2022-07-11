@@ -20,6 +20,7 @@ import {
   borrowedYTokensVar,
   contractAddressesVar,
   globalVariablesVar,
+  trulyBorrowedYTokensVar,
 } from "utils/cache";
 import { useAccountPkh, useTezos } from "utils/dapp";
 import { borrow, repay } from "utils/dapp/methods";
@@ -32,6 +33,7 @@ type BorrowDropdownProps = {
   yToken: number;
   asset: AssetType;
   borrow: BigNumber;
+  borrowInterestReserves: BigNumber;
   liquidity: BigNumber;
   tableName: string;
 } & TableDropdownProps;
@@ -40,6 +42,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   yToken,
   asset,
   borrow: borrowed,
+  borrowInterestReserves,
   liquidity,
   theme,
   tableName,
@@ -50,6 +53,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
   const { maxCollateral, outstandingBorrow } =
     useReactiveVar(globalVariablesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
+  const trulyBorrowedYTokens = useReactiveVar(trulyBorrowedYTokensVar);
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
   const { updateToast } = useUpdateToast();
   const { addTransaction, updateTransactionStatus, allTransactions } =
@@ -79,6 +83,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         fabricaContractAddress: fabrica,
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken],
+        tokenContract: asset.contractAddress,
         otherYTokens: borrowedYTokens,
         amount: inputAmount,
       };
@@ -189,11 +194,9 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken!],
         amount: isMaxAmount
-          ? inputAmount.plus(
-              new BigNumber(1).multipliedBy(
-                new BigNumber(10).pow(asset?.decimals ?? 0)
-              )
-            )
+          ? inputAmount
+              .multipliedBy(borrowInterestReserves)
+              .decimalPlaces(0, BigNumber.ROUND_UP)
           : inputAmount,
         otherYTokens: borrowedYTokens, // only borrowed tokens
         tokenContract: asset.contractAddress,
@@ -231,6 +234,7 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       addTransaction,
       allTransactions,
       asset,
+      borrowInterestReserves,
       borrowedYTokens,
       fabrica,
       priceFeedProxy,
@@ -254,7 +258,14 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       borrowLimitUsed: maxCollateral.eq(0)
         ? new BigNumber(0)
         : outstandingBorrow.div(maxCollateral).multipliedBy(1e2),
-      dynamicBorrowLimitUsedFunc: (input: BigNumber) => {
+      dynamicBorrowLimitUsedFunc: (input: BigNumber, isMaxAmount?: boolean) => {
+        if (
+          isMaxAmount &&
+          trulyBorrowedYTokens.filter((yTok) => yTok !== yToken).length === 0
+        ) {
+          return new BigNumber(0);
+        }
+
         if (maxCollateral.eq(0)) {
           return new BigNumber(0);
         }
@@ -285,6 +296,8 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
     outstandingBorrow,
     oraclePrice,
     handleRepaySubmit,
+    trulyBorrowedYTokens,
+    yToken,
   ]);
 
   return (
@@ -301,7 +314,6 @@ export const BorrowTableDropdown: FC<BorrowDropdownProps> = ({
       handleFirstButtonClick={handleBorrow}
       secondButtonLabel="Repay"
       handleSecondButtonClick={handleRepay}
-      withTez
     />
   );
 };

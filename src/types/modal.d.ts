@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export type ModalActions = {
   isOpen: boolean;
   onRequestClose: () => void;
@@ -6,6 +8,6 @@ export type ModalActions = {
 
 export type ModalProps = {
   title: string;
-  description: string;
+  description: ReactNode;
   buttonText?: string;
 } & ModalActions;

@@ -54,6 +54,7 @@ const beaconNetworkTypes: Record<NetworkType, BeaconNetworkType> = {
   florencenet: BeaconNetworkType.FLORENCENET,
   granadanet: BeaconNetworkType.GRANADANET,
   hangzhounet: BeaconNetworkType.HANGZHOUNET,
+  ithaca: BeaconNetworkType.ITHACANET,
   sandbox: BeaconNetworkType.CUSTOM,
 };
 

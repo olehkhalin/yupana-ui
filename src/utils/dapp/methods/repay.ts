@@ -34,6 +34,14 @@ export const repay = async (
     deadline
   );
 
+  const postMethods: ContractMethod<Wallet>[] = [];
+  if (params.tokenContract === WTEZ_CONTRACT && isMaxAmount) {
+    const wtezContract = await tezos.wallet.at(WTEZ_CONTRACT);
+    postMethods.push(
+      wtezContract.methods.burn(accountPkh, accountPkh, new BigNumber(0))
+    );
+  }
+
   const batch = tezos.wallet.batch([]);
 
   const methods = await commonMethods(tezos, accountPkh, {
@@ -51,7 +59,9 @@ export const repay = async (
         mutez: true,
       })
     ),
-    ...methods.map((method) => method.toTransferParams({ storageLimit: 460 })),
+    ...[...methods, ...postMethods].map((method) =>
+      method.toTransferParams({ storageLimit: 460 })
+    ),
   ]);
 
   return batch.send();

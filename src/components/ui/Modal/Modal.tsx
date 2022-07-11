@@ -59,7 +59,15 @@ export const Modal: FC<ModalProps> = ({
   }, [type]);
 
   const trackPopupClosing = useCallback(() => {
-    if (type) {
+    if (
+      type &&
+      !(
+        type === ModalType.SUPPLY ||
+        type === ModalType.BORROW ||
+        type === ModalType.WITHDRAW ||
+        type === ModalType.REPAY
+      )
+    ) {
       trackEvent(getEvent, type as unknown as AnalyticsEventCategory);
     }
   }, [getEvent, trackEvent, type]);

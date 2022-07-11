@@ -84,6 +84,12 @@ export const events = {
     },
     submit: "CLICK_SUBMIT_FORM",
     close_popup: "CLICK_CLOSE_POP-UP",
+    close_popup_type: {
+      supply: "CLICK_CLOSE_SUPPLY_POP-UP_BUTTON",
+      withdraw: "CLICK_CLOSE_WITHDRAW_POP-UP_BUTTON",
+      borrow: "CLICK_CLOSE_BORROW_POP-UP_BUTTON",
+      repay: "CLICK_CLOSE_REPAY_POP-UP_BUTTON",
+    },
   },
   lending: {
     click_arrow: {

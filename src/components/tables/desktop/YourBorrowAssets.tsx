@@ -52,7 +52,7 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
                 />
               }
               title="Wrapped XTZ"
-              description="Yupana.Finance lending protocol only works with FA1.2 and FA2 tokens. However, the protocol team developed the 1:1 Wrapped Tezos FA2 token. So you transfer XTZ to the protocol and the protocol automatically wraps your XTZ in Wrapped Tezos FA2 token and Supply it in the protocol. Withdraw, Borrow, and Repay occur in the same way. The user doesn't work directly with the wrap, Yupana does all the magic herself."
+              description="Yupana.Finance lending protocol only works with FA1.2 and FA2 tokens. However, the protocol team developed the 1:1 Wrapped Tezos FA2 token. So you transfer XTZ to the protocol and the protocol automatically wraps your XTZ in Wrapped Tezos FA2 token and Supply it in the protocol. Withdraw, Borrow, and Repay occur in the same way. The user doesn't work directly with the wrap, Yupana does all the magic itself."
               theme="secondary"
               attentionSize="small"
             />
@@ -145,7 +145,13 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
   const renderRowSubComponent = useCallback(
     ({
       row: {
-        original: { yToken, asset, borrowWithInterest, totalLiquid },
+        original: {
+          yToken,
+          asset,
+          borrowWithInterest,
+          borrowInterestReserves,
+          totalLiquid,
+        },
       },
     }) => (
       <BorrowTableDropdown
@@ -153,6 +159,7 @@ export const YourBorrowAssets: FC<YourBorrowAssetsProps> = ({
         yToken={yToken}
         asset={asset}
         borrow={borrowWithInterest}
+        borrowInterestReserves={borrowInterestReserves}
         liquidity={totalLiquid}
         tableName={tableName}
       />

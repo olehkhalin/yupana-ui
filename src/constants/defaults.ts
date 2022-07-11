@@ -5,7 +5,8 @@ export type NetworkType =
   | "florencenet"
   | "granadanet"
   | "sandbox"
-  | "hangzhounet";
+  | "hangzhounet"
+  | "ithaca";
 export const APP_NAME = process.env.REACT_APP_NAME!;
 export const BASE_URL = process.env.REACT_APP_BASE_URL;
 export const LAST_USED_ACCOUNT_KEY = "lastUsedAccount";
@@ -24,7 +25,7 @@ export const LIQUIDATION_POSITIONS_ITEMS_PER_PAGE = process.env
   : 10;
 export const TEMPLE_WALLET_LINK =
   process.env.REACT_APP_TEMPLE_WALLET_LINK ?? "https://templewallet.com/";
-export const YUPANA_LANDING_LINK = "https://yupanafinance.gatsbyjs.io/";
+export const YUPANA_LANDING_LINK = "https://ithacanet.yupana.finance/";
 export const WTEZ_CONTRACT =
   process.env.REACT_APP_WTEZ_CONTRACT ?? "KT1Bun2mqJviJcxTCfBMBKqeAcvQBVrBCTo4";
 

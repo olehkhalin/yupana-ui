@@ -15,6 +15,8 @@ import {
 } from "hooks/useCreditProcessModal";
 import { useUpdateToast } from "hooks/useUpdateToast";
 import { useBalance } from "hooks/useBalance";
+import { useAssets } from "hooks/useAssets";
+import { useUserStats } from "hooks/useUserStats";
 import { Status, useTransactions } from "hooks/useTransactions";
 import {
   borrowedYTokensVar,
@@ -52,7 +54,9 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
   className,
 }) => {
   const { setCreditProcessModalData } = useCreditProcessModal();
+  const { data: assets } = useAssets();
   const { data: oraclePrices } = useOraclePriceQuery();
+  const { data: userStats } = useUserStats();
   const { maxCollateral, outstandingBorrow } =
     useReactiveVar(globalVariablesVar);
   const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
@@ -64,6 +68,51 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
   const tezos = useTezos()!;
   const accountPkh = useAccountPkh()!;
+
+  const userTotalBorrow = useMemo(
+    () =>
+      userStats
+        ? convertUnits(
+            userStats.totalBorrowUsd,
+            COLLATERAL_PRECISION
+          ).decimalPlaces(2)
+        : new BigNumber(0),
+    [userStats]
+  );
+
+  const isTrulyMaxAmount = useMemo(() => {
+    const commonCollateralOfOtherAssets = assets
+      ? assets.supplyAssets
+          .filter((el) => el.isCollateral)
+          .filter((el) => el.yToken !== yToken)
+          .reduce((acc, currentAsset) => {
+            const oracleData = oraclePrices?.oraclePrice.find(
+              (asset) => asset.ytoken === currentAsset.yToken
+            ) ?? {
+              price: new BigNumber(0),
+              precision: 0,
+            };
+
+            const price = convertUnits(
+              convertUnits(currentAsset.supplyWithInterest, STANDARD_PRECISION),
+              currentAsset.asset.decimals
+            )
+              .multipliedBy(
+                convertUnits(
+                  oracleData.price,
+                  ORACLE_PRICE_PRECISION
+                ).multipliedBy(oracleData.precision)
+              )
+              .multipliedBy(
+                convertUnits(currentAsset.collateralFactor, STANDARD_PRECISION)
+              );
+
+            return acc.plus(price);
+          }, new BigNumber(0))
+      : new BigNumber(0);
+
+    return commonCollateralOfOtherAssets.gte(userTotalBorrow);
+  }, [assets, oraclePrices?.oraclePrice, userTotalBorrow, yToken]);
 
   const oraclePrice = useMemo(
     () =>
@@ -206,8 +255,9 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         proxyContractAddress: priceFeedProxy,
         yToken: [yToken],
         otherYTokens: borrowedYTokens,
+        tokenContract: asset.contractAddress,
         amount: inputAmount,
-        isMaxAmount,
+        isMaxAmount: isMaxAmount && isTrulyMaxAmount,
       };
 
       const prepareTransaction = {
@@ -242,6 +292,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       asset,
       borrowedYTokens,
       fabrica,
+      isTrulyMaxAmount,
       priceFeedProxy,
       tezos,
       updateToast,
@@ -277,7 +328,8 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     setCreditProcessModalData({
       type: CreditProcessModalEnum.WITHDRAW,
-      maxAmount: maxAmount.lt(1) ? new BigNumber(0) : maxAmount,
+      maxAmount: maxAmount.lt(2) ? new BigNumber(0) : maxAmount.minus(1), // For that cases when
+      // there are any amount in borrow and user is going to withdraw max amount
       asset: asset,
       availableToWithdraw,
       borrowLimit: convertUnits(maxCollateral, COLLATERAL_PRECISION),
@@ -355,7 +407,6 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       secondButtonLabel="Withdraw"
       handleFirstButtonClick={handleSupply}
       handleSecondButtonClick={handleWithdraw}
-      withTez={!isCommon}
     />
   );
 };

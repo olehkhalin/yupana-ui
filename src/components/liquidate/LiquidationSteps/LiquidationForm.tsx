@@ -16,7 +16,7 @@ import {
   getAdvancedErrorMessage,
 } from "utils/validation";
 import { useWiderThanMphone } from "utils/helpers";
-import { borrowedYTokensVar, contractAddressesVar } from "utils/cache";
+import { contractAddressesVar } from "utils/cache";
 import { useLiquidateDetails } from "hooks/useLiquidateDetails";
 import { useLiquidateData } from "hooks/useLiquidateData";
 import { useUpdateToast } from "hooks/useUpdateToast";
@@ -38,7 +38,6 @@ export const LiquidationForm: FC = () => {
   const isWiderThanMphone = useWiderThanMphone();
   const { updateToast } = useUpdateToast();
   const { fabrica, priceFeedProxy } = useReactiveVar(contractAddressesVar);
-  const borrowedYTokens = useReactiveVar(borrowedYTokensVar);
   const { addTransaction, isTransactionLoading } = useTransactions();
 
   const tezos = useTezos()!;
@@ -83,19 +82,35 @@ export const LiquidationForm: FC = () => {
 
     let maxAmount: BigNumber;
     if (
-      maxLiquidateUsd <
-      amountOfSuppliedUsd.plus(
-        amountOfSuppliedUsd.multipliedBy(new BigNumber(1).minus(liquidBonus))
+      maxLiquidateUsd.lte(
+        amountOfSuppliedUsd.minus(
+          amountOfSuppliedUsd
+            .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
+            .multipliedBy(
+              liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
+            )
+        )
       )
     ) {
-      maxAmount = convertUnits(
-        maxLiquidateUsd.div(borrowedAssetObject.price),
-        -borrowedAssetObject.asset.decimals
-      );
+      maxAmount = maxLiquidateUsd
+        .div(borrowedAssetObject.price)
+        .decimalPlaces(
+          borrowedAssetObject.asset.decimals,
+          BigNumber.ROUND_DOWN
+        );
     } else {
-      maxAmount = collateralAssetObject.amountOfSupplied.div(
-        liquidBonus.minus(1).plus(1)
-      );
+      maxAmount = amountOfSuppliedUsd
+        .minus(
+          amountOfSuppliedUsd
+            .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
+            .multipliedBy(
+              liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
+            )
+        )
+        .decimalPlaces(
+          borrowedAssetObject.asset.decimals,
+          BigNumber.ROUND_DOWN
+        );
     }
 
     const borrowedAsset = {
@@ -105,11 +120,7 @@ export const LiquidationForm: FC = () => {
       address: borrowedAssetObject.asset.contractAddress,
       tokenId: borrowedAssetObject.asset.tokenId,
       price: borrowedAssetObject.price,
-      maxAmount: convertUnits(
-        maxAmount,
-        borrowedAssetObject.asset.decimals,
-        true
-      ),
+      maxAmount,
     };
     const collateralAsset = {
       yToken: collateralAssetObject.yToken,
@@ -219,6 +230,23 @@ export const LiquidationForm: FC = () => {
     [balanceData, preparedData]
   );
 
+  const otherYTokens = useMemo(() => {
+    if (!liquidateAllData) {
+      return [];
+    }
+    const finalArr = liquidateAllData.borrowedAssets.map(
+      ({ yToken }) => yToken
+    );
+
+    liquidateAllData.collateralAssets.forEach(({ yToken }) => {
+      if (finalArr.indexOf(yToken) === -1) {
+        finalArr.push(yToken);
+      }
+    });
+
+    return finalArr;
+  }, [liquidateAllData]);
+
   // Submit form
   const onSubmit = useCallback(
     async ({ amount: inputAmount }: FormTypes) => {
@@ -228,7 +256,7 @@ export const LiquidationForm: FC = () => {
           const params = {
             fabricaContractAddress: fabrica,
             proxyContractAddress: priceFeedProxy,
-            otherYTokens: borrowedYTokens,
+            otherYTokens,
             borrowToken: preparedData.borrowedAsset.yToken,
             collateralToken: preparedData.collateralAsset.yToken,
             tokenContract: preparedData.borrowedAsset.address,
@@ -275,13 +303,13 @@ export const LiquidationForm: FC = () => {
     [
       accountPkh,
       addTransaction,
-      borrowedYTokens,
       borrowerAddress,
       fabrica,
       preparedData,
       priceFeedProxy,
       tezos,
       updateToast,
+      otherYTokens,
     ]
   );
 

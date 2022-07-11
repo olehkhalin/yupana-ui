@@ -4,9 +4,11 @@ import { cache } from "./cache";
 
 const httpLink = new HttpLink({
   uri: process.env.REACT_APP_APOLLO_CLIENT_ENDPOINT,
-  headers: {
-    "x-hasura-admin-secret": process.env.REACT_APP_APOLLO_CLIENT_KEY,
-  },
+  headers: process.env.REACT_APP_APOLLO_CLIENT_KEY
+    ? {
+        "x-hasura-admin-secret": process.env.REACT_APP_APOLLO_CLIENT_KEY,
+      }
+    : undefined,
 });
 
 const errorLink = onError(({ graphQLErrors, networkError }) => {
