@@ -78,21 +78,26 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           asset: row.asset,
           supply: row.supplyWithInterest,
         }),
-        Cell: ({ cell: { value } }: { cell: Cell }) =>
-          loading ? (
-            "—"
-          ) : (
+        Cell: ({ cell: { value } }: { cell: Cell }) => {
+          if (loading) {
+            return "-";
+          }
+
+          const sup =
+            convertUnits(value.supply, STANDARD_PRECISION) ?? new BigNumber(0);
+
+          return (
             <PrettyAmount
               amount={convertUnits(
-                convertUnits(value.supply, STANDARD_PRECISION) ??
-                  new BigNumber(0),
+                sup.lt(2) ? new BigNumber(0) : sup.minus(1),
                 value.asset.decimals,
                 true
               )}
               currency={getSliceAssetName(value.asset)}
               isMinified
             />
-          ),
+          );
+        },
       },
       {
         Header: "Collateral",
