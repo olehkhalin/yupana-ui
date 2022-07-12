@@ -80,27 +80,6 @@ export const LiquidationForm: FC = () => {
       collateralAssetObject.asset.decimals
     ).multipliedBy(collateralAssetObject.price);
 
-    console.log(
-      "maxLiquidateUsd",
-      +maxLiquidateUsd,
-      "amountOfSuppliedUsd",
-      +amountOfSuppliedUsd,
-      "liquidReserveRate",
-      +collateralAssetObject.liquidReserveRate,
-      "liquidBonus",
-      +liquidBonus,
-      "if",
-      maxLiquidateUsd.lte(
-        amountOfSuppliedUsd.minus(
-          amountOfSuppliedUsd
-            .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
-            .multipliedBy(
-              liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
-            )
-        )
-      )
-    );
-
     let maxAmount: BigNumber;
     if (
       maxLiquidateUsd.lte(
