@@ -121,9 +121,9 @@ export const [AssetsProvider, useAssets] = constate(() => {
           assetInfo.rates[0].borrow_rate
         ).multipliedBy(deltaInSeconds);
         const borrowIndex = interestFactor
-          .multipliedBy(asset.borrowIndex)
+          .multipliedBy(assetInfo.borrowIndex)
           .div(new BigNumber(10).pow(STANDARD_PRECISION))
-          .plus(asset.borrowIndex);
+          .plus(assetInfo.borrowIndex);
 
         const deltaInSecondsR = new BigNumber(
           new BigNumber(new Date().getTime())
@@ -134,10 +134,10 @@ export const [AssetsProvider, useAssets] = constate(() => {
           assetInfo.rates[0].borrow_rate
         ).multipliedBy(deltaInSecondsR);
         const borrowIndexR = interestFactorR
-          .multipliedBy(asset.borrowIndex)
+          .multipliedBy(assetInfo.borrowIndex)
           .div(new BigNumber(10).pow(STANDARD_PRECISION))
-          .plus(asset.borrowIndex);
-        const borrowInterestReserves = borrowIndexR.div(asset.borrowIndex);
+          .plus(assetInfo.borrowIndex);
+        const borrowInterestReserves = borrowIndexR.div(assetInfo.borrowIndex);
 
         const borrowWithInterest = new BigNumber(asset.borrow)
           .multipliedBy(borrowIndex)
