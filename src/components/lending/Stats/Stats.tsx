@@ -13,16 +13,12 @@ import s from "./Stats.module.sass";
 
 const prettyRatio = (collateral: BigNumber, outstandingBorrow: BigNumber) =>
   collateral.gt(0) && outstandingBorrow.gt(0)
-    ? new BigNumber(1)
-        .div(
-          convertUnits(
-            collateral
-              .multipliedBy(new BigNumber(10).pow(STANDARD_PRECISION))
-              .div(outstandingBorrow),
-            STANDARD_PRECISION
-          )
-        )
-        .multipliedBy(1e2)
+    ? convertUnits(
+        outstandingBorrow
+          .multipliedBy(new BigNumber(10).pow(STANDARD_PRECISION))
+          .idiv(collateral),
+        STANDARD_PRECISION
+      ).multipliedBy(1e2)
     : new BigNumber(0);
 
 type StatsProps = {
