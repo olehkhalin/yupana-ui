@@ -99,14 +99,16 @@ export const LiquidationForm: FC = () => {
           BigNumber.ROUND_DOWN
         );
     } else {
-      maxAmount = amountOfSuppliedUsd
-        .minus(
+      maxAmount = new BigNumber(
+        amountOfSuppliedUsd.minus(
           amountOfSuppliedUsd
             .div(liquidBonus.plus(collateralAssetObject.liquidReserveRate))
             .multipliedBy(
               liquidBonus.plus(collateralAssetObject.liquidReserveRate).minus(1)
             )
         )
+      )
+        .div(borrowedAssetObject.price)
         .decimalPlaces(
           borrowedAssetObject.asset.decimals,
           BigNumber.ROUND_DOWN
@@ -383,7 +385,10 @@ export const LiquidationForm: FC = () => {
               )}
             </Button>
           ) : (
-            <ConnectWalletButton actionT="supply" />
+            <ConnectWalletButton
+              actionT="supply"
+              className={cx(s.button, { [s.error]: amountErrorMessage })}
+            />
           )}
         </form>
 
