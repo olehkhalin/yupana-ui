@@ -48,23 +48,23 @@ export const calculateCollaterals = (
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.collateralFactor)
         .multipliedBy(assetTotal)
-        .div(supplyAsset.totalSupply)
+        .idiv(supplyAsset.totalSupply)
     );
     liquidationCollateral = liquidationCollateral.plus(
       supplyAsset.supply
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.liquidationThreshold)
         .multipliedBy(assetTotal)
-        .div(supplyAsset.totalSupply)
+        .idiv(supplyAsset.totalSupply)
     );
   });
 
   return {
     maxCollateral: maxCollateral.eq(0)
       ? new BigNumber(0)
-      : maxCollateral.div(new BigNumber(10).pow(STANDARD_PRECISION)),
+      : maxCollateral.idiv(new BigNumber(10).pow(STANDARD_PRECISION)),
     liquidationCollateral: liquidationCollateral.eq(0)
       ? new BigNumber(0)
-      : liquidationCollateral.div(new BigNumber(10).pow(STANDARD_PRECISION)),
+      : liquidationCollateral.idiv(new BigNumber(10).pow(STANDARD_PRECISION)),
   };
 };
