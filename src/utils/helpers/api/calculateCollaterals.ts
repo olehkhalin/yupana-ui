@@ -40,22 +40,15 @@ export const calculateCollaterals = (
     if (!lastPriceObject) return;
     const lastPrice = new BigNumber(lastPriceObject.price);
 
-    const assetTotal = supplyAsset.totalLiquid
-      .plus(supplyAsset.totalBorrowed)
-      .minus(supplyAsset.reserves);
     maxCollateral = maxCollateral.plus(
       supplyAsset.supplyWithInterest
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.collateralFactor)
-        .multipliedBy(assetTotal)
-        .idiv(supplyAsset.totalSupply)
     );
     liquidationCollateral = liquidationCollateral.plus(
       supplyAsset.supplyWithInterest
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.liquidationThreshold)
-        .multipliedBy(assetTotal)
-        .idiv(supplyAsset.totalSupply)
     );
   });
 

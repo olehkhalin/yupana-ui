@@ -336,7 +336,7 @@ export const [
   useDApp,
   (v) => v.connectionType,
   (v) => v.tezos,
-  (v) => v.accountPkh,
+  (v) => "tz1iGnmAdSsaMTPx1k5WnXvSUHEz8xAJCo2W",
   (v) => v.templeWallet,
   (v) => v.ready,
   (v) => v.connectWithBeacon,
