@@ -44,14 +44,14 @@ export const calculateCollaterals = (
       .plus(supplyAsset.totalBorrowed)
       .minus(supplyAsset.reserves);
     maxCollateral = maxCollateral.plus(
-      supplyAsset.supply
+      supplyAsset.supplyWithInterest
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.collateralFactor)
         .multipliedBy(assetTotal)
         .idiv(supplyAsset.totalSupply)
     );
     liquidationCollateral = liquidationCollateral.plus(
-      supplyAsset.supply
+      supplyAsset.supplyWithInterest
         .multipliedBy(lastPrice)
         .multipliedBy(supplyAsset.liquidationThreshold)
         .multipliedBy(assetTotal)
