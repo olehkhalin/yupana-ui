@@ -256,7 +256,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         yToken: [yToken],
         otherYTokens: borrowedYTokens,
         tokenContract: asset.contractAddress,
-        amount: inputAmount,
+        amount: isTrulyMaxAmount ? inputAmount : inputAmount.minus(1),
         isMaxAmount: isMaxAmount && isTrulyMaxAmount,
       };
 
@@ -328,7 +328,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
 
     setCreditProcessModalData({
       type: CreditProcessModalEnum.WITHDRAW,
-      maxAmount: maxAmount.lt(2) ? new BigNumber(0) : maxAmount.minus(1), // For that cases when
+      maxAmount: maxAmount.lt(1) ? new BigNumber(0) : maxAmount, // For that cases when
       // there are any amount in borrow and user is going to withdraw max amount
       asset: asset,
       availableToWithdraw,
@@ -399,9 +399,9 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       tableName={tableName}
       balanceAmount={
         isCommon
-          ? convertUnits(supplied, STANDARD_PRECISION).lt(2)
+          ? convertUnits(supplied, STANDARD_PRECISION).lt(1)
             ? new BigNumber(0)
-            : convertUnits(supplied, STANDARD_PRECISION).minus(1)
+            : convertUnits(supplied, STANDARD_PRECISION)
           : balanceData ?? new BigNumber(0)
       }
       balanceLoading={isCommon ? false : balanceLoading}

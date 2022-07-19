@@ -18,8 +18,9 @@ export const calculateAssetBorrowLimitPercent = (
   const borrowInUsd = convertUnits(borrow, STANDARD_PRECISION)
     .div(oraclePrice.precision)
     .multipliedBy(
-      convertUnits(oraclePrice.price, ORACLE_PRICE_PRECISION).multipliedBy(
-        oraclePrice.precision
+      convertUnits(
+        new BigNumber(oraclePrice.price).multipliedBy(oraclePrice.precision),
+        ORACLE_PRICE_PRECISION
       )
     );
   const maxC = convertUnits(maxCollateral, COLLATERAL_PRECISION);

@@ -9,5 +9,9 @@ export const getPrettyPercent = (value: BigNumber | number) => {
   if (new BigNumber(valueFixed).eq(0)) {
     return "0%";
   }
-  return `${valueFixed}%`;
+  return `${
+    valueBigNumber.gt(100)
+      ? valueBigNumber.decimalPlaces(2, BigNumber.ROUND_UP)
+      : valueBigNumber.decimalPlaces(2, BigNumber.ROUND_DOWN)
+  }%`;
 };

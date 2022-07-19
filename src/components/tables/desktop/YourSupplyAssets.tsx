@@ -89,7 +89,7 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           return (
             <PrettyAmount
               amount={convertUnits(
-                sup.lt(2) ? new BigNumber(0) : sup.minus(1),
+                sup.lt(1) ? new BigNumber(0) : sup,
                 value.asset.decimals,
                 true
               )}

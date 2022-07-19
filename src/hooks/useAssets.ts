@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BigNumber from "bignumber.js";
 import constate from "constate";
 
@@ -9,7 +9,7 @@ import {
   useUserSupplyAssetsLazyQuery,
 } from "generated/graphql";
 import { UseAssetsResponse } from "types/asset";
-import { useAccountPkh } from "utils/dapp";
+import { useAccountPkh, useOnBlock, useTezos } from "utils/dapp";
 import { convertUnits } from "utils/helpers/amount";
 import {
   BorrowedYTokensType,
@@ -23,6 +23,7 @@ const returnZeroIfNotExist = (element: any, key: string) =>
   element ? element[key] : new BigNumber(0);
 
 export const [AssetsProvider, useAssets] = constate(() => {
+  const tezos = useTezos();
   const accountPkh = useAccountPkh();
 
   const {
@@ -70,192 +71,227 @@ export const [AssetsProvider, useAssets] = constate(() => {
     error: allAssetsMetadataError,
   } = useAssetsMetadata();
 
-  if (!assets || !allAssetsMetadata) {
-    return {
-      data: null,
-      loading:
-        assetsLoading ||
-        supplyAssetsLoading ||
-        borrowAssetsLoading ||
-        allAssetsMetadataLoading,
-      error:
-        !!assetsError ||
-        !!supplyAssetsError ||
-        !!borrowAssetsError ||
-        !!allAssetsMetadataError,
-    };
-  }
-
-  const borrowedYTokens: BorrowedYTokensType = [];
-  const trulyBorrowedYTokens: BorrowedYTokensType = [];
-
-  const preparedSupplyAssets = supplyAssets
-    ? supplyAssets.userSupply.map((asset) => {
-        borrowedYTokens.push(asset.assetId);
-        return {
-          assetId: asset.assetId,
-          supply: new BigNumber(asset.supply),
-          isCollateral: asset.entered,
-        };
-      })
-    : [];
-
-  const preparedBorrowAssets = borrowAssets
-    ? borrowAssets.userBorrow.map((asset) => {
-        if (convertUnits(asset.borrow, STANDARD_PRECISION).gt(1)) {
-          trulyBorrowedYTokens.push(asset.assetId);
-        }
-        if (borrowedYTokens.find((el) => el === asset.assetId) === undefined) {
-          borrowedYTokens.push(asset.assetId);
-        }
-        const assetInfo = assets.asset.find(
-          ({ ytoken }) => ytoken === asset.assetId
-        )!;
-
-        const deltaInSeconds = new BigNumber(
-          new BigNumber(new Date().getTime()).minus(
-            new Date(assetInfo.interestUpdateTime).getTime()
-          )
-        ).div(1000);
-        const interestFactor = new BigNumber(
-          assetInfo.rates[0].borrow_rate
-        ).multipliedBy(deltaInSeconds);
-        const borrowIndex = interestFactor
-          .multipliedBy(assetInfo.borrowIndex)
-          .div(new BigNumber(10).pow(STANDARD_PRECISION))
-          .plus(assetInfo.borrowIndex);
-
-        const deltaInSecondsR = new BigNumber(
-          new BigNumber(new Date().getTime())
-            .plus(300000)
-            .minus(new Date(assetInfo.interestUpdateTime).getTime())
-        ).div(1000);
-        const interestFactorR = new BigNumber(
-          assetInfo.rates[0].borrow_rate
-        ).multipliedBy(deltaInSecondsR);
-        const borrowIndexR = interestFactorR
-          .multipliedBy(assetInfo.borrowIndex)
-          .div(new BigNumber(10).pow(STANDARD_PRECISION))
-          .plus(assetInfo.borrowIndex);
-        const borrowInterestReserves = borrowIndexR.div(assetInfo.borrowIndex);
-
-        const borrowWithInterest = new BigNumber(asset.borrow)
-          .multipliedBy(borrowIndex)
-          .div(asset.borrowIndex);
-
-        return {
-          assetId: asset.assetId,
-          borrow: new BigNumber(asset.borrow),
-          borrowIndex: new BigNumber(asset.borrowIndex),
-          borrowWithInterest,
-          borrowInterestReserves,
-        };
-      })
-    : [];
-
-  borrowedYTokensVar(borrowedYTokens);
-  trulyBorrowedYTokensVar(trulyBorrowedYTokens);
-
-  const finalAssets = assets.asset.map((asset) => {
-    const borrowAsset = preparedBorrowAssets.find(
-      ({ assetId }) => assetId === asset.ytoken
-    );
-    const supplyAsset = preparedSupplyAssets.find(
-      ({ assetId }) => assetId === asset.ytoken
-    );
-
-    const deltaInSeconds = new BigNumber(
-      new BigNumber(new Date().getTime()).minus(
-        new Date(asset.interestUpdateTime).getTime()
-      )
-    ).div(1000);
-    const interestFactor = new BigNumber(
-      asset.rates[0].borrow_rate
-    ).multipliedBy(deltaInSeconds);
-
-    const interestAccumulatedF = interestFactor
-      .multipliedBy(asset.totalBorrowed)
-      .div(new BigNumber(10).pow(STANDARD_PRECISION));
-    const predictedTotalBorrowsF = interestAccumulatedF.plus(
-      asset.totalBorrowed
-    );
-    const predictedTotalReservesF = interestAccumulatedF
-      .multipliedBy(asset.reserveFactor)
-      .div(new BigNumber(10).pow(STANDARD_PRECISION))
-      .plus(asset.reserves);
-
-    const predictedExchangeRate = new BigNumber(asset.totalSupply).gt(0)
-      ? new BigNumber(asset.totalLiquid)
-          .plus(predictedTotalBorrowsF)
-          .minus(predictedTotalReservesF)
-          .div(asset.totalSupply)
-      : new BigNumber(1);
-
-    const supplyWithInterest = supplyAsset
-      ? supplyAsset.supply.multipliedBy(predictedExchangeRate)
-      : new BigNumber(0);
-
-    const metadata = allAssetsMetadata.find(
-      ({ contractAddress, tokenId }) =>
-        contractAddress === asset.contractAddress &&
-        (asset.isFa2 ? tokenId === asset.tokenId : true)
-    )!;
-
-    return {
-      yToken: asset.ytoken,
-      asset: {
-        contractAddress: asset.contractAddress,
-        isFa2: asset.isFa2,
-        tokenId: asset.isFa2 ? asset.tokenId : undefined,
-        decimals: metadata.decimals,
-        name: metadata.name,
-        symbol: metadata.symbol,
-        thumbnail: metadata.thumbnail,
-      },
-      collateralFactor: new BigNumber(asset.collateralFactor),
-      interestUpdateTime: asset.interestUpdateTime,
-      liquidationThreshold: new BigNumber(asset.liquidationThreshold),
-      rates: {
-        borrowApy: new BigNumber(asset.rates[0].borrow_apy),
-        borrowRate: new BigNumber(asset.rates[0].borrow_rate),
-        supplyApy: new BigNumber(asset.rates[0].supply_apy),
-        utilizationRate: new BigNumber(asset.rates[0].utilization_rate),
-      },
-      reserves: new BigNumber(asset.reserves),
-      totalBorrowed: new BigNumber(asset.totalBorrowed),
-      totalLiquid: new BigNumber(asset.totalLiquid),
-      totalSupply: new BigNumber(asset.totalSupply),
-      exchangeRate: predictedExchangeRate,
-      borrow: returnZeroIfNotExist(borrowAsset, "borrow"),
-      borrowIndex: returnZeroIfNotExist(borrowAsset, "borrowIndex"),
-      borrowWithInterest: returnZeroIfNotExist(
-        borrowAsset,
-        "borrowWithInterest"
-      ),
-      borrowInterestReserves: borrowAsset?.borrowInterestReserves ?? 1,
-      supply: returnZeroIfNotExist(supplyAsset, "supply"),
-      supplyWithInterest,
-      isCollateral: supplyAsset ? supplyAsset.isCollateral : false,
-      numberOfSuppliers: asset.suppliersCount.aggregate?.count ?? 0,
-      numberOfBorrowers: asset.borrowersCount.aggregate?.count ?? 0,
-    };
+  const [returnData, setReturnData] = useState<UseAssetsResponse>({
+    data: null,
+    loading: true,
+    error: false,
   });
 
-  const finalSupplyAssets = preparedSupplyAssets.map(
-    (asset) => finalAssets.find(({ yToken }) => yToken === asset.assetId)!
-  );
+  const getFnalAmounts = useCallback(() => {
+    if (!assets || !allAssetsMetadata) {
+      setReturnData({
+        data: null,
+        loading:
+          assetsLoading ||
+          supplyAssetsLoading ||
+          borrowAssetsLoading ||
+          allAssetsMetadataLoading,
+        error:
+          !!assetsError ||
+          !!supplyAssetsError ||
+          !!borrowAssetsError ||
+          !!allAssetsMetadataError,
+      });
+      return;
+    }
 
-  const finalBorrowAssets = preparedBorrowAssets.map(
-    (asset) => finalAssets.find(({ yToken }) => yToken === asset.assetId)!
-  );
+    const borrowedYTokens: BorrowedYTokensType = [];
+    const trulyBorrowedYTokens: BorrowedYTokensType = [];
 
-  return {
-    data: {
-      assets: finalAssets,
-      supplyAssets: finalSupplyAssets,
-      borrowAssets: finalBorrowAssets,
-    },
-    loading: false,
-    error: false,
-  } as UseAssetsResponse;
+    const preparedSupplyAssets = supplyAssets
+      ? supplyAssets.userSupply.map((asset) => {
+          borrowedYTokens.push(asset.assetId);
+          return {
+            assetId: asset.assetId,
+            supply: new BigNumber(asset.supply),
+            isCollateral: asset.entered,
+          };
+        })
+      : [];
+
+    const preparedBorrowAssets = borrowAssets
+      ? borrowAssets.userBorrow.map((asset) => {
+          if (convertUnits(asset.borrow, STANDARD_PRECISION).gt(1)) {
+            trulyBorrowedYTokens.push(asset.assetId);
+          }
+          if (
+            borrowedYTokens.find((el) => el === asset.assetId) === undefined
+          ) {
+            borrowedYTokens.push(asset.assetId);
+          }
+          const assetInfo = assets.asset.find(
+            ({ ytoken }) => ytoken === asset.assetId
+          )!;
+
+          const deltaInSeconds = new BigNumber(
+            new BigNumber(new Date().getTime()).minus(
+              new Date(assetInfo.interestUpdateTime).getTime()
+            )
+          ).div(1000);
+          const interestFactor = new BigNumber(
+            assetInfo.rates[0].borrow_rate
+          ).multipliedBy(deltaInSeconds);
+          const borrowIndex = interestFactor
+            .multipliedBy(assetInfo.borrowIndex)
+            .div(new BigNumber(10).pow(STANDARD_PRECISION))
+            .plus(assetInfo.borrowIndex);
+
+          const deltaInSecondsR = new BigNumber(
+            new BigNumber(new Date().getTime())
+              .plus(300000)
+              .minus(new Date(assetInfo.interestUpdateTime).getTime())
+          ).div(1000);
+          const interestFactorR = new BigNumber(
+            assetInfo.rates[0].borrow_rate
+          ).multipliedBy(deltaInSecondsR);
+          const borrowIndexR = interestFactorR
+            .multipliedBy(assetInfo.borrowIndex)
+            .div(new BigNumber(10).pow(STANDARD_PRECISION))
+            .plus(assetInfo.borrowIndex);
+          const borrowInterestReserves = borrowIndexR.div(
+            assetInfo.borrowIndex
+          );
+
+          const borrowWithInterest = new BigNumber(asset.borrow)
+            .multipliedBy(borrowIndex)
+            .div(asset.borrowIndex);
+
+          return {
+            assetId: asset.assetId,
+            borrow: new BigNumber(asset.borrow),
+            borrowIndex: new BigNumber(asset.borrowIndex),
+            borrowWithInterest,
+            borrowInterestReserves,
+          };
+        })
+      : [];
+
+    borrowedYTokensVar(borrowedYTokens);
+    trulyBorrowedYTokensVar(trulyBorrowedYTokens);
+
+    const finalAssets = assets.asset.map((asset) => {
+      const borrowAsset = preparedBorrowAssets.find(
+        ({ assetId }) => assetId === asset.ytoken
+      );
+      const supplyAsset = preparedSupplyAssets.find(
+        ({ assetId }) => assetId === asset.ytoken
+      );
+
+      const deltaInSeconds = new BigNumber(
+        new BigNumber(new Date().getTime()).minus(
+          new Date(asset.interestUpdateTime).getTime()
+        )
+      ).div(1000);
+      const interestFactor = new BigNumber(
+        asset.rates[0].borrow_rate
+      ).multipliedBy(deltaInSeconds);
+
+      const interestAccumulatedF = interestFactor
+        .multipliedBy(asset.totalBorrowed)
+        .div(new BigNumber(10).pow(STANDARD_PRECISION));
+      const predictedTotalBorrowsF = interestAccumulatedF.plus(
+        asset.totalBorrowed
+      );
+      const predictedTotalReservesF = interestAccumulatedF
+        .multipliedBy(asset.reserveFactor)
+        .div(new BigNumber(10).pow(STANDARD_PRECISION))
+        .plus(asset.reserves);
+
+      const predictedExchangeRate = new BigNumber(asset.totalSupply).gt(0)
+        ? new BigNumber(asset.totalLiquid)
+            .plus(predictedTotalBorrowsF)
+            .minus(predictedTotalReservesF)
+            .div(asset.totalSupply)
+        : new BigNumber(1);
+
+      const supplyWithInterest = supplyAsset
+        ? supplyAsset.supply.multipliedBy(predictedExchangeRate)
+        : new BigNumber(0);
+
+      const metadata = allAssetsMetadata.find(
+        ({ contractAddress, tokenId }) =>
+          contractAddress === asset.contractAddress &&
+          (asset.isFa2 ? tokenId === asset.tokenId : true)
+      )!;
+
+      return {
+        yToken: asset.ytoken,
+        asset: {
+          contractAddress: asset.contractAddress,
+          isFa2: asset.isFa2,
+          tokenId: asset.isFa2 ? asset.tokenId : undefined,
+          decimals: metadata.decimals,
+          name: metadata.name,
+          symbol: metadata.symbol,
+          thumbnail: metadata.thumbnail,
+        },
+        collateralFactor: new BigNumber(asset.collateralFactor),
+        interestUpdateTime: asset.interestUpdateTime,
+        liquidationThreshold: new BigNumber(asset.liquidationThreshold),
+        rates: {
+          borrowApy: new BigNumber(asset.rates[0].borrow_apy),
+          borrowRate: new BigNumber(asset.rates[0].borrow_rate),
+          supplyApy: new BigNumber(asset.rates[0].supply_apy),
+          utilizationRate: new BigNumber(asset.rates[0].utilization_rate),
+        },
+        reserves: new BigNumber(asset.reserves),
+        totalBorrowed: new BigNumber(asset.totalBorrowed),
+        totalLiquid: new BigNumber(asset.totalLiquid),
+        totalSupply: new BigNumber(asset.totalSupply),
+        exchangeRate: predictedExchangeRate,
+        borrow: returnZeroIfNotExist(borrowAsset, "borrow"),
+        borrowIndex: returnZeroIfNotExist(borrowAsset, "borrowIndex"),
+        borrowWithInterest: returnZeroIfNotExist(
+          borrowAsset,
+          "borrowWithInterest"
+        ),
+        borrowInterestReserves: borrowAsset?.borrowInterestReserves ?? 1,
+        supply: returnZeroIfNotExist(supplyAsset, "supply"),
+        supplyWithInterest,
+        isCollateral: supplyAsset ? supplyAsset.isCollateral : false,
+        numberOfSuppliers: asset.suppliersCount.aggregate?.count ?? 0,
+        numberOfBorrowers: asset.borrowersCount.aggregate?.count ?? 0,
+      };
+    });
+
+    const finalSupplyAssets = preparedSupplyAssets.map(
+      (asset) => finalAssets.find(({ yToken }) => yToken === asset.assetId)!
+    );
+
+    const finalBorrowAssets = preparedBorrowAssets.map(
+      (asset) => finalAssets.find(({ yToken }) => yToken === asset.assetId)!
+    );
+
+    setReturnData({
+      data: {
+        assets: finalAssets,
+        supplyAssets: finalSupplyAssets,
+        borrowAssets: finalBorrowAssets,
+      },
+      loading: false,
+      error: false,
+    } as UseAssetsResponse);
+    return;
+  }, [
+    allAssetsMetadata,
+    allAssetsMetadataError,
+    allAssetsMetadataLoading,
+    assets,
+    assetsError,
+    assetsLoading,
+    borrowAssets,
+    borrowAssetsError,
+    borrowAssetsLoading,
+    supplyAssets,
+    supplyAssetsError,
+    supplyAssetsLoading,
+  ]);
+
+  useEffect(() => {
+    getFnalAmounts();
+  }, [getFnalAmounts]);
+
+  useOnBlock(tezos, [getFnalAmounts]);
+
+  return returnData;
 });
