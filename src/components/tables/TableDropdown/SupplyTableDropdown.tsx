@@ -322,9 +322,10 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       asset.decimals
     );
 
-    const maxAmount = isCollateral
-      ? BigNumber.min(convertedSupplied, maxAmountInner)
-      : new BigNumber(convertedSupplied);
+    const maxAmount =
+      isCollateral && outstandingBorrow.gt(0)
+        ? BigNumber.min(convertedSupplied, maxAmountInner)
+        : new BigNumber(convertedSupplied);
 
     setCreditProcessModalData({
       type: CreditProcessModalEnum.WITHDRAW,
