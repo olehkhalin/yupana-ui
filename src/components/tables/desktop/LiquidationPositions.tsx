@@ -152,7 +152,7 @@ export const LiquidationPositions: FC<LiquidationPositionsProps> = ({
       pageCount={pageCount}
       setOffset={setOffset}
       pageSize={pageSize}
-      emptyText="There is no positions for liquidation"
+      emptyText="There are no positions for liquidation"
       isPaginated
       tableClassName={s.bigTableLiquidate}
       rowClassName={cx(s.liquidationRow, { [s.white]: !(data && data.length) })}

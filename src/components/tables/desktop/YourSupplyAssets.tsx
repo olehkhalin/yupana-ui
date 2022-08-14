@@ -84,7 +84,8 @@ export const YourSupplyAssets: FC<YourSupplyAssetsProps> = ({
           }
 
           const sup =
-            convertUnits(value.supply, STANDARD_PRECISION) ?? new BigNumber(0);
+            convertUnits(value.supply, STANDARD_PRECISION, true, true) ??
+            new BigNumber(0);
 
           return (
             <PrettyAmount
