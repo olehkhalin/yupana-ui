@@ -35,6 +35,7 @@ type NumberInputProps = Omit<
   min?: number | BigNumber;
   max?: number | BigNumber;
   error?: string;
+  warnings?: string[];
   theme?: keyof typeof themeClasses;
   value?: BigNumber;
   maxValue?: BigNumber;
@@ -60,6 +61,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
       min = 0,
       max = Number.MAX_SAFE_INTEGER,
       error,
+      warnings,
       theme = "primary",
       value,
       maxValue,
@@ -210,6 +212,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
             className={cx(
               s.container,
               themeClasses[theme],
+              { [s.warning]: warnings && warnings.length > 0 },
               { [s.error]: error },
               { [s.disabled]: props.disabled }
             )}
@@ -236,6 +239,7 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
                   tezosClassName={cx(
                     s.prettyTez,
                     { [s.active]: !!localValue },
+                    { [s.warning]: warnings && warnings.length > 0 },
                     { [s.error]: error }
                   )}
                   tooltipTheme={theme}
@@ -258,6 +262,11 @@ export const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           <div className={cx(s.errorContainer, { [s.error]: error })}>
             {error && <div className={cx(s.errorText)}>{error}</div>}
           </div>
+          {warnings?.map((war) => (
+            <div key={war} className={cx(s.warningContainer)}>
+              {war && <div className={cx(s.warningText)}>{war}</div>}
+            </div>
+          ))}
         </div>
 
         {withSlider && maxValue && (

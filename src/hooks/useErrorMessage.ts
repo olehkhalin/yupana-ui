@@ -42,12 +42,6 @@ export const useErrorMessage = ({
     ) {
       return "You are in the Liquidation Risk";
     }
-    if (
-      type === CreditProcessModalEnum.BORROW &&
-      dynamicBorrowLimitUsed.gte(80)
-    ) {
-      return "Beware of the Liquidation Risk";
-    }
     return undefined;
   }, [dynamicBorrowLimitUsed, type]);
 

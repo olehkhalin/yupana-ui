@@ -22,6 +22,7 @@ import {
 import { useErrorMessage } from "hooks/useErrorMessage";
 import { useTransactions } from "hooks/useTransactions";
 import { useBalance } from "hooks/useBalance";
+import { useWarningMessage } from "hooks/useWarningMessage";
 import { events } from "constants/analytics";
 import { Preloader } from "components/ui/Preloader";
 import { Modal, ModalType } from "components/ui/Modal";
@@ -170,6 +171,13 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     liquidity,
     clearErrors,
   });
+  const warningMessages = useWarningMessage({
+    type,
+    dynamicBorrowLimitUsed,
+    amount,
+    maxAmount: pureMaxAmount,
+    asset,
+  });
 
   // Form submit
   const onSubmitInner = useCallback(
@@ -285,6 +293,7 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
               theme={theme}
               decimals={asset.decimals}
               error={errorMessage || borrowWarningMessage}
+              warnings={warningMessages}
               className={s.input}
               maxValue={convertUnits(pureMaxAmount, asset.decimals, true)}
               setFocus={() => setFocus("amount")}
