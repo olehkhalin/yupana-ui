@@ -402,7 +402,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
         isCommon
           ? convertUnits(supplied, STANDARD_PRECISION).lt(1)
             ? new BigNumber(0)
-            : convertUnits(supplied, STANDARD_PRECISION, true, true)
+            : convertUnits(supplied, STANDARD_PRECISION)
           : balanceData ?? new BigNumber(0)
       }
       balanceLoading={isCommon ? false : balanceLoading}
