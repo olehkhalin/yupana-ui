@@ -25,7 +25,8 @@ export const LIQUIDATION_POSITIONS_ITEMS_PER_PAGE = process.env
   : 10;
 export const TEMPLE_WALLET_LINK =
   process.env.REACT_APP_TEMPLE_WALLET_LINK ?? "https://templewallet.com/";
-export const YUPANA_LANDING_LINK = "https://ithacanet.yupana.finance/";
+export const YUPANA_LANDING_LINK =
+  process.env.REACT_APP_YUPANA_LANDING_LINK ?? "https://yupana.finance/";
 export const WTEZ_CONTRACT =
   process.env.REACT_APP_WTEZ_CONTRACT ?? "KT1Bun2mqJviJcxTCfBMBKqeAcvQBVrBCTo4";
 

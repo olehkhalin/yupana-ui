@@ -31,9 +31,9 @@ export const useWarningMessage = ({
   const isMaxAmount = mutezAmount.eq(
     maxAmount.decimalPlaces(0, BigNumber.ROUND_DOWN)
   );
-  if (isMaxAmount) {
+  if (type === CreditProcessModalEnum.BORROW && isMaxAmount) {
     warnings.push(
-      "Please, note! Due to the complexity of calculations, MAX Borrow feature may produce an invalid result. In that case, set a slightly lower value."
+      "Due to the complexity of calculations, MAX Borrow feature may produce an invalid result. In that case, set a slightly lower value."
     );
   }
 
