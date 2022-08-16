@@ -222,7 +222,7 @@ export const Markets: FC<MarketsProps> = ({ data, loading, className }) => {
       columns={columns}
       data={data ?? [0, 1, 2]}
       loading={loading}
-      emptyText="There is no supply assets"
+      emptyText="There are no supply assets"
       tableClassName={s.bigTable}
       rowClassName={s.marketsRow}
       className={cx(s.bigTableWrapper, className)}

@@ -69,6 +69,20 @@
     .prettyTez
       path
         fill: $light-red
+  &.warning
+    border-color: $light-yellow
+    .input, .exchange, .button
+      color: $light-yellow
+    .button
+      &:hover
+        color: $light-yellow
+        text-shadow: $light-yellow-shadow
+    .input
+      &::placeholder
+        color: $light-yellow
+    .prettyTez
+      path
+        fill: $light-yellow
 
 .button
   display: flex
@@ -107,6 +121,9 @@
     &.error
       path
         fill: $red
+    &.warning
+      path
+        fill: $light-yellow
 
 .secondary
   .button
@@ -143,6 +160,25 @@
   text-shadow: none
   font-size: .75rem
 
+.warningContainer
+  display: flex
+  align-items: center
+  justify-content: center
+  width: 100%
+  overflow: hidden
+  transition: max-height $animationTime
+  background-color: rgba($light-yellow, .48)
+  box-shadow: $light-yellow-shadow-button
+  border-radius: .25rem
+  margin-top: 8px
+  font-weight: 700
+  padding: 4px 8px
+
+.warningText
+  color: $light-yellow
+  text-shadow: none
+  font-size: .75rem
+
 .disabled
   border-color: rgba($white, .4)
   cursor: not-allowed
@@ -172,4 +208,6 @@
     height: 1rem
     font-size: 1rem
   .errorText
+    font-size: .875rem
+  .warningText
     font-size: .875rem
