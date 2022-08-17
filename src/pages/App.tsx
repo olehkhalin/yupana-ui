@@ -35,11 +35,6 @@ const App: FC = () => {
     });
   }, [pathname]);
 
-  // TODO: Research
-  // useEffect(() => {
-  //   pageEvent(pathname, AnalyticsEventCategory.LOAD_PAGE);
-  // }, [pageEvent, pathname]);
-
   if (pathname === "/") {
     return <Navigate to={AppRoutes.LENDING} />;
   }
