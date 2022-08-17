@@ -48,6 +48,8 @@ type CreditProcessModalInnerProps = {
   type: CreditProcessModalEnum;
   theme?: keyof typeof themeClasses;
   asset: AssetType;
+  yToken?: number;
+  isCollateral?: boolean;
   borrowLimit: BigNumber;
   borrowLimitUsed: BigNumber;
   dynamicBorrowLimitFunc?: (input: BigNumber) => BigNumber;
@@ -73,6 +75,8 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
   isOpen,
   onRequestClose,
   asset,
+  yToken,
+  isCollateral,
   borrowLimit,
   borrowLimitUsed,
   dynamicBorrowLimitFunc,
@@ -177,6 +181,8 @@ const CreditProcessModalInner: FC<CreditProcessModalInnerProps> = ({
     amount,
     maxAmount: pureMaxAmount,
     asset,
+    yToken,
+    isCollateral,
   });
 
   // Form submit
@@ -428,6 +434,8 @@ export const CreditProcessModal = () => {
     oraclePrice,
     liquidity,
     availableToWithdraw,
+    yToken,
+    isCollateral,
   } = creditProcessModalData;
 
   return (
@@ -451,6 +459,8 @@ export const CreditProcessModal = () => {
       oraclePrice={oraclePrice}
       liquidity={liquidity}
       availableToWithdraw={availableToWithdraw}
+      yToken={yToken}
+      isCollateral={isCollateral}
       {...getModalLabels(type)}
     />
   );
