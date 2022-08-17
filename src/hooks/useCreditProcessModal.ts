@@ -28,6 +28,8 @@ type CreditProcessModalProps =
         price: BigNumber;
         precision: number;
       };
+      yToken?: number;
+      isCollateral?: boolean;
     } & Pick<ModalActions, "isOpen">)
   | null;
 

@@ -301,7 +301,7 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
     ]
   );
 
-  const handleWithdraw = () => {
+  const handleWithdraw = useCallback(() => {
     const maxAmountInner = convertUnits(
       maxCollateral.minus(outstandingBorrow),
       COLLATERAL_PRECISION
@@ -387,8 +387,22 @@ export const SupplyTableDropdown: FC<SupplyDropdownProps> = ({
       onSubmit: (input: BigNumber, isMaxAmount?: boolean) =>
         handleWithdrawSubmit(input, isMaxAmount),
       oraclePrice,
+      yToken,
+      isCollateral,
     });
-  };
+  }, [
+    asset,
+    collateralFactor,
+    handleWithdrawSubmit,
+    isCollateral,
+    maxCollateral,
+    oraclePrice,
+    outstandingBorrow,
+    setCreditProcessModalData,
+    supplied,
+    totalLiquid,
+    yToken,
+  ]);
 
   return (
     <TableDropdown
