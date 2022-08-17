@@ -41,7 +41,7 @@ export const SOCIAL_LIST: SocialProps[] = [
   },
   {
     id: 5,
-    href: "https://github.com/madfish-solutions/yupana-protocol-core",
+    href: "https://github.com/madfish-solutions/yupana-contracts",
     Icon: Github,
     name: "github",
   },
