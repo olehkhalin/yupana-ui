@@ -71,7 +71,10 @@ export const BorrowAssets: FC<BorrowAssetsProps> = ({
             content: loading
               ? "—"
               : getPrettyPercent(
-                  convertUnits(el.rates.utilizationRate, STANDARD_PRECISION)
+                  convertUnits(
+                    el.rates.utilizationRate,
+                    STANDARD_PRECISION
+                  ).multipliedBy(1e2)
                 ),
           },
           {
